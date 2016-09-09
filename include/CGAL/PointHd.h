@@ -1,6 +1,6 @@
 // ======================================================================
 //
-// Copyright (c) 1998 The CGAL Consortium
+// Copyright (c) 1999 The GALIA Consortium
 //
 // This software and related documentation is part of the
 // Computational Geometry Algorithms Library (CGAL).
@@ -16,36 +16,35 @@
 // - Development licenses grant access to the source code of the library 
 //   to develop programs. These programs may be sold to other parties as 
 //   executable code. To obtain a development license, please contact
-//   the CGAL Consortium (at cgal@cs.uu.nl).
+//   the GALIA Consortium (at cgal@cs.uu.nl).
 // - Commercialization licenses grant access to the source code and the
 //   right to sell development licenses. To obtain a commercialization 
-//   license, please contact the CGAL Consortium (at cgal@cs.uu.nl).
+//   license, please contact the GALIA Consortium (at cgal@cs.uu.nl).
 //
 // This software and documentation is provided "as-is" and without
 // warranty of any kind. In no event shall the CGAL Consortium be
 // liable for any damage of any kind.
 //
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// The GALIA Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany) Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+// (Germany), Max-Planck-Institute Saarbrucken (Germany),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 // 
-// release       : CGAL-1.2
-// release_date  : 1999, January 18
+// release       : CGAL-2.0
+// release_date  : 1999, June 03
 // 
 // source        : ddim_points.fw
 // file          : include/CGAL/PointHd.h
-// package       : _d (0.9.2)
-// revision      : 0.9.2
-// revision_date : 01 Jul 1998 
+// package       : _d (2.1)
+// revision      : 2.1
+// revision_date : 26 Feb 1999 
 // author(s)     : Sven Schoenherr
 //                 Bernd Gaertner
 //
 // coordinator   : MPI, Saarbruecken  (<Stefan.Schirra>)
-//
 // email         : cgal@cs.uu.nl
 //
 // ======================================================================
@@ -54,57 +53,63 @@
 #ifndef CGAL_POINTHD_H
 #define CGAL_POINTHD_H
 
-#ifndef CGAL_D_TUPLE_H
+#ifndef D_TUPLE_H
 #include <CGAL/d_tuple.h>
-#endif // CGAL_D_TUPLE_H
+#endif // D_TUPLE_H
+
+CGAL_BEGIN_NAMESPACE
 
 template < class FT, class RT>
-class CGAL_DAHd;
+class DAHd;
 
 template < class FT, class RT >
-class CGAL_PointHd : public CGAL_Handle
+class PointHd : public Handle
 {
-    friend class CGAL_DAHd<FT,RT>;
+    friend class DAHd<FT,RT>;
 
     public:
-    CGAL_PointHd ();
-    CGAL_PointHd (int dim, const CGAL_Origin&);
-    CGAL_PointHd (const CGAL_PointHd<FT,RT> &p);
+    PointHd ();
+    PointHd (int dim, const Origin&);
+    PointHd (const PointHd<FT,RT> &p);
 
 #ifndef CGAL_CFG_NO_MEMBER_TEMPLATES
 
     template <class InputIterator>
-    CGAL_PointHd (int dim, InputIterator first, InputIterator last);
+    PointHd (int dim, InputIterator first, InputIterator last);
 #else
-    CGAL_PointHd (int dim, const RT* first, const RT* last);
+    PointHd (int dim, const RT* first, const RT* last);
 
 #endif // CGAL_CFG_NO_MEMBER_TEMPLATES
 
-    ~CGAL_PointHd();
+    ~PointHd();
 
-    CGAL_PointHd<FT,RT>& operator=(const CGAL_PointHd<FT,RT> &p);
+    PointHd<FT,RT>& operator=(const PointHd<FT,RT> &p);
 
-      bool operator==(const CGAL_PointHd<FT,RT> &p) const;
-      bool operator!=(const CGAL_PointHd<FT,RT> &p) const;
+      bool operator==(const PointHd<FT,RT> &p) const;
+      bool operator!=(const PointHd<FT,RT> &p) const;
 
     int id() const;
 
     RT homogeneous (int i) const;
     FT cartesian (int i) const;
     FT operator[] (int i) const;
+    const RT* begin() const;
+    const RT* end() const;
 
     int dimension () const;
 
     private:
-    const CGAL__d_tuple<RT>* ptr() const;
+    const _d_tuple<RT>* ptr() const;
 };
 
 template < class FT, class RT >
 CGAL_KERNEL_INLINE
-const CGAL__d_tuple<RT>* CGAL_PointHd<FT,RT>::ptr() const
+const _d_tuple<RT>* PointHd<FT,RT>::ptr() const
 {
-  return (CGAL__d_tuple<RT>*)PTR;
+  return (_d_tuple<RT>*)PTR;
 }
+CGAL_END_NAMESPACE
+
 
 #ifndef CGAL_ORIGIN_H
 #include <CGAL/Origin.h>
@@ -113,19 +118,21 @@ const CGAL__d_tuple<RT>* CGAL_PointHd<FT,RT>::ptr() const
 #include <CGAL/number_utils.h>
 #endif // CGAL_NUMBER_UTILS_H
 
+CGAL_BEGIN_NAMESPACE
+
 template < class FT, class RT >
 CGAL_KERNEL_CTOR_INLINE
-CGAL_PointHd<FT,RT>::CGAL_PointHd()
+PointHd<FT,RT>::PointHd()
 {
-  PTR = new CGAL__d_tuple<RT>();
+  PTR = new _d_tuple<RT>();
 }
 
 template < class FT, class RT >
 CGAL_KERNEL_CTOR_INLINE
-CGAL_PointHd<FT,RT>::CGAL_PointHd(int dim, const CGAL_Origin &)
+PointHd<FT,RT>::PointHd(int dim, const Origin &)
 {
   CGAL_kernel_precondition (dim>=0);
-  PTR = new CGAL__d_tuple<RT>(dim,false);
+  PTR = new _d_tuple<RT>(dim,false);
   RT *e = ptr()->e, *i;
   for (i=e; i<e+dim; *(i++)=RT(0));
   *i = RT(1);
@@ -133,8 +140,8 @@ CGAL_PointHd<FT,RT>::CGAL_PointHd(int dim, const CGAL_Origin &)
 
 template < class FT, class RT >
 CGAL_KERNEL_CTOR_INLINE
-CGAL_PointHd<FT,RT>::CGAL_PointHd(const CGAL_PointHd<FT,RT> &p)
-  : CGAL_Handle((CGAL_Handle&)p)
+PointHd<FT,RT>::PointHd(const PointHd<FT,RT> &p)
+  : Handle((Handle&)p)
 {}
 
 #ifndef CGAL_CFG_NO_MEMBER_TEMPLATES
@@ -142,19 +149,19 @@ CGAL_PointHd<FT,RT>::CGAL_PointHd(const CGAL_PointHd<FT,RT> &p)
 template < class FT, class RT >
 CGAL_KERNEL_CTOR_INLINE
 template <class InputIterator>
-CGAL_PointHd<FT,RT>::CGAL_PointHd(int dim,
+PointHd<FT,RT>::PointHd(int dim,
                       InputIterator first,
                   InputIterator last)
 {
     CGAL_kernel_precondition (dim>=0);
-    PTR = new CGAL__d_tuple<RT>(dim,false);
+    PTR = new _d_tuple<RT>(dim,false);
     RT *e = ptr()->e, *o;
     InputIterator i;
     for (i=first, o=e; (i<last) && (o<e+dim); *(o++) = *(i++));
     CGAL_kernel_precondition (o==e+dim);
     if (i<last) {
     RT h = *(i++);
-    CGAL_kernel_precondition (!CGAL_is_zero (h));
+    CGAL_kernel_precondition (!is_zero (h));
     CGAL_kernel_precondition (i==last);
     *o = h;
     } else
@@ -165,19 +172,19 @@ CGAL_PointHd<FT,RT>::CGAL_PointHd(int dim,
 
 template < class FT, class RT >
 CGAL_KERNEL_CTOR_INLINE
-CGAL_PointHd<FT,RT>::CGAL_PointHd(int dim,
+PointHd<FT,RT>::PointHd(int dim,
                       const RT* first,
                   const RT* last)
 {
     CGAL_kernel_precondition (dim>=0);
-    PTR = new CGAL__d_tuple<RT>(dim,false);
+    PTR = new _d_tuple<RT>(dim,false);
     RT *e = ptr()->e, *o;
     const RT *i;
     for (i=first, o=e; (i<last) && (o<e+dim); *(o++) = *(i++));
     CGAL_kernel_precondition (o==e+dim);
     if (i<last) {
     RT h = *(i++);
-    CGAL_kernel_precondition (!CGAL_is_zero (h));
+    CGAL_kernel_precondition (!is_zero (h));
     CGAL_kernel_precondition (i==last);
     *o = h;
     } else
@@ -190,21 +197,21 @@ CGAL_PointHd<FT,RT>::CGAL_PointHd(int dim,
 
 template < class FT, class RT >
 inline
-CGAL_PointHd<FT,RT>::~CGAL_PointHd()
+PointHd<FT,RT>::~PointHd()
 {}
 
 template < class FT, class RT >
 inline
-CGAL_PointHd<FT,RT>&
-CGAL_PointHd<FT,RT>::operator=(const CGAL_PointHd<FT,RT> &p)
+PointHd<FT,RT>&
+PointHd<FT,RT>::operator=(const PointHd<FT,RT> &p)
 {
-  CGAL_Handle::operator=(p);
+  Handle::operator=(p);
   return *this;
 }
 
 template < class FT, class RT >
 inline
-bool CGAL_PointHd<FT,RT>::operator==(const CGAL_PointHd<FT,RT>& p) const
+bool PointHd<FT,RT>::operator==(const PointHd<FT,RT>& p) const
 {
   int d = dimension();
   if (d != p.dimension()) return false;
@@ -217,21 +224,21 @@ bool CGAL_PointHd<FT,RT>::operator==(const CGAL_PointHd<FT,RT>& p) const
 
 template < class FT, class RT >
 inline
-bool CGAL_PointHd<FT,RT>::operator!=(const CGAL_PointHd<FT,RT>& p) const
+bool PointHd<FT,RT>::operator!=(const PointHd<FT,RT>& p) const
 {
   return !(*this == p);
 }
 
 template < class FT, class RT >
 inline
-int CGAL_PointHd<FT,RT>::id() const
+int PointHd<FT,RT>::id() const
 {
   return (int)PTR;
 }
 
 template < class FT, class RT >
 inline
-RT  CGAL_PointHd<FT,RT>::homogeneous(int i) const
+RT  PointHd<FT,RT>::homogeneous(int i) const
 {
     CGAL_kernel_precondition ( (i>=0) && (i<=dimension()) );
     return ptr()->e[i];
@@ -239,7 +246,7 @@ RT  CGAL_PointHd<FT,RT>::homogeneous(int i) const
 
 template < class FT, class RT >
 CGAL_KERNEL_INLINE
-FT CGAL_PointHd<FT,RT>::cartesian(int i) const
+FT PointHd<FT,RT>::cartesian(int i) const
 {
     CGAL_kernel_precondition ( (i>=0) && (i<dimension()) );
     return FT(ptr()->e[i])/FT(ptr()->e[dimension()]);
@@ -247,33 +254,48 @@ FT CGAL_PointHd<FT,RT>::cartesian(int i) const
 
 template < class FT, class RT >
 inline
-FT  CGAL_PointHd<FT,RT>::operator[](int i) const
+FT  PointHd<FT,RT>::operator[](int i) const
 {
   return cartesian(i);
 }
 
 template < class FT, class RT >
 inline
-int CGAL_PointHd<FT,RT>::dimension() const
+int PointHd<FT,RT>::dimension() const
 {
   return ptr()->d;
 }
 
-#ifndef CGAL_NO_OSTREAM_INSERT_POINTHD
 template < class FT, class RT >
-ostream &operator<<(ostream &os, const CGAL_PointHd<FT,RT> &p)
+inline
+const RT* PointHd<FT,RT>::begin() const
+{
+  return ptr()->e;
+}
+
+template < class FT, class RT >
+inline
+const RT* PointHd<FT,RT>::end() const
+{
+  return ptr()->e + dimension() + 1;
+}
+
+
+#ifndef NO_OSTREAM_INSERT_POINTHD
+template < class FT, class RT >
+ostream &operator<<(ostream &os, const PointHd<FT,RT> &p)
 {
     int d = p.dimension();
-    switch(os.iword(CGAL_IO::mode)) {
-    case CGAL_IO::ASCII : {
+    switch(os.iword(IO::mode)) {
+    case IO::ASCII : {
     os << d << ' ';
         for (int i=0; i<d; ++i)
         os << p.homogeneous(i) << ' ';
     return os << p.homogeneous(d);
     }
-    case CGAL_IO::BINARY : {
+    case IO::BINARY : {
     for (int i=0; i<d+1; ++i)
-           CGAL_write(os, p.homogeneous(i));
+           write(os, p.homogeneous(i));
         return os;
     }
     default:
@@ -284,36 +306,38 @@ ostream &operator<<(ostream &os, const CGAL_PointHd<FT,RT> &p)
     return os << p.homogeneous(d) << "))";
     }
 }
-#endif // CGAL_NO_OSTREAM_INSERT_POINTHD
+#endif // NO_OSTREAM_INSERT_POINTHD
 
-#ifndef CGAL_NO_ISTREAM_EXTRACT_POINTHD
+#ifndef NO_ISTREAM_EXTRACT_POINTHD
 template < class FT, class RT >
-istream &operator>>(istream &is, CGAL_PointHd<FT,RT> &p)
+istream &operator>>(istream &is, PointHd<FT,RT> &p)
 {
     int d=0, i;
     RT* e=0;
-    switch(is.iword(CGAL_IO::mode)) {
-    case CGAL_IO::ASCII :
+    switch(is.iword(IO::mode)) {
+    case IO::ASCII :
     is >> d;
     e = new RT[d+1];
     for (i=0; i<d+1; ++i)
             is >> e[i];
     break;
-    case CGAL_IO::BINARY :
-    CGAL_read(is, d);
+    case IO::BINARY :
+    read(is, d);
     e = new RT[d+1];
     for (i=0; i<d+1; ++i)
-            CGAL_read(is, e[i]);
+            read(is, e[i]);
         break;
     default:
         cerr << "" << endl;
         cerr << "Stream must be in ascii or binary mode" << endl;
         return is;
     }
-    p = CGAL_PointHd<FT,RT>(d,e,e+d+1);
+    p = PointHd<FT,RT>(d,e,e+d+1);
     delete[] e;
     return is;
 }
-#endif // CGAL_NO_ISTREAM_EXTRACT_POINTHD
+#endif // NO_ISTREAM_EXTRACT_POINTHD
+CGAL_END_NAMESPACE
 
-#endif // CGAL_POINTH_H
+
+#endif // POINTH_H

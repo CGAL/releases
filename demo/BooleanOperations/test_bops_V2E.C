@@ -1,7 +1,7 @@
 //  -*- Mode: c++ -*-
 // ============================================================================
 //
-// Copyright (c) 1997 The CGAL Consortium
+// Copyright (c) 1999 The GALIA Consortium
 //
 // This software and related documentation is part of the
 // Computational Geometry Algorithms Library (CGAL).
@@ -17,25 +17,25 @@
 // - Development licenses grant access to the source code of the library 
 //   to develop programs. These programs may be sold to other parties as 
 //   executable code. To obtain a development license, please contact
-//   the CGAL Consortium (at cgal@cs.uu.nl).
+//   the GALIA Consortium (at cgal@cs.uu.nl).
 // - Commercialization licenses grant access to the source code and the
 //   right to sell development licenses. To obtain a commercialization 
-//   license, please contact the CGAL Consortium (at cgal@cs.uu.nl).
+//   license, please contact the GALIA Consortium (at cgal@cs.uu.nl).
 //
 // This software and documentation is provided "as-is" and without
 // warranty of any kind. In no event shall the CGAL Consortium be
 // liable for any damage of any kind.
 //
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// The GALIA Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany) Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+// (Germany), Max-Planck-Institute Saarbrucken (Germany),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-1.2
-// release_date  : 1999, January 18
+// release       : CGAL-2.0
+// release_date  : 1999, June 03
 //
 // file          : demo/BooleanOperations/test_bops_V2E.C
 // source        : demo/BooleanOperations/test_bops_V2E.C
@@ -47,7 +47,6 @@
 //  (Wolfgang Freiseisen)
 //
 // 
-//
 // email         : cgal@cs.uu.nl
 //
 // ======================================================================
@@ -55,7 +54,7 @@
 #ifdef __GNUC__
 #include <typeinfo>
 #endif
-#include <stdlib.h>
+#include <cstdlib>
 
 #define DEBUG_ON
 #include <CGAL/bops_V2E_rep.h>
@@ -138,7 +137,7 @@ int test0( bool four_points ) {
   
   int n= V.size();
   int m= E.size();
-  CGAL__V2E_rep_type< vertex, edge, bops_compare_vertices> v2e(n,m);
+  _V2E_rep_type< vertex, edge, bops_compare_vertices> v2e(n,m);
 
   edge e= E.begin();
   vertex v1, v2;
@@ -154,9 +153,9 @@ int test0( bool four_points ) {
   e++; v1= V.begin()+0; v2= V.begin()+2;
   v2e.insert( v1-V.begin(), v1, v2-V.begin(), v2, e);
 
-  cout << (CGAL__V2E_rep_base_type<vertex, edge>)v2e;
+  cout << (_V2E_rep_base_type<vertex, edge>)v2e;
   v2e.sort_vertices_CCW();
-  cout << (CGAL__V2E_rep_base_type<vertex, edge>)v2e;
+  cout << (_V2E_rep_base_type<vertex, edge>)v2e;
 
   return 0;
 }
@@ -259,7 +258,7 @@ int test1( void ) {
   
   int n= V.size();
   int m= E.size();
-  CGAL__V2E_rep_type< pt_vertex, edge, bops_compare_points> v2e(n,m);
+  _V2E_rep_type< pt_vertex, edge, bops_compare_points> v2e(n,m);
 
   for( edge e= E.begin(); e != E.end(); e++) {
     int i1= (*e).first;
@@ -267,9 +266,9 @@ int test1( void ) {
     v2e.insert( i1, &V[i1], i2, &V[i2], e);
   }
 
-  cout << (CGAL__V2E_rep_base_type<pt_vertex, edge>)v2e;
+  cout << (_V2E_rep_base_type<pt_vertex, edge>)v2e;
   v2e.sort_vertices_CCW();
-  cout << (CGAL__V2E_rep_base_type<pt_vertex, edge>)v2e;
+  cout << (_V2E_rep_base_type<pt_vertex, edge>)v2e;
 
   return 0;
 }

@@ -1,6 +1,6 @@
 // ======================================================================
 //
-// Copyright (c) 1998 The CGAL Consortium
+// Copyright (c) 1999 The GALIA Consortium
 //
 // This software and related documentation is part of the
 // Computational Geometry Algorithms Library (CGAL).
@@ -16,31 +16,31 @@
 // - Development licenses grant access to the source code of the library 
 //   to develop programs. These programs may be sold to other parties as 
 //   executable code. To obtain a development license, please contact
-//   the CGAL Consortium (at cgal@cs.uu.nl).
+//   the GALIA Consortium (at cgal@cs.uu.nl).
 // - Commercialization licenses grant access to the source code and the
 //   right to sell development licenses. To obtain a commercialization 
-//   license, please contact the CGAL Consortium (at cgal@cs.uu.nl).
+//   license, please contact the GALIA Consortium (at cgal@cs.uu.nl).
 //
 // This software and documentation is provided "as-is" and without
 // warranty of any kind. In no event shall the CGAL Consortium be
 // liable for any damage of any kind.
 //
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// The GALIA Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany) Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+// (Germany), Max-Planck-Institute Saarbrucken (Germany),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-1.2
-// release_date  : 1999, January 18
+// release       : CGAL-2.0
+// release_date  : 1999, June 03
 //
 // file          : include/CGAL/Object.h
-// package       : Kernel_basic (1.2.12)
+// package       : Kernel_basic (2.0.11)
 // source        : Object.lw 
-// revision      : 1.2.4
-// revision_date : 20 Nov 1998
+// revision      : 2.0.2
+// revision_date : 14 Mar 1999
 // author(s)     : Stefan.Schirra
 //                 Andreas Fabri (original version)
 //                 Geert-Jan Giezeman
@@ -51,7 +51,6 @@
 // modifications : 29.10.97  by Stefan Schirra and Michael Seel
 //                 04.11.97  by Geert-Jan Giezeman
 //                 04.01.98  by Stefan Schirra
-//
 //
 // email         : cgal@cs.uu.nl
 //
@@ -64,16 +63,18 @@
 #include <CGAL/Handle.h>
 #endif // CGAL_HANDLE_H
 
-class CGAL_Base;
-class CGAL__Object;
-class CGAL_Object;
-template <class T> class CGAL_Wrapper;
+CGAL_BEGIN_NAMESPACE
+
+class Base;
+class _Object;
+class Object;
+template <class T> class Wrapper;
 
 
-class CGAL_Base
+class Base
 {
   public:
-    virtual       ~CGAL_Base() {}
+    virtual       ~Base() {}
 #ifdef CGAL_CFG_NO_DYNAMIC_CAST
     virtual int*   type_id() const
                    { return 0; }
@@ -82,17 +83,17 @@ class CGAL_Base
 
 
 template <class T>
-class CGAL_Wrapper : public CGAL_Base {
+class Wrapper : public Base {
   public:
-                   CGAL_Wrapper(const T& object)
+                   Wrapper(const T& object)
                      : _object(object)
                    {}
-                   CGAL_Wrapper() {}
+                   Wrapper() {}
 
                    operator T()
                    { return _object; }
 
-    virtual        ~CGAL_Wrapper() {}
+    virtual        ~Wrapper() {}
 #ifdef CGAL_CFG_NO_DYNAMIC_CAST
     virtual int*   type_id() const;
 #endif // CGAL_CFG_NO_DYNAMIC_CAST
@@ -103,7 +104,7 @@ class CGAL_Wrapper : public CGAL_Base {
 #ifdef CGAL_CFG_NO_DYNAMIC_CAST
 template <class T>
 int*
-CGAL_Wrapper<T>::type_id() const
+Wrapper<T>::type_id() const
 {
   static int type_base;
   return &type_base;
@@ -111,56 +112,56 @@ CGAL_Wrapper<T>::type_id() const
 #endif // CGAL_CFG_NO_DYNAMIC_CAST
 
 
-class CGAL__Object : public CGAL_Rep
+class _Object : public Rep
 {
   public:
-                  CGAL__Object() : _base(0) {}
-                  CGAL__Object(CGAL_Base *base) : _base(base) {}
-                  ~CGAL__Object()
+                  _Object() : _base(0) {}
+                  _Object(Base *base) : _base(base) {}
+                  ~_Object()
                   {
                     if (_base != 0 ){ delete _base; }
                   }
-    CGAL_Base*    base() const
+    Base*    base() const
                   { return _base; }
 
   private:
-    CGAL_Base*    _base;
+    Base*    _base;
 };
 
 
-class CGAL_Object : public CGAL_Handle
+class Object : public Handle
 {
 public:
-                  CGAL_Object()
-                  { PTR = new CGAL__Object(); }
-                  CGAL_Object(CGAL_Base *base)
-                  { PTR = new CGAL__Object(base); }
-                  CGAL_Object(const CGAL_Object& o)
-                  : CGAL_Handle((CGAL_Handle&)o)
+                  Object()
+                  { PTR = new _Object(); }
+                  Object(Base *base)
+                  { PTR = new _Object(base); }
+                  Object(const Object& o)
+                  : Handle((Handle&)o)
                   {}
-    CGAL_Object&  operator=(const CGAL_Object& o)
+    Object&  operator=(const Object& o)
                   {
-                    CGAL_Handle::operator=(o);
+                    Handle::operator=(o);
                     return *this;
                   }
-    CGAL__Object* ptr() const
-                  { return (CGAL__Object *)PTR; }
+    _Object* ptr() const
+                  { return (_Object *)PTR; }
     bool          is_empty() const 
                   { return ptr()->base() == 0; }
 };
 
 
 template <class T>
-CGAL_Object
-CGAL_make_object(const T& t)
+Object
+make_object(const T& t)
 {
-    return CGAL_Object(new CGAL_Wrapper< T >(t));
+    return Object(new Wrapper< T >(t));
 }
 
 #ifdef CGAL_CFG_NO_DYNAMIC_CAST
 template <class T>
 T*
-CGAL__dynamic_cast(CGAL_Base *base, const T*)
+_dynamic_cast(Base *base, const T*)
 {
     T dummy;
     if (base == 0) { return (T*) 0; }
@@ -170,7 +171,7 @@ CGAL__dynamic_cast(CGAL_Base *base, const T*)
 
 template <class T>
 const T*
-CGAL__dynamic_cast(const CGAL_Base *base, const T*)
+_dynamic_cast(const Base *base, const T*)
 {
     T dummy;
     if (base == 0) { return (T*) 0; }
@@ -181,23 +182,25 @@ CGAL__dynamic_cast(const CGAL_Base *base, const T*)
 
 template <class T>
 bool
-CGAL_assign(T& t, const CGAL_Object& o)
+assign(T& t, const Object& o)
 {
 #ifdef CGAL_CFG_NO_DYNAMIC_CAST
-  CGAL_Wrapper<T>*  wp = CGAL__dynamic_cast(o.ptr()->base(),
-                                            (CGAL_Wrapper<T>*) 0);
+  Wrapper<T>*  wp = _dynamic_cast(o.ptr()->base(),
+                                            (Wrapper<T>*) 0);
 #else
 
 # ifdef CGAL_CFG_DYNAMIC_CAST_BUG
-  CGAL_Wrapper<T>   instantiate_it;
+  Wrapper<T>   instantiate_it;
 # endif // CGAL_CFG_DYNAMIC_CAST_BUG
 
-  CGAL_Wrapper<T>*  wp = dynamic_cast<CGAL_Wrapper<T>*>(o.ptr()->base());
+  Wrapper<T>*  wp = dynamic_cast<Wrapper<T>*>(o.ptr()->base());
 #endif // CGAL_CFG_NO_DYNAMIC_CAST
   if( wp == 0 ){ return false; }
   t = *(wp);
   return true;
 }
+
+CGAL_END_NAMESPACE
 
 #endif // CGAL_OBJECT_H
 

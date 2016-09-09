@@ -1,6 +1,6 @@
 // ======================================================================
 //
-// Copyright (c) 1997 The CGAL Consortium
+// Copyright (c) 1999 The GALIA Consortium
 //
 // This software and related documentation is part of the
 // Computational Geometry Algorithms Library (CGAL).
@@ -16,35 +16,34 @@
 // - Development licenses grant access to the source code of the library 
 //   to develop programs. These programs may be sold to other parties as 
 //   executable code. To obtain a development license, please contact
-//   the CGAL Consortium (at cgal@cs.uu.nl).
+//   the GALIA Consortium (at cgal@cs.uu.nl).
 // - Commercialization licenses grant access to the source code and the
 //   right to sell development licenses. To obtain a commercialization 
-//   license, please contact the CGAL Consortium (at cgal@cs.uu.nl).
+//   license, please contact the GALIA Consortium (at cgal@cs.uu.nl).
 //
 // This software and documentation is provided "as-is" and without
 // warranty of any kind. In no event shall the CGAL Consortium be
 // liable for any damage of any kind.
 //
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// The GALIA Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany) Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+// (Germany), Max-Planck-Institute Saarbrucken (Germany),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-1.2
-// release_date  : 1999, January 18
+// release       : CGAL-2.0
+// release_date  : 1999, June 03
 //
 // file          : include/CGAL/Weighted_point_2.h
-// package       : Triangulation (2.10)
-// source        : $Source: /u/alcor/0/prisme_util/CGAL/Local/cvsroot/Triangulation/include/CGAL/Weighted_point_2.h,v $
-// revision      : $Revision: 1.1.1.4 $
-// revision_date : $Date: 1999/01/12 09:41:01 $
+// package       : Triangulation (3.17)
+// source        : $RCSfile: Weighted_point_2.h,v $
+// revision      : $Revision: 1.1.1.7 $
+// revision_date : $Date: 1999/05/11 08:44:32 $
 // author(s)     : Mariette Yvinec
 //
 // coordinator   : Mariette Yvinec
-//
 //
 // email         : cgal@cs.uu.nl
 //
@@ -56,8 +55,10 @@
 #include <CGAL/Triangulation_2.h>
 #include <CGAL/Triangulation_euclidean_traits_2.h>
 
+CGAL_BEGIN_NAMESPACE
+
 template < class Pt, class We >
-class CGAL_Weighted_point_2 : public Pt
+class Weighted_point_2 : public Pt
 {
 public:
   typedef We Weight;
@@ -67,14 +68,14 @@ private:
 	Weight _weight;
 
 public: //constructors and destructors
-  CGAL_Weighted_point_2 ()
+  Weighted_point_2 ()
     : Point ()
   {
     _weight=Weight ( 0 ) ;
   }
 
 
-  CGAL_Weighted_point_2	( const CGAL_Weighted_point_2 &p0)
+  Weighted_point_2	( const Weighted_point_2 &p0)
   {
     Point::operator=(p0.point() );
     _weight=Weight( p0.weight() );
@@ -82,23 +83,23 @@ public: //constructors and destructors
 
 #ifndef CGAL_CFG_NO_MEMBER_TEMPLATES
 	template <class Weight_0 >
-	CGAL_Weighted_point_2
-	( const CGAL_Weighted_point_2<  Point, Weight_0 > &p0) : Point(p0.point())
+	Weighted_point_2
+	( const Weighted_point_2<  Point, Weight_0 > &p0) : Point(p0.point())
 	{	_weight=Weight( p0.weight() );
 	}
 #endif
 
-	CGAL_Weighted_point_2 ( const Point &p )
+	Weighted_point_2 ( const Point &p )
 		: Point ( p )
 	{	_weight=Weight ( 0 ) ;
 	}
 
-	CGAL_Weighted_point_2 ( const RT &x, const RT &y )
+	Weighted_point_2 ( const RT &x, const RT &y )
 		: Point ( x, y )
 	{	_weight=Weight ( 0 ) ;
 	}
 
-	CGAL_Weighted_point_2 ( const Point &p, const Weight &_weight_ )
+	Weighted_point_2 ( const Point &p, const Weight &_weight_ )
 		: Point ( p )
 	{	_weight=_weight_;
 	}
@@ -119,12 +120,12 @@ public:
 
 	Weight power(const Point &p)
 	{	
-	  return ((p.x()-x())*(p.x()-x())+(p.y()-y())*(p.y()-y())-weight());
+	  return square(p.x()-x()) + square(p.y()-y()) - weight();
 	}
 
-        Weight power(const CGAL_Weighted_point_2 &p)
+        Weight power(const Weighted_point_2 &p)
 	{	
-	  return  ((p.x()-x())*(p.x()-x())+(p.y()-y())*(p.y()-y())-weight() -p.weight());
+	  return square(p.x()-x()) + square(p.y()-y()) - weight() - p.weight();
 	}
 
 
@@ -133,22 +134,23 @@ public:
 
 
 template < class Point, class Weight >
-ostream &operator<<(ostream &os, const CGAL_Weighted_point_2<Point,Weight> &p)
+std::ostream &operator<<(
+        std::ostream &os, const Weighted_point_2<Point,Weight> &p)
 {
 	return os << p.point() << " " << p.weight() ;
 }
 
 template < class Point, class Weight >
-istream  &operator>>(istream  &is,  CGAL_Weighted_point_2<Point,Weight> &p)
+std::istream  &operator>>(
+         std::istream  &is,  Weighted_point_2<Point,Weight> &p)
 {
 	Weight _weight_;
 	Point _point_;
 	is >> _point_  >> _weight_ ;
-	p=CGAL_Weighted_point_2<Point,Weight>( _point_, _weight_ );
+	p=Weighted_point_2<Point,Weight>( _point_, _weight_ );
 	return is;
 }
 
-
-
+CGAL_END_NAMESPACE
 
 #endif

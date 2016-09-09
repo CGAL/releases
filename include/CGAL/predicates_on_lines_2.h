@@ -1,6 +1,6 @@
 // ======================================================================
 //
-// Copyright (c) 1998 The CGAL Consortium
+// Copyright (c) 1999 The GALIA Consortium
 //
 // This software and related documentation is part of the
 // Computational Geometry Algorithms Library (CGAL).
@@ -16,36 +16,35 @@
 // - Development licenses grant access to the source code of the library 
 //   to develop programs. These programs may be sold to other parties as 
 //   executable code. To obtain a development license, please contact
-//   the CGAL Consortium (at cgal@cs.uu.nl).
+//   the GALIA Consortium (at cgal@cs.uu.nl).
 // - Commercialization licenses grant access to the source code and the
 //   right to sell development licenses. To obtain a commercialization 
-//   license, please contact the CGAL Consortium (at cgal@cs.uu.nl).
+//   license, please contact the GALIA Consortium (at cgal@cs.uu.nl).
 //
 // This software and documentation is provided "as-is" and without
 // warranty of any kind. In no event shall the CGAL Consortium be
 // liable for any damage of any kind.
 //
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// The GALIA Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany) Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+// (Germany), Max-Planck-Institute Saarbrucken (Germany),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 // 
-// release       : CGAL-1.2
-// release_date  : 1999, January 18
+// release       : CGAL-2.0
+// release_date  : 1999, June 03
 // 
 // source        : predicates_on_lines_2.fw
 // file          : include/CGAL/predicates_on_lines_2.h
-// package       : _2 (1.3)
-// revision      : 1.3
-// revision_date : 15 Dec 1998 
+// package       : _2 (2.1.2)
+// revision      : 2.1.2
+// revision_date : 09 May 1999 
 // author(s)     : Andreas Fabri
 //                 Stefan Schirra
 //
 // coordinator   : MPI, Saarbruecken  (<Stefan.Schirra>)
-//
 // email         : cgal@cs.uu.nl
 //
 // ======================================================================
@@ -80,153 +79,145 @@
 #include <CGAL/Line_2.h>
 #endif // CGAL_LINE_2_H
 
+CGAL_BEGIN_NAMESPACE
+
 
 template < class R >
 inline
-CGAL_Comparison_result
-CGAL_compare_x(const CGAL_Point_2<R> &p,
-               const CGAL_Line_2<R> &l1,
-               const CGAL_Line_2<R> &l2)
+Comparison_result
+compare_x(const Point_2<R> &p,
+               const Line_2<R> &l1,
+               const Line_2<R> &l2)
 {
-  typedef typename  R::Point_2    Point_2;
-  typedef typename  R::Line_2     Line_2 ;
-  return CGAL_compare_x((const Point_2&)p,
-                        (const Line_2&)l1,
-                        (const Line_2&)l2);
+  typedef typename  R::Point_2    RPoint_2;
+  typedef typename  R::Line_2     RLine_2 ;
+  return compare_x((const RPoint_2&)p,
+                   (const RLine_2&)l1,
+                   (const RLine_2&)l2);
 }
 
 template < class R >
 inline
-CGAL_Comparison_result
-CGAL_compare_x(const CGAL_Line_2<R> &l1,
-               const CGAL_Line_2<R> &l2,
-               const CGAL_Line_2<R> &h1,
-               const CGAL_Line_2<R> &h2)
+Comparison_result
+compare_x(const Line_2<R> &l1,
+          const Line_2<R> &l2,
+          const Line_2<R> &h1,
+          const Line_2<R> &h2)
 {
-  typedef typename  R::Line_2     Line_2 ;
-  return CGAL_compare_x((const Line_2&)l1, (const Line_2&)l2,
-                        (const Line_2&)h1, (const Line_2&)h2);
-}
-
-
-template < class R >
-inline
-CGAL_Comparison_result
-CGAL_compare_x(const CGAL_Line_2<R> &l,
-               const CGAL_Line_2<R> &h1,
-               const CGAL_Line_2<R> &h2)
-{
-  typedef typename  R::Line_2     Line_2 ;
-  return CGAL_compare_x((const Line_2&)l, (const Line_2&)h1,
-                        (const Line_2&)l, (const Line_2&)h2);
-}
-
-template < class R >
-inline
-CGAL_Comparison_result
-CGAL_compare_y(const CGAL_Point_2<R> &p,
-               const CGAL_Line_2<R> &l1,
-               const CGAL_Line_2<R> &l2)
-{
-  typedef typename  R::Point_2    Point_2;
-  typedef typename  R::Line_2     Line_2 ;
-  return CGAL_compare_y((const Point_2&)p,
-                        (const Line_2&)l1,
-                        (const Line_2&)l2);
-}
-
-template < class R >
-inline
-CGAL_Comparison_result
-CGAL_compare_y(const CGAL_Line_2<R> &l1,
-               const CGAL_Line_2<R> &l2,
-               const CGAL_Line_2<R> &h1,
-               const CGAL_Line_2<R> &h2)
-{
-  typedef typename  R::Line_2     Line_2 ;
-  return CGAL_compare_y((const Line_2&)l1, (const Line_2&)l2,
-                        (const Line_2&)h1, (const Line_2&)h2);
-}
-
-template < class R >
-inline
-CGAL_Comparison_result
-CGAL_compare_y(const CGAL_Line_2<R> &l,
-               const CGAL_Line_2<R> &h1,
-               const CGAL_Line_2<R> &h2)
-{
-  typedef typename  R::Line_2     Line_2 ;
-  return CGAL_compare_y((const Line_2&)l, (const Line_2&)h1,
-                        (const Line_2&)l, (const Line_2&)h2);
+  typedef typename  R::Line_2     RLine_2 ;
+  return compare_x((const RLine_2&)l1, (const RLine_2&)l2,
+                   (const RLine_2&)h1, (const RLine_2&)h2);
 }
 
 
 template < class R >
 inline
-CGAL_Comparison_result
-CGAL_compare_y_at_x(const CGAL_Point_2<R> &p, const CGAL_Line_2<R> &h)
+Comparison_result
+compare_x(const Line_2<R> &l,
+          const Line_2<R> &h1,
+          const Line_2<R> &h2)
 {
-  typedef typename  R::Point_2    Point_2;
-  typedef typename  R::Line_2     Line_2 ;
-  return CGAL_compare_y_at_x((const Point_2&)p,
-                             (const Line_2&)h);
+  typedef typename  R::Line_2     RLine_2 ;
+  return compare_x((const RLine_2&)l, (const RLine_2&)h1,
+                   (const RLine_2&)l, (const RLine_2&)h2);
 }
 
 template < class R >
 inline
-CGAL_Comparison_result
-CGAL_compare_y_at_x(const CGAL_Line_2<R> &l1,
-                    const CGAL_Line_2<R> &l2,
-                    const CGAL_Line_2<R> &h)
+Comparison_result
+compare_y(const Point_2<R> &p,
+          const Line_2<R> &l1,
+          const Line_2<R> &l2)
 {
-  typedef typename  R::Line_2     Line_2 ;
-  return CGAL_compare_y_at_x((const Line_2&)l1,
-                             (const Line_2&)l2,
-                             (const Line_2&)h) ;
-/*
-  CGAL_Point_2<R> q;
-  CGAL_Line_2_Line_2_pair<R> pair(&l1, &l2);
-  if(pair.intersection_type() ==  CGAL_Line_2_Line_2_pair<R>::POINT){
-    pair.intersection(q);
-  } else {
-    cerr << "Line l1 and l2 do not intersect.";
-    CGAL_kernel_assertion(false);
-  }
-
-  return CGAL_compare_y_at_x(q, h);
-*/
+  typedef typename  R::Point_2    RPoint_2;
+  typedef typename  R::Line_2     RLine_2 ;
+  return compare_y((const RPoint_2&)p,
+                   (const RLine_2&)l1,
+                   (const RLine_2&)l2);
 }
 
 template < class R >
 inline
-CGAL_Comparison_result
-CGAL_compare_y_at_x(const CGAL_Point_2<R> &p,
-                    const CGAL_Line_2<R> &h1,
-                    const CGAL_Line_2<R> &h2)
+Comparison_result
+compare_y(const Line_2<R> &l1,
+          const Line_2<R> &l2,
+          const Line_2<R> &h1,
+          const Line_2<R> &h2)
+{
+  typedef typename  R::Line_2     RLine_2 ;
+  return compare_y((const RLine_2&)l1, (const RLine_2&)l2,
+                   (const RLine_2&)h1, (const RLine_2&)h2);
+}
+
+template < class R >
+inline
+Comparison_result
+compare_y(const Line_2<R> &l,
+          const Line_2<R> &h1,
+          const Line_2<R> &h2)
+{
+  typedef typename  R::Line_2     RLine_2 ;
+  return compare_y((const RLine_2&)l, (const RLine_2&)h1,
+                   (const RLine_2&)l, (const RLine_2&)h2);
+}
+
+
+template < class R >
+inline
+Comparison_result
+compare_y_at_x(const Point_2<R> &p, const Line_2<R> &h)
+{
+  typedef typename  R::Point_2    RPoint_2;
+  typedef typename  R::Line_2     RLine_2 ;
+  return compare_y_at_x((const RPoint_2&)p,
+                        (const RLine_2&)h);
+}
+
+template < class R >
+inline
+Comparison_result
+compare_y_at_x(const Line_2<R> &l1,
+                    const Line_2<R> &l2,
+                    const Line_2<R> &h)
+{
+  typedef typename  R::Line_2     RLine_2 ;
+  return compare_y_at_x((const RLine_2&)l1,
+                        (const RLine_2&)l2,
+                        (const RLine_2&)h) ;
+}
+
+template < class R >
+inline
+Comparison_result
+compare_y_at_x(const Point_2<R> &p,
+               const Line_2<R> &h1,
+               const Line_2<R> &h2)
 {
   CGAL_kernel_precondition( (! h1.is_vertical()) && (! h2.is_vertical()) );
-  typedef typename  R::Point_2    Point_2;
-  typedef typename  R::Line_2     Line_2 ;
-  return CGAL_compare_y_at_x((const Point_2&)p,
-                             (const Line_2&)h1,
-                             (const Line_2&)h2);
+  typedef typename  R::Point_2    RPoint_2;
+  typedef typename  R::Line_2     RLine_2 ;
+  return compare_y_at_x((const RPoint_2&)p,
+                             (const RLine_2&)h1,
+                             (const RLine_2&)h2);
 }
 
 template < class R >
 inline
-CGAL_Comparison_result
-CGAL_compare_y_at_x(const CGAL_Line_2<R> &l1,
-                    const CGAL_Line_2<R> &l2,
-                    const CGAL_Line_2<R> &h1,
-                    const CGAL_Line_2<R> &h2)
+Comparison_result
+compare_y_at_x(const Line_2<R> &l1,
+               const Line_2<R> &l2,
+               const Line_2<R> &h1,
+               const Line_2<R> &h2)
 {
   CGAL_kernel_precondition( (! h1.is_vertical()) && (! h2.is_vertical()) );
-  typedef typename  R::Line_2     Line_2 ;
-  return CGAL_compare_y_at_x((const Line_2&)l1,
-                             (const Line_2&)l2,
-                             (const Line_2&)h1,
-                             (const Line_2&)h2);
+  typedef typename  R::Line_2     RLine_2 ;
+  return compare_y_at_x((const RLine_2&)l1,
+                        (const RLine_2&)l2,
+                        (const RLine_2&)h1,
+                        (const RLine_2&)h2);
 }
+
+CGAL_END_NAMESPACE
 
 
 #endif  // CGAL_PREDICATES_ON_LINES_2_H

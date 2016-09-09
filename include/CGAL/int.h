@@ -1,6 +1,6 @@
 // ======================================================================
 //
-// Copyright (c) 1998 The CGAL Consortium
+// Copyright (c) 1999 The GALIA Consortium
 //
 // This software and related documentation is part of the
 // Computational Geometry Algorithms Library (CGAL).
@@ -16,35 +16,34 @@
 // - Development licenses grant access to the source code of the library 
 //   to develop programs. These programs may be sold to other parties as 
 //   executable code. To obtain a development license, please contact
-//   the CGAL Consortium (at cgal@cs.uu.nl).
+//   the GALIA Consortium (at cgal@cs.uu.nl).
 // - Commercialization licenses grant access to the source code and the
 //   right to sell development licenses. To obtain a commercialization 
-//   license, please contact the CGAL Consortium (at cgal@cs.uu.nl).
+//   license, please contact the GALIA Consortium (at cgal@cs.uu.nl).
 //
 // This software and documentation is provided "as-is" and without
 // warranty of any kind. In no event shall the CGAL Consortium be
 // liable for any damage of any kind.
 //
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// The GALIA Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany) Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+// (Germany), Max-Planck-Institute Saarbrucken (Germany),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 // 
-// release       : CGAL-1.2
-// release_date  : 1999, January 18
+// release       : CGAL-2.0
+// release_date  : 1999, June 03
 // 
 // source        : Int.fw
 // file          : include/CGAL/int.h
-// package       : Number_types (1.6)
-// revision      : 1.6
-// revision_date : 13 Jan 1999 
+// package       : Number_types (2.1.5)
+// revision      : 2.1.5
+// revision_date : 09 May 1999 
 // author(s)     : Stefan Schirra
 //
 // coordinator   : MPI, Saarbruecken
-//
 // email         : cgal@cs.uu.nl
 //
 // ======================================================================
@@ -59,129 +58,135 @@
 
 // int
 
+CGAL_BEGIN_NAMESPACE
+
+
 inline
 double
-CGAL_to_double(int i)
+to_double(int i)
 { return (double)i; }
 
 inline
-CGAL_Number_tag
-CGAL_number_type_tag(int)
-{ return CGAL_Number_tag(); }
+Number_tag
+number_type_tag(int)
+{ return Number_tag(); }
 
 inline
 bool
-CGAL_is_finite(int)
+is_finite(int)
 { return true; }
 
 inline
 bool
-CGAL_is_valid(int)
+is_valid(int)
 { return true; }
 
 inline
-CGAL_io_Operator
-CGAL_io_tag(int)
-{ return CGAL_io_Operator(); }
+io_Operator
+io_tag(int)
+{ return io_Operator(); }
 
 // long
 
 inline
 double
-CGAL_to_double(long int i)
+to_double(long int i)
 { return (double)i; }
 
 inline
-CGAL_Number_tag
-CGAL_number_type_tag(long int)
-{ return CGAL_Number_tag(); }
+Number_tag
+number_type_tag(long int)
+{ return Number_tag(); }
 
 inline
 bool
-CGAL_is_finite(long int)
+is_finite(long int)
 { return true; }
 
 inline
 bool
-CGAL_is_valid(long int)
+is_valid(long int)
 { return true; }
 
 inline
-CGAL_io_Operator
-CGAL_io_tag(long int)
-{ return CGAL_io_Operator(); }
+io_Operator
+io_tag(long int)
+{ return io_Operator(); }
 
 // short
 
 inline
 double
-CGAL_to_double(short int i)
+to_double(short int i)
 { return (double)i; }
 
 inline
-CGAL_Number_tag
-CGAL_number_type_tag(short int)
-{ return CGAL_Number_tag(); }
+Number_tag
+number_type_tag(short int)
+{ return Number_tag(); }
 
 inline
 bool
-CGAL_is_finite(short int)
+is_finite(short int)
 { return true; }
 
 inline
 bool
-CGAL_is_valid(short int)
+is_valid(short int)
 { return true; }
 
 inline
-CGAL_io_Operator
-CGAL_io_tag(short int)
-{ return CGAL_io_Operator(); }
+io_Operator
+io_tag(short int)
+{ return io_Operator(); }
 
 // long long
 
-#ifdef CGAL_LONG_LONG
+#ifdef LONG_LONG
 
 inline
 double
-CGAL_to_double(long long i)
+to_double(long long i)
 { return (double)i; }
 
 inline
-CGAL_Number_tag
-CGAL_number_type_tag(long long)
-{ return CGAL_Number_tag(); }
+Number_tag
+number_type_tag(long long)
+{ return Number_tag(); }
 
 inline
 bool
-CGAL_is_finite(long long)
+is_finite(long long)
 { return true; }
 
 inline
 bool
-CGAL_is_valid(long long)
+is_valid(long long)
 { return true; }
-#endif // CGAL_LONG_LONG
+#endif // LONG_LONG
 
 // io_tags for unsigned types
 inline
-CGAL_io_Operator
-CGAL_io_tag(unsigned char)
-{ return CGAL_io_Operator(); }
+io_Operator
+io_tag(unsigned char)
+{ return io_Operator(); }
 
 inline
-CGAL_io_Operator
-CGAL_io_tag(unsigned short)
-{ return CGAL_io_Operator(); }
+io_Operator
+io_tag(unsigned short)
+{ return io_Operator(); }
 
 inline
-CGAL_io_Operator
-CGAL_io_tag(unsigned int)
-{ return CGAL_io_Operator(); }
+io_Operator
+io_tag(unsigned int)
+{ return io_Operator(); }
 
 inline
-CGAL_io_Operator
-CGAL_io_tag(unsigned long)
-{ return CGAL_io_Operator(); }
+io_Operator
+io_tag(unsigned long)
+{ return io_Operator(); }
+
+CGAL_END_NAMESPACE
+
 
 #endif // CGAL_INT_H

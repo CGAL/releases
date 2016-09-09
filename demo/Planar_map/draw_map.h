@@ -24,7 +24,7 @@
 #include <CGAL/IO/Planar_map_iostream.h>
 #endif
 
-#ifdef CGAL_PM_TIMER
+#ifdef PM_TIMER
 #include <CGAL/Timer.h>
 #endif
 
@@ -34,16 +34,16 @@ typedef leda_rational                          number_type;
 typedef double                                 number_type; 
 #endif
 
-typedef CGAL_Cartesian<number_type>            Rep;
+typedef CGAL::Cartesian<number_type>            Rep;
 
 #ifndef USE_RATIONAL
-typedef CGAL_Pm_segment_epsilon_traits<Rep>    Traits;
+typedef CGAL::Pm_segment_epsilon_traits<Rep>    Traits;
 #else
-typedef CGAL_Pm_segment_exact_traits<Rep>      Traits;
+typedef CGAL::Pm_segment_exact_traits<Rep>      Traits;
 #endif
 
-typedef CGAL_Pm_default_dcel<Traits>           Dcel;
-typedef CGAL_Planar_map_2<Dcel,Traits>         Planar_map;
+typedef CGAL::Pm_default_dcel<Traits>           Dcel;
+typedef CGAL::Planar_map_2<Dcel,Traits>         Planar_map;
 
 typedef Planar_map::Vertex                     Vertex;
 typedef Planar_map::Halfedge                   Halfedge;
@@ -63,20 +63,20 @@ typedef Traits::X_curve                        Pm_curve;
 
 
 // extern "C" to makes VC happy
-extern "C" int draw_pm (Planar_map & pm , CGAL_Window_stream & W);
+extern "C" int draw_pm (Planar_map & pm , CGAL::Window_stream & W);
 
 extern "C" bool Init (char *filename , Planar_map & pm) ;
 
 extern "C" void win_border( double &x0 , double &x1 , double &y0 ,
                             Planar_map &pm);
 
-extern "C" CGAL_Window_stream& operator<<(CGAL_Window_stream& os,
+extern "C" CGAL::Window_stream& operator<<(CGAL::Window_stream& os,
                                           Planar_map &M);
 
-extern "C" void window_input(Planar_map & M, CGAL_Window_stream &W );
+extern "C" void window_input(Planar_map & M, CGAL::Window_stream &W );
 
-#ifdef CGAL_PM_TIMER
-extern CGAL_Timer t_total,t_construction,t_insert,t_remove,t_locate,t_vertical;
+#ifdef PM_TIMER
+extern CGAL::Timer t_total,t_construction,t_insert,t_remove,t_locate,t_vertical;
 extern int n_total,n_insert,n_remove,n_locate,n_vertical;
 #endif
 

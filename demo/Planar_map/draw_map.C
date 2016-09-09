@@ -1,6 +1,6 @@
 // fstream should appear first
 //(otherwise ifstream is not added into the global std)
-#include <fstream.h>
+#include <fstream>
 #include "draw_map.h"
 #include "read_inp.h"
 
@@ -23,12 +23,12 @@ void MarkCcb (const Ccb_halfedge_circulator & b, list<Pm_curve>& l)
 
 
 
-void draw_arrow (Pm_point p1, Pm_point p2, bool black , CGAL_Window_stream & W )
+void draw_arrow (Pm_point p1, Pm_point p2, bool black , CGAL::Window_stream & W )
 {
     if (black)
-	W << CGAL_BLACK;
+	W << CGAL::BLACK;
     else
-	W << CGAL_WHITE;
+	W << CGAL::WHITE;
 
     float ar_size=(W.xmax()-W.xmin())/20 ;
 
@@ -40,21 +40,21 @@ void draw_arrow (Pm_point p1, Pm_point p2, bool black , CGAL_Window_stream & W )
 
 
 
-void Draw (CGAL_Window_stream & W , Planar_map & pm )
+void Draw (CGAL::Window_stream & W , Planar_map & pm )
 {
     W.set_flush( 0 );
     
     Vertex_iterator vi;
     for (vi = pm.vertices_begin (); vi != pm.vertices_end (); vi++)
     {
-                W << CGAL_GREEN;
+                W << CGAL::GREEN;
                 W << (*vi).point();
     }
 
     Halfedge_iterator ei;
     for (ei = pm.halfedges_begin (); ei != pm.halfedges_end (); ei++)
     {
-      W << CGAL_BLUE;
+      W << CGAL::BLUE;
       W << ((*ei).curve());
     }
 
@@ -72,11 +72,11 @@ bool VerticalRayShoot (Pm_point p, Pm_point & q, bool up , Planar_map &pm)
     Planar_map::Locate_type lt;
     number_type y_min, y_max, y_arrow_tip;
 
-#ifdef CGAL_PM_TIMER
+#ifdef PM_TIMER
     t_vertical.start();
 #endif
     e=pm.vertical_ray_shoot (p,lt, up);
-#ifdef CGAL_PM_TIMER
+#ifdef PM_TIMER
     t_vertical.stop();
     n_vertical++;
 #endif
@@ -88,8 +88,8 @@ bool VerticalRayShoot (Pm_point p, Pm_point & q, bool up , Planar_map &pm)
       if (p1.x() == p2.x())
         {  
           // the found segment is vertical
-          y_min = CGAL_min (p1.y(), p2.y());
-          y_max = CGAL_max (p1.y(), p2.y());
+          y_min = CGAL::min (p1.y(), p2.y());
+          y_max = CGAL::max (p1.y(), p2.y());
           y_arrow_tip = (p.y() < y_min) ? y_min : y_max;
           q = Pm_point(p.x(), y_arrow_tip); 
         }
@@ -113,11 +113,11 @@ bool VerticalRayShoot (Pm_point p, Pm_point & q, bool up , Planar_map &pm)
 void FindFace (const Pm_point& p , Planar_map &pm, list<Pm_curve>& l)
 {
   Planar_map::Locate_type lt;
-#ifdef CGAL_PM_TIMER
+#ifdef PM_TIMER
   t_vertical.start();
 #endif
   Halfedge_handle e = pm.vertical_ray_shoot (p, lt, true);
-#ifdef CGAL_PM_TIMER
+#ifdef PM_TIMER
   t_vertical.stop();
   n_vertical++;
 #endif
@@ -151,7 +151,7 @@ void FindFace (const Pm_point& p , Planar_map &pm, list<Pm_curve>& l)
 
 
 
-int draw_pm (Planar_map & pm , CGAL_Window_stream & W)
+int draw_pm (Planar_map & pm , CGAL::Window_stream & W)
 {    
 
   list<Pm_curve> l;
@@ -160,12 +160,12 @@ int draw_pm (Planar_map & pm , CGAL_Window_stream & W)
   int button = 0;
   double x, y;
 
-  cerr << "Drawing the map:" << endl;
+  std::cerr << "Drawing the map:" << std::endl;
   Draw (W,pm);
   
-  cerr << "1.Left button: vertical ray shooting." << endl;
-  cerr << "2.Middle button: point location." << endl;
-  cerr << "3.Right button: exit" << endl;
+  std::cerr << "1.Left button: vertical ray shooting." << std::endl;
+  std::cerr << "2.Middle button: point location." << std::endl;
+  std::cerr << "3.Right button: exit" << std::endl;
   
   while (button != 3)
     {
@@ -191,7 +191,7 @@ int draw_pm (Planar_map & pm , CGAL_Window_stream & W)
       if (button != 0)
 	{
           Draw (W,pm);
-          W << CGAL_RED;
+          W << CGAL::RED;
           for (list<Pm_curve>::iterator lit=l.begin(); lit!=l.end(); ++lit)
             W << *lit;
           l.erase(l.begin(),l.end());
@@ -209,7 +209,7 @@ bool ReadFile(char *filename, int &num_points, Pm_point* &pnts,
 {
   int j, k;
 
-  CGAL_STD_IO_ ifstream is(filename);
+  std::ifstream is(filename);
   if (is.bad()) return false;
   PM_input<Rep> inp;
   is >> inp;
@@ -240,17 +240,17 @@ bool ReadFile(char *filename, int &num_points, Pm_point* &pnts,
 void win_border( double &x0 , double &x1 , double &y0 ,Planar_map &pm)
 {
   Vertex_iterator vit = pm.vertices_begin();
-  x0=x1=CGAL_to_double(( (*vit).point() ).x());
-  y0=CGAL_to_double(( (*vit).point() ).y());
+  x0=x1=CGAL::to_double(( (*vit).point() ).x());
+  y0=CGAL::to_double(( (*vit).point() ).y());
 
   while (vit!=pm.vertices_end())
     {
       if ( ((*vit).point() ).x() < x0 )
-        x0 = CGAL_to_double(( (*vit).point() ).x()) ;
+        x0 = CGAL::to_double(( (*vit).point() ).x()) ;
       if ( ( (*vit).point() ).x() > x1 )
-        x1 = CGAL_to_double(( (*vit).point() ).x()) ;
+        x1 = CGAL::to_double(( (*vit).point() ).x()) ;
       if ( ( (*vit).point() ).y() < y0 )
-        y0 = CGAL_to_double(( (*vit).point() ).y()) ;
+        y0 = CGAL::to_double(( (*vit).point() ).y()) ;
       vit++;
     }
 
@@ -261,20 +261,20 @@ void win_border( double &x0 , double &x1 , double &y0 ,Planar_map &pm)
 }
 
 //DEBUG
-//bool Init (char *filename , Planar_map & pm, CGAL_Window_stream& W)
+//bool Init (char *filename , Planar_map & pm, CGAL::Window_stream& W)
 bool Init (char *filename , Planar_map & pm)
 {
     int num_points, num_curves, i;
     Pm_point *pnts;
     Pm_curve *cvs;
 
-#ifdef CGAL_PM_TIMER
+#ifdef PM_TIMER
     t_construction.stop();// ReadFile shouldn't be included in construction time.
 #endif
     if (!ReadFile (filename, num_points, pnts, num_curves, cvs ))
         return false;
 
-#ifdef CGAL_PM_TIMER
+#ifdef PM_TIMER
     t_construction.start();
 #endif
 
@@ -282,13 +282,13 @@ bool Init (char *filename , Planar_map & pm)
     {
       //printf( "inserting curve: %d\n", i );
       //DEBUG
-      //cout << cvs[i] << endl;
+      //std::cout << cvs[i] << std::endl;
       //W << cvs[i] ;
-#ifdef CGAL_PM_TIMER
+#ifdef PM_TIMER
       t_insert.start();
 #endif
       Halfedge_handle  h=pm.insert (cvs[i]);
-#ifdef CGAL_PM_TIMER
+#ifdef PM_TIMER
       t_insert.stop();
       n_insert++;
 #endif
@@ -303,7 +303,7 @@ bool Init (char *filename , Planar_map & pm)
 
 ///////////////////////////////////////////////////////////////////////
 
-CGAL_Window_stream& operator<<(CGAL_Window_stream& os,
+CGAL::Window_stream& operator<<(CGAL::Window_stream& os,
                           Planar_map &M)
 {
   Halfedge_iterator it = M.halfedges_begin();
@@ -325,11 +325,11 @@ Vertex_handle closest_vertex(Planar_map &M, const Pm_point& p)
   if (vi==M.vertices_end()) 
     return vi; 
   else v=vi;
-  Rep::FT d  = CGAL_squared_distance(p, (*vi).point());
+  Rep::FT d  = CGAL::squared_distance(p, (*vi).point());
   
   for (; vi!=M.vertices_end(); ++vi)
     {
-      Rep::FT d2 = CGAL_squared_distance(p, (*vi).point());
+      Rep::FT d2 = CGAL::squared_distance(p, (*vi).point());
       if(d2 < d){
         d = d2;
         v = vi;
@@ -342,11 +342,11 @@ Vertex_handle closest_vertex(Planar_map &M, const Pm_point& p)
 
 
 void window_input(Planar_map & M,
-             CGAL_Window_stream &W )
+             CGAL::Window_stream &W )
 {
-  cerr << "1.Left button: start or end edge at mouse position."<< endl;
-  cerr << "2.Middle button: start or end edge at closest vertex from mouse position" << endl;
-  cerr << "3.Right button: remove the edge directly above the mouse position" << endl;
+  std::cerr << "1.Left button: start or end edge at mouse position."<< std::endl;
+  std::cerr << "2.Middle button: start or end edge at closest vertex from mouse position" << std::endl;
+  std::cerr << "3.Right button: remove the edge directly above the mouse position" << std::endl;
 
   Pm_point p;
   Pm_point first_point;
@@ -372,11 +372,11 @@ void window_input(Planar_map & M,
         else 
           {
             start_flag=true;
-#ifdef CGAL_PM_TIMER
+#ifdef PM_TIMER
             t_insert.start();
 #endif
             Halfedge_handle e=M.insert(Pm_curve(first_point,p));
-#ifdef CGAL_PM_TIMER
+#ifdef PM_TIMER
             t_insert.stop();
             n_insert++;
 #endif
@@ -404,11 +404,11 @@ void window_input(Planar_map & M,
           }
           else //insert fromfirst_point to nearest
             {
-#ifdef CGAL_PM_TIMER
+#ifdef PM_TIMER
               t_insert.start();
 #endif
               Halfedge_handle e=M.insert(Pm_curve(first_point,v->point()));
-#ifdef CGAL_PM_TIMER
+#ifdef PM_TIMER
               t_insert.stop();
               n_insert++;
 #endif
@@ -428,21 +428,21 @@ void window_input(Planar_map & M,
           start_flag=true;
           Planar_map::Locate_type l;
           Halfedge_handle e;
-#ifdef CGAL_PM_TIMER
+#ifdef PM_TIMER
           t_vertical.start();
 #endif
           e=M.vertical_ray_shoot(p,l,true);
-#ifdef CGAL_PM_TIMER
+#ifdef PM_TIMER
           t_vertical.stop();
           n_vertical++;
 #endif
           if (l!=Planar_map::UNBOUNDED_FACE)
             {
-#ifdef CGAL_PM_TIMER
+#ifdef PM_TIMER
               t_remove.start();
 #endif
               M.remove_edge(e);
-#ifdef CGAL_PM_TIMER
+#ifdef PM_TIMER
               t_remove.stop();
               n_remove++;
 #endif
@@ -450,7 +450,7 @@ void window_input(Planar_map & M,
               W << M;
               
 #ifdef CGAL_PM_DEBUG
-              cout << "\nremove()" << flush;
+              std::cout << "\nremove()" << std::flush;
               M.debug();
 #endif
             }
@@ -458,7 +458,7 @@ void window_input(Planar_map & M,
         }
     
     if (!M.is_valid()) {
-      cerr << "map is not valid - aborting" << endl;
+      std::cerr << "map is not valid - aborting" << std::endl;
       exit(1);
     }
 

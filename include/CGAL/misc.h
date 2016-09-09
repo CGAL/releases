@@ -1,6 +1,6 @@
 // ======================================================================
 //
-// Copyright (c) 1998 The CGAL Consortium
+// Copyright (c) 1999 The GALIA Consortium
 //
 // This software and related documentation is part of the
 // Computational Geometry Algorithms Library (CGAL).
@@ -16,36 +16,35 @@
 // - Development licenses grant access to the source code of the library 
 //   to develop programs. These programs may be sold to other parties as 
 //   executable code. To obtain a development license, please contact
-//   the CGAL Consortium (at cgal@cs.uu.nl).
+//   the GALIA Consortium (at cgal@cs.uu.nl).
 // - Commercialization licenses grant access to the source code and the
 //   right to sell development licenses. To obtain a commercialization 
-//   license, please contact the CGAL Consortium (at cgal@cs.uu.nl).
+//   license, please contact the GALIA Consortium (at cgal@cs.uu.nl).
 //
 // This software and documentation is provided "as-is" and without
 // warranty of any kind. In no event shall the CGAL Consortium be
 // liable for any damage of any kind.
 //
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// The GALIA Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany) Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+// (Germany), Max-Planck-Institute Saarbrucken (Germany),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 // 
-// release       : CGAL-1.2
-// release_date  : 1999, January 18
+// release       : CGAL-2.0
+// release_date  : 1999, June 03
 // 
 // source        : misc.fw
 // file          : include/CGAL/misc.h
-// package       : Kernel_basic (1.2.12)
-// revision      : 1.2.12
-// revision_date : 08 Jan 1999 
+// package       : Kernel_basic (2.0.11)
+// revision      : 2.0.11
+// revision_date : 06 May 1999 
 // author(s)     : Andreas Fabri
 //                 Stefan Schirra
 //
 // coordinator   : MPI, Saarbruecken  (<Stefan.Schirra>)
-//
 // email         : cgal@cs.uu.nl
 //
 // ======================================================================
@@ -54,23 +53,55 @@
 #ifndef CGAL_MISC_H
 #define CGAL_MISC_H
 
+#include <algorithm>
+
+CGAL_BEGIN_NAMESPACE
+
+
+/*
 template < class T >
 inline
 void
-CGAL_swap(T& a, T& b)
+swap(T& a, T& b)
 {
   T c;
   c = a;
   a = b;
   b = c;
 }
+*/
 
 #ifndef CGAL_CFG_NO_EXPLICIT_TEMPLATE_FUNCTION_ARGUMENT_SPECIFICATION
+// A helper class:
+// ---------------------
+template <class Target, class Source>
+struct converter
+{
+    static inline Target do_it(const Source& s)
+    { return static_cast<Target>(s); }
+};
+
 template <class Target, class Source>
 inline
 Target
-CGAL_convert_to( const Source& s)
+convert_to (const Source& s)
+{ return converter<Target, Source>::do_it(s); }
+
+/*
+template <class Target, class Source>
+inline
+Target
+convert_to( const Source& s)
 { return Target(s); }
+*/
 #endif // CGAL_CFG_NO_EXPLICIT_TEMPLATE_FUNCTION_ARGUMENT_SPECIFICATION
+
+template <class Target, class Source>
+inline
+Target
+convert_from_to( const Target& t, const Source& s)
+{ return Target(s); }
+
+CGAL_END_NAMESPACE
 
 #endif // CGAL_MISC_H

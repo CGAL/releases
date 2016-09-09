@@ -1,7 +1,6 @@
-//  -*- Mode: c++ -*-
 // ======================================================================
 //
-// Copyright (c) 1997 The CGAL Consortium
+// Copyright (c) 1999 The GALIA Consortium
 //
 // This software and related documentation is part of the
 // Computational Geometry Algorithms Library (CGAL).
@@ -17,38 +16,37 @@
 // - Development licenses grant access to the source code of the library 
 //   to develop programs. These programs may be sold to other parties as 
 //   executable code. To obtain a development license, please contact
-//   the CGAL Consortium (at cgal@cs.uu.nl).
+//   the GALIA Consortium (at cgal@cs.uu.nl).
 // - Commercialization licenses grant access to the source code and the
 //   right to sell development licenses. To obtain a commercialization 
-//   license, please contact the CGAL Consortium (at cgal@cs.uu.nl).
+//   license, please contact the GALIA Consortium (at cgal@cs.uu.nl).
 //
 // This software and documentation is provided "as-is" and without
 // warranty of any kind. In no event shall the CGAL Consortium be
 // liable for any damage of any kind.
 //
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// The GALIA Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany) Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+// (Germany), Max-Planck-Institute Saarbrucken (Germany),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-1.2
-// release_date  : 1999, January 18
+// release       : CGAL-2.0
+// release_date  : 1999, June 03
 //
 // file          : include/CGAL/bops_Iso_rectangle_2.C
-// package       : bops (1.1.2)
+// package       : bops (2.1.5)
 // source        : include/CGAL/bops_Iso_rectangle_2.C
-// revision      : $Revision: 1.1.2 $
+// revision      : $Revision: WIP $
 // revision_date : $Date: Wed Dec  9 13:28:46 MET 1998  $
-// author(s)     :              Wolfgang Freiseisen
+// author(s)     : Wolfgang Freiseisen
 //
 // coordinator   : RISC Linz
 //  (Wolfgang Freiseisen)
 //
 // 
-//
 // email         : cgal@cs.uu.nl
 //
 // ======================================================================
@@ -69,10 +67,11 @@
 #include <CGAL/bops_Iso_rectangle_2.h>
 #include <CGAL/bops_assertions.h>
 
+CGAL_BEGIN_NAMESPACE
 
 template < class R, class OutputIterator >
-OutputIterator CGAL_union( const CGAL_Iso_rectangle_2<R>& A,
-                           const CGAL_Iso_rectangle_2<R>& B,
+OutputIterator Union( const Iso_rectangle_2<R>& A,
+                           const Iso_rectangle_2<R>& B,
 		           OutputIterator result)
 {
   CGAL_bops_precondition_msg( !A.is_degenerate(),
@@ -83,7 +82,7 @@ OutputIterator CGAL_union( const CGAL_Iso_rectangle_2<R>& A,
 #ifdef CGAL__BOPS_USE_STANDARD_CODE
   Bops_default_I<R> default_traits;
   Bops_default_I<R>::Input_polygon TA(A), TB(B);
-  return CGAL_union(
+  return Union(
          TA.vertices_begin(), TA.vertices_end(),
          TB.vertices_begin(), TB.vertices_end(),
 	 default_traits, result );
@@ -91,9 +90,9 @@ OutputIterator CGAL_union( const CGAL_Iso_rectangle_2<R>& A,
   typedef Bops_default_I<R> I;
   I traits;
   typedef typename I::Point  Point;
-  list<Point> point_list;
-  if( CGAL_do_intersect(A, B) ) {
-      const CGAL_Iso_rectangle_2<R>* r[2]= {&A,&B};
+  std::list<Point> point_list;
+  if( do_intersect(A, B) ) {
+      const Iso_rectangle_2<R>* r[2]= {&A,&B};
       short a, b;
 
       /*
@@ -139,7 +138,7 @@ OutputIterator CGAL_union( const CGAL_Iso_rectangle_2<R>& A,
       }
  
       if( point_list.size() == 4 ) {
-        list<Point>::const_iterator it= point_list.begin();
+        std::list<Point>::const_iterator it= point_list.begin();
         *result++= traits.Make_object( I::Iso_rectangle(*++it++, *++it) );
       }
       else {
@@ -159,8 +158,8 @@ OutputIterator CGAL_union( const CGAL_Iso_rectangle_2<R>& A,
  
  
 template < class R, class OutputIterator >
-OutputIterator CGAL_difference( const CGAL_Iso_rectangle_2<R>& A,
-			        const CGAL_Iso_rectangle_2<R>& B,
+OutputIterator difference( const Iso_rectangle_2<R>& A,
+			        const Iso_rectangle_2<R>& B,
 			        OutputIterator result)
 {
   CGAL_bops_precondition_msg( !A.is_degenerate(),
@@ -171,7 +170,7 @@ OutputIterator CGAL_difference( const CGAL_Iso_rectangle_2<R>& A,
 #ifdef CGAL__BOPS_USE_STANDARD_CODE
   Bops_default_I<R> default_traits;
   Bops_default_I<R>::Input_polygon TA(A), TB(B);
-  return CGAL_difference(
+  return difference(
          TA.vertices_begin(), TA.vertices_end(),
          TB.vertices_begin(), TB.vertices_end(),
 	 default_traits, result );
@@ -179,9 +178,9 @@ OutputIterator CGAL_difference( const CGAL_Iso_rectangle_2<R>& A,
   typedef Bops_default_I<R> I;
   typedef typename I::Point  Point;
   I traits;
-  list<Point> point_list;
+  std::list<Point> point_list;
 
-  if( CGAL_do_intersect(A, B) ) {
+  if( do_intersect(A, B) ) {
    /* only for testing
     Point P[8];
     P[0]= Point(B.min().x(),A.max().y());
@@ -363,4 +362,6 @@ OutputIterator CGAL_difference( const CGAL_Iso_rectangle_2<R>& A,
 #endif // CGAL__BOPS_USE_STANDARD_CODE
 } 
  
+CGAL_END_NAMESPACE
+
 #endif // CGAL_BOPS_ISO_RECTANGLE_2_C

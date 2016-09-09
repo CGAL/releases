@@ -3,57 +3,57 @@
 #include <CGAL/Point_2.h>
 #include <CGAL/leda_rational.h>
 
-#include <iostream.h>
-#include <fstream.h>
-#include <assert.h>
-#include <stdlib.h>
-#include <time.h>
+#include <iostream>
+#include <fstream>
+#include <cassert>
+#include <cstdlib>
+#include <ctime>
 #include "read_inp.h"
 #include "inter.h"
 
 
-typedef PM_input< CGAL_Cartesian<double> > pminpD;
+typedef PM_input< CGAL::Cartesian<double> > pminpD;
 typedef pminpD::Point pntD;
 
-typedef PM_input< CGAL_Cartesian<leda_rational> > pminpR;
+typedef PM_input< CGAL::Cartesian<leda_rational> > pminpR;
 typedef pminpR::Point pntR;
 
 void print_help()
 {
-	cout << "Utilities program for CGAL Planar Map package" << endl;
-	cout << "---------------------------------------------" << endl;
-	cout << "The program handles input files for the Planar Map" << endl;
-	cout << "example program dctest." << endl;
-	cout << "The Input file should be at the following format:" << endl;
-	cout << "       <n = number of points>" << endl;
-	cout << "       <x1> <y1> " << endl;
-	cout << "       ..." << endl;
-	cout << "       <xn> <yn>" << endl;
-	cout << "       <k = number of curves>" << endl;
-	cout << "       <s1> <t1>" << endl;
-	cout << "       ..." << endl;
-	cout << "       <sk> <tk>" << endl;
-	cout << "       Where xi, yi are the coordinates of point i (for " << endl;
-	cout << "       rational version in rational format), and si, ti " << endl;
-	cout << "       are the indeces (in the the above list of points) " << endl;
-	cout << "       of the source and the target of curve i." << endl;
-	cout << "" << endl;
-	cout << "Usages:" << endl;
-	cout << "* The first parameter is always 'e' or 'f' indicates that " << endl;
-	cout << "  the input file is:" << endl;
-	cout << "  'e' --- exact calculations (leda_rationals)." << endl;
-	cout << "  'f' --- floating point (double)." << endl;
-	cout << "" << endl;
-	cout << "1. Intersect Line Segments:" << endl;
-	cout << "   ****  helputil <e/f> i <input_file> <output_file>" << endl;
-	cout << "       		" << endl;
-	cout << "2. Convert rationals file to doubles file (and vice versa)" << endl;
-	cout << "   ****  helputil <e/f> c <input_file> <output_file>" << endl;
-	cout << "" << endl;
-	cout << "3. Create random (not intersected) file with <num> segments" << endl;
-	cout << "   ****  helputil <e/f> r <num> <output_file>" << endl;
+	std::cout << "Utilities program for CGAL Planar Map package" << std::endl;
+	std::cout << "---------------------------------------------" << std::endl;
+	std::cout << "The program handles input files for the Planar Map" << std::endl;
+	std::cout << "example program dctest." << std::endl;
+	std::cout << "The Input file should be at the following format:" << std::endl;
+	std::cout << "       <n = number of points>" << std::endl;
+	std::cout << "       <x1> <y1> " << std::endl;
+	std::cout << "       ..." << std::endl;
+	std::cout << "       <xn> <yn>" << std::endl;
+	std::cout << "       <k = number of curves>" << std::endl;
+	std::cout << "       <s1> <t1>" << std::endl;
+	std::cout << "       ..." << std::endl;
+	std::cout << "       <sk> <tk>" << std::endl;
+	std::cout << "       Where xi, yi are the coordinates of point i (for " << std::endl;
+	std::cout << "       rational version in rational format), and si, ti " << std::endl;
+	std::cout << "       are the indeces (in the the above list of points) " << std::endl;
+	std::cout << "       of the source and the target of curve i." << std::endl;
+	std::cout << "" << std::endl;
+	std::cout << "Usages:" << std::endl;
+	std::cout << "* The first parameter is always 'e' or 'f' indicates that " << std::endl;
+	std::cout << "  the input file is:" << std::endl;
+	std::cout << "  'e' --- exact calculations (leda_rationals)." << std::endl;
+	std::cout << "  'f' --- floating point (double)." << std::endl;
+	std::cout << "" << std::endl;
+	std::cout << "1. Intersect Line Segments:" << std::endl;
+	std::cout << "   ****  helputil <e/f> i <input_file> <output_file>" << std::endl;
+	std::cout << "       		" << std::endl;
+	std::cout << "2. Convert rationals file to doubles file (and vice versa)" << std::endl;
+	std::cout << "   ****  helputil <e/f> c <input_file> <output_file>" << std::endl;
+	std::cout << "" << std::endl;
+	std::cout << "3. Create random (not intersected) file with <num> segments" << std::endl;
+	std::cout << "   ****  helputil <e/f> r <num> <output_file>" << std::endl;
 
-	cin.get();
+	std::cin.get();
 	exit(1);
 }
 
@@ -69,7 +69,7 @@ void convert(const pminpR &i1, pminpD &i2)
 	for(i = 0; i < i1.get_num_pnts(); i++)
 	{
 		i1.get(i, pR);
-		pD = pntD(CGAL_to_double(pR.x()), CGAL_to_double(pR.y()));
+		pD = pntD(CGAL::to_double(pR.x()), CGAL::to_double(pR.y()));
 		i2.set(i, pD);
 	}
 
@@ -280,23 +280,23 @@ int main(int argc, char *argv[])
 
 		if (use_rational)
 		{
-			cout << "Create random file using rationals with " << atoi(argv[3]) 
-				 << "segments" << endl;
-			cout << "Attention: the segments are not intersected" << endl;
+			std::cout << "Create random file using rationals with " << atoi(argv[3]) 
+				 << "segments" << std::endl;
+			std::cout << "Attention: the segments are not intersected" << std::endl;
 			pminpR rnd;
 			random(atoi(argv[3]), rnd);
-			ofstream f(argv[4]);
+			std::ofstream f(argv[4]);
 			f << rnd;
 			f.close();
 		}
 		else
 		{
-			cout << "Create random file using doubles with " << atoi(argv[3]) 
-				 << " segments" << endl;
-			cout << "Attention: the segments are not intersected" << endl;
+			std::cout << "Create random file using doubles with " << atoi(argv[3]) 
+				 << " segments" << std::endl;
+			std::cout << "Attention: the segments are not intersected" << std::endl;
 			pminpD rnd;
 			random(atoi(argv[3]), rnd);
-			ofstream f(argv[4]);
+			std::ofstream f(argv[4]);
 			f << rnd;
 			f.close();
 		}
@@ -305,21 +305,21 @@ int main(int argc, char *argv[])
 	case 'i': // intersect argv[3] to argv[4]
 		if (argc < 5)
 			print_help();
-		cout << "Intersect the segments in " << argv[3] 
-			 << " and write the intersected segments in " << argv[4] << endl;
+		std::cout << "Intersect the segments in " << argv[3] 
+			 << " and write the intersected segments in " << argv[4] << std::endl;
 
 		if (use_rational)
 		{
 			pminpR inpR1;
 			pminpR inpR2;
 			
-			ifstream in(argv[3]);
+			std::ifstream in(argv[3]);
 			in >> inpR1;
 			in.close();
 			
 			intersect(inpR1, inpR2);
 
-			ofstream out(argv[4]);
+			std::ofstream out(argv[4]);
 			out << inpR2;
 			out.close();
 		}
@@ -328,13 +328,13 @@ int main(int argc, char *argv[])
 			pminpD inpD1;
 			pminpD inpD2;
 			
-			ifstream in(argv[3]);
+			std::ifstream in(argv[3]);
 			in >> inpD1;
 			in.close();
 			
 			intersect(inpD1, inpD2);
 
-			ofstream out(argv[4]);
+			std::ofstream out(argv[4]);
 			out << inpD2;
 			out.close();
 		}
@@ -344,21 +344,21 @@ int main(int argc, char *argv[])
 		if (argc < 5)
 			print_help();
 
-		cout << "Convert the numbers in " << argv[3] 
-			 << " and write the new file " << argv[4] << endl;
+		std::cout << "Convert the numbers in " << argv[3] 
+			 << " and write the new file " << argv[4] << std::endl;
 
 		if (use_rational)
 		{
 			pminpR inpR;
 			pminpD inpD;
 			
-			ifstream in(argv[3]);
+			std::ifstream in(argv[3]);
 			in >> inpR;
 			in.close();
 			
 			convert(inpR, inpD);
 
-			ofstream out(argv[4]);
+			std::ofstream out(argv[4]);
 			out << inpD;
 			out.close();
 		}
@@ -367,13 +367,13 @@ int main(int argc, char *argv[])
 			pminpR inpR;
 			pminpD inpD;
 			
-			ifstream in(argv[3]);
+			std::ifstream in(argv[3]);
 			in >> inpD;
 			in.close();
 			
 			convert(inpD, inpR);
 
-			ofstream out(argv[4]);
+			std::ofstream out(argv[4]);
 			out << inpR;
 			out.close();
 		}

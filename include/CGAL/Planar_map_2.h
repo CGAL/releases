@@ -1,6 +1,6 @@
 // ======================================================================
 //
-// Copyright (c) 1997 The CGAL Consortium
+// Copyright (c) 1999 The GALIA Consortium
 //
 // This software and related documentation is part of the
 // Computational Geometry Algorithms Library (CGAL).
@@ -16,28 +16,28 @@
 // - Development licenses grant access to the source code of the library 
 //   to develop programs. These programs may be sold to other parties as 
 //   executable code. To obtain a development license, please contact
-//   the CGAL Consortium (at cgal@cs.uu.nl).
+//   the GALIA Consortium (at cgal@cs.uu.nl).
 // - Commercialization licenses grant access to the source code and the
 //   right to sell development licenses. To obtain a commercialization 
-//   license, please contact the CGAL Consortium (at cgal@cs.uu.nl).
+//   license, please contact the GALIA Consortium (at cgal@cs.uu.nl).
 //
 // This software and documentation is provided "as-is" and without
 // warranty of any kind. In no event shall the CGAL Consortium be
 // liable for any damage of any kind.
 //
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// The GALIA Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany) Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+// (Germany), Max-Planck-Institute Saarbrucken (Germany),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-1.2
-// release_date  : 1999, January 18
+// release       : CGAL-2.0
+// release_date  : 1999, June 03
 //
 // file          : include/CGAL/Planar_map_2.h
-// package       : pm (2.052)
+// package       : pm (3.07)
 // source        : 
 // revision      : 
 // revision_date : 
@@ -49,7 +49,6 @@
 // coordinator   : Tel-Aviv University (Dan Halperin)
 //
 // Chapter       : 
-//
 // email         : cgal@cs.uu.nl
 //
 // ======================================================================
@@ -72,19 +71,21 @@
 #endif
 
 
+CGAL_BEGIN_NAMESPACE
+
 ////////////////////////////////////////////////////////////////////////////
 //      PLANAR_MAP_2   
 
 
 template <class _Dcel, class _Traits>
-class CGAL_Planar_map_2 : public CGAL_Topological_map<_Dcel> {
+class Planar_map_2 : public Topological_map<_Dcel> {
 
 
 public:
   typedef _Dcel Dcel;
   typedef _Traits Traits;
-  typedef CGAL_Planar_map_2<Dcel,Traits> Self;
-  typedef CGAL_Planar_map_traits_wrap<Traits> Traits_wrap;
+  typedef Planar_map_2<Dcel,Traits> Self;
+  typedef Planar_map_traits_wrap<Traits> Traits_wrap;
   typedef typename Traits::X_curve X_curve;
   typedef typename Traits::Point Point;
   
@@ -93,17 +94,17 @@ public:
 
 
   
-  CGAL_Planar_map_2 () :traits(),pl(new CGAL_Pm_default_point_location<Self>),use_delete_pl(true)
+  Planar_map_2 () :traits(),pl(new Pm_default_point_location<Self>),use_delete_pl(true)
   {
       pl->init(*this,traits);
   }    
 
-  CGAL_Planar_map_2 (CGAL_Pm_point_location_base<Self> *pl_ptr) : traits(),pl(pl_ptr),use_delete_pl(false) {
+  Planar_map_2 (Pm_point_location_base<Self> *pl_ptr) : traits(),pl(pl_ptr),use_delete_pl(false) {
     pl->init(*this,traits);
   }
 
   
-  virtual ~CGAL_Planar_map_2 () {
+  virtual ~Planar_map_2 () {
     if (use_delete_pl)
       delete pl;
   }
@@ -112,7 +113,7 @@ public:
   
   Halfedge_handle insert_in_face_interior(const typename Traits::X_curve& cv, Face_handle f) 
   {
-    Halfedge_handle h = CGAL_Topological_map<Dcel>::insert_in_face_interior(f);
+    Halfedge_handle h = Topological_map<Dcel>::insert_in_face_interior(f);
     h->set_curve(cv);  //should set the curve of the twin as well but for now
     h->twin()->set_curve(cv);
     h->source()->set_point(traits.curve_source(cv));
@@ -139,7 +140,7 @@ public:
       }
     }
     
-    Halfedge_handle h = CGAL_Topological_map<Dcel>::insert_from_vertex(previous);  
+    Halfedge_handle h = Topological_map<Dcel>::insert_from_vertex(previous);  
     h->set_curve(cv);  
     h->twin()->set_curve(cv);
     //h is now pointing from v1
@@ -188,9 +189,9 @@ public:
     bool prev1_before_prev2 = prev1_inside_hole(previous1,previous2,cv);
     Halfedge_handle h;
     if (prev1_before_prev2)
-      h = CGAL_Topological_map<Dcel>::insert_at_vertices(previous1,previous2); 
+      h = Topological_map<Dcel>::insert_at_vertices(previous1,previous2); 
     else
-      h = CGAL_Topological_map<Dcel>::insert_at_vertices(previous2,previous1);
+      h = Topological_map<Dcel>::insert_at_vertices(previous2,previous1);
     
     h->set_curve(cv); 
     h->twin()->set_curve(cv);
@@ -270,7 +271,7 @@ private:
             b=true;
           else
             if (traits.curve_compare_at_x_right(curr->curve(),left_edge->curve(),
-                                                left)==CGAL_SMALLER ) 
+                                                left)==SMALLER ) 
               b=true;
         }
       
@@ -289,7 +290,7 @@ private:
           b=true;
         else
           if (traits.curve_compare_at_x_right(curr->curve(),left_edge->curve(),
-                                              left)==CGAL_SMALLER ) 
+                                              left)==SMALLER ) 
             b=true;
         
         //we want in the degenerate case to return the halfedge 
@@ -318,7 +319,7 @@ private:
       }
       else
         if (traits.curve_compare_at_x_right(cv,left_edge->curve(),
-                                            left)==CGAL_SMALLER ) {  
+                                            left)==SMALLER ) {  
           return (traits.point_is_left(previous1->target()->point(),
                                        previous2->target()->point()));
         }
@@ -382,7 +383,7 @@ public:
     
     typename Traits::X_curve cv(e->curve());
 		
-    Halfedge_handle h = CGAL_Topological_map<Dcel>::split_edge(e);
+    Halfedge_handle h = Topological_map<Dcel>::split_edge(e);
 		
     if (traits.point_is_same(traits.curve_source(c1),h->source()->point())) {
       h->set_curve(c1);
@@ -425,7 +426,7 @@ public:
 		
     typename Traits::X_curve c1(e1->curve()), c2(e2->curve());
     
-    Halfedge_handle h = CGAL_Topological_map<Dcel>::merge_edge(e1,e2); 
+    Halfedge_handle h = Topological_map<Dcel>::merge_edge(e1,e2); 
     h->set_curve(cv);
     h->twin()->set_curve(cv);
     
@@ -456,7 +457,7 @@ public:
       //find the leftmost point in the path from e to its twin
       Ccb_halfedge_circulator aux=ccb_e;
       do {
-        if (traits.compare_x(aux->target()->point(),e_left)==CGAL_SMALLER) {
+        if (traits.compare_x(aux->target()->point(),e_left)==SMALLER) {
           e_left=aux->target()->point();
         }
       } while (++aux!=ccb_t);
@@ -464,21 +465,21 @@ public:
       //find the leftmost point in the path from the twin to e
       aux=ccb_t;
       do {
-        if (traits.compare_x(aux->target()->point(),t_left)==CGAL_SMALLER) {
+        if (traits.compare_x(aux->target()->point(),t_left)==SMALLER) {
           t_left=aux->target()->point();
         }        
       } while (++aux!=ccb_e);
 			
       //compare the two left points
-      if (traits.compare_x(t_left,e_left) == CGAL_SMALLER) //e points at hole 
-        return CGAL_Topological_map<Dcel>::remove_edge(e);
+      if (traits.compare_x(t_left,e_left) == SMALLER) //e points at hole 
+        return Topological_map<Dcel>::remove_edge(e);
       else
-        return CGAL_Topological_map<Dcel>::remove_edge(e->twin());
+        return Topological_map<Dcel>::remove_edge(e->twin());
 			
     }
     else {
       
-      return CGAL_Topological_map<Dcel>::remove_edge(e);
+      return Topological_map<Dcel>::remove_edge(e);
     }
 		
   }
@@ -582,7 +583,7 @@ protected:  //private implementation
 public:
   void debug()
   {
-    if (pl) ((CGAL_Pm_default_point_location<Self>*)pl)->debug();
+    if (pl) ((Pm_default_point_location<Self>*)pl)->debug();
   }
   
 #else
@@ -592,12 +593,16 @@ protected:
 #endif
   
   Traits_wrap  traits;
-  CGAL_Pm_point_location_base<Self> *pl;
+  Pm_point_location_base<Self> *pl;
 private:
   bool use_delete_pl;
 
 
 };
+
+
+CGAL_END_NAMESPACE
+
 
 #endif
 

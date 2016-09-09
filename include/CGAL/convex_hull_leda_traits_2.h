@@ -1,6 +1,6 @@
 // ======================================================================
 //
-// Copyright (c) 1998 The CGAL Consortium
+// Copyright (c) 1999 The GALIA Consortium
 //
 // This software and related documentation is part of the
 // Computational Geometry Algorithms Library (CGAL).
@@ -16,34 +16,33 @@
 // - Development licenses grant access to the source code of the library 
 //   to develop programs. These programs may be sold to other parties as 
 //   executable code. To obtain a development license, please contact
-//   the CGAL Consortium (at cgal@cs.uu.nl).
+//   the GALIA Consortium (at cgal@cs.uu.nl).
 // - Commercialization licenses grant access to the source code and the
 //   right to sell development licenses. To obtain a commercialization 
-//   license, please contact the CGAL Consortium (at cgal@cs.uu.nl).
+//   license, please contact the GALIA Consortium (at cgal@cs.uu.nl).
 //
 // This software and documentation is provided "as-is" and without
 // warranty of any kind. In no event shall the CGAL Consortium be
 // liable for any damage of any kind.
 //
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// The GALIA Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany) Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+// (Germany), Max-Planck-Institute Saarbrucken (Germany),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
-// release       : CGAL-1.2
-// release_date  : 1999, January 18
+// release       : CGAL-2.0
+// release_date  : 1999, June 03
 //
 // file          : include/CGAL/convex_hull_leda_traits_2.h
-// package       : Convex_hull (1.3.2)
+// package       : Convex_hull (2.0.8)
 // source        : convex_hull_2.lw
-// revision      : 1.3.2
-// revision_date : 09 Dec 1998
+// revision      : 2.0.8
+// revision_date : 06 May 1999
 // author(s)     : Stefan Schirra
 //
 // coordinator   : MPI, Saarbruecken
-//
 // email         : cgal@cs.uu.nl
 //
 // ======================================================================
@@ -56,18 +55,19 @@
 #include <CGAL/leda_in_CGAL_2.h>
 #include <CGAL/predicate_objects_on_points_2.h>
 
-class CGAL_convex_hull_leda_traits_2
+CGAL_BEGIN_NAMESPACE
+class convex_hull_leda_traits_2
 {
 public:
-  typedef   leda_point                                     Point_2;    
-  typedef   CGAL_p_Less_xy<Point_2>                        Less_xy;
-  typedef   CGAL_p_Less_yx<Point_2>                        Less_yx;
-  typedef   CGAL_p_Right_of_line_2p<Point_2>               Right_of_line;
-  typedef   CGAL_p_Less_negative_dist_to_line_2p<Point_2>  Less_dist_to_line;
-  typedef   CGAL_p_Less_rotate_ccw<Point_2>                Less_rotate_ccw;
-  typedef   CGAL_p_Leftturn<Point_2>                       Leftturn;
-  typedef   CGAL_p_Rightturn<Point_2>                      Rightturn;
-  typedef   leda_segment                                   Segment_2; 
+  typedef   leda_point                                      Point_2;    
+  typedef   CGAL::p_Less_xy<Point_2>                        Less_xy;
+  typedef   CGAL::p_Less_yx<Point_2>                        Less_yx;
+  typedef   CGAL::p_Right_of_line_2p<Point_2>               Right_of_line;
+  typedef   CGAL::p_Less_negative_dist_to_line_2p<Point_2>  Less_dist_to_line;
+  typedef   CGAL::p_Less_rotate_ccw<Point_2>                Less_rotate_ccw;
+  typedef   CGAL::p_Leftturn<Point_2>                       Leftturn;
+  typedef   CGAL::p_Rightturn<Point_2>                      Rightturn;
+  typedef   leda_segment                                    Segment_2; 
   
   Less_xy
   get_less_xy_object() const 
@@ -97,5 +97,6 @@ public:
   get_rightturn_object() const
   { return Rightturn(); }
 };
+CGAL_END_NAMESPACE
 
 #endif // CGAL_CONVEX_HULL_LEDA_TRAITS_2_H

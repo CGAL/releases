@@ -1,6 +1,6 @@
 // ======================================================================
 //
-// Copyright (c) 1997 The CGAL Consortium
+// Copyright (c) 1999 The GALIA Consortium
 //
 // This software and related documentation is part of the
 // Computational Geometry Algorithms Library (CGAL).
@@ -16,28 +16,28 @@
 // - Development licenses grant access to the source code of the library 
 //   to develop programs. These programs may be sold to other parties as 
 //   executable code. To obtain a development license, please contact
-//   the CGAL Consortium (at cgal@cs.uu.nl).
+//   the GALIA Consortium (at cgal@cs.uu.nl).
 // - Commercialization licenses grant access to the source code and the
 //   right to sell development licenses. To obtain a commercialization 
-//   license, please contact the CGAL Consortium (at cgal@cs.uu.nl).
+//   license, please contact the GALIA Consortium (at cgal@cs.uu.nl).
 //
 // This software and documentation is provided "as-is" and without
 // warranty of any kind. In no event shall the CGAL Consortium be
 // liable for any damage of any kind.
 //
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// The GALIA Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany) Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+// (Germany), Max-Planck-Institute Saarbrucken (Germany),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-1.2
-// release_date  : 1999, January 18
+// release       : CGAL-2.0
+// release_date  : 1999, June 03
 //
 // file          : include/CGAL/Pm_default_dcel.h
-// package       : pm (2.052)
+// package       : pm (3.07)
 // source        : 
 // revision      : 
 // revision_date : 
@@ -48,7 +48,6 @@
 // coordinator   : Tel-Aviv University (Dan Halperin)
 //
 // Chapter       : 
-//
 // email         : cgal@cs.uu.nl
 //
 // ======================================================================
@@ -63,7 +62,7 @@
 #include <CGAL/basic.h>
 #endif
 
-#include <list.h>
+#include <list>
 
 
 #ifndef CGAL_IN_PLACE_LIST_H
@@ -75,17 +74,18 @@
 #include <CGAL/Planar_map_misc.h>
 #endif
 
+CGAL_BEGIN_NAMESPACE
 
 template <class Pt>
-class CGAL_Pm_vertex_base {
+class Pm_vertex_base {
 protected:
   void* hdg;
   Pt    pt;
 public:
   typedef Pt           Point;
   
-  CGAL_Pm_vertex_base() {}
-  CGAL_Pm_vertex_base( const Pt& p) : pt(p) {}
+  Pm_vertex_base() {}
+  Pm_vertex_base( const Pt& p) : pt(p) {}
   
   void*       halfedge()               {return hdg;}
   const void* halfedge() const         {return hdg;}
@@ -101,13 +101,13 @@ public:
 
 
 template <class X_curve>
-class CGAL_Pm_halfedge_base {
+class Pm_halfedge_base {
 public:
   typedef X_curve Curve;
 
-  CGAL_Pm_halfedge_base() {}
+  Pm_halfedge_base() {}
 
-  CGAL_Pm_halfedge_base(const X_curve& c) : cv(c) {}
+  Pm_halfedge_base(const X_curve& c) : cv(c) {}
 
   void*       opposite()       { return opp;}
   const void* opposite() const { return opp;}
@@ -149,16 +149,16 @@ protected:
 };
 
 
-class CGAL_Pm_face_base {
+class Pm_face_base {
 public:
-  typedef list<void*> Holes_container; 
+  typedef std::list<void*> Holes_container; 
   
   typedef Holes_container::iterator Holes_iterator; 
 
   typedef Holes_container::const_iterator Holes_const_iterator;
 
 
-  CGAL_Pm_face_base() : holes() {};
+  Pm_face_base() : holes() {};
 
   void* halfedge() { return hdg;}
   const void* halfedge() const { return hdg;}
@@ -200,23 +200,23 @@ private:
 
 
 
-template <class V, class H, class F> class CGAL__Pm_Vertex;
-template <class V, class H, class F> class CGAL__Pm_Halfedge;
-template <class V, class H, class F> class CGAL__Pm_Face;
+template <class V, class H, class F> class _Pm_Vertex;
+template <class V, class H, class F> class _Pm_Halfedge;
+template <class V, class H, class F> class _Pm_Face;
 
 template <class V, class H, class F>
-class CGAL__Pm_Vertex
+class _Pm_Vertex
     : public  V,
-      public  CGAL_In_place_list_base< CGAL__Pm_Vertex<V,H,F> >
+      public  In_place_list_base< _Pm_Vertex<V,H,F> >
 {
 public:
   typedef V                              Base;
-  typedef CGAL__Pm_Vertex<V,H,F>    Vertex;
-  typedef CGAL__Pm_Halfedge<V,H,F>  Halfedge;
-  typedef CGAL__Pm_Face<V,H,F>     Face;
+  typedef _Pm_Vertex<V,H,F>    Vertex;
+  typedef _Pm_Halfedge<V,H,F>  Halfedge;
+  typedef _Pm_Face<V,H,F>     Face;
 
-  CGAL__Pm_Vertex() {}
-  //    CGAL__Pm_Vertex( const Point& p) : V(p) {}
+  _Pm_Vertex() {}
+  //    _Pm_Vertex( const Point& p) : V(p) {}
 
   Halfedge*       halfedge()       {return (Halfedge*)(V::halfedge());}
   const Halfedge* halfedge() const {return (const Halfedge*)(V::halfedge());}
@@ -229,25 +229,25 @@ public:
 protected:
 #endif
   //forbid copy constructor and assignment (only derived classes can use them)
-  CGAL__Pm_Vertex( const CGAL__Pm_Vertex&);
-  CGAL__Pm_Vertex& operator=(const CGAL__Pm_Vertex&);
+  _Pm_Vertex( const _Pm_Vertex&);
+  _Pm_Vertex& operator=(const _Pm_Vertex&);
   */
 
 };
 
 template <class V, class H, class F>
-class CGAL__Pm_Halfedge
+class _Pm_Halfedge
   : public  H,
-    public  CGAL_In_place_list_base< CGAL__Pm_Halfedge<V,H,F> >
+    public  In_place_list_base< _Pm_Halfedge<V,H,F> >
 {
 public:
   typedef H                              Base;
-  typedef CGAL__Pm_Vertex<V,H,F>    Vertex;
-  typedef CGAL__Pm_Halfedge<V,H,F>  Halfedge;
-  typedef CGAL__Pm_Face<V,H,F>     Face;
+  typedef _Pm_Vertex<V,H,F>    Vertex;
+  typedef _Pm_Halfedge<V,H,F>  Halfedge;
+  typedef _Pm_Face<V,H,F>     Face;
 
-  CGAL__Pm_Halfedge() : H() {}  
-  //CGAL__Pm_Halfedge( const Curve& c) : H(c) {}
+  _Pm_Halfedge() : H() {}  
+  //_Pm_Halfedge( const Curve& c) : H(c) {}
 
   Halfedge*       opposite()       {return (Halfedge*)(H::opposite());}
   
@@ -286,32 +286,32 @@ protected:
 #endif
   //forbid copy constructor and assignment (only derived classes can use them)
   
-  CGAL__Pm_Halfedge( const CGAL__Pm_Halfedge&);
-  CGAL__Pm_Halfedge& operator=(const CGAL__Pm_Halfedge&);
+  _Pm_Halfedge( const _Pm_Halfedge&);
+  _Pm_Halfedge& operator=(const _Pm_Halfedge&);
   */  
 
 };
 
 
 template <class V, class H, class F>
-class CGAL__Pm_Face
+class _Pm_Face
     : public  F,
-      public  CGAL_In_place_list_base< CGAL__Pm_Face<V,H,F> >
+      public  In_place_list_base< _Pm_Face<V,H,F> >
 {
 public:
   typedef F                              Base;
-  typedef CGAL__Pm_Vertex<V,H,F>    Vertex;
-  typedef CGAL__Pm_Halfedge<V,H,F>  Halfedge;
-  typedef CGAL__Pm_Face<V,H,F>     Face;
+  typedef _Pm_Vertex<V,H,F>    Vertex;
+  typedef _Pm_Halfedge<V,H,F>  Halfedge;
+  typedef _Pm_Face<V,H,F>     Face;
 
-  CGAL__Pm_Face() {}  
+  _Pm_Face() {}  
   
   Halfedge*       halfedge()       {return (Halfedge*)(F::halfedge());}
   const Halfedge* halfedge() const {return (const Halfedge*)(F::halfedge());}
   void            set_halfedge( Halfedge* h) { F::set_halfedge(h);}
 
 
-  typedef CGAL__Polyhedron_iterator< typename F::Holes_iterator, 
+  typedef _Polyhedron_iterator< typename F::Holes_iterator, 
     Halfedge*, 
 #if	_MSC_VER>=1100
     typename F::Holes_iterator::distance_type,
@@ -320,7 +320,7 @@ public:
 #endif
     typename F::Holes_iterator::iterator_category>       Holes_iterator;
 
-  typedef CGAL__Polyhedron_const_iterator<
+  typedef _Polyhedron_const_iterator<
   typename F::Holes_const_iterator, 
   typename F::Holes_iterator,
   const Halfedge*,
@@ -349,8 +349,8 @@ public:
 protected:
 #endif
   //forbid copy constructor and assignment (only derived classes can use them)
-  CGAL__Pm_Face( const CGAL__Pm_Face&);
-  CGAL__Pm_Face& operator=(const CGAL__Pm_Face&);
+  _Pm_Face( const _Pm_Face&);
+  _Pm_Face& operator=(const _Pm_Face&);
   */
 
 };
@@ -361,24 +361,24 @@ protected:
 //
 
 template < class V, class H, class F>
-class CGAL_Pm_dcel {
+class Pm_dcel {
 public:
-  typedef CGAL_Pm_dcel<V,H,F>   Self;
-  typedef CGAL__Pm_Vertex<V,H,F>         Vertex;
-  typedef CGAL__Pm_Halfedge<V,H,F>       Halfedge;
-  typedef CGAL__Pm_Face<V,H,F>          Face;
+  typedef Pm_dcel<V,H,F>   Self;
+  typedef _Pm_Vertex<V,H,F>         Vertex;
+  typedef _Pm_Halfedge<V,H,F>       Halfedge;
+  typedef _Pm_Face<V,H,F>          Face;
   
 protected:
   // Three managed in-place lists for the elements. 
-  typedef CGAL_In_place_list<Vertex,true>      Vertex_list;
-  typedef CGAL_In_place_list<Halfedge,true>    Halfedge_list;
-  typedef CGAL_In_place_list<Face,true>       Face_list;
+  typedef In_place_list<Vertex,true>      Vertex_list;
+  typedef In_place_list<Halfedge,true>    Halfedge_list;
+  typedef In_place_list<Face,true>       Face_list;
 public:
   typedef typename Halfedge_list::size_type   Size;
   typedef typename Halfedge_list::size_type   size_type;
   typedef typename Halfedge_list::difference_type difference_type;
   typedef typename Halfedge_list::difference_type Difference;
-  typedef bidirectional_iterator_tag          iterator_category;
+  typedef std::bidirectional_iterator_tag          iterator_category;
 
 protected:
     Vertex_list    vertices;
@@ -387,7 +387,7 @@ protected:
 
 public:
 
-  typedef bidirectional_iterator_tag          iterator_category;
+  typedef std::bidirectional_iterator_tag          iterator_category;
 
   typedef typename Vertex_list::iterator      Vertex_iterator;
   typedef typename Halfedge_list::iterator    Halfedge_iterator;
@@ -399,7 +399,7 @@ public:
   
   // CREATION
 
-  CGAL_Pm_dcel() {}
+  Pm_dcel() {}
 
 #if _MSC_VER>=1100
 public:
@@ -407,7 +407,7 @@ public:
 private:
 #endif
   // Forbid copy constructor and assignment (will be implemented later).
-  CGAL_Pm_dcel( const Self&) {}
+  Pm_dcel( const Self&) {}
   Self& operator=( const Self&)            { return *this;}
   
 public:
@@ -540,21 +540,21 @@ public:
 ///////////////////////////////////////////////////////////////
 
 template <class Traits>
-class CGAL_Pm_default_dcel
-  : public CGAL_Pm_dcel<
-CGAL_Pm_vertex_base<typename Traits::Point>,
-CGAL_Pm_halfedge_base<typename Traits::X_curve>,
-CGAL_Pm_face_base
+class Pm_default_dcel
+  : public Pm_dcel<
+Pm_vertex_base<typename Traits::Point>,
+Pm_halfedge_base<typename Traits::X_curve>,
+Pm_face_base
 > 
 {
 public:  // CREATION
   
-  CGAL_Pm_default_dcel() {}
+  Pm_default_dcel() {}
   
 };
 
 
-
+CGAL_END_NAMESPACE
 
 #endif 
 // EOF //

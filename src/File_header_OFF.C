@@ -1,6 +1,6 @@
 // ======================================================================
 //
-// Copyright (c) 1997 The CGAL Consortium
+// Copyright (c) 1999 The GALIA Consortium
 //
 // This software and related documentation is part of the
 // Computational Geometry Algorithms Library (CGAL).
@@ -16,38 +16,37 @@
 // - Development licenses grant access to the source code of the library 
 //   to develop programs. These programs may be sold to other parties as 
 //   executable code. To obtain a development license, please contact
-//   the CGAL Consortium (at cgal@cs.uu.nl).
+//   the GALIA Consortium (at cgal@cs.uu.nl).
 // - Commercialization licenses grant access to the source code and the
 //   right to sell development licenses. To obtain a commercialization 
-//   license, please contact the CGAL Consortium (at cgal@cs.uu.nl).
+//   license, please contact the GALIA Consortium (at cgal@cs.uu.nl).
 //
 // This software and documentation is provided "as-is" and without
 // warranty of any kind. In no event shall the CGAL Consortium be
 // liable for any damage of any kind.
 //
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// The GALIA Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany) Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+// (Germany), Max-Planck-Institute Saarbrucken (Germany),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-1.2
-// release_date  : 1999, January 18
+// release       : CGAL-2.0
+// release_date  : 1999, June 03
 //
 // file          : src/File_header_OFF.C
-// package       : Polyhedron_IO (1.11)
+// package       : Polyhedron_IO (2.5)
 // chapter       : $CGAL_Chapter: Support Library ... $
 // source        : polyhedron_io.fw
-// revision      : $Revision: 1.8 $
-// revision_date : $Date: 1998/10/08 22:46:22 $
+// revision      : $Revision: 1.4 $
+// revision_date : $Date: 1999/03/24 11:16:26 $
 // author(s)     : Lutz Kettner
 //
 // coordinator   : Herve Bronnimann
 //
 // File header information of an object file format (OFF) file
-//
 // email         : cgal@cs.uu.nl
 //
 // ======================================================================
@@ -58,35 +57,37 @@
 #ifndef CGAL_KNOWN_BIT_SIZE_INTEGERS_H
 #include <CGAL/known_bit_size_integers.h>
 #endif
-#ifndef CGAL_PROTECT_STDLIB_H
-#include <stdlib.h>
-#define CGAL_PROTECT_STDLIB_H
-#endif // CGAL_PROTECT_STDLIB_H
-#ifndef CGAL_PROTECT_CTYPE_H
-#include <ctype.h>
-#define CGAL_PROTECT_CTYPE_H
-#endif // CGAL_PROTECT_CTYPE_H
-#ifndef CGAL_PROTECT_STRING_H
-#include <string.h>
-#define CGAL_PROTECT_STRING_H
-#endif // CGAL_PROTECT_STRING_H
-#ifndef CGAL_PROTECT_IOSTREAM_H
-#include <iostream.h>
-#define CGAL_PROTECT_IOSTREAM_H
-#endif // CGAL_PROTECT_IOSTREAM_H
+#ifndef CGAL_PROTECT_CSTDLIB
+#include <cstdlib>
+#define CGAL_PROTECT_CSTDLIB
+#endif
+#ifndef CGAL_PROTECT_CCTYPE
+#include <cctype>
+#define CGAL_PROTECT_CCTYPE
+#endif
+#ifndef CGAL_PROTECT_CSTRING
+#include <cstring>
+#define CGAL_PROTECT_CSTRING
+#endif
+#ifndef CGAL_PROTECT_IOSTREAM
+#include <iostream>
+#define CGAL_PROTECT_IOSTREAM
+#endif
 #ifndef CGAL_IO_BINARY_FILE_IO_H
 #include <CGAL/IO/binary_file_io.h>
 #endif // CGAL_IO_BINARY_FILE_IO_H
 #ifndef CGAL_IO_FILE_HEADER_OFF_H
 #include <CGAL/IO/File_header_OFF.h>
 #endif // CGAL_IO_FILE_HEADER_OFF_H
-#ifndef CGAL_PROTECT_ALGO_H
-#include <algo.h>
-#define CGAL_PROTECT_ALGO_H
-#endif // CGAL_PROTECT_ALGO_H
+#ifndef CGAL_PROTECT_ALGORITHM
+#include <algorithm>
+#define CGAL_PROTECT_ALGORITHM
+#endif
 
-CGAL_File_header_OFF::CGAL_File_header_OFF( bool verbose)
-:   CGAL_File_header_extended_OFF( verbose),
+CGAL_BEGIN_NAMESPACE
+
+File_header_OFF::File_header_OFF( bool verbose)
+:   File_header_extended_OFF( verbose),
     n_vertices(0),
     n_facets(0),
     m_skel(false),
@@ -99,9 +100,9 @@ CGAL_File_header_OFF::CGAL_File_header_OFF( bool verbose)
     m_tagDim(false),
     m_dim(3)
 {}
-CGAL_File_header_OFF::CGAL_File_header_OFF(
+File_header_OFF::File_header_OFF(
                      bool binary, bool noc, bool skel, bool verbose)
-:   CGAL_File_header_extended_OFF( verbose),
+:   File_header_extended_OFF( verbose),
     n_vertices(0),
     n_facets(0),
     m_skel(skel),
@@ -114,9 +115,9 @@ CGAL_File_header_OFF::CGAL_File_header_OFF(
     m_tagDim(false),
     m_dim(3)
 {}
-//CGAL_File_header_OFF::CGAL_File_header_OFF( int v, int h, int f,
+//File_header_OFF::File_header_OFF( int v, int h, int f,
 //                                          bool verbose)
-//:   CGAL_File_header_extended_OFF( verbose),
+//:   File_header_extended_OFF( verbose),
 //    n_vertices(v),
 //    n_facets(f),
 //    m_skel(false),
@@ -131,9 +132,9 @@ CGAL_File_header_OFF::CGAL_File_header_OFF(
 //{
 //    set_halfedges(h);
 //}
-CGAL_File_header_OFF::CGAL_File_header_OFF( int v, int h, int f,
+File_header_OFF::File_header_OFF( int v, int h, int f,
                      bool binary, bool noc, bool skel, bool verbose)
-:   CGAL_File_header_extended_OFF( verbose),
+:   File_header_extended_OFF( verbose),
     n_vertices(v),
     n_facets(f),
     m_skel(skel),
@@ -148,9 +149,9 @@ CGAL_File_header_OFF::CGAL_File_header_OFF( int v, int h, int f,
 {
     set_halfedges(h);
 }
-CGAL_File_header_OFF::CGAL_File_header_OFF(
-                     const CGAL_File_header_extended_OFF& ext_header)
-:   CGAL_File_header_extended_OFF( ext_header),
+File_header_OFF::File_header_OFF(
+                     const File_header_extended_OFF& ext_header)
+:   File_header_extended_OFF( ext_header),
     n_vertices(0),
     n_facets(0),
     m_skel(false),
@@ -163,10 +164,10 @@ CGAL_File_header_OFF::CGAL_File_header_OFF(
     m_tagDim(false),
     m_dim(3)
 {}
-CGAL_File_header_OFF::CGAL_File_header_OFF(
-                     const CGAL_File_header_extended_OFF& ext_header,
+File_header_OFF::File_header_OFF(
+                     const File_header_extended_OFF& ext_header,
                      bool binary, bool noc, bool skel)
-:   CGAL_File_header_extended_OFF( ext_header),
+:   File_header_extended_OFF( ext_header),
     n_vertices(0),
     n_facets(0),
     m_skel(skel),
@@ -179,10 +180,10 @@ CGAL_File_header_OFF::CGAL_File_header_OFF(
     m_tagDim(false),
     m_dim(3)
 {}
-CGAL_File_header_OFF::CGAL_File_header_OFF(
+File_header_OFF::File_header_OFF(
                      int v, int h, int f,
-                     const CGAL_File_header_extended_OFF& ext_header)
-:   CGAL_File_header_extended_OFF( ext_header),
+                     const File_header_extended_OFF& ext_header)
+:   File_header_extended_OFF( ext_header),
     n_vertices(v),
     n_facets(f),
     m_skel(false),
@@ -197,11 +198,11 @@ CGAL_File_header_OFF::CGAL_File_header_OFF(
 {
     set_halfedges(h);
 }
-CGAL_File_header_OFF::CGAL_File_header_OFF(
+File_header_OFF::File_header_OFF(
                      int v, int h, int f,
-                     const CGAL_File_header_extended_OFF& ext_header,
+                     const File_header_extended_OFF& ext_header,
                      bool binary, bool noc, bool skel)
-:   CGAL_File_header_extended_OFF( ext_header),
+:   File_header_extended_OFF( ext_header),
     n_vertices(v),
     n_facets(f),
     m_skel(skel),
@@ -217,19 +218,19 @@ CGAL_File_header_OFF::CGAL_File_header_OFF(
     set_halfedges(h);
 }
 
-CGAL_File_header_OFF& CGAL_File_header_OFF::
-operator+=( const CGAL_File_header_OFF& header) {
-    (CGAL_File_header_extended_OFF&)(*this) = header;
+File_header_OFF& File_header_OFF::
+operator+=( const File_header_OFF& header) {
+    (File_header_extended_OFF&)(*this) = header;
     n_vertices += header.n_vertices;
     n_facets   += header.n_facets;
     return *this;
 }
 
 // Write header.
-ostream& operator<<( ostream& out, const CGAL_File_header_OFF& h) {
+std::ostream& operator<<( std::ostream& out, const File_header_OFF& h) {
     if ( h.comments()) {
         out << "# Output of a CGAL tool\n";
-        out << CGAL_static_cast(const CGAL_File_header_extended_OFF&, h);
+        out << CGAL_static_cast(const File_header_extended_OFF&, h);
     }
     if ( h.has_normals())
         out << 'N';
@@ -239,10 +240,10 @@ ostream& operator<<( ostream& out, const CGAL_File_header_OFF& h) {
         out << "OFF";
     if ( h.binary()) {
         out << " BINARY\n";
-        CGAL__Binary_write_integer32( out, h.size_of_vertices());
-        CGAL__Binary_write_integer32( out, h.size_of_facets());
+        _Binary_write_integer32( out, h.size_of_vertices());
+        _Binary_write_integer32( out, h.size_of_facets());
         if ( h.off())
-            CGAL__Binary_write_integer32( out, 0);
+            _Binary_write_integer32( out, 0);
     } else {
         out << '\n';
         out << h.size_of_vertices() << ' '<< h.size_of_facets();
@@ -252,13 +253,13 @@ ostream& operator<<( ostream& out, const CGAL_File_header_OFF& h) {
             out << "\n\n# " << h.size_of_vertices() << " vertices\n";
             out << "# ------------------------------------------\n";
         }
-        out << endl;
+        out << std::endl;
     }
     return out;
 }
 
 // Scan header. Marks streams badbit if not in SKEL format nor in OFF.
-istream& operator>>( istream& in, CGAL_File_header_OFF& h) {
+std::istream& operator>>( std::istream& in, File_header_OFF& h) {
     // read in the first character and scan for comments, `OFF', or `NOFF',
     // or `SKEL', or `4SKEL'.
     h.set_off_header( false);
@@ -267,9 +268,9 @@ istream& operator>>( istream& in, CGAL_File_header_OFF& h) {
         if ( in.get(c) && c == 'C' &&
              in.get(c) && c == 'B' &&
              in.get(c) && c == 'P') {
-            in >> CGAL_static_cast(CGAL_File_header_extended_OFF&, h);
+            in >> CGAL_static_cast(File_header_extended_OFF&, h);
         } else if ( c != '\n')
-            in >> CGAL_skip_until_EOL;
+            in >> skip_until_EOL;
     }
     if ( ! in)
         return in;
@@ -286,12 +287,12 @@ istream& operator>>( istream& in, CGAL_File_header_OFF& h) {
     char keyword[max_keyword] = "";
     int i = 0;
     keyword[i++] = c;
-    while( i < max_keyword - 1 && in.get(c) && isalnum(c))
+    while( i < max_keyword - 1 && in.get(c) && std::isalnum(c))
         keyword[i++] = c;
     keyword[i] = '\0';
-    if ( i < 2 || ( isdigit(keyword[0]) && keyword[0] != '4')
-               || isdigit(keyword[1])) {
-        h.set_vertices( atoi( keyword));
+    if ( i < 2 || ( std::isdigit(keyword[0]) && keyword[0] != '4')
+               || std::isdigit(keyword[1])) {
+        h.set_vertices( std::atoi( keyword));
     } else {
         h.set_index_offset( 0);
         int j = 0;
@@ -318,20 +319,20 @@ istream& operator>>( istream& in, CGAL_File_header_OFF& h) {
                           || keyword[j+1] != 'K'
                           || keyword[j+2] != 'E'
                           || keyword[j+3] != 'L') {
-                in.clear( ios::badbit);
+                in.clear( std::ios::badbit);
                 if ( h.verbose()) {
-                    cerr << " " << endl;
-                    cerr << "error: CGAL_File_header_OFF: "
-                            "wrong format: neither OFF nor SKEL."
-                         << endl;
+                    std::cerr << " " << std::endl;
+                    std::cerr << "error: File_header_OFF: "
+                                  "wrong format: neither OFF nor SKEL."
+                              << std::endl;
                 }
                 return in;
             } else {
                 h.set_skel( true);
             }
         }
-        in >> CGAL_skip_comment_OFF >> c;
-        if ( isdigit(c)) {
+        in >> skip_comment_OFF >> c;
+        if ( std::isdigit(c)) {
             in.putback(c);
             int n;
             in >> n;
@@ -339,20 +340,20 @@ istream& operator>>( istream& in, CGAL_File_header_OFF& h) {
         } else {
             i = 0;
             keyword[i++] = c;
-            while( i < max_keyword - 1 && in.get(c) && isalnum(c))
+            while( i < max_keyword - 1 && in.get(c) && std::isalnum(c))
                 keyword[i++] = c;
             keyword[i] = '\0';
             if ( strcmp( keyword, "BINARY") == 0) {
                 h.set_binary( true);
                 if ( c != '\n')
-                    in >> CGAL_skip_until_EOL;
+                    in >> skip_until_EOL;
             } else {
-                in.clear( ios::badbit);
+                in.clear( std::ios::badbit);
                 if ( h.verbose()) {
-                    cerr << " " << endl;
-                    cerr << "error: CGAL_File_header_OFF(): "
-                            "wrong format: neither OFF nor SKEL."
-                         << endl;
+                    std::cerr << " " << std::endl;
+                    std::cerr << "error: File_header_OFF(): "
+                                 "wrong format: neither OFF nor SKEL."
+                              << std::endl;
                 }
                 return in;
             }
@@ -361,15 +362,15 @@ istream& operator>>( istream& in, CGAL_File_header_OFF& h) {
     // Read remaining size value(s).
     int n_h;
     if ( h.binary()) {
-        CGAL_Integer32 a, b, c;
-        CGAL__Binary_read_integer32( in, a);
+        Integer32 a, b, c;
+        _Binary_read_integer32( in, a);
         if ( h.n_dimensional()) {
             h.set_dimension( a);
-            CGAL__Binary_read_integer32( in, a);
+            _Binary_read_integer32( in, a);
         }
-        CGAL__Binary_read_integer32( in, b);
+        _Binary_read_integer32( in, b);
         if ( h.off())
-            CGAL__Binary_read_integer32( in, c);
+            _Binary_read_integer32( in, c);
         else
             c = 0;
         h.set_vertices( a);
@@ -392,11 +393,12 @@ istream& operator>>( istream& in, CGAL_File_header_OFF& h) {
     if ( n_h == 0)
         h.set_index_offset( 0);
     if ( ! in || h.size_of_vertices() <= 0 || h.size_of_facets() < 0) {
-        in.clear( ios::badbit);
+        in.clear( std::ios::badbit);
         if ( h.verbose()) {
-            cerr << " " << endl;
-            cerr << "error: CGAL_File_header_OFF(): "
-                    "File contains <= 0 vertices or < 0 facets." << endl;
+            std::cerr << " " << std::endl;
+            std::cerr << "error: File_header_OFF(): "
+                         "File contains <= 0 vertices or < 0 facets."
+                      << std::endl;
         }
         return in;
     }
@@ -419,4 +421,6 @@ istream& operator>>( istream& in, CGAL_File_header_OFF& h) {
     h.set_off_header( h.off());
     return in;
 }
+
+CGAL_END_NAMESPACE
 // EOF //

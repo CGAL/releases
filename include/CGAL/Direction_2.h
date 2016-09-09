@@ -1,6 +1,6 @@
 // ======================================================================
 //
-// Copyright (c) 1998 The CGAL Consortium
+// Copyright (c) 1999 The GALIA Consortium
 //
 // This software and related documentation is part of the
 // Computational Geometry Algorithms Library (CGAL).
@@ -16,35 +16,34 @@
 // - Development licenses grant access to the source code of the library 
 //   to develop programs. These programs may be sold to other parties as 
 //   executable code. To obtain a development license, please contact
-//   the CGAL Consortium (at cgal@cs.uu.nl).
+//   the GALIA Consortium (at cgal@cs.uu.nl).
 // - Commercialization licenses grant access to the source code and the
 //   right to sell development licenses. To obtain a commercialization 
-//   license, please contact the CGAL Consortium (at cgal@cs.uu.nl).
+//   license, please contact the GALIA Consortium (at cgal@cs.uu.nl).
 //
 // This software and documentation is provided "as-is" and without
 // warranty of any kind. In no event shall the CGAL Consortium be
 // liable for any damage of any kind.
 //
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// The GALIA Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany) Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+// (Germany), Max-Planck-Institute Saarbrucken (Germany),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 // 
-// release       : CGAL-1.2
-// release_date  : 1999, January 18
+// release       : CGAL-2.0
+// release_date  : 1999, June 03
 // 
 // source        : Direction_2.fw
 // file          : include/CGAL/Direction_2.h
-// package       : _2 (1.3)
-// revision      : 1.3
-// revision_date : 15 Dec 1998 
+// package       : _2 (2.1.2)
+// revision      : 2.1.2
+// revision_date : 09 May 1999 
 // author(s)     : Stefan Schirra
 //
 // coordinator   : MPI, Saarbruecken
-//
 // email         : cgal@cs.uu.nl
 //
 // ======================================================================
@@ -73,79 +72,81 @@
 #include <CGAL/Vector_2.h>
 #endif // CGAL_VECTOR_2_H
 
+CGAL_BEGIN_NAMESPACE
+
 template <class _R>
-class CGAL_Direction_2 : public _R::Direction_2
+class Direction_2 : public _R::Direction_2
 {
 public:
   typedef  _R   R;
   typedef typename R::RT                    RT;
   typedef typename R::FT                    FT;
-  typedef typename R::Vector_2              Vector_2;
-  typedef typename R::Direction_2           Direction_2;
+  typedef typename R::Vector_2              RVector_2;
+  typedef typename R::Direction_2           RDirection_2;
   // typedef typename R::Aff_transformation_2  Aff_transformation_2;
 
-  CGAL_Direction_2()
+  Direction_2()
   {}
 
-  CGAL_Direction_2(const CGAL_Direction_2<R> &d)
-    : Direction_2((const Direction_2&)d)
-  {}
-
-
-  CGAL_Direction_2(const Direction_2 &d)
-    : Direction_2(d)
+  Direction_2(const Direction_2<R> &d)
+    : RDirection_2((const RDirection_2&)d)
   {}
 
 
-  CGAL_Direction_2(const Vector_2 &v)
-    : Direction_2(v)
+  Direction_2(const RDirection_2& d)
+    : RDirection_2(d)
   {}
 
-  CGAL_Direction_2(const RT &x, const RT &y)
-    :  Direction_2(x,y)
+
+  Direction_2(const RVector_2& v)
+    : RDirection_2(v)
   {}
 
-  CGAL_Direction_2<R> &operator=(const CGAL_Direction_2<R> &d)
+  Direction_2(const RT &x, const RT &y)
+    :  RDirection_2(x,y)
+  {}
+
+  Direction_2<R> &operator=(const Direction_2<R> &d)
   {
-    Direction_2::operator=(d);
+    RDirection_2::operator=(d);
     return *this;
   }
 
 
-  bool operator==(const CGAL_Direction_2<R> &d) const
+  bool operator==(const Direction_2<R> &d) const
   {
-    return Direction_2::operator==(d);
+    return RDirection_2::operator==(d);
   }
 
-  bool operator!=(const CGAL_Direction_2<R> &d) const
+  bool operator!=(const Direction_2<R> &d) const
   {
     return !(*this == d);
   }
 
-  bool operator>=(const CGAL_Direction_2<R> &d) const
+  bool operator>=(const Direction_2<R> &d) const
   {
-    return Direction_2::operator>=(d);
+    return RDirection_2::operator>=(d);
   }
 
-  bool operator<=(const CGAL_Direction_2<R> &d) const
+  bool operator<=(const Direction_2<R> &d) const
   {
-    return Direction_2::operator<=(d);
+    return RDirection_2::operator<=(d);
   }
 
-  bool operator>(const CGAL_Direction_2<R> &d) const
+  bool operator>(const Direction_2<R> &d) const
   {
-    return Direction_2::operator>(d);
+    return RDirection_2::operator>(d);
   }
 
-  bool operator<(const CGAL_Direction_2<R> &d) const
+  bool operator<(const Direction_2<R> &d) const
   {
-    return Direction_2::operator<(d);
+    return RDirection_2::operator<(d);
   }
 
-  bool counterclockwise_in_between(const CGAL_Direction_2<R> &d1,
-                                   const CGAL_Direction_2<R> &d2) const
+  bool counterclockwise_in_between(const Direction_2<R> &d1,
+                                   const Direction_2<R> &d2) const
   {
-    return Direction_2::counterclockwise_in_between(d1,d2);
+    return RDirection_2::counterclockwise_in_between(d1,d2);
   }
 
   int id() const
@@ -153,60 +154,62 @@ public:
     return (int)PTR;
   }
 
-  CGAL_Vector_2<R> vector() const
+  Vector_2<R> vector() const
   {
-    return (CGAL_Vector_2<R>)Direction_2::vector();
+    return (Vector_2<R>)RDirection_2::vector();
   }
 
-  CGAL_Direction_2<R> transform(const CGAL_Aff_transformation_2<R> &t) const
+  Direction_2<R> transform(const Aff_transformation_2<R> &t) const
   {
-    return Direction_2::transform(t);
+    return RDirection_2::transform(t);
   }
 
-  CGAL_Direction_2<R> operator-() const
+  Direction_2<R> operator-() const
   {
-    return Direction_2::operator-();
+    return RDirection_2::operator-();
   }
 
 
   RT delta(int i) const
   {
-    return Direction_2::delta(i);
+    return RDirection_2::delta(i);
   }
 
   RT dx() const
   {
-    return Direction_2::dx();
+    return RDirection_2::dx();
   }
 
   RT dy() const
   {
-    return Direction_2::dy();
+    return RDirection_2::dy();
   }
 };
 
 
-#ifndef CGAL_NO_OSTREAM_INSERT_DIRECTION_2
+#ifndef NO_OSTREAM_INSERT_DIRECTION_2
 template < class R >
-ostream &
-operator<<(ostream &os, const CGAL_Direction_2<R> &d)
+std::ostream &
+operator<<(std::ostream &os, const Direction_2<R> &d)
 {
-  typedef typename  R::Direction_2    Direction_2;
-  return os << (const Direction_2&)d;
+  typedef typename  R::Direction_2    RDirection_2;
+  return os << (const RDirection_2&)d;
 }
 
-#endif // CGAL_NO_OSTREAM_INSERT_DIRECTION_2
+#endif // NO_OSTREAM_INSERT_DIRECTION_2
 
-#ifndef CGAL_NO_ISTREAM_EXTRACT_DIRECTION_2
+#ifndef NO_ISTREAM_EXTRACT_DIRECTION_2
 template < class R >
-istream &
-operator>>(istream &is, CGAL_Direction_2<R> &p)
+std::istream &
+operator>>(std::istream &is, Direction_2<R> &p)
 {
-  typedef typename  R::Direction_2    Direction_2;
-  return is >> (Direction_2&)p;
+  typedef typename  R::Direction_2    RDirection_2;
+  return is >> (RDirection_2&)p;
 }
-#endif // CGAL_NO_ISTREAM_EXTRACT_DIRECTION_2
+#endif // NO_ISTREAM_EXTRACT_DIRECTION_2
 
+
+CGAL_END_NAMESPACE
 
 
 #endif // CGAL_DIRECTION_2_H

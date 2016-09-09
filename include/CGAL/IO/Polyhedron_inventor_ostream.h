@@ -1,6 +1,6 @@
 // ======================================================================
 //
-// Copyright (c) 1997 The CGAL Consortium
+// Copyright (c) 1999 The GALIA Consortium
 //
 // This software and related documentation is part of the
 // Computational Geometry Algorithms Library (CGAL).
@@ -16,38 +16,37 @@
 // - Development licenses grant access to the source code of the library 
 //   to develop programs. These programs may be sold to other parties as 
 //   executable code. To obtain a development license, please contact
-//   the CGAL Consortium (at cgal@cs.uu.nl).
+//   the GALIA Consortium (at cgal@cs.uu.nl).
 // - Commercialization licenses grant access to the source code and the
 //   right to sell development licenses. To obtain a commercialization 
-//   license, please contact the CGAL Consortium (at cgal@cs.uu.nl).
+//   license, please contact the GALIA Consortium (at cgal@cs.uu.nl).
 //
 // This software and documentation is provided "as-is" and without
 // warranty of any kind. In no event shall the CGAL Consortium be
 // liable for any damage of any kind.
 //
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// The GALIA Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany) Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+// (Germany), Max-Planck-Institute Saarbrucken (Germany),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-1.2
-// release_date  : 1999, January 18
+// release       : CGAL-2.0
+// release_date  : 1999, June 03
 //
 // file          : include/CGAL/IO/Polyhedron_inventor_ostream.h
-// package       : Polyhedron_IO (1.11)
+// package       : Polyhedron_IO (2.5)
 // chapter       : $CGAL_Chapter: Support Library ... $
 // source        : polyhedron_io.fw
-// revision      : $Revision: 1.8 $
-// revision_date : $Date: 1998/10/08 22:46:22 $
+// revision      : $Revision: 1.4 $
+// revision_date : $Date: 1999/03/24 11:16:26 $
 // author(s)     : Lutz Kettner
 //
 // coordinator   : Herve Bronnimann
 //
 // Print a Polyhedron_3 in Inventor file format (.iv)
-//
 // email         : cgal@cs.uu.nl
 //
 // ======================================================================
@@ -67,13 +66,17 @@
 #include <CGAL/Polyhedron_3.h>
 #endif
 
+CGAL_BEGIN_NAMESPACE
+
 template <class Traits, class HDS>
-CGAL_Inventor_ostream_base&
-operator<< ( CGAL_Inventor_ostream_base& out,
-             const CGAL_Polyhedron_3<Traits,HDS>& P) {
-    CGAL_File_writer_inventor  writer;
-    CGAL_generic_print_polyhedron( out.os(), P, writer);
+Inventor_ostream_base&
+operator<< ( Inventor_ostream_base& out,
+             const Polyhedron_3<Traits,HDS>& P) {
+    File_writer_inventor  writer;
+    generic_print_polyhedron( out.os(), P, writer);
     return out;
 }
+
+CGAL_END_NAMESPACE
 #endif // CGAL_IO_POLYHEDRON_INVENTOR_OSTREAM_H //
 // EOF //

@@ -1,6 +1,6 @@
 // ======================================================================
 //
-// Copyright (c) 1998 The CGAL Consortium
+// Copyright (c) 1999 The GALIA Consortium
 //
 // This software and related documentation is part of the
 // Computational Geometry Algorithms Library (CGAL).
@@ -16,34 +16,33 @@
 // - Development licenses grant access to the source code of the library 
 //   to develop programs. These programs may be sold to other parties as 
 //   executable code. To obtain a development license, please contact
-//   the CGAL Consortium (at cgal@cs.uu.nl).
+//   the GALIA Consortium (at cgal@cs.uu.nl).
 // - Commercialization licenses grant access to the source code and the
 //   right to sell development licenses. To obtain a commercialization 
-//   license, please contact the CGAL Consortium (at cgal@cs.uu.nl).
+//   license, please contact the GALIA Consortium (at cgal@cs.uu.nl).
 //
 // This software and documentation is provided "as-is" and without
 // warranty of any kind. In no event shall the CGAL Consortium be
 // liable for any damage of any kind.
 //
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// The GALIA Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany) Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+// (Germany), Max-Planck-Institute Saarbrucken (Germany),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-1.2
-// release_date  : 1999, January 18
+// release       : CGAL-2.0
+// release_date  : 1999, June 03
 //
 // file          : include/CGAL/Interval_arithmetic/IA_leda_real.h
-// package       : Interval_arithmetic (2.7)
-// revision      : $Revision: 2.9 $
-// revision_date : $Date: 1998/12/22 13:48:42 $
+// package       : Interval_arithmetic (4.15)
+// revision      : $Revision: 2.17 $
+// revision_date : $Date: 1999/05/04 16:30:15 $
 // author(s)     : Sylvain Pion
 //
 // coordinator   : INRIA Sophia-Antipolis (<Mariette.Yvinec>)
-//
 //
 // email         : cgal@cs.uu.nl
 //
@@ -52,28 +51,40 @@
 #ifndef CGAL_IA_LEDA_REAL_H
 #define CGAL_IA_LEDA_REAL_H
 
-template <>
+CGAL_BEGIN_NAMESPACE
+
 inline
-CGAL_Interval_nt_advanced
-CGAL_convert_to <CGAL_Interval_nt_advanced> (const leda_real &z)
+Interval_nt_advanced
+convert_from_to (const Interval_nt_advanced&, const leda_real & z)
 {
 #ifdef CGAL_IA_DEBUG
-    CGAL_assertion(CGAL_FPU_get_rounding_mode() == CGAL_FPU_PLUS_INFINITY);
+    CGAL_warning(FPU_get_cw() == FPU_cw_up);
 #endif
-    CGAL_FPU_set_rounding_to_nearest();
-    const double approx = CGAL_to_double(z);
-    const double rel_error = z.get_double_error();
-    CGAL_FPU_set_rounding_to_infinity();
-    const CGAL_Interval_nt_advanced result =
-	( CGAL_Interval_nt_advanced(-rel_error,rel_error) + 1 )
-	* CGAL_Interval_nt_advanced(approx);
+    FPU_set_cw(FPU_cw_near);
+    double approx = CGAL::to_double(z);
+    double rel_error = z.get_double_error();
+    FPU_set_cw(FPU_cw_up);
+    Interval_nt_advanced result = approx
+	* ( Interval_nt_advanced(-rel_error,rel_error) + 1 );
 #ifdef CGAL_IA_DEBUG
-    CGAL_FPU_set_rounding_to_nearest();
-    CGAL_assertion( leda_real(result.lower_bound()) <= z &&
-		    leda_real(result.upper_bound()) >= z );
-    CGAL_FPU_set_rounding_to_infinity();
+    FPU_set_cw(FPU_cw_near);
+    CGAL_warning(leda_real(result.inf()) <= z &&
+		 leda_real(result.sup()) >= z );
+    FPU_set_cw(FPU_cw_up);
 #endif
     return result;
 }
+
+#ifndef CGAL_CFG_NO_EXPLICIT_TEMPLATE_FUNCTION_ARGUMENT_SPECIFICATION
+struct converter<Interval_nt_advanced,leda_real>
+{
+    static inline Interval_nt_advanced do_it (const leda_real & z)
+    {
+	return convert_from_to(Interval_nt_advanced(), z);
+    }
+};
+#endif // CGAL_CFG_NO_EXPLICIT_TEMPLATE_FUNCTION_ARGUMENT_SPECIFICATION
+
+CGAL_END_NAMESPACE
 
 #endif	 // CGAL_IA_LEDA_REAL_H

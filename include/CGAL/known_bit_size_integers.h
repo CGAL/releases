@@ -1,6 +1,6 @@
 // ======================================================================
 //
-// Copyright (c) 1998 The CGAL Consortium
+// Copyright (c) 1999 The GALIA Consortium
 //
 // This software and related documentation is part of the
 // Computational Geometry Algorithms Library (CGAL).
@@ -16,35 +16,34 @@
 // - Development licenses grant access to the source code of the library 
 //   to develop programs. These programs may be sold to other parties as 
 //   executable code. To obtain a development license, please contact
-//   the CGAL Consortium (at cgal@cs.uu.nl).
+//   the GALIA Consortium (at cgal@cs.uu.nl).
 // - Commercialization licenses grant access to the source code and the
 //   right to sell development licenses. To obtain a commercialization 
-//   license, please contact the CGAL Consortium (at cgal@cs.uu.nl).
+//   license, please contact the GALIA Consortium (at cgal@cs.uu.nl).
 //
 // This software and documentation is provided "as-is" and without
 // warranty of any kind. In no event shall the CGAL Consortium be
 // liable for any damage of any kind.
 //
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// The GALIA Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany) Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+// (Germany), Max-Planck-Institute Saarbrucken (Germany),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 // 
-// release       : CGAL-1.2
-// release_date  : 1999, January 18
+// release       : CGAL-2.0
+// release_date  : 1999, June 03
 // 
 // source        : basic.fw
 // file          : include/CGAL/known_bit_size_integers.h
-// package       : Kernel_basic (1.2.12)
-// revision      : 1.2.12
-// revision_date : 08 Jan 1999 
+// package       : Kernel_basic (2.0.11)
+// revision      : 2.0.11
+// revision_date : 06 May 1999 
 // author(s)     : Lutz Kettner
 //
 // coordinator   : MPI, Saarbruecken  (<Stefan.Schirra>)
-//
 // email         : cgal@cs.uu.nl
 //
 // ======================================================================
@@ -52,20 +51,24 @@
 
 #ifndef CGAL_KNOWN_BIT_SIZE_INTEGERS_H
 #define CGAL_KNOWN_BIT_SIZE_INTEGERS_H
+CGAL_BEGIN_NAMESPACE
+
 
 #if (defined(__sparc__) || defined(__sparc) || defined(sparc)) || \
     (defined(__sgi__)   || defined(__sgi)   || defined(sgi)) || \
     (defined(__i386__)  || defined(__i386)  || defined(i386))
-    typedef  signed char             CGAL_Integer8;
-    typedef  short                   CGAL_Integer16;
-    typedef  int                     CGAL_Integer32;
-    typedef  long long int           CGAL_Integer64;
-    typedef  unsigned char           CGAL_UInteger8;
-    typedef  unsigned short          CGAL_UInteger16;
-    typedef  unsigned int            CGAL_UInteger32;
-    typedef  unsigned long long int  CGAL_UInteger64;
+    typedef  signed char             Integer8;
+    typedef  short                   Integer16;
+    typedef  int                     Integer32;
+    typedef  long long int           Integer64;
+    typedef  unsigned char           UInteger8;
+    typedef  unsigned short          UInteger16;
+    typedef  unsigned int            UInteger32;
+    typedef  unsigned long long int  UInteger64;
 #else
 #  error "patch this"
 #endif
+
+CGAL_END_NAMESPACE
 
 #endif // CGAL_KNOWN_BIT_SIZE_INTEGERS_H

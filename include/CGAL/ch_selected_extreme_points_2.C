@@ -1,6 +1,6 @@
 // ======================================================================
 //
-// Copyright (c) 1998 The CGAL Consortium
+// Copyright (c) 1999 The GALIA Consortium
 //
 // This software and related documentation is part of the
 // Computational Geometry Algorithms Library (CGAL).
@@ -16,34 +16,33 @@
 // - Development licenses grant access to the source code of the library 
 //   to develop programs. These programs may be sold to other parties as 
 //   executable code. To obtain a development license, please contact
-//   the CGAL Consortium (at cgal@cs.uu.nl).
+//   the GALIA Consortium (at cgal@cs.uu.nl).
 // - Commercialization licenses grant access to the source code and the
 //   right to sell development licenses. To obtain a commercialization 
-//   license, please contact the CGAL Consortium (at cgal@cs.uu.nl).
+//   license, please contact the GALIA Consortium (at cgal@cs.uu.nl).
 //
 // This software and documentation is provided "as-is" and without
 // warranty of any kind. In no event shall the CGAL Consortium be
 // liable for any damage of any kind.
 //
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// The GALIA Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany) Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+// (Germany), Max-Planck-Institute Saarbrucken (Germany),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
-// release       : CGAL-1.2
-// release_date  : 1999, January 18
+// release       : CGAL-2.0
+// release_date  : 1999, June 03
 //
 // file          : include/CGAL/ch_selected_extreme_points_2.C
-// package       : Convex_hull (1.3.2)
+// package       : Convex_hull (2.0.8)
 // source        : convex_hull_2.lw
-// revision      : 1.3.2
-// revision_date : 09 Dec 1998
+// revision      : 2.0.8
+// revision_date : 06 May 1999
 // author(s)     : Stefan Schirra
 //
 // coordinator   : MPI, Saarbruecken
-//
 // email         : cgal@cs.uu.nl
 //
 // ======================================================================
@@ -55,9 +54,11 @@
 #ifndef CGAL_CH_SELECTED_EXTREME_POINTS_2_H
 #include <CGAL/ch_selected_extreme_points_2.h>
 #endif // CGAL_CH_SELECTED_EXTREME_POINTS_2_H
+
+CGAL_BEGIN_NAMESPACE
 template <class ForwardIterator, class Traits>
 void
-CGAL_ch_nswe_point( ForwardIterator first, ForwardIterator last,
+ch_nswe_point( ForwardIterator first, ForwardIterator last,
                     ForwardIterator& n,
                     ForwardIterator& s,
                     ForwardIterator& w,
@@ -82,7 +83,7 @@ CGAL_ch_nswe_point( ForwardIterator first, ForwardIterator last,
 
 template <class ForwardIterator, class Traits>
 void
-CGAL_ch_we_point( ForwardIterator first, ForwardIterator last,
+ch_we_point( ForwardIterator first, ForwardIterator last,
                   ForwardIterator& w,
                   ForwardIterator& e,
                   const Traits& ch_traits)
@@ -100,7 +101,7 @@ CGAL_ch_we_point( ForwardIterator first, ForwardIterator last,
 
 template <class ForwardIterator, class Traits>
 void
-CGAL_ch_ns_point( ForwardIterator first, ForwardIterator last,
+ch_ns_point( ForwardIterator first, ForwardIterator last,
                   ForwardIterator& n,
                   ForwardIterator& s,
                   const Traits& ch_traits)
@@ -118,7 +119,7 @@ CGAL_ch_ns_point( ForwardIterator first, ForwardIterator last,
 
 template <class ForwardIterator, class Traits>
 void
-CGAL_ch_n_point( ForwardIterator first, ForwardIterator last,
+ch_n_point( ForwardIterator first, ForwardIterator last,
                  ForwardIterator& n,
                  const Traits& ch_traits)
 {
@@ -134,7 +135,7 @@ CGAL_ch_n_point( ForwardIterator first, ForwardIterator last,
 
 template <class ForwardIterator, class Traits>
 void
-CGAL_ch_s_point( ForwardIterator first, ForwardIterator last,
+ch_s_point( ForwardIterator first, ForwardIterator last,
                  ForwardIterator& s,
                  const Traits& ch_traits)
 {
@@ -150,7 +151,7 @@ CGAL_ch_s_point( ForwardIterator first, ForwardIterator last,
 
 template <class ForwardIterator, class Traits>
 void
-CGAL_ch_e_point( ForwardIterator first, ForwardIterator last,
+ch_e_point( ForwardIterator first, ForwardIterator last,
                  ForwardIterator& e,
                  const Traits& ch_traits)
 {
@@ -166,7 +167,7 @@ CGAL_ch_e_point( ForwardIterator first, ForwardIterator last,
 
 template <class ForwardIterator, class Traits>
 void
-CGAL_ch_w_point( ForwardIterator first, ForwardIterator last,
+ch_w_point( ForwardIterator first, ForwardIterator last,
                  ForwardIterator& w,
                  const Traits& ch_traits)
 {
@@ -179,6 +180,7 @@ CGAL_ch_w_point( ForwardIterator first, ForwardIterator last,
     ++first;
  }
 }
+CGAL_END_NAMESPACE
 
 #endif // CGAL_CH_SELECTED_EXTREME_POINTS_2_C
 

@@ -1,6 +1,6 @@
 // ======================================================================
 //
-// Copyright (c) 1998 The CGAL Consortium
+// Copyright (c) 1999 The GALIA Consortium
 //
 // This software and related documentation is part of the
 // Computational Geometry Algorithms Library (CGAL).
@@ -16,34 +16,33 @@
 // - Development licenses grant access to the source code of the library 
 //   to develop programs. These programs may be sold to other parties as 
 //   executable code. To obtain a development license, please contact
-//   the CGAL Consortium (at cgal@cs.uu.nl).
+//   the GALIA Consortium (at cgal@cs.uu.nl).
 // - Commercialization licenses grant access to the source code and the
 //   right to sell development licenses. To obtain a commercialization 
-//   license, please contact the CGAL Consortium (at cgal@cs.uu.nl).
+//   license, please contact the GALIA Consortium (at cgal@cs.uu.nl).
 //
 // This software and documentation is provided "as-is" and without
 // warranty of any kind. In no event shall the CGAL Consortium be
 // liable for any damage of any kind.
 //
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// The GALIA Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany) Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+// (Germany), Max-Planck-Institute Saarbrucken (Germany),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-1.2
-// release_date  : 1999, January 18
+// release       : CGAL-2.0
+// release_date  : 1999, June 03
 //
 // file          : include/CGAL/Fixed_precision_nt.h
-// package       : Fixed_precision_nt (1.7)
+// package       : Fixed_precision_nt (2.5)
 // revision      : $Revision: 1.2 $
-// revision_date : $Date: 1998/11/27 11:37:28 $
+// revision_date : $Date: 1999/04/28 20:14:16 $
 // author(s)     : Olivier Devillers
 //
 // coordinator   : INRIA Sophia-Antipolis (<Mariette.Yvinec>)
-//
 //
 // email         : cgal@cs.uu.nl
 //
@@ -52,38 +51,39 @@
 #ifndef CGAL_FIXED_PRECISION_NT_H
 #define CGAL_FIXED_PRECISION_NT_H
 
-#include <iostream.h>
+#include <CGAL/config.h>
+#include <iostream>
 #ifndef CGAL_TAGS_H
 #include <CGAL/tags.h>
 #endif // CGAL_TAGS_H
-#include <CGAL/config.h>
 #include <CGAL/enum.h>
 
+CGAL_BEGIN_NAMESPACE
 
-// CGAL_Fixed_precision_nt implement 24 bits integers using float
+// Fixed_precision_nt implement 24 bits integers using float
 // The user has to initiate a multiplicator factor to be applied to
 // original data.
 
-class CGAL_Fixed_precision_nt
+class Fixed_precision_nt
 {
 private:
   float _value;          // value of the number
   
 public:
   // constructors
-  CGAL_Fixed_precision_nt();
-  CGAL_Fixed_precision_nt(const CGAL_Fixed_precision_nt&);
-  CGAL_Fixed_precision_nt(double);
-  CGAL_Fixed_precision_nt(int);
+  Fixed_precision_nt();
+  Fixed_precision_nt(const Fixed_precision_nt&);
+  Fixed_precision_nt(double);
+  Fixed_precision_nt(int);
   //access functions
-  double to_double();
-  float  to_float();
+  double to_double() const;
+  float  to_float() const;
   // NT requirements
-  CGAL_Fixed_precision_nt operator= (const CGAL_Fixed_precision_nt&);
-  CGAL_Fixed_precision_nt operator+=(const CGAL_Fixed_precision_nt&);
-  CGAL_Fixed_precision_nt operator-=(const CGAL_Fixed_precision_nt&);
-  CGAL_Fixed_precision_nt operator*=(const CGAL_Fixed_precision_nt&);
-  CGAL_Fixed_precision_nt operator/=(const CGAL_Fixed_precision_nt&);
+  Fixed_precision_nt operator= (const Fixed_precision_nt&);
+  Fixed_precision_nt operator+=(const Fixed_precision_nt&);
+  Fixed_precision_nt operator-=(const Fixed_precision_nt&);
+  Fixed_precision_nt operator*=(const Fixed_precision_nt&);
+  Fixed_precision_nt operator/=(const Fixed_precision_nt&);
   // access and parametrization of static members
   static bool init(float);
   static float unit_value();
@@ -100,11 +100,11 @@ public:
 //--------- access fonctions
 // ======================================================================
 
-inline double CGAL_Fixed_precision_nt::to_double() {return (double) _value;}
+inline double Fixed_precision_nt::to_double() const{return (double) _value;}
 
-inline float  CGAL_Fixed_precision_nt::to_float()  {return _value;}
+inline float  Fixed_precision_nt::to_float()  const{return _value;}
 
-inline double CGAL_to_double(CGAL_Fixed_precision_nt f) {return f.to_double();}
+inline double to_double(const Fixed_precision_nt f) {return f.to_double();}
 
 // ======================================================================
 //--------- geometric predicates
@@ -112,41 +112,41 @@ inline double CGAL_to_double(CGAL_Fixed_precision_nt f) {return f.to_double();}
 
 
 //template <>
-CGAL_Orientation CGAL_orientationC2(
-  CGAL_Fixed_precision_nt x0, CGAL_Fixed_precision_nt y0,
-  CGAL_Fixed_precision_nt x1, CGAL_Fixed_precision_nt y1,
-  CGAL_Fixed_precision_nt x2, CGAL_Fixed_precision_nt y2);
+Orientation orientationC2(
+  const Fixed_precision_nt x0, const Fixed_precision_nt y0,
+  const Fixed_precision_nt x1, const Fixed_precision_nt y1,
+  const Fixed_precision_nt x2, const Fixed_precision_nt y2);
 
 //template <>
-CGAL_Oriented_side CGAL_side_of_oriented_circleC2 (
-  CGAL_Fixed_precision_nt x0, CGAL_Fixed_precision_nt y0,
-  CGAL_Fixed_precision_nt x1, CGAL_Fixed_precision_nt y1,
-  CGAL_Fixed_precision_nt x2, CGAL_Fixed_precision_nt y2,
-  CGAL_Fixed_precision_nt x3, CGAL_Fixed_precision_nt y3);
+Oriented_side side_of_oriented_circleC2 (
+  const Fixed_precision_nt x0, const Fixed_precision_nt y0,
+  const Fixed_precision_nt x1, const Fixed_precision_nt y1,
+  const Fixed_precision_nt x2, const Fixed_precision_nt y2,
+  const Fixed_precision_nt x3, const Fixed_precision_nt y3);
 
 //template <>
-CGAL_Orientation CGAL_orientationC3(  
-  CGAL_Fixed_precision_nt x0, CGAL_Fixed_precision_nt y0,
-  CGAL_Fixed_precision_nt z0,
-  CGAL_Fixed_precision_nt x1, CGAL_Fixed_precision_nt y1,
-  CGAL_Fixed_precision_nt z1,
-  CGAL_Fixed_precision_nt x2, CGAL_Fixed_precision_nt y2,
-  CGAL_Fixed_precision_nt z2,
-  CGAL_Fixed_precision_nt x3, CGAL_Fixed_precision_nt y3,
-  CGAL_Fixed_precision_nt z3);
+Orientation orientationC3(  
+  const Fixed_precision_nt x0, const Fixed_precision_nt y0,
+  const Fixed_precision_nt z0,
+  const Fixed_precision_nt x1, const Fixed_precision_nt y1,
+  const Fixed_precision_nt z1,
+  const Fixed_precision_nt x2, const Fixed_precision_nt y2,
+  const Fixed_precision_nt z2,
+  const Fixed_precision_nt x3, const Fixed_precision_nt y3,
+  const Fixed_precision_nt z3);
 
 //template <>
-CGAL_Oriented_side CGAL_side_of_oriented_sphereC3 (
-  CGAL_Fixed_precision_nt x0, CGAL_Fixed_precision_nt y0,
-  CGAL_Fixed_precision_nt z0,
-  CGAL_Fixed_precision_nt x1, CGAL_Fixed_precision_nt y1,
-  CGAL_Fixed_precision_nt z1,
-  CGAL_Fixed_precision_nt x2, CGAL_Fixed_precision_nt y2,
-  CGAL_Fixed_precision_nt z2,
-  CGAL_Fixed_precision_nt x3, CGAL_Fixed_precision_nt y3,
-  CGAL_Fixed_precision_nt z3,
-  CGAL_Fixed_precision_nt x4, CGAL_Fixed_precision_nt y4,
-  CGAL_Fixed_precision_nt z4);
+Oriented_side side_of_oriented_sphereC3 (
+  const Fixed_precision_nt x0, const Fixed_precision_nt y0,
+  const Fixed_precision_nt z0,
+  const Fixed_precision_nt x1, const Fixed_precision_nt y1,
+  const Fixed_precision_nt z1,
+  const Fixed_precision_nt x2, const Fixed_precision_nt y2,
+  const Fixed_precision_nt z2,
+  const Fixed_precision_nt x3, const Fixed_precision_nt y3,
+  const Fixed_precision_nt z3,
+  const Fixed_precision_nt x4, const Fixed_precision_nt y4,
+  const Fixed_precision_nt z4);
 
 
 
@@ -156,45 +156,45 @@ CGAL_Oriented_side CGAL_side_of_oriented_sphereC3 (
 
 // only numbers between -B24 and B24 are authorized
 // except overflow only valid fixed are constructed
-bool CGAL_is_valid(CGAL_Fixed_precision_nt);
-bool CGAL_is_finite(CGAL_Fixed_precision_nt);
+bool is_valid(Fixed_precision_nt);
+bool is_finite(Fixed_precision_nt);
 
-bool  operator==(CGAL_Fixed_precision_nt a, CGAL_Fixed_precision_nt b);
-bool  operator!=(CGAL_Fixed_precision_nt a, CGAL_Fixed_precision_nt b);
-bool  operator<(CGAL_Fixed_precision_nt a, CGAL_Fixed_precision_nt b);
-bool  operator>(CGAL_Fixed_precision_nt a, CGAL_Fixed_precision_nt b);
-bool  operator<=(CGAL_Fixed_precision_nt a, CGAL_Fixed_precision_nt b);
-bool  operator>=(CGAL_Fixed_precision_nt a, CGAL_Fixed_precision_nt b);
+bool  operator==(Fixed_precision_nt a, Fixed_precision_nt b);
+bool  operator!=(Fixed_precision_nt a, Fixed_precision_nt b);
+bool  operator<(Fixed_precision_nt a, Fixed_precision_nt b);
+bool  operator>(Fixed_precision_nt a, Fixed_precision_nt b);
+bool  operator<=(Fixed_precision_nt a, Fixed_precision_nt b);
+bool  operator>=(Fixed_precision_nt a, Fixed_precision_nt b);
 
-CGAL_Fixed_precision_nt  
-operator+(CGAL_Fixed_precision_nt a, CGAL_Fixed_precision_nt b);
-CGAL_Fixed_precision_nt  
-operator-(CGAL_Fixed_precision_nt a, CGAL_Fixed_precision_nt b);
-CGAL_Fixed_precision_nt  
-operator*(CGAL_Fixed_precision_nt a, CGAL_Fixed_precision_nt b);
-CGAL_Fixed_precision_nt  
-operator-( CGAL_Fixed_precision_nt b);
-CGAL_Fixed_precision_nt  
-operator/(CGAL_Fixed_precision_nt a, CGAL_Fixed_precision_nt b);
+Fixed_precision_nt  
+operator+(Fixed_precision_nt a, Fixed_precision_nt b);
+Fixed_precision_nt  
+operator-(Fixed_precision_nt a, Fixed_precision_nt b);
+Fixed_precision_nt  
+operator*(Fixed_precision_nt a, Fixed_precision_nt b);
+Fixed_precision_nt  
+operator-( Fixed_precision_nt b);
+Fixed_precision_nt  
+operator/(Fixed_precision_nt a, Fixed_precision_nt b);
 
 // ======================================================================
 //--------- non official NT requirement IO
 // ======================================================================
 
-ostream &operator<<(ostream &os, CGAL_Fixed_precision_nt a);
-istream &operator>>(istream &is, CGAL_Fixed_precision_nt a);
+std::ostream &operator<<(std::ostream &os, Fixed_precision_nt a);
+std::istream &operator>>(std::istream &is, Fixed_precision_nt a);
 
 // ======================================================================
 //--------- non official mysterious NT requirement
 // ======================================================================
 
-inline CGAL_Number_tag CGAL_number_type_tag(CGAL_Fixed_precision_nt)
-{ return CGAL_Number_tag(); }
+inline Number_tag number_type_tag(Fixed_precision_nt)
+{ return Number_tag(); }
 
-inline CGAL_io_Operator CGAL_io_tag(CGAL_Fixed_precision_nt)
-{ return CGAL_io_Operator(); }
+inline io_Operator io_tag(Fixed_precision_nt)
+{ return io_Operator(); }
 
-
+CGAL_END_NAMESPACE
 
 #ifdef CGAL_INTERVAL_ARITHMETIC_H
 #include <CGAL/Interval_arithmetic/IA_Fixed.h>

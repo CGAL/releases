@@ -1,6 +1,6 @@
 // ======================================================================
 //
-// Copyright (c) 1998 The CGAL Consortium
+// Copyright (c) 1999 The GALIA Consortium
 //
 // This software and related documentation is part of the
 // Computational Geometry Algorithms Library (CGAL).
@@ -16,63 +16,64 @@
 // - Development licenses grant access to the source code of the library 
 //   to develop programs. These programs may be sold to other parties as 
 //   executable code. To obtain a development license, please contact
-//   the CGAL Consortium (at cgal@cs.uu.nl).
+//   the GALIA Consortium (at cgal@cs.uu.nl).
 // - Commercialization licenses grant access to the source code and the
 //   right to sell development licenses. To obtain a commercialization 
-//   license, please contact the CGAL Consortium (at cgal@cs.uu.nl).
+//   license, please contact the GALIA Consortium (at cgal@cs.uu.nl).
 //
 // This software and documentation is provided "as-is" and without
 // warranty of any kind. In no event shall the CGAL Consortium be
 // liable for any damage of any kind.
 //
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// The GALIA Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany) Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+// (Germany), Max-Planck-Institute Saarbrucken (Germany),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-1.2
-// release_date  : 1999, January 18
+// release       : CGAL-2.0
+// release_date  : 1999, June 03
 //
 // file          : include/CGAL/Iso_square_static_2.h
-// package       : Matrix_search (1.10)
+// package       : Matrix_search (1.17)
 // chapter       : $CGAL_Chapter: Geometric Optimisation $
 // source        : pcenter.aw
-// revision      : $Revision: 1.10 $
-// revision_date : $Date: 1998/11/26 16:25:29 $
+// revision      : $Revision: 1.17 $
+// revision_date : $Date: 1999/06/01 14:08:05 $
 // author(s)     : Michael Hoffmann
 //
 // coordinator   : ETH Zurich (Bernd Gaertner)
 //
 // 2D Iso-squares with static radius
-//
 // email         : cgal@cs.uu.nl
 //
 // ======================================================================
 
-#if ! (CGAL_ISO_SQUARE_STATIC_2_H)
-#define CGAL_ISO_SQUARE_STATIC_2_H 1
+#if ! (ISO_SQUARE_STATIC_2_H)
+#define ISO_SQUARE_STATIC_2_H 1
 
 #ifndef CGAL_OPTIMISATION_ASSERTIONS_H
 #include <CGAL/optimisation_assertions.h>
 #endif // CGAL_OPTIMISATION_ASSERTIONS_H
 
-// class CGAL__Iso_square_static_2 represents a square with center and radius.
+CGAL_BEGIN_NAMESPACE
+
+// class Iso_square_static_2 represents a square with center and radius.
 // all objects have the same radius ==> radius is a static member
 // no handle-rep stuff
 
 template < class _R >
-class CGAL__Iso_square_static_2 {
+class Iso_square_static_2 {
 public:
   typedef _R                       R;
   typedef typename _R::Point_2     Point_2;
   typedef typename _R::FT          FT;
 
-  CGAL__Iso_square_static_2() {}
+  Iso_square_static_2() {}
 
-  CGAL__Iso_square_static_2( const Point_2& p)
+  Iso_square_static_2( const Point_2& p)
   : _center( p)
   {}
 
@@ -129,17 +130,17 @@ private:
 // for output to ostream:
 template< class R >
 ostream& operator<<( ostream& os,
-                     const CGAL__Iso_square_static_2< R >& s)
+                     const Iso_square_static_2< R >& s)
 {
-  switch(os.iword(CGAL_IO::mode)) {
-  case CGAL_IO::ASCII :
+  switch(os.iword(IO::mode)) {
+  case IO::ASCII :
     return os << s.center() << ' ' << s.radius();
-  case CGAL_IO::BINARY :
+  case IO::BINARY :
     os << s.center() << s.radius();
-    // CGAL_write(os, s.radius());
+    // write(os, s.radius());
     return os;
   default:
-    return os << "CGAL__Iso_square_static_2(" << s.center() << ", "
+    return os << "Iso_square_static_2(" << s.center() << ", "
               << s.radius() << ')';
   }
 }
@@ -148,40 +149,40 @@ ostream& operator<<( ostream& os,
 template < class R >
 istream&
 operator>>( istream& is,
-            CGAL__Iso_square_static_2< R >& s)
+            Iso_square_static_2< R >& s)
 {
   typename R::Point_2  c;
   typename R::FT       r;
 
   is >> c >> r;
 
-  s = CGAL__Iso_square_static_2< R >( c);
+  s = Iso_square_static_2< R >( c);
   s.set_radius( r);
   return is;
 }
 
 #ifdef CGAL_WINDOW_STREAM_H
 
-// for output to CGAL_Window_stream:
+// for output to Window_stream:
 template< class R >
-CGAL_Window_stream&
-operator<<( CGAL_Window_stream& w,
-            const CGAL__Iso_square_static_2< R >& s)
+Window_stream&
+operator<<( Window_stream& w,
+            const Iso_square_static_2< R >& s)
 {
-  w.draw_rectangle( CGAL_to_double( s.xmin()),
-                    CGAL_to_double( s.ymin()),
-                    CGAL_to_double( s.xmax()),
-                    CGAL_to_double( s.ymax()));
+  w.draw_rectangle( to_double( s.xmin()),
+                    to_double( s.ymin()),
+                    to_double( s.xmax()),
+                    to_double( s.ymax()));
   return w;
 }
 
-// for input from CGAL_Window_stream:
+// for input from Window_stream:
 template< class R >
-CGAL_Window_stream&
-operator>>( CGAL_Window_stream& w,
-            CGAL__Iso_square_static_2< R >& r)
+Window_stream&
+operator>>( Window_stream& w,
+            Iso_square_static_2< R >& r)
 {
-  CGAL_Window_stream W;
+  Window_stream W;
   drawing_mode old_mode( W.set_mode( leda_xor_mode));
   leda_color old_color( W.set_color( leda_red));
 
@@ -210,20 +211,22 @@ operator>>( CGAL_Window_stream& w,
   W.set_mode( old_mode);
   W.set_color( old_color);
 
-  r = CGAL__Iso_square_static_2< R >( c_x, c_y);
+  r = Iso_square_static_2< R >( c_x, c_y);
   r.set_radius( rad);
   return w << r;
 }
 
 #endif // CGAL_WINDOW_STREAM_H
 
-// the static radius of all CGAL__Iso_square_static_2< R >:
+// the static radius of all Iso_square_static_2< R >:
 template < class R >
-CGAL__Iso_square_static_2< R >::FT
-CGAL__Iso_square_static_2< R >::_radius;
+Iso_square_static_2< R >::FT
+Iso_square_static_2< R >::_radius;
+
+CGAL_END_NAMESPACE
 
 
-#endif // ! (CGAL_ISO_SQUARE_STATIC_2_H)
+#endif // ! (ISO_SQUARE_STATIC_2_H)
 
 // ----------------------------------------------------------------------------
 // ** EOF

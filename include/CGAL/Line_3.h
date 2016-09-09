@@ -1,6 +1,6 @@
 // ======================================================================
 //
-// Copyright (c) 1998 The CGAL Consortium
+// Copyright (c) 1999 The GALIA Consortium
 //
 // This software and related documentation is part of the
 // Computational Geometry Algorithms Library (CGAL).
@@ -16,36 +16,35 @@
 // - Development licenses grant access to the source code of the library 
 //   to develop programs. These programs may be sold to other parties as 
 //   executable code. To obtain a development license, please contact
-//   the CGAL Consortium (at cgal@cs.uu.nl).
+//   the GALIA Consortium (at cgal@cs.uu.nl).
 // - Commercialization licenses grant access to the source code and the
 //   right to sell development licenses. To obtain a commercialization 
-//   license, please contact the CGAL Consortium (at cgal@cs.uu.nl).
+//   license, please contact the GALIA Consortium (at cgal@cs.uu.nl).
 //
 // This software and documentation is provided "as-is" and without
 // warranty of any kind. In no event shall the CGAL Consortium be
 // liable for any damage of any kind.
 //
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// The GALIA Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany) Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+// (Germany), Max-Planck-Institute Saarbrucken (Germany),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 // 
-// release       : CGAL-1.2
-// release_date  : 1999, January 18
+// release       : CGAL-2.0
+// release_date  : 1999, June 03
 // 
 // source        : Line_3.fw
 // file          : include/CGAL/Line_3.h
-// package       : _3 (1.4)
-// revision      : 1.4
-// revision_date : 15 Dec 1998 
+// package       : _3 (2.1.2)
+// revision      : 2.1.2
+// revision_date : 21 May 1999 
 // author(s)     : Andreas Fabri
 //                 Stefan Schirra
 //
 // coordinator   : MPI, Saarbruecken  (<Stefan.Schirra>)
-//
 // email         : cgal@cs.uu.nl
 //
 // ======================================================================
@@ -81,96 +80,100 @@
 #include <CGAL/Ray_3.h>
 #endif // CGAL_RAY_3_H
 
+CGAL_BEGIN_NAMESPACE
+
 template <class _R>
-class CGAL_Line_3 : public _R::Line_3
+class Line_3 : public _R::Line_3
 {
 public:
   typedef          _R                       R;
   typedef typename R::RT                    RT;
   typedef typename R::FT                    FT;
-  typedef typename R::Line_3                Line_3;
+  typedef typename R::Line_3                RLine_3;
 
-  CGAL_Line_3() : Line_3()
+  Line_3() : RLine_3()
   {}
-  CGAL_Line_3(const CGAL_Line_3<R>  & l) : Line_3( ( const Line_3& )l)
+  Line_3(const Line_3<R>  & l) : RLine_3( ( const RLine_3&  )l)
   {}
-  CGAL_Line_3(const CGAL_Point_3<R> & p,
-              const CGAL_Point_3<R> & q) : Line_3(p,q)
+  Line_3(const Point_3<R> & p,
+              const Point_3<R> & q) : RLine_3(p,q)
   {}
   // conversion impl -> interface class
-  CGAL_Line_3(const Line_3& l) : Line_3(l)
+  Line_3(const RLine_3&  l) : RLine_3(l)
   {}
-  CGAL_Line_3(const CGAL_Segment_3<R> & s) : Line_3( s )
+  Line_3(const Segment_3<R> & s) : RLine_3( s )
   {}
-  CGAL_Line_3(const CGAL_Ray_3<R> & r) : Line_3( r )
+  Line_3(const Ray_3<R> & r) : RLine_3( r )
   {}
-  CGAL_Line_3(const CGAL_Point_3<R> & p,
-              const CGAL_Direction_3<R> & d) : Line_3( p, d )
+  Line_3(const Point_3<R> & p,
+              const Direction_3<R> & d) : RLine_3( p, d )
   {}
 
-  CGAL_Line_3<R>&     operator=(const CGAL_Line_3<R> & l)
+  Line_3<R>&     operator=(const Line_3<R> & l)
   {
-    Line_3::operator=(l);
+    RLine_3::operator=(l);
     return *this;
   }
 
-  bool                operator==(const CGAL_Line_3<R> & l) const
-  { return Line_3::operator==(l); }
+  bool                operator==(const Line_3<R> & l) const
+  { return RLine_3::operator==(l); }
 
-  bool                operator!=(const CGAL_Line_3<R> & l) const
+  bool                operator!=(const Line_3<R> & l) const
   { return !(*this == l); }
 
   int                 id() const    /* XXX */
   { return (int) PTR; }
 
-  CGAL_Plane_3<R>     perpendicular_plane(const CGAL_Point_3<R> & p) const
-  { return Line_3::perpendicular_plane(p); }
+  Plane_3<R>     perpendicular_plane(const Point_3<R> & p) const
+  { return RLine_3::perpendicular_plane(p); }
 
-  CGAL_Line_3<R>      opposite() const
-  { return Line_3::opposite(); }
+  Line_3<R>      opposite() const
+  { return RLine_3::opposite(); }
 
-  CGAL_Point_3<R>     point() const
-  { return Line_3::point(); }
+  Point_3<R>     point() const
+  { return RLine_3::point(); }
 
-  CGAL_Point_3<R>     point(int i) const
-  { return Line_3::point(i); }
+  Point_3<R>     point(int i) const
+  { return RLine_3::point(i); }
 
-  CGAL_Point_3<R>     projection(const CGAL_Point_3<R>& p) const
-  { return Line_3::projection(p); }
+  Point_3<R>     projection(const Point_3<R>& p) const
+  { return RLine_3::projection(p); }
 
-  CGAL_Direction_3<R> direction() const
-  { return Line_3::direction(); }
+  Direction_3<R> direction() const
+  { return RLine_3::direction(); }
 
-  bool                has_on(const CGAL_Point_3<R>& p) const
-  { return Line_3::has_on(p); }
+  bool                has_on(const Point_3<R>& p) const
+  { return RLine_3::has_on(p); }
 
   bool                is_degenerate() const
-  { return Line_3::is_degenerate(); }
+  { return RLine_3::is_degenerate(); }
 
-  CGAL_Line_3<R>      transform(const CGAL_Aff_transformation_3<R> & t) const
-  { return Line_3::transform(t); }
+  Line_3<R>      transform(const Aff_transformation_3<R> & t) const
+  { return RLine_3::transform(t); }
 };
 
-#ifndef CGAL_NO_OSTREAM_INSERT_LINE_3
+#ifndef NO_OSTREAM_INSERT_LINE_3
 template < class R >
-ostream&
-operator<<(ostream& os, const CGAL_Line_3<R>& l)
+std::ostream&
+operator<<(std::ostream& os, const Line_3<R>& l)
 {
-  typedef typename  R::Line_3     Line_3;
-  return os << (const Line_3&)l;
+  typedef typename  R::Line_3     RLine_3;
+  return os << (const RLine_3& )l;
 }
-#endif // CGAL_NO_OSTREAM_INSERT_LINE_3
+#endif // NO_OSTREAM_INSERT_LINE_3
 
-#ifndef CGAL_NO_ISTREAM_EXTRACT_LINE_3
+#ifndef NO_ISTREAM_EXTRACT_LINE_3
 template < class R >
-istream&
-operator>>(istream & is, CGAL_Line_3<R> & p)
+std::istream&
+operator>>(std::istream & is, Line_3<R> & p)
 {
-  typedef typename  R::Line_3     Line_3;
-  is >> ( Line_3& )p;
+  typedef typename  R::Line_3     RLine_3;
+  is >> ( RLine_3&  )p;
   return is;
 }
-#endif // CGAL_NO_ISTREAM_EXTRACT_LINE_3
+#endif // NO_ISTREAM_EXTRACT_LINE_3
+
+CGAL_END_NAMESPACE
 
 
 #ifndef CGAL_PLANE_3_H

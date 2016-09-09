@@ -1,6 +1,6 @@
 // ======================================================================
 //
-// Copyright (c) 1997 The CGAL Consortium
+// Copyright (c) 1999 The GALIA Consortium
 //
 // This software and related documentation is part of the
 // Computational Geometry Algorithms Library (CGAL).
@@ -16,38 +16,37 @@
 // - Development licenses grant access to the source code of the library 
 //   to develop programs. These programs may be sold to other parties as 
 //   executable code. To obtain a development license, please contact
-//   the CGAL Consortium (at cgal@cs.uu.nl).
+//   the GALIA Consortium (at cgal@cs.uu.nl).
 // - Commercialization licenses grant access to the source code and the
 //   right to sell development licenses. To obtain a commercialization 
-//   license, please contact the CGAL Consortium (at cgal@cs.uu.nl).
+//   license, please contact the GALIA Consortium (at cgal@cs.uu.nl).
 //
 // This software and documentation is provided "as-is" and without
 // warranty of any kind. In no event shall the CGAL Consortium be
 // liable for any damage of any kind.
 //
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// The GALIA Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany) Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+// (Germany), Max-Planck-Institute Saarbrucken (Germany),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-1.2
-// release_date  : 1999, January 18
+// release       : CGAL-2.0
+// release_date  : 1999, June 03
 //
 // file          : include/CGAL/Halfedge_data_structure_bases.h
-// package       : Halfedge_DS (1.9)
+// package       : Halfedge_DS (2.4)
 // chapter       : $CGAL_Chapter: Halfedge Data Structures $
 // source        : hds.fw
-// revision      : $Revision: 1.10 $
-// revision_date : $Date: 1998/10/14 14:02:03 $
+// revision      : $Revision: 1.3 $
+// revision_date : $Date: 1999/04/07 19:29:14 $
 // author(s)     : Lutz Kettner
 //
 // coordinator   : MPI Saarbruecken (Stefan Schirra)
 //
 // Halfedge Data Structure Base Classes for Vertices, Edges, Facets.
-//
 // email         : cgal@cs.uu.nl
 //
 // ======================================================================
@@ -57,25 +56,35 @@
 #ifndef CGAL_BASIC_H
 #include <CGAL/basic.h>
 #endif
+#ifdef CGAL_REP_CLASS_DEFINED
+#ifndef CGAL_VECTOR_3_H
+#include <CGAL/Vector_3.h>
+#endif
+#ifndef CGAL_PLANE_3_H
+#include <CGAL/Plane_3.h>
+#endif
+#endif  // CGAL_REP_CLASS_DEFINED
 
-class CGAL_Vertex_min_base {
+CGAL_BEGIN_NAMESPACE
+
+class Vertex_min_base {
     // defines the minimal vertex functionality with no data at all.
 public:
-    typedef CGAL_Tag_false Supports_vertex_point;
-    typedef CGAL_Tag_false Supports_vertex_halfedge;
-    typedef void*        Point;
+    typedef Tag_false Supports_vertex_point;
+    typedef Tag_false Supports_vertex_halfedge;
+    typedef void*     Point;
 };
 
-class CGAL_Halfedge_min_base {
+class Halfedge_min_base {
     // defines the minimal halfedge functionality with next and opposite
     // pointers.
 protected:
     void* opp;
     void* nxt;
 public:
-    typedef CGAL_Tag_false Supports_halfedge_prev;
-    typedef CGAL_Tag_false Supports_halfedge_vertex;
-    typedef CGAL_Tag_false Supports_halfedge_facet;
+    typedef Tag_false Supports_halfedge_prev;
+    typedef Tag_false Supports_halfedge_vertex;
+    typedef Tag_false Supports_halfedge_facet;
 
     void*       opposite()       { return opp;}
     const void* opposite() const { return opp;}
@@ -90,33 +99,33 @@ public:
     void  set_next( void* h)      { nxt = h;}
 };
 
-class CGAL_Facet_min_base {
+class Facet_min_base {
     // defines the minimal facet functionality with no data at all.
 public:
-    typedef CGAL_Tag_false Supports_facet_plane;
-    typedef CGAL_Tag_false Supports_facet_normal;
-    typedef CGAL_Tag_false Supports_facet_halfedge;
-    typedef void*        Plane;
-    typedef void*        Normal;
+    typedef Tag_false Supports_facet_plane;
+    typedef Tag_false Supports_facet_normal;
+    typedef Tag_false Supports_facet_halfedge;
+    typedef void*     Plane;
+    typedef void*     Normal;
 };
 
 template <class Pt>
-class CGAL_Vertex_max_base {
+class Vertex_max_base {
     // defines the maximal vertex functionality including halfedge pointer
     // and a template parameter for the point.
 protected:
     void* hdg;
     Pt    pt;
 public:
-    typedef CGAL_Tag_true  Supports_vertex_point;
-    typedef CGAL_Tag_true  Supports_vertex_halfedge;
-    typedef Pt           Point;
+    typedef Tag_true  Supports_vertex_point;
+    typedef Tag_true  Supports_vertex_halfedge;
+    typedef Pt        Point;
 
-    CGAL_Vertex_max_base() {}
-    CGAL_Vertex_max_base( const Pt& p) : pt(p) {}
+    Vertex_max_base() {}
+    Vertex_max_base( const Pt& p) : pt(p) {}
 
-    void*       halfedge()               {return hdg;}
-    const void* halfedge() const         {return hdg;}
+    void*       halfedge()               { return hdg;}
+    const void* halfedge() const         { return hdg;}
     void        set_halfedge( void* h)   { hdg = h;}
         // an incident halfedge pointing to `v'.
 
@@ -124,7 +133,7 @@ public:
     const Point& point() const { return pt;}
 };
 
-class CGAL_Halfedge_max_base : public  CGAL_Halfedge_min_base{
+class Halfedge_max_base : public  Halfedge_min_base{
     // defines the maximal halfedge functionality including previous,
     // vertex and facet pointers.
 protected:
@@ -132,12 +141,12 @@ protected:
     void* v;
     void* f;
 public:
-    typedef CGAL_Halfedge_min_base Base;
-    typedef CGAL_Tag_true  Supports_halfedge_prev;
-    typedef CGAL_Tag_true  Supports_halfedge_vertex;
-    typedef CGAL_Tag_true  Supports_halfedge_facet;
+    typedef Halfedge_min_base Base;
+    typedef Tag_true  Supports_halfedge_prev;
+    typedef Tag_true  Supports_halfedge_vertex;
+    typedef Tag_true  Supports_halfedge_facet;
 
-    CGAL_Halfedge_max_base() : f(NULL) {}
+    Halfedge_max_base() : f(NULL) {}
 
     void*       prev()       { return prv;}
     const void* prev() const { return prv;}
@@ -165,17 +174,17 @@ public:
     const void* next() const     { return Base::next();}
 };
 
-class CGAL_Facet_max_base {
+class Facet_max_base {
     // defines the maximal facet functionality including halfedge pointer
     // but no geometry.
 protected:
     void* hdg;
 public:
-    typedef CGAL_Tag_false Supports_facet_plane;
-    typedef CGAL_Tag_false Supports_facet_normal;
-    typedef CGAL_Tag_true  Supports_facet_halfedge;
-    typedef void*        Plane;
-    typedef void*        Normal;
+    typedef Tag_false Supports_facet_plane;
+    typedef Tag_false Supports_facet_normal;
+    typedef Tag_true  Supports_facet_halfedge;
+    typedef void*     Plane;
+    typedef void*     Normal;
 
     void*       halfedge()       { return hdg;}
     const void* halfedge() const { return hdg;}
@@ -184,26 +193,17 @@ public:
     void set_halfedge( void* h)  { hdg = h;}
 };
 
-#ifdef CGAL_HALFEDGE_DATA_STRUCTURE_BASES_H
 #ifdef CGAL_REP_CLASS_DEFINED
-
-#ifndef CGAL_VECTOR_3_H
-#include <CGAL/Vector_3.h>
-#endif
-#ifndef CGAL_PLANE_3_H
-#include <CGAL/Plane_3.h>
-#endif
-
 template < class _R >
-class CGAL_Polyhedron_facet_base_3 : public CGAL_Facet_max_base {
+class Polyhedron_facet_base_3 : public Facet_max_base {
     // defines the maximal facet functionality including halfedge pointer,
     // plane equation and normal vector.
 public:
-    typedef CGAL_Tag_true     Supports_facet_plane;
-    typedef CGAL_Tag_true     Supports_facet_normal;
-    typedef _R                R;
-    typedef CGAL_Vector_3<R>  Normal;
-    typedef CGAL_Plane_3<R>   Plane;
+    typedef Tag_true     Supports_facet_plane;
+    typedef Tag_true     Supports_facet_normal;
+    typedef _R           R;
+    typedef Vector_3<R>  Normal;
+    typedef Plane_3<R>   Plane;
 protected:
     Plane   pln;
 public:
@@ -212,27 +212,7 @@ public:
     const Plane&  plane() const  { return pln;}
 };
 #endif  // CGAL_REP_CLASS_DEFINED
-#else  // CGAL_HALFEDGE_DATA_STRUCTURE_BASES_H //
-// The following is part of a local project where the halfedge date
-// structure has evolved from. It is not part of CGAL and not used.
 
-template < class Pln>
-class CGAL_Polyhedron_facet_base_3 : public CGAL_Facet_max_base {
-    // defines the maximal facet functionality including halfedge pointer,
-    // plane equation and normal vector.
-public:
-    typedef CGAL_Tag_true           Supports_facet_plane;
-    typedef CGAL_Tag_true           Supports_facet_normal;
-    typedef Pln                   Plane;
-    typedef typename Pln::Normal  Normal;
-protected:
-    Plane   pln;
-public:
-    Normal&       normal()       { return pln.normal();}
-    const Normal& normal() const { return pln.normal();}
-    Plane&        plane()        { return pln;}
-    const Plane&  plane() const  { return pln;}
-};
-#endif  // CGAL_HALFEDGE_DATA_STRUCTURE_BASES_H //    
+CGAL_END_NAMESPACE
 #endif // CGAL_HALFEDGE_DATA_STRUCTURE_BASES_H //
 // EOF //

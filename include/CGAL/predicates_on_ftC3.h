@@ -1,6 +1,6 @@
 // ======================================================================
 //
-// Copyright (c) 1997 The CGAL Consortium
+// Copyright (c) 1999 The GALIA Consortium
 //
 // This software and related documentation is part of the
 // Computational Geometry Algorithms Library (CGAL).
@@ -16,35 +16,34 @@
 // - Development licenses grant access to the source code of the library 
 //   to develop programs. These programs may be sold to other parties as 
 //   executable code. To obtain a development license, please contact
-//   the CGAL Consortium (at cgal@cs.uu.nl).
+//   the GALIA Consortium (at cgal@cs.uu.nl).
 // - Commercialization licenses grant access to the source code and the
 //   right to sell development licenses. To obtain a commercialization 
-//   license, please contact the CGAL Consortium (at cgal@cs.uu.nl).
+//   license, please contact the GALIA Consortium (at cgal@cs.uu.nl).
 //
 // This software and documentation is provided "as-is" and without
 // warranty of any kind. In no event shall the CGAL Consortium be
 // liable for any damage of any kind.
 //
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// The GALIA Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany) Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+// (Germany), Max-Planck-Institute Saarbrucken (Germany),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-1.2
-// release_date  : 1999, January 18
+// release       : CGAL-2.0
+// release_date  : 1999, June 03
 //
 // file          : include/CGAL/predicates_on_ftC3.h
-// package       : C3 (1.6)
+// package       : C3 (2.1.5)
 // source        : web/predicates_on_ftC3.fw
-// revision      : $Revision: 1.2 $
-// revision_date : $Date: 1998/12/08 15:12:50 $
+// revision      : $Revision: 1.5 $
+// revision_date : $Date: 1999/05/24 06:41:39 $
 // author(s)     : Herve.Bronnimann
 //
 // coordinator   : INRIA Sophia-Antipolis
-//
 //
 // email         : cgal@cs.uu.nl
 //
@@ -61,59 +60,63 @@
 #include <CGAL/basic_constructions_ftC3.h>
 #endif // CGAL_BASIC_CONSTRUCTIONS_FTC3_H
 
+CGAL_BEGIN_NAMESPACE
+
 template < class FT >
 CGAL_KERNEL_MEDIUM_INLINE
-CGAL_Comparison_result
-CGAL_compare_lexicographically_xyzC3(const FT &x1, const FT &y1, const FT &z1,
-                                     const FT &x2, const FT &y2, const FT &z2)
+Comparison_result
+compare_lexicographically_xyzC3(const FT &x1, const FT &y1, const FT &z1,
+                                const FT &x2, const FT &y2, const FT &z2)
 {
-  if (x1 < x2) return CGAL_SMALLER;
-  if (x2 < x1) return CGAL_LARGER;
-  if (y1 < y2) return CGAL_SMALLER;
-  if (y2 < y1) return CGAL_LARGER;
-  if (z1 < z2) return CGAL_SMALLER;
-  if (z2 < z1) return CGAL_LARGER;
-  return CGAL_EQUAL;
+  if (x1 < x2) return SMALLER;
+  if (x2 < x1) return LARGER;
+  if (y1 < y2) return SMALLER;
+  if (y2 < y1) return LARGER;
+  if (z1 < z2) return SMALLER;
+  if (z2 < z1) return LARGER;
+  return EQUAL;
 }
 
 template < class FT >
 CGAL_KERNEL_MEDIUM_INLINE
 bool
-CGAL_collinearC3(const FT &px, const FT &py, const FT &pz,
-                 const FT &qx, const FT &qy, const FT &qz,
-                 const FT &rx, const FT &ry, const FT &rz)
+collinearC3(const FT &px, const FT &py, const FT &pz,
+            const FT &qx, const FT &qy, const FT &qz,
+            const FT &rx, const FT &ry, const FT &rz)
 {
-  return (CGAL_sign(CGAL_det2x2_by_formula(px-rx,qx-rx,
-                                           py-ry,qy-ry)) == CGAL_ZERO)
-      && (CGAL_sign(CGAL_det2x2_by_formula(px-rx,qx-rx,
-                                           pz-rz,qz-rz)) == CGAL_ZERO)
-      && (CGAL_sign(CGAL_det2x2_by_formula(py-ry,qy-ry,
-                                           pz-rz,qz-rz)) == CGAL_ZERO);
+  FT dpx = px-rx;
+  FT dpy = py-ry;
+  FT dpz = pz-rz;
+  FT dqx = qx-rx;
+  FT dqy = qy-ry;
+  FT dqz = qz-rz;
+  return (sign_of_determinant2x2(dpx,dqx,dpy,dqy) == ZERO)
+      && (sign_of_determinant2x2(dpx,dqx,dpz,dqz) == ZERO)
+      && (sign_of_determinant2x2(dpy,dqy,dpz,dqz) == ZERO);
 }
 
 template < class FT >
 CGAL_KERNEL_MEDIUM_INLINE
-CGAL_Orientation
-CGAL_orientationC3(const FT &px, const FT &py, const FT &pz,
-                   const FT &qx, const FT &qy, const FT &qz,
-                   const FT &rx, const FT &ry, const FT &rz,
-                   const FT &sx, const FT &sy, const FT &sz)
+Orientation
+orientationC3(const FT &px, const FT &py, const FT &pz,
+              const FT &qx, const FT &qy, const FT &qz,
+              const FT &rx, const FT &ry, const FT &rz,
+              const FT &sx, const FT &sy, const FT &sz)
 {
-  return CGAL_Orientation(
-         CGAL_sign(CGAL_det3x3_by_formula(qx-px,rx-px,sx-px,
-                                          qy-py,ry-py,sy-py,
-                                          qz-pz,rz-pz,sz-pz)));
+  return Orientation(sign_of_determinant3x3(qx-px,rx-px,sx-px,
+                                            qy-py,ry-py,sy-py,
+                                            qz-pz,rz-pz,sz-pz));
 }
 
 template < class FT >
 CGAL_KERNEL_MEDIUM_INLINE
 bool
-CGAL_collinear_are_ordered_along_lineC3(
+collinear_are_ordered_along_lineC3(
      const FT &px, const FT &py, const FT &pz,
      const FT &qx, const FT &qy, const FT &qz,
      const FT &rx, const FT &ry, const FT &rz)
 {
-  CGAL_kernel_exactness_precondition( CGAL_collinear(p, q, r) );
+  CGAL_kernel_exactness_precondition( collinear(p, q, r) );
   if (px < qx) return !(rx < qx);
   if (qx < px) return !(qx < rx);
   if (py < qy) return !(ry < qy);
@@ -126,12 +129,12 @@ CGAL_collinear_are_ordered_along_lineC3(
 template < class FT >
 CGAL_KERNEL_MEDIUM_INLINE
 bool
-CGAL_collinear_are_strictly_ordered_along_lineC3(
+collinear_are_strictly_ordered_along_lineC3(
      const FT &px, const FT &py, const FT &pz,
      const FT &qx, const FT &qy, const FT &qz,
      const FT &rx, const FT &ry, const FT &rz)
 {
-  CGAL_kernel_exactness_precondition( CGAL_collinear(p, q, r) );
+  CGAL_kernel_exactness_precondition( collinear(p, q, r) );
   if (px < qx) return (qx < rx);
   if (qx < px) return (rx < qx);
   if (py < qy) return (qy < ry);
@@ -144,193 +147,187 @@ CGAL_collinear_are_strictly_ordered_along_lineC3(
 
 template <class FT >
 CGAL_KERNEL_LARGE_INLINE
-CGAL_Oriented_side
-CGAL_side_of_oriented_sphereC3(const FT &px, const FT &py, const FT &pz,
-                               const FT &qx, const FT &qy, const FT &qz,
-                               const FT &rx, const FT &ry, const FT &rz,
-                               const FT &sx, const FT &sy, const FT &sz,
-                               const FT &tx, const FT &ty, const FT &tz)
+Oriented_side
+side_of_oriented_sphereC3(const FT &px, const FT &py, const FT &pz,
+                          const FT &qx, const FT &qy, const FT &qz,
+                          const FT &rx, const FT &ry, const FT &rz,
+                          const FT &sx, const FT &sy, const FT &sz,
+                          const FT &tx, const FT &ty, const FT &tz)
 {
-  // FT FT1(1);
-  // return CGAL_Oriented_side(CGAL_sign(-
-  //        CGAL_det5x5_by_formula(px, py, pz, px*px + py*py + pz*pz, FT1,
-  //                               qx, qy, qz, qx*qx + qy*qy + qz*qz, FT1,
-  //                               rx, ry, rz, rx*rx + ry*ry + rz*rz, FT1,
-  //                               sx, sy, sz, sx*sx + sy*sy + sz*sz, FT1,
-  //                               tx, ty, tz, tx*tx + ty*ty + tz*tz, FT1)));
-  // Optimized version:
-  const FT ptx = px - tx;
-  const FT pty = py - ty;
-  const FT ptz = pz - tz;
-  const FT pt2 = (px+tx)*ptx + (py+ty)*pty + (pz+tz)*ptz;
-  const FT qtx = qx - tx;
-  const FT qty = qy - ty;
-  const FT qtz = qz - tz;
-  const FT qt2 = (qx+tx)*qtx + (qy+ty)*qty + (qz+tz)*qtz;
-  const FT rtx = rx - tx;
-  const FT rty = ry - ty;
-  const FT rtz = rz - tz;
-  const FT rt2 = (rx+tx)*rtx + (ry+ty)*rty + (rz+tz)*rtz;
-  const FT stx = sx - tx;
-  const FT sty = sy - ty;
-  const FT stz = sz - tz;
-  const FT st2 = (sx+tx)*stx + (sy+ty)*sty + (sz+tz)*stz;
-  return CGAL_Oriented_side(CGAL_sign(-
-           CGAL_det4x4_by_formula(ptx,pty,ptz,pt2,
-                                  qtx,qty,qtz,qt2,
-                                  rtx,rty,rtz,rt2,
-                                  stx,sty,stz,st2)));
+  FT ptx = px - tx;
+  FT pty = py - ty;
+  FT ptz = pz - tz;
+  FT pt2 = square(ptx) + square(pty) + square(ptz);
+  FT qtx = qx - tx;
+  FT qty = qy - ty;
+  FT qtz = qz - tz;
+  FT qt2 = square(qtx) + square(qty) + square(qtz);
+  FT rtx = rx - tx;
+  FT rty = ry - ty;
+  FT rtz = rz - tz;
+  FT rt2 = square(rtx) + square(rty) + square(rtz);
+  FT stx = sx - tx;
+  FT sty = sy - ty;
+  FT stz = sz - tz;
+  FT st2 = square(stx) + square(sty) + square(stz);
+  return Oriented_side(sign_of_determinant4x4(ptx,pty,ptz,pt2,
+                                              rtx,rty,rtz,rt2,
+                                              qtx,qty,qtz,qt2,
+                                              stx,sty,stz,st2));
 }
 
 template <class FT >
 CGAL_KERNEL_MEDIUM_INLINE
-CGAL_Bounded_side
-CGAL_side_of_bounded_sphereC3(const FT &px, const FT &py, const FT &pz,
-                              const FT &qx, const FT &qy, const FT &qz,
-                              const FT &rx, const FT &ry, const FT &rz,
-                              const FT &sx, const FT &sy, const FT &sz,
-                              const FT &tx, const FT &ty, const FT &tz)
+Bounded_side
+side_of_bounded_sphereC3(const FT &px, const FT &py, const FT &pz,
+                         const FT &qx, const FT &qy, const FT &qz,
+                         const FT &rx, const FT &ry, const FT &rz,
+                         const FT &sx, const FT &sy, const FT &sz,
+                         const FT &tx, const FT &ty, const FT &tz)
 {
-  const CGAL_Sign s = CGAL_sign(
-                      CGAL_side_of_oriented_sphereC3(px, py, pz,
-                                                     qx, qy, qz,
-                                                     rx, ry, rz,
-                                                     sx, sy, sz,
-                                                     tx, ty, tz));
-  const CGAL_Orientation o = CGAL_orientationC3(px, py, pz,
-                                                qx, qy, qz,
-                                                rx, ry, rz,
-                                                sx, sy, sz);
-  return CGAL_Bounded_side(- s * o);
+  Oriented_side s = side_of_oriented_sphereC3(px, py, pz,
+                                              qx, qy, qz,
+                                              rx, ry, rz,
+                                              sx, sy, sz,
+                                              tx, ty, tz);
+  Orientation o = orientationC3(px, py, pz,
+                                qx, qy, qz,
+                                rx, ry, rz,
+                                sx, sy, sz);
+  return Bounded_side(s * o);
 }
 
 
 template < class FT >
 CGAL_KERNEL_INLINE
-CGAL_Comparison_result
-CGAL_cmp_dist_to_pointC3(const FT &px, const FT &py, const FT &pz,
-                         const FT &qx, const FT &qy, const FT &qz,
-                         const FT &rx, const FT &ry, const FT &rz)
+Comparison_result
+cmp_dist_to_pointC3(const FT &px, const FT &py, const FT &pz,
+                    const FT &qx, const FT &qy, const FT &qz,
+                    const FT &rx, const FT &ry, const FT &rz)
 {
-  return CGAL_compare(CGAL_squared_distanceC3(px,py,pz,qx,qy,qz),
-                      CGAL_squared_distanceC3(px,py,pz,rx,ry,rz));
+  return CGAL::compare(squared_distanceC3(px,py,pz,qx,qy,qz),
+                       squared_distanceC3(px,py,pz,rx,ry,rz));
 }
 
 template < class FT >
 CGAL_KERNEL_MEDIUM_INLINE
 bool
-CGAL_has_larger_dist_to_pointC3(const FT &px, const FT &py, const FT &pz,
-                                const FT &qx, const FT &qy, const FT &qz,
-                                const FT &rx, const FT &ry, const FT &rz)
+has_larger_dist_to_pointC3(const FT &px, const FT &py, const FT &pz,
+                           const FT &qx, const FT &qy, const FT &qz,
+                           const FT &rx, const FT &ry, const FT &rz)
 {
-  return CGAL_squared_distanceC3(px,py,pz,rx,ry,rz)
-       < CGAL_squared_distanceC3(px,py,pz,qx,qy,qz);
+  return squared_distanceC3(px,py,pz,rx,ry,rz)
+       < squared_distanceC3(px,py,pz,qx,qy,qz);
 }
 
 template < class FT >
 CGAL_KERNEL_MEDIUM_INLINE
 bool
-CGAL_has_smaller_dist_to_pointC3(const FT &px, const FT &py, const FT &pz,
-                                 const FT &qx, const FT &qy, const FT &qz,
-                                 const FT &rx, const FT &ry, const FT &rz)
+has_smaller_dist_to_pointC3(const FT &px, const FT &py, const FT &pz,
+                            const FT &qx, const FT &qy, const FT &qz,
+                            const FT &rx, const FT &ry, const FT &rz)
 {
-  return CGAL_squared_distanceC3(px,py,pz,qx,qy,qz)
-       < CGAL_squared_distanceC3(px,py,pz,rx,ry,rz);
+  return squared_distanceC3(px,py,pz,qx,qy,qz)
+       < squared_distanceC3(px,py,pz,rx,ry,rz);
 }
 
 template < class FT >
 CGAL_KERNEL_MEDIUM_INLINE
-CGAL_Comparison_result
-CGAL_cmp_signed_dist_to_planeC3(
+Comparison_result
+cmp_signed_dist_to_planeC3(
      const FT &pa, const FT &pb, const FT &pc, const FT &pd,
      const FT &px, const FT &py, const FT &pz,
      const FT &qx, const FT &qy, const FT &qz)
 {
-  return CGAL_compare( CGAL_scaled_distance_to_planeC3(pa,pb,pc,pd,px,py,pz),
-                       CGAL_scaled_distance_to_planeC3(pa,pb,pc,pd,qx,qy,qz));
+  return CGAL::compare(scaled_distance_to_planeC3(pa,pb,pc,pd,px,py,pz),
+                       scaled_distance_to_planeC3(pa,pb,pc,pd,qx,qy,qz));
 }
 
 template < class FT >
 CGAL_KERNEL_MEDIUM_INLINE
 bool
-CGAL_has_larger_signed_dist_to_planeC3(
+has_larger_signed_dist_to_planeC3(
      const FT &pa, const FT &pb, const FT &pc, const FT &pd,
      const FT &px, const FT &py, const FT &pz,
      const FT &qx, const FT &qy, const FT &qz)
 {
-  return CGAL_scaled_distance_to_planeC3(pa,pb,pc,pd,qx,qy,qz)
-       < CGAL_scaled_distance_to_planeC3(pa,pb,pc,pd,px,py,pz);
+  return scaled_distance_to_planeC3(pa,pb,pc,pd,qx,qy,qz)
+       < scaled_distance_to_planeC3(pa,pb,pc,pd,px,py,pz);
 }
 
 template < class FT >
 CGAL_KERNEL_MEDIUM_INLINE
 bool
-CGAL_has_smaller_signed_dist_to_planeC3(
+has_smaller_signed_dist_to_planeC3(
      const FT &pa, const FT &pb, const FT &pc, const FT &pd,
      const FT &px, const FT &py, const FT &pz,
      const FT &qx, const FT &qy, const FT &qz)
 {
-  return CGAL_scaled_distance_to_planeC3(pa,pb,pc,pd,px,py,pz)
-       < CGAL_scaled_distance_to_planeC3(pa,pb,pc,pd,qx,qy,qz);
+  return scaled_distance_to_planeC3(pa,pb,pc,pd,px,py,pz)
+       < scaled_distance_to_planeC3(pa,pb,pc,pd,qx,qy,qz);
 }
 template < class FT >
 CGAL_KERNEL_MEDIUM_INLINE
-CGAL_Comparison_result
-CGAL_cmp_signed_dist_to_planeC3(
+Comparison_result
+cmp_signed_dist_to_planeC3(
      const FT &ppx, const FT &ppy, const FT &ppz,
      const FT &pqx, const FT &pqy, const FT &pqz,
      const FT &prx, const FT &pry, const FT &prz,
      const FT &px, const FT &py, const FT &pz,
      const FT &qx, const FT &qy, const FT &qz)
 {
-  return CGAL_compare(
-           CGAL_scaled_distance_to_planeC3(ppx,ppy,ppz,pqx,pqy,pqz,
-                                           prx,pry,prz,psx,psy,psz,
-                                           px,py,pz),
-           CGAL_scaled_distance_to_planeC3(ppx,ppy,ppz,pqx,pqy,pqz,
-                                           prx,pry,prz,psx,psy,psz,
-                                           qx,qy,qz) );
+  return CGAL::compare(
+           scaled_distance_to_planeC3(ppx,ppy,ppz,pqx,pqy,pqz,
+                                      prx,pry,prz,psx,psy,psz,
+                                      px,py,pz),
+           scaled_distance_to_planeC3(ppx,ppy,ppz,pqx,pqy,pqz,
+                                      prx,pry,prz,psx,psy,psz,
+                                      qx,qy,qz) );
 }
 
 template < class FT >
 CGAL_KERNEL_MEDIUM_INLINE
 bool
-CGAL_has_larger_signed_dist_to_planeC3(
+has_larger_signed_dist_to_planeC3(
      const FT &ppx, const FT &ppy, const FT &ppz,
      const FT &pqx, const FT &pqy, const FT &pqz,
      const FT &prx, const FT &pry, const FT &prz,
      const FT &px, const FT &py, const FT &pz,
      const FT &qx, const FT &qy, const FT &qz)
 {
-  return CGAL_scaled_distance_to_planeC3(ppx,ppy,ppz,pqx,pqy,pqz,
-                                         prx,pry,prz,psx,psy,psz,
-                                         qx,qy,qz)
-       < CGAL_scaled_distance_to_planeC3(ppx,ppy,ppz,pqx,pqy,pqz,
-                                         prx,pry,prz,psx,psy,psz,
-                                         px,py,pz);
+  return scaled_distance_to_planeC3(ppx,ppy,ppz,pqx,pqy,pqz,
+                                    prx,pry,prz,psx,psy,psz,
+                                    qx,qy,qz)
+       < scaled_distance_to_planeC3(ppx,ppy,ppz,pqx,pqy,pqz,
+                                    prx,pry,prz,psx,psy,psz,
+                                    px,py,pz);
 }
 
 template < class FT >
 CGAL_KERNEL_MEDIUM_INLINE
 bool
-CGAL_has_smaller_signed_dist_to_planeC3(
+has_smaller_signed_dist_to_planeC3(
      const FT &ppx, const FT &ppy, const FT &ppz,
      const FT &pqx, const FT &pqy, const FT &pqz,
      const FT &prx, const FT &pry, const FT &prz,
      const FT &px, const FT &py, const FT &pz,
      const FT &qx, const FT &qy, const FT &qz)
 {
-  return CGAL_scaled_distance_to_planeC3(ppx,ppy,ppz,pqx,pqy,pqz,
-                                         prx,pry,prz,psx,psy,psz,
-                                         px,py,pz)
-       < CGAL_scaled_distance_to_planeC3(ppx,ppy,ppz,pqx,pqy,pqz,
-                                         prx,pry,prz,psx,psy,psz,
-                                         qx,qy,qz);
+  return scaled_distance_to_planeC3(ppx,ppy,ppz,pqx,pqy,pqz,
+                                    prx,pry,prz,psx,psy,psz,
+                                    px,py,pz)
+       < scaled_distance_to_planeC3(ppx,ppy,ppz,pqx,pqy,pqz,
+                                    prx,pry,prz,psx,psy,psz,
+                                    qx,qy,qz);
 }
+
+
+CGAL_END_NAMESPACE
 
 #ifdef CGAL_ARITHMETIC_FILTER_H
+#ifndef CGAL_ARITHMETIC_FILTER_PREDICATES_ON_FTC3_H
 #include <CGAL/Arithmetic_filter/predicates_on_ftC3.h>
+#endif // CGAL_ARITHMETIC_FILTER_PREDICATES_ON_FTC3_H
 #endif
-
 
 #endif // CGAL_PREDICATES_ON_FTC3_H

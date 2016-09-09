@@ -1,6 +1,6 @@
 // ======================================================================
 //
-// Copyright (c) 1998 The CGAL Consortium
+// Copyright (c) 1999 The GALIA Consortium
 //
 // This software and related documentation is part of the
 // Computational Geometry Algorithms Library (CGAL).
@@ -16,34 +16,33 @@
 // - Development licenses grant access to the source code of the library 
 //   to develop programs. These programs may be sold to other parties as 
 //   executable code. To obtain a development license, please contact
-//   the CGAL Consortium (at cgal@cs.uu.nl).
+//   the GALIA Consortium (at cgal@cs.uu.nl).
 // - Commercialization licenses grant access to the source code and the
 //   right to sell development licenses. To obtain a commercialization 
-//   license, please contact the CGAL Consortium (at cgal@cs.uu.nl).
+//   license, please contact the GALIA Consortium (at cgal@cs.uu.nl).
 //
 // This software and documentation is provided "as-is" and without
 // warranty of any kind. In no event shall the CGAL Consortium be
 // liable for any damage of any kind.
 //
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// The GALIA Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany) Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+// (Germany), Max-Planck-Institute Saarbrucken (Germany),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
-// release       : CGAL-1.2
-// release_date  : 1999, January 18
+// release       : CGAL-2.0
+// release_date  : 1999, June 03
 //
 // file          : include/CGAL/predicate_objects_on_points_2.h
-// package       : Convex_hull (1.3.2)
+// package       : Convex_hull (2.0.8)
 // source        : convex_hull_2.lw
-// revision      : 1.3.2
-// revision_date : 09 Dec 1998
+// revision      : 2.0.8
+// revision_date : 06 May 1999
 // author(s)     : Stefan Schirra
 //
 // coordinator   : MPI, Saarbruecken
-//
 // email         : cgal@cs.uu.nl
 //
 // ======================================================================
@@ -53,16 +52,18 @@
 #define CGAL_PREDICATE_OBJECTS_ON_POINTS_2_H
 
 #include <CGAL/user_classes.h>
+
+CGAL_BEGIN_NAMESPACE
 template <class Point>
-class CGAL_p_Left_of_line_2p
+class p_Left_of_line_2p
 {
 public:
-        CGAL_p_Left_of_line_2p(const Point& a, const Point& b)
+        p_Left_of_line_2p(const Point& a, const Point& b)
          : p_a(a), p_b(b)
         {}
 
   bool  operator()(const Point& c) const
-        { return CGAL_leftturn( p_a, p_b, c ); }
+        { return leftturn( p_a, p_b, c ); }
 
 private:
     Point p_a;
@@ -70,15 +71,15 @@ private:
 };
 
 template <class Point>
-class CGAL_p_Right_of_line_2p
+class p_Right_of_line_2p
 {
 public:
-        CGAL_p_Right_of_line_2p(const Point& a, const Point& b)
+        p_Right_of_line_2p(const Point& a, const Point& b)
          : p_a(a), p_b(b)
         {}
 
   bool  operator()(const Point& c) const
-        { return CGAL_rightturn( p_a, p_b, c ); }
+        { return rightturn( p_a, p_b, c ); }
 
 private:
     Point p_a;
@@ -86,17 +87,17 @@ private:
 };
 
 template <class Point>
-class CGAL_p_Right_of_line_2p_safer
+class p_Right_of_line_2p_safer
 {
 public:
-        CGAL_p_Right_of_line_2p_safer(const Point& a, const Point& b)
+        p_Right_of_line_2p_safer(const Point& a, const Point& b)
          : p_a(a), p_b(b)
         {}
 
   bool  operator()(const Point& c) const
         {
           if ( (c == p_a) || ( c == p_b ) ) return false;
-          return CGAL_rightturn( p_a, p_b, c );
+          return rightturn( p_a, p_b, c );
         }
 
 private:
@@ -106,56 +107,56 @@ private:
 
 
 template <class Point>
-struct CGAL_p_Less_xy
+struct p_Less_xy
 {
   bool operator()( const Point& p1, const Point& p2) const
-       { return CGAL_lexicographically_xy_smaller( p1, p2); }
+       { return lexicographically_xy_smaller( p1, p2); }
 };
 
 template <class Point>
-struct CGAL_p_Greater_xy
+struct p_Greater_xy
 {
   bool operator()( const Point& p1, const Point& p2) const
-       { return CGAL_lexicographically_xy_larger( p1, p2); }
+       { return lexicographically_xy_larger( p1, p2); }
 };
 
 template <class Point>
-struct CGAL_p_Less_yx
+struct p_Less_yx
 {
   bool operator()( const Point& p1, const Point& p2) const
-       { return CGAL_lexicographically_yx_smaller( p1, p2); }
+       { return lexicographically_yx_smaller( p1, p2); }
 };
 
 template <class Point>
-struct CGAL_p_Greater_yx
+struct p_Greater_yx
 {
   bool operator()( const Point& p1, const Point& p2) const
-       { return CGAL_lexicographically_yx_larger( p1, p2); }
+       { return lexicographically_yx_larger( p1, p2); }
 };
 
 template <class Point>
-class CGAL_p_Less_dist_to_line_2p
+class p_Less_dist_to_line_2p
 {
 public:
-        CGAL_p_Less_dist_to_line_2p(const Point& a, const Point& b)
+        p_Less_dist_to_line_2p(const Point& a, const Point& b)
          : p_a(a), p_b(b)
         {}
 
   bool  operator()(const Point& c, const Point& d) const
         {
-          CGAL_Comparison_result 
-            res = CGAL_cmp_signed_dist_to_line( p_a, p_b, c, d);
-          if ( res == CGAL_LARGER )
+          Comparison_result 
+            res = cmp_signed_dist_to_line( p_a, p_b, c, d);
+          if ( res == LARGER )
           {
               return false;
           }
-          else if ( res == CGAL_SMALLER )
+          else if ( res == SMALLER )
           {
               return true;
           }
           else
           {
-              return CGAL_lexicographically_xy_smaller( c, d );
+              return lexicographically_xy_smaller( c, d );
           }
         }
 
@@ -165,28 +166,28 @@ private:
 };
 
 template <class Point>
-class CGAL_p_Less_negative_dist_to_line_2p
+class p_Less_negative_dist_to_line_2p
 {
 public:
-        CGAL_p_Less_negative_dist_to_line_2p(const Point& a, const Point& b)
+        p_Less_negative_dist_to_line_2p(const Point& a, const Point& b)
          : p_a(a), p_b(b)
         {}
 
   bool  operator()(const Point& c, const Point& d) const
         {
-          CGAL_Comparison_result 
-            res = CGAL_cmp_signed_dist_to_line( p_a, p_b, c, d);
-          if ( res == CGAL_LARGER )
+          Comparison_result 
+            res = cmp_signed_dist_to_line( p_a, p_b, c, d);
+          if ( res == LARGER )
           {
               return true;
           }
-          else if ( res == CGAL_SMALLER )
+          else if ( res == SMALLER )
           {
               return false;
           }
           else
           {
-              return CGAL_lexicographically_xy_smaller( c, d );
+              return lexicographically_xy_smaller( c, d );
           }
         }
 
@@ -196,21 +197,21 @@ private:
 };
 
 template <class Point>
-class CGAL_p_Less_rotate_ccw
+class p_Less_rotate_ccw
 {
 public:
-        CGAL_p_Less_rotate_ccw(const Point& p)
+        p_Less_rotate_ccw(const Point& p)
         : rot_point(p)
         {}
 
   bool  operator()(const Point& p, const Point& q) const
         {
-          CGAL_Orientation ori = CGAL_orientation(rot_point, p, q);
-          if ( ori == CGAL_LEFTTURN )
+          Orientation ori = orientation(rot_point, p, q);
+          if ( ori == LEFTTURN )
           {
               return true;
           }
-          else if ( ori == CGAL_RIGHTTURN )
+          else if ( ori == RIGHTTURN )
           {
               return false;
           }
@@ -219,7 +220,7 @@ public:
               if (p == rot_point) return false;
               if (q == rot_point) return true;
               if (p == q)         return false;
-              return  CGAL_collinear_are_ordered_along_line( rot_point, q, p);
+              return  collinear_are_ordered_along_line( rot_point, q, p);
           }
         }
 
@@ -232,10 +233,10 @@ private:
 };
 
 template <class Point>
-class CGAL_p_Less_rotate_ccw_safer
+class p_Less_rotate_ccw_safer
 {
 public:
-        CGAL_p_Less_rotate_ccw_safer(const Point& p)
+        p_Less_rotate_ccw_safer(const Point& p)
         : rot_point(p)
         {}
 
@@ -244,18 +245,18 @@ public:
           if (p == rot_point) return false;
           if (q == rot_point) return true;
           if (p == q)         return false;
-          CGAL_Orientation ori = CGAL_orientation(rot_point, p, q);
-          if ( ori == CGAL_LEFTTURN )
+          Orientation ori = orientation(rot_point, p, q);
+          if ( ori == LEFTTURN )
           {
               return true;
           }
-          else if ( ori == CGAL_RIGHTTURN )
+          else if ( ori == RIGHTTURN )
           {
               return false;
           }
           else
           {
-              return  CGAL_collinear_are_ordered_along_line( rot_point, q, p);
+              return  collinear_are_ordered_along_line( rot_point, q, p);
           }
         }
   
@@ -268,27 +269,27 @@ private:
 };
 
 template <class Point>
-class CGAL_p_Less_rotate_ccw_E
+class p_Less_rotate_ccw_E
 {
 public:
-        CGAL_p_Less_rotate_ccw_E(const Point& p)
+        p_Less_rotate_ccw_E(const Point& p)
         : rot_point(p)
         {}
 
   bool  operator()(const Point& p, const Point& q) const
         {
-          CGAL_Orientation ori = CGAL_orientation(rot_point, p, q);
-          if ( ori == CGAL_LEFTTURN )
+          Orientation ori = orientation(rot_point, p, q);
+          if ( ori == LEFTTURN )
           {
               return true;
           }
-          else if ( ori == CGAL_RIGHTTURN )
+          else if ( ori == RIGHTTURN )
           {
               return false;
           }
           else
           {
-              return  CGAL_has_larger_dist_to_point( rot_point, p, q) ;
+              return  has_larger_dist_to_point( rot_point, p, q) ;
           }
         }
 
@@ -301,59 +302,59 @@ private:
 };
 
 template <class R>
-class CGAL_r_Right_of_line
+class r_Right_of_line
 {
 public:
-        CGAL_r_Right_of_line(const CGAL_Point_2<R>& a, 
-                             const CGAL_Point_2<R>& b)
+        r_Right_of_line(const Point_2<R>& a, 
+                             const Point_2<R>& b)
          : l_ab( a, b )
         {}
 
-  bool  operator()(const CGAL_Point_2<R>& c) const
+  bool  operator()(const Point_2<R>& c) const
         {
           if ( l_ab.is_degenerate() ) return false;
-          return (l_ab.oriented_side(c) == CGAL_ON_NEGATIVE_SIDE);
+          return (l_ab.oriented_side(c) == ON_NEGATIVE_SIDE);
         }
 
 private:
-  CGAL_Line_2<R>    l_ab;
+  Line_2<R>    l_ab;
 };
 
 template <class R>
-class CGAL_r_Left_of_line
+class r_Left_of_line
 {
 public:
-        CGAL_r_Left_of_line(const CGAL_Point_2<R>& a, 
-                            const CGAL_Point_2<R>& b)
+        r_Left_of_line(const Point_2<R>& a, 
+                            const Point_2<R>& b)
          : l_ab( a, b )
         {}
 
-  bool  operator()(const CGAL_Point_2<R>& c) const
-        { return (l_ab.oriented_side(c) == CGAL_ON_POSITIVE_SIDE); }
+  bool  operator()(const Point_2<R>& c) const
+        { return (l_ab.oriented_side(c) == ON_POSITIVE_SIDE); }
 
 private:
-  CGAL_Line_2<R>    l_ab;
+  Line_2<R>    l_ab;
 };
 
 template <class R>
-class CGAL_r_Less_dist_to_line
+class r_Less_dist_to_line
 {
 public:
-        CGAL_r_Less_dist_to_line(const CGAL_Point_2<R>& a, 
-                               const CGAL_Point_2<R>& b)
+        r_Less_dist_to_line(const Point_2<R>& a, 
+                               const Point_2<R>& b)
          : l_ab( a, b )
         {}
 
-  bool  operator()(const CGAL_Point_2<R>& c, const CGAL_Point_2<R>& d) const
+  bool  operator()(const Point_2<R>& c, const Point_2<R>& d) const
         {
-          CGAL_Comparison_result res = CGAL_cmp_signed_dist_to_line(l_ab, c, d);
-          if ( res == CGAL_LARGER )
+          Comparison_result res = cmp_signed_dist_to_line(l_ab, c, d);
+          if ( res == LARGER )
           {
               return false;
           }
-          else if ( res == CGAL_EQUAL )
+          else if ( res == EQUAL )
           {
-              return CGAL_lexicographically_xy_smaller( c, d );
+              return lexicographically_xy_smaller( c, d );
           }
           else
           {
@@ -362,28 +363,28 @@ public:
         }
 
 private:
-  CGAL_Line_2<R>    l_ab;
+  Line_2<R>    l_ab;
 };
 
 template <class R>
-class CGAL_r_Less_negative_dist_to_line
+class r_Less_negative_dist_to_line
 {
 public:
-        CGAL_r_Less_negative_dist_to_line(const CGAL_Point_2<R>& a, 
-                               const CGAL_Point_2<R>& b)
+        r_Less_negative_dist_to_line(const Point_2<R>& a, 
+                               const Point_2<R>& b)
          : l_ab( a, b )
         {}
 
-  bool  operator()(const CGAL_Point_2<R>& c, const CGAL_Point_2<R>& d) const
+  bool  operator()(const Point_2<R>& c, const Point_2<R>& d) const
         {
-          CGAL_Comparison_result res = CGAL_cmp_signed_dist_to_line(l_ab, c, d);
-          if ( res == CGAL_LARGER )
+          Comparison_result res = cmp_signed_dist_to_line(l_ab, c, d);
+          if ( res == LARGER )
           {
               return true;
           }
-          else if ( res == CGAL_EQUAL )
+          else if ( res == EQUAL )
           {
-              return CGAL_lexicographically_xy_smaller( c, d );
+              return lexicographically_xy_smaller( c, d );
           }
           else
           {
@@ -392,30 +393,30 @@ public:
         }
 
 private:
-  CGAL_Line_2<R>    l_ab;
+  Line_2<R>    l_ab;
 };
 
 template <class R>
-class CGAL_r_Less_in_direction
+class r_Less_in_direction
 {
 public:
         typedef typename  R::RT   RT;
 
-        CGAL_r_Less_in_direction( const CGAL_Direction_2<R>& dir )
-        : l( CGAL_Point_2<R>( RT(0) , RT(0) ),
-             CGAL_Direction_2<R>(-(dir.dy()), dir.dx() ))
+        r_Less_in_direction( const Direction_2<R>& dir )
+        : l( Point_2<R>( RT(0) , RT(0) ),
+             Direction_2<R>(-(dir.dy()), dir.dx() ))
         {}
 
-  bool  operator()(const CGAL_Point_2<R>& c, const CGAL_Point_2<R>& d) const
+  bool  operator()(const Point_2<R>& c, const Point_2<R>& d) const
         {
-          CGAL_Comparison_result res = CGAL_cmp_signed_dist_to_line(l, c, d);
-          if ( res == CGAL_LARGER )
+          Comparison_result res = cmp_signed_dist_to_line(l, c, d);
+          if ( res == LARGER )
           {
               return true;
           }
-          else if ( res == CGAL_EQUAL )
+          else if ( res == EQUAL )
           {
-              return  CGAL_lexicographically_xy_smaller( c, d) ;
+              return  lexicographically_xy_smaller( c, d) ;
           }
           else
           {
@@ -424,30 +425,31 @@ public:
         }
 
 private:
-  CGAL_Line_2<R>  l;
+  Line_2<R>  l;
 };
 
 template <class Point>
-struct CGAL_p_Leftturn
+struct p_Leftturn
 {
   bool  operator()(const Point& p, const Point& q, const Point& r) const
-        { return CGAL_leftturn(p,q,r); }
+        { return leftturn(p,q,r); }
 };
 
 template <class Point>
-struct CGAL_p_Rightturn
+struct p_Rightturn
 {
   bool  operator()(const Point& p, const Point& q, const Point& r) const
-        { return CGAL_rightturn(p,q,r); }
+        { return rightturn(p,q,r); }
 };
 
 template <class Point>
-struct CGAL_p_Orientation
+struct p_Orientation
 {
-  CGAL_Orientation  
+  Orientation  
         operator()(const Point& p, const Point& q, const Point& r) const
-        { return CGAL_orientation(p,q,r); }
+        { return orientation(p,q,r); }
 };
 
+CGAL_END_NAMESPACE
 
 #endif // CGAL_PREDICATE_OBJECTS_ON_POINTS_2_H

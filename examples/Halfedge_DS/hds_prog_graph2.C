@@ -1,23 +1,23 @@
-/*  hds_prog_graph2.C               */
-/*  ------------------------------- */
+// hds_prog_graph2.C
+// -------------------------------------------------
 #include <CGAL/Halfedge_data_structure_bases.h>
 #include <CGAL/Halfedge_data_structure_using_list.h>
 #include <CGAL/Halfedge_data_structure_decorator.h>
 
-class My_halfedge : public CGAL_Halfedge_min_base {
+using namespace CGAL;
+
+class My_halfedge : public Halfedge_min_base {
     void* prv;
 public:
-    typedef  CGAL_Tag_true   Supports_halfedge_prev;
-    void*       prev()                    { return prv;}
-    const void* prev() const              { return prv;}
-    void        set_prev( void* h)        { prv = h;}
+    typedef  Tag_true   Supports_halfedge_prev;
+    void*       prev()             { return prv;}
+    const void* prev() const       { return prv;}
+    void        set_prev( void* h) { prv = h;}
 };  
 
-typedef CGAL_Halfedge_data_structure_using_list <
-            CGAL_Vertex_min_base, 
-            My_halfedge,
-            CGAL_Facet_min_base >                    HDS;
-typedef CGAL_Halfedge_data_structure_decorator<HDS>  Decorator;
+typedef Halfedge_data_structure_using_list <
+            Vertex_min_base, My_halfedge, Facet_min_base> HDS;
+typedef Halfedge_data_structure_decorator<HDS>  Decorator;
 
 int main() {
     HDS hds;

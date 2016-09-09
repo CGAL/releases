@@ -1,34 +1,34 @@
 #include "tutorial.h"
 #include <CGAL/intersections.h>
 
-void main()
+main()
 {
-  Triangle_2 t1(Point_2(2,6), Point_2(-6,5), Point_2(-2,-7));
-  Triangle_2 t2(Point_2(6,0), Point_2(-3,0), Point_2(2,-5));
+  Triangle t1(Point(2,6), Point(-6,5), Point(-2,-7));
+  Triangle t2(Point(6,0), Point(-3,0), Point(2,-5));
 
   cout << "The intersection of triangle 1:\n" << t1;
   cout << "\nand triangle 2:\n" << t2 << "\nis ";
 
-  if ( ! CGAL_do_intersect(t1,t2) ) {
+  if ( ! CGAL::do_intersect(t1,t2) ) {
     cout << "empty" << endl;
   }
   else {
-    CGAL_Object result = CGAL_intersection(t1,t2);
-    Point_2 point;
-    Segment_2 segment;
-    Triangle_2 triangle;
-    vector<Point_2> polypoint;                   // not a Polygon_2 !
+    CGAL::Object result = CGAL::intersection(t1,t2);
+    Point point;
+    Segment segment;
+    Triangle triangle;
+    std::vector<Point> polypoint;                   // not a Polygon !
 
-    if (CGAL_assign(point, result)) {
+    if (CGAL::assign(point, result)) {
       cout << "point." << endl;
     } else
-    if (CGAL_assign(segment, result)) {
+    if (CGAL::assign(segment, result)) {
       cout << "segment." << endl;
     } else
-    if (CGAL_assign(triangle, result)) {
+    if (CGAL::assign(triangle, result)) {
       cout << "triangle." << endl;
     } else
-    if (CGAL_assign(polypoint, result)) {
+    if (CGAL::assign(polypoint, result)) {
       cout << "a polygon." << endl;
     } else
     cout << "unknown!" << endl;

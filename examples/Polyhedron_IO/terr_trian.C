@@ -1,6 +1,6 @@
 // ============================================================================
 //
-// Copyright (c) 1997 The CGAL Consortium
+// Copyright (c) 1999 The GALIA Consortium
 //
 // This software and related documentation is part of the
 // Computational Geometry Algorithms Library (CGAL).
@@ -16,48 +16,47 @@
 // - Development licenses grant access to the source code of the library 
 //   to develop programs. These programs may be sold to other parties as 
 //   executable code. To obtain a development license, please contact
-//   the CGAL Consortium (at cgal@cs.uu.nl).
+//   the GALIA Consortium (at cgal@cs.uu.nl).
 // - Commercialization licenses grant access to the source code and the
 //   right to sell development licenses. To obtain a commercialization 
-//   license, please contact the CGAL Consortium (at cgal@cs.uu.nl).
+//   license, please contact the GALIA Consortium (at cgal@cs.uu.nl).
 //
 // This software and documentation is provided "as-is" and without
 // warranty of any kind. In no event shall the CGAL Consortium be
 // liable for any damage of any kind.
 //
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// The GALIA Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany) Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+// (Germany), Max-Planck-Institute Saarbrucken (Germany),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-1.2
-// release_date  : 1999, January 18
+// release       : CGAL-2.0
+// release_date  : 1999, June 03
 //
 // file          : terr_trian.C
-// package       : $CGAL_Package: Polyhedron_IO 1.11 (17 Dec 1998) $
-// revision      : $Revision: 1.3 $
-// revision_date : $Date: 1998/04/01 20:17:57 $
+// package       : $CGAL_Package: Polyhedron_IO 2.5 (29 Apr 1999) $
+// revision      : $Revision: 1.5 $
+// revision_date : $Date: 1999/03/09 22:18:32 $
 // author(s)     : Lutz Kettner
 //
 // coordinator   : Herve Bronnimann
 //
 // Delaunay Triangulation of a set of 3D points in the xy-plane. 
 // (Terrain triangulation)
-//
 // email         : cgal@cs.uu.nl
 //
 // ======================================================================
 
 #include <CGAL/basic.h>
 
-#include <stddef.h>
-#include <stdlib.h>
-#include <string.h>
-#include <iostream.h>
-#include <fstream.h>
+#include <cstddef>
+#include <cstdlib>
+#include <cstring>
+#include <iostream>
+#include <fstream>
 
 #ifdef CGAL_USE_LEDA
 #include <CGAL/leda_rational.h>
@@ -73,38 +72,36 @@
 #include <CGAL/Delaunay_triangulation_2.h>
 #include "triangulation_print_OFF.h"
 
+using namespace std;
+using CGAL::Point_3;
+
 template <class R>
-struct  Indexed_point: public CGAL_Point_3<R> {
+struct  Indexed_point: public Point_3<R> {
     int*  index;
-    Indexed_point()                                      {}
-    Indexed_point( Point_3 p) : CGAL_Point_3<R>(p)       {}
+    Indexed_point()                                 {}
+    Indexed_point( Point_3<R> p) : Point_3<R>(p)    {}
     Indexed_point( double x, double y, double z, int* i) 
-        : CGAL_Point_3<R>(x,y,z), index(i)               {}
+        : Point_3<R>(x,y,z), index(i)               {}
 };
 
 #ifdef CGAL_USE_LEDA
-typedef  CGAL_Cartesian<leda_rational>                R;
+typedef  CGAL::Cartesian<leda_rational>                R;
 #else
-typedef  CGAL_Cartesian<double>                       R;
+typedef  CGAL::Cartesian<double>                       R;
 #endif
-typedef  CGAL_Point_3<R>                              Point_3;
-typedef  Indexed_point<R>                             IPoint;
-typedef  CGAL_Triangulation_euclidean_traits_xy_3<R>  Gtraits;
+typedef  Indexed_point<R>                              IPoint;
+typedef  CGAL::Triangulation_euclidean_traits_xy_3<R>  Gtraits;
 
 struct Gt : public Gtraits {
     typedef IPoint Point;
 };
 
-typedef  CGAL_Triangulation_vertex_base_2<Gt> Vb;
-typedef  CGAL_Triangulation_face_base_2<Gt>  Fb;
+typedef  CGAL::Triangulation_vertex_base_2<Gt> Vb;
+typedef  CGAL::Triangulation_face_base_2<Gt>  Fb;
 
-typedef  CGAL_Triangulation_default_data_structure_2<Gt,Vb,Fb> Tds;
-typedef  CGAL_Triangulation_2<Gt,Tds>                 Triangulation;
-typedef  CGAL_Delaunay_triangulation_2<Gt,Tds>        Delaunay_triangulation;
-
-#define MaxParameters          2
-#define MaxOptionalParameters  2
-#define ErrParameters          10000
+typedef  CGAL::Triangulation_default_data_structure_2<Gt,Vb,Fb> Tds;
+typedef  CGAL::Triangulation_2<Gt,Tds>                 Triangulation;
+typedef  CGAL::Delaunay_triangulation_2<Gt,Tds>        Delaunay_triangulation;
 
 bool  verbose      = false;
 bool  binary       = false;
@@ -115,16 +112,12 @@ bool  incr         = false;
 // main function with standard unix commandline arguments
 // ------------------------------------------------------
 int main( int argc, char **argv) {
-    int i;
-    int nParameters = 0;
-    char *parameters[ MaxParameters + 1];
-
+    int n = 0; // number of filenames
+    char *filename[2];
     bool help = false;
-
-    for (i = 1; i < argc && nParameters <= MaxParameters; i++) {
-	// check commandline options
-	if ( strcmp( "-v", argv[i]) == 0)
-	    verbose = true;
+    for (int i = 1; i < argc; i++) { // check commandline options
+        if ( strcmp( "-v", argv[i]) == 0)
+            verbose = true;
 	else if ( strcmp( "-b", argv[i]) == 0)
 	    binary = true;
 	else if ( strcmp( "-noc", argv[i]) == 0)
@@ -133,21 +126,21 @@ int main( int argc, char **argv) {
 	    delaunay = true;
 	else if ( strcmp( "-incr", argv[i]) == 0)
 	    incr = true;
-	else if ( (strcmp( "-h", argv[i]) == 0) || 
-		  (strcmp( "-help", argv[i]) == 0))
-	    help = true;
-	// else parse mandatory or optional commandline arguments
-	else if ( nParameters < MaxParameters ) {
-	    parameters[nParameters ++] = argv[i];
-	} else 
-	    nParameters = ErrParameters;
+        else if ( (strcmp( "-h", argv[i]) == 0) || 
+                  (strcmp( "-help", argv[i]) == 0))
+            help = true;
+        else if ( n < 2 ) {
+            filename[ n++] = argv[i];
+        } else {
+	    ++n;
+            break;
+	}
     }
-    if ((nParameters < MaxParameters - MaxOptionalParameters) ||
-	(nParameters > MaxParameters) || help) {
-	if ( ! help)
-	    cerr << "Error: in parameter list" << endl;
-	cerr << "Usage: " << argv[0] << " [<options>] [<infile> [<outfile>]]"
-	     << endl;
+    if ((n > 2) || help) {
+        if ( ! help)
+            cerr << "Error: in parameter list" << endl;
+        cerr << "Usage: " << argv[0] << " [<options>] [<infile> [<outfile>]]"
+             << endl;
 	cerr << "       Terrain triangulation in the xy-plane." << endl;
 	cerr << "       -delaunay  Delaunay triangulation (default)." << endl;
 	cerr << "       -incr      Incremental insertion (no flips)." << endl;
@@ -157,16 +150,16 @@ int main( int argc, char **argv) {
 	exit( ! help);
     }
 
-    CGAL_Verbose_ostream vout( verbose);
+    CGAL::Verbose_ostream vout( verbose);
     vout << argv[0] << ": verbosity on." << endl;
 
     const char*  iname = "cin";
-    istream*     p_in = &cin;
+    istream*     p_in  = &cin;
     ifstream     in;
-    if ( nParameters > 0) {
-	in.open( parameters[ 0]);
+    if ( n > 0) {
+	in.open( filename[0]);
 	p_in = &in;
-	iname = parameters[0];
+	iname = filename[0];
     }
     if ( !*p_in) { 
 	cerr << argv[0] << ": error: cannot open file '" << iname
@@ -174,17 +167,17 @@ int main( int argc, char **argv) {
 	exit( 1);
     }
 
-    CGAL_File_scanner_OFF scanner( * p_in, true);
+    CGAL::File_scanner_OFF scanner( * p_in, true);
     if ( !*p_in)
 	exit( 1);
 
-    const char*  oname    = "cout";
+    const char*  oname = "cout";
     ostream*     p_out = &cout;
     ofstream     out;
-    if ( nParameters > 1) {
-	out.open( parameters[ 1]);
+    if ( n > 1) {
+	out.open( filename[1]);
 	p_out = &out;
-	oname = parameters[1];
+	oname = filename[1];
     }
     if ( !*p_out) { 
 	cerr << argv[0] << ": error: cannot open file '"<< oname
@@ -209,7 +202,7 @@ int main( int argc, char **argv) {
 	vout << "    .... done." << endl;
 	vout << "write_triangulation( " << oname 
 	     << (binary ? ", binary" : ", ASCII") << ") ...." << endl;
-	CGAL_triangulation_print_OFF( *p_out, triang, binary, noc, verbose);
+	CGAL::triangulation_print_OFF( *p_out, triang, binary, noc, verbose);
 	vout << "    .... done." << endl;
     } else {
         Triangulation triang;
@@ -223,7 +216,7 @@ int main( int argc, char **argv) {
 	vout << "    .... done." << endl;
 	vout << "write_triangulation( " << oname 
 	     << (binary ? ", binary" : ", ASCII") << ") ...." << endl;
-	CGAL_triangulation_print_OFF( *p_out, triang, binary, noc, verbose);
+	CGAL::triangulation_print_OFF( *p_out, triang, binary, noc, verbose);
 	vout << "    .... done." << endl;
     }
     if ( !*p_in) { 
@@ -239,5 +232,4 @@ int main( int argc, char **argv) {
     delete[] indices;
     return 0;
 }
-
 // EOF //

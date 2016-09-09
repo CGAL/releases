@@ -14,6 +14,7 @@ include $(CGAL_MAKEFILE)
 
 CXXFLAGS = \
            $(CGAL_CXXFLAGS) \
+           $(LONG_NAME_PROBLEM_CXXFLAGS) \
            -g
 
 #---------------------------------------------------------------------#
@@ -21,6 +22,7 @@ CXXFLAGS = \
 #---------------------------------------------------------------------#
 
 LDFLAGS = \
+           $(LONG_NAME_PROBLEM_LDFLAGS) \
           $(CGAL_WINDOW_LDFLAGS)
 
 #---------------------------------------------------------------------#
@@ -30,7 +32,7 @@ LDFLAGS = \
 all:            \
                 all_furthest_neighbors_2_demo \
                 extremal_polygon_2_demo \
-                rectangular_p_center_2_demo 
+                rectangular_p_center_2_demo
 
 all_furthest_neighbors_2_demo: all_furthest_neighbors_2_demo.o
 	$(CGAL_CXX) -o all_furthest_neighbors_2_demo all_furthest_neighbors_2_demo.o $(LDFLAGS)
@@ -45,7 +47,9 @@ clean:
 	rm -f *.o \
                    all_furthest_neighbors_2_demo \
                    extremal_polygon_2_demo \
+                   extremal_polygon_2_vega_demo \
                    rectangular_p_center_2_demo \
+                   rectangular_p_center_2_vega_demo \
                    core
 
 #---------------------------------------------------------------------#

@@ -1,6 +1,6 @@
 // ======================================================================
 //
-// Copyright (c) 1997,1998 The CGAL Consortium
+// Copyright (c) 1999 The GALIA Consortium
 //
 // This software and related documentation is part of the
 // Computational Geometry Algorithms Library (CGAL).
@@ -16,40 +16,39 @@
 // - Development licenses grant access to the source code of the library 
 //   to develop programs. These programs may be sold to other parties as 
 //   executable code. To obtain a development license, please contact
-//   the CGAL Consortium (at cgal@cs.uu.nl).
+//   the GALIA Consortium (at cgal@cs.uu.nl).
 // - Commercialization licenses grant access to the source code and the
 //   right to sell development licenses. To obtain a commercialization 
-//   license, please contact the CGAL Consortium (at cgal@cs.uu.nl).
+//   license, please contact the GALIA Consortium (at cgal@cs.uu.nl).
 //
 // This software and documentation is provided "as-is" and without
 // warranty of any kind. In no event shall the CGAL Consortium be
 // liable for any damage of any kind.
 //
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// The GALIA Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany) Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+// (Germany), Max-Planck-Institute Saarbrucken (Germany),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-1.2
-// release_date  : 1999, January 18
+// release       : CGAL-2.0
+// release_date  : 1999, June 03
 //
 // file          : include/CGAL/Optimisation_circle_2.h
-// package       : Min_circle_2 (3.1.1)
+// package       : Min_circle_2 (3.2.3)
 // chapter       : $CGAL_Chapter: Geometric Optimisation $
 //
 // source        : web/Optimisation/Min_circle_2.aw
-// revision      : $Revision: 5.3 $
-// revision_date : $Date: 1998/11/16 15:42:39 $
+// revision      : $Revision: 5.8 $
+// revision_date : $Date: 1999/04/19 16:20:38 $
 // author(s)     : Sven Schönherr
 //                 Bernd Gärtner
 //
 // coordinator   : ETH Zürich (Bernd Gärtner)
 //
 // implementation: 2D Optimisation Circle
-//
 // email         : cgal@cs.uu.nl
 //
 // ======================================================================
@@ -57,13 +56,6 @@
 #ifndef CGAL_OPTIMISATION_CIRCLE_2_H
 #define CGAL_OPTIMISATION_CIRCLE_2_H
 
-// Class declaration
-// =================
-template < class _R >
-class CGAL_Optimisation_circle_2;
-
-// Class interface
-// ===============
 // includes
 #ifndef CGAL_POINT_2_H
 #  include <CGAL/Point_2.h>
@@ -75,13 +67,22 @@ class CGAL_Optimisation_circle_2;
 #  include <CGAL/squared_distance_2.h>
 #endif
 
+CGAL_BEGIN_NAMESPACE
+
+// Class declaration
+// =================
 template < class _R >
-class CGAL_Optimisation_circle_2 {
+class Optimisation_circle_2;
+
+// Class interface
+// ===============
+template < class _R >
+class Optimisation_circle_2 {
   public:
     // types
-    typedef           _R               R;
-    typedef           CGAL_Point_2<R>  Point;
-    typedef typename  _R::FT           Distance;
+    typedef           _R                R;
+    typedef           CGAL::Point_2<R>  Point;
+    typedef typename  _R::FT            Distance;
     
     /**************************************************************************
     WORKAROUND: The GNU compiler (g++ 2.7.2[.x]) does not accept types
@@ -101,11 +102,11 @@ class CGAL_Optimisation_circle_2 {
     const Distance&  squared_radius( ) const
     
     // equality tests
-    bool  operator == ( const CGAL_Optimisation_circle_2<R>& c) const;
-    bool  operator != ( const CGAL_Optimisation_circle_2<R>& c) const;
+    bool  operator == ( const Optimisation_circle_2<R>& c) const;
+    bool  operator != ( const Optimisation_circle_2<R>& c) const;
     
     // predicates
-    CGAL_Bounded_side  bounded_side( const Point& p) const;
+    CGAL::Bounded_side  bounded_side( const Point& p) const;
     bool  has_on_bounded_side      ( const Point& p) const;
     bool  has_on_boundary          ( const Point& p) const;
     bool  has_on_unbounded_side    ( const Point& p) const;
@@ -131,7 +132,7 @@ class CGAL_Optimisation_circle_2 {
     void
     set( )
     {
-        _center         =  Point( CGAL_ORIGIN);
+        _center         =  Point( CGAL::ORIGIN);
         _squared_radius = -Distance( 1);
     }
     
@@ -147,16 +148,16 @@ class CGAL_Optimisation_circle_2 {
     void
     set( const Point& p, const Point& q)
     {
-        _center         = CGAL_midpoint( p, q);
-        _squared_radius = CGAL_squared_distance( p, _center);
+        _center         = CGAL::midpoint( p, q);
+        _squared_radius = CGAL::squared_distance( p, _center);
     }
     
     inline
     void
     set( const Point& p, const Point& q, const Point& r)
     {
-        _center         = CGAL_circumcenter( p, q, r);
-        _squared_radius = CGAL_squared_distance( p, _center);
+        _center         = CGAL::circumcenter( p, q, r);
+        _squared_radius = CGAL::squared_distance( p, _center);
     }
     
     inline
@@ -186,14 +187,14 @@ class CGAL_Optimisation_circle_2 {
     // Equality tests
     // --------------
     bool
-    operator == ( const CGAL_Optimisation_circle_2<R>& c) const
+    operator == ( const Optimisation_circle_2<R>& c) const
     {
         return( ( _center          == c._center        ) &&
                 ( _squared_radius  == c._squared_radius) );
     }
     
     bool
-    operator != ( const CGAL_Optimisation_circle_2<R>& c) const
+    operator != ( const Optimisation_circle_2<R>& c) const
     {
         return( ! operator==( c));
     }
@@ -201,46 +202,46 @@ class CGAL_Optimisation_circle_2 {
     // Predicates
     // ----------
     inline
-    CGAL_Bounded_side
+    CGAL::Bounded_side
     bounded_side( const Point& p) const
     {
-        return( CGAL_Bounded_side(
-            CGAL_sign( CGAL_squared_distance( p, _center) - _squared_radius)));
+        return( CGAL::Bounded_side( CGAL::sign(
+            _squared_radius - CGAL::squared_distance( p, _center))));
     }
     
     inline
     bool
     has_on_bounded_side( const Point& p) const
     {
-        return( CGAL_squared_distance( p, _center) < _squared_radius);
+        return( CGAL::squared_distance( p, _center) < _squared_radius);
     }
     
     inline
     bool
     has_on_boundary( const Point& p) const
     {
-        return( CGAL_squared_distance( p, _center) == _squared_radius);
+        return( CGAL::squared_distance( p, _center) == _squared_radius);
     }
     
     inline
     bool
     has_on_unbounded_side( const Point& p) const
     {
-        return( _squared_radius < CGAL_squared_distance( p, _center));
+        return( _squared_radius < CGAL::squared_distance( p, _center));
     }
     
     inline
     bool
     is_empty( ) const
     {
-        return( CGAL_is_negative( _squared_radius));
+        return( CGAL::is_negative( _squared_radius));
     }
     
     inline
     bool
     is_degenerate( ) const
     {
-        return( ! CGAL_is_positive( _squared_radius));
+        return( ! CGAL::is_positive( _squared_radius));
     }
 };
 
@@ -250,11 +251,13 @@ class CGAL_Optimisation_circle_2 {
 // ---
 template < class _R >
 ostream&
-operator << ( ostream&, const CGAL_Optimisation_circle_2<_R>&);
+operator << ( ostream&, const CGAL::Optimisation_circle_2<_R>&);
 
 template < class _R >
 istream&
-operator >> ( istream&, CGAL_Optimisation_circle_2<_R>&);
+operator >> ( istream&, CGAL::Optimisation_circle_2<_R>&);
+
+CGAL_END_NAMESPACE
 
 #ifdef CGAL_CFG_NO_AUTOMATIC_TEMPLATE_INCLUSION
 #  include <CGAL/Optimisation_circle_2.C>

@@ -1,6 +1,6 @@
 // ======================================================================
 //
-// Copyright (c) 1997 The CGAL Consortium
+// Copyright (c) 1999 The GALIA Consortium
 //
 // This software and related documentation is part of the
 // Computational Geometry Algorithms Library (CGAL).
@@ -16,38 +16,37 @@
 // - Development licenses grant access to the source code of the library 
 //   to develop programs. These programs may be sold to other parties as 
 //   executable code. To obtain a development license, please contact
-//   the CGAL Consortium (at cgal@cs.uu.nl).
+//   the GALIA Consortium (at cgal@cs.uu.nl).
 // - Commercialization licenses grant access to the source code and the
 //   right to sell development licenses. To obtain a commercialization 
-//   license, please contact the CGAL Consortium (at cgal@cs.uu.nl).
+//   license, please contact the GALIA Consortium (at cgal@cs.uu.nl).
 //
 // This software and documentation is provided "as-is" and without
 // warranty of any kind. In no event shall the CGAL Consortium be
 // liable for any damage of any kind.
 //
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// The GALIA Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany) Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+// (Germany), Max-Planck-Institute Saarbrucken (Germany),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-1.2
-// release_date  : 1999, January 18
+// release       : CGAL-2.0
+// release_date  : 1999, June 03
 //
 // file          : include/CGAL/N_step_adaptor.h
-// package       : STL_Extension (1.17)
+// package       : STL_Extension (2.6)
 // chapter       : $CGAL_Chapter: STL Extensions for CGAL $
 // source        : stl_extension.fw
-// revision      : $Revision: 1.12 $
-// revision_date : $Date: 1998/10/08 14:35:33 $
+// revision      : $Revision: 1.3 $
+// revision_date : $Date: 1999/04/07 18:31:32 $
 // author(s)     : Lutz Kettner
 //
 // coordinator   : INRIA, Sophia Antipolis
 //
 // An iterator/circulator adaptor doing n-steps per increment.
-//
 // email         : cgal@cs.uu.nl
 //
 // ======================================================================
@@ -58,90 +57,65 @@
 #include <CGAL/circulator.h>
 #endif
 
+CGAL_BEGIN_NAMESPACE
+
 #ifdef CGAL_CFG_NO_ITERATOR_TRAITS
 template < class I, int N, class Ref, class Ptr,
            class Val, class Dist, class Ctg>
 #else
 template < class I,
            int N,
-           class Ref  = typename iterator_traits<I>::reference,
-           class Ptr  = typename iterator_traits<I>::pointer,
-           class Val  = typename iterator_traits<I>::value_type,
-           class Dist = typename iterator_traits<I>::difference_type,
-           class Ctg  = typename iterator_traits<I>::iterator_category>
+           class Ref  = typename std::iterator_traits<I>::reference,
+           class Ptr  = typename std::iterator_traits<I>::pointer,
+           class Val  = typename std::iterator_traits<I>::value_type,
+           class Dist = typename std::iterator_traits<I>::difference_type,
+           class Ctg = typename std::iterator_traits<I>::iterator_category>
 #endif
-class CGAL_N_step_adaptor {
+class N_step_adaptor {
 protected:
     I        nt;    // The internal iterator.
 public:
-    typedef  I  Iterator;
-    typedef  CGAL_N_step_adaptor<I,N,Ref,Ptr,Val,Dist,Ctg> Self;
-
-    typedef  Ctg                                     iterator_category;
-    typedef  Val                                     value_type;
-    typedef  Dist                                    difference_type;
-
+    typedef I                                        Iterator;
+    typedef N_step_adaptor<I,N,Ref,Ptr,Val,Dist,Ctg> Self;
+    typedef Ctg                                      iterator_category;
+    typedef Val                                      value_type;
+    typedef Dist                                     difference_type;
 #ifdef CGAL_CFG_NO_ITERATOR_TRAITS
-    typedef  value_type&                             reference;
-    typedef  value_type*                             pointer;
+    typedef Ref                                      reference;
+    typedef Ptr                                      pointer;
 #else
-    typedef  typename iterator_traits<I>::reference  reference;
-    typedef  typename iterator_traits<I>::pointer    pointer;
+    typedef typename std::iterator_traits<I>::reference reference;
+    typedef typename std::iterator_traits<I>::pointer   pointer;
 #endif
-    typedef  const value_type&                       const_reference;
-    typedef  const value_type*                       const_pointer;
-
     // Special for circulators.
-    typedef CGAL__Circulator_size_traits<iterator_category,I> C_S_Traits;
-    typedef typename  C_S_Traits::size_type  size_type;
+    typedef _Circulator_size_traits<iterator_category,I> C_S_Traits;
+    typedef typename  C_S_Traits::size_type              size_type;
 
 // CREATION
 // --------
 
-    CGAL_N_step_adaptor() {}
-    CGAL_N_step_adaptor( Iterator j) : nt(j) {}
+    N_step_adaptor() {}
+    N_step_adaptor( Iterator j) : nt(j) {}
 
 // OPERATIONS Forward Category
 // ---------------------------
 
-#ifndef CGAL_CFG_NO_LAZY_INSTANTIATION
     // Circulator stuff.
     typedef  I  Circulator;
     Circulator  current_circulator() const { return nt;}
 
+    Iterator  current_iterator() const { return nt;}
     bool operator==( CGAL_NULL_TYPE p) const {
         CGAL_assertion( p == NULL);
-        return ( nt == NULL);                                    //###//
+        return ( nt == NULL);
     }
-    bool operator!=( CGAL_NULL_TYPE p) const {
-        return !(*this == p);
-    }
-#endif // CGAL_CFG_NO_LAZY_INSTANTIATION //
-
-    Iterator  current_iterator() const { return nt;}
-
-    bool operator==( const Self& i) const {
-        return ( nt == i.nt);                                    //###//
-    }
-    bool operator!=( const Self& i) const {
-        return !(*this == i);
-    }
-    Ref  operator*() const {
-        return *nt;                                              //###//
-    }
-#ifndef CGAL_CFG_NO_ARROW_OPERATOR
-#ifdef CGAL_CFG_NO_LAZY_INSTANTIATION
-    Ptr  operator->() const {
-        return &(*nt);                                           //###//
-    }
-#else
-    Ptr  operator->() const {
-        return nt.operator->();                                  //###//
-    }
-#endif
-#endif
+    bool  operator!=( CGAL_NULL_TYPE p) const { return !(*this == p); }
+    bool  operator==( const Self& i) const { return ( nt == i.nt); }
+    bool  operator!=( const Self& i) const { return !(*this == i); }
+    Ref   operator*()  const { return *nt; }
+    Ptr   operator->() const { return nt.operator->(); }
     Self& operator++() {
-        advance( nt, N);                                         //###//
+        std::advance( nt, N);
         return *this;
     }
     Self  operator++(int) {
@@ -154,7 +128,7 @@ public:
 // ---------------------------------
 
     Self& operator--() {
-        advance( nt, -N);                                        //###//
+        std::advance( nt, -N);
         return *this;
     }
     Self  operator--(int) {
@@ -166,14 +140,9 @@ public:
 // OPERATIONS Random Access Category
 // ---------------------------------
 
-// Make this adaptor bidirectional by default
-// if implicit instantiation is buggy.
-#ifndef CGAL_CFG_NO_LAZY_INSTANTIATION
-    Self  min_circulator() const {
-        return Self( nt.min_circulator());                       //###//
-    }
+    Self  min_circulator() const { return Self( nt.min_circulator()); }
     Self& operator+=( difference_type n) {
-        nt += difference_type(N * n);                            //###//
+        nt += difference_type(N * n);
         return *this;
     }
     Self  operator+( difference_type n) const {
@@ -196,56 +165,39 @@ public:
         Self tmp = *this;
         return tmp += -n;
     }
-    difference_type  operator-( const Self& i) const {
-        return (nt - i.nt) / N;                                  //###//
-    }
+    difference_type  operator-( const Self& i) const { return (nt-i.nt)/N;}
     Ref  operator[]( difference_type n) const {
         Self tmp = *this;
         tmp += n;
         return tmp.operator*();
     }
-    bool operator<( const Self& i) const {
-        return ( nt < i.nt);                                     //###//
-    }
-    bool operator>( const Self& i) const {
-        return i < *this;
-    }
-    bool operator<=( const Self& i) const {
-        return !(i < *this);
-    }
-    bool operator>=( const Self& i) const {
-        return !(*this < i);
-    }
-#endif // CGAL_CFG_NO_LAZY_INSTANTIATION //
+    bool operator<( const Self& i) const { return ( nt < i.nt); }
+    bool operator>( const Self& i) const { return i < *this; }
+    bool operator<=( const Self& i) const { return !(i < *this); }
+    bool operator>=( const Self& i) const { return !(*this < i); }
 #ifdef CGAL_CFG_NO_ITERATOR_TRAITS
     friend inline  iterator_category
-    iterator_category( const Self&) {
-        return iterator_category();
-    }
+    iterator_category( const Self&) { return iterator_category(); }
     friend inline  value_type*
-    value_type( const Self&) {
-        return (value_type*)(0);
-    }
+    value_type( const Self&) { return (value_type*)(0); }
     friend inline  difference_type*
-    distance_type( const Self&) {
-        return (difference_type*)(0);
-    }
-    typedef CGAL__Circulator_traits<iterator_category> C_Traits;
+    distance_type( const Self&) { return (difference_type*)(0); }
+    typedef _Circulator_traits<iterator_category> C_Traits;
     typedef typename  C_Traits::category  category;
     friend inline  category
-    CGAL_query_circulator_or_iterator( const Self&) {
-        return category();
-    }
+    query_circulator_or_iterator( const Self&) { return category(); }
 #endif // CGAL_CFG_NO_ITERATOR_TRAITS //
 };
 #ifndef CGAL_CFG_NO_CONSTANTS_IN_FUNCTION_TEMPLATES
 template < class D, class I, int N, class Ref, class Ptr,
            class Val, class Dist, class Ctg>
 inline
-CGAL_N_step_adaptor<I,N,Ref,Ptr,Val,Dist,Ctg>
-operator+( D n, CGAL_N_step_adaptor<I,N,Ref,Ptr,Val,Dist,Ctg> i) {
+N_step_adaptor<I,N,Ref,Ptr,Val,Dist,Ctg>
+operator+( D n, N_step_adaptor<I,N,Ref,Ptr,Val,Dist,Ctg> i) {
     return i += Dist(n);
 }
 #endif // CGAL_CFG_NO_CONSTANTS_IN_FUNCTION_TEMPLATES //
+
+CGAL_END_NAMESPACE
 #endif // CGAL_N_STEP_ADAPTOR_H //
 // EOF //

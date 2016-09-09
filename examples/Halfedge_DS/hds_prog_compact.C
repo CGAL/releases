@@ -1,19 +1,21 @@
-/*  hds_prog_compact.C              */
-/*  ------------------------------- */
+// hds_prog_compact.C
+// ---------------------------------------------------
 #include <CGAL/Halfedge_data_structure_bases.h>
 #include <CGAL/Halfedge_data_structure_using_vector.h>
 #include <CGAL/Halfedge_data_structure_decorator.h>
 
-/* Define a new halfedge class. */
+using namespace CGAL;
+
+// Define a new halfedge class.
 class My_halfedge {
 protected:
     size_t  nxt;
     void*   v;
     void*   f;
 public:
-    typedef CGAL_Tag_false Supports_halfedge_prev;
-    typedef CGAL_Tag_true  Supports_halfedge_vertex;
-    typedef CGAL_Tag_true  Supports_halfedge_facet;
+    typedef Tag_false Supports_halfedge_prev;
+    typedef Tag_true  Supports_halfedge_vertex;
+    typedef Tag_true  Supports_halfedge_facet;
 
     My_halfedge() : nxt(0), f(NULL) {}
 
@@ -50,24 +52,22 @@ public:
             nxt &= (~ size_t(1));
     }
     void  set_next( void* h)     {
-	CGAL_assertion( ((size_t)h & 1) == 0);
+        CGAL_assertion( ((size_t)h & 1) == 0);
         nxt = ((size_t)(h)) | (nxt & 1);
     }
     void  set_vertex( void* _v)  { v = _v;}
     void  set_facet( void* _f)   { f = _f;}
 };
 
-typedef int                                          Point;
-typedef CGAL_Halfedge_data_structure_using_vector <
-            CGAL_Vertex_max_base< Point >,
-            My_halfedge,
-            CGAL_Facet_max_base >                    HDS;
-typedef CGAL_Halfedge_data_structure_decorator<HDS>  Decorator;
+typedef int  Point;
+typedef Halfedge_data_structure_using_vector <
+            Vertex_max_base<Point>, My_halfedge, Facet_max_base> HDS;
+typedef Halfedge_data_structure_decorator<HDS>  Decorator;
 
 int main() {
     HDS hds(1,2,2);
     Decorator decorator;
     decorator.create_loop( hds);
-    CGAL_assertion( decorator.is_valid( hds));
+    CGAL_assertion( decorator.is_valid(hds));
     return 0;
 }

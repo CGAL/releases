@@ -1,6 +1,6 @@
 // ======================================================================
 //
-// Copyright (c) 1997 The CGAL Consortium
+// Copyright (c) 1999 The GALIA Consortium
 //
 // This software and related documentation is part of the
 // Computational Geometry Algorithms Library (CGAL).
@@ -16,46 +16,52 @@
 // - Development licenses grant access to the source code of the library 
 //   to develop programs. These programs may be sold to other parties as 
 //   executable code. To obtain a development license, please contact
-//   the CGAL Consortium (at cgal@cs.uu.nl).
+//   the GALIA Consortium (at cgal@cs.uu.nl).
 // - Commercialization licenses grant access to the source code and the
 //   right to sell development licenses. To obtain a commercialization 
-//   license, please contact the CGAL Consortium (at cgal@cs.uu.nl).
+//   license, please contact the GALIA Consortium (at cgal@cs.uu.nl).
 //
 // This software and documentation is provided "as-is" and without
 // warranty of any kind. In no event shall the CGAL Consortium be
 // liable for any damage of any kind.
 //
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// The GALIA Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany) Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+// (Germany), Max-Planck-Institute Saarbrucken (Germany),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-1.2
-// release_date  : 1999, January 18
+// release       : CGAL-2.0
+// release_date  : 1999, June 03
 //
 // file          : include/CGAL/function_objects.h
-// package       : STL_Extension (1.17)
+// package       : STL_Extension (2.6)
 // chapter       : $CGAL_Chapter: STL Extensions for CGAL $
 // source        : stl_extension.fw
-// revision      : $Revision: 1.12 $
-// revision_date : $Date: 1998/10/08 14:35:33 $
+// revision      : $Revision: 1.3 $
+// revision_date : $Date: 1999/04/07 18:31:32 $
 // author(s)     : Lutz Kettner
 //
 // coordinator   : INRIA, Sophia Antipolis
 //
 // Function objects.
-//
 // email         : cgal@cs.uu.nl
 //
 // ======================================================================
 
 #ifndef CGAL_FUNCTION_OBJECTS_H
 #define CGAL_FUNCTION_OBJECTS_H 1
+#ifndef CGAL_PROTECT_FUNCTIONAL
+#include <functional>
+#define CGAL_PROTECT_FUNCTIONAL
+#endif
+
+CGAL_BEGIN_NAMESPACE
+
 template < class Value>
-struct CGAL_Identity {
+struct Identity {
     typedef Value argument_type;
     typedef Value result_type;
     Value&       operator()( Value& x)       const { return x; }
@@ -65,7 +71,7 @@ struct CGAL_Identity {
 // Composes two function objects: result is
 // Fct1 o Fct2 o x == Fct1()( Fct2()(x)).
 template < class Fct1, class Fct2>
-struct CGAL_Compose {
+struct Compose {
     typedef typename  Fct2::argument_type  argument_type;
     typedef typename  Fct1::result_type    result_type;
     result_type&       operator()( argument_type& x)       const {
@@ -81,7 +87,7 @@ struct CGAL_Compose {
 };
 
 template < class Value>
-struct CGAL_Dereference {
+struct Dereference {
     typedef Value* argument_type;
     typedef Value  result_type;
     Value&         operator()( Value* x)       const { return *x;}
@@ -89,7 +95,7 @@ struct CGAL_Dereference {
 };
 
 template < class Value>
-struct CGAL_Get_address {
+struct Get_address {
     typedef Value  argument_type;
     typedef Value* result_type;
     Value*         operator()( Value& x)       const { return &x;}
@@ -97,7 +103,7 @@ struct CGAL_Get_address {
 };
 
 template < class Arg, class Result>
-struct CGAL_Cast_function_object {
+struct Cast_function_object {
     typedef Arg    argument_type;
     typedef Result result_type;
     Result&       operator()( Arg& x)       const { return (Result&)(x); }
@@ -107,7 +113,7 @@ struct CGAL_Cast_function_object {
 };
 
 template < class Node>
-struct CGAL_Project_vertex {
+struct Project_vertex {
     typedef Node                  argument_type;
     typedef typename Node::Vertex Vertex;
     typedef Vertex                result_type;
@@ -116,7 +122,7 @@ struct CGAL_Project_vertex {
 };
 
 template < class Node>
-struct CGAL_Project_facet {
+struct Project_facet {
     typedef Node                  argument_type;
     typedef typename Node::Facet  Facet;
     typedef Facet                 result_type;
@@ -125,7 +131,7 @@ struct CGAL_Project_facet {
 };
 
 template < class Node>
-struct CGAL_Project_point {
+struct Project_point {
     typedef Node                  argument_type;
     typedef typename Node::Point  Point;
     typedef Point                 result_type;
@@ -134,7 +140,7 @@ struct CGAL_Project_point {
 };
 
 template < class Node>
-struct CGAL_Project_normal {
+struct Project_normal {
     typedef Node                  argument_type;
     typedef typename Node::Normal Normal;
     typedef Normal                result_type;
@@ -143,7 +149,7 @@ struct CGAL_Project_normal {
 };
 
 template < class Node>
-struct CGAL_Project_plane {
+struct Project_plane {
     typedef Node                  argument_type;
     typedef typename Node::Plane  Plane;
     typedef Plane                 result_type;
@@ -154,7 +160,7 @@ struct CGAL_Project_plane {
 // The following four adaptors are used to create the circulators
 // for polyhedral surfaces.
 template < class Node>
-struct CGAL_Project_next {
+struct Project_next {
     typedef Node*   argument_type;
     typedef Node*   result_type;
     Node*       operator()( Node* x)       const { return x->next(); }
@@ -162,7 +168,7 @@ struct CGAL_Project_next {
 };
 
 template < class Node>
-struct CGAL_Project_prev {
+struct Project_prev {
     typedef Node*   argument_type;
     typedef Node*   result_type;
     Node*       operator()( Node* x)       const { return x->prev(); }
@@ -170,7 +176,7 @@ struct CGAL_Project_prev {
 };
 
 template < class Node>
-struct CGAL_Project_next_opposite {
+struct Project_next_opposite {
     typedef Node*   argument_type;
     typedef Node*   result_type;
     Node*       operator()( Node* x)       const {
@@ -182,7 +188,7 @@ struct CGAL_Project_next_opposite {
 };
 
 template < class Node>
-struct CGAL_Project_opposite_prev {
+struct Project_opposite_prev {
     typedef Node*   argument_type;
     typedef Node*   result_type;
     Node*       operator()( Node* x)       const {
@@ -193,7 +199,7 @@ struct CGAL_Project_opposite_prev {
     }
 };
 template < class Arg, class  Result >
-class CGAL_Creator_1 {
+class Creator_1 {
 public:
     typedef Arg    argument_type;
     typedef Arg    argument1_type;
@@ -202,7 +208,7 @@ public:
 };
 
 template < class Arg1, class Arg2, class  Result >
-class CGAL_Creator_2 {
+class Creator_2 {
 public:
     typedef Arg1   argument1_type;
     typedef Arg2   argument2_type;
@@ -211,7 +217,7 @@ public:
 };
 
 template < class Arg1, class Arg2, class Arg3, class  Result >
-class CGAL_Creator_3 {
+class Creator_3 {
 public:
     typedef Arg1   argument1_type;
     typedef Arg2   argument2_type;
@@ -223,7 +229,7 @@ public:
 };
 
 template < class Arg1, class Arg2, class Arg3, class Arg4, class  Result >
-class CGAL_Creator_4 {
+class Creator_4 {
 public:
     typedef Arg1   argument1_type;
     typedef Arg2   argument2_type;
@@ -237,7 +243,7 @@ public:
 
 template < class Arg1, class Arg2, class Arg3, class Arg4, class Arg5,
            class  Result >
-class CGAL_Creator_5 {
+class Creator_5 {
 public:
     typedef Arg1   argument1_type;
     typedef Arg2   argument2_type;
@@ -251,7 +257,7 @@ public:
 };
 
 template < class Arg, class  Result >
-class CGAL_Creator_uniform_2 {
+class Creator_uniform_2 {
 public:
     typedef Arg    argument_type;
     typedef Arg    argument1_type;
@@ -261,7 +267,7 @@ public:
 };
 
 template < class Arg, class  Result >
-class CGAL_Creator_uniform_3 {
+class Creator_uniform_3 {
 public:
     typedef Arg    argument_type;
     typedef Arg    argument1_type;
@@ -274,7 +280,7 @@ public:
 };
 
 template < class Arg, class  Result >
-class CGAL_Creator_uniform_4 {
+class Creator_uniform_4 {
 public:
     typedef Arg    argument_type;
     typedef Arg    argument1_type;
@@ -288,7 +294,7 @@ public:
 };
 
 template < class Arg, class  Result >
-class CGAL_Creator_uniform_5 {
+class Creator_uniform_5 {
 public:
     typedef Arg    argument_type;
     typedef Arg    argument1_type;
@@ -303,7 +309,7 @@ public:
 };
 
 template < class Arg, class  Result >
-class CGAL_Creator_uniform_6 {
+class Creator_uniform_6 {
 public:
     typedef Arg    argument_type;
     typedef Arg    argument1_type;
@@ -320,7 +326,7 @@ public:
 };
 
 template < class Arg, class  Result >
-class CGAL_Creator_uniform_7 {
+class Creator_uniform_7 {
 public:
     typedef Arg    argument_type;
     typedef Arg    argument1_type;
@@ -338,7 +344,7 @@ public:
 };
 
 template < class Arg, class  Result >
-class CGAL_Creator_uniform_8 {
+class Creator_uniform_8 {
 public:
     typedef Arg    argument_type;
     typedef Arg    argument1_type;
@@ -357,7 +363,7 @@ public:
 };
 
 template < class Arg, class  Result >
-class CGAL_Creator_uniform_9 {
+class Creator_uniform_9 {
 public:
     typedef Arg    argument_type;
     typedef Arg    argument1_type;
@@ -378,85 +384,58 @@ public:
 
 // Classes for composing function objects by Michael Hoffmann.
 
-#ifndef CGAL_PROTECT_FUNCTION_H
-#include <function.h>
-#define CGAL_PROTECT_FUNCTION_H
-#endif // CGAL_PROTECT_FUNCTION_H
-
-template < class Operation1,
-           class Operation2 >
-class CGAL_Unary_compose_2
-: public binary_function< typename Operation2::first_argument_type,
-                          typename Operation2::second_argument_type,
-                          typename Operation1::result_type >
+template < class Op1, class Op2 >
+class Unary_compose_2
+: public CGAL_STD::binary_function< typename Op2::first_argument_type,
+                                    typename Op2::second_argument_type,
+                                    typename Op1::result_type >
 {
 protected:
-  Operation1 op1;
-  Operation2 op2;
-
+    Op1 op1;
+    Op2 op2;
 public:
-  CGAL_Unary_compose_2( const Operation1& x,
-                        const Operation2& y)
-  : op1(x), op2(y)
-  {}
+    Unary_compose_2( const Op1& x, const Op2& y) : op1(x), op2(y) {}
 
-  result_type
-  operator()( const first_argument_type& x,
-              const second_argument_type& y) const
-  { return op1( op2( x, y)); }
+    result_type
+    operator()( const first_argument_type& x,
+                const second_argument_type& y) const {
+        return op1( op2(x, y));
+    }
 };
 
-template < class Operation1,
-           class Operation2 >
-CGAL_Unary_compose_2< Operation1,
-                      Operation2 >
-CGAL_compose1_2( const Operation1& op1,
-                 const Operation2& op2)
-{
-  return CGAL_Unary_compose_2< Operation1,
-                               Operation2 >( op1, op2);
+template < class Op1, class Op2 >
+Unary_compose_2< Op1, Op2 >
+compose1_2( const Op1& op1, const Op2& op2) {
+    return Unary_compose_2< Op1, Op2 >( op1, op2);
 }
 
-
-template < class Operation1,
-           class Operation2,
-           class Operation3 >
-class CGAL_Binary_compose_2
-: public binary_function< typename Operation2::argument_type,
-                          typename Operation3::argument_type,
-                          typename Operation1::result_type >
+template < class Op1, class Op2, class Op3 >
+class Binary_compose_2
+: public CGAL_STD::binary_function< typename Op2::argument_type,
+                                    typename Op3::argument_type,
+                                    typename Op1::result_type >
 {
 protected:
-  Operation1 op1;
-  Operation2 op2;
-  Operation3 op3;
-
+    Op1 op1;
+    Op2 op2;
+    Op3 op3;
 public:
-  CGAL_Binary_compose_2( const Operation1& x,
-                         const Operation2& y,
-                         const Operation3& z)
-  : op1(x), op2(y), op3(z)
-  {}
+    Binary_compose_2( const Op1& x, const Op2& y, const Op3& z)
+    : op1(x), op2(y), op3(z) {}
 
-  result_type
-  operator()( const first_argument_type& x,
-              const second_argument_type& y) const
-  { return op1( op2( x), op3( y)); }
+    result_type
+    operator()( const first_argument_type& x,
+                const second_argument_type& y) const {
+        return op1( op2( x), op3( y));
+    }
 };
 
-template < class Operation1,
-           class Operation2,
-           class Operation3 >
-CGAL_Binary_compose_2< Operation1,
-                       Operation2,
-                       Operation3 >
-CGAL_compose2_2( const Operation1& op1,
-                 const Operation2& op2,
-                 const Operation3& op3)
-{
-  return CGAL_Binary_compose_2< Operation1,
-                                Operation2,
-                                Operation3 >( op1, op2, op3);
+template < class Op1, class Op2, class Op3 >
+Binary_compose_2< Op1, Op2, Op3 >
+compose2_2( const Op1& op1, const Op2& op2, const Op3& op3) {
+    return Binary_compose_2< Op1, Op2, Op3 >( op1, op2, op3);
 }
+
+CGAL_END_NAMESPACE
 #endif // CGAL_FUNCTION_OBJECTS_H //
 // EOF //

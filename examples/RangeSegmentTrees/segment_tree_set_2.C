@@ -1,6 +1,6 @@
 // ============================================================================
 //
-// Copyright (c) 1997 The CGAL Consortium
+// Copyright (c) 1999 The GALIA Consortium
 //
 // This software and related documentation is part of the
 // Computational Geometry Algorithms Library (CGAL).
@@ -16,25 +16,25 @@
 // - Development licenses grant access to the source code of the library 
 //   to develop programs. These programs may be sold to other parties as 
 //   executable code. To obtain a development license, please contact
-//   the CGAL Consortium (at cgal@cs.uu.nl).
+//   the GALIA Consortium (at cgal@cs.uu.nl).
 // - Commercialization licenses grant access to the source code and the
 //   right to sell development licenses. To obtain a commercialization 
-//   license, please contact the CGAL Consortium (at cgal@cs.uu.nl).
+//   license, please contact the GALIA Consortium (at cgal@cs.uu.nl).
 //
 // This software and documentation is provided "as-is" and without
 // warranty of any kind. In no event shall the CGAL Consortium be
 // liable for any damage of any kind.
 //
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// The GALIA Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany) Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+// (Germany), Max-Planck-Institute Saarbrucken (Germany),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-1.2
-// release_date  : 1999, January 18
+// release       : CGAL-2.0
+// release_date  : 1999, June 03
 //
 // file          : src/examples/RangeSegmentTrees/segment_tree_set_2.C
 // source        : src/examples/RangeSegmentTrees/segment_tree_set_2.C
@@ -52,31 +52,32 @@
 // a list. Then a two dimensional segment tree is created and a 
 // window query is performed.
 //
+//
 // email         : cgal@cs.uu.nl
 //
 // ======================================================================
 #include <CGAL/basic.h>
-#include <iostream.h>
+#include <iostream>
 #include <CGAL/Cartesian.h>
 #include <CGAL/Point_2.h>
-#include <pair.h>
-#include <vector.h>
-#include <iterator.h>
+#include <utility>
+#include <vector>
+#include <iterator>
 #include <tempbuf.h>
-#include <list.h>
+#include <list>
 #include <CGAL/Segment_tree_k.h>
 #include <CGAL/Range_segment_tree_traits.h>
 
-typedef CGAL_Cartesian<double> Rep;
-typedef CGAL_Range_segment_tree_set_traits_2<Rep> Traits;
-typedef CGAL_Segment_tree_2<Traits > Segment_tree_2_type;
+typedef CGAL::Cartesian<double> Representation;
+typedef CGAL::Range_segment_tree_set_traits_2<Representation> Traits;
+typedef CGAL::Segment_tree_2<Traits > Segment_tree_2_type;
 
 int main()
 {
   typedef Traits::Interval Interval;
   typedef Traits::Key Key;
   // definition of the two-dimensional segment tree
-  list<Interval> InputList, OutputList, N;
+  std::list<Interval> InputList, OutputList, N;
 
   // insertion of the tree elements into the sequence container
   InputList.push_back(Interval(Key(1,5), Key(2,7)));
@@ -85,17 +86,17 @@ int main()
   InputList.push_back(Interval(Key(1,3), Key(3,9)));
  
   // creation of the segment tree
-  list<Interval>::iterator first = InputList.begin();
-  list<Interval>::iterator last = InputList.end();
+  std::list<Interval>::iterator first = InputList.begin();
+  std::list<Interval>::iterator last = InputList.end();
 
   Segment_tree_2_type Segment_tree_2(first,last);
 
   // perform a window query
   Interval a(Key(3,6), Key(7,12));
-  Segment_tree_2.window_query(a,back_inserter(OutputList));
+  Segment_tree_2.window_query(a,std::back_inserter(OutputList));
 
   // output of the querey elements on stdout
-  list<Interval>::iterator j = OutputList.begin();
+  std::list<Interval>::iterator j = OutputList.begin();
   cerr << "\n window_query (3,6), (7,12)\n";
   while(j!=OutputList.end())
   {
@@ -105,7 +106,7 @@ int main()
   }
   cerr << "\n enclosing_query (6,10),(7,11) \n";
   Interval b(Key(6,10),Key(7,11));
-  Segment_tree_2.enclosing_query(b,back_inserter(N));
+  Segment_tree_2.enclosing_query(b,std::back_inserter(N));
   j = N.begin();
   cerr << "\n enclosing_query (6,10),(7,11) \n";
   while(j!=N.end())
@@ -114,7 +115,7 @@ int main()
 	 << (*j).first.y() << "-" << (*j).second.y() << endl; 
     j++;
   }
-  if(Segment_tree_2.Segment_tree_2->is_valid())
+  if(Segment_tree_2.CSegment_tree_2->is_valid())
     cerr << "Tree is valid\n";
   else
     cerr << "Tree is not valid\n";

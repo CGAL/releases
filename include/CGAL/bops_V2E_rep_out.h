@@ -1,7 +1,6 @@
-//  -*- Mode: c++ -*-
 // ======================================================================
 //
-// Copyright (c) 1997 The CGAL Consortium
+// Copyright (c) 1999 The GALIA Consortium
 //
 // This software and related documentation is part of the
 // Computational Geometry Algorithms Library (CGAL).
@@ -17,38 +16,37 @@
 // - Development licenses grant access to the source code of the library 
 //   to develop programs. These programs may be sold to other parties as 
 //   executable code. To obtain a development license, please contact
-//   the CGAL Consortium (at cgal@cs.uu.nl).
+//   the GALIA Consortium (at cgal@cs.uu.nl).
 // - Commercialization licenses grant access to the source code and the
 //   right to sell development licenses. To obtain a commercialization 
-//   license, please contact the CGAL Consortium (at cgal@cs.uu.nl).
+//   license, please contact the GALIA Consortium (at cgal@cs.uu.nl).
 //
 // This software and documentation is provided "as-is" and without
 // warranty of any kind. In no event shall the CGAL Consortium be
 // liable for any damage of any kind.
 //
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// The GALIA Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany) Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+// (Germany), Max-Planck-Institute Saarbrucken (Germany),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-1.2
-// release_date  : 1999, January 18
+// release       : CGAL-2.0
+// release_date  : 1999, June 03
 //
 // file          : include/CGAL/bops_V2E_rep_out.h
-// package       : bops (1.1.2)
+// package       : bops (2.1.5)
 // source        : include/CGAL/bops_V2E_rep_out.h
-// revision      : $Revision: 1.1.2 $
+// revision      : $Revision: WIP $
 // revision_date : $Date: Wed Dec  9 13:28:48 MET 1998  $
-// author(s)     :             Wolfgang Freiseisen
+// author(s)     : Wolfgang Freiseisen
 //
 // coordinator   : RISC Linz
 //  (Wolfgang Freiseisen)
 //
 // 
-//
 // email         : cgal@cs.uu.nl
 //
 // ======================================================================
@@ -56,14 +54,15 @@
 #ifndef CGAL__V2E_REP_OUT_H
 #define CGAL__V2E_REP_OUT_H
 
+CGAL_BEGIN_NAMESPACE 
 
 #ifdef CGAL__V2E_REP_H
 template<class vertex, class edge>
 ostream& operator<<( ostream& o,
-                     const CGAL__V2E_rep_base_type<vertex, edge>& v2e )
+                     const _V2E_rep_base_type<vertex, edge>& v2e )
 {
-  CGAL__V2E_rep_base_type<vertex,edge>::header_const_iterator h_it;
-  CGAL__V2E_rep_base_type<vertex,edge>::vertex_const_iterator v_it;
+  _V2E_rep_base_type<vertex,edge>::header_const_iterator h_it;
+  _V2E_rep_base_type<vertex,edge>::vertex_const_iterator v_it;
 
   for( h_it= v2e.header_begin(); h_it != v2e.header_end(); h_it++) {
     v_it= (*h_it).vertex();
@@ -94,5 +93,7 @@ ostream& operator<<( ostream& o,
   return o;
 }
 #endif
+
+CGAL_END_NAMESPACE
 
 #endif

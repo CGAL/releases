@@ -1,6 +1,6 @@
 // ======================================================================
 //
-// Copyright (c) 1998 The CGAL Consortium
+// Copyright (c) 1999 The GALIA Consortium
 //
 // This software and related documentation is part of the
 // Computational Geometry Algorithms Library (CGAL).
@@ -16,35 +16,34 @@
 // - Development licenses grant access to the source code of the library 
 //   to develop programs. These programs may be sold to other parties as 
 //   executable code. To obtain a development license, please contact
-//   the CGAL Consortium (at cgal@cs.uu.nl).
+//   the GALIA Consortium (at cgal@cs.uu.nl).
 // - Commercialization licenses grant access to the source code and the
 //   right to sell development licenses. To obtain a commercialization 
-//   license, please contact the CGAL Consortium (at cgal@cs.uu.nl).
+//   license, please contact the GALIA Consortium (at cgal@cs.uu.nl).
 //
 // This software and documentation is provided "as-is" and without
 // warranty of any kind. In no event shall the CGAL Consortium be
 // liable for any damage of any kind.
 //
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// The GALIA Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany) Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+// (Germany), Max-Planck-Institute Saarbrucken (Germany),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 // 
-// release       : CGAL-1.2
-// release_date  : 1999, January 18
+// release       : CGAL-2.0
+// release_date  : 1999, June 03
 // 
 // source        : PointVectorDirectionH2.fw
 // file          : include/CGAL/PVDH2.h
-// package       : H2 (1.3.1)
-// revision      : 1.3.1
-// revision_date : 02 Jan 1999 
+// package       : H2 (2.1.3)
+// revision      : 2.1.3
+// revision_date : 21 May 1999 
 // author(s)     : Stefan Schirra
 //
 // coordinator   : MPI, Saarbruecken
-//
 // email         : cgal@cs.uu.nl
 //
 // ======================================================================
@@ -57,9 +56,9 @@
 #define CGAL_VECTORH2_H
 #define CGAL_DIRECTIONH2_H
 
-#ifndef CGAL_THREETUPLE_H
+#ifndef THREETUPLE_H
 #include <CGAL/Threetuple.h>
-#endif // CGAL_THREETUPLE_H
+#endif // THREETUPLE_H
 #ifndef CGAL_HOMOGENEOUS_CLASSES_H
 #include <CGAL/homogeneous_classes.h>
 #endif // CGAL_HOMOGENEOUS_CLASSES_H
@@ -67,24 +66,26 @@
 #include <CGAL/Origin.h>
 #endif // CGAL_ORIGIN_H
 
+CGAL_BEGIN_NAMESPACE
+
 template < class FT, class RT >
-class CGAL_PointH2 : public CGAL_Handle
+class PointH2 : public Handle
 {
 
 public:
-            CGAL_PointH2();
-            CGAL_PointH2(const CGAL_Origin & o);
-            CGAL_PointH2(const CGAL_PointH2<FT,RT> & p);
-            CGAL_PointH2(const RT& hx, const RT& hy );
-            CGAL_PointH2(const RT& hx, const RT& hy, const RT& hw );
-            ~CGAL_PointH2();
+            PointH2();
+            PointH2(const Origin & o);
+            PointH2(const PointH2<FT,RT> & p);
+            PointH2(const RT& hx, const RT& hy );
+            PointH2(const RT& hx, const RT& hy, const RT& hw );
+            ~PointH2();
 
-    CGAL_PointH2<FT,RT> &
-            operator=( const CGAL_PointH2<FT,RT>& p);
+    PointH2<FT,RT> &
+            operator=( const PointH2<FT,RT>& p);
 
-    bool    operator==( const CGAL_PointH2<FT,RT>& p) const;
-    bool    operator!=( const CGAL_PointH2<FT,RT>& p) const;
-    bool    identical(  const CGAL_PointH2<FT,RT>& p) const;
+    bool    operator==( const PointH2<FT,RT>& p) const;
+    bool    operator!=( const PointH2<FT,RT>& p) const;
+    bool    identical(  const PointH2<FT,RT>& p) const;
     int     id() const;
 
     FT      x()  const;
@@ -101,45 +102,45 @@ public:
     // and for efficiency in the predicates:
 
     int     dimension() const;
-    CGAL_Bbox_2
+    Bbox_2
             bbox() const;
 
-    CGAL_PointH2<FT,RT>
-            transform( const CGAL_Aff_transformationH2<FT,RT> & t) const;
-    CGAL_DirectionH2<FT,RT>
+    PointH2<FT,RT>
+            transform( const Aff_transformationH2<FT,RT> & t) const;
+    DirectionH2<FT,RT>
             direction() const;
 
-            CGAL_PointH2(const CGAL_VectorH2<FT,RT>& v);
+            PointH2(const VectorH2<FT,RT>& v);
  friend inline
-        CGAL_PointH2<FT,RT>
-        operator+ CGAL_NULL_TMPL_ARGS (const CGAL_Origin & o,
-                                       const CGAL_VectorH2<FT,RT> & v);
+        PointH2<FT,RT>
+        operator+ CGAL_NULL_TMPL_ARGS (const Origin & o,
+                                       const VectorH2<FT,RT> & v);
  friend inline
-        CGAL_PointH2<FT,RT>
-        operator- CGAL_NULL_TMPL_ARGS (const CGAL_Origin & o,
-                                       const CGAL_VectorH2<FT,RT> & v);
+        PointH2<FT,RT>
+        operator- CGAL_NULL_TMPL_ARGS (const Origin & o,
+                                       const VectorH2<FT,RT> & v);
 protected:
-    CGAL__Threetuple<RT>*   ptr() const;
+    _Threetuple<RT>*   ptr() const;
 };
 
 template < class FT, class RT >
-class CGAL_VectorH2 : public CGAL_Handle
+class VectorH2 : public Handle
 {
 public:
-            CGAL_VectorH2();
-            CGAL_VectorH2(const CGAL_VectorH2<FT,RT>& v);
-            CGAL_VectorH2(const CGAL_Null_vector &);
-            CGAL_VectorH2(const RT& x, const RT& y);
-            CGAL_VectorH2(const RT& x, const RT& y, const RT& w );
-            ~CGAL_VectorH2();
-    CGAL_VectorH2<FT,RT> &
-            operator=(const CGAL_VectorH2<FT,RT>& v);
+            VectorH2();
+            VectorH2(const VectorH2<FT,RT>& v);
+            VectorH2(const Null_vector &);
+            VectorH2(const RT& x, const RT& y);
+            VectorH2(const RT& x, const RT& y, const RT& w );
+            ~VectorH2();
+    VectorH2<FT,RT> &
+            operator=(const VectorH2<FT,RT>& v);
 
-    bool    operator==( const CGAL_VectorH2<FT,RT>& v) const;
-    bool    operator!=( const CGAL_VectorH2<FT,RT>& v) const;
-    bool    operator==( const CGAL_Null_vector&) const;
-    bool    operator!=( const CGAL_Null_vector& v) const;
-    bool    identical ( const CGAL_VectorH2<FT,RT>& v) const;
+    bool    operator==( const VectorH2<FT,RT>& v) const;
+    bool    operator!=( const VectorH2<FT,RT>& v) const;
+    bool    operator==( const Null_vector&) const;
+    bool    operator!=( const Null_vector& v) const;
+    bool    identical ( const VectorH2<FT,RT>& v) const;
     int     id() const;
 
     FT      x()  const;
@@ -152,96 +153,96 @@ public:
     FT      operator[](int i)  const;
 
     int     dimension() const;
-    CGAL_DirectionH2<FT,RT>
+    DirectionH2<FT,RT>
             direction() const;
-    CGAL_VectorH2<FT,RT>
-            transform(const CGAL_Aff_transformationH2<FT,RT>& t ) const;
-    CGAL_VectorH2<FT,RT>
-            perpendicular(const CGAL_Orientation& o ) const;
+    VectorH2<FT,RT>
+            transform(const Aff_transformationH2<FT,RT>& t ) const;
+    VectorH2<FT,RT>
+            perpendicular(const Orientation& o ) const;
 
-    CGAL_VectorH2<FT,RT>
+    VectorH2<FT,RT>
             operator-() const;
 
 // undocumented:
 
-            CGAL_VectorH2(const CGAL_PointH2<FT,RT> & p);
-            CGAL_VectorH2(const CGAL_DirectionH2<FT,RT> & dir);
+            VectorH2(const PointH2<FT,RT> & p);
+            VectorH2(const DirectionH2<FT,RT> & dir);
 // friends:
 
 friend inline
-       CGAL_VectorH2<FT,RT>
-       operator- CGAL_NULL_TMPL_ARGS ( const CGAL_PointH2<FT,RT> &,
-                                       const CGAL_Origin & );
+       VectorH2<FT,RT>
+       operator- CGAL_NULL_TMPL_ARGS ( const PointH2<FT,RT> &,
+                                       const Origin & );
 friend inline
-       CGAL_VectorH2<FT,RT>
-       operator- CGAL_NULL_TMPL_ARGS ( const CGAL_Origin &,
-                                       const CGAL_PointH2<FT,RT> & );
+       VectorH2<FT,RT>
+       operator- CGAL_NULL_TMPL_ARGS ( const Origin &,
+                                       const PointH2<FT,RT> & );
 friend inline
-       CGAL_PointH2<FT,RT>
-       operator+ CGAL_NULL_TMPL_ARGS ( const CGAL_Origin &,
-                                       const CGAL_VectorH2<FT,RT> & );
+       PointH2<FT,RT>
+       operator+ CGAL_NULL_TMPL_ARGS ( const Origin &,
+                                       const VectorH2<FT,RT> & );
 friend inline
-       CGAL_PointH2<FT,RT>
-       operator- CGAL_NULL_TMPL_ARGS ( const CGAL_Origin &,
-                                       const CGAL_VectorH2<FT,RT> & );
+       PointH2<FT,RT>
+       operator- CGAL_NULL_TMPL_ARGS ( const Origin &,
+                                       const VectorH2<FT,RT> & );
 friend CGAL_KERNEL_INLINE
-       CGAL_VectorH2<FT,RT>
-       operator+ CGAL_NULL_TMPL_ARGS ( const CGAL_VectorH2<FT,RT> &,
-                                       const CGAL_VectorH2<FT,RT> & );
+       VectorH2<FT,RT>
+       operator+ CGAL_NULL_TMPL_ARGS ( const VectorH2<FT,RT> &,
+                                       const VectorH2<FT,RT> & );
 friend CGAL_KERNEL_INLINE
-       CGAL_VectorH2<FT,RT>
-       operator- CGAL_NULL_TMPL_ARGS ( const CGAL_VectorH2<FT,RT> &,
-                                       const CGAL_VectorH2<FT,RT> & );
+       VectorH2<FT,RT>
+       operator- CGAL_NULL_TMPL_ARGS ( const VectorH2<FT,RT> &,
+                                       const VectorH2<FT,RT> & );
 friend CGAL_KERNEL_INLINE
        FT
-       operator* CGAL_NULL_TMPL_ARGS ( const CGAL_VectorH2<FT,RT> &,
-                                       const CGAL_VectorH2<FT,RT> & );
+       operator* CGAL_NULL_TMPL_ARGS ( const VectorH2<FT,RT> &,
+                                       const VectorH2<FT,RT> & );
 friend CGAL_KERNEL_INLINE
-       CGAL_VectorH2<FT,RT>
-       operator* CGAL_NULL_TMPL_ARGS ( const CGAL_VectorH2<FT,RT> &,
+       VectorH2<FT,RT>
+       operator* CGAL_NULL_TMPL_ARGS ( const VectorH2<FT,RT> &,
                                        const RT & );
 friend CGAL_KERNEL_INLINE
-       CGAL_VectorH2<FT,RT>
+       VectorH2<FT,RT>
        operator* CGAL_NULL_TMPL_ARGS ( const RT &,
-                                       const CGAL_VectorH2<FT,RT> & );
+                                       const VectorH2<FT,RT> & );
 friend CGAL_KERNEL_INLINE
-       CGAL_VectorH2<FT,RT>
-       operator/ CGAL_NULL_TMPL_ARGS ( const CGAL_VectorH2<FT,RT> &,
+       VectorH2<FT,RT>
+       operator/ CGAL_NULL_TMPL_ARGS ( const VectorH2<FT,RT> &,
                                        const RT & );
 protected:
-    CGAL__Threetuple<RT>* ptr() const;
+    _Threetuple<RT>* ptr() const;
 };
 
 template < class FT, class RT >
-class CGAL_DirectionH2 : public CGAL_Handle
+class DirectionH2 : public Handle
 {
 public:
-            CGAL_DirectionH2();
-            CGAL_DirectionH2(const CGAL_DirectionH2<FT,RT>& d );
-            CGAL_DirectionH2(const CGAL_PointH2<FT,RT> & p );
-            CGAL_DirectionH2(const CGAL_VectorH2<FT,RT> & v );
-            CGAL_DirectionH2(const RT& x, const RT& y);
-            CGAL_DirectionH2(const RT& x, const RT& y, const RT& w );
-            ~CGAL_DirectionH2();
-    CGAL_DirectionH2<FT,RT> &
-            operator=(const CGAL_DirectionH2<FT,RT>& d);
+            DirectionH2();
+            DirectionH2(const DirectionH2<FT,RT>& d );
+            DirectionH2(const PointH2<FT,RT> & p );
+            DirectionH2(const VectorH2<FT,RT> & v );
+            DirectionH2(const RT& x, const RT& y);
+            DirectionH2(const RT& x, const RT& y, const RT& w );
+            ~DirectionH2();
+    DirectionH2<FT,RT> &
+            operator=(const DirectionH2<FT,RT>& d);
 
-    bool    operator==( const CGAL_DirectionH2<FT,RT>& d) const;
-    bool    operator!=( const CGAL_DirectionH2<FT,RT>& d) const;
-    bool    operator< ( const CGAL_DirectionH2<FT,RT>& d) const;
-    bool    operator<=( const CGAL_DirectionH2<FT,RT>& d) const;
-    bool    operator> ( const CGAL_DirectionH2<FT,RT>& d) const;
-    bool    operator>=( const CGAL_DirectionH2<FT,RT>& d) const;
-    bool    counterclockwise_in_between( const CGAL_DirectionH2<FT,RT>& d1,
-                                     const CGAL_DirectionH2<FT,RT>& d2 ) const;
-    bool    identical ( const CGAL_DirectionH2<FT,RT>& d) const;
+    bool    operator==( const DirectionH2<FT,RT>& d) const;
+    bool    operator!=( const DirectionH2<FT,RT>& d) const;
+    bool    operator< ( const DirectionH2<FT,RT>& d) const;
+    bool    operator<=( const DirectionH2<FT,RT>& d) const;
+    bool    operator> ( const DirectionH2<FT,RT>& d) const;
+    bool    operator>=( const DirectionH2<FT,RT>& d) const;
+    bool    counterclockwise_in_between( const DirectionH2<FT,RT>& d1,
+                                     const DirectionH2<FT,RT>& d2 ) const;
+    bool    identical ( const DirectionH2<FT,RT>& d) const;
     int     id() const;
 
-    CGAL_DirectionH2<FT,RT>
+    DirectionH2<FT,RT>
             operator-() const;
 
 
-    CGAL_VectorH2<FT,RT>    vector() const;
+    VectorH2<FT,RT>    vector() const;
 
     RT      x() const;
     RT      y() const;
@@ -250,95 +251,95 @@ public:
     RT      dx() const;
     RT      dy() const;
 
-    CGAL_DirectionH2<FT,RT>
-          perpendicular(const CGAL_Orientation &o) const;
-    CGAL_DirectionH2<FT,RT>
-          transform(const CGAL_Aff_transformationH2<FT,RT> &) const ;
+    DirectionH2<FT,RT>
+          perpendicular(const Orientation &o) const;
+    DirectionH2<FT,RT>
+          transform(const Aff_transformationH2<FT,RT> &) const ;
 
 protected:
 
-    CGAL__Threetuple<RT>*    ptr() const;
+    _Threetuple<RT>*    ptr() const;
 };
 
 
 template < class FT, class RT >
 inline
-CGAL__Threetuple<RT>*
-CGAL_PointH2<FT,RT>::ptr() const
-{ return (CGAL__Threetuple<RT>*)PTR; }
+_Threetuple<RT>*
+PointH2<FT,RT>::ptr() const
+{ return (_Threetuple<RT>*)PTR; }
 
 template < class FT, class RT >
 inline
-CGAL__Threetuple<RT>*
-CGAL_VectorH2<FT,RT>::ptr() const
-{ return (CGAL__Threetuple<RT>*)PTR; }
+_Threetuple<RT>*
+VectorH2<FT,RT>::ptr() const
+{ return (_Threetuple<RT>*)PTR; }
 
 
 template <class FT, class RT >
 inline
-CGAL__Threetuple<RT>*
-CGAL_DirectionH2<FT,RT>::ptr() const
-{ return (CGAL__Threetuple<RT>*)PTR; }
+_Threetuple<RT>*
+DirectionH2<FT,RT>::ptr() const
+{ return (_Threetuple<RT>*)PTR; }
 
 
 
 template < class FT, class RT >
 CGAL_KERNEL_CTOR_INLINE
-CGAL_PointH2<FT,RT>::CGAL_PointH2()
-{ PTR = new CGAL__Threetuple<RT>(); }
+PointH2<FT,RT>::PointH2()
+{ PTR = new _Threetuple<RT>(); }
 
 template < class FT, class RT >
 CGAL_KERNEL_CTOR_INLINE
-CGAL_PointH2<FT,RT>::CGAL_PointH2(const CGAL_Origin&)
-{ PTR = new CGAL__Threetuple<RT>( RT(0)  , RT(0)  , RT(1)   ); }
+PointH2<FT,RT>::PointH2(const Origin&)
+{ PTR = new _Threetuple<RT>( RT(0)  , RT(0)  , RT(1)   ); }
 
 template < class FT, class RT >
 CGAL_KERNEL_CTOR_INLINE
-CGAL_PointH2<FT,RT>::CGAL_PointH2(const CGAL_PointH2<FT,RT>& p)
-  : CGAL_Handle(p)
+PointH2<FT,RT>::PointH2(const PointH2<FT,RT>& p)
+  : Handle(p)
 {}
 
 template < class FT, class RT >
 CGAL_KERNEL_CTOR_INLINE
-CGAL_PointH2<FT,RT>::CGAL_PointH2(const RT& hx, const RT& hy)
-{ PTR = new CGAL__Threetuple<RT>( hx, hy, RT(1) ); }
+PointH2<FT,RT>::PointH2(const RT& hx, const RT& hy)
+{ PTR = new _Threetuple<RT>( hx, hy, RT(1) ); }
 
 template < class FT, class RT >
 CGAL_KERNEL_CTOR_INLINE
-CGAL_PointH2<FT,RT>::CGAL_PointH2(const RT& hx, const RT& hy, const RT& hw)
+PointH2<FT,RT>::PointH2(const RT& hx, const RT& hy, const RT& hw)
 {
    if ( hw >= RT(0)   )
    {
-        PTR = new CGAL__Threetuple<RT>( hx, hy, hw);
+        PTR = new _Threetuple<RT>( hx, hy, hw);
    }
    else
    {
-        PTR = new CGAL__Threetuple<RT>(-hx,-hy,-hw);
+        PTR = new _Threetuple<RT>(-hx,-hy,-hw);
    }
 }
 
 template < class FT, class RT >
 inline
-CGAL_PointH2<FT,RT>::~CGAL_PointH2()
+PointH2<FT,RT>::~PointH2()
 {}
 template < class FT, class RT >
 CGAL_KERNEL_CTOR_INLINE
-CGAL_PointH2<FT,RT>::CGAL_PointH2(const CGAL_VectorH2<FT,RT>& v)
-  : CGAL_Handle( (CGAL_Handle&) v)
+PointH2<FT,RT>::PointH2(const VectorH2<FT,RT>& v)
+  : Handle( (Handle&) v)
 {}
 
 template < class FT, class RT >
 CGAL_KERNEL_INLINE
-CGAL_PointH2<FT,RT>&
-CGAL_PointH2<FT,RT>::operator=(const CGAL_PointH2<FT,RT>& p)
+PointH2<FT,RT>&
+PointH2<FT,RT>::operator=(const PointH2<FT,RT>& p)
 {
-  CGAL_Handle::operator=(p);
+  Handle::operator=(p);
   return *this;
 }
 template < class FT, class RT >
 CGAL_KERNEL_INLINE
 bool
-CGAL_PointH2<FT,RT>::operator==( const CGAL_PointH2<FT,RT>& p) const
+PointH2<FT,RT>::operator==( const PointH2<FT,RT>& p) const
 {
   return (  (hx() * p.hw() == p.hx() * hw() )
           &&(hy() * p.hw() == p.hy() * hw() ) );
@@ -347,54 +348,54 @@ CGAL_PointH2<FT,RT>::operator==( const CGAL_PointH2<FT,RT>& p) const
 template < class FT, class RT >
 inline
 bool
-CGAL_PointH2<FT,RT>::operator!=( const CGAL_PointH2<FT,RT>& p) const
+PointH2<FT,RT>::operator!=( const PointH2<FT,RT>& p) const
 { return !(*this == p); }   /* XXX */
 
 template < class FT, class RT >
 inline
 bool
-CGAL_PointH2<FT,RT>::identical( const CGAL_PointH2<FT,RT>& p) const
+PointH2<FT,RT>::identical( const PointH2<FT,RT>& p) const
 { return ( PTR == p.PTR ); }
 
 template < class FT, class RT >
 inline
 int
-CGAL_PointH2<FT,RT>::id() const
+PointH2<FT,RT>::id() const
 { return (int)PTR; }
 template < class FT, class RT >
 inline
 FT
-CGAL_PointH2<FT,RT>::x()  const
+PointH2<FT,RT>::x()  const
 { return ( FT( hx() ) / FT( hw() )); }
 
 template < class FT, class RT >
 inline
 FT
-CGAL_PointH2<FT,RT>::y()  const
+PointH2<FT,RT>::y()  const
 { return ( FT( hy() ) / FT( hw() )); }
 
 template < class FT, class RT >
 inline
 RT
-CGAL_PointH2<FT,RT>::hx() const
+PointH2<FT,RT>::hx() const
 { return  ptr()->e0 ; }
 
 template < class FT, class RT >
 inline
 RT
-CGAL_PointH2<FT,RT>::hy() const
+PointH2<FT,RT>::hy() const
 { return  ptr()->e1 ; }
 
 template < class FT, class RT >
 inline
 RT
-CGAL_PointH2<FT,RT>::hw() const
+PointH2<FT,RT>::hw() const
 { return  ptr()->e2; }
 
 template < class FT, class RT >
 CGAL_KERNEL_INLINE
 FT
-CGAL_PointH2<FT,RT>::cartesian(int i) const
+PointH2<FT,RT>::cartesian(int i) const
 {
   CGAL_kernel_precondition( (i==0 || i==1) );
   switch (i)
@@ -408,7 +409,7 @@ CGAL_PointH2<FT,RT>::cartesian(int i) const
 template < class FT, class RT >
 CGAL_KERNEL_INLINE
 RT
-CGAL_PointH2<FT,RT>::homogeneous(int i) const
+PointH2<FT,RT>::homogeneous(int i) const
 {
   CGAL_kernel_precondition( (i>=0) && (i<=2) );
   switch (i)
@@ -423,99 +424,99 @@ CGAL_PointH2<FT,RT>::homogeneous(int i) const
 template < class FT, class RT >
 inline
 FT
-CGAL_PointH2<FT,RT>::operator[](int i) const
+PointH2<FT,RT>::operator[](int i) const
 { return cartesian(i); }
 
 template < class FT, class RT >
 inline
 int
-CGAL_PointH2<FT,RT>::dimension() const
+PointH2<FT,RT>::dimension() const
 { return 2; }
 
 template < class FT, class RT >
 CGAL_KERNEL_INLINE
-CGAL_DirectionH2<FT,RT>
-CGAL_PointH2<FT,RT>::direction() const
-{ return CGAL_DirectionH2<FT,RT>(*this); }
+DirectionH2<FT,RT>
+PointH2<FT,RT>::direction() const
+{ return DirectionH2<FT,RT>(*this); }
 
 
 
 template < class FT, class RT >
 CGAL_KERNEL_CTOR_INLINE
-CGAL_VectorH2<FT,RT>::CGAL_VectorH2()
-{ PTR = new CGAL__Threetuple<RT>(); }
+VectorH2<FT,RT>::VectorH2()
+{ PTR = new _Threetuple<RT>(); }
 
 template < class FT, class RT >
 CGAL_KERNEL_CTOR_INLINE
-CGAL_VectorH2<FT,RT>::CGAL_VectorH2(const CGAL_Null_vector &)
-{ PTR = new CGAL__Threetuple<RT>(RT(0), RT(0), RT(1) ); }
+VectorH2<FT,RT>::VectorH2(const Null_vector &)
+{ PTR = new _Threetuple<RT>(RT(0), RT(0), RT(1) ); }
 
 template < class FT, class RT >
 CGAL_KERNEL_CTOR_INLINE
-CGAL_VectorH2<FT,RT>::CGAL_VectorH2(const CGAL_VectorH2<FT,RT>& v)
-  : CGAL_Handle(v)
+VectorH2<FT,RT>::VectorH2(const VectorH2<FT,RT>& v)
+  : Handle(v)
 {}
 
 template < class FT, class RT >
 CGAL_KERNEL_CTOR_INLINE
-CGAL_VectorH2<FT,RT>::CGAL_VectorH2(const RT& x, const RT& y)
-{ PTR = new CGAL__Threetuple<RT>( x,  y,  RT(1) ); }
+VectorH2<FT,RT>::VectorH2(const RT& x, const RT& y)
+{ PTR = new _Threetuple<RT>( x,  y,  RT(1) ); }
 
 template < class FT, class RT >
 CGAL_KERNEL_CTOR_INLINE
-CGAL_VectorH2<FT,RT>::CGAL_VectorH2(const RT& x, const RT& y, const RT& w)
+VectorH2<FT,RT>::VectorH2(const RT& x, const RT& y, const RT& w)
 {
   if ( w >= RT(0)   )
   {
-      PTR = new CGAL__Threetuple<RT>( x,  y,  w);
+      PTR = new _Threetuple<RT>( x,  y,  w);
   }
   else
   {
-      PTR = new CGAL__Threetuple<RT>(-x, -y, -w);
+      PTR = new _Threetuple<RT>(-x, -y, -w);
   }
 }
 
 template < class FT, class RT >
 inline
-CGAL_VectorH2<FT,RT>::~CGAL_VectorH2()
+VectorH2<FT,RT>::~VectorH2()
 {}
 
 template < class FT, class RT >
 CGAL_KERNEL_CTOR_INLINE
-CGAL_VectorH2<FT,RT>::CGAL_VectorH2(const CGAL_PointH2<FT,RT> & p)
-  : CGAL_Handle( (CGAL_Handle&) p)
+VectorH2<FT,RT>::VectorH2(const PointH2<FT,RT> & p)
+  : Handle( (Handle&) p)
 {}
 
 template < class FT, class RT >
 CGAL_KERNEL_CTOR_INLINE
-CGAL_VectorH2<FT,RT>::CGAL_VectorH2(const CGAL_DirectionH2<FT,RT> & dir)
-  : CGAL_Handle( (CGAL_Handle &) dir)
+VectorH2<FT,RT>::VectorH2(const DirectionH2<FT,RT> & dir)
+  : Handle( (Handle &) dir)
 {}
 
 template < class FT, class RT >
 CGAL_KERNEL_INLINE
-CGAL_VectorH2<FT,RT> &
-CGAL_VectorH2<FT,RT>::operator=(const CGAL_VectorH2<FT,RT> &v)
+VectorH2<FT,RT> &
+VectorH2<FT,RT>::operator=(const VectorH2<FT,RT> &v)
 {
-  CGAL_Handle::operator=(v);
+  Handle::operator=(v);
   return *this;
 }
 template < class FT, class RT >
 inline
 bool
-CGAL_VectorH2<FT,RT>::operator==( const CGAL_Null_vector&) const
+VectorH2<FT,RT>::operator==( const Null_vector&) const
 { return (hx() == RT(0)) && (hy() == RT(0)); }
 
 template < class FT, class RT >
 inline
 bool
-CGAL_VectorH2<FT,RT>::operator!=( const CGAL_Null_vector& v) const
+VectorH2<FT,RT>::operator!=( const Null_vector& v) const
 { return !(*this == v); }
 
 template < class FT, class RT >
 CGAL_KERNEL_INLINE
 bool
-CGAL_VectorH2<FT,RT>::operator==( const CGAL_VectorH2<FT,RT>& v) const
+VectorH2<FT,RT>::operator==( const VectorH2<FT,RT>& v) const
 {
   return (  (hx() * v.hw() == v.hx() * hw() )
           &&(hy() * v.hw() == v.hy() * hw() ) );
@@ -524,55 +525,55 @@ CGAL_VectorH2<FT,RT>::operator==( const CGAL_VectorH2<FT,RT>& v) const
 template < class FT, class RT >
 inline
 bool
-CGAL_VectorH2<FT,RT>::operator!=( const CGAL_VectorH2<FT,RT>& v) const
+VectorH2<FT,RT>::operator!=( const VectorH2<FT,RT>& v) const
 { return !(*this == v); }  /* XXX */
 
 template < class FT, class RT >
 inline
 bool
-CGAL_VectorH2<FT,RT>::identical( const CGAL_VectorH2<FT,RT>& v) const
+VectorH2<FT,RT>::identical( const VectorH2<FT,RT>& v) const
 { return ( PTR == v.PTR ); }
 
 template < class FT, class RT >
 inline
 int
-CGAL_VectorH2<FT,RT>::id() const
+VectorH2<FT,RT>::id() const
 { return (int)PTR; }
 template < class FT, class RT >
 inline
 FT
-CGAL_VectorH2<FT,RT>::x()  const
+VectorH2<FT,RT>::x()  const
 { return FT(ptr()->e0 )/FT(ptr()->e2 ) ; }
 
 
 template < class FT, class RT >
 inline
 FT
-CGAL_VectorH2<FT,RT>::y()  const
+VectorH2<FT,RT>::y()  const
 { return FT(ptr()->e1 )/FT(ptr()->e2 ) ; }
 
 template < class FT, class RT >
 inline
 RT
-CGAL_VectorH2<FT,RT>::hx() const
+VectorH2<FT,RT>::hx() const
 { return  ptr()->e0 ; }
 
 template < class FT, class RT >
 inline
 RT
-CGAL_VectorH2<FT,RT>::hy() const
+VectorH2<FT,RT>::hy() const
 { return  ptr()->e1 ; }
 
 template < class FT, class RT >
 inline
 RT
-CGAL_VectorH2<FT,RT>::hw() const
+VectorH2<FT,RT>::hw() const
 { return  ptr()->e2 ; }
 
 template < class FT, class RT >
 CGAL_KERNEL_INLINE
 FT
-CGAL_VectorH2<FT,RT>::cartesian(int i) const
+VectorH2<FT,RT>::cartesian(int i) const
 {
   CGAL_kernel_precondition( (i==0 || i==1) );
   switch (i)
@@ -586,7 +587,7 @@ CGAL_VectorH2<FT,RT>::cartesian(int i) const
 template < class FT, class RT >
 CGAL_KERNEL_INLINE
 RT
-CGAL_VectorH2<FT,RT>::homogeneous(int i) const
+VectorH2<FT,RT>::homogeneous(int i) const
 {
   CGAL_kernel_precondition( (i>=0) && (i<=2) );
   switch (i)
@@ -601,132 +602,132 @@ CGAL_VectorH2<FT,RT>::homogeneous(int i) const
 template < class FT, class RT >
 inline
 FT
-CGAL_VectorH2<FT,RT>::operator[](int i) const
+VectorH2<FT,RT>::operator[](int i) const
 { return cartesian(i); }
 
 template < class FT, class RT >
 inline
 int
-CGAL_VectorH2<FT,RT>::dimension() const
+VectorH2<FT,RT>::dimension() const
 { return 2; }
 
 template < class FT, class RT >
 CGAL_KERNEL_INLINE
-CGAL_DirectionH2<FT,RT>
-CGAL_VectorH2<FT,RT>::direction() const
-{ return CGAL_DirectionH2<FT,RT>(*this); }
+DirectionH2<FT,RT>
+VectorH2<FT,RT>::direction() const
+{ return DirectionH2<FT,RT>(*this); }
 template < class FT, class RT >
 inline
-CGAL_VectorH2<FT,RT>
-CGAL_VectorH2<FT,RT>::operator-() const
-{ return CGAL_VectorH2<FT,RT>(- hx(), - hy(), hw() ); }
+VectorH2<FT,RT>
+VectorH2<FT,RT>::operator-() const
+{ return VectorH2<FT,RT>(- hx(), - hy(), hw() ); }
 
 template <class FT, class RT >
 CGAL_KERNEL_CTOR_INLINE
-CGAL_DirectionH2<FT,RT>::CGAL_DirectionH2()
-{ PTR = new CGAL__Threetuple<RT>(); }
+DirectionH2<FT,RT>::DirectionH2()
+{ PTR = new _Threetuple<RT>(); }
 
 template <class FT, class RT >
 CGAL_KERNEL_CTOR_INLINE
-CGAL_DirectionH2<FT,RT>::CGAL_DirectionH2(const CGAL_DirectionH2<FT,RT>& d )
-  : CGAL_Handle( (CGAL_Handle&) d )
+DirectionH2<FT,RT>::DirectionH2(const DirectionH2<FT,RT>& d )
+  : Handle( (Handle&) d )
 {}
 
 template <class FT, class RT >
 CGAL_KERNEL_CTOR_INLINE
-CGAL_DirectionH2<FT,RT>::CGAL_DirectionH2(const CGAL_PointH2<FT,RT> & p )
-  : CGAL_Handle( (CGAL_Handle&) p)
+DirectionH2<FT,RT>::DirectionH2(const PointH2<FT,RT> & p )
+  : Handle( (Handle&) p)
 {}
 
 template <class FT, class RT >
 CGAL_KERNEL_CTOR_INLINE
-CGAL_DirectionH2<FT,RT>::CGAL_DirectionH2(const CGAL_VectorH2<FT,RT> & v )
-  : CGAL_Handle( (CGAL_Handle&) v)
+DirectionH2<FT,RT>::DirectionH2(const VectorH2<FT,RT> & v )
+  : Handle( (Handle&) v)
 {}
 
 template <class FT, class RT >
 CGAL_KERNEL_CTOR_INLINE
-CGAL_DirectionH2<FT,RT>::CGAL_DirectionH2(const RT& x, const RT& y)
-{ PTR = new CGAL__Threetuple<RT>( x, y, RT(1) ); }
+DirectionH2<FT,RT>::DirectionH2(const RT& x, const RT& y)
+{ PTR = new _Threetuple<RT>( x, y, RT(1) ); }
 
 template <class FT, class RT >
 CGAL_KERNEL_CTOR_INLINE
-CGAL_DirectionH2<FT,RT>::CGAL_DirectionH2(const RT& x,
+DirectionH2<FT,RT>::DirectionH2(const RT& x,
                                           const RT& y,
                                           const RT& w )
 {
   if (w > RT(0)   )
   {
-      PTR = new CGAL__Threetuple<RT>( x, y, w);
+      PTR = new _Threetuple<RT>( x, y, w);
   }
   else
   {
-      PTR = new CGAL__Threetuple<RT>(-x,-y,-w);
+      PTR = new _Threetuple<RT>(-x,-y,-w);
   }
 }
 
 template <class FT, class RT >
 inline
-CGAL_DirectionH2<FT,RT>::~CGAL_DirectionH2()
+DirectionH2<FT,RT>::~DirectionH2()
 {}
 
 template < class FT, class RT >
 CGAL_KERNEL_INLINE
-CGAL_DirectionH2<FT,RT> &
-CGAL_DirectionH2<FT,RT>::operator=(const CGAL_DirectionH2<FT,RT> &d)
+DirectionH2<FT,RT> &
+DirectionH2<FT,RT>::operator=(const DirectionH2<FT,RT> &d)
 {
-  CGAL_Handle::operator=(d);
+  Handle::operator=(d);
   return *this;
 }
 
 template <class FT, class RT >
 CGAL_KERNEL_INLINE
 bool
-CGAL_DirectionH2<FT,RT>::operator==( const CGAL_DirectionH2<FT,RT>& d) const
+DirectionH2<FT,RT>::operator==( const DirectionH2<FT,RT>& d) const
 {
   return (  ( x() * d.y() == y() * d.x() )
-          &&( CGAL_sign( x() ) == CGAL_sign( d.x() ) )
-          &&( CGAL_sign( y() ) == CGAL_sign( d.y() ) ) );
+          &&( CGAL::sign( x() ) == CGAL::sign( d.x() ) )
+          &&( CGAL::sign( y() ) == CGAL::sign( d.y() ) ) );
 }
 
 template <class FT, class RT >
 inline
 bool
-CGAL_DirectionH2<FT,RT>::operator!=( const CGAL_DirectionH2<FT,RT>& d) const
+DirectionH2<FT,RT>::operator!=( const DirectionH2<FT,RT>& d) const
 { return !(*this == d); }
 
 template <class FT, class RT >
 inline
 bool
-CGAL_DirectionH2<FT,RT>::identical( const CGAL_DirectionH2<FT,RT>& d) const
+DirectionH2<FT,RT>::identical( const DirectionH2<FT,RT>& d) const
 { return ( PTR == d.PTR ); }
 
 template <class FT, class RT >
 inline
 int
-CGAL_DirectionH2<FT,RT>::id() const
+DirectionH2<FT,RT>::id() const
 { return (int)PTR; }
 template <class FT, class RT >
 inline
-CGAL_DirectionH2<FT,RT>
-CGAL_DirectionH2<FT,RT>::operator-() const
-{ return CGAL_DirectionH2<FT,RT>( - x(), - y() ); }
+DirectionH2<FT,RT>
+DirectionH2<FT,RT>::operator-() const
+{ return DirectionH2<FT,RT>( - x(), - y() ); }
 template <class FT, class RT >
 inline
 RT
-CGAL_DirectionH2<FT,RT>::dx() const
+DirectionH2<FT,RT>::dx() const
 { return ptr()->e0; }
 
 template <class FT, class RT >
 inline
 RT
-CGAL_DirectionH2<FT,RT>::dy() const
+DirectionH2<FT,RT>::dy() const
 { return ptr()->e1; }
 
 template <class FT, class RT >
 CGAL_KERNEL_INLINE
 RT
-CGAL_DirectionH2<FT,RT>::delta(int i) const
+DirectionH2<FT,RT>::delta(int i) const
 {
   CGAL_kernel_precondition( ( i == 0 ) || ( i == 1 ) );
   if (i == 0)
@@ -739,32 +740,32 @@ CGAL_DirectionH2<FT,RT>::delta(int i) const
 template <class FT, class RT >
 inline
 RT
-CGAL_DirectionH2<FT,RT>::x() const
+DirectionH2<FT,RT>::x() const
 { return ptr()->e0; }
 
 template <class FT, class RT >
 inline
 RT
-CGAL_DirectionH2<FT,RT>::y() const
+DirectionH2<FT,RT>::y() const
 { return ptr()->e1; }
 
 
 template <class FT, class RT>
 CGAL_KERNEL_INLINE
-CGAL_VectorH2<FT,RT>
-operator+(const CGAL_VectorH2<FT,RT>& u, const CGAL_VectorH2<FT,RT>& v)
+VectorH2<FT,RT>
+operator+(const VectorH2<FT,RT>& u, const VectorH2<FT,RT>& v)
 {
-  return CGAL_VectorH2<FT,RT>( u.hx()*v.hw() + v.hx()*u.hw(),
+  return VectorH2<FT,RT>( u.hx()*v.hw() + v.hx()*u.hw(),
                                u.hy()*v.hw() + v.hy()*u.hw(),
                                u.hw()*v.hw() );
 }
 
 template <class FT, class RT>
-CGAL_VectorH2<FT,RT>
+VectorH2<FT,RT>
 CGAL_KERNEL_INLINE
-operator-(const CGAL_VectorH2<FT,RT>& u, const CGAL_VectorH2<FT,RT>& v)
+operator-(const VectorH2<FT,RT>& u, const VectorH2<FT,RT>& v)
 {
-  return CGAL_VectorH2<FT,RT>( u.hx()*v.hw() - v.hx()*u.hw(),
+  return VectorH2<FT,RT>( u.hx()*v.hw() - v.hx()*u.hw(),
                                u.hy()*v.hw() - v.hy()*u.hw(),
                                u.hw()*v.hw() );
 }
@@ -772,7 +773,7 @@ operator-(const CGAL_VectorH2<FT,RT>& u, const CGAL_VectorH2<FT,RT>& v)
 template <class FT, class RT>
 FT
 CGAL_KERNEL_INLINE
-operator*(const CGAL_VectorH2<FT,RT>& u, const CGAL_VectorH2<FT,RT>& v)
+operator*(const VectorH2<FT,RT>& u, const VectorH2<FT,RT>& v)
 {
   return (   FT( RT(u.hx()*v.hx() + u.hy()*v.hy()) )  /
              FT( RT(u.hw()*v.hw() ) )    );
@@ -780,111 +781,116 @@ operator*(const CGAL_VectorH2<FT,RT>& u, const CGAL_VectorH2<FT,RT>& v)
 
 template <class FT, class RT>
 CGAL_KERNEL_INLINE
-CGAL_VectorH2<FT,RT>
-operator/(const CGAL_VectorH2<FT,RT>& v, const RT& f)
-{ return CGAL_VectorH2<FT,RT>( v.hx(), v.hy(), v.hw()*f ); }
+VectorH2<FT,RT>
+operator/(const VectorH2<FT,RT>& v, const RT& f)
+{ return VectorH2<FT,RT>( v.hx(), v.hy(), v.hw()*f ); }
 
 template <class FT, class RT>
 CGAL_KERNEL_INLINE
-CGAL_VectorH2<FT,RT>
-operator*(const CGAL_VectorH2<FT,RT>& v, const RT& f)
-{ return CGAL_VectorH2<FT,RT>( v.hx()*f, v.hy()*f, v.hw() ); }
+VectorH2<FT,RT>
+operator*(const VectorH2<FT,RT>& v, const RT& f)
+{ return VectorH2<FT,RT>( v.hx()*f, v.hy()*f, v.hw() ); }
 
 template <class FT, class RT>
 CGAL_KERNEL_INLINE
-CGAL_VectorH2<FT,RT>
-operator*(const RT& f, const CGAL_VectorH2<FT,RT>& v)
-{ return CGAL_VectorH2<FT,RT>( v.hx()*f, v.hy()*f, v.hw() ); }
+VectorH2<FT,RT>
+operator*(const RT& f, const VectorH2<FT,RT>& v)
+{ return VectorH2<FT,RT>( v.hx()*f, v.hy()*f, v.hw() ); }
 
 template <class FT, class RT>
 inline
-CGAL_PointH2<FT,RT>
-operator+(const CGAL_Origin&, const CGAL_VectorH2<FT,RT>& v)
-{ return CGAL_PointH2<FT,RT>( v ); }
+PointH2<FT,RT>
+operator+(const Origin&, const VectorH2<FT,RT>& v)
+{ return PointH2<FT,RT>( v ); }
 
 template <class FT, class RT>
 inline
-CGAL_PointH2<FT,RT>
-operator-(const CGAL_Origin&, const CGAL_VectorH2<FT,RT>& v)
-{ return CGAL_PointH2<FT,RT>( -v ); }
+PointH2<FT,RT>
+operator-(const Origin&, const VectorH2<FT,RT>& v)
+{ return PointH2<FT,RT>( -v ); }
 
 template <class FT, class RT>
 inline
-CGAL_VectorH2<FT,RT>
-operator-(const CGAL_PointH2<FT,RT>& p, const CGAL_Origin&)
-{ return CGAL_VectorH2<FT,RT>( p ); }
+VectorH2<FT,RT>
+operator-(const PointH2<FT,RT>& p, const Origin&)
+{ return VectorH2<FT,RT>( p ); }
 
 template <class FT, class RT>
 inline
-CGAL_VectorH2<FT,RT>
-operator-(const CGAL_Origin&, const CGAL_PointH2<FT,RT>& p)
-{ return  - CGAL_VectorH2<FT,RT>( p ); }
+VectorH2<FT,RT>
+operator-(const Origin&, const PointH2<FT,RT>& p)
+{ return  - VectorH2<FT,RT>( p ); }
 
 
 template <class FT, class RT>
 CGAL_KERNEL_INLINE
-CGAL_PointH2<FT,RT>
-operator+(const CGAL_PointH2<FT,RT>& p, const CGAL_VectorH2<FT,RT>& v)
+PointH2<FT,RT>
+operator+(const PointH2<FT,RT>& p, const VectorH2<FT,RT>& v)
 {
-  return CGAL_PointH2<FT,RT>( p.hx()*v.hw() + v.hx()*p.hw(),
+  return PointH2<FT,RT>( p.hx()*v.hw() + v.hx()*p.hw(),
                               p.hy()*v.hw() + v.hy()*p.hw(),
                               p.hw()*v.hw() );
 }
 
 template <class FT, class RT>
 CGAL_KERNEL_INLINE
-CGAL_PointH2<FT,RT>
-operator-(const CGAL_PointH2<FT,RT>& p, const CGAL_VectorH2<FT,RT>& v)
+PointH2<FT,RT>
+operator-(const PointH2<FT,RT>& p, const VectorH2<FT,RT>& v)
 {
-  return CGAL_PointH2<FT,RT>( p.hx()*v.hw() - v.hx()*p.hw(),
+  return PointH2<FT,RT>( p.hx()*v.hw() - v.hx()*p.hw(),
                               p.hy()*v.hw() - v.hy()*p.hw(),
                               p.hw()*v.hw() );
 }
 
 template <class FT, class RT>
 CGAL_KERNEL_INLINE
-CGAL_VectorH2<FT,RT>
-operator-(const CGAL_PointH2<FT,RT>& p, const CGAL_PointH2<FT,RT>& q)
+VectorH2<FT,RT>
+operator-(const PointH2<FT,RT>& p, const PointH2<FT,RT>& q)
 {
-  return CGAL_VectorH2<FT,RT>( p.hx()*q.hw() - q.hx()*p.hw(),
+  return VectorH2<FT,RT>( p.hx()*q.hw() - q.hx()*p.hw(),
                                p.hy()*q.hw() - q.hy()*p.hw(),
                                p.hw()*q.hw() );
 }
+
+CGAL_END_NAMESPACE
 
 
 #ifndef CGAL_PREDICATES_ON_DIRECTIONSH2_H
 #include <CGAL/predicates_on_directionsH2.h>
 #endif // CGAL_PREDICATES_ON_DIRECTIONSH2_H
-template <class FT, class RT >
-inline
-bool
-CGAL_DirectionH2<FT,RT>::operator< (const CGAL_DirectionH2<FT,RT>& d) const
-{ return (CGAL_compare_angles_with_x_axis(*this,d) == CGAL_SMALLER); }
+
+CGAL_BEGIN_NAMESPACE
 
 template <class FT, class RT >
 inline
 bool
-CGAL_DirectionH2<FT,RT>::operator> (const CGAL_DirectionH2<FT,RT>& d) const
-{ return (CGAL_compare_angles_with_x_axis(*this,d) == CGAL_LARGER); }
+DirectionH2<FT,RT>::operator< (const DirectionH2<FT,RT>& d) const
+{ return (compare_angles_with_x_axis(*this,d) == SMALLER); }
 
 template <class FT, class RT >
 inline
 bool
-CGAL_DirectionH2<FT,RT>::operator>= (const CGAL_DirectionH2<FT,RT>& d) const
-{ return !(CGAL_compare_angles_with_x_axis(*this,d) == CGAL_SMALLER); }
+DirectionH2<FT,RT>::operator> (const DirectionH2<FT,RT>& d) const
+{ return (compare_angles_with_x_axis(*this,d) == LARGER); }
 
 template <class FT, class RT >
 inline
 bool
-CGAL_DirectionH2<FT,RT>::operator<= (const CGAL_DirectionH2<FT,RT>& d) const
-{ return !(CGAL_compare_angles_with_x_axis(*this,d) == CGAL_LARGER); }
+DirectionH2<FT,RT>::operator>= (const DirectionH2<FT,RT>& d) const
+{ return !(compare_angles_with_x_axis(*this,d) == SMALLER); }
+
+template <class FT, class RT >
+inline
+bool
+DirectionH2<FT,RT>::operator<= (const DirectionH2<FT,RT>& d) const
+{ return !(compare_angles_with_x_axis(*this,d) == LARGER); }
 
 template <class FT, class RT >
 CGAL_KERNEL_INLINE
 bool
-CGAL_DirectionH2<FT,RT>::
-counterclockwise_in_between( const CGAL_DirectionH2<FT,RT>& d1,
-                             const CGAL_DirectionH2<FT,RT>& d2) const
+DirectionH2<FT,RT>::
+counterclockwise_in_between( const DirectionH2<FT,RT>& d1,
+                             const DirectionH2<FT,RT>& d2) const
 {
   if ( d1 <= *this)
   {
@@ -895,6 +901,8 @@ counterclockwise_in_between( const CGAL_DirectionH2<FT,RT>& d1,
       return ( *this <= d2 )&&( d2 <= d1 );
    }
 }
+
+CGAL_END_NAMESPACE
 
 
 #ifndef CGAL_AFF_TRANSFORMATIONH2_H
@@ -907,47 +915,53 @@ counterclockwise_in_between( const CGAL_DirectionH2<FT,RT>& d1,
 #include <CGAL/misc.h>
 #endif // CGAL_MISC_H
 
+CGAL_BEGIN_NAMESPACE
+
 template < class FT, class RT >
 CGAL_KERNEL_MEDIUM_INLINE
-CGAL_Bbox_2
-CGAL_PointH2<FT,RT>::bbox() const
+Bbox_2
+PointH2<FT,RT>::bbox() const
 {
+#ifndef CGAL_CFG_NO_NAMESPACE
+  using std::swap;
+#endif // CGAL_CFG_NO_NAMESPACE
+
   // double eps  = exp2(-52);
   // the following is faster as it can be evaluated at compile time
   // and it is machine independent
   double eps  = double(1.0) /(double(1<<26) * double(1<<26));
-  double hxd  = CGAL_to_double( hx() );
-  double hyd  = CGAL_to_double( hy() );
-  double hwd  = CGAL_to_double( hw() );
+  double hxd  = CGAL::to_double( hx() );
+  double hyd  = CGAL::to_double( hy() );
+  double hwd  = CGAL::to_double( hw() );
   double xmin = ( hxd - eps*hxd ) / ( hwd + eps*hwd );
   double xmax = ( hxd + eps*hxd ) / ( hwd - eps*hwd );
   double ymin = ( hyd - eps*hyd ) / ( hwd + eps*hwd );
   double ymax = ( hyd + eps*hyd ) / ( hwd - eps*hwd );
-  if ( hx() < RT(0)   ) { CGAL_swap(xmin, xmax); }
-  if ( hy() < RT(0)   ) { CGAL_swap(ymin, ymax); }
-  return CGAL_Bbox_2(xmin, ymin, xmax, ymax);
+  if ( hx() < RT(0)   ) { swap(xmin, xmax); }
+  if ( hy() < RT(0)   ) { swap(ymin, ymax); }
+  return Bbox_2(xmin, ymin, xmax, ymax);
 }
 
 template < class FT, class RT >
 inline
-CGAL_PointH2<FT,RT>
-CGAL_PointH2<FT,RT>::transform(const CGAL_Aff_transformationH2<FT,RT>& t) const
+PointH2<FT,RT>
+PointH2<FT,RT>::transform(const Aff_transformationH2<FT,RT>& t) const
 { return t.transform(*this); }
 
 
-#ifndef CGAL_NO_OSTREAM_INSERT_POINTH2
+#ifndef NO_OSTREAM_INSERT_POINTH2
 template < class FT, class RT >
-ostream &
-operator<<(ostream &os, const CGAL_PointH2<FT,RT> &p)
+std::ostream &
+operator<<(std::ostream &os, const PointH2<FT,RT> &p)
 {
-  switch(os.iword(CGAL_IO::mode))
+  switch(os.iword(IO::mode))
   {
-    case CGAL_IO::ASCII :
+    case IO::ASCII :
         return os << p.hx() << ' ' << p.hy() << ' ' << p.hw();
-    case CGAL_IO::BINARY :
-        CGAL_write(os, p.hx());
-        CGAL_write(os, p.hy());
-        CGAL_write(os, p.hw());
+    case IO::BINARY :
+        write(os, p.hx());
+        write(os, p.hy());
+        write(os, p.hw());
         return os;
     default:
         return os << "PointH2(" << p.hx() << ", "
@@ -955,70 +969,70 @@ operator<<(ostream &os, const CGAL_PointH2<FT,RT> &p)
                                 << p.hw() << ')';
   }
 }
-#endif // CGAL_NO_OSTREAM_INSERT_POINTH2
+#endif // NO_OSTREAM_INSERT_POINTH2
 
-#ifndef CGAL_NO_ISTREAM_EXTRACT_POINTH2
+#ifndef NO_ISTREAM_EXTRACT_POINTH2
 template < class FT, class RT >
-istream &
-operator>>(istream &is, CGAL_PointH2<FT,RT> &p)
+std::istream &
+operator>>(std::istream &is, PointH2<FT,RT> &p)
 {
   RT hx, hy, hw;
-  switch(is.iword(CGAL_IO::mode))
+  switch(is.iword(IO::mode))
   {
-    case CGAL_IO::ASCII :
+    case IO::ASCII :
         is >> hx >> hy >> hw;
         break;
-    case CGAL_IO::BINARY :
-        CGAL_read(is, hx);
-        CGAL_read(is, hy);
-        CGAL_read(is, hw);
+    case IO::BINARY :
+        read(is, hx);
+        read(is, hy);
+        read(is, hw);
         break;
     default:
-        cerr << "" << endl;
-        cerr << "Stream must be in ascii or binary mode" << endl;
+        std::cerr << "" << std::endl;
+        std::cerr << "Stream must be in ascii or binary mode" << std::endl;
         break;
   }
-  p = CGAL_PointH2<FT,RT>(hx, hy, hw);
+  p = PointH2<FT,RT>(hx, hy, hw);
   return is;
 }
-#endif // CGAL_NO_ISTREAM_EXTRACT_POINTH2
+#endif // NO_ISTREAM_EXTRACT_POINTH2
 
 template < class FT, class RT >
 CGAL_KERNEL_INLINE
-CGAL_VectorH2<FT,RT>
-CGAL_VectorH2<FT,RT>::perpendicular(const CGAL_Orientation& o) const
+VectorH2<FT,RT>
+VectorH2<FT,RT>::perpendicular(const Orientation& o) const
 {
-  CGAL_kernel_precondition(o != CGAL_COLLINEAR);
-  if (o == CGAL_COUNTERCLOCKWISE)
+  CGAL_kernel_precondition(o != COLLINEAR);
+  if (o == COUNTERCLOCKWISE)
   {
-      return CGAL_VectorH2<FT,RT>(-hy(), hx(), hw());
+      return VectorH2<FT,RT>(-hy(), hx(), hw());
   }
   else
   {
-      return CGAL_VectorH2<FT,RT>(hy(), -hx(), hw());
+      return VectorH2<FT,RT>(hy(), -hx(), hw());
   }
 }
 
 template < class FT, class RT >
 inline
-CGAL_VectorH2<FT,RT>
-CGAL_VectorH2<FT,RT>::transform(const CGAL_Aff_transformationH2<FT,RT>& t) const
+VectorH2<FT,RT>
+VectorH2<FT,RT>::transform(const Aff_transformationH2<FT,RT>& t) const
 { return t.transform(*this); }
 
 
-#ifndef CGAL_NO_OSTREAM_INSERT_VECTORH2
+#ifndef NO_OSTREAM_INSERT_VECTORH2
 template < class FT, class RT >
-ostream &
-operator<<(ostream &os, const CGAL_VectorH2<FT,RT> &p)
+std::ostream &
+operator<<(std::ostream &os, const VectorH2<FT,RT> &p)
 {
-  switch(os.iword(CGAL_IO::mode))
+  switch(os.iword(IO::mode))
   {
-    case CGAL_IO::ASCII :
+    case IO::ASCII :
         return os << p.hx() << ' ' << p.hy() << ' ' << p.hw();
-    case CGAL_IO::BINARY :
-        CGAL_write(os, p.hx());
-        CGAL_write(os, p.hy());
-        CGAL_write(os, p.hw());
+    case IO::BINARY :
+        write(os, p.hx());
+        write(os, p.hy());
+        write(os, p.hw());
         return os;
     default:
         return os << "VectorH2(" << p.hx() << ", "
@@ -1026,108 +1040,110 @@ operator<<(ostream &os, const CGAL_VectorH2<FT,RT> &p)
                                 << p.hw() << ')';
   }
 }
-#endif // CGAL_NO_OSTREAM_INSERT_VECTORH2
+#endif // NO_OSTREAM_INSERT_VECTORH2
 
-#ifndef CGAL_NO_ISTREAM_EXTRACT_VECTORH2
+#ifndef NO_ISTREAM_EXTRACT_VECTORH2
 template < class FT, class RT >
-istream &
-operator>>(istream &is, CGAL_VectorH2<FT,RT> &p)
+std::istream &
+operator>>(std::istream &is, VectorH2<FT,RT> &p)
 {
   RT hx, hy, hw;
-  switch(is.iword(CGAL_IO::mode))
+  switch(is.iword(IO::mode))
   {
-    case CGAL_IO::ASCII :
+    case IO::ASCII :
         is >> hx >> hy >> hw;
         break;
-    case CGAL_IO::BINARY :
-        CGAL_read(is, hx);
-        CGAL_read(is, hy);
-        CGAL_read(is, hw);
+    case IO::BINARY :
+        read(is, hx);
+        read(is, hy);
+        read(is, hw);
         break;
     default:
-        cerr << "" << endl;
-        cerr << "Stream must be in ascii or binary mode" << endl;
+        std::cerr << "" << std::endl;
+        std::cerr << "Stream must be in ascii or binary mode" << std::endl;
         break;
   }
-  p = CGAL_VectorH2<FT,RT>(hx, hy, hw);
+  p = VectorH2<FT,RT>(hx, hy, hw);
   return is;
 }
-#endif // CGAL_NO_ISTREAM_EXTRACT_VECTORH2
+#endif // NO_ISTREAM_EXTRACT_VECTORH2
 
 template <class FT, class RT >
 CGAL_KERNEL_INLINE
-CGAL_DirectionH2<FT,RT>
-CGAL_DirectionH2<FT,RT>::perpendicular(const CGAL_Orientation& o) const
+DirectionH2<FT,RT>
+DirectionH2<FT,RT>::perpendicular(const Orientation& o) const
 {
-  CGAL_kernel_precondition(o != CGAL_COLLINEAR);
-  if (o == CGAL_COUNTERCLOCKWISE)
+  CGAL_kernel_precondition(o != COLLINEAR);
+  if (o == COUNTERCLOCKWISE)
   {
-      return CGAL_DirectionH2<FT,RT>(-dy(), dx());
+      return DirectionH2<FT,RT>(-dy(), dx());
   }
   else
   {
-      return CGAL_DirectionH2<FT,RT>(dy(), -dx());
+      return DirectionH2<FT,RT>(dy(), -dx());
   }
 }
 
 template <class FT, class RT >
 inline
-CGAL_DirectionH2<FT,RT>
-CGAL_DirectionH2<FT,RT>::
-transform(const CGAL_Aff_transformationH2<FT,RT>& t) const
+DirectionH2<FT,RT>
+DirectionH2<FT,RT>::
+transform(const Aff_transformationH2<FT,RT>& t) const
 { return t.transform(*this); }
 
 template <class FT, class RT >
 CGAL_KERNEL_INLINE
-CGAL_VectorH2<FT,RT>
-CGAL_DirectionH2<FT,RT>::vector() const
-{ return CGAL_VectorH2<FT,RT>( x(), y() ); }
+VectorH2<FT,RT>
+DirectionH2<FT,RT>::vector() const
+{ return VectorH2<FT,RT>( x(), y() ); }
 
 
-#ifndef CGAL_NO_OSTREAM_INSERT_DIRECTIONH2
+#ifndef NO_OSTREAM_INSERT_DIRECTIONH2
 template < class FT, class RT >
-ostream &
-operator<<(ostream &os, const CGAL_DirectionH2<FT,RT> &p)
+std::ostream &
+operator<<(std::ostream &os, const DirectionH2<FT,RT> &p)
 {
-  switch(os.iword(CGAL_IO::mode))
+  switch(os.iword(IO::mode))
   {
-    case CGAL_IO::ASCII :
+    case IO::ASCII :
         return os << p.dx() << ' ' << p.dy();
-    case CGAL_IO::BINARY :
-        CGAL_write(os, p.dx());
-        CGAL_write(os, p.dy());
+    case IO::BINARY :
+        write(os, p.dx());
+        write(os, p.dy());
         return os;
     default:
         return os << "DirectionH2(" << p.dx() << ", "
                                     << p.dy() << ')';
   }
 }
-#endif // CGAL_NO_OSTREAM_INSERT_DIRECTIONH2
+#endif // NO_OSTREAM_INSERT_DIRECTIONH2
 
-#ifndef CGAL_NO_ISTREAM_EXTRACT_DIRECTIONH2
+#ifndef NO_ISTREAM_EXTRACT_DIRECTIONH2
 template < class FT, class RT >
-istream &
-operator>>(istream &is, CGAL_DirectionH2<FT,RT> &p)
+std::istream &
+operator>>(std::istream &is, DirectionH2<FT,RT> &p)
 {
   RT x, y;
-  switch(is.iword(CGAL_IO::mode))
+  switch(is.iword(IO::mode))
   {
-    case CGAL_IO::ASCII :
+    case IO::ASCII :
         is >> x >> y;
         break;
-    case CGAL_IO::BINARY :
-        CGAL_read(is, x);
-        CGAL_read(is, y);
+    case IO::BINARY :
+        read(is, x);
+        read(is, y);
         break;
     default:
-        cerr << "" << endl;
-        cerr << "Stream must be in ascii or binary mode" << endl;
+        std::cerr << "" << std::endl;
+        std::cerr << "Stream must be in ascii or binary mode" << std::endl;
         break;
   }
-  p = CGAL_DirectionH2<FT,RT>(x, y);
+  p = DirectionH2<FT,RT>(x, y);
   return is;
 }
-#endif // CGAL_NO_ISTREAM_EXTRACT_DIRECTIONH2
+#endif // NO_ISTREAM_EXTRACT_DIRECTIONH2
+
+CGAL_END_NAMESPACE
 
 
 

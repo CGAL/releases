@@ -1,4 +1,6 @@
-#include <vector.h>
+#include <vector>
+
+using std::vector;
 
 void remove_2(vector<int> &l)
 {

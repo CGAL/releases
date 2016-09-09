@@ -1,7 +1,6 @@
-//  -*- Mode: c++ -*-
 // ======================================================================
 //
-// Copyright (c) 1997 The CGAL Consortium
+// Copyright (c) 1999 The GALIA Consortium
 //
 // This software and related documentation is part of the
 // Computational Geometry Algorithms Library (CGAL).
@@ -17,38 +16,37 @@
 // - Development licenses grant access to the source code of the library 
 //   to develop programs. These programs may be sold to other parties as 
 //   executable code. To obtain a development license, please contact
-//   the CGAL Consortium (at cgal@cs.uu.nl).
+//   the GALIA Consortium (at cgal@cs.uu.nl).
 // - Commercialization licenses grant access to the source code and the
 //   right to sell development licenses. To obtain a commercialization 
-//   license, please contact the CGAL Consortium (at cgal@cs.uu.nl).
+//   license, please contact the GALIA Consortium (at cgal@cs.uu.nl).
 //
 // This software and documentation is provided "as-is" and without
 // warranty of any kind. In no event shall the CGAL Consortium be
 // liable for any damage of any kind.
 //
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// The GALIA Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany) Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+// (Germany), Max-Planck-Institute Saarbrucken (Germany),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-1.2
-// release_date  : 1999, January 18
+// release       : CGAL-2.0
+// release_date  : 1999, June 03
 //
 // file          : include/CGAL/bops_dcel.h
-// package       : bops (1.1.2)
+// package       : bops (2.1.5)
 // source        : include/CGAL/bops_dcel.h
-// revision      : $Revision: 1.1.2 $
+// revision      : $Revision: WIP $
 // revision_date : $Date: Wed Dec  9 13:28:50 MET 1998  $
-// author(s)     :             Wolfgang Freiseisen
+// author(s)     : Wolfgang Freiseisen
 //
 // coordinator   : RISC Linz
 //  (Wolfgang Freiseisen)
 //
 // 
-//
 // email         : cgal@cs.uu.nl
 //
 // ======================================================================
@@ -65,11 +63,13 @@
 #define CGAL_CFG_RETURN_TYPE_BUG_2  /* to avoid troubles with sun-pro */
 #endif
 
-template<class NT>
-inline bool CGAL__number_type_is_non_exact(const NT&) { return false; }
+CGAL_BEGIN_NAMESPACE
 
-inline bool CGAL__number_type_is_non_exact(const double&) { return true; }
-inline bool CGAL__number_type_is_non_exact(const float&) { return true; }
+template<class NT>
+inline bool _number_type_is_non_exact(const NT&) { return false; }
+
+inline bool _number_type_is_non_exact(const double&) { return true; }
+inline bool _number_type_is_non_exact(const float&) { return true; }
 
 
 /*
@@ -77,42 +77,42 @@ inline bool CGAL__number_type_is_non_exact(const float&) { return true; }
   -------------------------------------------------------
 
   template <class I>
-  class CGAL__Dcel : public CGAL__Dcel_base<I>;
+  class _Dcel : public _Dcel_base<I>;
 
   template <class I>
-  struct CGAL_Bops_dcel : public CGAL__Dcel< CGAL__Dcel_defs<I> >;
+  struct Bops_dcel : public _Dcel< _Dcel_defs<I> >;
 
 */
 
 
 
 template <class I>
-class CGAL__Dcel : public CGAL__Dcel_base<I>
+class _Dcel : public _Dcel_base<I>
 {
 public:
-  typedef CGAL__Dcel_base<I>  dcel_base;
+  typedef _Dcel_base<I>  dcel_base;
   typedef typename I::R R;
   typedef typename I::Point Point;
-  typedef pair<int,int> epair;
+  typedef std::pair<int,int> epair;
 
-  CGAL__Dcel() { use_epsilon= false; }
-  CGAL__Dcel(const CGAL__Dcel<I>& dl) { *this= dl; }
-  CGAL__Dcel(const list<epair>& eds, const list<Point>& pts ) {
+  _Dcel() { use_epsilon= false; }
+  _Dcel(const _Dcel<I>& dl) { *this= dl; }
+  _Dcel(const std::list<epair>& eds, const std::list<Point>& pts ) {
     use_epsilon= false;
     insert(eds,pts);
   }
-  CGAL__Dcel(const list<epair>& eds, const vector<Point>& pts ) {
+  _Dcel(const std::list<epair>& eds, const std::vector<Point>& pts ) {
     use_epsilon= false;
     insert(eds,pts);
   }
 
 # ifdef  CGAL_CFG_RETURN_TYPE_BUG_2
-  bool colorize(const list<Point>& pgon, const CGAL__Dcel_Color& col) {
+  bool colorize(const std::list<Point>& pgon, const _Dcel_Color& col) {
     __point_list= &pgon;
     return colorize(col);
   }
 # else
-  bool colorize(const list<Point>& pgon, const CGAL__Dcel_Color& col);
+  bool colorize(const std::list<Point>& pgon, const _Dcel_Color& col);
 # endif  
 
 
@@ -122,8 +122,8 @@ public:
   }
 
   const_vertices_iterator find(const Point& pt) const {
-     //CGAL__Dcel_point_compare<I> pred(pt);
-     //CGAL__Dcel_point_compare<Point, CGAL__Dcel_vertex_type<I> > pred(pt);
+     //_Dcel_point_compare<I> pred(pt);
+     //_Dcel_point_compare<Point, _Dcel_vertex_type<I> > pred(pt);
      //return  find_if(_v_list.begin(), _v_list.end(), pred );
      for(const_vertices_iterator it= _v_list.begin(); it != _v_list.end(); it++)
        if( compare_points(pt, (*it).point()) ) return it;
@@ -141,15 +141,15 @@ private:
 
   bool compare_points(const Point& p1, const Point& p2) const {
     if( use_epsilon ) {
-      return CGAL_abs(CGAL_to_double(p1.x()-p2.x())) < pts_epsilon &&
-             CGAL_abs(CGAL_to_double(p1.y()-p2.y())) < pts_epsilon;
+      return abs(to_double(p1.x()-p2.x())) < pts_epsilon &&
+             abs(to_double(p1.y()-p2.y())) < pts_epsilon;
     }
     else
       return p1 == p2;
   }
 
-  void insert_points(const list<Point>& points) {
-    if( (use_epsilon= CGAL__number_type_is_non_exact(R::FT(0))) ) {
+  void insert_points(const std::list<Point>& points) {
+    if( (use_epsilon= _number_type_is_non_exact(R::FT(0))) ) {
       /* calculates epsilon for non-exact number types */
       I traits;
       pts_epsilon= minimal_square_distance(
@@ -157,11 +157,11 @@ private:
       pts_epsilon= sqrt(pts_epsilon)/3.0;
     }
 
-    //vector<vertex_iterator> c_it; /* help-array */
+    //std::vector<vertex_iterator> c_it; /* help-array */
     /* insert vertices (also in help array) */
     _v_list.reserve(points.size());
     int n= 0;
-    list<typename I::Point>::const_iterator it;
+    std::list<typename I::Point>::const_iterator it;
     for( it= points.begin(); it != points.end(); it++ )          
         c_it.push_back( insert_point( *it, n++ ) );
   
@@ -176,21 +176,21 @@ private:
     return;
   }
 
-  void insert_points(const vector<Point>& points)
+  void insert_points(const std::vector<Point>& points)
   {
     typedef typename R::FT FT;
-    if( (use_epsilon= CGAL__number_type_is_non_exact(FT(0))) ) {
+    if( (use_epsilon= _number_type_is_non_exact(FT(0))) ) {
       /* calculates epsilon for non-exact number types */
       I traits;
       pts_epsilon= minimal_square_distance(
 		    points.begin(), points.end(), traits);
-      pts_epsilon= sqrt(pts_epsilon)/3.0;
+      pts_epsilon= std::sqrt(pts_epsilon)/3.0;
     }
-    // vector<vertex_iterator> c_it; /* help-array */
+    // std::vector<vertex_iterator> c_it; /* help-array */
     /* insert vertices (also in help array) */
     _v_list.reserve(points.size());
     int n= 0;
-    vector< typename I::Point >::const_iterator it;
+    std::vector< typename I::Point >::const_iterator it;
     for( it= points.begin(); it != points.end(); it++ ) 
         c_it.push_back( insert_point( *it, n++ ) );
 
@@ -203,10 +203,10 @@ private:
     return;
   }
 
-  vector<const_vertices_iterator> c_it; /* help-array */
+  std::vector<const_vertices_iterator> c_it; /* help-array */
 
 public:
-  void insert(const list< epair >& eds, const list< Point >& pts ) {
+  void insert(const std::list< epair >& eds, const std::list< Point >& pts ) {
       insert_points(pts);
 #     ifdef  CGAL_CFG_RETURN_TYPE_BUG_2
       // because of compiler (g++, Solaris)  problems,
@@ -216,10 +216,10 @@ public:
 #     else
         insert_edges(eds);
 #     endif  
-      c_it= vector<const_vertices_iterator>();
+      c_it= std::vector<const_vertices_iterator>();
   }
 
-  void insert(const list< epair >& eds, const vector< Point >& pts ) {
+  void insert(const std::list< epair >& eds, const std::vector< Point >& pts ) {
       insert_points(pts);
 #     ifdef  CGAL_CFG_RETURN_TYPE_BUG_2
       // because of compiler (g++, Solaris)  problems,
@@ -229,7 +229,7 @@ public:
 #     else
         insert_edges(eds);
 #     endif  
-      c_it= vector<const_vertices_iterator>();
+      c_it= std::vector<const_vertices_iterator>();
   }
 
 private:
@@ -241,7 +241,7 @@ private:
   const_vertices_iterator insert_new_vertex(
     const Point& pt,
     int index,
-    CGAL__Dcel_Color col = CGAL__NO_COLOR
+    _Dcel_Color col = _NO_COLOR
   )
   {
      const_vertices_iterator it= find(pt);
@@ -249,8 +249,8 @@ private:
      if( it == null_vertex() ) {
        /* vertex does not exist, hence append vertex */
        const_points_iterator pt_it= dcel_base::insert(pt);
-       //it= dcel_base::insert( CGAL__Dcel_vertex_type<I>(pt, index, col) );
-       it= dcel_base::insert( CGAL__Dcel_vertex_type<I>(pt_it, index, col) );
+       //it= dcel_base::insert( _Dcel_vertex_type<I>(pt, index, col) );
+       it= dcel_base::insert( _Dcel_vertex_type<I>(pt_it, index, col) );
      }
 
      return it;
@@ -258,24 +258,25 @@ private:
 
 private:
 #ifdef  CGAL_CFG_RETURN_TYPE_BUG_2
-  bool colorize(const CGAL__Dcel_Color& col);
+  bool colorize(const _Dcel_Color& col);
   void insert_edges();
-  const list<Point>* __point_list;
-  const list<epair>* __edges;
+  const std::list<Point>* __point_list;
+  const std::list<epair>* __edges;
 #else
-  void insert_edges(const list<epair>& eds);
+  void insert_edges(const std::list<epair>& eds);
 #endif
 
 };
 
 template <class I>
-struct CGAL_Bops_dcel : public CGAL__Dcel< CGAL__Dcel_defs<I> > {
-  typedef CGAL__Dcel< CGAL__Dcel_defs<I> >  dcel;
+struct Bops_dcel : public _Dcel< _Dcel_defs<I> > {
+  typedef _Dcel< _Dcel_defs<I> >  dcel;
   typedef typename dcel::const_edges_iterator    edge_iterator;
   typedef typename dcel::const_faces_iterator    face_iterator;
   typedef typename dcel::const_vertices_iterator vertex_iterator;
 };
 
+CGAL_END_NAMESPACE
 
 #ifdef CGAL_CFG_NO_AUTOMATIC_TEMPLATE_INCLUSION
 #include <CGAL/bops_dcel.C>

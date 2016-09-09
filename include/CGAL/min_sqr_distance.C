@@ -1,7 +1,6 @@
-//  -*- Mode: c++ -*-
 // ======================================================================
 //
-// Copyright (c) 1997 The CGAL Consortium
+// Copyright (c) 1999 The GALIA Consortium
 //
 // This software and related documentation is part of the
 // Computational Geometry Algorithms Library (CGAL).
@@ -17,53 +16,52 @@
 // - Development licenses grant access to the source code of the library 
 //   to develop programs. These programs may be sold to other parties as 
 //   executable code. To obtain a development license, please contact
-//   the CGAL Consortium (at cgal@cs.uu.nl).
+//   the GALIA Consortium (at cgal@cs.uu.nl).
 // - Commercialization licenses grant access to the source code and the
 //   right to sell development licenses. To obtain a commercialization 
-//   license, please contact the CGAL Consortium (at cgal@cs.uu.nl).
+//   license, please contact the GALIA Consortium (at cgal@cs.uu.nl).
 //
 // This software and documentation is provided "as-is" and without
 // warranty of any kind. In no event shall the CGAL Consortium be
 // liable for any damage of any kind.
 //
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// The GALIA Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany) Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+// (Germany), Max-Planck-Institute Saarbrucken (Germany),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-1.2
-// release_date  : 1999, January 18
+// release       : CGAL-2.0
+// release_date  : 1999, June 03
 //
 // file          : include/CGAL/min_sqr_distance.C
-// package       : bops (1.1.2)
+// package       : bops (2.1.5)
 // source        : include/CGAL/min_sqr_distance.C
-// revision      : $Revision: 1.1.2 $
+// revision      : $Revision: WIP $
 // revision_date : $Date: Wed Dec  9 13:28:57 MET 1998  $
-// author(s)     :             Wolfgang Freiseisen
+// author(s)     : Wolfgang Freiseisen
 //
 // coordinator   : RISC Linz
 //  (Wolfgang Freiseisen)
 //
 // 
-//
 // email         : cgal@cs.uu.nl
 //
 // ======================================================================
 
-#ifndef CGAL_CFG_NO_AUTOMATIC_TEMPLATE_INCLUSION
 #ifndef CGAL_MIN_SQUARE_DISTANCE_H
 #include <CGAL/min_sqr_distance.h>
 #endif
-#endif
-#include <vector.h>
-#include <multiset.h>
-#include <algo.h>
+#include <vector>
+#include <set>
+#include <algorithm>
+
+CGAL_BEGIN_NAMESPACE
 
 template <class Point>
-struct CGAL__Compare_point_x : public binary_function<Point,Point,bool> {
+struct _Compare_point_x : public CGAL_STD::binary_function<Point,Point,bool> {
   bool operator()(const Point& p1, const Point& p2) const {
     return p1.x()  < p2.x();
   }
@@ -71,7 +69,7 @@ struct CGAL__Compare_point_x : public binary_function<Point,Point,bool> {
 
 
 template <class Point>
-struct CGAL__Compare_point_y : public binary_function<Point,Point,bool> {
+struct _Compare_point_y : public CGAL_STD::binary_function<Point,Point,bool> {
   bool operator()(const Point& p1, const Point& p2) const {
     return p1.y() < p2.y();
   }
@@ -125,8 +123,8 @@ double minimal_square_distance(ForwardIterator first,
 */
 {
   typedef typename I::dPoint Point;
-  typedef CGAL__Compare_point_x<Point> Compare_point_by_x;
-  typedef CGAL__Compare_point_y<Point> Compare_point_by_y;
+  typedef _Compare_point_x<Point> Compare_point_by_x;
+  typedef _Compare_point_y<Point> Compare_point_by_y;
 
   /* initialize vector */
   long int size= 1;
@@ -141,7 +139,7 @@ double minimal_square_distance(ForwardIterator first,
         T.squared_distance( T.to_dPoint(*first++), T.to_dPoint(*first)) : 0;
   }
 
-  vector<Point> pts;
+  std::vector<Point> pts;
   pts.reserve(size);
   //copy(first, last, back_inserter(pts) );
   for(it= first; it != last; it++)
@@ -152,16 +150,16 @@ double minimal_square_distance(ForwardIterator first,
 #endif  
 
   /* sort vector */
-  sort(pts.begin(), pts.end(), Compare_point_by_x());
+  std::sort(pts.begin(), pts.end(), Compare_point_by_x());
 #ifdef CGAL__MIN_SQR_DISTANCE_DEBUG_ON
   showSequence( pts.begin(), pts.end());
 #endif
 
   /* initialize sweep status structure (sss) */
-  typedef multiset<Point, Compare_point_by_y> Set;
+  typedef std::multiset<Point, Compare_point_by_y> Set;
   typedef typename Set::const_iterator const_set_iterator;
   Set  sss;
-  vector<const_set_iterator> ind_sss(pts.size());
+  std::vector<const_set_iterator> ind_sss(pts.size());
   
   ind_sss[0]= sss.insert( pts[0] );
   ind_sss[1]= sss.insert( pts[1] );
@@ -191,7 +189,7 @@ double minimal_square_distance(ForwardIterator first,
          min_sss= min { dist(p,q) : p,q \in SSS \cup {pt} }
          return (double) min{ min_square_dist, min_sss }
       */
-      double M= sqrt( min_square_dist );
+      double M= std::sqrt( min_square_dist );
       Point p_left= Point(pts[r].x(), pts[r].y() - M);
       const_set_iterator min_left= sss.lower_bound(p_left);
       Point p_right= Point(pts[r].x(), pts[r].y() + M);
@@ -215,3 +213,4 @@ double minimal_square_distance(ForwardIterator first,
   return min_square_dist;
 } 
 
+CGAL_END_NAMESPACE

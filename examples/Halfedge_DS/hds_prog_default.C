@@ -1,11 +1,11 @@
-/*  hds_prog_default.C              */
-/*  ------------------------------- */
+// hds_prog_default.C
+// ------------------------------------------------
 #include <CGAL/Halfedge_data_structure_default.h>
 #include <CGAL/Halfedge_data_structure_decorator.h>
 
-typedef int                                          Point;
-typedef CGAL_Halfedge_data_structure_default<Point>  HDS;
-typedef CGAL_Halfedge_data_structure_decorator<HDS>  Decorator;
+typedef int                                           Point;
+typedef CGAL::Halfedge_data_structure_default<Point>  HDS;
+typedef CGAL::Halfedge_data_structure_decorator<HDS>  Decorator;
 
 int main() {
     HDS hds;

@@ -1,6 +1,6 @@
 // ======================================================================
 //
-// Copyright (c) 1998 The CGAL Consortium
+// Copyright (c) 1999 The GALIA Consortium
 //
 // This software and related documentation is part of the
 // Computational Geometry Algorithms Library (CGAL).
@@ -16,34 +16,33 @@
 // - Development licenses grant access to the source code of the library 
 //   to develop programs. These programs may be sold to other parties as 
 //   executable code. To obtain a development license, please contact
-//   the CGAL Consortium (at cgal@cs.uu.nl).
+//   the GALIA Consortium (at cgal@cs.uu.nl).
 // - Commercialization licenses grant access to the source code and the
 //   right to sell development licenses. To obtain a commercialization 
-//   license, please contact the CGAL Consortium (at cgal@cs.uu.nl).
+//   license, please contact the GALIA Consortium (at cgal@cs.uu.nl).
 //
 // This software and documentation is provided "as-is" and without
 // warranty of any kind. In no event shall the CGAL Consortium be
 // liable for any damage of any kind.
 //
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// The GALIA Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany) Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+// (Germany), Max-Planck-Institute Saarbrucken (Germany),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
-// release       : CGAL-1.2
-// release_date  : 1999, January 18
+// release       : CGAL-2.0
+// release_date  : 1999, June 03
 //
 // file          : include/CGAL/dd_geo/chull_traits_2.h
-// package       : Convex_hull_3 (1.1.3)
+// package       : Convex_hull_3 (2.0.4)
 // source        : chull_traits.lw
-// revision      : 1.1.3
-// revision_date : 23 Jul 1998
+// revision      : 2.0.3
+// revision_date : 28 Apr 1999
 // author(s)     : Stefan Schirra
 //
 // coordinator   : MPI, Saarbruecken
-//
 // email         : cgal@cs.uu.nl
 //
 // ======================================================================
@@ -60,50 +59,51 @@
 #include <LEDA/array.h>
 #include <LEDA/point.h>
 
+CGAL_BEGIN_NAMESPACE
 template <class _R>
-class CGAL_chull_traits_2
+class chull_traits_2
 {
   public:
-    typedef _R                                     R;
-    typedef typename _R::RT                        RT;
-    typedef CGAL_Point_2<_R>                       POINT;
-    typedef POINT                                  IPOINT;
-    typedef CGAL_Line_2<_R>                        PLANE;
-    typedef CGAL_Vector_2<_R>                      VECTOR;
-    typedef CGAL_Ray_2<_R>                         IRAY;
+    typedef _R                                R;
+    typedef typename _R::RT                   RT;
+    typedef Point_2<_R>                       POINT;
+    typedef POINT                             IPOINT;
+    typedef Line_2<_R>                        PLANE;
+    typedef Vector_2<_R>                      VECTOR;
+    typedef Ray_2<_R>                         IRAY;
 
   static int
-    side(const CGAL_Line_2<_R>& pl, 
-         const CGAL_Point_2<_R>& p)
+    side(const Line_2<_R>& pl, 
+         const Point_2<_R>& p)
     { return (int)pl.oriented_side(p); }
 
   static bool
-    affinely_independent(const leda_array<CGAL_Point_2<_R> >& A)
+    affinely_independent(const leda_array<Point_2<_R> >& A)
     {
       int a = A.size();
       if (a > 3)
           return false;
       if (a == 3)
-          return !CGAL_collinear( A[0], A[1], A[2] );
+          return !collinear( A[0], A[1], A[2] );
       if (a == 2)
           return (A[0] != A[1] );  
       return true;
     }
     
   static bool
-    contained_in_simplex(const leda_array<CGAL_Point_2<_R> >& A,
-                         const CGAL_Point_2<_R> p)
+    contained_in_simplex(const leda_array<Point_2<_R> >& A,
+                         const Point_2<_R> p)
     {
       int a = A.size();
       CGAL_assertion( a <= 3 );
       if (a == 3)
       {
-          CGAL_Triangle_2<_R> t( A[0], A[1], A[2] );
+          Triangle_2<_R> t( A[0], A[1], A[2] );
           return !t.has_on_unbounded_side(p);
       }
       if (a == 2)
       {
-          CGAL_Segment_2<_R> s( A[0], A[1] );
+          Segment_2<_R> s( A[0], A[1] );
           return s.has_on(p);
       }
       if (a == 1)
@@ -113,54 +113,54 @@ class CGAL_chull_traits_2
     }
     
   static bool
-    contained_in_affine_hull(const leda_array<CGAL_Point_2<_R> >& A,
-                             const CGAL_Point_2<_R> p)
+    contained_in_affine_hull(const leda_array<Point_2<_R> >& A,
+                             const Point_2<_R> p)
     {
       int a = A.size();
       CGAL_assertion( affinely_independent(A) );
       if (a >  2)
           return true;
       if (a == 2)
-          return CGAL_collinear( p, A[0], A[1] );
+          return collinear( p, A[0], A[1] );
       if (a == 1)
           return ( p == A[0] );
       return false;
     }
     
-  static CGAL_Vector_2<_R>
-    normal(const CGAL_Line_2<_R>& l)
-    { return CGAL_Vector_2<_R>( l.a(), l.b(), l.c() ); }
+  static Vector_2<_R>
+    normal(const Line_2<_R>& l)
+    { return Vector_2<_R>( l.a(), l.b(), l.c() ); }
 
-  static CGAL_Vector_2<_R>
-    to_vector(const CGAL_Point_2<_R>& p)
-    { return p - CGAL_ORIGIN; }
+  static Vector_2<_R>
+    to_vector(const Point_2<_R>& p)
+    { return p - ORIGIN; }
 
-  static CGAL_Vector_2<_R>
+  static Vector_2<_R>
     zero_vector(int i)
     { 
       CGAL_assertion( i == 2 );
-      return CGAL_Vector_2<_R>(RT(0), RT(0) ); 
+      return Vector_2<_R>(RT(0), RT(0) ); 
     }
 
-  static CGAL_Point_2<_R>
-    to_ipoint(const CGAL_Vector_2<_R>& v)
-    { return CGAL_ORIGIN + v; }
+  static Point_2<_R>
+    to_ipoint(const Vector_2<_R>& v)
+    { return ORIGIN + v; }
 
-  static CGAL_Line_2<_R>
-    hyperplane_through_points(const leda_array<CGAL_Point_2<_R> >& A,
-                              const CGAL_Point_2<_R>& p,
+  static Line_2<_R>
+    hyperplane_through_points(const leda_array<Point_2<_R> >& A,
+                              const Point_2<_R>& p,
                               int side)
     {
       int a = A.size();
       CGAL_assertion( a <= 2 );
-      CGAL_Line_2<_R> l;
+      Line_2<_R> l;
       if (a == 2)
       {
-          l = CGAL_Line_2<_R>( A[0], A[1] );
+          l = Line_2<_R>( A[0], A[1] );
       }
       if (a == 1)
       {
-          l = CGAL_Line_2<_R>( A[0], A[0] + (CGAL_ORIGIN - p) );
+          l = Line_2<_R>( A[0], A[0] + (ORIGIN - p) );
       }
       if (side != 0)
       {
@@ -170,25 +170,26 @@ class CGAL_chull_traits_2
     }
 
   static bool
-    intersection(const CGAL_Line_2<_R>& l, 
-                 const CGAL_Ray_2<_R>& r,
-                 CGAL_Point_2<_R>& ip)
+    intersection(const Line_2<_R>& l, 
+                 const Ray_2<_R>& r,
+                 Point_2<_R>& ip)
     {
-      CGAL_Object res = CGAL_intersection(l, r);
-      return CGAL_assign(ip, res);
+      Object res = intersection(l, r);
+      return assign(ip, res);
     }
   static int
-    orientation( const CGAL_Point_2<_R>& p1, 
-                 const CGAL_Point_2<_R>& p2,
-                 const CGAL_Point_2<_R>& p3 )
-    { return (int)CGAL_orientation(p1,p2,p3); }
+    orientation( const Point_2<_R>& p1, 
+                 const Point_2<_R>& p2,
+                 const Point_2<_R>& p3 )
+    { return (int)CGAL::orientation(p1,p2,p3); }
 
   static leda_point
-    to_d2_point( const CGAL_Point_2<_R>& p )
+    to_d2_point( const Point_2<_R>& p )
     {
-      return leda_point( CGAL_to_double( p.x() ),
-                         CGAL_to_double( p.y() ) );
+      return leda_point( CGAL::to_double( p.x() ),
+                         CGAL::to_double( p.y() ) );
     }
 };
+CGAL_END_NAMESPACE
 
 #endif // CGAL_CHULL_TRAITS_2_H

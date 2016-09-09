@@ -1,6 +1,6 @@
 // ======================================================================
 //
-// Copyright (c) 1997 The CGAL Consortium
+// Copyright (c) 1999 The GALIA Consortium
 //
 // This software and related documentation is part of the
 // Computational Geometry Algorithms Library (CGAL).
@@ -16,35 +16,34 @@
 // - Development licenses grant access to the source code of the library 
 //   to develop programs. These programs may be sold to other parties as 
 //   executable code. To obtain a development license, please contact
-//   the CGAL Consortium (at cgal@cs.uu.nl).
+//   the GALIA Consortium (at cgal@cs.uu.nl).
 // - Commercialization licenses grant access to the source code and the
 //   right to sell development licenses. To obtain a commercialization 
-//   license, please contact the CGAL Consortium (at cgal@cs.uu.nl).
+//   license, please contact the GALIA Consortium (at cgal@cs.uu.nl).
 //
 // This software and documentation is provided "as-is" and without
 // warranty of any kind. In no event shall the CGAL Consortium be
 // liable for any damage of any kind.
 //
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// The GALIA Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany) Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+// (Germany), Max-Planck-Institute Saarbrucken (Germany),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-1.2
-// release_date  : 1999, January 18
+// release       : CGAL-2.0
+// release_date  : 1999, June 03
 //
 // file          : include/CGAL/Constrained_triangulation_sweep_2.h
-// package       : Triangulation (2.10)
+// package       : Triangulation (3.17)
 // source        : $RCSfile : Constrained_triangulation_sweep_2.h,v $
-// revision      : $Revision: 1.3.1.9 $
-// revision_date : $Date: 1998/12/14 10:43:37 $
+// revision      : $Revision: 1.3.1.16 $
+// revision_date : $Date: 1999/05/04 08:44:02 $
 // author(s)     : Mariette Yvinec
 //
 // coordinator   : Mariette Yvinec
-//
 //
 // email         : cgal@cs.uu.nl
 //
@@ -53,49 +52,48 @@
 #ifndef CGAL_CONSTRAINED_TRIANGULATION_SWEEP_2_H
 #define CGAL_CONSTRAINED_TRIANGULATION_SWEEP_2_H
 
-#include <pair.h>
-#include <list.h>
-#include <map.h>
-#include <assert.h>
+#include <utility>
+#include <list>
+#include <map>
+#include <cassert>
 
 #include <CGAL/triangulation_assertions.h>
 #include <CGAL/Triangulation_short_names_2.h>
 #include <CGAL/Triangulation_2.h>
 
-
-//template<class Gt, class Tds>
-//class CGAL_Constrained_triangulation_2.h>;
+CGAL_BEGIN_NAMESPACE
 
 template < class Gt, class Tds>
-class CGAL_Constrained_triangulation_sweep_2
+class Constrained_triangulation_sweep_2
 {
 public:
     typedef Gt  Geom_traits;
     typedef typename Gt::Point Point;
     typedef typename Gt::Segment Segment;
     
-  typedef CGAL_Triangulation_face_2<Gt,Tds> Face;
-  typedef CGAL_Triangulation_vertex_2<Gt,Tds> Vertex;
-  typedef CGAL_Triangulation_face_handle_2<Gt,Tds> Face_handle;
-  typedef CGAL_Triangulation_vertex_handle_2<Gt,Tds> Vertex_handle;
-  typedef pair<Face_handle, int>                Edge;
+  typedef Triangulation_face_2<Gt,Tds> Face;
+  typedef Triangulation_vertex_2<Gt,Tds> Vertex;
+  typedef Triangulation_face_handle_2<Gt,Tds> Face_handle;
+  typedef Triangulation_vertex_handle_2<Gt,Tds> Vertex_handle;
+  typedef std::pair<Face_handle, int>                Edge;
 
     
  
-  typedef pair<Point,Point> Constraint;
+  typedef std::pair<Point,Point> Constraint;
     
   class Neighbor_list;
   class Chain;
   class Event_less;
   class Status_comp;
     
-  typedef list<Point> Out_edges;
-  typedef map<Point,Out_edges *,Event_less> Event_queue;
-  typedef map<Constraint,void *, Status_comp> Sweep_status;
-  // should be  typedef map<Constraint, Chain *, Status_comp> Sweep_status;
-  typedef pair<Face_handle, int> Neighbor;
+  typedef std::list<Point> Out_edges;
+  typedef std::map<Point,Out_edges *,Event_less> Event_queue;
+  typedef std::map<Constraint,void *, Status_comp> Sweep_status;
+  // should be  
+  //typedef std::map<Constraint, Chain *, Status_comp> Sweep_status;
+  typedef std::pair<Face_handle, int> Neighbor;
     
-    class Event_less : public binary_function<Point, Point, bool>
+    class Event_less : public CGAL_STD::binary_function<Point, Point, bool>
     {
     private:
       Geom_traits t;
@@ -104,13 +102,14 @@ public:
       Event_less(const Geom_traits& traits) : t(traits) {};
       bool operator() (const Point& p, const Point& q)
       {
-        return(t.compare_x(p,q)== CGAL_SMALLER ||
-               ( t.compare_x(p,q)== CGAL_EQUAL &&
-                 t.compare_y(p,q) == CGAL_SMALLER ) );
+        return(t.compare_x(p,q)== SMALLER ||
+               ( t.compare_x(p,q)== EQUAL &&
+                 t.compare_y(p,q) == SMALLER ) );
       }
     };
     
-    class Status_comp : public binary_function<Constraint, Constraint, bool>
+    class Status_comp : 
+      public CGAL_STD::binary_function<Constraint, Constraint, bool>
     {
     private:
       Geom_traits t;
@@ -125,62 +124,62 @@ public:
         Point q2= s2.second;
     
         // one of the constraint is degenerate
-        if ( t.compare_x(p1,q1)  == CGAL_EQUAL &&
-             t.compare_y(p1,q1)  == CGAL_EQUAL) {
+        if ( t.compare_x(p1,q1)  == EQUAL &&
+             t.compare_y(p1,q1)  == EQUAL) {
           // p1==q1, then p2 has to be != q2
           // if p1==p2 or p1==q2 return true
-          if ( t.compare_x(p1,p2)  == CGAL_EQUAL &&
-               t.compare_y(p1,p2) == CGAL_EQUAL) {return true;}
-          if ( t.compare_x(p1,q2)  == CGAL_EQUAL &&
-               t.compare_y(p1,q2) == CGAL_EQUAL ) {return true;}
+          if ( t.compare_x(p1,p2)  == EQUAL &&
+               t.compare_y(p1,p2) == EQUAL) {return true;}
+          if ( t.compare_x(p1,q2)  == EQUAL &&
+               t.compare_y(p1,q2) == EQUAL ) {return true;}
           // for vertical constraint (p2,q2)
-          if  (t.compare_x(p2,q2) == CGAL_EQUAL) {
-            return (t.compare_y(p1,p2) == CGAL_SMALLER);}
+          if  (t.compare_x(p2,q2) == EQUAL) {
+            return (t.compare_y(p1,p2) == SMALLER);}
           // default case
-          return( t.orientation(p2,q2,p1) == CGAL_RIGHTTURN);
+          return( t.orientation(p2,q2,p1) == RIGHTTURN);
         }
     
-        else if ( t.compare_x(p2,q2) == CGAL_EQUAL &&
-                  t.compare_y(p2,q2) == CGAL_EQUAL) {
+        else if ( t.compare_x(p2,q2) == EQUAL &&
+                  t.compare_y(p2,q2) == EQUAL) {
           // p2==q2 && p1!=q1
           // if p2==p1 or p2==q1 return false
-          if ( t.compare_x(p2,p1)  == CGAL_EQUAL &&
-               t.compare_y(p2,p1)  == CGAL_EQUAL) {return false;}
-          if ( t.compare_x(p2,q1)  == CGAL_EQUAL &&
-               t.compare_y(p2,q1)  == CGAL_EQUAL) {return false;}
+          if ( t.compare_x(p2,p1)  == EQUAL &&
+               t.compare_y(p2,p1)  == EQUAL) {return false;}
+          if ( t.compare_x(p2,q1)  == EQUAL &&
+               t.compare_y(p2,q1)  == EQUAL) {return false;}
           //for vertical (p1,q1) constraints
-          if (t.compare_x(p1,q1) == CGAL_EQUAL) {
-            return ( t.compare_y(p1,p2) == CGAL_SMALLER);}
+          if (t.compare_x(p1,q1) == EQUAL) {
+            return ( t.compare_y(p1,p2) == SMALLER);}
           // default case
-          return (t.orientation(p1,q1,q2) == CGAL_LEFTTURN);
+          return (t.orientation(p1,q1,q2) == LEFTTURN);
         }
     
         // comparison of two non degenerate constraints
         else {
           //neither of the constraints are points
           switch( t.compare_x(p1,p2)) {
-          case CGAL_SMALLER:
-            if ( t.compare_x(q1,p2)  == CGAL_EQUAL &&
-                 t.compare_y(q1,p2)  == CGAL_EQUAL) {return true;}
-            else return ( t.orientation(p1,q1,p2) == CGAL_LEFTTURN);
-          case CGAL_LARGER :
-            if ( t.compare_x(p1,q2)  == CGAL_EQUAL &&
-                 t.compare_y(p1,q2)  == CGAL_EQUAL) {return false;}
-            else return ( t.orientation(p2,q2,p1) == CGAL_RIGHTTURN);
-          case CGAL_EQUAL :
-            return ( t.compare_y(p1,p2) == CGAL_SMALLER ||
-                     (t.compare_y(p1,p2) == CGAL_EQUAL &&
-                      t.orientation(p1,q1,q2) == CGAL_LEFTTURN));
+          case SMALLER:
+            if ( t.compare_x(q1,p2)  == EQUAL &&
+                 t.compare_y(q1,p2)  == EQUAL) {return true;}
+            else return ( t.orientation(p1,q1,p2) == LEFTTURN);
+          case LARGER :
+            if ( t.compare_x(p1,q2)  == EQUAL &&
+                 t.compare_y(p1,q2)  == EQUAL) {return false;}
+            else return ( t.orientation(p2,q2,p1) == RIGHTTURN);
+          case EQUAL :
+            return ( t.compare_y(p1,p2) == SMALLER ||
+                     (t.compare_y(p1,p2) == EQUAL &&
+                      t.orientation(p1,q1,q2) == LEFTTURN));
           }
         }
 	// shouldn't get there
-	CGAL_triangulation_assertion(false);
+	//CGAL_triangulation_assertion(false);
 	return false;
       }
       
     };
     
-    class Neighbor_list : public list<Neighbor>
+    class Neighbor_list : public CGAL_STD::list<Neighbor>
     {
     public:
       bool is_removable(Face_handle fh)
@@ -236,7 +235,7 @@ public:
           cwin = fn->vertex(fn->cw(in));
           ccwin = fn->vertex(fn->ccw(in));
           if ( t.orientation(ccwin->point(),cwin->point(),v->point()) ==
-               CGAL_RIGHTTURN) {
+               RIGHTTURN) {
             pop_front();
             newf = (new Face(v,cwin,ccwin))->handle();
             last->set_neighbor(2,newf); newf->set_neighbor(1,last);
@@ -264,7 +263,7 @@ public:
           cwin = fn->vertex(fn->cw(in));
           ccwin = fn->vertex(fn->ccw(in));
           if ( t.orientation(ccwin->point(),cwin->point(),v->point()) ==
-                                          CGAL_RIGHTTURN) {
+                                          RIGHTTURN) {
             pop_back();
             newf = (new Face(v,cwin,ccwin))->handle();
             first->set_neighbor(1,newf); newf->set_neighbor(2,first);
@@ -297,12 +296,12 @@ public:
       void set_right_most(Vertex_handle v) { rm=v;}
     };
     
-    CGAL_Constrained_triangulation_sweep_2( const Gt& t = Gt())
+    Constrained_triangulation_sweep_2( const Gt& t = Gt())
       : _t(t), _lc(NULL)
     {
     }
     
-    CGAL_Constrained_triangulation_sweep_2( list<Constraint>& lc,
+    Constrained_triangulation_sweep_2( std::list<Constraint>& lc,
                                             const  Gt& t = Gt())
       : _t(t), _lc(&lc), event_less(t), queue(event_less), status_comp(t),
 	status(status_comp),upper_chain()
@@ -327,7 +326,7 @@ public:
 
 protected:
     Geom_traits _t;
-    list<Constraint>* _lc;
+    std::list<Constraint>* _lc;
     Event_less event_less;
     Event_queue queue;
     Status_comp status_comp;
@@ -351,12 +350,12 @@ public:
 
 template<class Gt, class Tds>
 void
-CGAL_Constrained_triangulation_sweep_2<Gt,Tds>::
+Constrained_triangulation_sweep_2<Gt,Tds>::
 make_event_queue()
 {
   if ( ! queue.empty()) {return;} // queue already done
-  list<Constraint>::iterator sit=_lc->begin();
-  list<Constraint>::iterator sdone=_lc->end();
+  std::list<Constraint>::iterator sit=_lc->begin();
+  std::list<Constraint>::iterator sdone=_lc->end();
   Constraint s;
   Point p,q;
   Event_queue::iterator look_up;
@@ -397,7 +396,7 @@ make_event_queue()
 
 template<class Gt,class Tds>
 void
-CGAL_Constrained_triangulation_sweep_2<Gt,Tds>::
+Constrained_triangulation_sweep_2<Gt,Tds>::
 build_triangulation()
 {
   Point p;
@@ -432,8 +431,8 @@ build_triangulation()
 }
 
 template<class Gt, class Tds>
-CGAL_Constrained_triangulation_sweep_2<Gt,Tds>::Vertex_handle
-CGAL_Constrained_triangulation_sweep_2<Gt,Tds>::
+Constrained_triangulation_sweep_2<Gt,Tds>::Vertex_handle
+Constrained_triangulation_sweep_2<Gt,Tds>::
 treat_in_edges(const Event_queue::iterator & event,
                Sweep_status::iterator & loc)
 {
@@ -526,7 +525,7 @@ treat_in_edges(const Event_queue::iterator & event,
 
 template<class Gt, class Tds>
 void
-CGAL_Constrained_triangulation_sweep_2<Gt,Tds>::
+Constrained_triangulation_sweep_2<Gt,Tds>::
 treat_out_edges(const Event_queue::iterator & event,
                 Sweep_status::iterator & loc)
 {
@@ -572,7 +571,7 @@ treat_out_edges(const Event_queue::iterator & event,
     newpc = new Chain;
     newpc->set_right_most(v);
     loc = status.insert(loc,
-                        pair<const Constraint, void*>(c, (void*)newpc ));
+                        std::pair<const Constraint, void*>(c, (void*)newpc ));
     loc++;
     if (loc == status.end()) {pc_up = & upper_chain;}
     else {   pc_up = (Chain*)((*loc).second);}
@@ -584,8 +583,8 @@ treat_out_edges(const Event_queue::iterator & event,
 }
 
 template<class Gt, class Tds>
-CGAL_Constrained_triangulation_sweep_2<Gt,Tds>::Vertex_handle
-CGAL_Constrained_triangulation_sweep_2<Gt,Tds>::
+Constrained_triangulation_sweep_2<Gt,Tds>::Vertex_handle
+Constrained_triangulation_sweep_2<Gt,Tds>::
 set_infinite_faces()
 {
   Vertex_handle infinite= (new Vertex)->handle();
@@ -637,7 +636,7 @@ set_infinite_faces()
 
 template<class Gt, class Tds>
 bool
-CGAL_Constrained_triangulation_sweep_2<Gt,Tds>::
+Constrained_triangulation_sweep_2<Gt,Tds>::
 do_intersect(const Constraint& c1, const Constraint& c2 )
 {
   // The constraints are known to be  non degenerate
@@ -648,9 +647,9 @@ do_intersect(const Constraint& c1, const Constraint& c2 )
    if ( (!event_less(c1.second, c2.second)) &&
         (!event_less(c2.second, c1.second)) ) {return false;}
    else{
-   CGAL_Orientation t1 = _t.orientation(c1.first,c1.second,c2.first);
-   CGAL_Orientation t2 = _t.orientation(c1.first,c1.second,c2.second);
-   if (t1 == CGAL_COLLINEAR && t2 == CGAL_COLLINEAR) {return true;}
+   Orientation t1 = _t.orientation(c1.first,c1.second,c2.first);
+   Orientation t2 = _t.orientation(c1.first,c1.second,c2.second);
+   if (t1 == COLLINEAR && t2 == COLLINEAR) {return true;}
 
     return ( t1 != t2 &&
              (_t.orientation(c2.first,c2.second,c1.first) !=
@@ -659,6 +658,7 @@ do_intersect(const Constraint& c1, const Constraint& c2 )
    // return false;
 }
 
+CGAL_END_NAMESPACE
 
 #endif //CGAL_CONSTRAINED_TRIANGULATION_SWEEP_2_H
 

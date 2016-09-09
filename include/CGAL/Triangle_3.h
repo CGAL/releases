@@ -1,6 +1,6 @@
 // ======================================================================
 //
-// Copyright (c) 1998 The CGAL Consortium
+// Copyright (c) 1999 The GALIA Consortium
 //
 // This software and related documentation is part of the
 // Computational Geometry Algorithms Library (CGAL).
@@ -16,36 +16,35 @@
 // - Development licenses grant access to the source code of the library 
 //   to develop programs. These programs may be sold to other parties as 
 //   executable code. To obtain a development license, please contact
-//   the CGAL Consortium (at cgal@cs.uu.nl).
+//   the GALIA Consortium (at cgal@cs.uu.nl).
 // - Commercialization licenses grant access to the source code and the
 //   right to sell development licenses. To obtain a commercialization 
-//   license, please contact the CGAL Consortium (at cgal@cs.uu.nl).
+//   license, please contact the GALIA Consortium (at cgal@cs.uu.nl).
 //
 // This software and documentation is provided "as-is" and without
 // warranty of any kind. In no event shall the CGAL Consortium be
 // liable for any damage of any kind.
 //
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// The GALIA Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany) Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+// (Germany), Max-Planck-Institute Saarbrucken (Germany),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 // 
-// release       : CGAL-1.2
-// release_date  : 1999, January 18
+// release       : CGAL-2.0
+// release_date  : 1999, June 03
 // 
 // source        : Triangle_3.fw
 // file          : include/CGAL/Triangle_3.h
-// package       : _3 (1.4)
-// revision      : 1.4
-// revision_date : 15 Dec 1998 
+// package       : _3 (2.1.2)
+// revision      : 2.1.2
+// revision_date : 21 May 1999 
 // author(s)     : Andreas Fabri
 //                 Stefan Schirra
 //
 // coordinator   : MPI, Saarbruecken  (<Stefan.Schirra>)
-//
 // email         : cgal@cs.uu.nl
 //
 // ======================================================================
@@ -75,59 +74,61 @@
 #include <CGAL/Plane_3.h>
 #endif // CGAL_PLANE_3_H
 
+CGAL_BEGIN_NAMESPACE
+
 template <class _R>
-class CGAL_Triangle_3 : public _R::Triangle_3
+class Triangle_3 : public _R::Triangle_3
 {
 public:
   typedef          _R                       R;
   typedef typename R::RT                    RT;
   typedef typename R::FT                    FT;
-  typedef typename R::Triangle_3            Triangle_3;
+  typedef typename R::Triangle_3            RTriangle_3;
 
-  CGAL_Triangle_3() : Triangle_3()
+  Triangle_3() : RTriangle_3()
   {}
-  CGAL_Triangle_3(const CGAL_Triangle_3<R>& t) : Triangle_3(t)
+  Triangle_3(const Triangle_3<R>& t) : RTriangle_3(t)
   {}
-  CGAL_Triangle_3(const Triangle_3& t) : Triangle_3(t)
+  Triangle_3(const RTriangle_3&  t) : RTriangle_3(t)
   {}
-  CGAL_Triangle_3(const CGAL_Point_3<R>& p,
-                  const CGAL_Point_3<R>& q,
-                  const CGAL_Point_3<R>& r)
+  Triangle_3(const Point_3<R>& p,
+                  const Point_3<R>& q,
+                  const Point_3<R>& r)
     : R::Triangle_3(p,q,r)
   {}
 
-  CGAL_Triangle_3<R>& operator=(const CGAL_Triangle_3<R>& t)
+  Triangle_3<R>& operator=(const Triangle_3<R>& t)
   {
-    Triangle_3::operator=(t);
+    RTriangle_3::operator=(t);
     return *this;
   }
-  bool                operator==(const CGAL_Triangle_3<R>& t) const
-                      { return Triangle_3::operator==(t); }
-  bool                operator!=(const CGAL_Triangle_3<R>& t) const
+  bool                operator==(const Triangle_3<R>& t) const
+                      { return RTriangle_3::operator==(t); }
+  bool                operator!=(const Triangle_3<R>& t) const
                       { return !(*this == t); }
   int                 id() const   /* XXX */
                       { return (int) PTR ; }
-  CGAL_Plane_3<R>     supporting_plane() const
+  Plane_3<R>     supporting_plane() const
                       {
                         return
-                        CGAL_Plane_3<R>(
-                            Triangle_3::supporting_plane());
+                        Plane_3<R>(
+                            RTriangle_3::supporting_plane());
                       }
-  CGAL_Triangle_3<R>  transform(
-                      const CGAL_Aff_transformation_3<R>& t) const
+  Triangle_3<R>  transform(
+                      const Aff_transformation_3<R>& t) const
                       {
                         return
-                        CGAL_Triangle_3<R>(Triangle_3::transform( t ));
+                        Triangle_3<R>(RTriangle_3::transform( t ));
                       }
-  bool                has_on(const CGAL_Point_3<R>& p) const
-                      { return Triangle_3::has_on(p); }
+  bool                has_on(const Point_3<R>& p) const
+                      { return RTriangle_3::has_on(p); }
   bool                is_degenerate() const
-                      { return Triangle_3::is_degenerate(); }
-  CGAL_Point_3<R>     vertex(int i) const
-                      { return Triangle_3::vertex(i); }
-  CGAL_Point_3<R>     operator[](int i) const
+                      { return RTriangle_3::is_degenerate(); }
+  Point_3<R>     vertex(int i) const
+                      { return RTriangle_3::vertex(i); }
+  Point_3<R>     operator[](int i) const
                       { return vertex(i); }
-  CGAL_Bbox_3         bbox() const
+  Bbox_3         bbox() const
                       {
                         return vertex(0).bbox()
                              + vertex(1).bbox()
@@ -135,26 +136,28 @@ public:
                       }
 };
 
-#ifndef CGAL_NO_OSTREAM_INSERT_TRIANGLE_3
+#ifndef NO_OSTREAM_INSERT_TRIANGLE_3
 template < class R >
-ostream&
-operator<<(ostream& os, const CGAL_Triangle_3<R>& t)
+std::ostream&
+operator<<(std::ostream& os, const Triangle_3<R>& t)
 {
-  typedef typename  R::Triangle_3     Triangle_3;
-  return os << (const Triangle_3&)t;
+  typedef typename  R::Triangle_3     RTriangle_3;
+  return os << (const RTriangle_3& )t;
 }
-#endif // CGAL_NO_OSTREAM_INSERT_TRIANGLE_3
+#endif // NO_OSTREAM_INSERT_TRIANGLE_3
 
-#ifndef CGAL_NO_ISTREAM_EXTRACT_TRIANGLE_3
+#ifndef NO_ISTREAM_EXTRACT_TRIANGLE_3
 template < class R >
-istream&
-operator>>(istream& is, CGAL_Triangle_3<R>& t)
+std::istream&
+operator>>(std::istream& is, Triangle_3<R>& t)
 {
-  typedef typename  R::Triangle_3     Triangle_3;
-  return is >> (Triangle_3&)t;
+  typedef typename  R::Triangle_3     RTriangle_3;
+  return is >> (RTriangle_3& )t;
 }
-#endif // CGAL_NO_ISTREAM_EXTRACT_TRIANGLE_3
+#endif // NO_ISTREAM_EXTRACT_TRIANGLE_3
 
 
+CGAL_END_NAMESPACE
 
-#endif
+
+#endif // CGAL_TRIANGLE_3_H

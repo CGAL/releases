@@ -1,6 +1,6 @@
 // ======================================================================
 //
-// Copyright (c) 1997 The CGAL Consortium
+// Copyright (c) 1999 The GALIA Consortium
 //
 // This software and related documentation is part of the
 // Computational Geometry Algorithms Library (CGAL).
@@ -16,28 +16,28 @@
 // - Development licenses grant access to the source code of the library 
 //   to develop programs. These programs may be sold to other parties as 
 //   executable code. To obtain a development license, please contact
-//   the CGAL Consortium (at cgal@cs.uu.nl).
+//   the GALIA Consortium (at cgal@cs.uu.nl).
 // - Commercialization licenses grant access to the source code and the
 //   right to sell development licenses. To obtain a commercialization 
-//   license, please contact the CGAL Consortium (at cgal@cs.uu.nl).
+//   license, please contact the GALIA Consortium (at cgal@cs.uu.nl).
 //
 // This software and documentation is provided "as-is" and without
 // warranty of any kind. In no event shall the CGAL Consortium be
 // liable for any damage of any kind.
 //
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// The GALIA Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany) Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+// (Germany), Max-Planck-Institute Saarbrucken (Germany),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-1.2
-// release_date  : 1999, January 18
+// release       : CGAL-2.0
+// release_date  : 1999, June 03
 //
 // file          : include/CGAL/Planar_map_misc.h
-// package       : pm (2.052)
+// package       : pm (3.07)
 // source        :
 // revision      :
 // revision_date :
@@ -46,7 +46,6 @@
 //                 Oren Nechushtan
 //
 // coordinator   : Tel-Aviv University (Dan Halperin)
-//
 //
 // email         : cgal@cs.uu.nl
 //
@@ -63,15 +62,17 @@
 #include <CGAL/Polyhedron_iterator_3.h>
 #endif
 
+CGAL_BEGIN_NAMESPACE
+
 //--------------------------------------------------------------------------
-// CGAL_Planar_map_traits_wrap - 
+// Planar_map_traits_wrap - 
 //     Geometric Look Up Table. This class extends the user supplied 
 // interface to include various less "shallow" operations that are
 // impelemented through the interface.
 //--------------------------------------------------------------------------
 
 template <class I>
-class CGAL_Planar_map_traits_wrap : public I
+class Planar_map_traits_wrap : public I
 {
 public:
 //  typedef  typename I::Info_vertex     Info_vertex;
@@ -81,53 +82,53 @@ public:
   typedef  typename I::X_curve         X_curve;
   typedef  typename I::Point           Point;
   
-  CGAL_Planar_map_traits_wrap() : I()
+  Planar_map_traits_wrap() : I()
   {
   }
   
   bool point_is_left( const Point  & p1, const Point  & p2 ) const
   {
-    return (compare_x(p1, p2) == CGAL_SMALLER); 
+    return (compare_x(p1, p2) == SMALLER); 
   }
   
     bool point_is_right( const Point  & p1, const  Point  & p2 ) const
   {
-    return (compare_x(p1, p2) == CGAL_LARGER); 
+    return (compare_x(p1, p2) == LARGER); 
   }
   
   bool point_is_same_x( const Point  & p1, const Point  & p2 ) const
   {
-    return (compare_x(p1, p2) == CGAL_EQUAL); 
+    return (compare_x(p1, p2) == EQUAL); 
   }
   
   bool point_is_lower( const Point  & p1, const Point  & p2 ) const
   { 
-    return (compare_y(p1, p2) == CGAL_SMALLER); 
+    return (compare_y(p1, p2) == SMALLER); 
   }
   
   bool point_is_higher( const Point  & p1, const Point  & p2 ) const
   {
-    return (compare_y(p1, p2) == CGAL_LARGER); 
+    return (compare_y(p1, p2) == LARGER); 
   }
   
   bool point_is_same_y( const Point  & p1, const Point  & p2 ) const
   {
-    return (compare_y(p1, p2) == CGAL_EQUAL); 
+    return (compare_y(p1, p2) == EQUAL); 
   }
   
   bool point_is_same( const Point  & p1, const Point  & p2 ) const
   { 
-    return ( (compare_y(p1, p2) == CGAL_EQUAL) &&
-             (compare_x(p1, p2) == CGAL_EQUAL)   );	
+    return ( (compare_y(p1, p2) == EQUAL) &&
+             (compare_x(p1, p2) == EQUAL)   );	
   }
   
   bool point_is_left_low( const Point  & p1,  
                           const Point  & p2 ) const
   { 
-    CGAL_Comparison_result k = compare_x(p1, p2);
-    if (k == CGAL_SMALLER)
+    Comparison_result k = compare_x(p1, p2);
+    if (k == SMALLER)
       return true;
-    if ( (k == CGAL_EQUAL) && (point_is_lower(p1, p2)) )
+    if ( (k == EQUAL) && (point_is_lower(p1, p2)) )
       return true;
     return false;
   }
@@ -191,116 +192,119 @@ public:
 		returns which of cv1,cv2 is first in clockwise sweep around q
 		starting from bottom direction.
 	*/
-    CGAL_Comparison_result 
+  Comparison_result 
   curve_compare_at_x_from_bottom(const X_curve &cv1, const X_curve &cv2, const Point& q) 
     const 
-  {
-	if (!curve_is_vertical(cv1))
-		if (!curve_is_vertical(cv2))
-			if (point_is_same(curve_rightmost(cv1),q)) 
-			// cv1 extends leftwards from q
-			{
-				if (point_is_same(curve_rightmost(cv2),q))
+    {
+      if (!curve_is_vertical(cv1))
+        if (!curve_is_vertical(cv2))
+          if (point_is_same(curve_rightmost(cv1),q)) 
+            // cv1 extends leftwards from q
+            {
+              if (point_is_same(curve_rightmost(cv2),q))
 				// cv2 extends leftwards from q
-				{
-					return curve_compare_at_x_left(cv1,cv2,q);
-				}
-				else // cv2 extends rightwards from q
-				{
-					return CGAL_SMALLER;
-				}
-			}
-			else  // cv1 extends rightwards from q
-			{
-				if (point_is_same(curve_leftmost(cv2),q))
+                {
+                  return curve_compare_at_x_left(cv1,cv2,q);
+                }
+              else // cv2 extends rightwards from q
+                {
+                  return SMALLER;
+                }
+            }
+          else  // cv1 extends rightwards from q
+            {
+              if (point_is_same(curve_leftmost(cv2),q))
 				// cv2 extends rightwards from q
-				{
-					return curve_compare_at_x_right(cv2,cv1,q);
-				}
-				else // cv2 extends leftwards from q
-				{
-					return CGAL_LARGER;
-				}
-			}
-		else // cv2 is vertical, cv1 is not vertical 
-		{
-			if (point_is_same(curve_rightmost(cv1),q)&&point_is_same(curve_lowest(cv2),q))
-				return CGAL_SMALLER;
-			else
-				return CGAL_LARGER;
-		}
-	else // cv1 is vertical
+                {
+                  return curve_compare_at_x_right(cv2,cv1,q);
+                }
+              else // cv2 extends leftwards from q
+                {
+                  return LARGER;
+                }
+            }
+        else // cv2 is vertical, cv1 is not vertical 
+          {
+            if (point_is_same(curve_rightmost(cv1),q)&&point_is_same(curve_lowest(cv2),q))
+              return SMALLER;
+            else
+              return LARGER;
+          }
+      else // cv1 is vertical
 	{
-		if (point_is_same(curve_highest(cv1),q))
-			if (!curve_is_vertical(cv2) || point_is_same(curve_lowest(cv2),q))
-				return CGAL_SMALLER;
-			else
-				return CGAL_EQUAL; // both curves extend downwards
-		else // cv1 extends from q upwards
-			if (point_is_same(curve_righttop_most(cv2),q))
-				return CGAL_LARGER;
-			else if (!curve_is_vertical(cv2)) // extends rightwards
-				return CGAL_SMALLER;
-			else // cv2 extends upwards
-				return CGAL_EQUAL;
+          if (point_is_same(curve_highest(cv1),q))
+            if (!curve_is_vertical(cv2) || point_is_same(curve_lowest(cv2),q))
+              return SMALLER;
+            else
+              return EQUAL; // both curves extend downwards
+          else // cv1 extends from q upwards
+            if (point_is_same(curve_righttop_most(cv2),q))
+              return LARGER;
+            else if (!curve_is_vertical(cv2)) // extends rightwards
+              return SMALLER;
+            else // cv2 extends upwards
+              return EQUAL;
 	}
-  }
-
-  CGAL_Comparison_result 
+    }
+  
+  Comparison_result 
   curve_compare_at_x_from_top(const X_curve &cv1, const X_curve &cv2, const Point& q) 
     const 
-  {
-	if (!curve_is_vertical(cv1))
-		if (!curve_is_vertical(cv2))
-			if (point_is_same(curve_rightmost(cv1),q)) 
-			// cv1 extends leftwards from q
-			{
-				if (point_is_same(curve_rightmost(cv2),q))
+    {
+      if (!curve_is_vertical(cv1))
+        if (!curve_is_vertical(cv2))
+          if (point_is_same(curve_rightmost(cv1),q)) 
+            // cv1 extends leftwards from q
+            {
+              if (point_is_same(curve_rightmost(cv2),q))
 				// cv2 extends leftwards from q
-				{
-					return curve_compare_at_x_left(cv1,cv2,q);
-				}
-				else // cv2 extends rightwards from q
-				{
-					return CGAL_LARGER;
-				}
-			}
-			else  // cv1 extends rightwards from q
-			{
-				if (point_is_same(curve_leftmost(cv2),q))
+                {
+                  return curve_compare_at_x_left(cv1,cv2,q);
+                }
+              else // cv2 extends rightwards from q
+                {
+                  return LARGER;
+                }
+            }
+          else  // cv1 extends rightwards from q
+            {
+              if (point_is_same(curve_leftmost(cv2),q))
 				// cv2 extends rightwards from q
-				{
-					return curve_compare_at_x_right(cv2,cv1,q);
-				}
-				else // cv2 extends leftwards from q
-				{
-					return CGAL_SMALLER;
-				}
-			}
-		else // cv2 is vertical, cv1 is not vertical 
-		{
-			if (point_is_same(curve_leftmost(cv1),q)&&point_is_same(curve_highest(cv2),q))
-				return CGAL_SMALLER;
-			else
-				return CGAL_LARGER;
-		}
-	else // cv1 is vertical
+                {
+                  return curve_compare_at_x_right(cv2,cv1,q);
+                }
+              else // cv2 extends leftwards from q
+                {
+                  return SMALLER;
+                }
+            }
+        else // cv2 is vertical, cv1 is not vertical 
+          {
+            if (point_is_same(curve_leftmost(cv1),q)&&point_is_same(curve_highest(cv2),q))
+              return SMALLER;
+            else
+              return LARGER;
+          }
+      else // cv1 is vertical
 	{
-		if (point_is_same(curve_lowest(cv1),q))
-			if (!curve_is_vertical(cv2) || point_is_same(curve_highest(cv2),q))
-				return CGAL_SMALLER;
-			else
-				return CGAL_EQUAL; // both curves extend upwards
-		else // cv1 extends from q downwards
-			if (point_is_same(curve_leftlow_most(cv2),q))
-				return CGAL_LARGER;
-			else if (!curve_is_vertical(cv2)) // extends leftwards
-				return CGAL_SMALLER;
-			else // cv2 extends downwards
-				return CGAL_EQUAL;
+          if (point_is_same(curve_lowest(cv1),q))
+            if (!curve_is_vertical(cv2) || point_is_same(curve_highest(cv2),q))
+              return SMALLER;
+            else
+              return EQUAL; // both curves extend upwards
+          else // cv1 extends from q downwards
+            if (point_is_same(curve_leftlow_most(cv2),q))
+              return LARGER;
+            else if (!curve_is_vertical(cv2)) // extends leftwards
+              return SMALLER;
+            else // cv2 extends downwards
+              return EQUAL;
 	}
-  }
+    }
 };
+
+
+CGAL_END_NAMESPACE
 
 
 #else   //CGAL_PLANAR_MAP_MISC_H 

@@ -3,21 +3,21 @@
 #include <CGAL/Point_2.h>
 #include <CGAL/Segment_2.h>
 
-#include <iostream.h>
+#include <iostream>
 
 #include <CGAL/Pm_default_dcel.h>
 #include <CGAL/Topological_map.h>
 
 
 
-typedef CGAL_Point_2<CGAL_Cartesian<double> >  Point;
-typedef CGAL_Segment_2<CGAL_Cartesian<double> >Curve;
+typedef CGAL::Point_2<CGAL::Cartesian<double> >  Point;
+typedef CGAL::Segment_2<CGAL::Cartesian<double> >Curve;
 
-typedef CGAL_Pm_dcel<CGAL_Pm_vertex_base<Point>,
-                     CGAL_Pm_halfedge_base<Curve>,
-                     CGAL_Pm_face_base > Dcel;  
+typedef CGAL::Pm_dcel<CGAL::Pm_vertex_base<Point>,
+                     CGAL::Pm_halfedge_base<Curve>,
+                     CGAL::Pm_face_base > Dcel;  
 
-typedef CGAL_Topological_map<Dcel> Tpm;
+typedef CGAL::Topological_map<Dcel> Tpm;
 
 typedef  Tpm::Halfedge_handle Halfedge_handle;
 typedef  Tpm::Vertex_handle   Vertex_handle;
@@ -33,7 +33,7 @@ main() {
 
   Face_handle uf=t.unbounded_face();
 
-  cout << "inserting curve " << c1 << " in face interior" << endl;
+  std::cout << "inserting curve " << c1 << " in face interior" << std::endl;
   Halfedge_handle e1 = t.insert_in_face_interior(uf);
 
   e1->set_curve(c1);e1->twin()->set_curve(c1);
@@ -42,7 +42,7 @@ main() {
 
   CGAL_assertion(t.is_valid());
 
-  cout << "inserting curve " << c2 << " from vertex" << endl;
+  std::cout << "inserting curve " << c2 << " from vertex" << std::endl;
   Halfedge_handle e2=t.insert_from_vertex(e1);
 
   e2->set_curve(c2);
@@ -51,9 +51,9 @@ main() {
 
   CGAL_assertion(t.is_valid());
 
-  cout << "inserting curve " << c3 << " between vertices " ;
-  cout << e1->twin()->target()->point() << " and " ;
-  cout << e2->target()->point() << endl;
+  std::cout << "inserting curve " << c3 << " between vertices " ;
+  std::cout << e1->twin()->target()->point() << " and " ;
+  std::cout << e2->target()->point() << std::endl;
   Halfedge_handle e3=t.insert_at_vertices(e1->twin(),e2);
 
   e3->set_curve(c3);
@@ -66,13 +66,13 @@ main() {
   //checking that the new face has the right order of vertices 
   //(i.e., the order in which they appeared at the insertion)
   Tpm::Ccb_halfedge_circulator cc=nf->outer_ccb();
-  cout << "\norder of vertices in new face : ";
+  std::cout << "\norder of vertices in new face : ";
   do {
-    cout << cc->source()->point() << " -> " ;
+    std::cout << cc->source()->point() << " -> " ;
     ++cc;
     } while (cc != nf->outer_ccb());
-  cout << cc->source()->point() << endl;
-  //  cout << endl;
+  std::cout << cc->source()->point() << std::endl;
+  //  std::cout << std::endl;
     
 
   return 0;

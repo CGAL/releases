@@ -1,7 +1,7 @@
 //  -*- Mode: c++ -*-
 // ============================================================================
 //
-// Copyright (c) 1997 The CGAL Consortium
+// Copyright (c) 1999 The GALIA Consortium
 //
 // This software and related documentation is part of the
 // Computational Geometry Algorithms Library (CGAL).
@@ -17,25 +17,25 @@
 // - Development licenses grant access to the source code of the library 
 //   to develop programs. These programs may be sold to other parties as 
 //   executable code. To obtain a development license, please contact
-//   the CGAL Consortium (at cgal@cs.uu.nl).
+//   the GALIA Consortium (at cgal@cs.uu.nl).
 // - Commercialization licenses grant access to the source code and the
 //   right to sell development licenses. To obtain a commercialization 
-//   license, please contact the CGAL Consortium (at cgal@cs.uu.nl).
+//   license, please contact the GALIA Consortium (at cgal@cs.uu.nl).
 //
 // This software and documentation is provided "as-is" and without
 // warranty of any kind. In no event shall the CGAL Consortium be
 // liable for any damage of any kind.
 //
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// The GALIA Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany) Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+// (Germany), Max-Planck-Institute Saarbrucken (Germany),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-1.2
-// release_date  : 1999, January 18
+// release       : CGAL-2.0
+// release_date  : 1999, June 03
 //
 // file          : demo/BooleanOperations/b-ops-2D-example-1.C
 // source        : demo/BooleanOperations/b-ops-2D-example-1.C
@@ -47,7 +47,6 @@
 //  (Wolfgang Freiseisen)
 //
 // 
-//
 // email         : cgal@cs.uu.nl
 //
 // ======================================================================
@@ -55,24 +54,30 @@
 #include <CGAL/Homogeneous.h>
 #include <CGAL/Cartesian.h>
 #include <CGAL/basic.h>
-#include <iostream.h>
+#include <iostream>
 #include <CGAL/bops_Polygon_2.h>
+#include <vector>
+#include <list>
 
 typedef float TestNum;
 
 #ifdef USE_CARTESIAN_COORDINATES
-      typedef CGAL_Cartesian<TestNum>        R_type;
+      typedef CGAL::Cartesian<TestNum>        R_type;
 #else
-      typedef CGAL_Homogeneous<TestNum>      R_type;
+      typedef CGAL::Homogeneous<TestNum>      R_type;
 #endif
 
-typedef CGAL_Point_2<R_type>                 Point_2;
-typedef CGAL_Segment_2<R_type>               Segment_2;
+using std::list;
+using std::cout;
+using std::endl;
+
+typedef CGAL::Point_2<R_type>                 Point_2;
+typedef CGAL::Segment_2<R_type>               Segment_2;
 
 typedef list< Point_2 >                      Container;
-typedef CGAL_Polygon_traits_2<R_type>        Polygon_traits_2;
-typedef CGAL_Polygon_2< Polygon_traits_2, Container >  Polygon_2;
-typedef vector<Point_2>                      Input_container;
+typedef CGAL::Polygon_traits_2<R_type>        Polygon_traits_2;
+typedef CGAL::Polygon_2< Polygon_traits_2, Container >  Polygon_2;
+typedef std::vector<Point_2>                      Input_container;
 
 
 int example_intersection(
@@ -84,10 +89,10 @@ int example_intersection(
   Polygon_2 B(container_B.begin(), container_B.end());
 
   /* declaration of the result container */
-  list<CGAL_Object> result;
+  list<Object> result;
 
   /* performing intersection of A and B */
-  CGAL_intersection(A, B, back_inserter(result));
+  CGAL::intersection(A, B, back_inserter(result));
   
   cout << "result size=" << result.size() << endl;
 
@@ -96,15 +101,15 @@ int example_intersection(
   Segment_2 segment;
   Polygon_2 polygon;
 
-  list<CGAL_Object>::const_iterator it;
+  list<Object>::const_iterator it;
   for( it= result.begin(); it != result.end(); it++) {
-    if( CGAL_assign( polygon, *it) ) {
+    if( assign( polygon, *it) ) {
       cout << "PGN: " << polygon << endl;    /* polygon detected */
     }
-    else if( CGAL_assign( segment, *it) ) {
+    else if( assign( segment, *it) ) {
       cout << "SEG: " << segment << endl;    /* segment detected */
     }
-    else if( CGAL_assign( point, *it) )  {  
+    else if( assign( point, *it) )  {  
       cout << "PNT:" << point << endl;       /* point detected */
     }
     else {

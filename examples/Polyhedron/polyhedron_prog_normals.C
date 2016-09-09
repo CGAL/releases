@@ -1,16 +1,16 @@
-/*  polyhedron_prog_normals.C       */
-/*  ------------------------------- */
+// polyhedron_prog_normals.C
+// -----------------------------------------------------------
 #include <CGAL/Homogeneous.h>
-#include <iostream.h>
-#include <algo.h>
+#include <iostream>
+#include <algorithm>
 #include <CGAL/Halfedge_data_structure_polyhedron_default_3.h>
 #include <CGAL/Polyhedron_default_traits_3.h>
 #include <CGAL/Polyhedron_3.h>
 
-typedef CGAL_Homogeneous<int>                                 R;
-typedef CGAL_Halfedge_data_structure_polyhedron_default_3<R>  HDS;
-typedef CGAL_Polyhedron_default_traits_3<R>                   Traits;
-typedef CGAL_Polyhedron_3<Traits,HDS>                         Polyhedron;
+typedef CGAL::Homogeneous<int>                                R;
+typedef CGAL::Halfedge_data_structure_polyhedron_default_3<R> HDS;
+typedef CGAL::Polyhedron_default_traits_3<R>                  Traits;
+typedef CGAL::Polyhedron_3<Traits,HDS>                        Polyhedron;
 typedef Polyhedron::Point                                     Point;
 typedef Polyhedron::Plane                                     Plane;
 typedef Polyhedron::Halfedge_handle                           Halfedge_handle;
@@ -32,11 +32,11 @@ int main() {
 
     Polyhedron P;
     P.make_tetrahedron( p, q, r, s);
-    for_each( P.facets_begin(), P.facets_end(), compute_plane_equations);
+    std::for_each( P.facets_begin(), P.facets_end(), compute_plane_equations);
 
-    CGAL_set_pretty_mode( cout);
+    CGAL::set_pretty_mode( std::cout);
     Facet_iterator begin = P.facets_begin();
     for ( ; begin != P.facets_end(); ++begin)
-        cout << begin->plane() << endl;
+        std::cout << begin->plane() << std::endl;
     return 0;
 }

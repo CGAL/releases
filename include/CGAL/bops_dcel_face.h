@@ -1,7 +1,6 @@
-//  -*- Mode: c++ -*-
 // ======================================================================
 //
-// Copyright (c) 1997 The CGAL Consortium
+// Copyright (c) 1999 The GALIA Consortium
 //
 // This software and related documentation is part of the
 // Computational Geometry Algorithms Library (CGAL).
@@ -17,38 +16,37 @@
 // - Development licenses grant access to the source code of the library 
 //   to develop programs. These programs may be sold to other parties as 
 //   executable code. To obtain a development license, please contact
-//   the CGAL Consortium (at cgal@cs.uu.nl).
+//   the GALIA Consortium (at cgal@cs.uu.nl).
 // - Commercialization licenses grant access to the source code and the
 //   right to sell development licenses. To obtain a commercialization 
-//   license, please contact the CGAL Consortium (at cgal@cs.uu.nl).
+//   license, please contact the GALIA Consortium (at cgal@cs.uu.nl).
 //
 // This software and documentation is provided "as-is" and without
 // warranty of any kind. In no event shall the CGAL Consortium be
 // liable for any damage of any kind.
 //
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// The GALIA Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany) Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+// (Germany), Max-Planck-Institute Saarbrucken (Germany),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-1.2
-// release_date  : 1999, January 18
+// release       : CGAL-2.0
+// release_date  : 1999, June 03
 //
 // file          : include/CGAL/bops_dcel_face.h
-// package       : bops (1.1.2)
+// package       : bops (2.1.5)
 // source        : include/CGAL/bops_dcel_face.h
 // revision      : $Revision: 1.1.2 $
 // revision_date : $Date: Wed Dec  9 13:28:52 MET 1998  $
-// author(s)     :             Wolfgang Freiseisen
+// author(s)     : Wolfgang Freiseisen
 //
 // coordinator   : RISC Linz
 //  (Wolfgang Freiseisen)
 //
 // 
-//
 // email         : cgal@cs.uu.nl
 //
 // ======================================================================
@@ -58,30 +56,32 @@
 
 #include <CGAL/bops_dcel_element.h>
 
+CGAL_BEGIN_NAMESPACE
+
 /*
   FACE in the DCEL:
   -----------------
   face_type:        header (HF), color
-  face:             typedef const CGAL__Dcel_face_type*   CGAL__Dcel_face;
-  container:        vector<CGAL__Dcel_face_type>
-  face_iterator:    typedef vector<CGAL__Dcel_face_type>::const_iterator
+  face:             typedef const _Dcel_face_type*   _Dcel_face;
+  container:        vector<_Dcel_face_type>
+  face_iterator:    typedef vector<_Dcel_face_type>::const_iterator
   conversion:       face and face_iterator are type-identical
 */
 
 
 template<class I>
-class CGAL__Dcel_face_type : public CGAL__Dcel_element_type {
+class _Dcel_face_type : public _Dcel_element_type {
 public:
 #ifdef CGAL_CFG_INCOMPLETE_TYPE_BUG_4
-  typedef CGAL__Dcel_edge_type<I>* edge;
+  typedef _Dcel_edge_type<I>* edge;
 #else
   typedef typename I::const_edges_iterator  edge;
 #endif
 
-  CGAL__Dcel_face_type(int ind, CGAL__Dcel_Color col = CGAL__NO_COLOR)
-        : CGAL__Dcel_element_type(ind, col), _header(NULL) {}
-  CGAL__Dcel_face_type( CGAL__Dcel_Color col = CGAL__NO_COLOR )
-        : CGAL__Dcel_element_type(col), _header(NULL) {}
+  _Dcel_face_type(int ind, _Dcel_Color col = _NO_COLOR)
+        : _Dcel_element_type(ind, col), _header(NULL) {}
+  _Dcel_face_type( _Dcel_Color col = _NO_COLOR )
+        : _Dcel_element_type(col), _header(NULL) {}
 
   edge  header() const { return _header; }
 
@@ -90,8 +90,9 @@ protected:
 
 private:
   edge _header;
-  friend class CGAL__Dcel_base<I>;
+  friend class _Dcel_base<I>;
 };
 
+CGAL_END_NAMESPACE
 
 #endif /* CGAL__DCEL_FACE_H */

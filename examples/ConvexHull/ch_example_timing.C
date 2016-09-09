@@ -2,17 +2,19 @@
 #include <CGAL/Homogeneous.h>
 #include <CGAL/Cartesian.h>
 
+#ifdef CGAL_USE_LEDA
 #include <CGAL/leda_integer.h>
 #include <CGAL/leda_rational.h>
 #include <CGAL/leda_real.h>
+#endif // CGAL_USE_LEDA
 
 #include <CGAL/convex_hull_traits_2.h>
 
-#include <fstream.h>
+#include <fstream>
 
-#include <deque.h>
-#include <list.h>
-#include <vector.h>
+#include <deque>
+#include <list>
+#include <vector>
 
 #include <CGAL/ch_akl_toussaint.h>
 #include <CGAL/ch_graham_andrew.h>
@@ -20,17 +22,22 @@
 #include <CGAL/ch_bykat.h>
 #include <CGAL/ch_jarvis.h>
 
-#ifndef CGAL_USE_LEDA
-#include <stdlib.h>
+#ifndef USE_LEDA
+#include <cstdlib>
 extern "C" long clock();
-#endif // CGAL_USE_LEDA
+#endif // USE_LEDA
 
 #include <CGAL/ch_timing_2.h>
 
-typedef double                                            nu_type;
-typedef CGAL_Cartesian< nu_type >                         RepCls;
-typedef CGAL_convex_hull_traits_2<RepCls>                 TraitsCls;
-typedef TraitsCls::Point_2                                Point_2;
+#ifndef CGAL_CFG_NO_NAMESPACE
+using namespace std;
+using namespace CGAL;
+#endif // CGAL_CFG_NO_NAMESPACE
+
+typedef double                                      nu_type;
+typedef Cartesian< nu_type >                        RepCls;
+typedef convex_hull_traits_2<RepCls>                TraitsCls;
+typedef TraitsCls::Point_2                          Point2;
 
 int
 main( int argc, char* argv[] )
@@ -41,15 +48,15 @@ main( int argc, char* argv[] )
       cerr << "number_of_iterations";
       exit(1);
   }
-  vector< Point_2 > V;
-  vector< Point_2 > VE;
+  vector< Point2 > V;
+  vector< Point2 > VE;
   ifstream F(argv[1]);
-  CGAL_set_ascii_mode( F );
-  istream_iterator< Point_2, ptrdiff_t>  in_start( F );
-  istream_iterator< Point_2, ptrdiff_t>  in_end;
+  set_ascii_mode( F );
+  istream_iterator< Point2, ptrdiff_t>  in_start( F );
+  istream_iterator< Point2, ptrdiff_t>  in_end;
   copy( in_start, in_end , back_inserter(V) );
   copy( V.begin(), V.end(), back_inserter(VE) );
   int iterations = atoi( argv[2] );
-  CGAL_ch_timing(V.begin(), V.end(), VE.begin(), iterations, TraitsCls() ); 
+  ch_timing(V.begin(), V.end(), VE.begin(), iterations, TraitsCls() ); 
   return 0;
 }

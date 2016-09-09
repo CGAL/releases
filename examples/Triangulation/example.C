@@ -9,17 +9,13 @@
 #include <iterator.h>
 
 // Define shorter names to please linker (g++/egcs)
-#define CGAL_Cartesian Cart
+#define Cartesian C
+#define Homogeneous H
 
-#include <CGAL/Gmpz.h>
+//#include <CGAL/Gmpz.h>
 #include <CGAL/Cartesian.h>
 //#include <CGAL/Homogeneous.h>
 
-#include <CGAL/squared_distance_2.h>   // to avoid a g++ problem
-#include <CGAL/Point_2.h>
-#include <CGAL/predicates_on_points_2.h>
-#include <CGAL/Triangle_2.h>
-#include <CGAL/Segment_2.h>
 
 #include <CGAL/Triangulation_euclidean_traits_2.h>
 #include <CGAL/Triangulation_2.h>
@@ -88,65 +84,48 @@ parse(int argc, char* argv[], Options &opt)
 }
 
 
-
-
-
 typedef double coord_type;
 //typedef leda_integer  coord_type;
-//typedef CGAL_Gmpz coord_type;
-//typedef CGAL_Fixed coord_type;
+//typedef CGAL::Gmpz coord_type;
+//typedef CGAL::Fixed coord_type;
 
-typedef CGAL_Cartesian<coord_type>  Rep;
-//typedef CGAL_Homogeneous<coord_type>  Rep;
+typedef CGAL::Cartesian<coord_type>  Rpst;
+//typedef CGAL::Homogeneous<coord_type>  Rpst;
 
-typedef CGAL_Point_2<Rep>  Point;
-typedef CGAL_Segment_2<Rep>  Segment;
-typedef CGAL_Ray_2<Rep>  Ray;
-typedef CGAL_Line_2<Rep>  Line;
-typedef CGAL_Triangle_2<Rep>  Triangle;
+typedef CGAL::Triangulation_euclidean_traits_2<Rpst> Gt;
+typedef CGAL::Triangulation_vertex_base_2<Gt> Vb;
+typedef CGAL::Triangulation_face_base_2<Gt>  Fb;
+typedef CGAL::Triangulation_default_data_structure_2<Gt,Vb,Fb> Tds;
+typedef CGAL::Triangulation_2<Gt,Tds>  Triangulation;
+//typedef CGAL::Delaunay_triangulation_2<Gt,Tds>  Delaunay_triangulation_2;
 
-typedef CGAL_Triangulation_euclidean_traits_2<Rep> Gt;
-typedef CGAL_Triangulation_vertex_base_2<Gt> Vb;
-typedef CGAL_Triangulation_face_base_2<Gt>  Fb;
-typedef CGAL_Triangulation_default_data_structure_2<Gt,Vb,Fb> Tds;
-typedef CGAL_Triangulation_2<Gt,Tds>  Triangulation_2;
-//typedef CGAL_Delaunay_triangulation_2<Gt,Tds>  Delaunay_triangulation_2;
+typedef Gt::Point              Point;
+typedef Triangulation::Face  Face;
+typedef Triangulation::Vertex Vertex;
+typedef Triangulation::Face_handle  Face_handle;
+typedef Triangulation::Vertex_handle Vertex_handle;
 
-typedef Triangulation_2::Face  Face;
-typedef Triangulation_2::Vertex Vertex;
-typedef Triangulation_2::Face_handle  Face_handle;
-typedef Triangulation_2::Vertex_handle Vertex_handle;
+typedef Triangulation::Face_circulator  Face_circulator;
+typedef Triangulation::Vertex_circulator  Vertex_circulator;
 
-typedef Triangulation_2::Face_circulator  Face_circulator;
-typedef Triangulation_2::Vertex_circulator  Vertex_circulator;
+typedef Triangulation::Locate_type Locate_type;
 
-typedef Triangulation_2::Locate_type Locate_type;
-
-typedef Triangulation_2::Face_iterator  Face_iterator;
-typedef Triangulation_2::Vertex_iterator  Vertex_iterator;
-typedef Triangulation_2::Edge_iterator  Edge_iterator;
-typedef Triangulation_2::Line_face_circulator  Line_face_circulator;
+typedef Triangulation::Face_iterator  Face_iterator;
+typedef Triangulation::Vertex_iterator  Vertex_iterator;
+typedef Triangulation::Edge_iterator  Edge_iterator;
+typedef Triangulation::Line_face_circulator  Line_face_circulator;
 
 
-#ifdef __GNU__
-template < class R >
-bool operator<(const CGAL_Point_2<R>& p, const CGAL_Point_2<R>& q)
-{
-    return CGAL_compare_lexicographically_xy (p, q) == CGAL_SMALLER;
-}
-#endif // __GNU__
 
-Triangulation_2 *T_global;
-
-void input_from_file(Triangulation_2 &T,
+void input_from_file(Triangulation &T,
                      const Options& opt)
 {
-    if(! opt.file_input){
+      if(! opt.file_input){
         return;
     }
 
     ifstream is(opt.fname);
-    CGAL_set_ascii_mode(is);
+    CGAL::set_ascii_mode(is);
 
     int n;
     is >> n;
@@ -157,17 +136,17 @@ void input_from_file(Triangulation_2 &T,
     T.insert(begin, end);
 }
 
-void input_from_range(Triangulation_2 &T)
+void input_from_range(Triangulation &T)
 {
-    list<Point> L;
+    std::list<Point> L;
     L.push_front(Point(0,0));
     L.push_front(Point(1,0));
     L.push_front(Point(1,1));
 
-    int n = T.insert(L.begin(), L.end());
+    int n =T.insert(L.begin(), L.end());
     cout << n << " points inserted from a list." << endl;
 
-    vector<Point> V(3);
+    std::vector<Point> V(3);
     V[0] = Point(0, 0);
     V[1] = Point(0.4, 0.4);
     V[2] = Point(0.3, 0.3);
@@ -177,7 +156,7 @@ void input_from_range(Triangulation_2 &T)
 }
 
 
-void faces_along_line(Triangulation_2 &T)
+void faces_along_line(Triangulation &T)
 {
     Point p(0.2, 0.6), q(0.7, 0.4);
 
@@ -198,7 +177,7 @@ void faces_along_line(Triangulation_2 &T)
     }
 }
 
-void convex_hull(Triangulation_2 &T)
+void convex_hull(Triangulation &T)
 {
     Point p, q;
 
@@ -217,19 +196,19 @@ void convex_hull(Triangulation_2 &T)
     }
 }
 
-void fileIO(Triangulation_2 &T,
+void fileIO(Triangulation &T,
             const Options& opt)
 {
     cout << "The triangulation will be written to a file and read again\n";
     {
         ofstream out("tr");
-        CGAL_set_ascii_mode(out);
+        CGAL::set_ascii_mode(out);
         out << T << endl;
     }
-    Triangulation_2 T2;
+    Triangulation T2;
 
     ifstream in("tr");
-    CGAL_set_ascii_mode(in);
+    CGAL::set_ascii_mode(in);
     in >> T2;
     assert( T2.is_valid() );
 }
@@ -240,12 +219,23 @@ main(int argc, char* argv[])
     Options opt;
     parse(argc, argv, opt);
 
-    Triangulation_2 T;
-    T_global = &T;
+    Triangulation T;
 
     input_from_range(T);
     input_from_file(T, opt);
  
+    std::list<Point> L;
+    L.push_front(Point(0,0));
+    L.push_front(Point(1,0));
+    L.push_front(Point(1,1));
+
+    int n = T.insert(L.begin(), L.end());
+    cout << n << " points inserted from a list." << endl;
+    
+
+    T.insert(Point(0,0));
+    T.is_valid();
+    
     faces_along_line(T);
 
     convex_hull(T);

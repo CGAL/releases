@@ -15,23 +15,23 @@
 
 #include <CGAL/Pm_naive_point_location.h>
 
-typedef CGAL_Homogeneous<long>                     coord_t;
-typedef CGAL_Pm_segment_exact_traits<coord_t>         pmtraits;
+typedef CGAL::Homogeneous<long>                     coord_t;
+typedef CGAL::Pm_segment_exact_traits<coord_t>         pmtraits;
 typedef pmtraits::Point                               point;
 typedef pmtraits::X_curve                             curve;
-typedef CGAL_Pm_default_dcel<pmtraits>                pmdcel;
-typedef CGAL_Planar_map_2<pmdcel,pmtraits>            pmap;
+typedef CGAL::Pm_default_dcel<pmtraits>                pmdcel;
+typedef CGAL::Planar_map_2<pmdcel,pmtraits>            pmap;
 int main()
 {
-  // creating an instance of CGAL_Planar_map_2<pmdcel,pmtraits>
+  // creating an instance of CGAL::Planar_map_2<pmdcel,pmtraits>
   //with a naive point location strategy
-  CGAL_Pm_naive_point_location<pmap> naive_pl;
+  CGAL::Pm_naive_point_location<pmap> naive_pl;
   pmap pm(&naive_pl);
 
   curve cv[4];
   int i;
 
-  CGAL_set_ascii_mode(cout);
+  CGAL::set_ascii_mode(std::cout);
 
   point a1(1, 1), a2(1, 0), a3(0, 0), a4(0, 1);
 
@@ -42,7 +42,7 @@ int main()
 
 
   // inserting the curves to the map
-  CGAL_Planar_map_2<pmdcel,pmtraits>::Halfedge_handle e[4];  
+  CGAL::Planar_map_2<pmdcel,pmtraits>::Halfedge_handle e[4];  
 
   e[0]=pm.insert_in_face_interior(cv[0],pm.unbounded_face());
 

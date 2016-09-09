@@ -4,12 +4,18 @@
 #                    include platform specific settings
 #---------------------------------------------------------------------#
 # Choose the right include file from the <cgalroot>/make directory.
-PUBLIC = /net/blabla/export/raid/project/local/
-CGAL_MAKEFILE = $(PUBLIC)src/geometric/CGAL/CGAL-1.1/make/makefile_mips_IRIX-6.2_CC-n32-7.20_LEDA
-#makefile_sparc_SunOS-5.5_CC-4.2_LEDA 
-#makefile_sparc_SunOS-5.5_CC-4.2_LEDA 
-#makefile_sparc_SunOS-5.5_g++-egcs-2.91.57_LEDA
-#makefile_mips_IRIX-6.2_g++-egcs-2.90.27_LEDA
+#PUBLIC = /home/hoffmann/tmp/CGAL/CGAL-2.0-I-8/makefile_sparc_SunOS-5.6_g++-egcs-2.91.57 
+#makefile_sparc_SunOS-5.6_g++-2.8.1_LEDA 
+#/net/blabla/export/raid/project/local/
+#CGAL_MAKEFILE = /home/hoffmann/tmp/CGAL/CGAL-2.0-I-8/make/
+#makefile_mips_IRIX64-6.5_g++-egcs-2.91.60_LEDA
+#makefile_mips_IRIX64-6.5_g++-egcs-2.91.66 
+#
+#
+#makefile_mips_IRIX64-6.5_CC-n32-7.2.1.3m_LEDA 
+#
+#makefile_sparc_SunOS-5.6_CC-5.0 
+#/pub/blabla/src/geometric/CGAL/CGAL-1.2/make/makefile_sparc_SunOS-5.6_g++-egcs-2.91.66_LEDA
 
 include $(CGAL_MAKEFILE)
 
@@ -19,7 +25,7 @@ include $(CGAL_MAKEFILE)
 
 CXXFLAGS = \
            $(TESTSUITE_CXXFLAGS) \
-           -I./include \
+           -I./include -I../../include \
            $(CGAL_CXXFLAGS) \
            -g
 

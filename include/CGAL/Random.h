@@ -1,6 +1,6 @@
 // ======================================================================
 //
-// Copyright (c) 1997,1998 The CGAL Consortium
+// Copyright (c) 1999 The GALIA Consortium
 //
 // This software and related documentation is part of the
 // Computational Geometry Algorithms Library (CGAL).
@@ -16,39 +16,38 @@
 // - Development licenses grant access to the source code of the library 
 //   to develop programs. These programs may be sold to other parties as 
 //   executable code. To obtain a development license, please contact
-//   the CGAL Consortium (at cgal@cs.uu.nl).
+//   the GALIA Consortium (at cgal@cs.uu.nl).
 // - Commercialization licenses grant access to the source code and the
 //   right to sell development licenses. To obtain a commercialization 
-//   license, please contact the CGAL Consortium (at cgal@cs.uu.nl).
+//   license, please contact the GALIA Consortium (at cgal@cs.uu.nl).
 //
 // This software and documentation is provided "as-is" and without
 // warranty of any kind. In no event shall the CGAL Consortium be
 // liable for any damage of any kind.
 //
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// The GALIA Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany) Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+// (Germany), Max-Planck-Institute Saarbrucken (Germany),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-1.2
-// release_date  : 1999, January 18
+// release       : CGAL-2.0
+// release_date  : 1999, June 03
 //
 // file          : include/CGAL/Random.h
-// package       : Random (1.12)
-// chapter       : $CGAL_Chapter: Random Sources and Geometric Object Genera. $
+// package       : Random_numbers (2.0.1)
+// chapter       : $CGAL_Chapter: Random Numbers Generator $
 //
-// source        : web/Random/Random.aw
-// revision      : $Revision: 1.15 $
-// revision_date : $Date: 1998/05/15 09:33:52 $
+// source        : web/Random_numbers/Random.aw
+// revision      : $Revision: 2.2 $
+// revision_date : $Date: 1999/03/04 16:45:35 $
 // author(s)     : Sven Schönherr
 //
 // coordinator   : INRIA Sophia-Antipolis (<Herve.Bronnimann>)
 //
 // implementation: Random Numbers Generator
-//
 // email         : cgal@cs.uu.nl
 //
 // ======================================================================
@@ -56,26 +55,28 @@
 #ifndef CGAL_RANDOM_H
 #define CGAL_RANDOM_H
 
-// Class declaration
-// =================
-class CGAL_Random;
-
-// Class interface
-// ===============
 // includes
 #ifndef CGAL_BASIC_H
 #  include <CGAL/basic.h>
 #endif
 
-class CGAL_Random {
+CGAL_BEGIN_NAMESPACE
+
+// Class declaration
+// =================
+class Random;
+
+// Class interface
+// ===============
+class Random {
   public:
     // types
-    typedef  unsigned short  Seed[3];                   // 48 Bits
+    typedef  unsigned short  State[3];                  // 48 Bits
     
     // creation
-    CGAL_Random( );
-    CGAL_Random( Seed seed);
-    CGAL_Random( long init);
+    Random( );
+    Random( long seed);
+    Random( State state);
     
     // operations
     bool    get_bool  ( );
@@ -84,59 +85,65 @@ class CGAL_Random {
     
     int     operator () ( int upper);
     
-    // seed functions
-    void       save_seed( Seed      & seed) const;
-    void    restore_seed( Seed const& seed);
+    // state functions
+    void       save_state(       State& state) const;
+    void    restore_state( const State& state);
     
     // equality test
-    bool  operator == ( CGAL_Random const& rnd) const;
+    bool  operator == ( const Random& rnd) const;
 
   private:
     // data members
-    unsigned short  _seed[3];                           // 48 Bits
+    unsigned short  _state[3];                          // 48 Bits
 };
 
 // Global variables
 // ================
-extern  CGAL_Random  CGAL_random;
+extern  Random  default_random;
+
+CGAL_END_NAMESPACE
 
 // ============================================================================
 
 // Class implementation (inline functions)
 // =======================================
-// operations
-#ifndef CGAL_PROTECT_STDLIB_H
-#  include <stdlib.h>
+// includes
+#ifndef CGAL_PROTECT_CSTDLIB
+#  include <cstdlib>
+#  define CGAL_PROTECT_CSTDLIB
 #endif
 
+CGAL_BEGIN_NAMESPACE
+
+// operations
 inline
 bool
-CGAL_Random::
+Random::
 get_bool( )
 {
-    return( CGAL_static_cast( bool, ( erand48( _seed) >= 0.5)));
+    return( CGAL_static_cast( bool, ( erand48( _state) >= 0.5)));
 }
 
 inline
 int
-CGAL_Random::
+Random::
 get_int( int lower, int upper)
 {
     return( lower + CGAL_static_cast( int,
-              CGAL_static_cast( double, upper-lower) * erand48( _seed)));
+        CGAL_static_cast( double, upper-lower) * erand48( _state)));
 }
 
 inline
 double
-CGAL_Random::
+Random::
 get_double( double lower, double upper)
 {
-    return( lower + ( upper-lower) * erand48( _seed));
+    return( lower + ( upper-lower) * erand48( _state));
 }
 
 inline
 int
-CGAL_Random::
+Random::
 operator () ( int upper)
 {
     return( get_int( 0, upper));
@@ -144,14 +151,16 @@ operator () ( int upper)
 
 inline
 bool
-CGAL_Random::
-operator == ( CGAL_Random const& rnd) const
+Random::
+operator == ( const Random& rnd) const
 {
     return( CGAL_static_cast( bool,
-                ( _seed[ 0] == rnd._seed[ 0]) &&
-                ( _seed[ 1] == rnd._seed[ 1]) &&
-                ( _seed[ 2] == rnd._seed[ 2]) ) );
+                ( _state[ 0] == rnd._state[ 0]) &&
+                ( _state[ 1] == rnd._state[ 1]) &&
+                ( _state[ 2] == rnd._state[ 2]) ) );
 }
+
+CGAL_END_NAMESPACE
 
 #endif // CGAL_RANDOM_H
 

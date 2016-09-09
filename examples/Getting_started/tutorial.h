@@ -12,30 +12,30 @@
 #include <CGAL/Triangulation_2.h>
 #include <CGAL/Delaunay_triangulation_2.h>
 
-#include <list.h>
+#include <list>
 
-typedef CGAL_Cartesian<double> TutorialR;
-typedef CGAL_Point_2<TutorialR> Point_2;
-typedef CGAL_Vector_2<TutorialR> Vector_2;
-typedef CGAL_Segment_2<TutorialR> Segment_2;
-typedef CGAL_Triangle_2<TutorialR> Triangle_2;
-typedef CGAL_Circle_2<TutorialR> Circle_2;
-typedef CGAL_Bbox_2 Bbox_2;
-typedef CGAL_Polygon_traits_2<TutorialR> Polygon_traits_2;
-typedef list< Point_2 > Polygon_Container_2;
-typedef CGAL_Polygon_2< Polygon_traits_2, Polygon_Container_2 > Polygon_2;
-typedef CGAL_Aff_transformation_2<TutorialR> Transformation_2;
+typedef CGAL::Cartesian<double> TutorialR;
+typedef CGAL::Point_2<TutorialR> Point;
+typedef CGAL::Vector_2<TutorialR> Vector;
+typedef CGAL::Segment_2<TutorialR> Segment;
+typedef CGAL::Triangle_2<TutorialR> Triangle;
+typedef CGAL::Circle_2<TutorialR> Circle;
+typedef CGAL::Bbox_2 Bbox;
+typedef CGAL::Polygon_traits_2<TutorialR> Polygon_traits;
+typedef std::list< Point > Polygon_Container;
+typedef CGAL::Polygon_2< Polygon_traits, Polygon_Container > Polygon;
+typedef CGAL::Aff_transformation_2<TutorialR> Transformation;
 
-typedef CGAL_Triangulation_euclidean_traits_2<TutorialR> EucliTraits;
-typedef CGAL_Triangulation_vertex_base_2<EucliTraits> TrianVbase;
-typedef CGAL_Triangulation_face_base_2<EucliTraits> TrianFbase;
-typedef CGAL_Triangulation_default_data_structure_2<EucliTraits,
+typedef CGAL::Triangulation_euclidean_traits_2<TutorialR> EucliTraits;
+typedef CGAL::Triangulation_vertex_base_2<EucliTraits> TrianVbase;
+typedef CGAL::Triangulation_face_base_2<EucliTraits> TrianFbase;
+typedef CGAL::Triangulation_default_data_structure_2<EucliTraits,
     TrianVbase, TrianFbase> TrianDs;
-typedef CGAL_Triangulation_2
+typedef CGAL::Triangulation_2
     <EucliTraits, TrianDs>
-    Triangulation_2;
-typedef CGAL_Delaunay_triangulation_2
+    Triangulation;
+typedef CGAL::Delaunay_triangulation_2
     < EucliTraits, TrianDs >
-    Delaunay_triangulation_2;
+    Delaunay_triangulation;
 
 

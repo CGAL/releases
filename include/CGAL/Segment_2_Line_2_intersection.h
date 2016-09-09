@@ -1,7 +1,7 @@
 
 // ======================================================================
 //
-// Copyright (c) 1998 The CGAL Consortium
+// Copyright (c) 1999 The GALIA Consortium
 //
 // This software and related documentation is part of the
 // Computational Geometry Algorithms Library (CGAL).
@@ -17,33 +17,32 @@
 // - Development licenses grant access to the source code of the library 
 //   to develop programs. These programs may be sold to other parties as 
 //   executable code. To obtain a development license, please contact
-//   the CGAL Consortium (at cgal@cs.uu.nl).
+//   the GALIA Consortium (at cgal@cs.uu.nl).
 // - Commercialization licenses grant access to the source code and the
 //   right to sell development licenses. To obtain a commercialization 
-//   license, please contact the CGAL Consortium (at cgal@cs.uu.nl).
+//   license, please contact the GALIA Consortium (at cgal@cs.uu.nl).
 //
 // This software and documentation is provided "as-is" and without
 // warranty of any kind. In no event shall the CGAL Consortium be
 // liable for any damage of any kind.
 //
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// The GALIA Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany) Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+// (Germany), Max-Planck-Institute Saarbrucken (Germany),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-1.2
-// release_date  : 1999, January 18
+// release       : CGAL-2.0
+// release_date  : 1999, June 03
 //
 // file          : include/CGAL/Segment_2_Line_2_intersection.h
-// package       : Intersections_2 (1.7)
+// package       : Intersections_2 (2.1.2)
 // source        : intersection_2_1.fw
 // author(s)     : Geert-Jan Giezeman
 //
 // coordinator   : Saarbruecken
-//
 //
 // email         : cgal@cs.uu.nl
 //
@@ -69,14 +68,16 @@
 #include <CGAL/number_utils.h>
 #endif // CGAL_NUMBER_UTILS_H
 
+CGAL_BEGIN_NAMESPACE
+
 template <class R>
-class CGAL_Segment_2_Line_2_pair {
+class Segment_2_Line_2_pair {
 public:
     enum Intersection_results {NO, POINT, SEGMENT};
-    CGAL_Segment_2_Line_2_pair() ;
-    CGAL_Segment_2_Line_2_pair(CGAL_Segment_2<R> const *seg,
-                            CGAL_Line_2<R> const *line);
-    ~CGAL_Segment_2_Line_2_pair() {}
+    Segment_2_Line_2_pair() ;
+    Segment_2_Line_2_pair(Segment_2<R> const *seg,
+                            Line_2<R> const *line);
+    ~Segment_2_Line_2_pair() {}
 
 #ifndef CGAL_CFG_RETURN_TYPE_BUG_2
     Intersection_results intersection_type() const;
@@ -86,21 +87,21 @@ public:
     if (_known)
         return _result;
     // The non const this pointer is used to cast away const.
-    CGAL_Segment_2_Line_2_pair<R> *ncthis =
-            (CGAL_Segment_2_Line_2_pair<R> *) this;
+    Segment_2_Line_2_pair<R> *ncthis =
+            (Segment_2_Line_2_pair<R> *) this;
     ncthis->_known = true;
-    const CGAL_Line_2<R> &l1 = _seg->supporting_line();
-    CGAL_Line_2_Line_2_pair<R> linepair(&l1, _line);
+    const Line_2<R> &l1 = _seg->supporting_line();
+    Line_2_Line_2_pair<R> linepair(&l1, _line);
     switch ( linepair.intersection_type()) {
-    case CGAL_Line_2_Line_2_pair<R>::NO:
+    case Line_2_Line_2_pair<R>::NO:
         ncthis->_result = NO;
         break;
-    case CGAL_Line_2_Line_2_pair<R>::POINT:
+    case Line_2_Line_2_pair<R>::POINT:
         linepair.intersection(ncthis->_intersection_point);
         ncthis->_result = (_seg->collinear_has_on(_intersection_point) )
                 ? POINT : NO;
         break;
-    case CGAL_Line_2_Line_2_pair<R>::LINE:
+    case Line_2_Line_2_pair<R>::LINE:
         ncthis->_result = SEGMENT;
         break;
     }
@@ -109,83 +110,91 @@ public:
 
 #endif // CGAL_CFG_RETURN_TYPE_BUG_2
 
-    bool                intersection(CGAL_Point_2<R> &result) const;
-    bool                intersection(CGAL_Segment_2<R> &result) const;
+    bool                intersection(Point_2<R> &result) const;
+    bool                intersection(Segment_2<R> &result) const;
 protected:
-    CGAL_Segment_2<R> const*_seg;
-    CGAL_Line_2<R> const *  _line;
+    Segment_2<R> const*_seg;
+    Line_2<R> const *  _line;
     bool                    _known;
     Intersection_results     _result;
-    CGAL_Point_2<R>         _intersection_point;
+    Point_2<R>         _intersection_point;
 };
 
 template <class R>
-inline bool CGAL_do_intersect(
-    const CGAL_Segment_2<R> &p1,
-    const CGAL_Line_2<R> &p2)
+inline bool do_intersect(
+    const Segment_2<R> &p1,
+    const Line_2<R> &p2)
 {
-    typedef CGAL_Segment_2_Line_2_pair<R> pair_t;
+    typedef Segment_2_Line_2_pair<R> pair_t;
     pair_t pair(&p1, &p2);
     return pair.intersection_type() != pair_t::NO;
 }
+
+CGAL_END_NAMESPACE
 
 #ifndef CGAL_OBJECT_H
 #include <CGAL/Object.h>
 #endif // CGAL_OBJECT_H
 
+CGAL_BEGIN_NAMESPACE
+
 template <class R>
-CGAL_Object
-CGAL_intersection(const CGAL_Segment_2<R> &seg, const CGAL_Line_2<R> &line)
+Object
+intersection(const Segment_2<R> &seg, const Line_2<R> &line)
 {
-    typedef CGAL_Segment_2_Line_2_pair<R> is_t;
+    typedef Segment_2_Line_2_pair<R> is_t;
     is_t ispair(&seg, &line);
     switch (ispair.intersection_type()) {
     case is_t::NO:
     default:
-        return CGAL_Object();
+        return Object();
     case is_t::POINT: {
-        CGAL_Point_2<R> pt;
+        Point_2<R> pt;
         ispair.intersection(pt);
-        return CGAL_Object(new CGAL_Wrapper< CGAL_Point_2<R> >(pt));
+        return Object(new Wrapper< Point_2<R> >(pt));
     }
     case is_t::SEGMENT:
-        return CGAL_Object(new CGAL_Wrapper< CGAL_Segment_2<R> >(seg));
+        return Object(new Wrapper< Segment_2<R> >(seg));
     }
 }
 
 template <class R>
-class CGAL_Line_2_Segment_2_pair: public CGAL_Segment_2_Line_2_pair<R> {
+class Line_2_Segment_2_pair: public Segment_2_Line_2_pair<R> {
 public:
-    CGAL_Line_2_Segment_2_pair(
-            CGAL_Line_2<R> const *line,
-            CGAL_Segment_2<R> const *seg) :
-                                CGAL_Segment_2_Line_2_pair<R>(seg, line) {}
+    Line_2_Segment_2_pair(
+            Line_2<R> const *line,
+            Segment_2<R> const *seg) :
+                                Segment_2_Line_2_pair<R>(seg, line) {}
 };
 
 template <class R>
-inline bool CGAL_do_intersect(
-    const CGAL_Line_2<R> &p1,
-    const CGAL_Segment_2<R> &p2)
+inline bool do_intersect(
+    const Line_2<R> &p1,
+    const Segment_2<R> &p2)
 {
-    typedef CGAL_Line_2_Segment_2_pair<R> pair_t;
+    typedef Line_2_Segment_2_pair<R> pair_t;
     pair_t pair(&p1, &p2);
     return pair.intersection_type() != pair_t::NO;
 }
 
 template <class R>
-inline CGAL_Object
-CGAL_intersection(const CGAL_Line_2<R> &line, const CGAL_Segment_2<R> &seg)
+inline Object
+intersection(const Line_2<R> &line, const Segment_2<R> &seg)
 {
-    return CGAL_intersection(seg, line);
+    return intersection(seg, line);
 }
+
+CGAL_END_NAMESPACE
 
 
 #ifndef CGAL_LINE_2_LINE_2_INTERSECTION_H
 #include <CGAL/Line_2_Line_2_intersection.h>
 #endif // CGAL_LINE_2_LINE_2_INTERSECTION_H
 
+CGAL_BEGIN_NAMESPACE
+
 template <class R>
-CGAL_Segment_2_Line_2_pair<R>::CGAL_Segment_2_Line_2_pair()
+Segment_2_Line_2_pair<R>::Segment_2_Line_2_pair()
 {
     _seg = 0;
     _line = 0;
@@ -193,8 +202,8 @@ CGAL_Segment_2_Line_2_pair<R>::CGAL_Segment_2_Line_2_pair()
 }
 
 template <class R>
-CGAL_Segment_2_Line_2_pair<R>::CGAL_Segment_2_Line_2_pair(
-    CGAL_Segment_2<R> const *seg, CGAL_Line_2<R> const *line)
+Segment_2_Line_2_pair<R>::Segment_2_Line_2_pair(
+    Segment_2<R> const *seg, Line_2<R> const *line)
 {
     _seg = seg;
     _line = line;
@@ -203,27 +212,27 @@ CGAL_Segment_2_Line_2_pair<R>::CGAL_Segment_2_Line_2_pair(
 
 #ifndef CGAL_CFG_RETURN_TYPE_BUG_2
 template <class R>
-CGAL_Segment_2_Line_2_pair<R>::Intersection_results
-CGAL_Segment_2_Line_2_pair<R>::intersection_type() const
+Segment_2_Line_2_pair<R>::Intersection_results
+Segment_2_Line_2_pair<R>::intersection_type() const
 {
     if (_known)
         return _result;
     // The non const this pointer is used to cast away const.
-    CGAL_Segment_2_Line_2_pair<R> *ncthis =
-            (CGAL_Segment_2_Line_2_pair<R> *) this;
+    Segment_2_Line_2_pair<R> *ncthis =
+            (Segment_2_Line_2_pair<R> *) this;
     ncthis->_known = true;
-    const CGAL_Line_2<R> &l1 = _seg->supporting_line();
-    CGAL_Line_2_Line_2_pair<R> linepair(&l1, _line);
+    const Line_2<R> &l1 = _seg->supporting_line();
+    Line_2_Line_2_pair<R> linepair(&l1, _line);
     switch ( linepair.intersection_type()) {
-    case CGAL_Line_2_Line_2_pair<R>::NO:
+    case Line_2_Line_2_pair<R>::NO:
         ncthis->_result = NO;
         break;
-    case CGAL_Line_2_Line_2_pair<R>::POINT:
+    case Line_2_Line_2_pair<R>::POINT:
         linepair.intersection(ncthis->_intersection_point);
         ncthis->_result = (_seg->collinear_has_on(_intersection_point) )
                 ? POINT : NO;
         break;
-    case CGAL_Line_2_Line_2_pair<R>::LINE:
+    case Line_2_Line_2_pair<R>::LINE:
         ncthis->_result = SEGMENT;
         break;
     }
@@ -234,7 +243,7 @@ CGAL_Segment_2_Line_2_pair<R>::intersection_type() const
 
 template <class R>
 bool
-CGAL_Segment_2_Line_2_pair<R>::intersection(CGAL_Point_2<R> &result) const
+Segment_2_Line_2_pair<R>::intersection(Point_2<R> &result) const
 {
     if (!_known)
         intersection_type();
@@ -246,7 +255,7 @@ CGAL_Segment_2_Line_2_pair<R>::intersection(CGAL_Point_2<R> &result) const
 
 template <class R>
 bool
-CGAL_Segment_2_Line_2_pair<R>::intersection(CGAL_Segment_2<R> &result) const
+Segment_2_Line_2_pair<R>::intersection(Segment_2<R> &result) const
 {
     if (!_known)
         intersection_type();
@@ -255,6 +264,9 @@ CGAL_Segment_2_Line_2_pair<R>::intersection(CGAL_Segment_2<R> &result) const
     result = *_seg;
     return true;
 }
+
+CGAL_END_NAMESPACE
+
 
 
 #endif

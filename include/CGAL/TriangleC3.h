@@ -1,6 +1,6 @@
 // ======================================================================
 //
-// Copyright (c) 1997 The CGAL Consortium
+// Copyright (c) 1999 The GALIA Consortium
 //
 // This software and related documentation is part of the
 // Computational Geometry Algorithms Library (CGAL).
@@ -16,35 +16,34 @@
 // - Development licenses grant access to the source code of the library 
 //   to develop programs. These programs may be sold to other parties as 
 //   executable code. To obtain a development license, please contact
-//   the CGAL Consortium (at cgal@cs.uu.nl).
+//   the GALIA Consortium (at cgal@cs.uu.nl).
 // - Commercialization licenses grant access to the source code and the
 //   right to sell development licenses. To obtain a commercialization 
-//   license, please contact the CGAL Consortium (at cgal@cs.uu.nl).
+//   license, please contact the GALIA Consortium (at cgal@cs.uu.nl).
 //
 // This software and documentation is provided "as-is" and without
 // warranty of any kind. In no event shall the CGAL Consortium be
 // liable for any damage of any kind.
 //
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// The GALIA Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany) Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+// (Germany), Max-Planck-Institute Saarbrucken (Germany),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-1.2
-// release_date  : 1999, January 18
+// release       : CGAL-2.0
+// release_date  : 1999, June 03
 //
 // file          : include/CGAL/TriangleC3.h
-// package       : C3 (1.6)
+// package       : C3 (2.1.5)
 // source        : web/TriangleC3.fw
-// revision      : $Revision: 1.5 $
-// revision_date : $Date: 1997/12/15 11:46:12 $
+// revision      : $Revision: 1.11 $
+// revision_date : $Date: 1999/05/24 06:41:38 $
 // author(s)     : Andreas.Fabri
 //
 // coordinator   : INRIA Sophia-Antipolis
-//
 //
 // email         : cgal@cs.uu.nl
 //
@@ -54,198 +53,200 @@
 #ifndef CGAL_TRIANGLEC3_H
 #define CGAL_TRIANGLEC3_H
 
+#ifndef CGAL_THREETUPLE_H
+#include <CGAL/Threetuple.h>
+#endif // CGAL_THREETUPLE_H
+#ifndef CGAL_PLANEC3_H
 #include <CGAL/PlaneC3.h>
+#endif // CGAL_PLANEC3_H
+#ifndef CGAL_SOLVE_H
 #include <CGAL/solve.h>
+#endif // CGAL_SOLVE_H
+
+CGAL_BEGIN_NAMESPACE
 
 template <class FT>
-class CGAL_TriangleC3 : public CGAL_Handle
+class TriangleC3 : public Handle
 {
 public:
-                      CGAL_TriangleC3();
-                      CGAL_TriangleC3(const CGAL_TriangleC3<FT> &t);
-                      CGAL_TriangleC3(const CGAL_PointC3<FT> &p,
-                                      const CGAL_PointC3<FT> &q,
-                                      const CGAL_PointC3<FT> &r);
+                 TriangleC3();
+                 TriangleC3(const TriangleC3<FT> &t);
+                 TriangleC3(const PointC3<FT> &p,
+                            const PointC3<FT> &q,
+                            const PointC3<FT> &r);
 
-                      ~CGAL_TriangleC3();
+                 ~TriangleC3();
 
-  CGAL_TriangleC3<FT> &operator=(const CGAL_TriangleC3<FT> &t);
+  TriangleC3<FT> &operator=(const TriangleC3<FT> &t);
 
-  bool                operator==(const CGAL_TriangleC3<FT> &t) const;
-  bool                operator!=(const CGAL_TriangleC3<FT> &t) const;
-  int                 id() const;
+  bool           operator==(const TriangleC3<FT> &t) const;
+  bool           operator!=(const TriangleC3<FT> &t) const;
+  long           id() const;
 
-  CGAL_PlaneC3<FT>    supporting_plane() const;
-
-
-  CGAL_TriangleC3     transform(const CGAL_Aff_transformationC3<FT> &t) const;
-
-  bool                has_on(const CGAL_PointC3<FT> &p) const;
-  bool                is_degenerate() const;
+  PlaneC3<FT>    supporting_plane() const;
 
 
-  CGAL_PointC3<FT>    vertex(int i) const;
-  CGAL_PointC3<FT>    operator[](int i) const;
+  TriangleC3     transform(const Aff_transformationC3<FT> &t) const;
 
-  CGAL_Bbox_3         bbox() const;
+  bool           has_on(const PointC3<FT> &p) const;
+  bool           is_degenerate() const;
+
+
+  PointC3<FT>    vertex(int i) const;
+  PointC3<FT>    operator[](int i) const;
+
+  Bbox_3         bbox() const;
 
 private:
-  CGAL__Threetuple< CGAL_PointC3<FT> >*   ptr() const;
+  _Threetuple< PointC3<FT> >*   ptr() const;
 };
 
+template < class FT >
+inline _Threetuple< PointC3<FT> > *TriangleC3<FT>::ptr() const
+{
+  return (_Threetuple< PointC3<FT> >*)PTR;
+}
 
 template < class FT >
-inline CGAL__Threetuple< CGAL_PointC3<FT> > *CGAL_TriangleC3<FT>::ptr() const
+TriangleC3<FT>::TriangleC3()
 {
-  return (CGAL__Threetuple< CGAL_PointC3<FT> >*)PTR;
+  PTR = new _Threetuple< PointC3<FT> >;
 }
 
 
 template < class FT >
-CGAL_TriangleC3<FT>::CGAL_TriangleC3()
-{
-  PTR = new CGAL__Threetuple< CGAL_PointC3<FT> >;
-}
-
-
-template < class FT >
-CGAL_TriangleC3<FT>::CGAL_TriangleC3(const CGAL_TriangleC3<FT> &t) :
-  CGAL_Handle(t)
+TriangleC3<FT>::TriangleC3(const TriangleC3<FT> &t) :
+  Handle(t)
 {}
 
 
 template < class FT >
-CGAL_TriangleC3<FT>::CGAL_TriangleC3(const CGAL_PointC3<FT> &p,
-                                 const CGAL_PointC3<FT> &q,
-                                 const CGAL_PointC3<FT> &r)
+TriangleC3<FT>::TriangleC3(const PointC3<FT> &p,
+                           const PointC3<FT> &q,
+                           const PointC3<FT> &r)
 {
-  PTR = new CGAL__Threetuple< CGAL_PointC3<FT> >(p, q, r);
+  PTR = new _Threetuple< PointC3<FT> >(p, q, r);
 }
 
 
 template < class FT >
-inline CGAL_TriangleC3<FT>::~CGAL_TriangleC3()
+inline TriangleC3<FT>::~TriangleC3()
 {}
 
 
 template < class FT >
-CGAL_TriangleC3<FT> &CGAL_TriangleC3<FT>::operator=(
-                                                const CGAL_TriangleC3<FT> &t)
+TriangleC3<FT> &TriangleC3<FT>::operator=(const TriangleC3<FT> &t)
 {
-  CGAL_Handle::operator=(t);
+  Handle::operator=(t);
   return *this;
 }
 template < class FT >
-bool CGAL_TriangleC3<FT>::operator==(const CGAL_TriangleC3<FT> &t) const
+bool
+TriangleC3<FT>::operator==(const TriangleC3<FT> &t) const
 {
   int i;
-  bool eq = false;
-  for(i = 0; i <= 2; i++)
-    {
-      if( vertex(0) == t.vertex(i) )
-        {
-          eq = true;
-          break;
-        }
-    }
-  if ( eq )
-    {
-      return ( vertex(1) == t.vertex(i+1) && vertex(2) == t.vertex(i+2) );
-    }
-  return false;
+  for(i=0; i<3; i++)
+    if ( vertex(0) == t.vertex(i) )
+       break;
+
+  return (i<3) && vertex(1) == t.vertex(i+1) && vertex(2) == t.vertex(i+2);
 }
 
 
 template < class FT >
-inline bool CGAL_TriangleC3<FT>::operator!=(const CGAL_TriangleC3<FT> &t) const
+inline
+bool
+TriangleC3<FT>::operator!=(const TriangleC3<FT> &t) const
 {
   return !(*this == t);
 }
 
 
 template < class FT >
-int CGAL_TriangleC3<FT>::id() const
+inline
+long
+TriangleC3<FT>::id() const
 {
-  return (int) PTR ;
+  return (long) PTR;
 }
 template < class FT >
-CGAL_PointC3<FT> CGAL_TriangleC3<FT>::vertex(int i) const
+PointC3<FT>
+TriangleC3<FT>::vertex(int i) const
 {
-  switch (i)
-    {
-    case 0: return ptr()->e0;
-    case 1: return ptr()->e1;
-    case 2: return ptr()->e2;
-    default: switch (i%3)
-               {
-               case 0: return ptr()->e0;
-               case 1: return ptr()->e1;
-               }
-    }
-  return ptr()->e2;
+  if (i<0) i=(i%3)+3;
+  else if (i>3) i=i%3;
+  return (i==0) ? ptr()->e0 :
+         (i==1) ? ptr()->e1 :
+                  ptr()->e2 ;
 }
 
 
 template < class FT >
-inline CGAL_PointC3<FT> CGAL_TriangleC3<FT>::operator[](int i) const
+inline
+PointC3<FT>
+TriangleC3<FT>::operator[](int i) const
 {
   return vertex(i);
 }
 
 template < class FT >
-inline CGAL_PlaneC3<FT> CGAL_TriangleC3<FT>::supporting_plane() const
+inline
+PlaneC3<FT>
+TriangleC3<FT>::supporting_plane() const
 {
-  return CGAL_PlaneC3<FT>(vertex(0), vertex(1), vertex(2));
+  return PlaneC3<FT>(vertex(0), vertex(1), vertex(2));
 }
 
 
 template < class FT >
-CGAL_Bbox_3 CGAL_TriangleC3<FT>::bbox() const
+Bbox_3
+TriangleC3<FT>::bbox() const
 {
   return vertex(0).bbox() + vertex(1).bbox() + vertex(2).bbox();
 }
 
 
 template < class FT >
-inline CGAL_TriangleC3<FT> CGAL_TriangleC3<FT>::transform(
-                                 const CGAL_Aff_transformationC3<FT> &t) const
+inline
+TriangleC3<FT>
+TriangleC3<FT>::transform(const Aff_transformationC3<FT> &t) const
 {
-  return CGAL_TriangleC3<FT>(t.transform(vertex(0)),
-                             t.transform(vertex(1)),
-                             t.transform(vertex(2)));
+  return TriangleC3<FT>(t.transform(vertex(0)),
+                        t.transform(vertex(1)),
+                        t.transform(vertex(2)));
 }
 template < class FT >
-bool CGAL_TriangleC3<FT>::has_on(const CGAL_PointC3<FT> &p) const
+bool
+TriangleC3<FT>::has_on(const PointC3<FT> &p) const
 {
-  CGAL_PointC3<FT> o = vertex(0) + supporting_plane().orthogonal_vector();
-  CGAL_VectorC3<FT> v0 = vertex(0)-o,
-                    v1 = vertex(1)-o,
-                    v2 = vertex(2)-o;
+  PointC3<FT> o = vertex(0) + supporting_plane().orthogonal_vector();
+  VectorC3<FT> v0 = vertex(0)-o,
+               v1 = vertex(1)-o,
+               v2 = vertex(2)-o;
 
   FT alpha, beta, gamma;
-
-  CGAL_solve(v0, v1, v2, p-o, alpha, beta, gamma);
-
-  return ((alpha >= FT(0)) && (beta >= FT(0))
-          && (gamma >= FT(0)) && ((alpha+beta+gamma == FT(1))));
+  solve(v0, v1, v2, p-o, alpha, beta, gamma);
+  return (alpha >= FT(0)) && (beta >= FT(0)) && (gamma >= FT(0))
+      && ((alpha+beta+gamma == FT(1)));
 }
 
 
 template < class FT >
-bool CGAL_TriangleC3<FT>::is_degenerate() const
+bool
+TriangleC3<FT>::is_degenerate() const
 {
-  return CGAL_collinear(vertex(0),vertex(1),vertex(2));
+  return collinear(vertex(0),vertex(1),vertex(2));
 }
 
 
 #ifndef CGAL_NO_OSTREAM_INSERT_TRIANGLEC3
 template < class FT >
-ostream &operator<<(ostream &os, const CGAL_TriangleC3<FT> &t)
+ostream &operator<<(ostream &os, const TriangleC3<FT> &t)
 {
-    switch(os.iword(CGAL_IO::mode)) {
-    case CGAL_IO::ASCII :
+    switch(os.iword(IO::mode)) {
+    case IO::ASCII :
         return os << t[0] << ' ' << t[1] << ' ' << t[2];
-    case CGAL_IO::BINARY :
+    case IO::BINARY :
         return os << t[0]  << t[1]  << t[2];
     default:
         os << "TriangleC3(" << t[0] <<  ", " << t[1] <<   ", " << t[2] <<")";
@@ -256,17 +257,18 @@ ostream &operator<<(ostream &os, const CGAL_TriangleC3<FT> &t)
 
 #ifndef CGAL_NO_ISTREAM_EXTRACT_TRIANGLEC3
 template < class FT >
-istream &operator>>(istream &is, CGAL_TriangleC3<FT> &t)
+istream &operator>>(istream &is, TriangleC3<FT> &t)
 {
-    CGAL_PointC3<FT> p, q, r;
+    PointC3<FT> p, q, r;
 
     is >> p >> q >> r;
 
-    t = CGAL_TriangleC3<FT>(p, q, r);
+    t = TriangleC3<FT>(p, q, r);
     return is;
 }
 #endif // CGAL_NO_ISTREAM_EXTRACT_TRIANGLEC3
 
 
+CGAL_END_NAMESPACE
 
 #endif

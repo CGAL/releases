@@ -1,6 +1,6 @@
 // ======================================================================
 //
-// Copyright (c) 1998 The CGAL Consortium
+// Copyright (c) 1999 The GALIA Consortium
 //
 // This software and related documentation is part of the
 // Computational Geometry Algorithms Library (CGAL).
@@ -16,34 +16,33 @@
 // - Development licenses grant access to the source code of the library 
 //   to develop programs. These programs may be sold to other parties as 
 //   executable code. To obtain a development license, please contact
-//   the CGAL Consortium (at cgal@cs.uu.nl).
+//   the GALIA Consortium (at cgal@cs.uu.nl).
 // - Commercialization licenses grant access to the source code and the
 //   right to sell development licenses. To obtain a commercialization 
-//   license, please contact the CGAL Consortium (at cgal@cs.uu.nl).
+//   license, please contact the GALIA Consortium (at cgal@cs.uu.nl).
 //
 // This software and documentation is provided "as-is" and without
 // warranty of any kind. In no event shall the CGAL Consortium be
 // liable for any damage of any kind.
 //
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// The GALIA Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany) Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+// (Germany), Max-Planck-Institute Saarbrucken (Germany),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
-// release       : CGAL-1.2
-// release_date  : 1999, January 18
+// release       : CGAL-2.0
+// release_date  : 1999, June 03
 //
 // file          : include/CGAL/ch_selected_extreme_points_2.h
-// package       : Convex_hull (1.3.2)
+// package       : Convex_hull (2.0.8)
 // source        : convex_hull_2.lw
-// revision      : 1.3.2
-// revision_date : 09 Dec 1998
+// revision      : 2.0.8
+// revision_date : 06 May 1999
 // author(s)     : Stefan Schirra
 //
 // coordinator   : MPI, Saarbruecken
-//
 // email         : cgal@cs.uu.nl
 //
 // ======================================================================
@@ -55,18 +54,20 @@
 #include <CGAL/ch_utils.h>
 #ifdef CGAL_REP_CLASS_DEFINED
 #include <CGAL/convex_hull_traits_2.h>
-#ifdef CGAL_STL_GCC
-#ifndef CGAL_GNU_ISTREAM_ITERATOR_VALUE_TYPE_FIX_H
+#ifdef STL_GCC
+#ifndef GNU_ISTREAM_ITERATOR_VALUE_TYPE_FIX_H
 #include <CGAL/gnu_istream_iterator_value_type_fix.h>
-#endif // CGAL_GNU_ISTREAM_ITERATOR_VALUE_TYPE_FIX_H
-#endif // CGAL_STL_GCC
+#endif // GNU_ISTREAM_ITERATOR_VALUE_TYPE_FIX_H
+#endif // STL_GCC
 #endif // CGAL_REP_CLASS_DEFINED
-#ifndef CGAL_CH_NO_POSTCONDITIONS
+#ifndef CH_NO_POSTCONDITIONS
 #include <CGAL/convexity_check_2.h>
 
-#endif // CGAL_CH_NO_POSTCONDITIONS
+#endif // CH_NO_POSTCONDITIONS
 
 
+
+CGAL_BEGIN_NAMESPACE
 
 /*{\Moptions
 outfile=cgal_ch_I_sep.man
@@ -75,7 +76,7 @@ outfile=cgal_ch_I_sep.man
 /*{\Mtext
 \settowidth{\typewidth}{|OutputIterator|}
 \addtolength{\typewidth}{\colsep}
-\settowidth{\callwidth}{|CGAL_ch_|}
+\settowidth{\callwidth}{|ch_|}
 \computewidths
 }*/
 
@@ -84,7 +85,7 @@ outfile=cgal_ch_I_sep.man
 
 template <class ForwardIterator, class Traits>
 void
-CGAL_ch_nswe_point( ForwardIterator first, ForwardIterator last,
+ch_nswe_point( ForwardIterator first, ForwardIterator last,
                     ForwardIterator& n,
                     ForwardIterator& s,
                     ForwardIterator& w,
@@ -108,13 +109,13 @@ outfile=cgal_ch_I_sep2.man
 /*{\Mtext
 \settowidth{\typewidth}{|OutputIterator|}
 \addtolength{\typewidth}{\colsep}
-\settowidth{\callwidth}{|CGAL_ch_|}
+\settowidth{\callwidth}{|ch_|}
 \computewidths
 }*/
 
 template <class ForwardIterator, class Traits>
 void
-CGAL_ch_ns_point( ForwardIterator first, ForwardIterator last,
+ch_ns_point( ForwardIterator first, ForwardIterator last,
                   ForwardIterator& n,
                   ForwardIterator& s,
                   const Traits& ch_traits );
@@ -128,7 +129,7 @@ all iterators |it| in the range. Similarly, for |s| the inequation
 
 template <class ForwardIterator, class Traits>
 void
-CGAL_ch_we_point( ForwardIterator first, ForwardIterator last,
+ch_we_point( ForwardIterator first, ForwardIterator last,
                   ForwardIterator& w,
                   ForwardIterator& e,
                   const Traits& ch_traits );
@@ -143,7 +144,7 @@ all iterators |it| in the range. Similarly, for |e| the inequation
 
 template <class ForwardIterator, class Traits>
 void
-CGAL_ch_n_point( ForwardIterator first, ForwardIterator last,
+ch_n_point( ForwardIterator first, ForwardIterator last,
                  ForwardIterator& n,
                  const Traits& ch_traits );
 /*{\Mfuncl traverses the range [|first|,|last|). After execution, 
@@ -155,7 +156,7 @@ all iterators |it| in the range.\\
 
 template <class ForwardIterator, class Traits>
 void
-CGAL_ch_s_point( ForwardIterator first, ForwardIterator last,
+ch_s_point( ForwardIterator first, ForwardIterator last,
                  ForwardIterator& s,
                  const Traits& ch_traits );
 /*{\Mfuncl traverses the range [|first|,|last|). After execution, 
@@ -167,7 +168,7 @@ all iterators |it| in the range.\\
 
 template <class ForwardIterator, class Traits>
 void
-CGAL_ch__e_point( ForwardIterator first, ForwardIterator last,
+ch__e_point( ForwardIterator first, ForwardIterator last,
                   ForwardIterator& e,
                   const Traits& ch_traits );
 /*{\Mfuncl traverses the range [|first|,|last|). After execution, 
@@ -179,7 +180,7 @@ for all iterators |it| in the range.\\
 
 template <class ForwardIterator, class Traits>
 void
-CGAL_ch_w_point( ForwardIterator first, ForwardIterator last,
+ch_w_point( ForwardIterator first, ForwardIterator last,
                  ForwardIterator& w,
                  const Traits& ch_traits );
 /*{\Mfuncl traverses the range [|first|,|last|). After execution, 
@@ -196,30 +197,30 @@ outfile=cgal_ch_sep.man
 /*{\Mtext 
 \settowidth{\typewidth}{|OutputIterator|}
 \addtolength{\typewidth}{\colsep}
-\settowidth{\callwidth}{|CGAL_ch_|}
+\settowidth{\callwidth}{|ch_|}
 \computewidths
 }*/
 
 template <class ForwardIterator, class R>
 inline
 void
-CGAL_ch__nswe_point( ForwardIterator first, ForwardIterator last,
+ch__nswe_point( ForwardIterator first, ForwardIterator last,
                      ForwardIterator& n,
                      ForwardIterator& s,
                      ForwardIterator& w,
                      ForwardIterator& e,
-                     CGAL_Point_2<R>* )
-{ CGAL_ch_nswe_point(first, last, n, s, w, e, CGAL_convex_hull_traits_2<R>()); }
+                     Point_2<R>* )
+{ ch_nswe_point(first, last, n, s, w, e, convex_hull_traits_2<R>()); }
 
 template <class ForwardIterator>
 inline
 void
-CGAL_ch_nswe_point( ForwardIterator first, ForwardIterator last,
+ch_nswe_point( ForwardIterator first, ForwardIterator last,
                     ForwardIterator& n,
                     ForwardIterator& s,
                     ForwardIterator& w,
                     ForwardIterator& e)
-{ CGAL_ch__nswe_point(first, last, n, s, w, e, value_type(first) ); }
+{ ch__nswe_point(first, last, n, s, w, e, std::value_type(first) ); }
 /*{\Mfuncl traverses the range [|first|,|last|). 
 After execution, the value of |n| is
 an iterator in the range such that |*n| $\ge_{\rm yx}$ |*it| for
@@ -236,27 +237,27 @@ outfile=cgal_ch_sep.man
 /*{\Mtext 
 \settowidth{\typewidth}{|OutputIterator|}
 \addtolength{\typewidth}{\colsep}
-\settowidth{\callwidth}{|CGAL_ch_|}
+\settowidth{\callwidth}{|ch_|}
 \computewidths
 }*/
 
 template <class ForwardIterator, class R>
 inline
 void
-CGAL_ch__n_point( ForwardIterator first, ForwardIterator last,
+ch__n_point( ForwardIterator first, ForwardIterator last,
                  ForwardIterator& n, 
-                 CGAL_Point_2<R>* )
+                 Point_2<R>* )
 {
-  CGAL_ch_n_point(first, last, n, CGAL_convex_hull_traits_2<R>() );
+  ch_n_point(first, last, n, convex_hull_traits_2<R>() );
 }
 
 template <class ForwardIterator>
 inline
 void
-CGAL_ch_n_point( ForwardIterator first, ForwardIterator last,
+ch_n_point( ForwardIterator first, ForwardIterator last,
                  ForwardIterator& n)
 {
-  CGAL_ch__n_point(first, last, n, value_type(first) );
+  ch__n_point(first, last, n, std::value_type(first) );
 }
 /*{\Mfuncl traverses the range [|first|,|last|). After execution, 
 the value of |n| is
@@ -267,20 +268,20 @@ all iterators |it| in the range.
 template <class ForwardIterator, class R>
 inline
 void
-CGAL_ch__s_point( ForwardIterator first, ForwardIterator last,
+ch__s_point( ForwardIterator first, ForwardIterator last,
                   ForwardIterator& s,
-                  CGAL_Point_2<R>* )
+                  Point_2<R>* )
 {
-  CGAL_ch_s_point(first, last, s, CGAL_convex_hull_traits_2<R>() );
+  ch_s_point(first, last, s, convex_hull_traits_2<R>() );
 }
 
 template <class ForwardIterator>
 inline
 void
-CGAL_ch_s_point( ForwardIterator first, ForwardIterator last,
+ch_s_point( ForwardIterator first, ForwardIterator last,
                  ForwardIterator& s)
 {
-  CGAL_ch__s_point(first, last, s, value_type(first) );
+  ch__s_point(first, last, s, std::value_type(first) );
 }
 /*{\Mfuncl traverses the range [|first|,|last|). After execution, 
 the value of |s| is
@@ -291,20 +292,20 @@ all iterators |it| in the range.
 template <class ForwardIterator, class R>
 inline
 void
-CGAL_ch__e_point( ForwardIterator first, ForwardIterator last,
+ch__e_point( ForwardIterator first, ForwardIterator last,
                   ForwardIterator& e,
-                  CGAL_Point_2<R>* )
+                  Point_2<R>* )
 {
-  CGAL_ch_e_point(first, last, e, CGAL_convex_hull_traits_2<R>() );
+  ch_e_point(first, last, e, convex_hull_traits_2<R>() );
 }
 
 template <class ForwardIterator>
 inline
 void
-CGAL_ch_e_point( ForwardIterator first, ForwardIterator last,
+ch_e_point( ForwardIterator first, ForwardIterator last,
                   ForwardIterator& e)
 {
-  CGAL_ch__e_point(first, last, e, value_type(first) );
+  ch__e_point(first, last, e, std::value_type(first) );
 }
 /*{\Mfuncl traverses the range [|first|,|last|). 
 After execution, the value of |e| is
@@ -315,20 +316,20 @@ all iterators |it| in the range.
 template <class ForwardIterator, class R>
 inline
 void
-CGAL_ch__w_point( ForwardIterator first, ForwardIterator last,
+ch__w_point( ForwardIterator first, ForwardIterator last,
                   ForwardIterator& w,
-                  CGAL_Point_2<R>* )
+                  Point_2<R>* )
 {
-  CGAL_ch_w_point(first, last, w, CGAL_convex_hull_traits_2<R>() );
+  ch_w_point(first, last, w, convex_hull_traits_2<R>() );
 }
 
 template <class ForwardIterator>
 inline
 void
-CGAL_ch_w_point( ForwardIterator first, ForwardIterator last,
+ch_w_point( ForwardIterator first, ForwardIterator last,
                       ForwardIterator& w)
 {
- CGAL_ch__w_point(first, last, w, value_type(first) );
+ ch__w_point(first, last, w, std::value_type(first) );
 }
 /*{\Mfuncl traverses the range [|first|,|last|). After execution, 
 the value of |w| is
@@ -339,22 +340,22 @@ all iterators |it| in the range.
 template <class ForwardIterator, class R>
 inline
 void
-CGAL_ch__ns_point( ForwardIterator first, ForwardIterator last,
+ch__ns_point( ForwardIterator first, ForwardIterator last,
                    ForwardIterator& n,
                    ForwardIterator& s,
-                   CGAL_Point_2<R>* )
+                   Point_2<R>* )
 {
-  CGAL_ch_ns_point(first, last, n, s, CGAL_convex_hull_traits_2<R>() );
+  ch_ns_point(first, last, n, s, convex_hull_traits_2<R>() );
 }
 
 template <class ForwardIterator>
 inline
 void
-CGAL_ch_ns_point( ForwardIterator first, ForwardIterator last,
+ch_ns_point( ForwardIterator first, ForwardIterator last,
                   ForwardIterator& n,
                   ForwardIterator& s)
 {
-  CGAL_ch__ns_point(first, last, n, s, value_type(first) );
+  ch__ns_point(first, last, n, s, std::value_type(first) );
 }
 /*{\Mfuncl traverses the range [|first|,|last|). 
 After execution, the value of |n| is
@@ -365,22 +366,22 @@ all iterators |it| in the range. Similarly, for |s| the inequation
 template <class ForwardIterator, class R>
 inline
 void
-CGAL_ch__we_point( ForwardIterator first, ForwardIterator last,
+ch__we_point( ForwardIterator first, ForwardIterator last,
                    ForwardIterator& w,
                    ForwardIterator& e,
-                   CGAL_Point_2<R>* )
+                   Point_2<R>* )
 {
-  CGAL_ch_we_point(first, last, w, e, CGAL_convex_hull_traits_2<R>() );
+  ch_we_point(first, last, w, e, convex_hull_traits_2<R>() );
 }
 
 template <class ForwardIterator>
 inline
 void
-CGAL_ch_we_point( ForwardIterator first, ForwardIterator last,
+ch_we_point( ForwardIterator first, ForwardIterator last,
                   ForwardIterator& w,
                   ForwardIterator& e)
 {
-  CGAL_ch__we_point(first, last, w, e, value_type(first) );
+  ch__we_point(first, last, w, e, std::value_type(first) );
 }
 /*{\Mfuncl traverses the range [|first|,|last|). 
 After execution, the value of |w| is
@@ -388,6 +389,8 @@ an iterator in the range such that |*w| $\le_{\rm xy}$ |*it| for
 all iterators |it| in the range. Similarly, for |e| the inequation
 |*e| $\ge_{\rm yx}$ |*it| holds for all iterators |it| in the range.}*/
 #endif // CGAL_POINT_2_H
+CGAL_END_NAMESPACE
+
 #ifdef CGAL_CFG_NO_AUTOMATIC_TEMPLATE_INCLUSION
 #include <CGAL/ch_selected_extreme_points_2.C>
 #endif // CGAL_CFG_NO_AUTOMATIC_TEMPLATE_INCLUSION

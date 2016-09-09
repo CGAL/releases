@@ -1,6 +1,6 @@
 // ======================================================================
 //
-// Copyright (c) 1997 The CGAL Consortium
+// Copyright (c) 1999 The GALIA Consortium
 //
 // This software and related documentation is part of the
 // Computational Geometry Algorithms Library (CGAL).
@@ -16,35 +16,34 @@
 // - Development licenses grant access to the source code of the library 
 //   to develop programs. These programs may be sold to other parties as 
 //   executable code. To obtain a development license, please contact
-//   the CGAL Consortium (at cgal@cs.uu.nl).
+//   the GALIA Consortium (at cgal@cs.uu.nl).
 // - Commercialization licenses grant access to the source code and the
 //   right to sell development licenses. To obtain a commercialization 
-//   license, please contact the CGAL Consortium (at cgal@cs.uu.nl).
+//   license, please contact the GALIA Consortium (at cgal@cs.uu.nl).
 //
 // This software and documentation is provided "as-is" and without
 // warranty of any kind. In no event shall the CGAL Consortium be
 // liable for any damage of any kind.
 //
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// The GALIA Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany) Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+// (Germany), Max-Planck-Institute Saarbrucken (Germany),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-1.2
-// release_date  : 1999, January 18
+// release       : CGAL-2.0
+// release_date  : 1999, June 03
 //
 // file          : config/testfiles/CGAL_CFG_NO_TEMPLATE_FRIEND_DISTINCTION.C
-// package       : Configuration (1.21)
+// package       : Configuration (1.30)
 // source        :
 // revision      : 1.11
 // revision_date : 29 Mar 1998
 // author(s)     : various
 //
 // coordinator   : Utrecht University
-//
 //
 // email         : cgal@cs.uu.nl
 //
@@ -57,11 +56,14 @@
 // signature in a friend declaration.
 // This program is used by cgal_configure.
 // The following documentation will be pasted in the generated configfile.
+// Perhaps this file should be called CGAL_CFG_NO_EMPTY_TEMPLATE_ARGUMENT_LIST
 // ---------------------------------------------------------------------
 
 //| If a compiler doesn't distinguish a template instantiation and 
 //| a non-templated function with the same signature, 
 //| CGAL_CFG_NO_TEMPLATE_FRIEND_DISTINCTION is set.
+
+double y( int i) { return (double)i; }
 
 template < class T >
 int y( const T& t) {

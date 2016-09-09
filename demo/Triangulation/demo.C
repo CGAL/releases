@@ -1,12 +1,12 @@
 #include <CGAL/basic.h>
-#include <stdio.h>
-#include <string.h>
-#include <iostream.h>
-#include <fstream.h>
+#include <cstdio>
+#include <cstring>
+#include <iostream>
+#include <fstream>
 #include <strstream.h>
 
 //to get shorter names
-#define CGAL_Cartesian CGAL_Ca
+#define Cartesian Ca
 
 #include <CGAL/Cartesian.h>
 //#include <CGAL/Homogeneous.h>
@@ -33,23 +33,23 @@
 //typedef leda_integer  coord_type;
 typedef double coord_type;
 //typedef leda_real coord_type;
-//typedef CGAL_Fixed coord_type;
+//typedef CGAL::Fixed coord_type;
 
-typedef CGAL_Cartesian<coord_type>  Rep;
-//typedef CGAL_Homogeneous<coord_type>  Rep;
+typedef CGAL::Cartesian<coord_type>  Rep;
+//typedef CGAL::Homogeneous<coord_type>  Rep;
 
-typedef CGAL_Point_2<Rep>  Point_;
-typedef CGAL_Segment_2<Rep>  Segment_;
-typedef CGAL_Ray_2<Rep>  Ray_;
-typedef CGAL_Line_2<Rep>  Line_;
-typedef CGAL_Triangle_2<Rep>  Triangle_;
+typedef CGAL::Point_2<Rep>  Point_;
+typedef CGAL::Segment_2<Rep>  Segment_;
+typedef CGAL::Ray_2<Rep>  Ray_;
+typedef CGAL::Line_2<Rep>  Line_;
+typedef CGAL::Triangle_2<Rep>  Triangle_;
 
-typedef CGAL_Triangulation_euclidean_traits_2<Rep> Gt;
-typedef CGAL_Triangulation_vertex_base_2<Gt> Vb;
-typedef CGAL_Triangulation_face_base_2<Gt>  Fb;
-typedef CGAL_Triangulation_default_data_structure_2<Gt,Vb,Fb> Tds;
-typedef CGAL_Triangulation_2<Gt,Tds>  Triangulation_;
-typedef CGAL_Delaunay_triangulation_2<Gt,Tds>  Delaunay_;
+typedef CGAL::Triangulation_euclidean_traits_2<Rep> Gt;
+typedef CGAL::Triangulation_vertex_base_2<Gt> Vb;
+typedef CGAL::Triangulation_face_base_2<Gt>  Fb;
+typedef CGAL::Triangulation_default_data_structure_2<Gt,Vb,Fb> Tds;
+typedef CGAL::Triangulation_2<Gt,Tds>  Triangulation_;
+typedef CGAL::Delaunay_triangulation_2<Gt,Tds>  Delaunay_;
 
 typedef Triangulation_::Face  Face_;
 typedef Triangulation_::Vertex Vertex_;
@@ -67,13 +67,13 @@ typedef Triangulation_::Edge_iterator  Edge_iterator_;
 typedef Triangulation_::Line_face_circulator  Line_face_circulator_;
 typedef Triangulation_::Edge_circulator  Edge_circulator_;
 
-typedef CGAL_Window_stream  Window_stream;
+typedef CGAL::Window_stream  Window_stream;
 
 #ifdef __GNU__
 template < class R >
-bool operator<(const CGAL_Point_2<R>& p, const CGAL_Point_2<R>& q)
+bool operator<(const CGAL::Point_2<R>& p, const CGAL::Point_2<R>& q)
 {
-    return CGAL_compare_lexicographically_xy (p, q) == CGAL_SMALLER;
+    return CGAL::compare_lexicographically_xy (p, q) == CGAL::SMALLER;
 }
 #endif // __GNU__
 
@@ -81,7 +81,7 @@ Window_stream *W_global;
 Triangulation_ *T_global;
 
 void
-any_button(CGAL_Window_stream &W)
+any_button(CGAL::Window_stream &W)
 {
     double x, y;
     cerr << "Press any button to continue" << endl;
@@ -95,13 +95,13 @@ Vertex_handle_ closest_vertex(const TRIANGULATION &T,
                const Point_& p)
 {
     Vertex_handle_ v = f->vertex(0);
-    Rep::FT d  = CGAL_squared_distance(p, v->point());
-    Rep::FT d2 = CGAL_squared_distance(p, f->vertex(1)->point());
+    Rep::FT d  = CGAL::squared_distance(p, v->point());
+    Rep::FT d2 = CGAL::squared_distance(p, f->vertex(1)->point());
     if(d2 < d){
         d = d2;
         v = f->vertex(1);
     }
-    d2 = CGAL_squared_distance(p, f->vertex(2)->point());
+    d2 = CGAL::squared_distance(p, f->vertex(2)->point());
     if(d2 < d){
         v = f->vertex(2);
     }
@@ -138,27 +138,27 @@ void window_input(TRIANGULATION &T,
         if( (highlight != (CGAL_NULL_TYPE) NULL) && (button_pressed || mouse_moved) ){
             face_change = mouse_moved &&
                           ( T.oriented_side(highlight, p)
-                                == CGAL_ON_NEGATIVE_SIDE );
+                                == CGAL::ON_NEGATIVE_SIDE );
             vertex_change = face_change ||
                             ( mouse_moved &&
                               ( hv != closest_vertex(T, highlight, p)));
 
             drawing_mode dm = W.set_mode(leda_xor_mode);
             if(vertex_change){
-                W << CGAL_RED ;
-                W.draw_node(CGAL_to_double(hv->point().x()),
-                            CGAL_to_double(hv->point().y()));
+                W << CGAL::RED ;
+                W.draw_node(CGAL::to_double(hv->point().x()),
+                            CGAL::to_double(hv->point().y()));
             }
             W.set_mode(leda_src_mode);
             if(face_change){
-                W << CGAL_BLUE << T.triangle(highlight);
+                W << CGAL::BLUE << T.triangle(highlight);
                 highlight = NULL;
             }
             W.set_mode(dm);
         }
         if(b == MOUSE_BUTTON(1)){
             typename TRIANGULATION::Locate_type lt;
-            Vertex_handle_ v = T.insert(p, lt);
+            T.insert(p, lt);
             if(opt.check){
                 T.is_valid();
             }
@@ -185,7 +185,7 @@ void window_input(TRIANGULATION &T,
             if((highlight != (CGAL_NULL_TYPE) NULL) && (! T.is_infinite(highlight))){
                 vertex_change = outside && true;
                 drawing_mode dm = W.set_mode(leda_src_mode);
-                W << CGAL_RED << T.triangle(highlight) << CGAL_BLUE;
+                W << CGAL::RED << T.triangle(highlight) << CGAL::BLUE;
                 W.set_mode(dm);
             } else {
                 highlight = NULL;
@@ -197,11 +197,11 @@ void window_input(TRIANGULATION &T,
         if(button_pressed || vertex_change){
             if((highlight != (CGAL_NULL_TYPE) NULL) && (! T.is_infinite(highlight))){
                 drawing_mode dm = W.set_mode(leda_xor_mode);
-                W << CGAL_RED;
+                W << CGAL::RED;
                 hv = closest_vertex(T, highlight, p);
-                W.draw_node(CGAL_to_double(hv->point().x()),
-                            CGAL_to_double(hv->point().y()));
-                W << CGAL_BLUE;
+                W.draw_node(CGAL::to_double(hv->point().x()),
+                            CGAL::to_double(hv->point().y()));
+                W << CGAL::BLUE;
                 W.set_mode(dm);
             }
         }
@@ -218,7 +218,7 @@ void file_input(Triangulation_ &T,
     }
 
     ifstream is(opt.fname);
-    CGAL_set_ascii_mode(is);
+    CGAL::set_ascii_mode(is);
 
     int n, count = 0;
     is >> n;
@@ -235,7 +235,7 @@ void file_input(Triangulation_ &T,
 
         for(; n > 0; n--){
             is >> mp;
-            Vertex_handle_ v = T.insert(mp);
+            T.insert(mp);
             if(opt.check){
 		cerr << "Checking validity" << endl;
                 T.is_valid();
@@ -243,7 +243,7 @@ void file_input(Triangulation_ &T,
             if(opt.draw){
 #ifdef DELAUNAY
                 W.clear();
-                W << CGAL_BLUE << T << CGAL_RED;
+                W << CGAL::BLUE << T << CGAL::RED;
 #else
                 Vertex_circulator_ vc = v->incident_vertices(),
                                   done(vc);
@@ -269,7 +269,7 @@ void file_input(Triangulation_ &T,
 void container_input(Triangulation_ &T,
                 Window_stream &W)
 {
-    list<Point_> L;
+    std::list<Point_> L;
     L.push_front(Point_(0,0));
     L.push_front(Point_(1,0));
     L.push_front(Point_(1,1));
@@ -277,7 +277,7 @@ void container_input(Triangulation_ &T,
     int n = T.insert(L.begin(), L.end());
     cerr << n << " points inserted from a list." << endl;
 
-    vector<Point_> V(3);
+    std::vector<Point_> V(3);
     V[0] = Point_(0, 0);
     V[1] = Point_(0.4, 0.4);
     V[2] = Point_(0.3, 0.3);
@@ -295,7 +295,7 @@ void draw_incident_edges(Triangulation_ &T,
 {
     drawing_mode dm = W.set_mode(leda_xor_mode);
 
-    W << CGAL_RED;
+    W << CGAL::RED;
     Point_ p = v->point();
 
     Vertex_circulator_ vc = v->incident_vertices(),
@@ -315,7 +315,7 @@ void redraw_incident_edges(Triangulation_ &T,
 {
     drawing_mode dm = W.set_mode(leda_xor_mode);
 
-    W << CGAL_RED;
+    W << CGAL::RED;
 
     Edge_circulator_ ec = v->incident_edges(),
                       done(ec);
@@ -360,7 +360,7 @@ void draw_faces_along_line(Triangulation_ &T,
     cerr << "The faces intersected by the line joining those points "<< endl;
     cerr << " will be highlighted" << endl;
     cerr << endl;
-    W << CGAL_RED;
+    W << CGAL::RED;
     drawing_mode dm = W.set_mode(leda_xor_mode);
     W >> p >> q;
     while (p==q) W<<q;
@@ -384,7 +384,7 @@ void draw_faces_along_line(Triangulation_ &T,
         dm = W.set_mode(leda_xor_mode);
         W << p << q << Line_(p,q);
 	W.set_mode(dm);
-	W << CGAL_BLUE;
+	W << CGAL::BLUE;
 	do{
             if(! T.is_infinite( lfc )){
                 W << T.triangle( lfc );
@@ -407,7 +407,7 @@ void draw_convex_hull(Triangulation_ &T,
         cerr << "convex hull is empty" << endl;
     } else {
         drawing_mode dm = W.set_mode(leda_src_mode);
-        W << CGAL_RED;
+        W << CGAL::RED;
         p = chc->point();
         do {
             --chc;
@@ -416,7 +416,7 @@ void draw_convex_hull(Triangulation_ &T,
             p = q;
         } while(chc != done);
         any_button(W);
-        W << CGAL_BLUE;
+        W << CGAL::BLUE;
         p = chc->point();
         do{
             ++chc;
@@ -432,17 +432,17 @@ void show_faces_iterator(Triangulation_ &T,
                  Window_stream &W)
 {
   cerr << "Highlighting in turn each face traversed by the face iterarot "<<endl;
-  W << CGAL_GREEN;
+  W << CGAL::GREEN;
   Face_iterator_ fit= T.faces_begin();
   while (fit != T.faces_end()) {
     W << T.triangle(fit);
     fit++;
     any_button(W);
   }
-  any_button;
-  W << CGAL_BLUE;
+  any_button(W);
+  W << CGAL::BLUE;
   W << T;
-  any_button;
+  any_button(W);
 }
 
 
@@ -478,8 +478,8 @@ void show_nearest_vertex(Delaunay_ &T,
 
         if( (nv != (CGAL_NULL_TYPE) NULL) && ( (b != NO_BUTTON) || ((p != q) && (v != nv) ) )){
             // unhighlight
-            x = CGAL_to_double(nv->point().x());
-            y = CGAL_to_double(nv->point().y());
+            x = CGAL::to_double(nv->point().x());
+            y = CGAL::to_double(nv->point().y());
             W.draw_node(x, y, leda_red);
         }
         if(b != NO_BUTTON){
@@ -488,8 +488,8 @@ void show_nearest_vertex(Delaunay_ &T,
         }
         if( (p != q) && (v != nv) ){
             nv = v;
-            x = CGAL_to_double(nv->point().x());
-            y = CGAL_to_double(nv->point().y());
+            x = CGAL::to_double(nv->point().x());
+            y = CGAL::to_double(nv->point().y());
             W.draw_node(x, y, leda_red);
             q = p;
         }
@@ -503,20 +503,20 @@ void fileIO(Delaunay_ &T,
     cerr << "The triangulation will be written to a file and read again\n";
     {
         ofstream out("tr");
-        CGAL_set_ascii_mode(out);
+        CGAL::set_ascii_mode(out);
         out << T << endl;
     }
     Triangulation_ T2;
 
     ifstream in("tr");
-    CGAL_set_ascii_mode(in);
+    CGAL::set_ascii_mode(in);
     in >> T2;
     T2.is_valid();
 
     Window_stream W2(opt.winx, opt.winy);
     W2.init(opt.min, opt.max, opt.min);
     W2.set_show_coordinates(true);
-    W2 << CGAL_BLUE;
+    W2 << CGAL::BLUE;
     W2.display();
 
     W2 << T2;
@@ -528,7 +528,7 @@ void fileIO(Delaunay_ &T,
 void draw_dual( Delaunay_ &T, Window_stream &W )
 {
    cerr << "The dual of the triangulation is displayed" << endl;
-   W << CGAL_RED;
+   W << CGAL::RED;
     Delaunay_::Face_iterator fit, fbegin=T.faces_begin(), fend=T.faces_end();
     for (fit=fbegin; fit != fend; ++fit)
         W << T.dual(fit);
@@ -536,11 +536,11 @@ void draw_dual( Delaunay_ &T, Window_stream &W )
     Delaunay_::Edge_iterator eit, ebegin=T.edges_begin(), eend=T.edges_end();
     for (eit=ebegin; eit != eend; ++eit)
     {
-        CGAL_Object o = T.dual(eit);
+        CGAL::Object o = T.dual(eit);
         Gt::Ray r;
         Gt::Segment s;
-        if (CGAL_assign(s,o)) W << s;
-        if (CGAL_assign(r,o)) W << r;
+        if (CGAL::assign(s,o)) W << s;
+        if (CGAL::assign(r,o)) W << r;
     }
     any_button(W);
 }
@@ -564,11 +564,11 @@ int main(int argc, char* argv[])
 
     W.init(opt.min, opt.max, opt.min);   // logical window size
     //  W.set_show_coordinates(true);
-    W << CGAL_BLUE;
+    W << CGAL::BLUE;
     //W.set_mode(leda_src_mode);
     //W.set_node_width(3);
     // W.button("toto",1,action);
-    CGAL_cgalize( W);
+    CGAL::cgalize( W);
     W.display();
     
      file_input(T, W, opt);
@@ -576,7 +576,7 @@ int main(int argc, char* argv[])
     W << T;
     window_input(T, W, opt);
     W.set_mode(leda_src_mode);
-    W << CGAL_RED;
+    W << CGAL::RED;
     W.clear();
     if(opt.check) T.is_valid();
     W << T;
@@ -584,7 +584,7 @@ int main(int argc, char* argv[])
     // Copy constructor
     cout << "copy"<<endl;
     Copy = Triangulation_(T);
-    W << CGAL_BLUE;
+    W << CGAL::BLUE;
     W << Copy;
     container_input(T, W);
     draw_faces_along_line(T, W);
@@ -597,7 +597,7 @@ int main(int argc, char* argv[])
     W.clear();
     window_input(D, W, opt);
     W.set_mode(leda_src_mode);
-    W << CGAL_RED;
+    W << CGAL::RED;
     W.clear();
     if(opt.check) D.is_valid();
     W << D;
@@ -605,7 +605,7 @@ int main(int argc, char* argv[])
     // Copy constructor
     cout << "copy"<<endl;
     DCopy = Delaunay_(D);
-    W << CGAL_BLUE;
+    W << CGAL::BLUE;
     W << DCopy;
     show_nearest_vertex(D, W);
     fileIO(D, W, opt);

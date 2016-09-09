@@ -1,6 +1,6 @@
 // ======================================================================
 //
-// Copyright (c) 1997 The CGAL Consortium
+// Copyright (c) 1999 The GALIA Consortium
 //
 // This software and related documentation is part of the
 // Computational Geometry Algorithms Library (CGAL).
@@ -16,38 +16,37 @@
 // - Development licenses grant access to the source code of the library 
 //   to develop programs. These programs may be sold to other parties as 
 //   executable code. To obtain a development license, please contact
-//   the CGAL Consortium (at cgal@cs.uu.nl).
+//   the GALIA Consortium (at cgal@cs.uu.nl).
 // - Commercialization licenses grant access to the source code and the
 //   right to sell development licenses. To obtain a commercialization 
-//   license, please contact the CGAL Consortium (at cgal@cs.uu.nl).
+//   license, please contact the GALIA Consortium (at cgal@cs.uu.nl).
 //
 // This software and documentation is provided "as-is" and without
 // warranty of any kind. In no event shall the CGAL Consortium be
 // liable for any damage of any kind.
 //
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// The GALIA Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany) Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+// (Germany), Max-Planck-Institute Saarbrucken (Germany),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-1.2
-// release_date  : 1999, January 18
+// release       : CGAL-2.0
+// release_date  : 1999, June 03
 //
 // file          : include/CGAL/IO/window_stream_xy_3.h
-// package       : Support_LK (1.18)
-// chapter       : $CGAL_Chapter: Support Library Manual ... $
-// source        : support.fw
-// revision      : $Revision: 1.11 $
-// revision_date : $Date: 1998/10/07 18:46:59 $
-// author(s)     : Lutz Kettner
+// package       : window (2.2.7)
+// chapter       : $CGAL_Chapter: Window Stream $
+// source        : 
+// revision      : 2.1.3 
+// revision_date : 
+// author(s)     : Lutz Kettner 
 //
-// coordinator   : INRIA, Sophia Antipolis
+// coordinator   : MPI, Saarbruecken  (<Stefan.Schirra>)
 //
 // Supports the display of 3D objects in the 2d CGAL_Window_stream.
-//
 // email         : cgal@cs.uu.nl
 //
 // ======================================================================
@@ -57,13 +56,16 @@
 // The following section protects itself against multiple inclusion
 // with a non-standard macro name to hinder redundant protection
 // guards in other files to exclude this file from inclusion.
+
 // (This section is currently empty.)
 #ifndef CGAL_IO_WINDOW_STREAM_XY_3_H_1
 #define CGAL_IO_WINDOW_STREAM_XY_3_H_1 1
 #endif // CGAL_IO_WINDOW_STREAM_XY_3_H_1 //
 
+
 //  Each of the following operators is individually
 //  protected against multiple inclusion.
+
 // Check first, whether the related 2d files are included.
 // -------------------------------------------------------
 #if defined(CGAL_POINT_3_H) && ! defined(CGAL_POINT_2_H)
@@ -114,6 +116,8 @@
 #include <CGAL/IO/Window_stream.h>
 #endif // CGAL_IO_WINDOW_STREAM_H
 
+CGAL_BEGIN_NAMESPACE
+
 // Define the stream operators for the xy projected 3d objects.
 // Note that data structures like polygons and triangulations
 // work independant from the dimension of the stored geometry.
@@ -124,18 +128,17 @@
 #define CGAL_WINDOW_STREAM_POINT_3
 template< class R >
 inline
-CGAL_Window_stream&
-operator<<( CGAL_Window_stream &w, const CGAL_Point_3<R> &p)
+Window_stream& operator<<( Window_stream &w, const Point_3<R> &p)
 {
-    return  w << CGAL_Point_2<R>( p.hx(), p.hy(), p.hw());
+    return  w << Point_2<R>( p.hx(), p.hy(), p.hw());
 }
 template< class R >
-CGAL_Window_stream&
-operator>>( CGAL_Window_stream &w, CGAL_Point_3<R> &p)
+Window_stream& operator>>( Window_stream &w, Point_3<R> &p)
 {
-    CGAL_Point_2<R> q;
+    typedef typename R::RT   RT;
+    Point_2<R> q;
     w >> q;
-    p =  CGAL_Point_3<R>( q.hx(), q.hy(), R::RT(0), q.hw());
+    p =  Point_3<R>( q.hx(), q.hy(), RT(0), q.hw());
     return w;
 }
 #endif // CGAL_WINDOW_STREAM_POINT_3
@@ -146,18 +149,17 @@ operator>>( CGAL_Window_stream &w, CGAL_Point_3<R> &p)
 #define CGAL_WINDOW_STREAM_VECTOR_3
 template< class R >
 inline
-CGAL_Window_stream&
-operator<<( CGAL_Window_stream &w, const CGAL_Vector_3<R> &v)
+Window_stream& operator<<( Window_stream &w, const Vector_3<R> &v)
 {
-    return  w << CGAL_Vector_2<R>( v.hx(), v.hy(), v.hw());
+    return  w << Vector_2<R>( v.hx(), v.hy(), v.hw());
 }
 template< class R >
-CGAL_Window_stream&
-operator>>( CGAL_Window_stream &w, CGAL_Vector_3<R> &v)
+Window_stream& operator>>( Window_stream &w, Vector_3<R> &v)
 {
-    CGAL_Vector_2<R> q;
+    typedef typename R::RT   RT;
+    Vector_2<R> q;
     w >> q;
-    v =  CGAL_Vector_3<R>( q.hx(), q.hy(), R::RT(0), q.hw());
+    v =  Vector_3<R>( q.hx(), q.hy(), RT(0), q.hw());
     return w;
 }
 #endif // CGAL_WINDOW_STREAM_VECTOR_3
@@ -167,18 +169,17 @@ operator>>( CGAL_Window_stream &w, CGAL_Vector_3<R> &v)
 #ifndef CGAL_WINDOW_STREAM_DIRECTION_3
 #define CGAL_WINDOW_STREAM_DIRECTION_3
 template< class R >
-CGAL_Window_stream&
-operator<<( CGAL_Window_stream &w, const CGAL_Direction_3<R> &d)
+Window_stream& operator<<( Window_stream &w, const Direction_3<R> &d)
 {
-    return  w << CGAL_Direction_2<R>( d.dx(), d.dy());
+    return  w << Direction_2<R>( d.dx(), d.dy());
 }
 template< class R >
-CGAL_Window_stream&
-operator>>( CGAL_Window_stream &w, CGAL_Direction_3<R> &d)
+Window_stream& operator>>( Window_stream &w, Direction_3<R> &d)
 {
-    CGAL_Direction_2<R> q;
+    typedef typename R::RT   RT;
+    Direction_2<R> q;
     w >> q;
-    d =  CGAL_Direction_3<R>( q.dx(), q.dy(), R::RT(0));
+    d =  Direction_3<R>( q.dx(), q.dy(), RT(0));
     return w;
 }
 #endif // CGAL_WINDOW_STREAM_DIRECTION_3
@@ -188,22 +189,20 @@ operator>>( CGAL_Window_stream &w, CGAL_Direction_3<R> &d)
 #ifndef CGAL_WINDOW_STREAM_LINE_3
 #define CGAL_WINDOW_STREAM_LINE_3
 template< class R >
-CGAL_Window_stream&
-operator<<( CGAL_Window_stream &w, const CGAL_Line_3<R> &l)
+Window_stream& operator<<( Window_stream &w, const Line_3<R> &l)
 {
-    return  w << CGAL_Line_2<R>(
-      CGAL_Point_2<R>( l.point(0).hx(), l.point(0).hy(), l.point(0).hw()),
-      CGAL_Point_2<R>( l.point(1).hx(), l.point(1).hy(), l.point(1).hw()));
+    return  w << Line_2<R>(
+      Point_2<R>( l.point(0).hx(), l.point(0).hy(), l.point(0).hw()),
+      Point_2<R>( l.point(1).hx(), l.point(1).hy(), l.point(1).hw()));
 }
 template< class R >
-CGAL_Window_stream&
-operator>>( CGAL_Window_stream &w, CGAL_Line_3<R> &l)
+Window_stream& operator>>( Window_stream &w, Line_3<R> &l)
 {
-    CGAL_Line_2<R> q;
+    Line_2<R> q;
     w >> q;
-    l =  CGAL_Line_3<R>(
-      CGAL_Point_3<R>( q.point(0).hx(),q.point(0).hy(),0,q.point(0).hw()),
-      CGAL_Point_3<R>( q.point(1).hx(),q.point(1).hy(),0,q.point(1).hw()));
+    l =  Line_3<R>(
+      Point_3<R>( q.point(0).hx(),q.point(0).hy(),0,q.point(0).hw()),
+      Point_3<R>( q.point(1).hx(),q.point(1).hy(),0,q.point(1).hw()));
     return w;
 }
 #endif // CGAL_WINDOW_STREAM_LINE_3
@@ -213,22 +212,20 @@ operator>>( CGAL_Window_stream &w, CGAL_Line_3<R> &l)
 #ifndef CGAL_WINDOW_STREAM_RAY_3
 #define CGAL_WINDOW_STREAM_RAY_3
 template< class R >
-CGAL_Window_stream&
-operator<<( CGAL_Window_stream &w, const CGAL_Ray_3<R> &r)
+Window_stream& operator<<( Window_stream &w, const Ray_3<R> &r)
 {
-    return  w << CGAL_Ray_2<R>(
-      CGAL_Point_2<R>( r.point(0).hx(), r.point(0).hy(), r.point(0).hw()),
-      CGAL_Point_2<R>( r.point(1).hx(), r.point(1).hy(), r.point(1).hw()));
+    return  w << Ray_2<R>(
+      Point_2<R>( r.point(0).hx(), r.point(0).hy(), r.point(0).hw()),
+      Point_2<R>( r.point(1).hx(), r.point(1).hy(), r.point(1).hw()));
 }
 template< class R >
-CGAL_Window_stream&
-operator>>( CGAL_Window_stream &w, CGAL_Ray_3<R> &r)
+Window_stream& operator>>( Window_stream &w, Ray_3<R> &r)
 {
-    CGAL_Ray_2<R> q;
+    Ray_2<R> q;
     w >> q;
-    r =  CGAL_Ray_3<R>(
-      CGAL_Point_3<R>( q.point(0).hx(),q.point(0).hy(),0,q.point(0).hw()),
-      CGAL_Point_3<R>( q.point(1).hx(),q.point(1).hy(),0,q.point(1).hw()));
+    r =  Ray_3<R>(
+      Point_3<R>( q.point(0).hx(),q.point(0).hy(),0,q.point(0).hw()),
+      Point_3<R>( q.point(1).hx(),q.point(1).hy(),0,q.point(1).hw()));
     return w;
 }
 #endif // CGAL_WINDOW_STREAM_RAY_3
@@ -238,22 +235,20 @@ operator>>( CGAL_Window_stream &w, CGAL_Ray_3<R> &r)
 #ifndef CGAL_WINDOW_STREAM_SEGMENT_3
 #define CGAL_WINDOW_STREAM_SEGMENT_3
 template< class R >
-CGAL_Window_stream&
-operator<<( CGAL_Window_stream &w, const CGAL_Segment_3<R> &s)
+Window_stream& operator<<( Window_stream &w, const Segment_3<R> &s)
 {
-    return  w << CGAL_Segment_2<R>(
-      CGAL_Point_2<R>( s.source().hx(), s.source().hy(), s.source().hw()),
-      CGAL_Point_2<R>( s.target().hx(), s.target().hy(), s.target().hw()));
+    return  w << Segment_2<R>(
+      Point_2<R>( s.source().hx(), s.source().hy(), s.source().hw()),
+      Point_2<R>( s.target().hx(), s.target().hy(), s.target().hw()));
 }
 template< class R >
-CGAL_Window_stream&
-operator>>( CGAL_Window_stream &w, CGAL_Segment_3<R> &s)
+Window_stream& operator>>( Window_stream &w, Segment_3<R> &s)
 {
-    CGAL_Segment_2<R> q;
+    Segment_2<R> q;
     w >> q;
-    s =  CGAL_Segment_3<R>(
-      CGAL_Point_3<R>( q.source().hx(),q.source().hy(),0,q.source().hw()),
-      CGAL_Point_3<R>( q.target().hx(),q.target().hy(),0,q.target().hw()));
+    s =  Segment_3<R>(
+      Point_3<R>( q.source().hx(),q.source().hy(),0,q.source().hw()),
+      Point_3<R>( q.target().hx(),q.target().hy(),0,q.target().hw()));
     return w;
 }
 #endif // CGAL_WINDOW_STREAM_SEGMENT_3
@@ -263,24 +258,22 @@ operator>>( CGAL_Window_stream &w, CGAL_Segment_3<R> &s)
 #ifndef CGAL_WINDOW_STREAM_TRIANGLE_3
 #define CGAL_WINDOW_STREAM_TRIANGLE_3
 template< class R >
-CGAL_Window_stream&
-operator<<( CGAL_Window_stream &w, const CGAL_Triangle_3<R> &t)
+Window_stream& operator<<( Window_stream &w, const Triangle_3<R> &t)
 {
-    return  w << CGAL_Triangle_2<R>(
-        CGAL_Point_2<R>( t[0].hx(), t[0].hy(), t[0].hw()),
-        CGAL_Point_2<R>( t[1].hx(), t[1].hy(), t[1].hw()),
-        CGAL_Point_2<R>( t[2].hx(), t[2].hy(), t[2].hw()));
+    return  w << Triangle_2<R>(
+        Point_2<R>( t[0].hx(), t[0].hy(), t[0].hw()),
+        Point_2<R>( t[1].hx(), t[1].hy(), t[1].hw()),
+        Point_2<R>( t[2].hx(), t[2].hy(), t[2].hw()));
 }
 template< class R >
-CGAL_Window_stream&
-operator>>( CGAL_Window_stream &w, CGAL_Triangle_3<R> &t)
+Window_stream& operator>>( Window_stream &w, Triangle_3<R> &t)
 {
-    CGAL_Triangle_2<R> q;
+    Triangle_2<R> q;
     w >> q;
-    t =  CGAL_Triangle_3<R>(
-        CGAL_Point_3<R>( q[0].hx(), q[0].hy(), 0, q[0].hw()),
-        CGAL_Point_3<R>( q[1].hx(), q[1].hy(), 0, q[1].hw()),
-        CGAL_Point_3<R>( q[2].hx(), q[2].hy(), 0, q[2].hw()));
+    t =  Triangle_3<R>(
+        Point_3<R>( q[0].hx(), q[0].hy(), 0, q[0].hw()),
+        Point_3<R>( q[1].hx(), q[1].hy(), 0, q[1].hw()),
+        Point_3<R>( q[2].hx(), q[2].hy(), 0, q[2].hw()));
     return w;
 }
 #endif // CGAL_WINDOW_STREAM_TRIANGLE_3
@@ -290,32 +283,31 @@ operator>>( CGAL_Window_stream &w, CGAL_Triangle_3<R> &t)
 #ifndef CGAL_WINDOW_STREAM_TETRAHEDRON_3
 #define CGAL_WINDOW_STREAM_TETRAHEDRON_3
 template< class R >
-CGAL_Window_stream&
-operator<<( CGAL_Window_stream &w, const CGAL_Tetrahedron_3<R> &t)
+Window_stream& operator<<( Window_stream &w, const Tetrahedron_3<R> &t)
 {
-    w << CGAL_Segment_3<R>( t[0], t[1]);
-    w << CGAL_Segment_3<R>( t[1], t[2]);
-    w << CGAL_Segment_3<R>( t[2], t[0]);
-    w << CGAL_Segment_3<R>( t[0], t[3]);
-    w << CGAL_Segment_3<R>( t[1], t[3]);
-    w << CGAL_Segment_3<R>( t[2], t[3]);
+    w << Segment_3<R>( t[0], t[1]);
+    w << Segment_3<R>( t[1], t[2]);
+    w << Segment_3<R>( t[2], t[0]);
+    w << Segment_3<R>( t[0], t[3]);
+    w << Segment_3<R>( t[1], t[3]);
+    w << Segment_3<R>( t[2], t[3]);
     return  w;
 }
 template< class R >
-CGAL_Window_stream&
-operator>>( CGAL_Window_stream &w, CGAL_Tetrahedron_3<R> &t)
+Window_stream& operator>>( Window_stream &w, Tetrahedron_3<R> &t)
 {
-    CGAL_Triangle_3<R> q;
+    typedef typename R::RT   RT;
+    Triangle_3<R> q;
     w >> q;
-    double x0 = CGAL_to_double( q[0].x());
-    double y0 = CGAL_to_double( q[0].y());
+    double x0 = to_double( q[0].x());
+    double y0 = to_double( q[0].y());
     double x1, y1;
-    w.read_mouse_seg(x0,y0, x1, y1);
-    CGAL_Point_3<R> p( R::RT(x1), R::RT(y1), 0);
-    w << CGAL_Segment_3<R>( q[0], p);
-    w << CGAL_Segment_3<R>( q[1], p);
-    w << CGAL_Segment_3<R>( q[2], p);
-    t =  CGAL_Tetrahedron_3<R>( q[0], q[1], q[2], p);
+    w.read_mouse_seg(x0, y0, x1, y1);
+    Point_3<R> p = Point_3<R>( RT(x1), RT(y1), RT(0));
+    w << Segment_3<R>( q[0], p);
+    w << Segment_3<R>( q[1], p);
+    w << Segment_3<R>( q[2], p);
+    t =  Tetrahedron_3<R>( q[0], q[1], q[2], p);
     return w;
 }
 #endif // CGAL_WINDOW_STREAM_TETRAHEDRON_3
@@ -325,14 +317,12 @@ operator>>( CGAL_Window_stream &w, CGAL_Tetrahedron_3<R> &t)
 #ifndef CGAL_WINDOW_STREAM_BBOX_3
 #define CGAL_WINDOW_STREAM_BBOX_3
 inline
-CGAL_Window_stream&
-operator<<( CGAL_Window_stream &w, const CGAL_Bbox_3 &b)
+Window_stream& operator<<( Window_stream &w, const Bbox_3 &b)
 {
-    return  w << CGAL_Bbox_2( b.xmin(), b.ymin(), b.xmax(), b.ymax());
+    return  w << Bbox_2( b.xmin(), b.ymin(), b.xmax(), b.ymax());
 }
 inline
-CGAL_Window_stream&
-operator>>( CGAL_Window_stream &w, CGAL_Bbox_3 &b)
+Window_stream& operator>>( Window_stream &w, Bbox_3 &b)
 {
     double x0, y0, x1, y1;
     w.read_mouse(x0,y0);
@@ -343,10 +333,13 @@ operator>>( CGAL_Window_stream &w, CGAL_Bbox_3 &b)
     if ( y1 < y0) {
         double tmp = y0; y0 = y1; y1 = tmp;
     }
-    b =  CGAL_Bbox_3( x0, y0, 0, x1, y1, 0);
+    b = Bbox_3( x0, y0, 0, x1, y1, 0);
     w << b;
     return w;
 }
 #endif // CGAL_WINDOW_STREAM_BBOX_3
 #endif // CGAL_BBOX_3_H
+
+CGAL_END_NAMESPACE
+
 // EOF //

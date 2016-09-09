@@ -1,6 +1,6 @@
 // ======================================================================
 //
-// Copyright (c) 1998 The CGAL Consortium
+// Copyright (c) 1999 The GALIA Consortium
 //
 // This software and related documentation is part of the
 // Computational Geometry Algorithms Library (CGAL).
@@ -16,33 +16,32 @@
 // - Development licenses grant access to the source code of the library 
 //   to develop programs. These programs may be sold to other parties as 
 //   executable code. To obtain a development license, please contact
-//   the CGAL Consortium (at cgal@cs.uu.nl).
+//   the GALIA Consortium (at cgal@cs.uu.nl).
 // - Commercialization licenses grant access to the source code and the
 //   right to sell development licenses. To obtain a commercialization 
-//   license, please contact the CGAL Consortium (at cgal@cs.uu.nl).
+//   license, please contact the GALIA Consortium (at cgal@cs.uu.nl).
 //
 // This software and documentation is provided "as-is" and without
 // warranty of any kind. In no event shall the CGAL Consortium be
 // liable for any damage of any kind.
 //
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// The GALIA Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany) Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+// (Germany), Max-Planck-Institute Saarbrucken (Germany),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-1.2
-// release_date  : 1999, January 18
+// release       : CGAL-2.0
+// release_date  : 1999, June 03
 //
 // file          : include/CGAL/squared_distance_utils.h
-// package       : Distance_2 (1.5)
+// package       : Distance_2 (2.1.2)
 // source        : sqdistance_2.fw
 // author(s)     : Geert-Jan Giezeman
 //
 // coordinator   : Saarbruecken
-//
 //
 // email         : cgal@cs.uu.nl
 //
@@ -52,9 +51,11 @@
 #ifndef CGAL_SQUARED_DISTANCE_UTILS_H
 #define CGAL_SQUARED_DISTANCE_UTILS_H
 
+CGAL_BEGIN_NAMESPACE
+
 
 template <class R>
-bool CGAL_is_null(const CGAL_Vector_2<R> &v)
+bool is_null(const Vector_2<R> &v)
 {
     typedef typename R::RT RT;
     return v.hx()==RT(0) && v.hy()==RT(0);
@@ -63,17 +64,17 @@ bool CGAL_is_null(const CGAL_Vector_2<R> &v)
 
 template <class R>
 R_RT_return(R)
-CGAL_wdot(const CGAL_Vector_2<R> &u,
-    const CGAL_Vector_2<R> &v)
+wdot(const Vector_2<R> &u,
+    const Vector_2<R> &v)
 {
     return  (R_RT_return(R))(u.hx()*v.hx() + u.hy()*v.hy());
 }
 
 #ifdef CGAL_HOMOGENEOUS_H
 template <class RT>
-RT CGAL_wdot(const CGAL_Point_2< CGAL_Homogeneous<RT> > &p,
-    const CGAL_Point_2<CGAL_Homogeneous<RT> > &q,
-    const CGAL_Point_2<CGAL_Homogeneous<RT> > &r)
+RT wdot(const Point_2< Homogeneous<RT> > &p,
+    const Point_2<Homogeneous<RT> > &q,
+    const Point_2<Homogeneous<RT> > &r)
 {
     return  (q.hw()*p.hx() - p.hw()*q.hx())*(q.hw()*r.hx() - r.hw()*q.hx()) +
             (q.hw()*p.hy() - p.hw()*q.hy())*(q.hw()*r.hy() - r.hw()*q.hy());
@@ -82,9 +83,9 @@ RT CGAL_wdot(const CGAL_Point_2< CGAL_Homogeneous<RT> > &p,
 
 #ifdef CGAL_CARTESIAN_H
 template <class FT>
-FT CGAL_wdot(const CGAL_Point_2< CGAL_Cartesian<FT> > &p,
-    const CGAL_Point_2< CGAL_Cartesian<FT> > &q,
-    const CGAL_Point_2< CGAL_Cartesian<FT> > &r)
+FT wdot(const Point_2< Cartesian<FT> > &p,
+    const Point_2< Cartesian<FT> > &q,
+    const Point_2< Cartesian<FT> > &r)
 {
     return  (p.hx() - q.hx())*(r.hx() - q.hx()) +
             (p.hy() - q.hy())*(r.hy() - q.hy());
@@ -95,17 +96,17 @@ FT CGAL_wdot(const CGAL_Point_2< CGAL_Cartesian<FT> > &p,
 
 template <class R>
 R_RT_return(R)
-CGAL_wcross(const CGAL_Vector_2<R> &u,
-    const CGAL_Vector_2<R> &v)
+wcross(const Vector_2<R> &u,
+    const Vector_2<R> &v)
 {
     return (R_RT_return(R))(u.hx()*v.hy() - u.hy()*v.hx());
 }
 
 #ifdef CGAL_HOMOGENEOUS_H
 template <class RT>
-RT CGAL_wcross(const CGAL_Point_2< CGAL_Homogeneous<RT> > &p,
-    const CGAL_Point_2< CGAL_Homogeneous<RT> > &q,
-    const CGAL_Point_2< CGAL_Homogeneous<RT> > &r)
+RT wcross(const Point_2< Homogeneous<RT> > &p,
+    const Point_2< Homogeneous<RT> > &q,
+    const Point_2< Homogeneous<RT> > &r)
 {
     return   p.hx() * (q.hy()*r.hw() - q.hw()*r.hy() )
            + p.hy() * (q.hw()*r.hx() - q.hx()*r.hw() )
@@ -115,111 +116,113 @@ RT CGAL_wcross(const CGAL_Point_2< CGAL_Homogeneous<RT> > &p,
 
 #ifdef CGAL_CARTESIAN_H
 template <class FT>
-FT CGAL_wcross(const CGAL_Point_2< CGAL_Cartesian<FT> > &p,
-    const CGAL_Point_2< CGAL_Cartesian<FT> > &q,
-    const CGAL_Point_2< CGAL_Cartesian<FT> > &r)
+FT wcross(const Point_2< Cartesian<FT> > &p,
+    const Point_2< Cartesian<FT> > &q,
+    const Point_2< Cartesian<FT> > &r)
 {
     return (q.x()-p.x())*(r.y()-q.y()) - (q.y()-p.y())*(r.x()-q.x());
 }
 #endif // CGAL_CARTESIAN_H
 
+
 template <class R>
-inline bool CGAL_is_acute_angle(const CGAL_Vector_2<R> &u,
-    const CGAL_Vector_2<R> &v)
+inline bool is_acute_angle(const Vector_2<R> &u,
+    const Vector_2<R> &v)
 {
     typedef typename R::RT RT;
-    return RT(CGAL_wdot(u, v)) > RT(0) ;
+    return RT(wdot(u, v)) > RT(0) ;
 }
 
 template <class R>
-inline bool CGAL_is_straight_angle(const CGAL_Vector_2<R> &u,
-    const CGAL_Vector_2<R> &v)
+inline bool is_straight_angle(const Vector_2<R> &u,
+    const Vector_2<R> &v)
 {
     typedef typename R::RT RT;
-    return RT(CGAL_wdot(u, v)) == RT(0) ;
+    return RT(wdot(u, v)) == RT(0) ;
 }
 
 template <class R>
-inline bool CGAL_is_obtuse_angle(const CGAL_Vector_2<R> &u,
-    const CGAL_Vector_2<R> &v)
+inline bool is_obtuse_angle(const Vector_2<R> &u,
+    const Vector_2<R> &v)
 {
     typedef typename R::RT RT;
-    return RT(CGAL_wdot(u, v)) < RT(0) ;
+    return RT(wdot(u, v)) < RT(0) ;
 }
 
 template <class R>
-inline bool CGAL_is_acute_angle(const CGAL_Point_2<R> &p,
-    const CGAL_Point_2<R> &q, const CGAL_Point_2<R> &r)
+inline bool is_acute_angle(const Point_2<R> &p,
+    const Point_2<R> &q, const Point_2<R> &r)
 {
     typedef typename R::RT RT;
-    return RT(CGAL_wdot(p, q, r)) > RT(0) ;
+    return RT(wdot(p, q, r)) > RT(0) ;
 }
 
 template <class R>
-inline bool CGAL_is_straight_angle(const CGAL_Point_2<R> &p,
-    const CGAL_Point_2<R> &q, const CGAL_Point_2<R> &r)
+inline bool is_straight_angle(const Point_2<R> &p,
+    const Point_2<R> &q, const Point_2<R> &r)
 {
     typedef typename R::RT RT;
-    return RT(CGAL_wdot(p, q, r)) == RT(0) ;
+    return RT(wdot(p, q, r)) == RT(0) ;
 }
 
 template <class R>
-inline bool CGAL_is_obtuse_angle(const CGAL_Point_2<R> &p,
-    const CGAL_Point_2<R> &q, const CGAL_Point_2<R> &r)
+inline bool is_obtuse_angle(const Point_2<R> &p,
+    const Point_2<R> &q, const Point_2<R> &r)
 {
     typedef typename R::RT RT;
-    return RT(CGAL_wdot(p, q, r)) < RT(0) ;
+    return RT(wdot(p, q, r)) < RT(0) ;
+}
+
+
+template <class R>
+Orientation orientation(const Vector_2<R> &u,
+    const Vector_2<R> &v)
+{
+    typedef typename R::RT RT;
+    RT wcr = wcross(u,v);
+    return (wcr > RT(0)) ? COUNTERCLOCKWISE :
+           (wcr < RT(0)) ? CLOCKWISE
+                            : COLLINEAR;
 }
 
 template <class R>
-CGAL_Orientation CGAL_orientation(const CGAL_Vector_2<R> &u,
-    const CGAL_Vector_2<R> &v)
+inline bool counterclockwise(const Vector_2<R> &u,
+    const Vector_2<R> &v)
 {
     typedef typename R::RT RT;
-    RT wcr = CGAL_wcross(u,v);
-    return (wcr > RT(0)) ? CGAL_COUNTERCLOCKWISE :
-           (wcr < RT(0)) ? CGAL_CLOCKWISE
-                            : CGAL_COLLINEAR;
+    return RT(wcross(u,v)) > RT(0);
 }
 
 template <class R>
-inline bool CGAL_counterclockwise(const CGAL_Vector_2<R> &u,
-    const CGAL_Vector_2<R> &v)
+inline bool leftturn(const Vector_2<R> &u,
+    const Vector_2<R> &v)
 {
     typedef typename R::RT RT;
-    return RT(CGAL_wcross(u,v)) > RT(0);
+    return RT(wcross(u,v)) > RT(0);
 }
 
 template <class R>
-inline bool CGAL_leftturn(const CGAL_Vector_2<R> &u,
-    const CGAL_Vector_2<R> &v)
+inline bool clockwise(const Vector_2<R> &u,
+    const Vector_2<R> &v)
 {
     typedef typename R::RT RT;
-    return RT(CGAL_wcross(u,v)) > RT(0);
+    return RT(wcross(u,v)) < RT(0);
 }
 
 template <class R>
-inline bool CGAL_clockwise(const CGAL_Vector_2<R> &u,
-    const CGAL_Vector_2<R> &v)
+inline bool rightturn(const Vector_2<R> &u,
+    const Vector_2<R> &v)
 {
     typedef typename R::RT RT;
-    return RT(CGAL_wcross(u,v)) < RT(0);
+    return RT(wcross(u,v)) < RT(0);
 }
 
 template <class R>
-inline bool CGAL_rightturn(const CGAL_Vector_2<R> &u,
-    const CGAL_Vector_2<R> &v)
+inline bool collinear(const Vector_2<R> &u,
+    const Vector_2<R> &v)
 {
     typedef typename R::RT RT;
-    return RT(CGAL_wcross(u,v)) < RT(0);
-}
-
-template <class R>
-inline bool CGAL_collinear(const CGAL_Vector_2<R> &u,
-    const CGAL_Vector_2<R> &v)
-{
-    typedef typename R::RT RT;
-    return RT(CGAL_wcross(u,v)) == RT(0);
+    return RT(wcross(u,v)) == RT(0);
 }
 
 /*
@@ -228,5 +231,6 @@ defined elsewhere.
 */
 
 
+CGAL_END_NAMESPACE
 
 #endif // CGAL_SQUARED_DISTANCE_UTILS_H

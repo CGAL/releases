@@ -1,6 +1,6 @@
 // ======================================================================
 //
-// Copyright (c) 1998 The CGAL Consortium
+// Copyright (c) 1999 The GALIA Consortium
 //
 // This software and related documentation is part of the
 // Computational Geometry Algorithms Library (CGAL).
@@ -16,72 +16,72 @@
 // - Development licenses grant access to the source code of the library 
 //   to develop programs. These programs may be sold to other parties as 
 //   executable code. To obtain a development license, please contact
-//   the CGAL Consortium (at cgal@cs.uu.nl).
+//   the GALIA Consortium (at cgal@cs.uu.nl).
 // - Commercialization licenses grant access to the source code and the
 //   right to sell development licenses. To obtain a commercialization 
-//   license, please contact the CGAL Consortium (at cgal@cs.uu.nl).
+//   license, please contact the GALIA Consortium (at cgal@cs.uu.nl).
 //
 // This software and documentation is provided "as-is" and without
 // warranty of any kind. In no event shall the CGAL Consortium be
 // liable for any damage of any kind.
 //
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// The GALIA Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany) Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+// (Germany), Max-Planck-Institute Saarbrucken (Germany),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-1.2
-// release_date  : 1999, January 18
+// release       : CGAL-2.0
+// release_date  : 1999, June 03
 //
 // file          : include/CGAL/monotone_matrix_search.h
-// package       : Matrix_search (1.10)
+// package       : Matrix_search (1.17)
 // chapter       : $CGAL_Chapter: Geometric Optimisation $
 // source        : mon_search.aw
-// revision      : $Revision: 1.10 $
-// revision_date : $Date: 1998/11/26 16:25:37 $
+// revision      : $Revision: 1.17 $
+// revision_date : $Date: 1999/06/01 14:08:14 $
 // author(s)     : Michael Hoffmann
 //
 // coordinator   : ETH Zurich (Bernd Gaertner)
 //
 // Monotone Matrix Search
-//
 // email         : cgal@cs.uu.nl
 //
 // ======================================================================
 
-#if ! (CGAL_MONOTONE_MATRIX_SEARCH_H)
-#define CGAL_MONOTONE_MATRIX_SEARCH_H 1
+#if ! (MONOTONE_MATRIX_SEARCH_H)
+#define MONOTONE_MATRIX_SEARCH_H 1
 
 #ifndef CGAL_OPTIMISATION_ASSERTIONS_H
 #include <CGAL/optimisation_assertions.h>
 #endif // CGAL_OPTIMISATION_ASSERTIONS_H
-#ifndef CGAL_PROTECT_VECTOR_H
-#include <vector.h>
-#define CGAL_PROTECT_VECTOR_H
-#endif // CGAL_PROTECT_VECTOR_H
-#ifndef CGAL_PROTECT_FUNCTION_H
-#include <function.h>
-#define CGAL_PROTECT_FUNCTION_H
-#endif // CGAL_PROTECT_FUNCTION_H
+#ifndef CGAL_PROTECT_VECTOR
+#include <vector>
+#define CGAL_PROTECT_VECTOR
+#endif
+#ifndef CGAL_PROTECT_FUNCTIONAL
+#include <functional>
+#define CGAL_PROTECT_FUNCTIONAL
+#endif
 
+CGAL_BEGIN_NAMESPACE
 template < class Matrix, class RandomAccessIterator >
 inline
 void
-CGAL_monotone_matrix_search(
+monotone_matrix_search(
   const Matrix& M,
   RandomAccessIterator t)
 {
   typedef typename Matrix::Value V;
-  CGAL_monotone_matrix_search( M, t, less< V >());
-} // CGAL_monotone_matrix_search( M, t)
+  monotone_matrix_search( M, t, std::less< V >());
+} // monotone_matrix_search( M, t)
 template < class Matrix,
            class RandomAccessIterator,
            class Compare_strictly >
 void
-CGAL_monotone_matrix_search(
+monotone_matrix_search(
   const Matrix& M,
   RandomAccessIterator t,
   const Compare_strictly& compare_strictly)
@@ -139,7 +139,7 @@ CGAL_monotone_matrix_search(
     // set sentinel:
     reduction_table[M_new->number_of_rows()] =
       M.number_of_columns() - 1;
-    CGAL__reduce_matrix( *M_new, reduction_table, compare_strictly);
+    _reduce_matrix( *M_new, reduction_table, compare_strictly);
     CGAL_optimisation_assertion(
       M_new->number_of_columns() == M_new->number_of_rows());
   
@@ -190,7 +190,7 @@ CGAL_monotone_matrix_search(
     // we have just one element ==> no choice
     t_new[0] = 0;
   else
-    CGAL_monotone_matrix_search( *M_new, t_new);
+    monotone_matrix_search( *M_new, t_new);
   
   #ifdef CGAL_MON_SEARCH_TRACE
   cerr << "maximum entries:\n";
@@ -248,14 +248,14 @@ CGAL_monotone_matrix_search(
   delete[] t_new;
   delete[] reduction_table;
 
-} // CGAL_monotone_matrix_search( M, t)
+} // monotone_matrix_search( M, t)
 
 
 template < class Matrix,
            class RandomAccessIterator,
            class Compare_strictly >
 void
-CGAL__reduce_matrix(
+_reduce_matrix(
   Matrix& M,
   RandomAccessIterator t,
   const Compare_strictly& compare_strictly)
@@ -310,9 +310,10 @@ CGAL__reduce_matrix(
   }
   
   M.shrink_to_quadratic_size();
-} // CGAL__reduce_matrix( M, t)
+} // _reduce_matrix( M, t)
+CGAL_END_NAMESPACE
 
-#endif // ! (CGAL_MONOTONE_MATRIX_SEARCH_H)
+#endif // ! (MONOTONE_MATRIX_SEARCH_H)
 
 // ----------------------------------------------------------------------------
 // ** EOF

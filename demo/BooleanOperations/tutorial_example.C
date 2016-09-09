@@ -1,7 +1,7 @@
 //  -*- Mode: c++ -*-
 // ============================================================================
 //
-// Copyright (c) 1997 The CGAL Consortium
+// Copyright (c) 1999 The GALIA Consortium
 //
 // This software and related documentation is part of the
 // Computational Geometry Algorithms Library (CGAL).
@@ -17,25 +17,25 @@
 // - Development licenses grant access to the source code of the library 
 //   to develop programs. These programs may be sold to other parties as 
 //   executable code. To obtain a development license, please contact
-//   the CGAL Consortium (at cgal@cs.uu.nl).
+//   the GALIA Consortium (at cgal@cs.uu.nl).
 // - Commercialization licenses grant access to the source code and the
 //   right to sell development licenses. To obtain a commercialization 
-//   license, please contact the CGAL Consortium (at cgal@cs.uu.nl).
+//   license, please contact the GALIA Consortium (at cgal@cs.uu.nl).
 //
 // This software and documentation is provided "as-is" and without
 // warranty of any kind. In no event shall the CGAL Consortium be
 // liable for any damage of any kind.
 //
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// The GALIA Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany) Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+// (Germany), Max-Planck-Institute Saarbrucken (Germany),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-1.2
-// release_date  : 1999, January 18
+// release       : CGAL-2.0
+// release_date  : 1999, June 03
 //
 // file          : demo/BooleanOperations/tutorial_example.C
 // source        : demo/BooleanOperations/tutorial_example.C
@@ -47,7 +47,6 @@
 //  (Wolfgang Freiseisen)
 //
 // 
-//
 // email         : cgal@cs.uu.nl
 //
 // ======================================================================
@@ -57,23 +56,23 @@
 #include <CGAL/Segment_2.h>
 #include <CGAL/Polygon_2.h>
 
-#include <list.h>
-#include <iostream.h>
-#include <fstream.h>
+#include <list>
+#include <iostream>
+#include <fstream>
 //#include <CGAL/IO/Window_stream.h>
 #include <CGAL/basic.h>
 
 //#define CGAL__BOPS_DEBUG_ON
 //#define  CGAL__DCEL_DEBUG_ON
-//#define CGAL__DCEL__V2E_DEBUG_ON
+//#define _DCEL__V2E_DEBUG_ON
 #include <CGAL/boolean_operations_2.h>
 
-typedef CGAL_Cartesian<double> TutorialR;
-typedef CGAL_Point_2<TutorialR> Point_2;
-typedef CGAL_Segment_2<TutorialR> Segment_2;
-typedef CGAL_Polygon_traits_2<TutorialR> Polygon_traits_2;
+typedef Cartesian<double> TutorialR;
+typedef Point_2<TutorialR> Point_2;
+typedef Segment_2<TutorialR> Segment_2;
+typedef Polygon_traits_2<TutorialR> Polygon_traits_2;
 typedef list< Point_2 > Polygon_Container_2;
-typedef CGAL_Polygon_2< Polygon_traits_2, Polygon_Container_2 >  Polygon_2;
+typedef Polygon_2< Polygon_traits_2, Polygon_Container_2 >  Polygon_2;
 typedef Polygon_2::Vertex_iterator Vertex_iterator;
 typedef Polygon_2::Vertex_circulator Vertex_circulator;
 typedef Polygon_2::Edge_const_iterator Edge_iterator;
@@ -87,14 +86,14 @@ double area_result( ForwardIterator first, ForwardIterator last )
   double area=0;
 
   for( ForwardIterator it= first; it != last; it++) {
-    if( CGAL_assign( polygon, *it) ) {
+    if( assign( polygon, *it) ) {
       cout << "Intersection polygon: " << polygon << endl;
       area = area + polygon.area();
     }
-    else if( CGAL_assign( segment, *it) ) {
+    else if( assign( segment, *it) ) {
       cout << "Intersection segment: " << segment << endl;
     }
-    else if( CGAL_assign( point, *it) )  {
+    else if( assign( point, *it) )  {
       cout << "Intersection point: " << point << endl;
     }
     else {
@@ -122,7 +121,7 @@ int main(int argc, char *argv[])
   if (fromFile) {
     ifstream from(argv[1]);
 
-    CGAL_set_ascii_mode(from);
+    set_ascii_mode(from);
     from >> polygA >> polygB;
   }
   else {
@@ -137,7 +136,7 @@ int main(int argc, char *argv[])
   }
 
   // check counterclockwise orientation
-  if (polygA.orientation() == CGAL_CLOCKWISE) {
+  if (polygA.orientation() == CLOCKWISE) {
     cout << "Polygon A is entered clockwise.";
     polygA.reverse_orientation();
     cout << "Its orientation has been reversed." << endl;
@@ -161,7 +160,7 @@ int main(int argc, char *argv[])
   }
 
   // check counterclockwise orientation
-  if (polygB.orientation() == CGAL_CLOCKWISE) {
+  if (polygB.orientation() == CLOCKWISE) {
     cout << "Polygon B is entered clockwise.";
     polygB.reverse_orientation();
     cout << "Its orientation has been reversed." << endl;
@@ -174,25 +173,25 @@ int main(int argc, char *argv[])
   cout << "Area of polygon B is " << polygB.area() << "." << endl;
 
   // compute the intersection of A and B
-  { list<CGAL_Object> result;
+  { list<Object> result;
     double area;
     cout << "Computing intersection of A and B ..." << endl;
-    CGAL_intersection (polygA, polygB, back_inserter(result) );
+    intersection (polygA, polygB, back_inserter(result) );
     cout << "Done." << endl;
     area = area_result( result.begin(), result.end() );
     cout << "Area of intersection of A and B is " << area << endl;
   }
 
   // compute the differences A - B and B - A
-  { list<CGAL_Object> result;
+  { list<Object> result;
     double area1, area2;
     cout << "Computing difference A-B ..." << endl;
-    CGAL_difference (polygA, polygB, back_inserter(result) );
+    difference (polygA, polygB, back_inserter(result) );
     cout << "Done." << endl;
     area1 = area_result( result.begin(), result.end() );
     cout << "Area of A-B is " << area1 << endl;
     cout << "Computing difference B-A ..." << endl;
-    CGAL_difference (polygA, polygB, back_inserter(result) );
+    difference (polygA, polygB, back_inserter(result) );
     cout << "Done." << endl;
     area2 = area_result( result.begin(), result.end() );
     cout << "Area of B-A is " << area2 << endl;

@@ -1,8 +1,6 @@
-
-
 // ======================================================================
 //
-// Copyright (c) 1997 The CGAL Consortium
+// Copyright (c) 1999 The GALIA Consortium
 //
 // This software and related documentation is part of the
 // Computational Geometry Algorithms Library (CGAL).
@@ -18,60 +16,62 @@
 // - Development licenses grant access to the source code of the library 
 //   to develop programs. These programs may be sold to other parties as 
 //   executable code. To obtain a development license, please contact
-//   the CGAL Consortium (at cgal@cs.uu.nl).
+//   the GALIA Consortium (at cgal@cs.uu.nl).
 // - Commercialization licenses grant access to the source code and the
 //   right to sell development licenses. To obtain a commercialization 
-//   license, please contact the CGAL Consortium (at cgal@cs.uu.nl).
+//   license, please contact the GALIA Consortium (at cgal@cs.uu.nl).
 //
 // This software and documentation is provided "as-is" and without
 // warranty of any kind. In no event shall the CGAL Consortium be
 // liable for any damage of any kind.
 //
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// The GALIA Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany) Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+// (Germany), Max-Planck-Institute Saarbrucken (Germany),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-1.2
-// release_date  : 1999, January 18
+// release       : CGAL-2.0
+// release_date  : 1999, June 03
 //
 // file          : include/CGAL/assertions.h
-// package       : Kernel_basic (1.2.12)
-// source        : assertions.fw
+// package       : Kernel_basic (2.0.11)
+// source        : 
 // author(s)     : Geert-Jan Giezeman and Sven Schönherr
 //
-// coordinator   :  MPI, Saarbruecken
-//
+// coordinator   : MPI, Saarbruecken
 //
 // email         : cgal@cs.uu.nl
 //
 // ======================================================================
 
+#ifndef CGAL_CONFIG_H
+#include <CGAL/config.h>
+#endif // CGAL_CONFIG_H
 
 #ifndef CGAL_ASSERTIONS_H
 #define CGAL_ASSERTIONS_H
 
+CGAL_BEGIN_NAMESPACE
+
 // types
 // =====
 
-enum CGAL_Failure_behaviour { CGAL_ABORT, CGAL_EXIT, CGAL_CONTINUE
-//           TODO:          , CGAL_EXIT_WITH_SUCCESS  
-};
+enum Failure_behaviour { ABORT, EXIT, EXIT_WITH_SUCCESS, CONTINUE };
 
 // function declarations
 // =====================
 // failure functions
 // -----------------
-void CGAL_assertion_fail      ( const char*, const char*, int, const char*);
-void CGAL_precondition_fail   ( const char*, const char*, int, const char*);
-void CGAL_postcondition_fail  ( const char*, const char*, int, const char*);
+void assertion_fail      ( const char*, const char*, int, const char*);
+void precondition_fail   ( const char*, const char*, int, const char*);
+void postcondition_fail  ( const char*, const char*, int, const char*);
 
 // warning function
 // ----------------
-void CGAL_warning_fail( const char*, const char*, int, const char*);
+void warning_fail( const char*, const char*, int, const char*);
 
 
 // macro definitions
@@ -87,9 +87,9 @@ void CGAL_warning_fail( const char*, const char*, int, const char*);
 #  define CGAL_assertion_code(CODE)
 #else
 #  define CGAL_assertion(EX) \
-   ((EX)?((void)0):CGAL_assertion_fail( # EX , __FILE__, __LINE__, 0))
+   ((EX)?((void)0): ::CGAL::assertion_fail( # EX , __FILE__, __LINE__, 0))
 #  define CGAL_assertion_msg(EX,MSG) \
-   ((EX)?((void)0):CGAL_assertion_fail( # EX , __FILE__, __LINE__, MSG))
+   ((EX)?((void)0): ::CGAL::assertion_fail( # EX , __FILE__, __LINE__, MSG))
 #  define CGAL_assertion_code(CODE) CODE
 #endif // CGAL_KERNEL_NO_ASSERTIONS
 
@@ -101,9 +101,9 @@ void CGAL_warning_fail( const char*, const char*, int, const char*);
 #  define CGAL_exactness_assertion_code(CODE)
 #else
 #  define CGAL_exactness_assertion(EX) \
-   ((EX)?((void)0):CGAL_assertion_fail( # EX , __FILE__, __LINE__, 0))
+   ((EX)?((void)0): ::CGAL::assertion_fail( # EX , __FILE__, __LINE__, 0))
 #  define CGAL_exactness_assertion_msg(EX,MSG) \
-   ((EX)?((void)0):CGAL_assertion_fail( # EX , __FILE__, __LINE__, MSG))
+   ((EX)?((void)0): ::CGAL::assertion_fail( # EX , __FILE__, __LINE__, MSG))
 #  define CGAL_exactness_assertion_code(CODE) CODE
 #endif // CGAL_KERNEL_NO_ASSERTIONS
 
@@ -115,9 +115,9 @@ void CGAL_warning_fail( const char*, const char*, int, const char*);
 #  define CGAL_expensive_assertion_code(CODE)
 #else
 #  define CGAL_expensive_assertion(EX) \
-   ((EX)?((void)0):CGAL_assertion_fail( # EX , __FILE__, __LINE__, 0))
+   ((EX)?((void)0): ::CGAL::assertion_fail( # EX , __FILE__, __LINE__, 0))
 #  define CGAL_expensive_assertion_msg(EX,MSG) \
-   ((EX)?((void)0):CGAL_assertion_fail( # EX , __FILE__, __LINE__, MSG))
+   ((EX)?((void)0): ::CGAL::assertion_fail( # EX , __FILE__, __LINE__, MSG))
 #  define CGAL_expensive_assertion_code(CODE) CODE
 #endif // CGAL_KERNEL_NO_ASSERTIONS
 
@@ -130,9 +130,9 @@ void CGAL_warning_fail( const char*, const char*, int, const char*);
 #  define CGAL_expensive_exactness_assertion_code(CODE)
 #else
 #  define CGAL_expensive_exactness_assertion(EX) \
-   ((EX)?((void)0):CGAL_assertion_fail( # EX , __FILE__, __LINE__, 0))
+   ((EX)?((void)0): ::CGAL::assertion_fail( # EX , __FILE__, __LINE__, 0))
 #  define CGAL_expensive_exactness_assertion_msg(EX,MSG) \
-   ((EX)?((void)0):CGAL_assertion_fail( # EX , __FILE__, __LINE__, MSG))
+   ((EX)?((void)0): ::CGAL::assertion_fail( # EX , __FILE__, __LINE__, MSG))
 #  define CGAL_expensive_exactness_assertion_code(CODE) CODE
 #endif // CGAL_KERNEL_NO_ASSERTIONS
 
@@ -147,9 +147,9 @@ void CGAL_warning_fail( const char*, const char*, int, const char*);
 #  define CGAL_precondition_code(CODE)
 #else
 #  define CGAL_precondition(EX) \
-   ((EX)?((void)0):CGAL_precondition_fail( # EX , __FILE__, __LINE__, 0))
+   ((EX)?((void)0): ::CGAL::precondition_fail( # EX , __FILE__, __LINE__, 0))
 #  define CGAL_precondition_msg(EX,MSG) \
-   ((EX)?((void)0):CGAL_precondition_fail( # EX , __FILE__, __LINE__, MSG))
+   ((EX)?((void)0): ::CGAL::precondition_fail( # EX , __FILE__, __LINE__, MSG))
 #  define CGAL_precondition_code(CODE) CODE
 #endif // CGAL_KERNEL_NO_PRECONDITIONS
 
@@ -161,9 +161,9 @@ void CGAL_warning_fail( const char*, const char*, int, const char*);
 #  define CGAL_exactness_precondition_code(CODE)
 #else
 #  define CGAL_exactness_precondition(EX) \
-   ((EX)?((void)0):CGAL_precondition_fail( # EX , __FILE__, __LINE__, 0))
+   ((EX)?((void)0): ::CGAL::precondition_fail( # EX , __FILE__, __LINE__, 0))
 #  define CGAL_exactness_precondition_msg(EX,MSG) \
-   ((EX)?((void)0):CGAL_precondition_fail( # EX , __FILE__, __LINE__, MSG))
+   ((EX)?((void)0): ::CGAL::precondition_fail( # EX , __FILE__, __LINE__, MSG))
 #  define CGAL_exactness_precondition_code(CODE) CODE
 #endif // CGAL_KERNEL_NO_PRECONDITIONS
 
@@ -175,9 +175,9 @@ void CGAL_warning_fail( const char*, const char*, int, const char*);
 #  define CGAL_expensive_precondition_code(CODE)
 #else
 #  define CGAL_expensive_precondition(EX) \
-   ((EX)?((void)0):CGAL_precondition_fail( # EX , __FILE__, __LINE__, 0))
+   ((EX)?((void)0): ::CGAL::precondition_fail( # EX , __FILE__, __LINE__, 0))
 #  define CGAL_expensive_precondition_msg(EX,MSG) \
-   ((EX)?((void)0):CGAL_precondition_fail( # EX , __FILE__, __LINE__, MSG))
+   ((EX)?((void)0): ::CGAL::precondition_fail( # EX , __FILE__, __LINE__, MSG))
 #  define CGAL_expensive_precondition_code(CODE) CODE
 #endif // CGAL_KERNEL_NO_PRECONDITIONS
 
@@ -190,9 +190,9 @@ void CGAL_warning_fail( const char*, const char*, int, const char*);
 #  define CGAL_expensive_exactness_precondition_code(CODE)
 #else
 #  define CGAL_expensive_exactness_precondition(EX) \
-   ((EX)?((void)0):CGAL_precondition_fail( # EX , __FILE__, __LINE__, 0))
+   ((EX)?((void)0): ::CGAL::precondition_fail( # EX , __FILE__, __LINE__, 0))
 #  define CGAL_expensive_exactness_precondition_msg(EX,MSG) \
-   ((EX)?((void)0):CGAL_precondition_fail( # EX , __FILE__, __LINE__, MSG))
+   ((EX)?((void)0): ::CGAL::precondition_fail( # EX , __FILE__, __LINE__, MSG))
 #  define CGAL_expensive_exactness_precondition_code(CODE) CODE
 #endif // CGAL_KERNEL_NO_PRECONDITIONS
 
@@ -207,9 +207,9 @@ void CGAL_warning_fail( const char*, const char*, int, const char*);
 #  define CGAL_postcondition_code(CODE)
 #else
 #  define CGAL_postcondition(EX) \
-   ((EX)?((void)0):CGAL_postcondition_fail( # EX , __FILE__, __LINE__, 0))
+   ((EX)?((void)0): ::CGAL::postcondition_fail( # EX , __FILE__, __LINE__, 0))
 #  define CGAL_postcondition_msg(EX,MSG) \
-   ((EX)?((void)0):CGAL_postcondition_fail( # EX , __FILE__, __LINE__, MSG))
+   ((EX)?((void)0): ::CGAL::postcondition_fail( # EX , __FILE__, __LINE__, MSG))
 #  define CGAL_postcondition_code(CODE) CODE
 #endif // CGAL_KERNEL_NO_POSTCONDITIONS
 
@@ -221,9 +221,9 @@ void CGAL_warning_fail( const char*, const char*, int, const char*);
 #  define CGAL_exactness_postcondition_code(CODE)
 #else
 #  define CGAL_exactness_postcondition(EX) \
-   ((EX)?((void)0):CGAL_postcondition_fail( # EX , __FILE__, __LINE__, 0))
+   ((EX)?((void)0): ::CGAL::postcondition_fail( # EX , __FILE__, __LINE__, 0))
 #  define CGAL_exactness_postcondition_msg(EX,MSG) \
-   ((EX)?((void)0):CGAL_postcondition_fail( # EX , __FILE__, __LINE__, MSG))
+   ((EX)?((void)0): ::CGAL::postcondition_fail( # EX , __FILE__, __LINE__, MSG))
 #  define CGAL_exactness_postcondition_code(CODE) CODE
 #endif // CGAL_KERNEL_NO_POSTCONDITIONS
 
@@ -235,9 +235,9 @@ void CGAL_warning_fail( const char*, const char*, int, const char*);
 #  define CGAL_expensive_postcondition_code(CODE)
 #else
 #  define CGAL_expensive_postcondition(EX) \
-   ((EX)?((void)0):CGAL_postcondition_fail( # EX , __FILE__, __LINE__, 0))
+   ((EX)?((void)0): ::CGAL::postcondition_fail( # EX , __FILE__, __LINE__, 0))
 #  define CGAL_expensive_postcondition_msg(EX,MSG) \
-   ((EX)?((void)0):CGAL_postcondition_fail( # EX , __FILE__, __LINE__, MSG))
+   ((EX)?((void)0): ::CGAL::postcondition_fail( # EX , __FILE__, __LINE__, MSG))
 #  define CGAL_expensive_postcondition_code(CODE) CODE
 #endif // CGAL_KERNEL_NO_POSTCONDITIONS
 
@@ -250,9 +250,9 @@ void CGAL_warning_fail( const char*, const char*, int, const char*);
 #  define CGAL_expensive_exactness_postcondition_code(CODE)
 #else
 #  define CGAL_expensive_exactness_postcondition(EX) \
-   ((EX)?((void)0):CGAL_postcondition_fail( # EX , __FILE__, __LINE__, 0))
+   ((EX)?((void)0): ::CGAL::postcondition_fail( # EX , __FILE__, __LINE__, 0))
 #  define CGAL_expensive_exactness_postcondition_msg(EX,MSG) \
-   ((EX)?((void)0):CGAL_postcondition_fail( # EX , __FILE__, __LINE__, MSG))
+   ((EX)?((void)0): ::CGAL::postcondition_fail( # EX , __FILE__, __LINE__, MSG))
 #  define CGAL_expensive_exactness_postcondition_code(CODE) CODE
 #endif // CGAL_KERNEL_NO_POSTCONDITIONS
 
@@ -267,9 +267,9 @@ void CGAL_warning_fail( const char*, const char*, int, const char*);
 #  define CGAL_warning_code(CODE)
 #else
 #  define CGAL_warning(EX) \
-   ((EX)?((void)0):CGAL_warning_fail( # EX , __FILE__, __LINE__, 0))
+   ((EX)?((void)0): ::CGAL::warning_fail( # EX , __FILE__, __LINE__, 0))
 #  define CGAL_warning_msg(EX,MSG) \
-   ((EX)?((void)0):CGAL_warning_fail( # EX , __FILE__, __LINE__, MSG))
+   ((EX)?((void)0): ::CGAL::warning_fail( # EX , __FILE__, __LINE__, MSG))
 #  define CGAL_warning_code(CODE) CODE
 #endif // CGAL_KERNEL_NO_WARNINGS
 
@@ -281,9 +281,9 @@ void CGAL_warning_fail( const char*, const char*, int, const char*);
 #  define CGAL_exactness_warning_code(CODE)
 #else
 #  define CGAL_exactness_warning(EX) \
-   ((EX)?((void)0):CGAL_warning_fail( # EX , __FILE__, __LINE__, 0))
+   ((EX)?((void)0): ::CGAL::warning_fail( # EX , __FILE__, __LINE__, 0))
 #  define CGAL_exactness_warning_msg(EX,MSG) \
-   ((EX)?((void)0):CGAL_warning_fail( # EX , __FILE__, __LINE__, MSG))
+   ((EX)?((void)0): ::CGAL::warning_fail( # EX , __FILE__, __LINE__, MSG))
 #  define CGAL_exactness_warning_code(CODE) CODE
 #endif // CGAL_KERNEL_NO_WARNINGS
 
@@ -295,9 +295,9 @@ void CGAL_warning_fail( const char*, const char*, int, const char*);
 #  define CGAL_expensive_warning_code(CODE)
 #else
 #  define CGAL_expensive_warning(EX) \
-   ((EX)?((void)0):CGAL_warning_fail( # EX , __FILE__, __LINE__, 0))
+   ((EX)?((void)0): ::CGAL::warning_fail( # EX , __FILE__, __LINE__, 0))
 #  define CGAL_expensive_warning_msg(EX,MSG) \
-   ((EX)?((void)0):CGAL_warning_fail( # EX , __FILE__, __LINE__, MSG))
+   ((EX)?((void)0): ::CGAL::warning_fail( # EX , __FILE__, __LINE__, MSG))
 #  define CGAL_expensive_warning_code(CODE) CODE
 #endif // CGAL_KERNEL_NO_WARNINGS
 
@@ -310,9 +310,9 @@ void CGAL_warning_fail( const char*, const char*, int, const char*);
 #  define CGAL_expensive_exactness_warning_code(CODE)
 #else
 #  define CGAL_expensive_exactness_warning(EX) \
-   ((EX)?((void)0):CGAL_warning_fail( # EX , __FILE__, __LINE__, 0))
+   ((EX)?((void)0): ::CGAL::warning_fail( # EX , __FILE__, __LINE__, 0))
 #  define CGAL_expensive_exactness_warning_msg(EX,MSG) \
-   ((EX)?((void)0):CGAL_warning_fail( # EX , __FILE__, __LINE__, MSG))
+   ((EX)?((void)0): ::CGAL::warning_fail( # EX , __FILE__, __LINE__, MSG))
 #  define CGAL_expensive_exactness_warning_code(CODE) CODE
 #endif // CGAL_KERNEL_NO_WARNINGS
 
@@ -323,22 +323,24 @@ void CGAL_warning_fail( const char*, const char*, int, const char*);
 // ---------------
 typedef
     void
-    (*CGAL_Failure_function)(
+    (*Failure_function)(
         const char*, const char*, const char*, int, const char*);
 
-CGAL_Failure_function
-CGAL_set_error_handler( CGAL_Failure_function handler);
+Failure_function
+set_error_handler( Failure_function handler);
 
-CGAL_Failure_function
-CGAL_set_warning_handler( CGAL_Failure_function handler);
+Failure_function
+set_warning_handler( Failure_function handler);
 
 // failure behaviour handler
 // -------------------------
-CGAL_Failure_behaviour
-CGAL_set_error_behaviour(CGAL_Failure_behaviour eb);
+Failure_behaviour
+set_error_behaviour(Failure_behaviour eb);
 
-CGAL_Failure_behaviour
-CGAL_set_warning_behaviour(CGAL_Failure_behaviour eb);
+Failure_behaviour
+set_warning_behaviour(Failure_behaviour eb);
+
+CGAL_END_NAMESPACE
 
 #endif // CGAL_ASSERTIONS_H
 

@@ -13,17 +13,17 @@
 
 
 typedef double			 		Basetype;
-typedef CGAL_Homogeneous<Basetype>	    	Rep_class;
-typedef CGAL_Pm_segment_exact_traits<Rep_class>	Pmtraits;
+typedef CGAL::Homogeneous<Basetype>	    	Rep_class;
+typedef CGAL::Pm_segment_exact_traits<Rep_class>	Pmtraits;
 
 typedef Pmtraits::Point 		Point;
 typedef Pmtraits::X_curve		Curve;
 
-typedef CGAL_Pm_default_dcel<Pmtraits>      	Pmdcel;
-typedef CGAL_Planar_map_2<Pmdcel, Pmtraits>	Planar_map;
+typedef CGAL::Pm_default_dcel<Pmtraits>      	Pmdcel;
+typedef CGAL::Planar_map_2<Pmdcel, Pmtraits>	Planar_map;
 
-typedef CGAL_Pm_bops_default_dcel<Pmtraits> 	Bops_dcel;
-typedef CGAL_Planar_map_2<Bops_dcel, Pmtraits> 	Bops_planar_map;
+typedef CGAL::Pm_bops_default_dcel<Pmtraits> 	Bops_dcel;
+typedef CGAL::Planar_map_2<Bops_dcel, Pmtraits> 	Bops_planar_map;
 
 
 int main()
@@ -117,7 +117,7 @@ int main()
 
   
 
-  CGAL_Pm_overlay_for_bops<Pmtraits>(pm1, pm2, pm3);
+  CGAL::Pm_overlay_for_bops<Pmtraits>(pm1, pm2, pm3);
 
   if (pm3.is_valid()){
     ofstream fout(strcat(nr_filename,"/pm.out"));

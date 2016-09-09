@@ -1,6 +1,6 @@
 // ======================================================================
 //
-// Copyright (c) 1997 The CGAL Consortium
+// Copyright (c) 1999 The GALIA Consortium
 //
 // This software and related documentation is part of the
 // Computational Geometry Algorithms Library (CGAL).
@@ -16,35 +16,34 @@
 // - Development licenses grant access to the source code of the library 
 //   to develop programs. These programs may be sold to other parties as 
 //   executable code. To obtain a development license, please contact
-//   the CGAL Consortium (at cgal@cs.uu.nl).
+//   the GALIA Consortium (at cgal@cs.uu.nl).
 // - Commercialization licenses grant access to the source code and the
 //   right to sell development licenses. To obtain a commercialization 
-//   license, please contact the CGAL Consortium (at cgal@cs.uu.nl).
+//   license, please contact the GALIA Consortium (at cgal@cs.uu.nl).
 //
 // This software and documentation is provided "as-is" and without
 // warranty of any kind. In no event shall the CGAL Consortium be
 // liable for any damage of any kind.
 //
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// The GALIA Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany) Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+// (Germany), Max-Planck-Institute Saarbrucken (Germany),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-1.2
-// release_date  : 1999, January 18
+// release       : CGAL-2.0
+// release_date  : 1999, June 03
 //
 // file          : include/CGAL/IO/io.h
-// package       : iostream (1.8)
-// source        : web/io.fw
-// revision      : $Revision: 1.10 $
-// revision_date : $Date: 1998/07/22 12:49:21 $
+// package       : iostream (2.1)
+// source        : $RCSfile: io.h,v $
+// revision      : $Revision: 1.3 $
+// revision_date : $Date: 1999/05/27 13:54:49 $
 // author(s)     : Andreas Fabri
 //
 // coordinator   : Herve Bronnimann
-//
 //
 // email         : cgal@cs.uu.nl
 //
@@ -59,42 +58,44 @@
 #include <CGAL/IO/Color.h>
 #include <CGAL/Object.h>
 
-class CGAL_IO {
+CGAL_BEGIN_NAMESPACE
+
+class IO {
 public:
     static int mode;
     enum Mode {ASCII = 0, PRETTY, BINARY};
 };
 
-CGAL_IO::Mode
-CGAL_get_mode(ios& i);
+IO::Mode
+get_mode(std::ios& i);
 
-CGAL_IO::Mode
-CGAL_set_ascii_mode(ios& i);
+IO::Mode
+set_ascii_mode(std::ios& i);
 
-CGAL_IO::Mode
-CGAL_set_binary_mode(ios& i);
+IO::Mode
+set_binary_mode(std::ios& i);
 
-CGAL_IO::Mode
-CGAL_set_pretty_mode(ios& i);
+IO::Mode
+set_pretty_mode(std::ios& i);
 
-CGAL_IO::Mode
-CGAL_set_mode(ios& i, CGAL_IO::Mode m);
+IO::Mode
+set_mode(std::ios& i, IO::Mode m);
 bool
-CGAL_is_pretty(ios& i);
-
-bool
-CGAL_is_ascii(ios& i);
+is_pretty(std::ios& i);
 
 bool
-CGAL_is_binary(ios& i);
+is_ascii(std::ios& i);
 
-inline CGAL_io_Read_write CGAL_io_tag(char){ return CGAL_io_Read_write(); }
+bool
+is_binary(std::ios& i);
+
+inline io_Read_write io_tag(char){ return io_Read_write(); }
 
 
 template < class T >
 inline
 void
-CGAL_write(ostream& os, const T& t, const CGAL_io_Read_write&)
+write(ostream& os, const T& t, const io_Read_write&)
 {
     os.write((char*)&t, sizeof(t));
 }
@@ -103,7 +104,7 @@ CGAL_write(ostream& os, const T& t, const CGAL_io_Read_write&)
 template < class T >
 inline
 void
-CGAL_write(ostream& os, const T& t, const CGAL_io_Operator&)
+write(ostream& os, const T& t, const io_Operator&)
 {
     os << t;
 }
@@ -112,25 +113,25 @@ CGAL_write(ostream& os, const T& t, const CGAL_io_Operator&)
 template < class T >
 inline
 void
-CGAL_write(ostream& os, const T& t, const CGAL_io_Extract_insert&)
+write(ostream& os, const T& t, const io_Extract_insert&)
 {
-    CGAL_insert(os, t);
+    insert(os, t);
 }
 
 
 template < class T >
 inline
 void
-CGAL_write(ostream& os, const T& t)
+write(ostream& os, const T& t)
 {
-    CGAL_write(os, t, CGAL_io_tag(t));
+    write(os, t, io_tag(t));
 }
 
 
 template < class T >
 inline
 void
-CGAL_read(istream& is, T& t, const CGAL_io_Read_write&)
+read(istream& is, T& t, const io_Read_write&)
 {
     is.read((char*)&t, sizeof(t));
 }
@@ -139,7 +140,7 @@ CGAL_read(istream& is, T& t, const CGAL_io_Read_write&)
 template < class T >
 inline
 void
-CGAL_read(istream& is, T& t, const CGAL_io_Operator&)
+read(istream& is, T& t, const io_Operator&)
 {
     is >> t;
 }
@@ -148,31 +149,31 @@ CGAL_read(istream& is, T& t, const CGAL_io_Operator&)
 template < class T >
 inline
 void
-CGAL_read(istream& is, T& t, const CGAL_io_Extract_insert&)
+read(istream& is, T& t, const io_Extract_insert&)
 {
-    CGAL_extract(is, t);
+    extract(is, t);
 }
 
 
 template < class T >
 inline
 void
-CGAL_read(istream& is, T& t)
+read(istream& is, T& t)
 {
-    CGAL_read(is, t, CGAL_io_tag(t));
+    read(is, t, io_tag(t));
 }
 
 
 inline
-ostream& operator<<( ostream& out, const CGAL_Color& col)
+ostream& operator<<( ostream& out, const Color& col)
 {
-    switch(out.iword(CGAL_IO::mode)) {
-    case CGAL_IO::ASCII :
+    switch(out.iword(IO::mode)) {
+    case IO::ASCII :
         return out << col.red() << ' ' << col.green() << ' ' << col.blue();
-    case CGAL_IO::BINARY :
-        CGAL_write(out, col.red());
-        CGAL_write(out, col.green());
-        CGAL_write(out, col.blue());
+    case IO::BINARY :
+        write(out, col.red());
+        write(out, col.green());
+        write(out, col.blue());
         return out;
     default:
         return out << "Color(" << col.red() << ", " << col.green() << ", "
@@ -181,26 +182,27 @@ ostream& operator<<( ostream& out, const CGAL_Color& col)
 }
 
 inline
-istream &operator>>(istream &is, CGAL_Color& col)
+istream &operator>>(istream &is, Color& col)
 {
     int r, g, b;
-    switch(is.iword(CGAL_IO::mode)) {
-    case CGAL_IO::ASCII :
+    switch(is.iword(IO::mode)) {
+    case IO::ASCII :
         is >> r >> g >> b;
         break;
-    case CGAL_IO::BINARY :
-        CGAL_read(is, r);
-        CGAL_read(is, g);
-        CGAL_read(is, b);
+    case IO::BINARY :
+        read(is, r);
+        read(is, g);
+        read(is, b);
         break;
     default:
         cerr << "" << endl;
         cerr << "Stream must be in ascii or binary mode" << endl;
         break;
     }
-    col = CGAL_Color(r,g,b);
+    col = Color(r,g,b);
     return is;
 }
 
+CGAL_END_NAMESPACE
 
 #endif // CGAL_IO_H

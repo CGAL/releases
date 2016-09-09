@@ -5,6 +5,7 @@
 #include <fstream.h>
 #include <strstream.h>
 
+#include <CGAL/Triangulation_short_names_2.h>
 
 #include <CGAL/Fixed_precision_nt.h>
 #include <CGAL/Timer.h>
@@ -19,28 +20,30 @@
 
 #include <CGAL/point_generators_2.h>
 
-typedef CGAL_Fixed_precision_nt coord_type;
+using namespace CGAL;
+
+typedef Fixed_precision_nt coord_type;
 static bool Fixed_precision_nt_init_result
-             = CGAL_Fixed_precision_nt::init(2000.0);
+             = Fixed_precision_nt::init(2000.0);
 
-typedef CGAL_Cartesian<coord_type>  Rep;
+typedef Cartesian<coord_type>  Repclass;
 
-typedef CGAL_Point_2<Rep>  Point_;
+typedef Point_2<Repclass>  Point_;
 
-typedef CGAL_Triangulation_euclidean_traits_2<Rep> Traits_;
-typedef CGAL_Triangulation_vertex_base_2<Traits_> Vb;
-typedef CGAL_Triangulation_face_base_2<Traits_>  Fb;
-typedef CGAL_Triangulation_default_data_structure_2<Traits_,Vb,Fb> Tds;
-typedef CGAL_Delaunay_triangulation_2<Traits_,Tds>  Delaunay_;
+typedef Triangulation_euclidean_traits_2<Repclass> Traits_;
+typedef Triangulation_vertex_base_2<Traits_> Vb;
+typedef Triangulation_face_base_2<Traits_>  Fb;
+typedef Triangulation_default_data_structure_2<Traits_,Vb,Fb> Tds;
+typedef Delaunay_triangulation_2<Traits_,Tds>  Delaunay_;
 
 
 int main(int argc, char* argv[])
 {
-    CGAL_Timer t;
+    Timer t;
     Delaunay_ D;
 
-    CGAL_Random_points_in_square_2<Point_,
-      CGAL_Creator_uniform_2<double,Point_> > Input ( 1.0 );
+    Random_points_in_square_2<Point_,
+      Creator_uniform_2<double,Point_> > Input ( 1.0 );
 
     int N; if (argc==2) sscanf(argv[1], "%d", &N); 
     else {N=100; cerr<<"usage : "<<argv[0]<<" nb-of-points"<<endl<<endl;}

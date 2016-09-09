@@ -1,6 +1,6 @@
 // ======================================================================
 //
-// Copyright (c) 1997 The CGAL Consortium
+// Copyright (c) 1999 The GALIA Consortium
 //
 // This software and related documentation is part of the
 // Computational Geometry Algorithms Library (CGAL).
@@ -16,34 +16,35 @@
 // - Development licenses grant access to the source code of the library 
 //   to develop programs. These programs may be sold to other parties as 
 //   executable code. To obtain a development license, please contact
-//   the CGAL Consortium (at cgal@cs.uu.nl).
+//   the GALIA Consortium (at cgal@cs.uu.nl).
 // - Commercialization licenses grant access to the source code and the
 //   right to sell development licenses. To obtain a commercialization 
-//   license, please contact the CGAL Consortium (at cgal@cs.uu.nl).
+//   license, please contact the GALIA Consortium (at cgal@cs.uu.nl).
 //
 // This software and documentation is provided "as-is" and without
 // warranty of any kind. In no event shall the CGAL Consortium be
 // liable for any damage of any kind.
 //
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// The GALIA Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany) Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+// (Germany), Max-Planck-Institute Saarbrucken (Germany),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-1.2
-// release_date  : 1999, January 18
+// release       : CGAL-2.0
+// release_date  : 1999, June 03
 //
 // file          : include/CGAL/Tree_base.h
-// package       : Range_segment_trees (1.9)
+// package       : SearchStructures (2.3)
 // source        : include/CGAL/Tree_base.h 
 // revision      : $Revision: 1.4 $
 // revision_date : $Date: 1998/02/03 13:15:18 $
 // author(s)     : Gabriele Neyer
 //
 // coordinator   : Peter Widmayer, ETH Zurich
+//
 //
 //
 // email         : cgal@cs.uu.nl
@@ -53,11 +54,11 @@
 #ifndef __CGAL_Tree_base_d__
 #define __CGAL_Tree_base_d__
 
-#include <iterator.h>
-#include <iostream.h>
-#include <function.h>
-#include <list.h>
-#include <vector.h>
+#include <iterator>
+#include <iostream>
+#include <functional>
+#include <list>
+#include <vector>
 #include <CGAL/assertions.h>
 #include <CGAL/Tree_assertions.h>
 
@@ -68,8 +69,8 @@
 #define  USE_VARIABLE( X )  (void)(&(X));
 #endif  
 
-#ifndef CGAL__NIL
-#define CGAL__NIL (link_type)0
+#ifndef TREE_BASE_NULL
+#define TREE_BASE_NULL 0
 #endif
 
 #ifndef CGAL__static_cast
@@ -90,6 +91,8 @@
 
 #define carray
 
+CGAL_BEGIN_NAMESPACE
+
 template <class InIt>
 int   count_elements__C( const InIt  first, const InIt  last )
 {
@@ -106,10 +109,11 @@ int   count_elements__C( const InIt  first, const InIt  last )
 
 
 //link type definition of an ordinary vertex of the tree
-struct CGAL_tree_node_base {
+struct tree_node_base {
   void *parent_link;
   void *left_link;
   void *right_link;
+  tree_node_base(){parent_link=0; left_link=0; right_link=0;}
 };
 
 
@@ -119,59 +123,59 @@ struct CGAL_tree_node_base {
 // A tree class has to be derived from this class.
 
 template <class _Data, class _Window>
-class CGAL_tree_base
+class tree_base
 {
 protected:
-  typedef CGAL_tree_base<_Data, _Window> tree_base_type;
+  typedef tree_base<_Data, _Window> tree_base_type;
 
-  CGAL_tree_base(CGAL_tree_base const &); // prevent access
-  void operator= (CGAL_tree_base const &); // prevent access
+  tree_base(tree_base const &); // prevent access
+  void operator= (tree_base const &); // prevent access
 
 public:
-  CGAL_tree_base() {}
-  virtual ~CGAL_tree_base() {}
+  tree_base() {}
+  virtual ~tree_base() {}
 
   // 'clone()' returns an object which can be used as argument to 'delete'
   virtual tree_base_type   *clone() const = 0;
 
   // 'make_tree()' returns an object which can be used as argument to 'delete'
-  virtual bool make_tree(list<_Data>::iterator& beg, 
-			 list<_Data>::iterator& end) =0;
+  virtual bool make_tree(std::list<_Data>::iterator& beg, 
+			 std::list<_Data>::iterator& end) =0;
 #ifdef stlvector
-  virtual bool make_tree(vector<_Data>::iterator& beg, 
-			 vector<_Data>::iterator& end) =0;
+  virtual bool make_tree(std::vector<_Data>::iterator& beg, 
+			 std::vector<_Data>::iterator& end) =0;
 #endif
 #ifdef carray
   virtual bool make_tree(_Data *beg, 
                          _Data *end) =0;
 #endif
-  virtual back_insert_iterator<list<_Data> > 
-    window_query(_Window const &win, back_insert_iterator<
-		 list<_Data> > out) = 0; 
-  virtual back_insert_iterator<vector<_Data> >
-    window_query(_Window const &win, back_insert_iterator<
-		 vector<_Data> > out) = 0; 
+  virtual std::back_insert_iterator<std::list<_Data> > 
+    window_query(_Window const &win, std::back_insert_iterator<
+		 std::list<_Data> > out) = 0; 
+  virtual std::back_insert_iterator<std::vector<_Data> >
+    window_query(_Window const &win, std::back_insert_iterator<
+		 std::vector<_Data> > out) = 0; 
 #ifdef carray
   virtual _Data * window_query( _Window const &win, 
 			        _Data * out) = 0; 
 #endif
 #ifdef ostreamiterator
-  virtual ostream_iterator< _Data> window_query( _Window const &win, 
-				    ostream_iterator< _Data> out) = 0; 
+  virtual std::ostream_iterator< _Data> window_query( _Window const &win, 
+				    std::ostream_iterator< _Data> out) = 0; 
 #endif
-  virtual back_insert_iterator<list< _Data> > 
-    enclosing_query( _Window const &win, back_insert_iterator<
-		    list< _Data> > out) = 0; 
-  virtual back_insert_iterator<vector< _Data> > 
-    enclosing_query( _Window const &win, back_insert_iterator<
-		    vector< _Data> > out) = 0; 
+  virtual std::back_insert_iterator<std::list< _Data> > 
+    enclosing_query( _Window const &win, std::back_insert_iterator<
+		    std::list< _Data> > out) = 0; 
+  virtual std::back_insert_iterator<std::vector< _Data> > 
+    enclosing_query( _Window const &win, std::back_insert_iterator<
+		    std::vector< _Data> > out) = 0; 
 #ifdef carray
   virtual   _Data * enclosing_query( _Window const &win, 
 				    _Data *out) = 0; 
 #endif
 #ifdef ostreamiterator
-  virtual ostream_iterator< _Data> enclosing_query( _Window const &win, 
-				       ostream_iterator< _Data> out) = 0; 
+  virtual std::ostream_iterator< _Data> enclosing_query( _Window const &win, 
+				       std::ostream_iterator< _Data> out) = 0; 
 #endif
   virtual bool is_inside( _Window const &win,
 			  _Data const& object)=0;  
@@ -186,24 +190,24 @@ public:
 // most inner class. This class is doing nothin exept stopping the recursion
 
 template <class _Data, class _Window>
-class CGAL_tree_anchor: public CGAL_tree_base< _Data,  _Window>
+class tree_anchor: public tree_base< _Data,  _Window>
 {
 public:
   // Construct a factory with the given factory as sublayer
-  CGAL_tree_anchor() {}
-  virtual ~CGAL_tree_anchor(){}
-  tree_base_type *clone() const { return new CGAL_tree_anchor(); }
+  tree_anchor() {}
+  virtual ~tree_anchor(){}
+  tree_base_type *clone() const { return new tree_anchor(); }
 
-  bool make_tree(list< _Data>::iterator& beg, 
-		 list< _Data>::iterator& end) 
+  bool make_tree(std::list< _Data>::iterator& beg, 
+		 std::list< _Data>::iterator& end) 
   {
     USE_ARGUMENT(beg);
     USE_ARGUMENT(end);
     return true;
   }
 #ifdef stlvector
-  bool make_tree(vector< _Data>::iterator& beg, 
-		 vector< _Data>::iterator& end) 
+  bool make_tree(std::vector< _Data>::iterator& beg, 
+		 std::vector< _Data>::iterator& end) 
   {
     USE_ARGUMENT(beg);
     USE_ARGUMENT(end);
@@ -219,14 +223,14 @@ public:
     return true;
   }
 #endif
-   back_insert_iterator<list< _Data> > window_query( _Window const &win, 
-			       back_insert_iterator<list< _Data> > out){
+   std::back_insert_iterator<std::list< _Data> > window_query( _Window const &win, 
+			       std::back_insert_iterator<std::list< _Data> > out){
     USE_ARGUMENT(win);
     USE_ARGUMENT(out);
     return out;
   }
-  back_insert_iterator<vector< _Data> >  window_query( _Window const &win, 
-                               back_insert_iterator<vector< _Data> > out){
+  std::back_insert_iterator<std::vector< _Data> >  window_query( _Window const &win, 
+                               std::back_insert_iterator<std::vector< _Data> > out){
     USE_ARGUMENT(win);
     USE_ARGUMENT(out);
     return out;
@@ -240,21 +244,21 @@ public:
   }
 #endif
 #ifdef ostreamiterator
-  ostream_iterator< _Data> window_query( _Window const &win, 
-				       ostream_iterator< _Data> out){
+  std::ostream_iterator< _Data> window_query( _Window const &win, 
+				       std::ostream_iterator< _Data> out){
     USE_ARGUMENT(win);
     USE_ARGUMENT(out);
     return out;
   }
 #endif
-  back_insert_iterator<list< _Data> > enclosing_query( _Window const &win, 
-                                  back_insert_iterator<list< _Data> > out){
+  std::back_insert_iterator<std::list< _Data> > enclosing_query( _Window const &win, 
+                                  std::back_insert_iterator<std::list< _Data> > out){
     USE_ARGUMENT(win);
     USE_ARGUMENT(out);
     return out;
   }
-  back_insert_iterator<vector< _Data> > enclosing_query( _Window const &win, 
-                                  back_insert_iterator<vector< _Data> > out){
+  std::back_insert_iterator<std::vector< _Data> > enclosing_query( _Window const &win, 
+                                  std::back_insert_iterator<std::vector< _Data> > out){
     USE_ARGUMENT(win);
     USE_ARGUMENT(out); 
     return out;
@@ -268,8 +272,8 @@ public:
   }
 #endif
 #ifdef ostreamiterator
-  ostream_iterator< _Data> enclosing_query( _Window const &win, 
-					  ostream_iterator< _Data> out){
+  std::ostream_iterator< _Data> enclosing_query( _Window const &win, 
+					  std::ostream_iterator< _Data> out){
     USE_ARGUMENT(win);
     USE_ARGUMENT(out);
     return out;
@@ -289,5 +293,6 @@ protected:
   bool is_anchor(){return true;}
 };
 
+CGAL_END_NAMESPACE
 // -------------------------------------------------------------------
 #endif

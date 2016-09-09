@@ -1,17 +1,17 @@
-/*  polyhedron_prog_off.C           */
-/*  ------------------------------- */
+// polyhedron_prog_off.C
+// -----------------------------------------------------------
 #include <CGAL/Cartesian.h>
-#include <iostream.h>
+#include <iostream>
 #include <CGAL/Halfedge_data_structure_polyhedron_default_3.h>
 #include <CGAL/Polyhedron_default_traits_3.h>
 #include <CGAL/Polyhedron_3.h>
 #include <CGAL/Iterator_project.h>
 #include <CGAL/function_objects.h>
 
-typedef CGAL_Cartesian<double>                               R;
-typedef CGAL_Halfedge_data_structure_polyhedron_default_3<R> HDS;
-typedef CGAL_Polyhedron_default_traits_3<R>                  Traits;
-typedef CGAL_Polyhedron_3<Traits,HDS>                        Polyhedron;
+typedef CGAL::Cartesian<double>                              R;
+typedef CGAL::Halfedge_data_structure_polyhedron_default_3<R> HDS;
+typedef CGAL::Polyhedron_default_traits_3<R>                 Traits;
+typedef CGAL::Polyhedron_3<Traits,HDS>                       Polyhedron;
 typedef Polyhedron::Difference                               Difference;
 typedef Polyhedron::iterator_category                        Iterator_category;
 typedef Polyhedron::Point                                    Point;
@@ -21,8 +21,8 @@ typedef Polyhedron::Facet_iterator                           Facet_iterator;
 typedef Polyhedron::Halfedge_around_facet_circulator
                                             Halfedge_around_facet_circulator;
 
-typedef CGAL_Project_point<Vertex>                           Project_point;
-typedef CGAL_Iterator_project<Vertex_iterator, Project_point,
+typedef CGAL::Project_point<Vertex>                          Project;
+typedef CGAL::Iterator_project<Vertex_iterator, Project,
         Point&, Point*, Difference, Iterator_category>       Point_iterator;
 
 int main() {
@@ -34,25 +34,25 @@ int main() {
     Polyhedron P;
     P.make_tetrahedron( p, q, r, s);
 
-    /* Write polyhedron on Object File Format (OFF). */
-    CGAL_set_ascii_mode( cout);
-    cout << "OFF" << endl;
-    cout << P.size_of_vertices() << ' ' << P.size_of_facets() << " 0" << endl;
-    copy( Point_iterator( P.vertices_begin()), 
-	  Point_iterator( P.vertices_end()), 
-	  ostream_iterator<Point>(cout,"\n"));
-    Facet_iterator i = P.facets_begin();
-    for ( ; i != P.facets_end(); ++i) {
+    // Write polyhedron on Object File Format (OFF).
+    CGAL::set_ascii_mode( std::cout);
+    std::cout << "OFF" << std::endl;
+    std::cout << P.size_of_vertices() << ' ' 
+	      << P.size_of_facets() << " 0" << std::endl;
+    std::copy( Point_iterator( P.vertices_begin()), 
+	       Point_iterator( P.vertices_end()), 
+	       std::ostream_iterator<Point>( std::cout, "\n"));
+    for ( Facet_iterator i = P.facets_begin(); i != P.facets_end(); ++i) {
         Halfedge_around_facet_circulator j = i->facet_begin();
-        /* Facets in polyhedral surfaces are at least triangles. */
-        CGAL_assertion( CGAL_circulator_size(j) >= 3);
-        cout << CGAL_circulator_size(j) << " ";
+        // Facets in polyhedral surfaces are at least triangles.
+        CGAL_assertion( CGAL::circulator_size(j) >= 3);
+        std::cout << CGAL::circulator_size(j) << " ";
         do {
-            size_t d = 0;
-            distance( P.vertices_begin(), j->vertex(), d);
-            cout << " " << d;
+            std::size_t d = 0;
+            std::distance( P.vertices_begin(), j->vertex(), d);
+            std::cout << " " << d;
         } while ( ++j != i->facet_begin());
-        cout << endl;
+        std::cout << std::endl;
     }
     return 0;
 }

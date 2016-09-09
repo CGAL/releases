@@ -1,7 +1,7 @@
 //  -*- Mode: c++ -*-
 // ============================================================================
 //
-// Copyright (c) 1997 The CGAL Consortium
+// Copyright (c) 1999 The GALIA Consortium
 //
 // This software and related documentation is part of the
 // Computational Geometry Algorithms Library (CGAL).
@@ -17,25 +17,25 @@
 // - Development licenses grant access to the source code of the library 
 //   to develop programs. These programs may be sold to other parties as 
 //   executable code. To obtain a development license, please contact
-//   the CGAL Consortium (at cgal@cs.uu.nl).
+//   the GALIA Consortium (at cgal@cs.uu.nl).
 // - Commercialization licenses grant access to the source code and the
 //   right to sell development licenses. To obtain a commercialization 
-//   license, please contact the CGAL Consortium (at cgal@cs.uu.nl).
+//   license, please contact the GALIA Consortium (at cgal@cs.uu.nl).
 //
 // This software and documentation is provided "as-is" and without
 // warranty of any kind. In no event shall the CGAL Consortium be
 // liable for any damage of any kind.
 //
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// The GALIA Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany) Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+// (Germany), Max-Planck-Institute Saarbrucken (Germany),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-1.2
-// release_date  : 1999, January 18
+// release       : CGAL-2.0
+// release_date  : 1999, June 03
 //
 // file          : demo/BooleanOperations/include/CGAL/IO-old/Color.h
 // source        : demo/BooleanOperations/include/CGAL/IO-old/Color.h
@@ -47,7 +47,6 @@
 //  (Wolfgang Freiseisen)
 //
 // 
-//
 // email         : cgal@cs.uu.nl
 //
 // ======================================================================
@@ -56,10 +55,10 @@
 #define CGAL_COLOR_H
 
 
-class CGAL_Color {
+class Color {
 public:
-  CGAL_Color() {}
-  CGAL_Color(int red, int green, int blue)
+  Color() {}
+  Color(int red, int green, int blue)
     : _red(red), _green(green), _blue(blue)
   {}
 
@@ -71,14 +70,14 @@ public:
   int green() const {return _green;}
   int blue() const {return _blue;}
 
-  bool operator==(const CGAL_Color &c)
+  bool operator==(const Color &c)
   {
     return ( (_red == c.red()) &&
              (_green == c.green()) &&
              (_blue == c.blue()) );
   }
 
-  bool operator!=(CGAL_Color &c)
+  bool operator!=(Color &c)
   {
     return !( (*this) == c);
   }
@@ -89,12 +88,12 @@ private:
   int _blue;
 };
 
-const CGAL_Color CGAL_BLACK  = CGAL_Color(0, 0, 0);
-const CGAL_Color CGAL_WHITE  = CGAL_Color(255, 255, 255);
-const CGAL_Color CGAL_RED    = CGAL_Color(255, 0, 0);
-const CGAL_Color CGAL_GREEN  = CGAL_Color(0, 255, 0);
-const CGAL_Color CGAL_BLUE   = CGAL_Color(0, 0, 255);
-const CGAL_Color CGAL_VIOLET = CGAL_Color(255, 0, 255);
-const CGAL_Color CGAL_ORANGE = CGAL_Color(255, 170, 0);
+const Color BLACK  = Color(0, 0, 0);
+const Color WHITE  = Color(255, 255, 255);
+const Color RED    = Color(255, 0, 0);
+const Color GREEN  = Color(0, 255, 0);
+const Color BLUE   = Color(0, 0, 255);
+const Color VIOLET = Color(255, 0, 255);
+const Color ORANGE = Color(255, 170, 0);
 #endif  // CGAL_COLOR_H
 

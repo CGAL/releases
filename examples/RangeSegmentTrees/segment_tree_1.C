@@ -1,6 +1,6 @@
 // ============================================================================
 //
-// Copyright (c) 1997 The CGAL Consortium
+// Copyright (c) 1999 The GALIA Consortium
 //
 // This software and related documentation is part of the
 // Computational Geometry Algorithms Library (CGAL).
@@ -16,25 +16,25 @@
 // - Development licenses grant access to the source code of the library 
 //   to develop programs. These programs may be sold to other parties as 
 //   executable code. To obtain a development license, please contact
-//   the CGAL Consortium (at cgal@cs.uu.nl).
+//   the GALIA Consortium (at cgal@cs.uu.nl).
 // - Commercialization licenses grant access to the source code and the
 //   right to sell development licenses. To obtain a commercialization 
-//   license, please contact the CGAL Consortium (at cgal@cs.uu.nl).
+//   license, please contact the GALIA Consortium (at cgal@cs.uu.nl).
 //
 // This software and documentation is provided "as-is" and without
 // warranty of any kind. In no event shall the CGAL Consortium be
 // liable for any damage of any kind.
 //
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// The GALIA Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany) Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+// (Germany), Max-Planck-Institute Saarbrucken (Germany),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-1.2
-// release_date  : 1999, January 18
+// release       : CGAL-2.0
+// release_date  : 1999, June 03
 //
 // file          : src/examples/RangeSegmentTrees/segment_tree_1.C
 // source        : src/examples/RangeSegmentTrees/segment_tree_1.C
@@ -48,27 +48,28 @@
 // A one dimensional Segment Tree is defined in this class.
 // Ti is the type of each dimension of the tree.
 //
+//
 // email         : cgal@cs.uu.nl
 //
 // ======================================================================
 #include <CGAL/basic.h> 
-#include <iostream.h>
+#include <iostream>
 #include <Tree_Traits.h>
 #include <CGAL/Segment_tree_k.h>
-#include <vector.h>
-#include <iterator.h>
+#include <vector>
+#include <iterator>
 #include <tempbuf.h>
-#include <list.h>
-#include <pair.h>
+#include <list>
+#include <utility>
 
-typedef CGAL_Segment_tree_1<Tree_traits_1> Segment_tree_1_type;
+typedef CGAL::Segment_tree_1<CGAL::Tree_traits_1> SSegment_tree_1_type;
 
 int main()
 {
-  typedef Tree_traits_1::Interval Interval;
-  typedef Tree_traits_1::Key Key;
+  typedef CGAL::Tree_traits_1::Interval Interval;
+  typedef CGAL::Tree_traits_1::Key Key;
   // definition of the one-dimensional segment tree
-  list<Interval> InputList, OutputList, N;
+  std::list<Interval> InputList, OutputList, N;
 
   // insertion of the tree elements into the sequence container
   InputList.push_back(Interval(64, 81));
@@ -77,15 +78,15 @@ int main()
   InputList.push_back(Interval(314, 375));
  
   // creation of the segment tree
-  typedef list<Interval>::iterator l_iterator;
+  typedef std::list<Interval>::iterator l_iterator;
   l_iterator first = InputList.begin();
   l_iterator last = InputList.end();
 
-  Segment_tree_1_type Segment_tree_1(first,last);
+  SSegment_tree_1_type segment_tree_1(first,last);
 
   // perform a window query
   Interval a(45,200);
-  Segment_tree_1.window_query(a,back_inserter(OutputList));
+  segment_tree_1.window_query(a,std::back_inserter(OutputList));
 
   // output of the querey elements on stdout
   l_iterator j = OutputList.begin();
@@ -96,7 +97,7 @@ int main()
     j++;
   }
   Interval b(320, 370);
-  Segment_tree_1.enclosing_query(b,back_inserter(N));
+  segment_tree_1.enclosing_query(b,std::back_inserter(N));
   j = N.begin();
   cerr << "\n enclosing_query (320, 370)\n";
   while(j!=N.end())
@@ -104,7 +105,7 @@ int main()
     cerr << (*j).first << "-" << (*j).second << endl;
     j++;
   }
-  if(Segment_tree_1.Segment_tree_1->is_valid())
+  if(segment_tree_1.CSegment_tree_1->is_valid())
     cerr << "Tree is valid\n";
   else
     cerr << "Tree is not valid\n";

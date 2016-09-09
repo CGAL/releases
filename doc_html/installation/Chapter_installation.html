@@ -1,0 +1,1258 @@
+<!-- Begin of cc_manual_header -->
+<!-- ------------------------- -->
+<!-- $Revision: 3.1 $ -->
+<!-- $Date: 1998/08/05 15:50:57 $ -->
+
+  <!-- CC manual page automatically extracted from a TeX specification -->
+  <!-- in file Chapter_installation.html -->
+  <!-- by cc_extract_html, $Revision: 3.1 $. -->
+
+<!--  Title -->
+  <HEAD>
+  <TITLE>CGAL Installation Guide: </TITLE>
+  </HEAD>
+
+<!-- Background layout-->
+  <BODY BGCOLOR="FAF8E8" TEXT="#000000">
+
+<!-- Navigation -->
+  <STRONG>Navigation:</STRONG>
+  <A HREF="Chapter_installation.html">Up</A>,
+  <A HREF="contents.html">Table of Contents</A>,
+  <A HREF="biblio.html">Bibliography</A>,
+  <A HREF="manual_index.html">Index</A>,
+  <A HREF="title.html">Title Page</A>
+<HR>
+
+<!-- End of cc_manual_header -->
+<H1>Installation</H1>
+
+<A NAME="Section_1"></A>
+<H2>Introduction</H2>
+<P>
+
+C<SMALL>GAL</SMALL> is a <I>Computational Geometry Algorithms Library</I> written
+in C++, which is developed in an E<SMALL>SPRIT</SMALL> L<SMALL>TR</SMALL> project. The goal is
+to make the large body of geometric algorithms developed in the field
+of computational geometry available for industrial application.
+<P>
+
+This document describes how to install C<SMALL>GAL</SMALL> on your system.  Besides
+that, you will find some information about the makefile structure of
+C<SMALL>GAL</SMALL> and the support for simultaneously using C<SMALL>GAL</SMALL> and L<SMALL>EDA</SMALL>, the
+Library of Efficient Datatypes and Algorithms<A HREF="#Footnote_1"><SUP>1</SUP></A>,
+and/or the G<SMALL>NU</SMALL> Multiple Precision library GMP.
+<P>
+
+<A NAME="Section_2"></A>
+<H2>Prerequisites</H2>
+<A NAME="sec:prerequisites"></A>
+<P>
+
+In order to build the C<SMALL>GAL</SMALL> libraries you need a C++ compiler.
+Currently only a small number of recent compilers on unix platforms
+are supported. The reason is that most compilers do not conform to the
+ISO 14882 standard for 
+
+C++<A HREF="#Footnote_2"><SUP>2</SUP></A>
+and some of them have so many limitations/bugs that
+we could not work around all of them.
+<P>
+
+More precisely, <TT>CGAL-2.0</TT> supports the following Unix
+compilers/operating systems:
+<P>
+
+<CENTER>
+  
+  
+  
+<TABLE BORDER=2><TR><TD ALIGN=LEFT VALIGN=TOP NOWRAP>
+<B>compiler</B>       
+        </TD><TD ALIGN=LEFT VALIGN=TOP NOWRAP>
+<B>operating system</B>
+    </TD></TR><TR><TD ALIGN=LEFT VALIGN=TOP NOWRAP>
+SGI&nbsp;Mips(Pro)&nbsp;<TT>CC</TT> 7.2.1 (n32) 
+        </TD><TD ALIGN=LEFT VALIGN=TOP NOWRAP>
+IRIX 6.5
+    </TD></TR><TR><TD ALIGN=LEFT VALIGN=TOP NOWRAP>
+G<SMALL>NU</SMALL>&nbsp;<TT>g++</TT>&nbsp;2.8.1             
+        </TD><TD ALIGN=LEFT VALIGN=TOP NOWRAP>
+IRIX 6.5 / Solaris 2.6 / Linux 2.0
+    </TD></TR><TR><TD ALIGN=LEFT VALIGN=TOP NOWRAP>
+C<SMALL>YGNUS</SMALL>&nbsp;<TT>egcs</TT>&nbsp;1.1              
+        </TD><TD ALIGN=LEFT VALIGN=TOP NOWRAP>
+IRIX 5.3 / IRIX 6.5 / Solaris 2.6 / Linux 2.0
+    </TD></TR></TABLE>
+
+</CENTER>
+<P>
+
+There will be support for PC compilers (M<SMALL>ICROSOFT</SMALL>&nbsp;Visual&nbsp;<TT>C++</TT>&nbsp;6) in the future, but
+there is no such support at the moment. The S<SMALL>UNPRO</SMALL>&nbsp;<TT>CC</TT>&nbsp;4.2 compiler is
+not supported anymore, please stay with C<SMALL>GAL</SMALL>-1.2 if you have to use
+it. Support for S<SMALL>UNPRO</SMALL>&nbsp;<TT>CC</TT>&nbsp;5 will be reconsidered as soon as an
+acceptable degree of standard-conformance is reached.
+<P>
+
+<A NAME="Section_3"></A>
+<H2>Getting C<SMALL>GAL</SMALL></H2>
+<P>
+
+The C<SMALL>GAL</SMALL> library can be downloaded in two different ways: using ftp
+or using WWW.  If you have a WWW connection, the easiest way to
+download C<SMALL>GAL</SMALL> is via the C<SMALL>GAL</SMALL> homepage:
+<BLOCKQUOTE>
+      <A HREF="http://www.cs.uu.nl/CGAL"><TT>http://www.cs.uu.nl/CGAL</TT></A></BLOCKQUOTE>
+and go to the `Software' section.
+<P>
+
+Just follow the instructions on this page to obtain your copy of the
+library. The C<SMALL>GAL</SMALL> library can also be downloaded using FTP. The
+library can be found at the following location:
+<P>
+
+<PRE>
+      ftp.cs.uu.nl
+</PRE>
+<P>
+
+in the directory <TT>/pub/CGAL</TT>. This directory contains release
+2.0 of the C<SMALL>GAL</SMALL> library. There is also a <TT>README</TT>
+file that contains descriptions of the files in this directory. An
+example of an FTP-session is given below.
+<P>
+
+<PRE>
+      $ ftp ftp.cs.uu.nl 
+      Name (ftp.cs.uu.nl:&lt;your username&gt;): anonymous
+      Password: &lt;type your email address here&gt;
+      ftp&gt; cd pub/CGAL
+      ftp&gt; get README
+      ftp&gt; binary
+      ftp&gt; get <TT>CGAL-2.0</TT>.tar.gz
+      ftp&gt; quit
+</PRE>
+<P>
+
+After you have downloaded the file containing the C<SMALL>GAL</SMALL> library, you
+have to decompress it. For the zipfile use the command
+<P>
+
+<PRE>
+      unzip &lt;filename&gt;.zip
+</PRE>
+<P>
+
+and for the gzipped file use the commands
+<P>
+
+<PRE>
+      gunzip &lt;filename&gt;.tar.gz
+      tar xvf &lt;filename&gt;.tar
+</PRE>
+<P>
+
+In both cases the directory <TT>CGAL-2.0</TT> will be created. This directory
+contains the following subdirectories:
+<P>
+
+<CENTER>
+  
+  
+  
+<TABLE BORDER=2><TR><TD ALIGN=LEFT VALIGN=TOP NOWRAP>
+<B>directory</B> 
+        </TD><TD ALIGN=LEFT VALIGN=TOP NOWRAP>
+<B>contents</B>
+    </TD></TR><TR><TD ALIGN=LEFT VALIGN=TOP NOWRAP>
+<TT>auxiliary</TT> 
+        </TD><TD ALIGN=LEFT VALIGN=TOP NOWRAP>
+packages that can optionally be used with C<SMALL>GAL</SMALL>
+    </TD></TR><TR><TD ALIGN=LEFT VALIGN=TOP NOWRAP>
+<TT>config</TT>    
+        </TD><TD ALIGN=LEFT VALIGN=TOP NOWRAP>
+configuration files for install script
+    </TD></TR><TR><TD ALIGN=LEFT VALIGN=TOP NOWRAP>
+<TT>demo</TT>      
+        </TD><TD ALIGN=LEFT VALIGN=TOP NOWRAP>
+demo programs (some of them need L<SMALL>EDA</SMALL>)
+    </TD></TR><TR><TD ALIGN=LEFT VALIGN=TOP NOWRAP>
+<TT>doc_html</TT> 
+        </TD><TD ALIGN=LEFT VALIGN=TOP NOWRAP>
+documentation (HTML)
+    </TD></TR><TR><TD ALIGN=LEFT VALIGN=TOP NOWRAP>
+<TT>doc_pdf</TT>  
+        </TD><TD ALIGN=LEFT VALIGN=TOP NOWRAP>
+documentation (PDF)
+    </TD></TR><TR><TD ALIGN=LEFT VALIGN=TOP NOWRAP>
+<TT>doc_ps</TT>   
+        </TD><TD ALIGN=LEFT VALIGN=TOP NOWRAP>
+documentation (Postscript)
+    </TD></TR><TR><TD ALIGN=LEFT VALIGN=TOP NOWRAP>
+<TT>examples</TT>  
+        </TD><TD ALIGN=LEFT VALIGN=TOP NOWRAP>
+example programs
+    </TD></TR><TR><TD ALIGN=LEFT VALIGN=TOP NOWRAP>
+<TT>include</TT>   
+        </TD><TD ALIGN=LEFT VALIGN=TOP NOWRAP>
+header files
+    </TD></TR><TR><TD ALIGN=LEFT VALIGN=TOP NOWRAP>
+<TT>lib</TT>       
+        </TD><TD ALIGN=LEFT VALIGN=TOP NOWRAP>
+(shared) object libraries
+    </TD></TR><TR><TD ALIGN=LEFT VALIGN=TOP NOWRAP>
+<TT>make</TT>      
+        </TD><TD ALIGN=LEFT VALIGN=TOP NOWRAP>
+files with platform dependent makefile settings
+    </TD></TR><TR><TD ALIGN=LEFT VALIGN=TOP NOWRAP>
+<TT>scripts</TT>   
+        </TD><TD ALIGN=LEFT VALIGN=TOP NOWRAP>
+some useful scripts (e.g. for creating makefiles)
+    </TD></TR><TR><TD ALIGN=LEFT VALIGN=TOP NOWRAP>
+<TT>src</TT>       
+        </TD><TD ALIGN=LEFT VALIGN=TOP NOWRAP>
+source files
+    </TD></TR></TABLE>
+
+</CENTER>
+<P>
+
+<A NAME="Section_4"></A>
+<H2>Installing C<SMALL>GAL</SMALL></H2>
+<P>
+
+The directory <TT>CGAL-2.0</TT> contains a Bourne shell script called
+<TT>install_cgal</TT>. The script can be run in two modes: a
+menu-driven interactive mode and a non-interactive mode.  Normally you
+should use the interactive mode, but in case you run into problems
+with it or do not like it for some reason, you can still use the
+non-interactive mode.
+<P>
+
+We first describe a sample installation in section
+<A HREF="Chapter_installation.html#sec:sample-inst"><IMG SRC="cc_ref_up_arrow.gif" ALT="reference" WIDTH="10" HEIGHT="10"></A>. This provides you with an overview on how the
+interactive installation works. If you want more detailed information
+about specific menus and their options, take a look at section
+<A HREF="Chapter_installation.html#sec:interactive-mode"><IMG SRC="cc_ref_up_arrow.gif" ALT="reference" WIDTH="10" HEIGHT="10"></A>. Finally, for the non-interactive mode
+refer to section <A HREF="Chapter_installation.html#sec:non-interactive"><IMG SRC="cc_ref_up_arrow.gif" ALT="reference" WIDTH="10" HEIGHT="10"></A>.
+<P>
+
+If you want to use L<SMALL>EDA</SMALL> together with C<SMALL>GAL</SMALL>, have a look at
+section&nbsp;<A HREF="Chapter_installation.html#sec:leda"><IMG SRC="cc_ref_up_arrow.gif" ALT="reference" WIDTH="10" HEIGHT="10"></A>.
+<P>
+
+<A NAME="Section_5"></A>
+<H2>A Sample Installation</H2>
+<A NAME="sec:sample-inst"></A>
+<P>
+
+In this section we sketch an example installation on a S<SMALL>UN</SMALL>
+running Solaris 2.6 with the C<SMALL>YGNUS</SMALL>&nbsp;<TT>egcs</TT>&nbsp;1.1.1 compiler. For a complete
+description of the different menus and their options refer to section
+<A HREF="Chapter_installation.html#sec:interactive-mode"><IMG SRC="cc_ref_up_arrow.gif" ALT="reference" WIDTH="10" HEIGHT="10"></A>.
+<P>
+
+<H3>Starting the script</H3>
+<P>
+
+Go to the <TT>CGAL-2.0</TT> directory and enter the command
+<PRE>
+      ./install_cgal -i
+</PRE>
+<P>
+
+You get a message indicating the C<SMALL>GAL</SMALL> version you are going to
+install and that you are running the interactive mode. Then it takes
+some time while the script locates a number of utility programs. You
+will not get informed about this<A HREF="#Footnote_3"><SUP>3</SUP></A>, but see some dots written to the
+screen indicating progress.
+<P>
+
+<PRE>
+--------------------------------------------------------
+  This is the install script for CGAL 2.0
+--------------------------------------------------------
+
+starting interactive mode - one moment, please
+......
+
+  Choosing compiler GNU egcs-2.91.60.
+  Testing for STL ... ok.
+  ...
+  &lt;tests for several compiler features&gt;
+  ...
+  Saving current setup ... done.
+.
+</PRE>
+<P>
+
+If there is any compiler installed on your system and accessible
+through your <TT>PATH</TT> environment variable that is supported by
+C<SMALL>GAL</SMALL>, one of these compilers is chosen and a number of tests are done
+to check whether your compiler supports certain language constructs
+respectively has specific bugs. There are quite a number of these
+tests, so this step may take some time. For each test you should get a
+message what particularly is tested at the moment and what the result
+is. If there is more than one compiler installed on your system (and
+supported by C<SMALL>GAL</SMALL>), you may later choose to use a different compiler
+from the compiler menu.
+<P>
+
+A menu similar to the following will appear on your screen.
+<P>
+
+<A NAME="pic:main-menu"></A>
+<PRE>
+  ****************************************************************
+  **              CGAL 2.0 Installation Main Menu               **
+  **              -------------------------------               **
+  **                                                            **
+  **   OS:                  sparc_SunOS-5.6                     **
+  **   Compiler:            GNU egcs-2.91.60                    **
+  **   LEDA:                not supported.                      **
+  **   GMP:                 not supported.                      **
+  **                                                            **
+  **   Compiler is supported by CGAL.                           **
+  **   The setup has been tested ok.                            **
+  **                                                            **
+  **   There are no libs for this os/compiler.                  **
+  **                                                            **
+  **   &lt;C&gt;  Compiler Menu                                       **
+  **   &lt;L&gt;  LEDA Menu                                           **
+  **   &lt;G&gt;  GMP Menu                                            **
+  **   &lt;T&gt;  Test (and save) setup                               **
+  **   &lt;A&gt;  Run all setup tests (no cache)                      **
+  **                                                            **
+  **   &lt;B&gt;  Build CGAL Libraries                                **
+  **                                                            **
+  **   &lt;Q&gt;  Back to OS                                          **
+  **                                                            **
+  **   Your Choice:                                             **
+  **                                                            **
+  ****************************************************************
+</PRE>
+<P>
+
+The first lines below the headline contain some kind of status report:
+current OS and compiler, are L<SMALL>EDA</SMALL> and GMP supported etc. Moreover
+you can see that the current setup has been tested and that there do
+not exist C<SMALL>GAL</SMALL> libraries for this OS/compiler combination in the
+C<SMALL>GAL</SMALL> lib directory by now.
+<P>
+
+The fact that your setup has been tested implies that the current
+settings have been saved to a file in the directory <TT>CGAL-2.0</TT><TT>/config/install</TT>.
+Thus, if you run the install script a second time for this
+OS/compiler, you will not have to go through the whole config-/test
+cycle again, but the configuration will be retrieved from the
+corresponding config file instead.
+<P>
+
+<H3>Building the C<SMALL>GAL</SMALL> libraries</H3>
+<A NAME="sec:build-the-libs"></A>
+<P>
+
+We are now ready to build the C<SMALL>GAL</SMALL> libraries.  Just type ``<TT>b</TT>''
+to start compilation. Building consists of three steps:
+<OL>
+<LI>writing the include makefile,
+<LI>compiling the static libraries <I>and</I>
+<LI>compiling the shared libraries.
+</OL>
+The include makefile encapsulates the OS- and compiler-specific
+settings and should be included (hence the name) in all makefiles that
+compile C<SMALL>GAL</SMALL> applications. If everything went ok, the output should
+look as follows (if not, you should have a look at the error messages
+from compiler or linker).
+<P>
+
+<PRE>
+  ****************************************************************
+  **                                                            **
+  **                     Compiling CGAL 2.0                     **
+  **                     ------------------                     **
+  **                                                            **
+  ****************************************************************
+
+  OS:           sparc_SunOS-5.6
+  COMPILER:     GNU egcs-2.91.60
+  LEDA:         not supported
+  GMP:          not supported
+
+  Generating Makefiles ... done.
+  Building CGAL_lib ... done.
+  Building CGAL_sharedlib ... done.
+
+  ****************************************************************
+  **             Please press &lt;ENTER&gt; to continue.              **
+  ****************************************************************
+</PRE>
+<P>
+
+That's all, it's done. Press ``<TT>&lt;ENTER&gt;</TT>'' to return to the main
+menu and proceed by installing for a different compiler (go to the
+compiler menu and choose ``<TT>c</TT>'' to get a list of supported
+compilers detected on your system) or with L<SMALL>EDA</SMALL> or GMP support (go
+to the L<SMALL>EDA</SMALL> resp.  GMP menu) or simply quit the install script by
+typing ``<TT>q</TT>''. When leaving the script, you get a list of
+successful builds during the session.
+<P>
+
+Now it would be a good idea to print and read the document
+<TT>getting_started.ps</TT> that can be found in the <TT>doc_ps</TT>
+directory.
+<P>
+
+<A NAME="Section_6"></A>
+<H2>The interactive mode</H2>
+<A NAME="sec:interactive-mode"></A>
+<P>
+
+To run the install script in the interactive mode, go to the <TT>CGAL-2.0</TT> 
+directory and enter the command
+<PRE>
+      ./install_cgal -i
+</PRE>
+<P>
+
+After initialization during which certain utility programs are located
+and your system is searched for compilers supported by C<SMALL>GAL</SMALL>, you get
+into the C<SMALL>GAL</SMALL> installation <I>main menu</I> (see page
+<A HREF="Chapter_installation.html#pic:main-menu"><IMG SRC="cc_ref_up_arrow.gif" ALT="reference" WIDTH="10" HEIGHT="10"></A> for a picture).
+<P>
+
+From the main menu you can reach a number of different sub-menus, of
+which the most important maybe is the <I>compiler menu</I>. This is
+where you can choose the compiler you want to work with and setup
+custom compiler or linker options.  The compiler menu is described in
+section <A HREF="Chapter_installation.html#sec:compiler-menu"><IMG SRC="cc_ref_up_arrow.gif" ALT="reference" WIDTH="10" HEIGHT="10"></A>.
+<P>
+
+If you want to use L<SMALL>EDA</SMALL> or G<SMALL>NU</SMALL> GMP with C<SMALL>GAL</SMALL>, you will have to go
+to the <I>leda menu</I> described in section <A HREF="Chapter_installation.html#sec:leda-menu"><IMG SRC="cc_ref_up_arrow.gif" ALT="reference" WIDTH="10" HEIGHT="10"></A>
+resp.  to the <I>gmp menu</I> described in section
+<A HREF="Chapter_installation.html#sec:gmp-menu"><IMG SRC="cc_ref_up_arrow.gif" ALT="reference" WIDTH="10" HEIGHT="10"></A>.
+<P>
+
+Finally you can build the C<SMALL>GAL</SMALL> libraries by typing <TT>b</TT>.
+However, it is recommended to run the <I>setup test</I> which is
+available in all menus as option <TT>t</TT> before. The setup test
+includes an STL test, a L<SMALL>EDA</SMALL> test and a GMP test, but not all
+tests are performed always; e.g. the L<SMALL>EDA</SMALL> test is only done, if you
+enabled L<SMALL>EDA</SMALL> support. The install script keeps track of the tests
+passed and only tests again, if you change the setup in a way that
+might affect the test result. If you want to redo <I>all</I> tests,
+you have to choose option ``<TT>a</TT>'' from the main menu. This also
+retests for L<SMALL>EDA</SMALL> or GMP installation in system directories which
+otherwise is only done the first time you enable L<SMALL>EDA</SMALL>/GMP support for
+an OS/compiler combination.
+<P>
+
+<H3>Files created during installation</H3>
+<P>
+
+The install script stores all relevant settings for an OS/compiler
+combination in the directory
+<CENTER>
+  <TT>CGAL-2.0/config/install/<MATH><I>&lt;</I></MATH><I>CGAL-OS-description</I><MATH><I>&gt;</I></MATH></TT>
+</CENTER>
+where <MATH><I>&lt;</I></MATH><I>CGAL-OS-description</I><MATH><I>&gt;</I></MATH> identifies your OS/compiler
+combination in a way specified in section <A HREF="Chapter_installation.html#sec:os-compiler-id"><IMG SRC="cc_ref_up_arrow.gif" ALT="reference" WIDTH="10" HEIGHT="10"></A>.
+<A HREF="#Footnote_4"><SUP>4</SUP></A>
+This saves you typing everything again, if you upgrade C<SMALL>GAL</SMALL> or
+another package that makes recompiling the C<SMALL>GAL</SMALL> libraries necessary.
+<P>
+
+Besides the config files, <TT>install_cgal</TT> uses several
+temporary files during interactive installation. Most of them are
+removed after use, but some are not, since it might be helpful to keep
+some information about the last run.  You can keep or delete them as
+you like, as they are not needed anymore once the script terminated.
+It follows a list of these files (all are plain ASCII and reside in
+<TT>CGAL-2.0</TT>).
+<CENTER>
+  
+  
+  
+<TABLE BORDER=2><TR><TD ALIGN=LEFT VALIGN=TOP NOWRAP>
+<B>filename</B> 
+        </TD><TD ALIGN=LEFT VALIGN=TOP NOWRAP>
+<B>content</B>
+    </TD></TR><TR><TD ALIGN=LEFT VALIGN=TOP NOWRAP>
+<TT>install.log</TT> 
+        </TD><TD ALIGN=LEFT VALIGN=TOP NOWRAP>
+detailed overall protocol
+    </TD></TR><TR><TD ALIGN=LEFT VALIGN=TOP NOWRAP>
+<TT>install.completed</TT> 
+        </TD><TD ALIGN=LEFT VALIGN=TOP NOWRAP>
+list of systems for which C<SMALL>GAL</SMALL> libraries 
+    have been built
+    </TD></TR><TR><TD ALIGN=LEFT VALIGN=TOP NOWRAP>
+<TT>compile.log</TT> 
+        </TD><TD ALIGN=LEFT VALIGN=TOP NOWRAP>
+output of the last compiler call
+    </TD></TR></TABLE>
+
+</CENTER>
+<P>
+
+<H3>The Compiler Menu</H3>
+<A NAME="sec:compiler-menu"></A>
+<P>
+
+Here is the place to setup the compiler specific options, such as the
+compiler to use (if more than one has been detected) and custom
+compiler or linker flags.<BR>
+
+<BR>
+
+<BR>
+
+
+<P>
+
+<TABLE BORDER=2><TR><TD>
+
+
+
+<CENTER><BIG><B>Compiler Menu</B></BIG></CENTER>
+
+<DL>
+<DT><B><MATH><I>&lt;</I></MATH>C<MATH><I>&gt;</I></MATH></B><DD> Choose the compiler to be used from the list of
+  detected compilers.
+<DT><B><MATH><I>&lt;</I></MATH>F<MATH><I>&gt;</I></MATH></B><DD> Set custom compiler flags. These are the first flags
+  given to the compiler in every call. Under normal circumstances
+  there should be no need to set any such flag.
+<DT><B><MATH><I>&lt;</I></MATH>L<MATH><I>&gt;</I></MATH></B><DD> Set custom linker flags. These are the first flags
+  given to the linker in every call. Under normal circumstances
+  there should be no need to set any such flag.
+</DL>
+
+
+</TD></TR></TABLE>
+<P>
+
+<H3>The L<SMALL>EDA</SMALL> Menu</H3>
+<A NAME="sec:leda-menu"></A>
+<P>
+
+This is the place to setup L<SMALL>EDA</SMALL> specific options, if you plan to use
+L<SMALL>EDA</SMALL> together with C<SMALL>GAL</SMALL> (see also section <A HREF="Chapter_installation.html#sec:leda"><IMG SRC="cc_ref_up_arrow.gif" ALT="reference" WIDTH="10" HEIGHT="10"></A>). In
+order to enable L<SMALL>EDA</SMALL> support in C<SMALL>GAL</SMALL>, L<SMALL>EDA</SMALL> has to be installed on
+your system.
+<P>
+
+If L<SMALL>EDA</SMALL> support is enabled the first time, the script tests whether
+L<SMALL>EDA</SMALL> is installed in standard system directories. If this test does
+not succeed, you have to supply directories containing the L<SMALL>EDA</SMALL> 
+header files (<TT>LEDA_INCL_DIR</TT>) and L<SMALL>EDA</SMALL> libraries (<TT>LEDA_LIB_DIR</TT>).  Even if the tests are passed, you still have the
+option to set these directories differently.<BR>
+
+<BR>
+
+<BR>
+
+
+<P>
+
+<TABLE BORDER=2><TR><TD>
+
+
+
+<CENTER><BIG><B>L<SMALL>EDA</SMALL> Menu</B></BIG></CENTER>
+
+<DL>
+<DT><B><MATH><I>&lt;</I></MATH>E<MATH><I>&gt;</I></MATH></B><DD> Enable/Disable L<SMALL>EDA</SMALL> support in C<SMALL>GAL</SMALL>.
+<DT><B><MATH><I>&lt;</I></MATH>I<MATH><I>&gt;</I></MATH></B><DD> (<I>present if </I>L<SMALL>EDA</SMALL><I> support is enabled)</I> Set the
+  include directory for L<SMALL>EDA</SMALL>.
+<DT><B><MATH><I>&lt;</I></MATH>J<MATH><I>&gt;</I></MATH></B><DD> (<I>present if </I>L<SMALL>EDA</SMALL><I> support is enabled, </I>L<SMALL>EDA</SMALL><I> headers
+    have been found in a system include directory and </I><TT><I>LEDA_INCL_DIR</I></TT><I> has been set)</I> Use L<SMALL>EDA</SMALL> header from system
+  include directory.
+<DT><B><MATH><I>&lt;</I></MATH>L<MATH><I>&gt;</I></MATH></B><DD> (<I>present if </I>L<SMALL>EDA</SMALL><I> support is enabled)</I> Set the
+  directory containing the L<SMALL>EDA</SMALL> libraries.
+<DT><B><MATH><I>&lt;</I></MATH>M<MATH><I>&gt;</I></MATH></B><DD> (<I>present if </I>L<SMALL>EDA</SMALL><I> support is enabled, </I>L<SMALL>EDA</SMALL><I> libs
+    have been found in a system lib directory and </I><TT><I>LEDA_LIB_DIR</I></TT><I>
+    has been set)</I> Use L<SMALL>EDA</SMALL> libraries from system lib directory.
+</DL>
+
+
+</TD></TR></TABLE>
+<P>
+
+<H3>The GMP Menu</H3>
+<A NAME="sec:gmp-menu"></A>
+<P>
+
+This menu is to setup GMP (G<SMALL>NU</SMALL> Muptiple Precision Library) specific
+options, if you plan to use GMP together with C<SMALL>GAL</SMALL>. In the <TT>auxiliary</TT> directory you can find a GMP distribution, if you do not
+already have it installed on your system. This menu contains an option
+to install GMP in you C<SMALL>GAL</SMALL> directory tree, but of course you can
+also install it independently from C<SMALL>GAL</SMALL>.
+<P>
+
+If GMP support is enabled the first time, the script tests whether GMP
+is installed in standard system directories or in the C<SMALL>GAL</SMALL> tree. If
+this test does not succeed, you have to supply directories containing
+the GMP header files (<TT>GMP_INCL_DIR</TT>) and GMP libraries (<TT>GMP_LIB_DIR</TT>).  Even if the tests are passed, you still have the
+option to set these directories differently.<BR>
+
+<BR>
+
+<BR>
+
+
+<P>
+
+<TABLE BORDER=2><TR><TD>
+
+
+
+<CENTER><BIG><B>GMP Menu</B></BIG></CENTER>
+
+<DL>
+<DT><B><MATH><I>&lt;</I></MATH>C<MATH><I>&gt;</I></MATH></B><DD> Install the GMP distribution shipped with C<SMALL>GAL</SMALL> in the
+  C<SMALL>GAL</SMALL> directory tree. 
+<DT><B><MATH><I>&lt;</I></MATH>G<MATH><I>&gt;</I></MATH></B><DD> Enable/Disable GMP support in C<SMALL>GAL</SMALL>.
+<DT><B><MATH><I>&lt;</I></MATH>I<MATH><I>&gt;</I></MATH></B><DD> (<I>present if GMP support is enabled)</I> Set the
+  include directory for GMP.
+<DT><B><MATH><I>&lt;</I></MATH>L<MATH><I>&gt;</I></MATH></B><DD> (<I>present if GMP support is enabled)</I> Set the
+  directory containing the GMP libraries.
+<DT><B><MATH><I>&lt;</I></MATH>M<MATH><I>&gt;</I></MATH></B><DD> (<I>present if GMP support is enabled, there is a GMP
+    installation in system directories or in the </I>C<SMALL>GAL</SMALL><I> tree and </I><TT><I>GMP_INCL_DIR</I></TT><I> or </I><TT><I>GMP_LIB_DIR</I></TT><I> have been set)</I> Use GMP
+  installation from system directories / C<SMALL>GAL</SMALL> tree.
+</DL>
+
+
+</TD></TR></TABLE>
+<P>
+
+<A NAME="Section_7"></A>
+<H2>The non-interactive mode</H2>
+<A NAME="sec:non-interactive"></A>
+<P>
+
+To run the install script in the non-interactive mode, go to the
+<TT>CGAL-2.0</TT> directory and enter the command
+<PRE>
+      ./install_cgal -ni &lt;compiler&gt;
+</PRE>
+where <TT>&lt;compiler&gt;</TT> is the C++ compiler executable.<BR>
+
+You can either specify a full path, e.g. <TT>/usr/local/bin/g++</TT>,
+or just the basename, e.g. <TT>g++</TT>, which means the script
+searches your <TT>PATH</TT> for the compiler location. If your
+compiler call contains whitespaces it has to be quoted, e.g.
+<TT>./install_cgal -ni &quot;CC -n32&quot;</TT>.  The options given this way
+become part of your C<SMALL>GAL</SMALL>-OS description (see section
+<A HREF="Chapter_installation.html#sec:os-compiler-id"><IMG SRC="cc_ref_up_arrow.gif" ALT="reference" WIDTH="10" HEIGHT="10"></A>) which is useful e.g. to distinguish between
+different compilers using the same frontend (SGI&nbsp;Mips(Pro)&nbsp;<TT>CC</TT> on
+<TT>IRIX6</TT>).
+<P>
+
+There are a number of additional command line options to customize
+your C<SMALL>GAL</SMALL> setup which are discussed below. You should read the
+corresponding paragraphs before you continue, especially if one or
+more of the following conditions apply to you:
+<UL>
+<LI>you want to use L<SMALL>EDA</SMALL> together with C<SMALL>GAL</SMALL> (section
+  <A HREF="Chapter_installation.html#sec:leda-setup"><IMG SRC="cc_ref_up_arrow.gif" ALT="reference" WIDTH="10" HEIGHT="10"></A>) <I>or</I>
+<LI>you want to use G<SMALL>NU</SMALL> GMP together with C<SMALL>GAL</SMALL> (section
+  <A HREF="Chapter_installation.html#sec:gmp-setup"><IMG SRC="cc_ref_up_arrow.gif" ALT="reference" WIDTH="10" HEIGHT="10"></A>).
+</UL>
+<P>
+
+Once you started the script, it should give you a message indicating
+the C<SMALL>GAL</SMALL> version you are going to install and that you are running
+the non-interactive mode. Then it proceeds by locating some utility
+programs, determining your OS and compiler version and displaying the
+settings you gave via command line. Your compiler is also checked for
+a number of bugs resp. support of certain language features; a message
+<TT>ok</TT> always indicates that your compiler works as it should
+i.e. a feature is supported resp. a bug is <I>not</I> present. On
+the other hand <TT>no</TT> resp.  <TT>unfortunately</TT> indicate a
+lack of support resp. presence of a bug.
+<P>
+
+Finally the current setup is summarized, system specific directories
+for makefiles and libraries are created (if they did not exist before)
+and a new include makefile is written into the makefile directory. If
+there already exists a makefile for the current OS/compiler
+combination, it is backuped and you should get a corresponding
+message.
+<P>
+
+To compile the C<SMALL>GAL</SMALL> libraries go now to the <TT>src</TT> directory.
+Then type <TT>make -f makefile_lib</TT> to compile the C<SMALL>GAL</SMALL> object
+library and <TT>make -f makefile_sharedlib</TT> to compile the C<SMALL>GAL</SMALL> 
+shared object library. If you want to make changes to the makefiles
+first, see section <A HREF="Chapter_installation.html#sec:makefiles"><IMG SRC="cc_ref_up_arrow.gif" ALT="reference" WIDTH="10" HEIGHT="10"></A> for an explanation of the
+makefile structure of C<SMALL>GAL</SMALL>.
+<P>
+
+When this is finished it would be a good idea to print and read the
+`Getting Started with C<SMALL>GAL</SMALL>' document <TT>getting_started.ps</TT>
+that can be found in the <TT>doc_ps</TT> directory.
+<P>
+
+<H3>Setting up L<SMALL>EDA</SMALL> support</H3>
+<A NAME="sec:leda-setup"></A>
+<P>
+
+See also section <A HREF="Chapter_installation.html#sec:leda"><IMG SRC="cc_ref_up_arrow.gif" ALT="reference" WIDTH="10" HEIGHT="10"></A>. By default there is no support for
+L<SMALL>EDA</SMALL>, but you can change this easily by use of the command line
+option ``<TT>-leda</TT>''. If L<SMALL>EDA</SMALL> is installed in system
+directories on your system, you should indicate this by setting the
+flags ``<TT>-leda-sys-incl</TT>'' resp.  ``<TT>-leda-sys-lib</TT>''. If
+this is not the case, you have to supply the directories containing
+the L<SMALL>EDA</SMALL> header files (``<TT>-LEDA_INCL_DIR</TT>
+<I><MATH><I>&lt;</I></MATH>dir<MATH><I>&gt;</I></MATH></I>'') resp. the L<SMALL>EDA</SMALL> libraries for your compiler
+(``<TT>-LEDA_LIB_DIR</TT> <I><MATH><I>&lt;</I></MATH>dir<MATH><I>&gt;</I></MATH></I>'').
+<P>
+
+<H3>Setting up support for GMP</H3>
+<A NAME="sec:gmp-setup"></A>
+<P>
+
+By default there is no support for GMP, but you can change this easily
+by use of the command line option ``<TT>-gmp</TT>''. If GMP is installed
+in system directories on your system, you are already done now. If
+this is not the case, you have to supply the directories containing
+the GMP header files (``<TT>-GMP_INCL_DIR</TT> <I><MATH><I>&lt;</I></MATH>dir<MATH><I>&gt;</I></MATH></I>'') and
+the GMP library (``<TT>-GMP_LIB_DIR</TT> <I><MATH><I>&lt;</I></MATH>dir<MATH><I>&gt;</I></MATH></I>'').
+<P>
+
+<H3>Other Options</H3>
+<A NAME="sec:other-options"></A>
+<P>
+
+There are some less important features of the install script we will
+summarize here.
+<P>
+
+First of all you can get the version number of <TT>cgal_install</TT>
+with option ``<TT>-version</TT>''. Note that all other options are
+ignored in this case.
+<P>
+
+Second there is an option ``<TT>-os <I><MATH><I>&lt;</I></MATH>compiler<MATH><I>&gt;</I></MATH></I></TT>''
+where <I><MATH><I>&lt;</I></MATH>compiler<MATH><I>&gt;</I></MATH></I> is your C++ compiler. This allows you
+to determine your C<SMALL>GAL</SMALL>-OS description (see section
+<A HREF="Chapter_installation.html#sec:os-compiler-id"><IMG SRC="cc_ref_up_arrow.gif" ALT="reference" WIDTH="10" HEIGHT="10"></A>). The compiler can either be given by an
+absolute path like
+<PRE>
+./install_cgal -os /usr/local/gcc-2.8.1/sun/bin/g++
+</PRE>
+or just by denoting its basename, as long as it is on your path:
+<PRE>
+./install_cgal -os CC
+</PRE>
+The option is intended for testing purposes and automatic detection of
+the correct include makefile (see also section <A HREF="Chapter_installation.html#sec:makefiles"><IMG SRC="cc_ref_up_arrow.gif" ALT="reference" WIDTH="10" HEIGHT="10"></A>).
+<P>
+
+Finally there exists an option ``<TT>-verbose</TT>'' that can be set
+in interactive mode as well as in non-interactive mode. When set you
+get a detailed summary of error messages occurring during <I>any</I>
+compiler test (determining STL version etc.). Normally you only get
+these messages, if a required test (such as the general STL test)
+fails, otherwise you are just informed, <I>if</I> it succeeded or
+not.  This option is not recommended for general use, but it can be
+useful to check why a certain test fails that was expected to be
+passed.
+<P>
+
+<A NAME="Section_8"></A>
+<H2>Identifying OS and Compiler</H2>
+<A NAME="sec:os-compiler-id"></A>
+<P>
+
+Since C<SMALL>GAL</SMALL> supports several different operating systems and
+compilers, this is also reflected in the structure of the C<SMALL>GAL</SMALL> 
+directory tree. Each OS/compiler combination has its own lib directory
+under <TT>CGAL-2.0/lib</TT>) (and analogously its own include makefile
+in <TT>CGAL-2.0/make</TT>) named as determined by the following
+scheme.
+<CENTER>
+  <I><MATH><I>&lt;</I></MATH>arch<MATH><I>&gt;</I></MATH></I><TT><I>_</I></TT><I><MATH><I>&lt;</I></MATH>os<MATH><I>&gt;</I></MATH></I><TT><I>-</I></TT><I><MATH><I>&lt;</I></MATH>os-version<MATH><I>&gt;</I></MATH></I><TT><I>_</I></TT><I><MATH><I>&lt;</I></MATH>comp<MATH><I>&gt;</I></MATH></I><TT><I>-</I></TT><I><MATH><I>&lt;</I></MATH>comp-version<MATH><I>&gt;</I></MATH></I>[<TT>_</TT>LEDA]
+</CENTER>
+<P>
+
+<DL>
+<DT><B><MATH><I>&lt;</I></MATH>arch<MATH><I>&gt;</I></MATH></B><DD> is the system architecture as defined by ``<TT>uname -p</TT>'' or ``<TT>uname -m</TT>'',
+<DT><B><MATH><I>&lt;</I></MATH>os<MATH><I>&gt;</I></MATH></B><DD> is the operating system as defined by ``<TT>uname
+    -s</TT>'',
+<DT><B><MATH><I>&lt;</I></MATH>os-version<MATH><I>&gt;</I></MATH></B><DD> is the operating system version as defined by
+  ``<TT>uname -r</TT>'',
+<DT><B><MATH><I>&lt;</I></MATH>comp<MATH><I>&gt;</I></MATH></B><DD> is the basename of the compiler executable (if it
+  contains spaces, these are replaced by &quot;-&quot;) <I>and</I>
+<DT><B><MATH><I>&lt;</I></MATH>comp-version<MATH><I>&gt;</I></MATH></B><DD> is the compiler's version number (which
+  unfortunately can not be derived in a uniform manner, since it is
+  quite compiler specific).
+</DL>
+<P>
+
+The suffix <TT>_</TT>LEDA is appended to indicate L<SMALL>EDA</SMALL> support.
+<P>
+
+We call the resulting string C<SMALL>GAL</SMALL>-OS description.<BR>
+
+Examples are
+<TT>mips_IRIX-6.2_CC-7.2</TT> or <TT>sparc_SunOS-5.5_g++-2.8.1_LEDA</TT>.<BR>
+
+You can use the install script
+to get your C<SMALL>GAL</SMALL>-OS description, see section <A HREF="Chapter_installation.html#sec:other-options"><IMG SRC="cc_ref_up_arrow.gif" ALT="reference" WIDTH="10" HEIGHT="10"></A>.
+<P>
+
+<A NAME="Section_9"></A>
+<H2>The C<SMALL>GAL</SMALL> makefile structure</H2>
+<A NAME="sec:makefiles"></A>
+<P>
+
+The C<SMALL>GAL</SMALL> distribution contains the following makefiles:
+<UL>
+<LI><TT>CGAL-2.0/src/makefile_lib</TT> for compiling the C<SMALL>GAL</SMALL> 
+  object library <TT>libCGAL.a</TT>,
+<P>
+
+<LI><TT>CGAL-2.0/src/makefile_sharedlib</TT> for compiling the
+  C<SMALL>GAL</SMALL> shared object library <TT>libCGAL.so</TT>,
+<P>
+
+<LI><TT>CGAL-2.0/src/makefile_geomview</TT> for compiling a library
+  for geomview support,
+<P>
+
+<LI><TT>CGAL-2.0/examples/makefile</TT> as sample makefile
+  <I>and</I>
+<P>
+
+<LI><TT>CGAL-2.0/examples/*/makefile</TT> for compiling the C<SMALL>GAL</SMALL> 
+  example programs.
+</UL>
+<P>
+
+All these makefiles are generic: they can be used for more than one
+compiler.  To achieve this, the first section of each makefile
+contains an include statement that looks as follows:
+<P>
+
+<PRE>
+      CGAL_MAKEFILE = /users/jannes/CGAL-2.0/make/makefile_&lt;CGAL-OS description&gt;
+      include $(CGAL_MAKEFILE)
+</PRE>
+<P>
+
+The file <TT>CGAL_MAKEFILE</TT> is an include file with platform
+dependent makefile settings. The abbreviation <TT>&lt;CGAL-OS
+  description&gt;</TT> (see section <A HREF="Chapter_installation.html#sec:os-compiler-id"><IMG SRC="cc_ref_up_arrow.gif" ALT="reference" WIDTH="10" HEIGHT="10"></A> for details) is
+used to identify the operating system and compiler for which the
+settings hold. For example, the file
+<TT>makefile_mips_IRIX64-6.5_CC-n32-7.2.1.1m</TT> contains makefile
+settings for the IRIX 6.5 operating system and the SGI&nbsp;Mips(Pro)&nbsp;<TT>CC</TT> 7.2.1
+compiler.  These include files are automatically generated by the
+<TT>install_cgal</TT> script and they are all located in the
+<TT>CGAL-2.0/make</TT> directory.  For convenience, the
+<TT>install_cgal</TT> script will substitute the include makefile
+that was generated most recently.
+<P>
+
+If you want to compile an application or an object library with a
+different compiler, the only thing you need to do is to substitute
+another include makefile for the <TT>CGAL_MAKEFILE</TT> variable. An
+alternative way to do this is to create an environment variable
+<TT>CGAL_MAKEFILE</TT>. To pass the value of the environment variable
+to the makefile you can either comment out the <TT>CGAL_MAKEFILE</TT>
+line in the makefile or use an appropriate command line option for the
+make utility.  A comfortable way to set <TT>CGAL_MAKEFILE</TT> is by
+using <TT>install_cgal&nbsp;-os</TT> (see section
+<A HREF="Chapter_installation.html#sec:other-options"><IMG SRC="cc_ref_up_arrow.gif" ALT="reference" WIDTH="10" HEIGHT="10"></A>).  E.g. if your compiler is <TT>g++</TT>, you
+would type
+<PRE>
+CGAL_MAKEFILE=`$&lt;$<I>insert your </I><TT><I>CGAL-2.0</I></TT><I> dir</I>$&gt;$/install_cgal -os g++`
+</PRE>
+in bourne shell resp.
+<PRE>
+setenv CGAL_MAKEFILE `$&lt;$<I>insert your </I><TT><I>CGAL-2.0</I></TT><I> dir</I>$&gt;$/install_cgal -os g++`
+</PRE>
+in csh derivatives.
+<P>
+
+<I>Tip:</I> Include the setting of <TT>CGAL_MAKEFILE</TT> into your
+shell startup script (e.g. <TT>.</TT>(<TT>t</TT>)<TT>cshrc</TT> for
+(<TT>t</TT>)<TT>csh</TT> or <TT>.bashrc</TT> for <TT>bash</TT>).
+<P>
+
+All makefiles contain sections with compiler and linker flags.  You
+can add your own flags here. For example, you might want to add the
+flag <TT>-DCGAL_NO_PRECONDITIONS</TT> to turn off precondition
+checking. The flags <TT>$(CGAL_CXXFLAGS)</TT> and
+<TT>$(CGAL_LDFLAGS)</TT> should never be removed.
+<P>
+
+The default extension for C<SMALL>GAL</SMALL> source files is <TT>.C</TT>.  The
+last section of the makefiles contains a suffix rule that tells the
+compiler how to create a <TT>.o</TT>-file from a <TT>.C</TT>-file.  If
+you want to use the default rule that is defined by the make utility,
+you may want to remove this suffix rule.  However, note that this may
+have consequences for the makefile variables <TT>CGAL_CXX</TT> and
+<TT>CXXFLAGS</TT>.
+<P>
+
+<A NAME="Section_10"></A>
+<H2>Compiling a C<SMALL>GAL</SMALL> application</H2>
+
+The directory <TT>CGAL-2.0/examples</TT> contains a small program
+(example.C) and a sample makefile with some comments. The
+<TT>CGAL_MAKEFILE</TT> variable in this makefile (see section
+<A HREF="Chapter_installation.html#sec:makefiles"><IMG SRC="cc_ref_up_arrow.gif" ALT="reference" WIDTH="10" HEIGHT="10"></A>) is automatically substituted by the
+<TT>install_cgal</TT> script and equals the most recently generated
+include makefile in the <TT>CGAL-2.0/make</TT> directory. After the
+installation of C<SMALL>GAL</SMALL> this sample makefile is ready for use. Just
+type '<TT>make example</TT>' to compile the program
+<TT>example.C</TT>. There is a script for conveniently creating
+makefiles for C<SMALL>GAL</SMALL> applications, see
+section&nbsp;<A HREF="Chapter_installation.html#sec:create_cgal_makefile"><IMG SRC="cc_ref_up_arrow.gif" ALT="reference" WIDTH="10" HEIGHT="10"></A>.
+<P>
+
+Furthermore the directories <TT>CGAL-2.0/examples</TT> and
+<TT>CGAL-2.0/demo</TT> contain many subdirectories with non-graphical
+and graphical example programs.  In all these directories you will
+find a makefile that is ready for use.
+<P>
+
+<A NAME="Section_11"></A>
+<H2>Using C<SMALL>GAL</SMALL> and L<SMALL>EDA</SMALL></H2>
+<A NAME="sec:leda"></A>
+This section describes how to use C<SMALL>GAL</SMALL> and L<SMALL>EDA</SMALL> simultaneously.
+<P>
+
+<H3>Support for L<SMALL>EDA</SMALL></H3>
+
+C<SMALL>GAL</SMALL> supports L<SMALL>EDA</SMALL> in the following ways:
+<P>
+
+<OL>
+<LI>There are support functions defined for the L<SMALL>EDA</SMALL> number types
+  <TT>big_float</TT>, <TT>integer</TT>, <TT>rational</TT> and
+  <TT>real</TT> (see the files <TT>&lt;CGAL/leda_*&gt;</TT>).
+<LI>C<SMALL>GAL</SMALL> defines the following L<SMALL>EDA</SMALL>-related compiler flags:
+<UL>
+<LI>When L<SMALL>EDA</SMALL> is used, the flags <TT>CGAL_USE_LEDA</TT> and
+  <TT>LEDA_PREFIX</TT> will be set.
+<LI>When L<SMALL>EDA</SMALL> is used, the L<SMALL>EDA</SMALL> memory management (L<SMALL>EDA</SMALL> handles) will be
+used for geometric primitives in C<SMALL>GAL</SMALL>. This can be turned of by setting the flag
+<TT>CGAL_NO_LEDA_HANDLE</TT>. In that case C<SMALL>GAL</SMALL> memory management will
+be used (see <TT>&lt;CGAL/Handle.h&gt;</TT>).
+</UL>
+</OL>
+<P>
+
+The include makefiles in the <TT>CGAL-2.0/make</TT> directory
+corresponding to L<SMALL>EDA</SMALL> can be recognized by the suffix
+``<TT>_LEDA</TT>''.
+<P>
+
+<A NAME="Section_12"></A>
+<H2>Troubleshooting</H2>
+<A NAME="sec:troubleshooting"></A>
+<P>
+
+This section contains some remarks about known problems and the
+solutions we propose. If your problem is not listed here, please have
+a look at the C<SMALL>GAL</SMALL> homepage:
+<PRE>
+<A HREF="http://www.cs.uu.nl/CGAL"><TT>http://www.cs.uu.nl/CGAL</TT></A>
+</PRE>
+or send an email to <TT>cgal@cs.uu.nl</TT>.
+<P>
+
+<H3>The ``Long-Name-Problem'' (Solaris only)</H3>
+<P>
+
+The system assembler and linker on Solaris 2.5 and 2.6 cannot handle
+symbols with more than 1024 characters. But this number is quickly
+exceeded where one starts nesting templates into each other. So if you
+encounter strange assembler or linker errors like 
+<PRE>
+/usr/ccs/bin/as: &quot;/var/tmp/cc0B5iGc.s&quot;, line 24: 
+error: can't compute value of an expression involving an external symbol
+</PRE>
+there is a good chance that you suffer from this ``long-name''
+problem.
+<P>
+
+A solution is to install the G<SMALL>NU</SMALL>-binutils<A HREF="#Footnote_5"><SUP>5</SUP></A> and to tell the
+compiler that it shall use the G<SMALL>NU</SMALL>- instead of the native tools.
+From the compiler-menu (described in section <A HREF="Chapter_installation.html#sec:compiler-menu"><IMG SRC="cc_ref_up_arrow.gif" ALT="reference" WIDTH="10" HEIGHT="10"></A>)
+you can set the corresponding option through the custom compiler
+flags, i.e. for <TT>gcc</TT>/<TT>egcs</TT> you would add 
+<PRE>
+  -B/my/path/to/gnu/binutils/bin
+</PRE>
+assuming you installed the G<SMALL>NU</SMALL>-binutils executables in
+<TT>/my/path/to/gnu/binutils/bin</TT>.
+<P>
+
+If you cannot (or do not want to) install G<SMALL>NU</SMALL>-binutils, there is a
+workaround that lets you compile, link and run your programs, but it
+prevents debugging, since the executables have to be stripped. In
+short the workaround is to compile with <TT>-g</TT> and to link with
+<TT>-z nodefs -s</TT>. In order to still have portable makefiles (see
+section<A HREF="Chapter_installation.html#sec:makefiles"><IMG SRC="cc_ref_up_arrow.gif" ALT="reference" WIDTH="10" HEIGHT="10"></A>), we define flags
+<TT>LONG_NAME_PROBLEM_CXXFLAGS</TT> and
+<TT>LONG_NAME_PROBLEM_LDFLAGS</TT> in the include makefiles which
+are empty except for the Solaris platform where they are set as stated
+above. In order to use these flags, edit your application makefile and
+add the flags to <TT>CXXFLAGS</TT> resp. <TT>LDFLAGS</TT> as indicated
+below.
+<PRE>
+#---------------------------------------------------------------------#
+#                    compiler flags
+#---------------------------------------------------------------------#
+# The flag CGAL_CXXFLAGS contains the path to the compiler and is defined
+# in the file CGAL_MAKEFILE. You may add your own compiler flags to CXXFLAGS.
+
+CXXFLAGS = $(LONG_NAME_PROBLEM_CXXFLAGS) $(CGAL_CXXFLAGS) 
+
+#---------------------------------------------------------------------#
+#                    linker flags
+#---------------------------------------------------------------------#
+# The flag CGAL_LDFLAGS contains common linker flags and is defined
+# in the file CGAL_MAKEFILE. You may add your own linker flags to CXXFLAGS.
+
+LDFLAGS = $(LONG_NAME_PROBLEM_LDFLAGS) $(CGAL_LDFLAGS) 
+</PRE>
+<P>
+
+<H3>L<SMALL>EDA</SMALL> and STL conflicts</H3>
+<P>
+
+If you are using an old version of L<SMALL>EDA</SMALL>, the combination of L<SMALL>EDA</SMALL> 
+and STL may give some problems. In order to avoid them, it is highly
+recommended to use the latest L<SMALL>EDA</SMALL> release<A HREF="#Footnote_6"><SUP>6</SUP></A>, since this is what we test C<SMALL>GAL</SMALL> with.
+<P>
+
+<A NAME="Section_13"></A>
+<H2>Compiler Optimisations</H2>
+<A NAME="sec:compiler-optimisations"></A>
+<P>
+
+You may have noticed that we do not set optimizer flags as <TT>-O</TT>
+by default in the include makefiles(see section<A HREF="Chapter_installation.html#sec:makefiles"><IMG SRC="cc_ref_up_arrow.gif" ALT="reference" WIDTH="10" HEIGHT="10"></A> for
+a description of the makefile structure in C<SMALL>GAL</SMALL>).  The main reason
+for not doing this is that compilers run much more stable without. On
+the other hand, most if not all C<SMALL>GAL</SMALL> programs will run considerably
+faster when compiled with optimisations! So if you are going for
+performance, you should/have to add <TT>-O</TT>, <TT>-O3</TT> or maybe
+more specific optimizer flags (please refer to the compiler
+documentation for that) to the <TT>CXXFLAGS</TT> variable in your
+application makefile:
+<PRE>
+#---------------------------------------------------------------------#
+#                    compiler flags
+#---------------------------------------------------------------------#
+# The flag CGAL_CXXFLAGS contains the path to the compiler and is defined
+# in the file CGAL_MAKEFILE. You may add your own compiler flags to CXXFLAGS.
+
+CXXFLAGS = $(CGAL_CXXFLAGS) -O
+</PRE>
+<P>
+
+<A NAME="Section_14"></A>
+<H2>Upgrading a C<SMALL>GAL</SMALL> 1.* installation</H2>
+
+In case you have C<SMALL>GAL</SMALL> 1.0/1.1/1.2 installed on your system, you
+might like to reuse your configuration files and GMP installations.
+Simply use the following command to copy them into the right place:
+<PRE>
+./install_cgal --upgrade &lt;OLD_CGAL_DIR&gt;
+</PRE>
+where <TT>&lt;OLD_CGAL_DIR&gt;</TT> is your C<SMALL>GAL</SMALL> 1.* root directory
+(e.g. <TT>/pub/local/CGAL-1.2</TT>).
+<P>
+
+You can then build all libraries for the actual operating system that
+existed in your C<SMALL>GAL</SMALL> 1.* installation with 
+<PRE>
+./install_cgal --rebuild-all
+</PRE>
+<P>
+
+If you want to install C<SMALL>GAL</SMALL> for more than one operating system in
+the same directory structure, you have to run the latter command
+(<TT>rebuild-all</TT>) once on each operating system.
+<P>
+
+<A NAME="Section_15"></A>
+<H2>Compiler workarounds</H2>
+
+In C<SMALL>GAL</SMALL> a number of compiler flags is defined, all of them start
+with the prefix <TT>CGAL_CFG</TT>. These flags are used to work
+around compiler bugs and limitations.  For example, the flag
+<TT>CGAL_CFG_NO_MUTABLE</TT> denotes that the compiler does not
+know the keyword <TT>mutable</TT>.
+<P>
+
+For each compiler a file <TT>&lt;CGAL/compiler_config.h&gt;</TT> is
+defined, with the correct settings of all flags. This file is
+generated automatically by the <TT>install_cgal</TT> script. For this
+the test programs in the directory <TT>CGAL-2.0/config/testfiles</TT>
+are used. The file <TT>&lt;CGAL/compiler_config.h&gt;</TT> and the test
+programs contain a description of the problem, so in case of trouble
+with a <TT>CGAL_CFG</TT> flag it is a good idea to take a look at it.
+<P>
+
+The file <TT>&lt;CGAL/config.h&gt;</TT> manages all configuration problems
+of the compiler.  This file includes the file
+<TT>CGAL/compiler_config.h</TT>.  It is therefore important that the
+file <TT>&lt;CGAL/config.h&gt;</TT> is always included before any other
+C<SMALL>GAL</SMALL> source file that depends on workaround flags. In most cases you
+do not have to do anything special for this, because many CGAL files
+already take care of including <TT>&lt;CGAL/config.h&gt;</TT>. Nevertheless
+it would be a good idea to always start your C<SMALL>GAL</SMALL> programs with
+including <TT>&lt;CGAL/config.h&gt;</TT> (or <TT>&lt;CGAL/basic.h&gt;</TT>, which
+contains some more basic C<SMALL>GAL</SMALL> definitions).
+<P>
+
+<A NAME="Section_16"></A>
+<H2>Scripts</H2>
+<P>
+
+<H3><TT>create_cgal_makefile</TT></H3>
+<A NAME="sec:create_cgal_makefile"></A>
+<P>
+
+The bourne-shell script <TT>create_cgal_makefile</TT> is contained
+in the <TT>CGAL-2.0</TT><TT>/scripts</TT> directory. It can be used to create
+makefiles for compiling C<SMALL>GAL</SMALL> applications. Executing
+<TT>create_cgal_makefile</TT> in an application directory creates a
+<TT>makefile</TT> containing rules for every <TT>*.C</TT> file there.
+<P>
+
+In order to use this makefile, you have to specify the C<SMALL>GAL</SMALL> include
+makefile (see section&nbsp;<A HREF="Chapter_installation.html#sec:makefiles"><IMG SRC="cc_ref_up_arrow.gif" ALT="reference" WIDTH="10" HEIGHT="10"></A>) to be used. This can be
+done be either setting the environment variable
+<TT>CGAL_MAKEFILE</TT> or by editing the line
+<PRE>
+  # CGAL_MAKEFILE = ENTER_YOUR_INCLUDE_MAKEFILE_HERE
+</PRE>
+of the created makefile. First remove the ``<TT>#</TT>'' at the
+beginning of the line and then replace the text after ``<TT>=</TT>''
+by the location of the include makefile.
+<P>
+
+Finally type <TT>make</TT> to compile the application programs.
+<P>
+
+<H3><TT>use_cgal_namespace</TT></H3>
+<A NAME="sec:use_cgal_namespace"></A>
+<P>
+
+The perl script <TT>use_cgal_namespace</TT> is contained in the
+<TT>CGAL-2.0</TT><TT>/scripts</TT> directory. It can be used to convert
+C<SMALL>GAL</SMALL><TT>-1.*</TT> application sourcecode to the C<SMALL>GAL</SMALL><TT>-2.*</TT>
+format.  Basically, it replaces <TT>CGAL_</TT> prefixes by
+<TT>CGAL::</TT> namespace qualifiers. You have to give the files to
+convert as arguments, e.g.
+<PRE>
+  use_cgal_namespace my_great_file1.C *.h
+</PRE>
+The original files are kept with the suffix <TT>.bck</TT>.
+<P>
+
+In order to use it, you first have to set the perl path in the first
+line correctly, i.e. replace <TT>/net/bin/perl5</TT> by the path to
+perl on your system (try <TT>which perl</TT>(5), if you do not know).
+Alternatively, you can type
+<PRE>
+  perl -wi.bck -- use_cgal_namespace &lt;FILES&gt;
+</PRE>
+<P>
+
+<H3><TT>replace_headers</TT></H3>
+<A NAME="sec:replace_headers"></A>
+<P>
+
+The perl script <TT>redirect_headers</TT> is contained in the
+<TT>CGAL-2.0</TT><TT>/scripts</TT> directory. It can be used to replace
+oldstyle include directives for standard headers by their standard ISO
+counterparts, e.g.
+<PRE>
+  #include &lt;algo.h&gt;
+</PRE>
+is replaced by
+<PRE>
+  #include &lt;algorithm&gt;
+</PRE>
+You have to give the files to
+convert as arguments, e.g.
+<PRE>
+  use_cgal_namespace my_great_file1.C *.h
+</PRE>
+The original files are kept with the suffix <TT>.hrbck</TT>.
+<P>
+
+In order to use it, you first have to set the perl path in the first
+line correctly, i.e. replace <TT>/net/bin/perl5</TT> by the path to
+perl on your system (try <TT>which perl</TT>(5), if you do not know).
+Alternatively, you can type
+<PRE>
+  perl -wi.hrbck -- replace_headers &lt;FILES&gt;
+</PRE>
+<P>
+
+<HR><H3>Footnotes</H3>
+<P>
+
+<TABLE><TR><TD VALIGN=TOP>
+</TD></TR><TR><TD VALIGN=TOP>
+        <A NAME="Footnote_1">&nbsp;<SUP>1</SUP>&nbsp;</A></TD><TD VALIGN=TOP>
+see
+  <A HREF="http://www.mpi-sb.mpg.de/LEDA/index.html"><TT>http://www.mpi-sb.mpg.de/LEDA/index.html</TT></A> for information.
+</TD></TR><TR><TD VALIGN=TOP>
+        <A NAME="Footnote_2">&nbsp;<SUP>2</SUP>&nbsp;</A></TD><TD VALIGN=TOP>
+see e.g. <A HREF="http://reality.sgi.com/austern/std-c++/faq-new.html#PartB"><TT>http://reality.sgi.com/austern/std-c++/faq-new.html#PartB</TT></A> for information
+</TD></TR><TR><TD VALIGN=TOP>
+        <A NAME="Footnote_3">&nbsp;<SUP>3</SUP>&nbsp;</A></TD><TD VALIGN=TOP>
+If you are that curious what
+  happens exactly, have a look at the file
+  <TT>CGAL-2.0/install.log</TT>.
+</TD></TR><TR><TD VALIGN=TOP>
+        <A NAME="Footnote_4">&nbsp;<SUP>4</SUP>&nbsp;</A></TD><TD VALIGN=TOP>
+Note that these files are only OS/compiler specific, i.e.
+  there are no different files for with and without L<SMALL>EDA</SMALL> support.
+</TD></TR><TR><TD VALIGN=TOP>
+        <A NAME="Footnote_5">&nbsp;<SUP>5</SUP>&nbsp;</A></TD><TD VALIGN=TOP>
+see
+  <A HREF="http://www.gnu.org/software/binutils/"><TT>http://www.gnu.org/software/binutils/</TT></A>
+</TD></TR><TR><TD VALIGN=TOP>
+        <A NAME="Footnote_6">&nbsp;<SUP>6</SUP>&nbsp;</A></TD><TD VALIGN=TOP>
+At the moment
+  this is L<SMALL>EDA</SMALL> 3.8.
+
+</TD></TR></TABLE>
+<P>
+
+<!-- Begin of cc_manual_footer -->
+<!-- ------------------------- -->
+<!-- $Revision: 3.1 $ -->
+<!-- $Date: 1998/08/05 15:50:57 $ -->
+
+<!-- Navigation -->
+<HR>
+  <STRONG>Navigation:</STRONG>
+  <A HREF="Chapter_installation.html">Up</A>,
+  <A HREF="contents.html">Table of Contents</A>,
+  <A HREF="biblio.html">Bibliography</A>,
+  <A HREF="manual_index.html">Index</A>,
+  <A HREF="title.html">Title Page</A>
+<HR>
+
+<address> 
+  <A HREF=http://www.mpi-sb.mpg.de/GALIA target=_top>The GALIA project</A>.    Jun 10,  1999. 
+</address>
+</BODY>
+</HTML>
+
+<!-- End of cc_manual_footer -->

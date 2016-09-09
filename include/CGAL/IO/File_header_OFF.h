@@ -1,6 +1,6 @@
 // ======================================================================
 //
-// Copyright (c) 1997 The CGAL Consortium
+// Copyright (c) 1999 The GALIA Consortium
 //
 // This software and related documentation is part of the
 // Computational Geometry Algorithms Library (CGAL).
@@ -16,38 +16,37 @@
 // - Development licenses grant access to the source code of the library 
 //   to develop programs. These programs may be sold to other parties as 
 //   executable code. To obtain a development license, please contact
-//   the CGAL Consortium (at cgal@cs.uu.nl).
+//   the GALIA Consortium (at cgal@cs.uu.nl).
 // - Commercialization licenses grant access to the source code and the
 //   right to sell development licenses. To obtain a commercialization 
-//   license, please contact the CGAL Consortium (at cgal@cs.uu.nl).
+//   license, please contact the GALIA Consortium (at cgal@cs.uu.nl).
 //
 // This software and documentation is provided "as-is" and without
 // warranty of any kind. In no event shall the CGAL Consortium be
 // liable for any damage of any kind.
 //
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// The GALIA Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany) Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+// (Germany), Max-Planck-Institute Saarbrucken (Germany),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-1.2
-// release_date  : 1999, January 18
+// release       : CGAL-2.0
+// release_date  : 1999, June 03
 //
 // file          : include/CGAL/IO/File_header_OFF.h
-// package       : Polyhedron_IO (1.11)
+// package       : Polyhedron_IO (2.5)
 // chapter       : $CGAL_Chapter: Support Library ... $
 // source        : polyhedron_io.fw
-// revision      : $Revision: 1.8 $
-// revision_date : $Date: 1998/10/08 22:46:22 $
+// revision      : $Revision: 1.4 $
+// revision_date : $Date: 1999/03/24 11:16:26 $
 // author(s)     : Lutz Kettner
 //
 // coordinator   : Herve Bronnimann
 //
 // File header information of an object file format (OFF) file
-//
 // email         : cgal@cs.uu.nl
 //
 // ======================================================================
@@ -57,15 +56,16 @@
 #ifndef CGAL_IO_FILE_HEADER_EXTENDED_OFF_H
 #include <CGAL/IO/File_header_extended_OFF.h>
 #endif // CGAL_IO_FILE_HEADER_EXTENDED_OFF_H
+#ifndef CGAL_PROTECT_IOSTREAM
+#include <iostream>
+#define CGAL_PROTECT_IOSTREAM
+#endif
 
-#ifndef CGAL_PROTECT_IOSTREAM_H
-#include <iostream.h>
-#define CGAL_PROTECT_IOSTREAM_H
-#endif // CGAL_PROTECT_IOSTREAM_H
+CGAL_BEGIN_NAMESPACE
 
 // Info structure for OFF file headers
 // ===================================
-class CGAL_File_header_OFF : public CGAL_File_header_extended_OFF {
+class File_header_OFF : public File_header_extended_OFF {
 private:
     // Publicly accessible file informations.
     int  n_vertices;
@@ -84,24 +84,24 @@ private:
     bool m_tagDim;      // nOFF detected (will not be supported).
     int  m_dim;         // dimension for nOFF (will not be supported).
 public:
-    typedef  CGAL_File_header_OFF           Self;
-    typedef  CGAL_File_header_extended_OFF  Base;
+    typedef  File_header_OFF           Self;
+    typedef  File_header_extended_OFF  Base;
 
-    CGAL_File_header_OFF( bool verbose = false);
-    CGAL_File_header_OFF( bool binary, bool noc, bool skel,
-                         bool verbose = false);
-    //CGAL_File_header_OFF( int v, int h, int f, bool verbose = false);
-    CGAL_File_header_OFF( int v, int h, int f,
-                         bool binary, bool noc, bool skel,
-                         bool verbose = false);
-    CGAL_File_header_OFF( const CGAL_File_header_extended_OFF& ext_header);
-    CGAL_File_header_OFF( const CGAL_File_header_extended_OFF& ext_header,
-                         bool binary, bool noc, bool skel);
-    CGAL_File_header_OFF( int v, int h, int f,
-                         const CGAL_File_header_extended_OFF& ext_header);
-    CGAL_File_header_OFF( int v, int h, int f,
-                         const CGAL_File_header_extended_OFF& ext_header,
-                         bool binary, bool noc, bool skel);
+    File_header_OFF( bool verbose = false);
+    File_header_OFF( bool binary, bool noc, bool skel,
+                     bool verbose = false);
+    //File_header_OFF( int v, int h, int f, bool verbose = false);
+    File_header_OFF( int v, int h, int f,
+                     bool binary, bool noc, bool skel,
+                     bool verbose = false);
+    File_header_OFF( const File_header_extended_OFF& ext_header);
+    File_header_OFF( const File_header_extended_OFF& ext_header,
+                     bool binary, bool noc, bool skel);
+    File_header_OFF( int v, int h, int f,
+                     const File_header_extended_OFF& ext_header);
+    File_header_OFF( int v, int h, int f,
+                     const File_header_extended_OFF& ext_header,
+                     bool binary, bool noc, bool skel);
 
     Self& operator= ( const Base& base) { (Base&)(*this) = base;
                                           return *this;
@@ -142,9 +142,11 @@ public:
 };
 
 // Write header.
-ostream& operator<<( ostream& out, const CGAL_File_header_OFF& h);
+std::ostream& operator<<( std::ostream& out, const File_header_OFF& h);
 
 // Scan header. Marks streams badbit if not in SKEL format nor in OFF.
-istream& operator>>( istream& in, CGAL_File_header_OFF& h);
+std::istream& operator>>( std::istream& in, File_header_OFF& h);
+
+CGAL_END_NAMESPACE
 #endif // CGAL_IO_FILE_HEADER_OFF_H //
 // EOF //

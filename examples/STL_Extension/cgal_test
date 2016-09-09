@@ -68,6 +68,6 @@ if [ $# -ne 0 ] ; then
     compile_and_run $file
   done
 else
-  compile_and_run in_list_prog
+  compile_and_run in_place_list_prog
 fi
 

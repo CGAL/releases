@@ -1,6 +1,6 @@
 // ======================================================================
 //
-// Copyright (c) 1997 The CGAL Consortium
+// Copyright (c) 1999 The GALIA Consortium
 //
 // This software and related documentation is part of the
 // Computational Geometry Algorithms Library (CGAL).
@@ -16,28 +16,28 @@
 // - Development licenses grant access to the source code of the library 
 //   to develop programs. These programs may be sold to other parties as 
 //   executable code. To obtain a development license, please contact
-//   the CGAL Consortium (at cgal@cs.uu.nl).
+//   the GALIA Consortium (at cgal@cs.uu.nl).
 // - Commercialization licenses grant access to the source code and the
 //   right to sell development licenses. To obtain a commercialization 
-//   license, please contact the CGAL Consortium (at cgal@cs.uu.nl).
+//   license, please contact the GALIA Consortium (at cgal@cs.uu.nl).
 //
 // This software and documentation is provided "as-is" and without
 // warranty of any kind. In no event shall the CGAL Consortium be
 // liable for any damage of any kind.
 //
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// The GALIA Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany) Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+// (Germany), Max-Planck-Institute Saarbrucken (Germany),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-1.2
-// release_date  : 1999, January 18
+// release       : CGAL-2.0
+// release_date  : 1999, June 03
 //
 // file          : include/CGAL/Pm_segment_exact_traits.h
-// package       : pm (2.052)
+// package       : pm (3.07)
 // source        : 
 // revision      : 
 // revision_date : 
@@ -49,7 +49,6 @@
 // coordinator   : Tel-Aviv University (Dan Halperin)
 //
 // Chapter       : 
-//
 // email         : cgal@cs.uu.nl
 //
 // ======================================================================
@@ -67,17 +66,19 @@
 #include <CGAL/Segment_2.h>
 #endif
 
-#include <assert.h>
+//#include <cassert>
 
+
+CGAL_BEGIN_NAMESPACE
 
 template <class R>
-class CGAL_Pm_segment_exact_traits
+class Pm_segment_exact_traits
 {
 public:
 
-  typedef CGAL_Segment_2<R>	X_curve;
-  typedef CGAL_Point_2<R>		Point;
-  typedef CGAL_Vector_2<R>		Vector;
+  typedef Segment_2<R>	X_curve;
+  typedef Point_2<R>		Point;
+  typedef Vector_2<R>		Vector;
   
   typedef enum 
   {
@@ -96,13 +97,13 @@ public:
   } Curve_point_status;	
 /*	
 #ifdef _PM_TRAITS_WITH_INTERSECTIONS
-typedef CGAL_Segment_2<R>      	Curve;
+typedef Segment_2<R>      	Curve;
 #endif
 */
 	
 
 public:
-  CGAL_Pm_segment_exact_traits() {}
+  Pm_segment_exact_traits() {}
   
   Point curve_source(const X_curve & cv) const 
   { 
@@ -141,9 +142,9 @@ public:
 	if (!curve_is_vertical(cv))
 	{
 		int res = compare_y(p, curve_calc_point(cv, p));
-		if (res == CGAL_SMALLER) return UNDER_CURVE;
-		if (res == CGAL_LARGER)	return ABOVE_CURVE;
-		//if (res == CGAL_EQUAL) 
+		if (res == SMALLER) return UNDER_CURVE;
+		if (res == LARGER)	return ABOVE_CURVE;
+		//if (res == EQUAL) 
 		return ON_CURVE;
 	}
 	else
@@ -157,14 +158,14 @@ public:
 	}
   }
   
-  CGAL_Comparison_result 
+  Comparison_result 
   curve_compare_at_x(const X_curve &cv1, const X_curve &cv2, const Point &q) 
     const 
   {
-    //assert (curve_is_in_x_range(cv1, q));
-    //assert (curve_is_in_x_range(cv2, q));
+    //CGAL_assertion (curve_is_in_x_range(cv1, q));
+    //CGAL_assertion (curve_is_in_x_range(cv2, q));
     if ((!curve_is_in_x_range(cv1, q)) || (!curve_is_in_x_range(cv2, q)))
-      return CGAL_EQUAL;
+      return EQUAL;
     
     Point p1 = curve_calc_point(cv1, q);
     Point p2 = curve_calc_point(cv2, q);
@@ -175,53 +176,53 @@ public:
           {
             // both cv1 and cv2 are vertical
             if ( is_lower(cv1.target(), cv2.source()) )
-              return CGAL_SMALLER;
+              return SMALLER;
             if ( is_higher(cv1.source(), cv2.target()) )
-              return CGAL_LARGER;
-            return CGAL_SMALLER;
+              return LARGER;
+            return SMALLER;
           }
         // cv1 is vertical and cv2 not
         if ( is_lower(cv1.target(), p2) )
-          return CGAL_SMALLER;
+          return SMALLER;
         if ( is_higher(cv1.source(), p2) )
-          return CGAL_LARGER;
-        return CGAL_EQUAL;
+          return LARGER;
+        return EQUAL;
       }
     
     if (curve_is_vertical(cv2))
       {
         // cv2 is vertical and cv1- not
         if (is_lower(cv2.target(), p1) )
-          return CGAL_LARGER;
+          return LARGER;
         if ( is_higher(cv2.source(), p1) )
-          return CGAL_SMALLER;
-        return CGAL_EQUAL;
+          return SMALLER;
+        return EQUAL;
       }
     
     // both are not vertical
-    if (is_higher(p1, p2)) return CGAL_LARGER;
-    if (is_lower(p1, p2)) return CGAL_SMALLER;
-    return CGAL_EQUAL;
+    if (is_higher(p1, p2)) return LARGER;
+    if (is_lower(p1, p2)) return SMALLER;
+    return EQUAL;
   }
   
   
-  CGAL_Comparison_result 
+  Comparison_result 
   curve_compare_at_x_left(const X_curve &cv1, const X_curve &cv2, 
                           const Point &q) const 
   {
     // cases  in which the function isn't defined
-    //assert(!curve_is_vertical(cv1));
-    //assert(!curve_is_vertical(cv2));
-    //assert(is_left(leftmost(cv1.source(), cv1.target()), q));
-    //assert(is_left(leftmost(cv2.source(), cv2.target()), q));
+    //CGAL_assertion(!curve_is_vertical(cv1));
+    //CGAL_assertion(!curve_is_vertical(cv2));
+    //CGAL_assertion(is_left(leftmost(cv1.source(), cv1.target()), q));
+    //CGAL_assertion(is_left(leftmost(cv2.source(), cv2.target()), q));
     
-    if (curve_is_vertical(cv1) || (curve_is_vertical(cv2))) return CGAL_EQUAL;
-    if (!is_left(leftmost(cv1.source(), cv1.target()), q)) return CGAL_EQUAL;
-    if (!is_left(leftmost(cv2.source(), cv2.target()), q)) return CGAL_EQUAL;
+    if (curve_is_vertical(cv1) || (curve_is_vertical(cv2))) return EQUAL;
+    if (!is_left(leftmost(cv1.source(), cv1.target()), q)) return EQUAL;
+    if (!is_left(leftmost(cv2.source(), cv2.target()), q)) return EQUAL;
     
-    CGAL_Comparison_result r = curve_compare_at_x(cv1, cv2, q);
+    Comparison_result r = curve_compare_at_x(cv1, cv2, q);
         
-    if ( r != CGAL_EQUAL)
+    if ( r != EQUAL)
       return r;     // since the curve is continous 
     
     // <cv2> and <cv1> meet at a point with the same x-coordinate as q
@@ -229,22 +230,22 @@ public:
     return compare_value(curve_derivative(cv2), curve_derivative(cv1));
     }
   
-  CGAL_Comparison_result 
+  Comparison_result 
   curve_compare_at_x_right(const X_curve &cv1, const X_curve &cv2, const Point & q) const 
   {
     // cases  in which the function isn't defined
-    //assert(!curve_is_vertical(cv1));
-    //assert(!curve_is_vertical(cv2));
-    //assert(is_right(rightmost(cv1.source(), cv1.target()), q));
-    //assert(is_right(rightmost(cv2.source(), cv2.target()), q));
+    //CGAL_assertion(!curve_is_vertical(cv1));
+    //CGAL_assertion(!curve_is_vertical(cv2));
+    //CGAL_assertion(is_right(rightmost(cv1.source(), cv1.target()), q));
+    //CGAL_assertion(is_right(rightmost(cv2.source(), cv2.target()), q));
     
-    if (curve_is_vertical(cv1) || (curve_is_vertical(cv2))) return CGAL_EQUAL;
-    if (!is_right(rightmost(cv1.source(), cv1.target()), q)) return CGAL_EQUAL;
-    if (!is_right(rightmost(cv2.source(), cv2.target()), q)) return CGAL_EQUAL;
+    if (curve_is_vertical(cv1) || (curve_is_vertical(cv2))) return EQUAL;
+    if (!is_right(rightmost(cv1.source(), cv1.target()), q)) return EQUAL;
+    if (!is_right(rightmost(cv2.source(), cv2.target()), q)) return EQUAL;
     
-    CGAL_Comparison_result r = curve_compare_at_x(cv1, cv2, q);
+    Comparison_result r = curve_compare_at_x(cv1, cv2, q);
     
-    if ( r != CGAL_EQUAL)
+    if ( r != EQUAL)
       return r;     // since the curve is continous (?)
     
     // <cv1> and <cv2> meet at a point with the same x-coordinate as q
@@ -284,9 +285,9 @@ public:
     // precondition: this, first and second have a common endpoint
     // precondition: first, second, this are pairwise interior disjoint
   {
-    // assert(is_intersection_simple(first, second);
-    // assert(is_intersection_simple(first, *this);
-    // assert(is_intersection_simple(*this, second);
+    // CGAL_assertion(is_intersection_simple(first, second);
+    // CGAL_assertion(is_intersection_simple(first, *this);
+    // CGAL_assertion(is_intersection_simple(*this, second);
     
     Curve_status cv0_status, cv1_status, cvx_status;
     int cv0_cv1, cv0_cvx, cv1_cvx;
@@ -398,9 +399,9 @@ public:
       return true;
   }
   
-  CGAL_Comparison_result compare_x(const Point &p1, const Point &p2) const
+  Comparison_result compare_x(const Point &p1, const Point &p2) const
   { return compare_value(p1.x(), p2.x()); }
-  CGAL_Comparison_result compare_y(const Point &p1, const Point &p2) const
+  Comparison_result compare_y(const Point &p1, const Point &p2) const
   { return compare_value(p1.y(), p2.y()); }
 public:
   Point point_to_left(const Point& p) const {
@@ -423,27 +424,27 @@ public:
           return false;
       }
     int res = compare_y(p, curve_calc_point(cv, p));
-    if (res == CGAL_EQUAL)
+    if (res == EQUAL)
       return true;
     return false;
   }
 private:
   bool is_left(const Point &p1, const Point &p2) const 
-  { return (compare_x(p1, p2) == CGAL_SMALLER); }
+  { return (compare_x(p1, p2) == SMALLER); }
   bool is_right(const Point &p1, const Point &p2) const 
-  { return (compare_x(p1, p2) == CGAL_LARGER); }
+  { return (compare_x(p1, p2) == LARGER); }
   bool is_same_x(const Point &p1, const Point &p2) const 
-  { return (compare_x(p1, p2) == CGAL_EQUAL); }
+  { return (compare_x(p1, p2) == EQUAL); }
   bool is_lower(const Point &p1, const Point &p2) const 
-  { return (compare_y(p1, p2) == CGAL_SMALLER); }
+  { return (compare_y(p1, p2) == SMALLER); }
   bool is_higher(const Point &p1, const Point &p2) const 
-  { return (compare_y(p1, p2) == CGAL_LARGER); }
+  { return (compare_y(p1, p2) == LARGER); }
   bool is_same_y(const Point &p1, const Point &p2) const 
-  { return (compare_y(p1, p2) == CGAL_EQUAL); }
+  { return (compare_y(p1, p2) == EQUAL); }
   bool is_same(const Point &p1, const Point &p2) const
   {
-    return (compare_x(p1, p2) == CGAL_EQUAL) &&
-      (compare_y(p1, p2) == CGAL_EQUAL);
+    return (compare_x(p1, p2) == EQUAL) &&
+      (compare_y(p1, p2) == EQUAL);
   }
   const Point& leftmost(const Point &p1, const Point &p2) const
   { return (is_left(p1, p2) ? p1 : p2); }
@@ -460,7 +461,7 @@ private:
 private:
   Point curve_calc_point(const X_curve &cv, const Point & q) const
   {
-    // assert (!curve_is_in_s_range(cv, q));
+    // CGAL_assertion (!curve_is_in_s_range(cv, q));
     if ( !curve_is_in_x_range(cv, q) )
       return cv.source();
     
@@ -483,7 +484,7 @@ private:
   
   typename R::FT curve_derivative(const X_curve &cv) const
   {
-    assert(!curve_is_vertical(cv));
+    CGAL_assertion(!curve_is_vertical(cv));
     
     return ( (cv.target()).y() - cv.source().y()) / 
       (cv.target().x() - cv.source().x());
@@ -491,25 +492,28 @@ private:
   
   typename R::FT curve_b_const(const X_curve &cv)const
   {
-    assert (!curve_is_vertical(cv));
+    CGAL_assertion (!curve_is_vertical(cv));
     return ((cv.target().x() * cv.source().y() - 
              cv.target().y()*cv.source().x())     / 
             (cv.target().x() - cv.source().x()));
   }
   
-  CGAL_Comparison_result compare_value(const typename R::FT &v1, 
+  Comparison_result compare_value(const typename R::FT &v1, 
                                        const typename R::FT &v2) const
   {
     typename R::FT d = v1 - v2;
     typename R::FT z(0);
     if (d == z)
-      return CGAL_EQUAL;
+      return EQUAL;
     if (z < d)
-      return CGAL_LARGER;
+      return LARGER;
     else
-      return CGAL_SMALLER;
+      return SMALLER;
   }
 };
+
+
+CGAL_END_NAMESPACE
 
 #endif // CGAL_PM_SEGMENT_EXACT_TRAITS_H
 

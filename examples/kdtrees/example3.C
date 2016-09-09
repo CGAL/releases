@@ -12,14 +12,14 @@
 //#include  <typeinfo>
 //#endif  /* __GNUG__ */ 
 
-#include  <iostream.h>
-#include  <time.h>
-#include  <assert.h>
+#include <iostream>
+#include <ctime>
+#include <cassert>
 
 #include  <CGAL/Cartesian.h>
 #include  <CGAL/Point_3.h>
 
-#include  <list.h>
+#include <list>
 
 #include  <CGAL/kdtree_d.h>
 
@@ -66,13 +66,13 @@ public:
   // not essential by specification but nice to have
   friend ostream &operator<<(ostream &os, const Point_float_d<DIM> &p)
   {
-    cout << "(";
+    std::cout << "(";
     for(int i = 0; i < DIM; i++)
       {
-        cout << p[i] ;
-        if (i < p.dimension() - 1) cout << ", ";
+        std::cout << p[i] ;
+        if (i < p.dimension() - 1) std::cout << ", ";
       }
-    cout << ")";
+    std::cout << ")";
     return os;
   }
   
@@ -80,10 +80,10 @@ public:
 
 
 typedef Point_float_d<4>  point;
-typedef CGAL_Kdtree_interface<point>  kd_interface;
-typedef CGAL_Kdtree_d<kd_interface>  kd_tree;
+typedef CGAL::Kdtree_interface<point>  kd_interface;
+typedef CGAL::Kdtree_d<kd_interface>  kd_tree;
 typedef kd_tree::Box  box;
-typedef list<point>  points_list; 
+typedef std::list<point>  points_list; 
 
 
 //RANDOM FUNCTIONS
@@ -118,19 +118,19 @@ void random_points( int  num, points_list &l, int DIM)
 int   main()
 {
 
-  CGAL_Kdtree_d<kd_interface>  tree(3);
+  CGAL::Kdtree_d<kd_interface>  tree(3);
   
   srand( (unsigned)time(NULL) );
   
-  cout << "Choosing randomly 30 points in the cube (0,0,0)-(10,10,10)\n" ;
+  std::cout << "Choosing randomly 30 points in the cube (0,0,0)-(10,10,10)\n" ;
   
   points_list  l , res;
   random_points( 30, l , 4);
 
   
-  cout << "Listing of random points:\n" ;
-  copy (l.begin(),l.end(),ostream_iterator<point>(cout,"\n") );
-  cout << endl;
+  std::cout << "Listing of random points:\n" ;
+  std::copy (l.begin(),l.end(),std::ostream_iterator<point>(std::cout,"\n") );
+  std::cout << endl;
   
   // building the tree for the random points
   tree.build( l );
@@ -150,11 +150,12 @@ int   main()
     }
   
   box r(p, q, 4);
-  tree.search( back_inserter( res ), r );
+  tree.search( std::back_inserter( res ), r );
   
-  cout << "Listing of the points in the box (2,2,2,2)-(8,8,8,8) : \n" ;
-  copy (res.begin(),res.end(),ostream_iterator<point>(cout,"\n") );
-  cout << endl;
+  std::cout << "Listing of the points in the box (2,2,2,2)-(8,8,8,8) : \n" ;
+  std::copy (res.begin(),res.end(),
+	     std::ostream_iterator<point>(std::cout,"\n") );
+  std::cout << endl;
   
   tree.delete_all();
   

@@ -1,6 +1,6 @@
 // ======================================================================
 //
-// Copyright (c) 1998 The CGAL Consortium
+// Copyright (c) 1999 The GALIA Consortium
 //
 // This software and related documentation is part of the
 // Computational Geometry Algorithms Library (CGAL).
@@ -16,34 +16,33 @@
 // - Development licenses grant access to the source code of the library 
 //   to develop programs. These programs may be sold to other parties as 
 //   executable code. To obtain a development license, please contact
-//   the CGAL Consortium (at cgal@cs.uu.nl).
+//   the GALIA Consortium (at cgal@cs.uu.nl).
 // - Commercialization licenses grant access to the source code and the
 //   right to sell development licenses. To obtain a commercialization 
-//   license, please contact the CGAL Consortium (at cgal@cs.uu.nl).
+//   license, please contact the GALIA Consortium (at cgal@cs.uu.nl).
 //
 // This software and documentation is provided "as-is" and without
 // warranty of any kind. In no event shall the CGAL Consortium be
 // liable for any damage of any kind.
 //
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// The GALIA Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany) Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+// (Germany), Max-Planck-Institute Saarbrucken (Germany),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
-// release       : CGAL-1.2
-// release_date  : 1999, January 18
+// release       : CGAL-2.0
+// release_date  : 1999, June 03
 //
 // file          : include/CGAL/ch_bykat.C
-// package       : Convex_hull (1.3.2)
+// package       : Convex_hull (2.0.8)
 // source        : convex_hull_2.lw
-// revision      : 1.3.2
-// revision_date : 09 Dec 1998
+// revision      : 2.0.8
+// revision_date : 06 May 1999
 // author(s)     : Stefan Schirra
 //
 // coordinator   : MPI, Saarbruecken
-//
 // email         : cgal@cs.uu.nl
 //
 // ======================================================================
@@ -55,9 +54,11 @@
 #ifndef CGAL_CH_BYKAT_H
 #include <CGAL/ch_eddy.h>
 #endif // CGAL_CH_BYKAT_H
+
+CGAL_BEGIN_NAMESPACE
 template <class InputIterator, class OutputIterator, class Traits>
 OutputIterator
-CGAL_ch_bykat(InputIterator first, InputIterator last, 
+ch_bykat(InputIterator first, InputIterator last, 
               OutputIterator  result,
               const Traits& ch_traits)
 {
@@ -67,22 +68,22 @@ CGAL_ch_bykat(InputIterator first, InputIterator last,
 
   if (first == last) return result;
 
-  vector< Point_2 >       P;      // Points in subsets
-  vector< Point_2 >       H;      // right endpoints of subproblems
+  std::vector< Point_2 >       P;      // Points in subsets
+  std::vector< Point_2 >       H;      // right endpoints of subproblems
   P.reserve(16);
   H.reserve(16);
   
-  typedef vector< Point_2 >::iterator   PointIterator;
-  vector< PointIterator > L;      // start of subset range
-  vector< PointIterator > R;      // end of subset range
+  typedef std::vector< Point_2 >::iterator   PointIterator;
+  std::vector< PointIterator > L;      // start of subset range
+  std::vector< PointIterator > R;      // end of subset range
   L.reserve(16);
   R.reserve(16);
   PointIterator           l;
   PointIterator           r;
   Point_2                 a,b,c;
   
-  copy(first,last,back_inserter(P));
-  CGAL_ch_we_point(P.begin(), P.end(), l, r, ch_traits);
+  std::copy(first,last,std::back_inserter(P));
+  ch_we_point(P.begin(), P.end(), l, r, ch_traits);
   a = *l;
   b = *r;
   if ( a == b) 
@@ -94,26 +95,23 @@ CGAL_ch_bykat(InputIterator first, InputIterator last,
     || defined(NDEBUG)
   OutputIterator  res(result);
   #else
-  CGAL_Tee_for_output_iterator<OutputIterator,Point_2> res(result);
+  Tee_for_output_iterator<OutputIterator,Point_2> res(result);
   #endif // no postconditions ...
   H.push_back( a );
   L.push_back( P.begin() );
-  R.push_back( l = partition( P.begin(), P.end(), 
-                              ch_traits.get_right_of_line_object(b,a) ) );
-  r = partition( l, P.end(), 
-                 ch_traits.get_right_of_line_object(a,b) );
+  R.push_back( l = std::partition( P.begin(), P.end(), 
+                                   ch_traits.get_right_of_line_object(b,a) ) );
+  r = std::partition( l, P.end(), ch_traits.get_right_of_line_object(a,b) );
   
   for (;;)
   {
       if ( l != r)
       {
-          c = *max_element( l, r, 
-                            ch_traits.get_less_dist_to_line_object(a,b) );
+          c = *std::max_element( l, r, ch_traits.get_less_dist_to_line_object(a,b) );
           H.push_back( b );
           L.push_back( l );
-          R.push_back( l = partition(l, r, 
-                                     ch_traits.get_right_of_line_object(c,b)));
-          r = partition(l, r, ch_traits.get_right_of_line_object(a,c));
+          R.push_back( l = std::partition(l, r, ch_traits.get_right_of_line_object(c,b)));
+          r = std::partition(l, r, ch_traits.get_right_of_line_object(a,c));
           b = c; 
       }
       else
@@ -127,11 +125,11 @@ CGAL_ch_bykat(InputIterator first, InputIterator last,
       }
   }
   CGAL_ch_postcondition( \
-      CGAL_is_ccw_strongly_convex_2( res.output_so_far_begin(), \
+      is_ccw_strongly_convex_2( res.output_so_far_begin(), \
                                      res.output_so_far_end(), \
                                      ch_traits));
   CGAL_ch_expensive_postcondition( \
-      CGAL_ch_brute_force_check_2( \
+      ch_brute_force_check_2( \
           P.begin(), P.end(), \
           res.output_so_far_begin(), res.output_so_far_end(), \
           ch_traits));
@@ -146,7 +144,7 @@ CGAL_ch_bykat(InputIterator first, InputIterator last,
 #define CGAL_ch_THRESHOLD 10
 template <class InputIterator, class OutputIterator, class Traits>
 OutputIterator
-CGAL_ch_bykat_with_threshold(InputIterator   first, InputIterator last, 
+ch_bykat_with_threshold(InputIterator   first, InputIterator last, 
                              OutputIterator  result,
                              const Traits&   ch_traits)
 {
@@ -154,18 +152,18 @@ CGAL_ch_bykat_with_threshold(InputIterator   first, InputIterator last,
   typedef typename Traits::Right_of_line         Right_of_line;
   typedef typename Traits::Less_dist_to_line     Less_dist;
   typedef typename Traits::Less_xy               Less_xy;
-  typedef CGAL_ch_Binary_predicate_reversor< Point_2, Less_xy >
+  typedef ch_Binary_predicate_reversor< Point_2, Less_xy >
                                                  Greater_xy;
-  typedef typename vector< Point_2 >::iterator   PointIterator;
+  typedef typename std::vector< Point_2 >::iterator   PointIterator;
 
   if (first == last) return result;
 
-  vector< Point_2 >       P;      // points in subsets
-  vector< Point_2 >       H;      // right endpoints of subproblems
+  std::vector< Point_2 >       P;      // points in subsets
+  std::vector< Point_2 >       H;      // right endpoints of subproblems
   P.reserve(16);
   H.reserve(16);
-  vector< PointIterator > L;      // start of subset range
-  vector< PointIterator > R;      // end of subset range
+  std::vector< PointIterator > L;      // start of subset range
+  std::vector< PointIterator > R;      // end of subset range
   L.reserve(16);
   R.reserve(16);
   PointIterator           l;
@@ -174,11 +172,11 @@ CGAL_ch_bykat_with_threshold(InputIterator   first, InputIterator last,
   PointIterator           Pbegin, Pend;
   
   P.push_back(Point_2() );
-  copy(first,last,back_inserter(P));
+  std::copy(first,last,std::back_inserter(P));
   P.push_back(Point_2() );
-  Pbegin = CGAL_successor(P.begin());
-  Pend   = CGAL_predecessor(P.end());
-  CGAL_ch_we_point(Pbegin, Pend, l, r, ch_traits);
+  Pbegin = successor(P.begin());
+  Pend   = predecessor(P.end());
+  ch_we_point(Pbegin, Pend, l, r, ch_traits);
   a = *l;
   b = *r;
   if ( a == b) 
@@ -190,13 +188,12 @@ CGAL_ch_bykat_with_threshold(InputIterator   first, InputIterator last,
     || defined(NDEBUG)
   OutputIterator  res(result);
   #else
-  CGAL_Tee_for_output_iterator<OutputIterator,Point_2> res(result);
+  Tee_for_output_iterator<OutputIterator,Point_2> res(result);
   #endif // no postconditions ...
   H.push_back( a );
   L.push_back( Pbegin );
-  R.push_back( l = partition( Pbegin, Pend, 
-                              ch_traits.get_right_of_line_object(b,a) ) );
-  r = partition( l, Pend, ch_traits.get_right_of_line_object(a,b) );
+  R.push_back( l = std::partition( Pbegin, Pend, ch_traits.get_right_of_line_object(b,a) ) );
+  r = std::partition( l, Pend, ch_traits.get_right_of_line_object(a,b) );
   
   for (;;)
   {
@@ -204,33 +201,30 @@ CGAL_ch_bykat_with_threshold(InputIterator   first, InputIterator last,
       {
           if ( r-l > CGAL_ch_THRESHOLD )
           {
-              c = *max_element( l, r, 
-                                ch_traits.get_less_dist_to_line_object(a,b) );
+              c = *std::max_element( l, r, ch_traits.get_less_dist_to_line_object(a,b) );
               H.push_back( b );
               L.push_back( l );
-              R.push_back( l = partition(l, r, 
-                                         ch_traits.get_right_of_line_object(c,b)) );
-              r = partition(l, r, ch_traits.get_right_of_line_object(a,c));
+              R.push_back( l = std::partition(l, r, ch_traits.get_right_of_line_object(c,b)) );
+              r = std::partition(l, r, ch_traits.get_right_of_line_object(a,c));
               b = c; 
           }
           else
           {
-              swap( a, *--l);
-              swap( b, *++r);
+              std::swap( a, *--l);
+              std::swap( b, *++r);
               if ( ch_traits.get_less_xy_object()(*l,*r) )
               {
-                  sort(CGAL_successor(l), r, 
-                       ch_traits.get_less_xy_object() );
+                  std::sort(successor(l), r, 
+                            ch_traits.get_less_xy_object() );
               }
               else
               {
-                  sort(CGAL_successor(l), r, 
-                       Greater_xy(ch_traits.get_less_xy_object()) );
+                  std::sort(successor(l), r, 
+                            Greater_xy(ch_traits.get_less_xy_object()) );
               }
-              CGAL_ch__ref_graham_andrew_scan(l, CGAL_successor(r), 
-                                              res, ch_traits);
-              swap( a, *l);
-              swap( b, *r);
+              ch__ref_graham_andrew_scan(l, successor(r), res, ch_traits);
+              std::swap( a, *l);
+              std::swap( b, *r);
               if ( L.empty() ) break;
               a = b;
               b = H.back(); H.pop_back();
@@ -250,11 +244,11 @@ CGAL_ch_bykat_with_threshold(InputIterator   first, InputIterator last,
       }
   }
   CGAL_ch_postcondition( \
-      CGAL_is_ccw_strongly_convex_2( res.output_so_far_begin(), \
+      is_ccw_strongly_convex_2( res.output_so_far_begin(), \
                                      res.output_so_far_end(), \
                                      ch_traits));
   CGAL_ch_expensive_postcondition( \
-      CGAL_ch_brute_force_check_2( \
+      ch_brute_force_check_2( \
           Pbegin, Pend, \
           res.output_so_far_begin(), res.output_so_far_end(), \
           ch_traits));
@@ -266,6 +260,7 @@ CGAL_ch_bykat_with_threshold(InputIterator   first, InputIterator last,
   #endif // no postconditions ...
 }
 
+CGAL_END_NAMESPACE
 
 #endif // CGAL_CH_BYKAT_C
 

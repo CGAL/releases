@@ -1,6 +1,6 @@
 // ======================================================================
 //
-// Copyright (c) 1997 The CGAL Consortium
+// Copyright (c) 1999 The GALIA Consortium
 //
 // This software and related documentation is part of the
 // Computational Geometry Algorithms Library (CGAL).
@@ -16,38 +16,37 @@
 // - Development licenses grant access to the source code of the library 
 //   to develop programs. These programs may be sold to other parties as 
 //   executable code. To obtain a development license, please contact
-//   the CGAL Consortium (at cgal@cs.uu.nl).
+//   the GALIA Consortium (at cgal@cs.uu.nl).
 // - Commercialization licenses grant access to the source code and the
 //   right to sell development licenses. To obtain a commercialization 
-//   license, please contact the CGAL Consortium (at cgal@cs.uu.nl).
+//   license, please contact the GALIA Consortium (at cgal@cs.uu.nl).
 //
 // This software and documentation is provided "as-is" and without
 // warranty of any kind. In no event shall the CGAL Consortium be
 // liable for any damage of any kind.
 //
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// The GALIA Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany) Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+// (Germany), Max-Planck-Institute Saarbrucken (Germany),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-1.2
-// release_date  : 1999, January 18
+// release       : CGAL-2.0
+// release_date  : 1999, June 03
 //
 // file          : include/CGAL/Circulator_identity.h
-// package       : STL_Extension (1.17)
+// package       : STL_Extension (2.6)
 // chapter       : $CGAL_Chapter: STL Extensions for CGAL $
 // source        : stl_extension.fw
-// revision      : $Revision: 1.12 $
-// revision_date : $Date: 1998/10/08 14:35:33 $
+// revision      : $Revision: 1.3 $
+// revision_date : $Date: 1999/04/07 18:31:32 $
 // author(s)     : Lutz Kettner
 //
 // coordinator   : INRIA, Sophia Antipolis
 //
 // An circulator adaptor for the identity function.
-//
 // email         : cgal@cs.uu.nl
 //
 // ======================================================================
@@ -58,6 +57,8 @@
 #include <CGAL/circulator.h>
 #endif
 
+CGAL_BEGIN_NAMESPACE
+
 #ifdef CGAL_CFG_NO_DEFAULT_PREVIOUS_TEMPLATE_ARGUMENTS
 template < class C, class Ref, class Ptr>
 #else
@@ -65,27 +66,25 @@ template < class C,
            class Ref = typename C::reference,
            class Ptr = typename C::pointer>
 #endif
-class CGAL_Circulator_identity {
+class Circulator_identity {
 private:
     C        nt;    // The internal circulator.
 public:
     typedef C  Circulator;
-    typedef CGAL_Circulator_identity<C,Ref,Ptr> Self;
+    typedef Circulator_identity<C,Ref,Ptr> Self;
 
     typedef typename  C::iterator_category   iterator_category;
     typedef typename  C::value_type          value_type;
     typedef typename  C::difference_type     difference_type;
     typedef typename  C::size_type           size_type;
     typedef typename  C::reference           reference;
-    typedef typename  C::const_reference     const_reference;
     typedef typename  C::pointer             pointer;
-    typedef typename  C::const_pointer       const_pointer;
 
 // CREATION
 // --------
 
-    CGAL_Circulator_identity() {}
-    CGAL_Circulator_identity( Circulator j) : nt(j) {}
+    Circulator_identity() {}
+    Circulator_identity( Circulator j) : nt(j) {}
 
 // OPERATIONS Forward Category
 // ---------------------------
@@ -108,17 +107,9 @@ public:
     Ref  operator*() const {
         return *nt;                                              //###//
     }
-#ifndef CGAL_CFG_NO_ARROW_OPERATOR
-#ifdef CGAL_CFG_NO_LAZY_INSTANTIATION
-    Ptr  operator->() const {
-        return &(*nt);                                           //###//
-    }
-#else
     Ptr  operator->() const {
         return nt.operator->();                                  //###//
     }
-#endif
-#endif
     Self& operator++() {
         ++nt;                                                    //###//
         return *this;
@@ -145,9 +136,6 @@ public:
 // OPERATIONS Random Access Category
 // ---------------------------------
 
-// Make this adaptor bidirectional by default
-// if implicit instantiation is buggy.
-#ifndef CGAL_CFG_NO_LAZY_INSTANTIATION
     Self  min_circulator() const {
         return Self( nt.min_circulator());                       //###//
     }
@@ -174,32 +162,25 @@ public:
         tmp += n;
         return tmp.operator*();
     }
-#endif // CGAL_CFG_NO_LAZY_INSTANTIATION //
 #ifdef CGAL_CFG_NO_ITERATOR_TRAITS
     friend inline  iterator_category
-    iterator_category( const Self&) {
-        return iterator_category();
-    }
+    iterator_category( const Self&) { return iterator_category(); }
     friend inline  value_type*
-    value_type( const Self&) {
-        return (value_type*)(0);
-    }
+    value_type( const Self&) { return (value_type*)(0); }
     friend inline  difference_type*
-    distance_type( const Self&) {
-        return (difference_type*)(0);
-    }
-    friend inline  CGAL_Circulator_tag
-    CGAL_query_circulator_or_iterator( const Self&) {
-        return CGAL_Circulator_tag();
-    }
+    distance_type( const Self&) { return (difference_type*)(0); }
+    friend inline  Circulator_tag
+    query_circulator_or_iterator( const Self&) { return Circulator_tag(); }
 #endif // CGAL_CFG_NO_ITERATOR_TRAITS //
 };
 
 template < class Dist, class C, class Ref, class Ptr>
 inline
-CGAL_Circulator_identity<C,Ref,Ptr>
-operator+( Dist n, CGAL_Circulator_identity<C,Ref,Ptr> i) {
+Circulator_identity<C,Ref,Ptr>
+operator+( Dist n, Circulator_identity<C,Ref,Ptr> i) {
     return i += n;
 }
+
+CGAL_END_NAMESPACE
 #endif // CGAL_CIRCULATOR_IDENTITY_H //
 // EOF //

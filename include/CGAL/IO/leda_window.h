@@ -1,6 +1,6 @@
 // ======================================================================
 //
-// Copyright (c) 1998 The CGAL Consortium
+// Copyright (c) 1999 The GALIA Consortium
 //
 // This software and related documentation is part of the
 // Computational Geometry Algorithms Library (CGAL).
@@ -16,36 +16,35 @@
 // - Development licenses grant access to the source code of the library 
 //   to develop programs. These programs may be sold to other parties as 
 //   executable code. To obtain a development license, please contact
-//   the CGAL Consortium (at cgal@cs.uu.nl).
+//   the GALIA Consortium (at cgal@cs.uu.nl).
 // - Commercialization licenses grant access to the source code and the
 //   right to sell development licenses. To obtain a commercialization 
-//   license, please contact the CGAL Consortium (at cgal@cs.uu.nl).
+//   license, please contact the GALIA Consortium (at cgal@cs.uu.nl).
 //
 // This software and documentation is provided "as-is" and without
 // warranty of any kind. In no event shall the CGAL Consortium be
 // liable for any damage of any kind.
 //
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// The GALIA Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany) Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+// (Germany), Max-Planck-Institute Saarbrucken (Germany),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 // 
-// release       : CGAL-1.2
-// release_date  : 1999, January 18
+// release       : CGAL-2.0
+// release_date  : 1999, June 03
 // 
 // source        : leda_window.fw
 // file          : include/CGAL/IO/leda_window.h
-// package       : window (1.2)
-// revision      : 1.2
-// revision_date : 03 Sep 1998 
+// package       : window (2.2.7)
+// revision      : 2.2.7
+// revision_date : 27 May 1999 
 // author(s)     : Andreas Fabri
 //                 Stefan Schirra
 //
 // coordinator   : MPI, Saarbruecken  (<Stefan.Schirra>)
-//
 // email         : cgal@cs.uu.nl
 //
 // ======================================================================
@@ -56,6 +55,12 @@
 
 #include <CGAL/IO/Color.h>
 #include <LEDA/window.h>
+// #include <CGAL/IO/cgal_icon.xpm>
+#include <CGAL/IO/esprit_logo.xpm>
+
+
+CGAL_BEGIN_NAMESPACE
+
 
 // #if ( __LEDA__ < 360 )
 // #define leda_window window
@@ -74,25 +79,22 @@
 #define  leda_drawing_mode  drawing_mode
 #endif
 
-typedef leda_window        CGAL_Window_stream;
+typedef leda_window        Window_stream;
 
 inline
 leda_window&
-operator<<(leda_window& w, const CGAL_Color& c)
+operator<<(leda_window& w, const Color& c)
 {
   w.set_fg_color(leda_color(c.red(), c.green(), c.blue()));
   return w;
 }
 
 
-// #include <CGAL/IO/cgal_icon.xpm>
-#include <CGAL/IO/esprit_logo.xpm>
-
 inline
 void
-CGAL_cgalize(leda_window& w)
+cgalize(leda_window& w)
 {
-  w.set_frame_label("CGAL-1.2");
+  w.set_frame_label("CGAL-2.0");
   w.set_icon_label("CGAL");
   w.set_node_width( 3);
   w.set_line_width( 2);
@@ -101,12 +103,12 @@ CGAL_cgalize(leda_window& w)
 
 inline
 leda_window*
-CGAL_create_demo_window( float w = 512.0, float h = 512.0, 
+create_demo_window( float w = 512.0, float h = 512.0,
                          const char* str = "CGAL",
-                         double x_extension = 1.0) 
+                         double x_extension = 1.0)
 {
   leda_window* Wptr = new leda_window( w, h);
-  CGAL_cgalize( *Wptr);
+  cgalize( *Wptr);
   double y_extension = x_extension * h / w;
   Wptr->init(-x_extension, x_extension, -y_extension);
   Wptr->set_frame_label( str);
@@ -116,12 +118,12 @@ CGAL_create_demo_window( float w = 512.0, float h = 512.0,
 
 inline
 leda_window*
-CGAL_create_and_display_demo_window(float w = 512.0, float h = 512.0, 
+create_and_display_demo_window(float w = 512.0, float h = 512.0,
                                     const char* str = "CGAL",
-                                    double x_extension = 1.0) 
+                                    double x_extension = 1.0)
 {
   leda_window* Wptr = new leda_window( w, h);
-  CGAL_cgalize( *Wptr);
+  cgalize( *Wptr);
   double y_extension = x_extension * h / w;
   Wptr->init(-x_extension, x_extension, -y_extension);
   Wptr->set_frame_label( str);
@@ -129,8 +131,12 @@ CGAL_create_and_display_demo_window(float w = 512.0, float h = 512.0,
   return Wptr;
 }
 
+CGAL_END_NAMESPACE
+
 
 #endif // CGAL_LEDA_WINDOW_H
+
+CGAL_BEGIN_NAMESPACE
 
 //  Each of the following operators is individually
 //  protected against multiple inclusion.
@@ -140,10 +146,10 @@ CGAL_create_and_display_demo_window(float w = 512.0, float h = 512.0,
 #define CGAL_LEDA_WINDOW_POINT_2
 template< class R >
 leda_window&
-operator<<(leda_window& w, const CGAL_Point_2<R>& p)
+operator<<(leda_window& w, const Point_2<R>& p)
 {
-  double x = CGAL_to_double(p.x());
-  double y = CGAL_to_double(p.y());
+  double x = CGAL::to_double(p.x());
+  double y = CGAL::to_double(p.y());
   int width = w.get_node_width();
   if (width < 2)
       w.draw_point(x,y);
@@ -155,7 +161,7 @@ operator<<(leda_window& w, const CGAL_Point_2<R>& p)
 
 template< class R >
 leda_window&
-operator>>(leda_window& w, CGAL_Point_2<R>& p)
+operator>>(leda_window& w, Point_2<R>& p)
 {
   typedef typename R::RT RT;
   leda_point l_p;
@@ -172,7 +178,7 @@ operator>>(leda_window& w, CGAL_Point_2<R>& p)
       else
           w.draw_filled_node(x,y);
       
-      p = CGAL_Point_2<R>( RT(x), RT(y));
+      p = Point_2<R>( RT(x), RT(y));
   }
   else
   {
@@ -183,7 +189,7 @@ operator>>(leda_window& w, CGAL_Point_2<R>& p)
 
 template< class R >
 leda_window&
-CGAL_read(leda_window& w, CGAL_Point_2<R>& p)
+read(leda_window& w, Point_2<R>& p)
 {
   typedef typename R::RT RT;
   leda_point l_p;
@@ -191,14 +197,14 @@ CGAL_read(leda_window& w, CGAL_Point_2<R>& p)
   {
       double x = l_p.xcoord();
       double y = l_p.ycoord();
-      p = CGAL_Point_2<R>( RT(x), RT(y));
+      p = Point_2<R>( RT(x), RT(y));
   }
   return w;
 }
 
 template <class R>
 void
-CGAL_read_mouse_plus(leda_window& w, CGAL_Point_2<R>& p, int& button)
+read_mouse_plus(leda_window& w, Point_2<R>& p, int& button)
 {
   typedef typename R::RT RT;
   double x, y;
@@ -209,7 +215,7 @@ CGAL_read_mouse_plus(leda_window& w, CGAL_Point_2<R>& p, int& button)
   else
       w.draw_filled_node(x,y);
   
-  p = CGAL_Point_2<R>(RT(x), RT(y));
+  p = Point_2<R>(RT(x), RT(y));
 }
 
 #endif // CGAL_LEDA_WINDOW_POINT_2
@@ -221,18 +227,18 @@ CGAL_read_mouse_plus(leda_window& w, CGAL_Point_2<R>& p, int& button)
 #define CGAL_LEDA_WINDOW_SEGMENT_2
 template< class R >
 leda_window&
-operator<<(leda_window& w, const CGAL_Segment_2<R>& s)
+operator<<(leda_window& w, const Segment_2<R>& s)
 {
-  w.draw_segment(CGAL_to_double(s.source().x()),
-                 CGAL_to_double(s.source().y()),
-                 CGAL_to_double(s.target().x()),
-                 CGAL_to_double(s.target().y()));
+  w.draw_segment(CGAL::to_double(s.source().x()),
+                 CGAL::to_double(s.source().y()),
+                 CGAL::to_double(s.target().x()),
+                 CGAL::to_double(s.target().y()));
   return w;
 }
 
 template< class R >
 leda_window&
-operator>>(leda_window& w, CGAL_Segment_2<R>& s)
+operator>>(leda_window& w, Segment_2<R>& s)
 {
   typedef  typename R::RT  RT;
   leda_segment l_s;
@@ -245,8 +251,8 @@ operator>>(leda_window& w, CGAL_Segment_2<R>& s)
       double y2 = l_s.ycoord2();
       w.set_mode( save);
       w.draw_segment(x1,y1, x2, y2);
-      s = CGAL_Segment_2<R>(CGAL_Point_2<R>( RT(x1), RT(y1)),
-                            CGAL_Point_2<R>( RT(x2), RT(y2)));
+      s = Segment_2<R>(Point_2<R>( RT(x1), RT(y1)),
+                            Point_2<R>( RT(x2), RT(y2)));
   }
   else
   {
@@ -257,7 +263,7 @@ operator>>(leda_window& w, CGAL_Segment_2<R>& s)
 
 template< class R >
 leda_window&
-CGAL_read(leda_window& w, CGAL_Segment_2<R>& s)
+read(leda_window& w, Segment_2<R>& s)
 {
   typedef  typename R::RT  RT;
   leda_segment l_s;
@@ -267,8 +273,8 @@ CGAL_read(leda_window& w, CGAL_Segment_2<R>& s)
       double y1 = l_s.ycoord1();
       double x2 = l_s.xcoord2();
       double y2 = l_s.ycoord2();
-      s = CGAL_Segment_2<R>(CGAL_Point_2<R>( RT(x1), RT(y1)),
-                            CGAL_Point_2<R>( RT(x2), RT(y2)));
+      s = Segment_2<R>(Point_2<R>( RT(x1), RT(y1)),
+                            Point_2<R>( RT(x2), RT(y2)));
   }
   return w;
 }
@@ -282,18 +288,18 @@ CGAL_read(leda_window& w, CGAL_Segment_2<R>& s)
 
 template< class R >
 leda_window&
-operator<<(leda_window& w, const CGAL_Line_2<R>& l)
+operator<<(leda_window& w, const Line_2<R>& l)
 {
-  CGAL_Point_2<R> p1 = l.point(),
+  Point_2<R> p1 = l.point(),
                   p2 = p1 + l.direction().vector();
-  w.draw_line(CGAL_to_double(p1.x()), CGAL_to_double(p1.y()),
-              CGAL_to_double(p2.x()), CGAL_to_double(p2.y()));
+  w.draw_line(CGAL::to_double(p1.x()), CGAL::to_double(p1.y()),
+              CGAL::to_double(p2.x()), CGAL::to_double(p2.y()));
   return w;
 }
 
 template< class R >
 leda_window&
-operator>>(leda_window& w, CGAL_Line_2<R>& l)
+operator>>(leda_window& w, Line_2<R>& l)
 {
   typedef  typename R::RT  RT;
   leda_segment l_s;
@@ -306,8 +312,8 @@ operator>>(leda_window& w, CGAL_Line_2<R>& l)
       double y2 = l_s.ycoord2();
       w.set_mode( save);
       w.draw_line(x1,y1, x2, y2);
-      l = CGAL_Line_2<R>(CGAL_Point_2<R>( RT(x1), RT(y1)),
-                         CGAL_Point_2<R>( RT(x2), RT(y2)));
+      l = Line_2<R>(Point_2<R>( RT(x1), RT(y1)),
+                         Point_2<R>( RT(x2), RT(y2)));
   }
   else
   {
@@ -318,7 +324,7 @@ operator>>(leda_window& w, CGAL_Line_2<R>& l)
 
 template< class R >
 leda_window&
-CGAL_read(leda_window& w, CGAL_Line_2<R>& l)
+read(leda_window& w, Line_2<R>& l)
 {
   typedef  typename R::RT  RT;
   leda_segment l_s;
@@ -328,8 +334,8 @@ CGAL_read(leda_window& w, CGAL_Line_2<R>& l)
       double y1 = l_s.ycoord1();
       double x2 = l_s.xcoord2();
       double y2 = l_s.ycoord2();
-      l = CGAL_Line_2<R>(CGAL_Point_2<R>( RT(x1), RT(y1)),
-                         CGAL_Point_2<R>( RT(x2), RT(y2)));
+      l = Line_2<R>(Point_2<R>( RT(x1), RT(y1)),
+                         Point_2<R>( RT(x2), RT(y2)));
   }
   return w;
 }
@@ -341,20 +347,20 @@ CGAL_read(leda_window& w, CGAL_Line_2<R>& l)
 #define CGAL_LEDA_WINDOW_RAY_2
 template< class R >
 leda_window&
-operator<<(leda_window& w, const CGAL_Ray_2<R>& r)
+operator<<(leda_window& w, const Ray_2<R>& r)
 {
-  CGAL_Point_2<R> p = r.point(0);
-  CGAL_Point_2<R> q = r.point(1);
-  w.draw_ray(CGAL_to_double(p.x()),
-             CGAL_to_double(p.y()),
-             CGAL_to_double(q.x()),
-             CGAL_to_double(q.y()));
+  Point_2<R> p = r.point(0);
+  Point_2<R> q = r.point(1);
+  w.draw_ray(CGAL::to_double(p.x()),
+             CGAL::to_double(p.y()),
+             CGAL::to_double(q.x()),
+             CGAL::to_double(q.y()));
   return w;
 }
 
 template< class R >
 leda_window&
-operator>>(leda_window& w, CGAL_Ray_2<R>& r)
+operator>>(leda_window& w, Ray_2<R>& r)
 {
   typedef  typename R::RT  RT;
   leda_segment l_s;
@@ -366,8 +372,8 @@ operator>>(leda_window& w, CGAL_Ray_2<R>& r)
       double x2 = l_s.xcoord2();
       double y2 = l_s.ycoord2();
       w.set_mode( save);
-      r = CGAL_Ray_2<R>(CGAL_Point_2<R>( RT(x1), RT(y1)),
-                        CGAL_Point_2<R>( RT(x2), RT(y2)));
+      r = Ray_2<R>(Point_2<R>( RT(x1), RT(y1)),
+                        Point_2<R>( RT(x2), RT(y2)));
       w << r;
   }
   else
@@ -379,7 +385,7 @@ operator>>(leda_window& w, CGAL_Ray_2<R>& r)
 
 template< class R >
 leda_window&
-CGAL_read(leda_window& w, CGAL_Ray_2<R>& r)
+read(leda_window& w, Ray_2<R>& r)
 {
   typedef  typename R::RT  RT;
   leda_segment l_s;
@@ -389,8 +395,8 @@ CGAL_read(leda_window& w, CGAL_Ray_2<R>& r)
       double y1 = l_s.ycoord1();
       double x2 = l_s.xcoord2();
       double y2 = l_s.ycoord2();
-      r = CGAL_Ray_2<R>(CGAL_Point_2<R>( RT(x1), RT(y1)),
-                        CGAL_Point_2<R>( RT(x2), RT(y2)));
+      r = Ray_2<R>(Point_2<R>( RT(x1), RT(y1)),
+                        Point_2<R>( RT(x2), RT(y2)));
   }
   return w;
 }
@@ -402,14 +408,14 @@ CGAL_read(leda_window& w, CGAL_Ray_2<R>& r)
 #define CGAL_LEDA_WINDOW_TRIANGLE_2
 template< class R >
 leda_window&
-operator<<(leda_window& w, const CGAL_Triangle_2<R>& t)
+operator<<(leda_window& w, const Triangle_2<R>& t)
 {
-  double x0 = CGAL_to_double(t.vertex(0).x()),
-         y0 = CGAL_to_double(t.vertex(0).y()),
-         x1 = CGAL_to_double(t.vertex(1).x()),
-         y1 = CGAL_to_double(t.vertex(1).y()),
-         x2 = CGAL_to_double(t.vertex(2).x()),
-         y2 = CGAL_to_double(t.vertex(2).y());
+  double x0 = CGAL::to_double(t.vertex(0).x()),
+         y0 = CGAL::to_double(t.vertex(0).y()),
+         x1 = CGAL::to_double(t.vertex(1).x()),
+         y1 = CGAL::to_double(t.vertex(1).y()),
+         x2 = CGAL::to_double(t.vertex(2).x()),
+         y2 = CGAL::to_double(t.vertex(2).y());
   w.draw_segment(x0, y0, x1, y1);
   w.draw_segment(x1, y1, x2, y2);
   w.draw_segment(x2, y2, x0, y0);
@@ -418,7 +424,7 @@ operator<<(leda_window& w, const CGAL_Triangle_2<R>& t)
 
 template< class R >
 leda_window&
-operator>>(leda_window& w, CGAL_Triangle_2<R>& t)
+operator>>(leda_window& w, Triangle_2<R>& t)
 {
   typedef typename R::RT   RT;
   double x,y;
@@ -481,15 +487,15 @@ operator>>(leda_window& w, CGAL_Triangle_2<R>& t)
   w.draw_segment(x1,y1, x2, y2);
   w.draw_segment(x2,y2, x0, y0);
 
-  t = CGAL_Triangle_2<R>(CGAL_Point_2<R>( RT(x0), RT(y0)),
-                         CGAL_Point_2<R>( RT(x1), RT(y1)),
-                         CGAL_Point_2<R>( RT(x2), RT(y2)));
+  t = Triangle_2<R>(Point_2<R>( RT(x0), RT(y0)),
+                         Point_2<R>( RT(x1), RT(y1)),
+                         Point_2<R>( RT(x2), RT(y2)));
   return w;
 }
 
 template< class R >
 leda_window&
-CGAL_read(leda_window& w, CGAL_Triangle_2<R>& t)
+read(leda_window& w, Triangle_2<R>& t)
 {
   typedef typename R::RT   RT;
   double x,y;
@@ -548,9 +554,9 @@ CGAL_read(leda_window& w, CGAL_Triangle_2<R>& t)
   double x2 = third.xcoord();
   double y2 = third.ycoord();
   w.set_mode( save);
-  t = CGAL_Triangle_2<R>(CGAL_Point_2<R>( RT(x0), RT(y0)),
-                         CGAL_Point_2<R>( RT(x1), RT(y1)),
-                         CGAL_Point_2<R>( RT(x2), RT(y2)));
+  t = Triangle_2<R>(Point_2<R>( RT(x0), RT(y0)),
+                         Point_2<R>( RT(x1), RT(y1)),
+                         Point_2<R>( RT(x2), RT(y2)));
   return w;
 }
 #endif // CGAL_LEDA_WINDOW_TRIANGLE_2
@@ -561,18 +567,18 @@ CGAL_read(leda_window& w, CGAL_Triangle_2<R>& t)
 #define CGAL_LEDA_WINDOW_CIRCLE_2
 template< class R >
 leda_window&
-operator<<(leda_window& w, const CGAL_Circle_2<R>& c)
+operator<<(leda_window& w, const Circle_2<R>& c)
 {
-  double cx = CGAL_to_double(c.center().x()),
-         cy = CGAL_to_double(c.center().y()),
-         r = CGAL_to_double(c.squared_radius());
+  double cx = CGAL::to_double(c.center().x()),
+         cy = CGAL::to_double(c.center().y()),
+         r  = CGAL::to_double(c.squared_radius());
   w.draw_circle(cx, cy , sqrt(r));
   return w;
 }
 
 template< class R >
 leda_window&
-operator>>(leda_window& w, CGAL_Circle_2<R>& c)
+operator>>(leda_window& w, Circle_2<R>& c)
 {
   typedef  typename R::RT  RT;
   double x,y;
@@ -587,7 +593,7 @@ operator>>(leda_window& w, CGAL_Circle_2<R>& c)
   if ( !( w.read( p))) { w.set_mode( save); return w; }
   double cx = p.xcoord();
   double cy = p.ycoord();
-  CGAL_Point_2<R> center = CGAL_Point_2<R>( RT(cx), RT(cy));
+  Point_2<R> center = Point_2<R>( RT(cx), RT(cy));
   int save_but[8];
   w.std_buttons(save_but);
   key = w.read_mouse_circle(cx, cy, x, y);
@@ -608,13 +614,13 @@ operator>>(leda_window& w, CGAL_Circle_2<R>& c)
   w.set_mode( save);
   w.set_buttons( save_but);
   w.draw_circle(cx, cy , sqrt(sqr));
-  c = CGAL_Circle_2<R>(center, RT(sqr));
+  c = Circle_2<R>(center, RT(sqr));
   return w;
 }
 
 template< class R >
 leda_window&
-CGAL_read(leda_window& w, CGAL_Circle_2<R>& c)
+read(leda_window& w, Circle_2<R>& c)
 {
   typedef  typename R::RT  RT;
   double x,y;
@@ -629,7 +635,7 @@ CGAL_read(leda_window& w, CGAL_Circle_2<R>& c)
   if ( !( w.read( p))) { w.set_mode( save); return w; }
   double cx = p.xcoord();
   double cy = p.ycoord();
-  CGAL_Point_2<R> center = CGAL_Point_2<R>( RT(cx), RT(cy));
+  Point_2<R> center = Point_2<R>( RT(cx), RT(cy));
   int save_but[8];
   w.std_buttons(save_but);
   key = w.read_mouse_circle(cx, cy, x, y);
@@ -649,7 +655,7 @@ CGAL_read(leda_window& w, CGAL_Circle_2<R>& c)
   double sqr = dx*dx+dy*dy;
   w.set_mode( save);
   w.set_buttons( save_but);
-  c = CGAL_Circle_2<R>(center, RT(sqr));
+  c = Circle_2<R>(center, RT(sqr));
   return w;
 }
 #endif // CGAL_LEDA_WINDOW_CIRCLE_2
@@ -660,12 +666,12 @@ CGAL_read(leda_window& w, CGAL_Circle_2<R>& c)
 #define CGAL_LEDA_WINDOW_ISO_RECTANGLE_2
 template< class R >
 leda_window&
-operator<<(leda_window& w, const CGAL_Iso_rectangle_2<R>& r)
+operator<<(leda_window& w, const Iso_rectangle_2<R>& r)
 {
-  double xmin = CGAL_to_double(r.min().x()),
-         ymin = CGAL_to_double(r.min().y()),
-         xmax = CGAL_to_double(r.max().x()),
-         ymax = CGAL_to_double(r.max().y());
+  double xmin = CGAL::to_double(r.min().x()),
+         ymin = CGAL::to_double(r.min().y()),
+         xmax = CGAL::to_double(r.max().x()),
+         ymax = CGAL::to_double(r.max().y());
   w.draw_segment(xmin, ymin, xmax, ymin);
   w.draw_segment(xmax, ymin, xmax, ymax);
   w.draw_segment(xmax, ymax, xmin, ymax);
@@ -675,7 +681,7 @@ operator<<(leda_window& w, const CGAL_Iso_rectangle_2<R>& r)
 
 template< class R >
 leda_window&
-operator>>(leda_window& w, CGAL_Iso_rectangle_2<R>& r)
+operator>>(leda_window& w, Iso_rectangle_2<R>& r)
 {
   typedef typename R::RT    RT;
   double x,y;
@@ -702,9 +708,9 @@ operator>>(leda_window& w, CGAL_Iso_rectangle_2<R>& r)
 #endif // __LEDA__ < ...
       return w;
   }
-  r = CGAL_Iso_rectangle_2<R>(CGAL_Point_2<R>( RT(first.xcoord()),
+  r = Iso_rectangle_2<R>(Point_2<R>( RT(first.xcoord()),
                                                RT(first.ycoord())),
-                              CGAL_Point_2<R>( RT(x), RT(y)));
+                              Point_2<R>( RT(x), RT(y)));
   w.set_mode( save);
   w.draw_rectangle( first.xcoord(), first.ycoord(), x, y);
   w.set_buttons( save_but);
@@ -713,7 +719,7 @@ operator>>(leda_window& w, CGAL_Iso_rectangle_2<R>& r)
 
 template< class R >
 leda_window&
-CGAL_read(leda_window& w, CGAL_Iso_rectangle_2<R>& r)
+read(leda_window& w, Iso_rectangle_2<R>& r)
 {
   typedef typename R::RT    RT;
   double x,y;
@@ -740,9 +746,9 @@ CGAL_read(leda_window& w, CGAL_Iso_rectangle_2<R>& r)
 #endif // __LEDA__ < ...
       return w;
   }
-  r = CGAL_Iso_rectangle_2<R>(CGAL_Point_2<R>( RT(first.xcoord()),
+  r = Iso_rectangle_2<R>(Point_2<R>( RT(first.xcoord()),
                                                RT(first.ycoord())),
-                              CGAL_Point_2<R>( RT(x), RT(y)));
+                              Point_2<R>( RT(x), RT(y)));
   w.set_mode( save);
   w.set_buttons( save_but);
   return w;
@@ -755,7 +761,7 @@ CGAL_read(leda_window& w, CGAL_Iso_rectangle_2<R>& r)
 #define CGAL_LEDA_WINDOW_BBOX_2
 inline
 leda_window&
-operator<<(leda_window& w, const CGAL_Bbox_2& b)
+operator<<(leda_window& w, const Bbox_2& b)
 {
   line_style style = w.set_line_style(leda_dotted);
   double xmin = b.xmin(),
@@ -773,13 +779,15 @@ operator<<(leda_window& w, const CGAL_Bbox_2& b)
 #endif // CGAL_BBOX_2_H
 
 
-#ifndef CGAL_IO_TRIANGULATION_WINDOW_STREAM_H
+CGAL_END_NAMESPACE
+
+#ifndef IO_TRIANGULATION_WINDOW_STREAM_H
 #include <CGAL/IO/triangulation_Window_stream.h>
-#endif  // CGAL_IO_TRIANGULATION_WINDOW_STREAM_H
-#ifndef CGAL_IO_OPTIMISATION_WINDOW_STREAM_H
+#endif  // IO_TRIANGULATION_WINDOW_STREAM_H
+#ifndef IO_OPTIMISATION_WINDOW_STREAM_H
 #include <CGAL/IO/optimisation_Window_stream.h>
-#endif // CGAL_IO_OPTIMISATION_WINDOW_STREAM_H
-#ifndef CGAL_IO_POLYGON_WINDOW_STREAM_H
+#endif // IO_OPTIMISATION_WINDOW_STREAM_H
+#ifndef IO_POLYGON_WINDOW_STREAM_H
 #include <CGAL/IO/polygon_Window_stream.h>
-#endif // CGAL_IO_POLYGON_WINDOW_STREAM_H
+#endif // IO_POLYGON_WINDOW_STREAM_H
 

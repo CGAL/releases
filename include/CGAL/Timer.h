@@ -1,6 +1,6 @@
 // ======================================================================
 //
-// Copyright (c) 1997 The CGAL Consortium
+// Copyright (c) 1999 The GALIA Consortium
 //
 // This software and related documentation is part of the
 // Computational Geometry Algorithms Library (CGAL).
@@ -16,37 +16,37 @@
 // - Development licenses grant access to the source code of the library 
 //   to develop programs. These programs may be sold to other parties as 
 //   executable code. To obtain a development license, please contact
-//   the CGAL Consortium (at cgal@cs.uu.nl).
+//   the GALIA Consortium (at cgal@cs.uu.nl).
 // - Commercialization licenses grant access to the source code and the
 //   right to sell development licenses. To obtain a commercialization 
-//   license, please contact the CGAL Consortium (at cgal@cs.uu.nl).
+//   license, please contact the GALIA Consortium (at cgal@cs.uu.nl).
 //
 // This software and documentation is provided "as-is" and without
 // warranty of any kind. In no event shall the CGAL Consortium be
 // liable for any damage of any kind.
 //
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// The GALIA Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany) Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+// (Germany), Max-Planck-Institute Saarbrucken (Germany),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-1.2
-// release_date  : 1999, January 18
+// release       : CGAL-2.0
+// release_date  : 1999, June 03
 //
 // file          : include/CGAL/Timer.h
-// package       : Support_LK (1.18)
-// source        : Support_LK/web/Timer.h
-// revision      : $Revision: 1.3 $
-// revision_date : $Date: 1998/06/02 22:37:52 $ 
+// package       : Timer (1.1)
+// chapter       : $CGAL_Chapter: Timer $
+// source        : Timer/web/Timer.h
+// revision      : $Revision: 1.5 $
+// revision_date : $Date: 1999/03/07 21:35:46 $ 
 // author(s)     : Lutz Kettner
 //
 // coordinator   : INRIA, Sophia Antipolis
 //
 // A timer class to measure cpu time of user-processes.
-//
 // email         : cgal@cs.uu.nl
 //
 // ======================================================================
@@ -57,43 +57,43 @@
 #ifndef CGAL_BASIC_H
 #include <CGAL/basic.h>
 #endif
-
-#ifndef CGAL_PROTECT_STDLIB_H
-#include <stdlib.h>
-#define CGAL_PROTECT_STDLIB_H
-#endif // CGAL_PROTECT_STDLIB_H
-#ifndef CGAL_PROTECT_LIMITS_H
-#include <limits.h>
-#define CGAL_PROTECT_LIMITS_H
-#endif // CGAL_PROTECT_LIMITS_H
+#ifndef CGAL_PROTECT_CSTDLIB
+#include <cstdlib>
+#define CGAL_PROTECT_CSTDLIB
+#endif
+#ifndef CGAL_PROTECT_CLIMITS
+#include <climits>
+#define CGAL_PROTECT_CLIMITS
+#endif
 
 // used for clock()
-#ifndef CGAL_PROTECT_TIME_H
-#include <time.h>
-#define CGAL_PROTECT_TIME_H
-#endif // CGAL_PROTECT_TIME_H
+#ifndef CGAL_PROTECT_CTIME
+#include <ctime>
+#define CGAL_PROTECT_CTIME
+#endif
 
+CGAL_BEGIN_NAMESPACE
 
 // SECTION: A Timer for User-Process Time
 // ========================================================================
 // 
 // DEFINITION
 // 
-// A timer `t' of type CGAL_Timer is an object with a state. It is either
+// A timer `t' of type Timer is an object with a state. It is either
 // running or it is stopped. The state is controlled with `t.start()'
 // and `t.stop()'. The timer counts the time elapsed since its creation
 // or last reset. It counts only the time where it is in the running
 // state. The time information is given in seconds.
 
-class CGAL_Timer {
+class Timer {
 private:
-    clock_t  elapsed;
-    clock_t  started;
-    int      _intervals;
-    bool     running;
+    std::clock_t  elapsed;
+    std::clock_t  started;
+    int           interv;
+    bool          running;
 
 public:
-    CGAL_Timer() : elapsed(0), started(0), _intervals(0), running(false) {}
+    Timer() : elapsed(0), started(0), interv(0), running(false) {}
 
     void     start();
     void     stop ();
@@ -101,7 +101,7 @@ public:
     bool     is_running() const { return running; }
 
     double   time()       const;
-    int      intervals()  const { return _intervals; }
+    int      intervals()  const { return interv; }
     double   precision()  const { return 0.01; }
     double   max() const        { return 2146.0;}
 };
@@ -109,50 +109,44 @@ public:
 
 /*****************************************************************************/
 
-// Member functions CGAL_Timer
+// Member functions Timer
 // ===========================
 
-inline void
-CGAL_Timer::start( )
-{
+inline void Timer::start() {
     CGAL_assertion( ! running);
-    started = clock();
-    if (started == (clock_t)-1) {
+    started = std::clock();
+    if (started == (std::clock_t)-1) {
         // possible on Solaris according to man-page
-	cerr << "CGAL_Timer error: clock() returned -1." << endl;
-	abort();
+	cerr << "Timer error: std::clock() returned -1." << endl;
+	std::abort();
     }
     running = true;
-    ++ _intervals;
+    ++ interv;
 }
 
-inline void
-CGAL_Timer::stop( )
-{
+inline void Timer::stop() {
     CGAL_assertion( running);
-    elapsed += clock() - started;
+    elapsed += std::clock() - started;
     running  = false;
 }
 
-inline void
-CGAL_Timer::reset( )
-{
-    _intervals = 0;
+inline void Timer::reset() {
+    interv = 0;
     elapsed = 0;
-    if ( running) {
-	started = clock();
-	++ _intervals;
+    if (running) {
+	started = std::clock();
+	++ interv;
     }
 }
 
-inline double
-CGAL_Timer::time() const {
-    if ( running) {
-	return double( elapsed  + clock() - started) / CLOCKS_PER_SEC;
+inline double Timer::time() const {
+    if (running) {
+	return double( elapsed  + std::clock() - started) / CLOCKS_PER_SEC;
     }
     return double(elapsed) / CLOCKS_PER_SEC;
 }
 
+CGAL_END_NAMESPACE
 
 #endif // CGAL_TIMER_H //
 // EOF //

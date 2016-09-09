@@ -1,17 +1,17 @@
 #include "tutorial.h"
 #include <fstream.h>
 
-struct Segment {int i;};
+struct MySegment {int i;};
 
-istream& operator>>(istream& is,  Segment &seg)
+istream& operator>>(istream& is,  MySegment &seg)
 { return is >> seg.i; }
 
-ostream& operator<<(ostream& os, const Segment &seg)
+ostream& operator<<(ostream& os, const MySegment &seg)
 { return os << seg.i; }
 
-void main()
+main()
 {
-    Segment seg;
+    MySegment seg;
     ifstream fin("segin");
     ofstream fout("segout");
     fin >> seg;

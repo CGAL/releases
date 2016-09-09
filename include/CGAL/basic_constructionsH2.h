@@ -1,6 +1,6 @@
 // ======================================================================
 //
-// Copyright (c) 1998 The CGAL Consortium
+// Copyright (c) 1999 The GALIA Consortium
 //
 // This software and related documentation is part of the
 // Computational Geometry Algorithms Library (CGAL).
@@ -16,36 +16,35 @@
 // - Development licenses grant access to the source code of the library 
 //   to develop programs. These programs may be sold to other parties as 
 //   executable code. To obtain a development license, please contact
-//   the CGAL Consortium (at cgal@cs.uu.nl).
+//   the GALIA Consortium (at cgal@cs.uu.nl).
 // - Commercialization licenses grant access to the source code and the
 //   right to sell development licenses. To obtain a commercialization 
-//   license, please contact the CGAL Consortium (at cgal@cs.uu.nl).
+//   license, please contact the GALIA Consortium (at cgal@cs.uu.nl).
 //
 // This software and documentation is provided "as-is" and without
 // warranty of any kind. In no event shall the CGAL Consortium be
 // liable for any damage of any kind.
 //
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// The GALIA Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany) Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+// (Germany), Max-Planck-Institute Saarbrucken (Germany),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 // 
-// release       : CGAL-1.2
-// release_date  : 1999, January 18
+// release       : CGAL-2.0
+// release_date  : 1999, June 03
 // 
 // source        : basic_constructionsH2.fw
 // file          : include/CGAL/basic_constructionsH2.h
-// package       : H2 (1.3.1)
-// revision      : 1.3.1
-// revision_date : 02 Jan 1999 
+// package       : H2 (2.1.3)
+// revision      : 2.1.3
+// revision_date : 21 May 1999 
 // author(s)     : Sven Schoenherr
 //                 Stefan Schirra
 //
 // coordinator   : MPI, Saarbruecken  (<Stefan.Schirra>)
-//
 // email         : cgal@cs.uu.nl
 //
 // ======================================================================
@@ -61,22 +60,24 @@
 #include <CGAL/LineH2.h>
 #endif // CGAL_LINEH2_H
 
+CGAL_BEGIN_NAMESPACE
+
 template <class FT, class RT>
 CGAL_KERNEL_MEDIUM_INLINE
-CGAL_PointH2<FT,RT>
-CGAL_gp_linear_intersection(const CGAL_LineH2<FT,RT>& l1,
-                            const CGAL_LineH2<FT,RT>& l2)
+PointH2<FT,RT>
+gp_linear_intersection(const LineH2<FT,RT>& l1,
+                            const LineH2<FT,RT>& l2)
 {
-  return CGAL_PointH2<FT,RT>( l1.b()*l2.c() - l2.b()*l1.c(),
+  return PointH2<FT,RT>( l1.b()*l2.c() - l2.b()*l1.c(),
                               l2.a()*l1.c() - l1.a()*l2.c(),
                               l1.a()*l2.b() - l2.a()*l1.b() );
 }
 
 template <class FT, class RT>
 CGAL_KERNEL_MEDIUM_INLINE
-CGAL_LineH2<FT,RT>
-CGAL_bisector( const CGAL_PointH2<FT,RT>& p,
-               const CGAL_PointH2<FT,RT>& q )
+LineH2<FT,RT>
+bisector( const PointH2<FT,RT>& p,
+               const PointH2<FT,RT>& q )
 {
  // Bisector equation is based on equation
  // ( X - p.x())^2 + (Y - p.y())^2 == ( X - q.x())^2 + (Y - q.y())
@@ -93,14 +94,14 @@ CGAL_bisector( const CGAL_PointH2<FT,RT>& p,
   RT b = RT(2) * ( qhy*qhw*phw*phw - phy*phw*qhw*qhw );
   RT c = phx*phx*qhw*qhw + phy*phy*qhw*qhw - qhx*qhx*phw*phw - qhy*qhy*phw*phw;
 
-  return CGAL_LineH2<FT,RT>( a, b, c );
+  return LineH2<FT,RT>( a, b, c );
 }
 
 template <class FT, class RT>
 CGAL_KERNEL_MEDIUM_INLINE
 FT
-CGAL_squared_distance( const CGAL_PointH2<FT,RT>& p,
-                       const CGAL_PointH2<FT,RT>& q )
+squared_distance( const PointH2<FT,RT>& p,
+                       const PointH2<FT,RT>& q )
 {
   const RT phx = p.hx();
   const RT phy = p.hy();
@@ -125,9 +126,9 @@ CGAL_squared_distance( const CGAL_PointH2<FT,RT>& p,
 
 template < class FT, class RT >
 CGAL_KERNEL_MEDIUM_INLINE
-CGAL_PointH2<FT,RT>
-CGAL_midpoint( CGAL_PointH2<FT,RT> const& p,
-               CGAL_PointH2<FT,RT> const& q )
+PointH2<FT,RT>
+midpoint( PointH2<FT,RT> const& p,
+               PointH2<FT,RT> const& q )
 {
     const RT phw( p.hw());
     const RT qhw( q.hw());
@@ -136,16 +137,16 @@ CGAL_midpoint( CGAL_PointH2<FT,RT> const& p,
     RT hy( p.hy()*qhw + q.hy()*phw);
     RT hw( phw * qhw * RT( 2));
 
-    return( CGAL_PointH2<FT,RT>( hx, hy, hw));
+    return( PointH2<FT,RT>( hx, hy, hw));
 }
 
 
 template <class FT, class RT>
 CGAL_KERNEL_LARGE_INLINE
-CGAL_PointH2<FT,RT>
-CGAL_circumcenter( const CGAL_PointH2<FT,RT>& p,
-                   const CGAL_PointH2<FT,RT>& q,
-                   const CGAL_PointH2<FT,RT>& r )
+PointH2<FT,RT>
+circumcenter( const PointH2<FT,RT>& p,
+                   const PointH2<FT,RT>& q,
+                   const PointH2<FT,RT>& r )
 {
   RT phx = p.hx();
   RT phy = p.hy();
@@ -157,7 +158,7 @@ CGAL_circumcenter( const CGAL_PointH2<FT,RT>& p,
   RT rhy = r.hy();
   RT rhw = r.hw();
 
-#ifdef CGAL_EXPANDED_CIRCUMCENTER_COMPUTATION   /* strange flag -- XXX */
+#ifdef EXPANDED_CIRCUMCENTER_COMPUTATION   /* strange flag -- XXX */
                                                 /* was EXPANDED before */
   RT vvx =
       ( qhy*qhw*phw*phw - phy*phw*qhw*qhw )
@@ -176,7 +177,7 @@ CGAL_circumcenter( const CGAL_PointH2<FT,RT>& p,
      *( rhy*rhw*phw*phw - phy*phw*rhw*rhw )
    -  ( rhx*rhw*phw*phw - phx*phw*rhw*rhw )
      *( qhy*qhw*phw*phw - phy*phw*qhw*qhw ) );
-#endif // CGAL_EXPANDED_CIRCUMCENTER_COMPUTATION
+#endif // EXPANDED_CIRCUMCENTER_COMPUTATION
 
   RT qy_py = ( qhy*qhw*phw*phw - phy*phw*qhw*qhw );
   RT qx_px = ( qhx*qhw*phw*phw - phx*phw*qhw*qhw );
@@ -192,8 +193,10 @@ CGAL_circumcenter( const CGAL_PointH2<FT,RT>& p,
   RT vvy = rx_px * px2_py2_qx2_qy_2 - qx_px * px2_py2_rx2_ry_2;
   RT vvw = RT(2) * ( qx_px * ry_py - rx_px * qy_py );
 
-  return CGAL_PointH2<FT,RT>( vvx, vvy, vvw );
+  return PointH2<FT,RT>( vvx, vvy, vvw );
 }
+
+CGAL_END_NAMESPACE
 
 
 #endif // CGAL_BASIC_CONSTRUCTIONSH2_H

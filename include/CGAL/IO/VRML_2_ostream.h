@@ -1,7 +1,6 @@
-
 // ======================================================================
 //
-// Copyright (c) 1997 The CGAL Consortium
+// Copyright (c) 1999 The GALIA Consortium
 //
 // This software and related documentation is part of the
 // Computational Geometry Algorithms Library (CGAL).
@@ -17,40 +16,39 @@
 // - Development licenses grant access to the source code of the library 
 //   to develop programs. These programs may be sold to other parties as 
 //   executable code. To obtain a development license, please contact
-//   the CGAL Consortium (at cgal@cs.uu.nl).
+//   the GALIA Consortium (at cgal@cs.uu.nl).
 // - Commercialization licenses grant access to the source code and the
 //   right to sell development licenses. To obtain a commercialization 
-//   license, please contact the CGAL Consortium (at cgal@cs.uu.nl).
+//   license, please contact the GALIA Consortium (at cgal@cs.uu.nl).
 //
 // This software and documentation is provided "as-is" and without
 // warranty of any kind. In no event shall the CGAL Consortium be
 // liable for any damage of any kind.
 //
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// The GALIA Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany) Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+// (Germany), Max-Planck-Institute Saarbrucken (Germany),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-1.2
+// release       : CGAL-2.0
 // date          :
 //
 // file          : include/CGAL/IO/VRML_2_ostream.h
-// package       : Inventor (1.2)
-// source        : web/Inventor_ostream.fw
-// revision      : $Revision: 1.3 $
-// revision_date : $Date: 1998/06/29 13:58:51 $
+// package       : Inventor (2.0)
+// source        : $RCSfile: VRML_2_ostream.h,v $
+// revision      : $Revision: 1.2 $
+// revision_date : $Date: 1999/04/08 15:09:35 $
 // author(s)     : Andreas Fabri
 //                 Lutz Kettner
-//                 Herve bronnimann
-//                 <Herve.Bronnimann>
+//                 Herve Bronnimann
+//                 Mariette Yvinec
 //
-// coordinator   : Herve Bronnimann
+// coordinator   : Mariette Yvinec
 //
-// release_date  : 1999, January 18
-//
+// release_date  : 1999, June 03
 // email         : cgal@cs.uu.nl
 //
 // ======================================================================
@@ -68,12 +66,13 @@
 #define CGAL_PROTECT_IOSTREAM_H
 #endif // CGAL_PROTECT_IOSTREAM_H
 
+CGAL_BEGIN_NAMESPACE
 
-class CGAL_VRML_2_ostream {
+class VRML_2_ostream {
 public:
-    CGAL_VRML_2_ostream()           : m_os(0)  {}
-    CGAL_VRML_2_ostream(ostream& o) : m_os(&o) { header();}
-    ~CGAL_VRML_2_ostream()  { close(); }
+    VRML_2_ostream()           : m_os(0)  {}
+    VRML_2_ostream(ostream& o) : m_os(&o) { header();}
+    ~VRML_2_ostream()  { close(); }
     void open(ostream& o)   { m_os = &o; header(); }
     void close() {
         if ( m_os)
@@ -104,7 +103,7 @@ private:
                 "        Shape {\n"
                 "            appearance\n"
                 "                Appearance {\n"
-                "                    material DEF CGAL_Material Material {}\n"
+                "                    material DEF Material Material {}\n"
                 "                }\n"
                 "            geometry NULL\n"
                 "        }\n"
@@ -119,6 +118,7 @@ private:
     ostream*  m_os;
 };
 
+CGAL_END_NAMESPACE
 
 #endif // CGAL_IO_VRML_2_OSTREAM_H
 
@@ -126,11 +126,12 @@ private:
 #ifndef CGAL_IO_VRML_2_TETRAHEDRON_3
 #define CGAL_IO_VRML_2_TETRAHEDRON_3
 
+CGAL_BEGIN_NAMESPACE
 
 template <class R >
-CGAL_VRML_2_ostream&
-operator<<(CGAL_VRML_2_ostream& os,
-           const CGAL_Tetrahedron_3<R > &t)
+VRML_2_ostream&
+operator<<(VRML_2_ostream& os,
+           const Tetrahedron_3<R > &t)
 {
   const char *Indent = "                                    ";
   os.os() << "        Group {\n"
@@ -138,7 +139,7 @@ operator<<(CGAL_VRML_2_ostream& os,
              "                Shape {\n"
              "                    appearance\n"
              "                        Appearance {\n"
-             "                            material USE CGAL_Material\n"
+             "                            material USE Material\n"
              "                        } #Appearance\n"
              "                    geometry\n"
              "                        IndexedFaceSet {\n"
@@ -146,21 +147,21 @@ operator<<(CGAL_VRML_2_ostream& os,
              "                                point [ \n"
           << Indent << "point [\n"
           << Indent << "  "
-          << CGAL_to_double(t[0].x()) << " "
-          << CGAL_to_double(t[0].y()) << " "
-          << CGAL_to_double(t[0].z()) << " ,\n"
+          << CGAL::to_double(t[0].x()) << " "
+          << CGAL::to_double(t[0].y()) << " "
+          << CGAL::to_double(t[0].z()) << " ,\n"
           << Indent << "  "
-          << CGAL_to_double(t[1].x()) << " "
-          << CGAL_to_double(t[1].y()) << " "
-          << CGAL_to_double(t[1].z()) << " ,\n"
+          << CGAL::to_double(t[1].x()) << " "
+          << CGAL::to_double(t[1].y()) << " "
+          << CGAL::to_double(t[1].z()) << " ,\n"
           << Indent << "  "
-          << CGAL_to_double(t[2].x()) << " "
-          << CGAL_to_double(t[2].y()) << " "
-          << CGAL_to_double(t[2].z()) << " ,\n"
+          << CGAL::to_double(t[2].x()) << " "
+          << CGAL::to_double(t[2].y()) << " "
+          << CGAL::to_double(t[2].z()) << " ,\n"
           << Indent << "  "
-          << CGAL_to_double(t[3].x()) << " "
-          << CGAL_to_double(t[3].y()) << " "
-          << CGAL_to_double(t[3].z()) << " ]"
+          << CGAL::to_double(t[3].x()) << " "
+          << CGAL::to_double(t[3].y()) << " "
+          << CGAL::to_double(t[3].z()) << " ]"
              "\n                                ]\n"
              "                            }\n"
              "                            solid   FALSE\n"
@@ -173,6 +174,7 @@ operator<<(CGAL_VRML_2_ostream& os,
   return os;
 }
 
+CGAL_END_NAMESPACE
 
 #endif // CGAL_IO_VRML_2_TETRAHEDRON_3
 #endif // CGAL_TETRAHEDRON_3_H

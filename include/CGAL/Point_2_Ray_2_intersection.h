@@ -1,7 +1,7 @@
 
 // ======================================================================
 //
-// Copyright (c) 1998 The CGAL Consortium
+// Copyright (c) 1999 The GALIA Consortium
 //
 // This software and related documentation is part of the
 // Computational Geometry Algorithms Library (CGAL).
@@ -17,33 +17,32 @@
 // - Development licenses grant access to the source code of the library 
 //   to develop programs. These programs may be sold to other parties as 
 //   executable code. To obtain a development license, please contact
-//   the CGAL Consortium (at cgal@cs.uu.nl).
+//   the GALIA Consortium (at cgal@cs.uu.nl).
 // - Commercialization licenses grant access to the source code and the
 //   right to sell development licenses. To obtain a commercialization 
-//   license, please contact the CGAL Consortium (at cgal@cs.uu.nl).
+//   license, please contact the GALIA Consortium (at cgal@cs.uu.nl).
 //
 // This software and documentation is provided "as-is" and without
 // warranty of any kind. In no event shall the CGAL Consortium be
 // liable for any damage of any kind.
 //
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// The GALIA Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany) Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+// (Germany), Max-Planck-Institute Saarbrucken (Germany),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-1.2
-// release_date  : 1999, January 18
+// release       : CGAL-2.0
+// release_date  : 1999, June 03
 //
 // file          : include/CGAL/Point_2_Ray_2_intersection.h
-// package       : Intersections_2 (1.7)
+// package       : Intersections_2 (2.1.2)
 // source        : intersection_2_1.fw
 // author(s)     : Geert-Jan Giezeman
 //
 // coordinator   : Saarbruecken
-//
 //
 // email         : cgal@cs.uu.nl
 //
@@ -60,45 +59,53 @@
 #include <CGAL/Point_2.h>
 #endif // CGAL_POINT_2_H
 
+CGAL_BEGIN_NAMESPACE
+
 
 template <class R>
 inline bool
-CGAL_do_intersect(const CGAL_Point_2<R> &pt, const CGAL_Ray_2<R> &ray)
+do_intersect(const Point_2<R> &pt, const Ray_2<R> &ray)
 {
     return ray.has_on(pt);
 }
+
+CGAL_END_NAMESPACE
 
 #ifndef CGAL_OBJECT_H
 #include <CGAL/Object.h>
 #endif // CGAL_OBJECT_H
 
+CGAL_BEGIN_NAMESPACE
+
 template <class R>
-CGAL_Object
-CGAL_intersection(const CGAL_Point_2<R> &pt, const CGAL_Ray_2<R> &ray)
+Object
+intersection(const Point_2<R> &pt, const Ray_2<R> &ray)
 {
-    if (CGAL_do_intersect(pt,ray)) {
-        return CGAL_Object(new CGAL_Wrapper< CGAL_Point_2<R> >(pt));
+    if (do_intersect(pt,ray)) {
+        return Object(new Wrapper< Point_2<R> >(pt));
     }
-    return CGAL_Object();
+    return Object();
 }
 
 
 template <class R>
 inline bool
-CGAL_do_intersect(const CGAL_Ray_2<R> &ray, const CGAL_Point_2<R> &pt)
+do_intersect(const Ray_2<R> &ray, const Point_2<R> &pt)
 {
     return ray.has_on(pt);
 }
 
 
 template <class R>
-inline CGAL_Object
-CGAL_intersection(const CGAL_Ray_2<R> &ray, const CGAL_Point_2<R> &pt)
+inline Object
+intersection(const Ray_2<R> &ray, const Point_2<R> &pt)
 {
-    if (CGAL_do_intersect(pt,ray)) {
-        return CGAL_Object(new CGAL_Wrapper< CGAL_Point_2<R> >(pt));
+    if (do_intersect(pt,ray)) {
+        return Object(new Wrapper< Point_2<R> >(pt));
     }
-    return CGAL_Object();
+    return Object();
 }
+
+CGAL_END_NAMESPACE
 
 #endif

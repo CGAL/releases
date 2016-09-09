@@ -1,6 +1,6 @@
 // ======================================================================
 //
-// Copyright (c) 1997 The CGAL Consortium
+// Copyright (c) 1999 The GALIA Consortium
 //
 // This software and related documentation is part of the
 // Computational Geometry Algorithms Library (CGAL).
@@ -16,38 +16,37 @@
 // - Development licenses grant access to the source code of the library 
 //   to develop programs. These programs may be sold to other parties as 
 //   executable code. To obtain a development license, please contact
-//   the CGAL Consortium (at cgal@cs.uu.nl).
+//   the GALIA Consortium (at cgal@cs.uu.nl).
 // - Commercialization licenses grant access to the source code and the
 //   right to sell development licenses. To obtain a commercialization 
-//   license, please contact the CGAL Consortium (at cgal@cs.uu.nl).
+//   license, please contact the GALIA Consortium (at cgal@cs.uu.nl).
 //
 // This software and documentation is provided "as-is" and without
 // warranty of any kind. In no event shall the CGAL Consortium be
 // liable for any damage of any kind.
 //
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// The GALIA Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany) Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+// (Germany), Max-Planck-Institute Saarbrucken (Germany),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-1.2
-// release_date  : 1999, January 18
+// release       : CGAL-2.0
+// release_date  : 1999, June 03
 //
 // file          : include/CGAL/IO/generic_print_polyhedron.h
-// package       : Polyhedron_IO (1.11)
+// package       : Polyhedron_IO (2.5)
 // chapter       : $CGAL_Chapter: Support Library ... $
 // source        : polyhedron_io.fw
-// revision      : $Revision: 1.8 $
-// revision_date : $Date: 1998/10/08 22:46:22 $
+// revision      : $Revision: 1.4 $
+// revision_date : $Date: 1999/03/24 11:16:26 $
 // author(s)     : Lutz Kettner
 //
 // coordinator   : Herve Bronnimann
 //
 // A generic writer for polyhedral surfaces parameterized by file format
-//
 // email         : cgal@cs.uu.nl
 //
 // ======================================================================
@@ -57,27 +56,26 @@
 #ifndef CGAL_BASIC_H
 #include <CGAL/basic.h>
 #endif
-
 #ifndef CGAL_POLYHEDRON_3_H
 #include <CGAL/Polyhedron_3.h>
 #endif
-
 #ifndef CGAL_INVERSE_INDEX_H
 #include <CGAL/Inverse_index.h>
 #endif
+#ifndef CGAL_PROTECT_IOSTREAM
+#include <iostream>
+#define CGAL_PROTECT_IOSTREAM
+#endif
 
-#ifndef CGAL_PROTECT_IOSTREAM_H
-#include <iostream.h>
-#define CGAL_PROTECT_IOSTREAM_H
-#endif // CGAL_PROTECT_IOSTREAM_H
+CGAL_BEGIN_NAMESPACE
 
 template <class Traits, class HDS, class Writer>
 void
-CGAL_generic_print_polyhedron( ostream& out,
-                              const CGAL_Polyhedron_3<Traits,HDS>& P,
-                              Writer& writer) {
+generic_print_polyhedron( std::ostream& out,
+                          const Polyhedron_3<Traits,HDS>& P,
+                          Writer& writer) {
     // writes P to `out' in the format provided by `writer'.
-    typedef CGAL_Polyhedron_3<Traits,HDS>                    Poly;
+    typedef Polyhedron_3<Traits,HDS>                    Poly;
     typedef typename Poly::Vertex                           Vertex;
     typedef typename Poly::Size                             Size;
     typedef typename Poly::Vertex_const_iterator            VCI;
@@ -94,14 +92,14 @@ CGAL_generic_print_polyhedron( ostream& out,
                              (*vi).point().y(),
                              (*vi).point().z());
     }
-    typedef CGAL_Inverse_index< VCI> Index;
+    typedef Inverse_index< VCI> Index;
     Index index( P.vertices_begin(), P.vertices_end());
     writer.write_facet_header();
 
     for( FCI fi = P.facets_begin(); fi != P.facets_end(); ++fi) {
         HFCC hc = (*fi).facet_begin();
         HFCC hc_end = hc;
-        size_t n = CGAL_circulator_size( hc);
+        std::size_t n = circulator_size( hc);
         CGAL_assertion( n >= 3);
         writer.write_facet_begin( n);
         do {
@@ -112,5 +110,7 @@ CGAL_generic_print_polyhedron( ostream& out,
     }
     writer.write_footer();
 }
+
+CGAL_END_NAMESPACE
 #endif // CGAL_IO_GENERIC_PRINT_POLYHEDRON_H //
 // EOF //

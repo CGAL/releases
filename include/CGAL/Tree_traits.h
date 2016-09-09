@@ -1,6 +1,6 @@
 // ======================================================================
 //
-// Copyright (c) 1997 The CGAL Consortium
+// Copyright (c) 1999 The GALIA Consortium
 //
 // This software and related documentation is part of the
 // Computational Geometry Algorithms Library (CGAL).
@@ -16,34 +16,35 @@
 // - Development licenses grant access to the source code of the library 
 //   to develop programs. These programs may be sold to other parties as 
 //   executable code. To obtain a development license, please contact
-//   the CGAL Consortium (at cgal@cs.uu.nl).
+//   the GALIA Consortium (at cgal@cs.uu.nl).
 // - Commercialization licenses grant access to the source code and the
 //   right to sell development licenses. To obtain a commercialization 
-//   license, please contact the CGAL Consortium (at cgal@cs.uu.nl).
+//   license, please contact the GALIA Consortium (at cgal@cs.uu.nl).
 //
 // This software and documentation is provided "as-is" and without
 // warranty of any kind. In no event shall the CGAL Consortium be
 // liable for any damage of any kind.
 //
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// The GALIA Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany) Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+// (Germany), Max-Planck-Institute Saarbrucken (Germany),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-1.2
-// release_date  : 1999, January 18
+// release       : CGAL-2.0
+// release_date  : 1999, June 03
 //
 // file          : include/CGAL/Tree_traits.h
-// package       : Range_segment_trees (1.9)
+// package       : SearchStructures (2.3)
 // source        : include/CGAL/Tree_traits.h
 // revision      : $Revision: 1.3 $
 // revision_date : $Date: 1998/02/03 13:15:20 $
 // author(s)     : Gabriele Neyer
 //
 // coordinator   : Peter Widmayer, ETH Zurich
+//
 //
 //
 // email         : cgal@cs.uu.nl
@@ -55,17 +56,17 @@
 #define __CGAL_tree_traits__
 
 // Implementation of a minimal tree traits for CGAL trees, derived 
-// from CGAL_Tree_base.h
-// (e.g. CGAL_Range_tree_d.h and CGAL_Segment_tree_d.h).
+// from Tree_base.h
+// (e.g. Range_tree_d.h and Segment_tree_d.h).
 // Any other interface must at least provide the interface of this class.
 
-
+CGAL_BEGIN_NAMESPACE
 
 // Interface as it is expected for one layer of a Range Tree
 template<class _Data, class _Window, class _Key,          
          class _Data_func, class _Window_left_func, 
 	 class _Window_right_func, class _Compare>
-class CGAL_tree_point_traits{
+class tree_point_traits{
  public:
   typedef  _Key Key;
   typedef  _Data Data;
@@ -94,7 +95,7 @@ class CGAL_tree_point_traits{
 template<class _Data, class _Window, class _Key,  
          class _Data_left_func, class _Data_right_func, 
 	 class _Window_left_func, class _Window_right_func, class _Compare>
-class CGAL_tree_interval_traits{
+class tree_interval_traits{
  public:
   typedef  _Data Data;
   typedef  _Window Window;
@@ -114,6 +115,7 @@ class CGAL_tree_interval_traits{
     {return  _Compare()(key1, key2);} 
 };
 
+CGAL_END_NAMESPACE
 #endif
 
 

@@ -1,6 +1,6 @@
 // ======================================================================
 //
-// Copyright (c) 1998 The CGAL Consortium
+// Copyright (c) 1999 The GALIA Consortium
 //
 // This software and related documentation is part of the
 // Computational Geometry Algorithms Library (CGAL).
@@ -16,70 +16,70 @@
 // - Development licenses grant access to the source code of the library 
 //   to develop programs. These programs may be sold to other parties as 
 //   executable code. To obtain a development license, please contact
-//   the CGAL Consortium (at cgal@cs.uu.nl).
+//   the GALIA Consortium (at cgal@cs.uu.nl).
 // - Commercialization licenses grant access to the source code and the
 //   right to sell development licenses. To obtain a commercialization 
-//   license, please contact the CGAL Consortium (at cgal@cs.uu.nl).
+//   license, please contact the GALIA Consortium (at cgal@cs.uu.nl).
 //
 // This software and documentation is provided "as-is" and without
 // warranty of any kind. In no event shall the CGAL Consortium be
 // liable for any damage of any kind.
 //
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// The GALIA Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany) Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+// (Germany), Max-Planck-Institute Saarbrucken (Germany),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-1.2
-// release_date  : 1999, January 18
+// release       : CGAL-2.0
+// release_date  : 1999, June 03
 //
 // file          : include/CGAL/sorted_matrix_search.h
-// package       : Matrix_search (1.10)
+// package       : Matrix_search (1.17)
 // chapter       : $CGAL_Chapter: Geometric Optimisation $
 // source        : fjsearch.aw
-// revision      : $Revision: 1.10 $
-// revision_date : $Date: 1998/11/26 16:25:43 $
+// revision      : $Revision: 1.17 $
+// revision_date : $Date: 1999/06/01 14:08:21 $
 // author(s)     : Michael Hoffmann
 //
 // coordinator   : ETH Zurich (Bernd Gaertner)
 //
 // Frederickson-Johnson matrix search
-//
 // email         : cgal@cs.uu.nl
 //
 // ======================================================================
 
-#if ! (CGAL_SORTED_MATRIX_SEARCH_H)
-#define CGAL_SORTED_MATRIX_SEARCH_H 1
+#if ! (SORTED_MATRIX_SEARCH_H)
+#define SORTED_MATRIX_SEARCH_H 1
 
 #ifndef CGAL_BASIC_H
 #include <CGAL/basic.h>
 #endif // CGAL_BASIC_H
-#ifndef CGAL_PROTECT_ALGO_H
-#include <algo.h>
-#define CGAL_PROTECT_ALGO_H
-#endif // CGAL_PROTECT_ALGO_H
-#ifndef CGAL_PROTECT_FUNCTION_H
-#include <function.h>
-#define CGAL_PROTECT_FUNCTION_H
-#endif // CGAL_PROTECT_FUNCTION_H
-#ifndef CGAL_PROTECT_VECTOR_H
-#include <vector.h>
-#define CGAL_PROTECT_VECTOR_H
-#endif // CGAL_PROTECT_VECTOR_H
+#ifndef CGAL_PROTECT_ALGORITHM
+#include <algorithm>
+#define CGAL_PROTECT_ALGORITHM
+#endif
+#ifndef CGAL_PROTECT_FUNCTIONAL
+#include <functional>
+#define CGAL_PROTECT_FUNCTIONAL
+#endif
+#ifndef CGAL_PROTECT_VECTOR
+#include <vector>
+#define CGAL_PROTECT_VECTOR
+#endif
 #ifndef CGAL_SORTED_MATRIX_SEARCH_TRAITS_ADAPTOR_H
 #include <CGAL/Sorted_matrix_search_traits_adaptor.h>
 #endif // CGAL_SORTED_MATRIX_SEARCH_TRAITS_ADAPTOR_H
 
+CGAL_BEGIN_NAMESPACE
 template < class Matrix >
-class CGAL__Padded_matrix {
+class _Padded_matrix {
 public:
   typedef typename Matrix::Value Value;
 
-  CGAL__Padded_matrix( const Matrix& m) : matrix( &m) {}
+  _Padded_matrix( const Matrix& m) : matrix( &m) {}
 
   Value
   operator()( int x, int y) const
@@ -112,11 +112,11 @@ private:
   const Matrix* matrix;
 };
 template < class PaddedMatrix >
-class CGAL__Matrix_cell {
+class _Matrix_cell {
 public:
   typedef typename PaddedMatrix::Value Value;
 
-  CGAL__Matrix_cell( PaddedMatrix m, int xpos = 0, int ypos = 0)
+  _Matrix_cell( PaddedMatrix m, int xpos = 0, int ypos = 0)
   : base_matrix( m), x( xpos), y( ypos)
   {}
 
@@ -157,8 +157,8 @@ private:
   int y;
 };
 template < class Cell >
-struct CGAL__Cell_min
-: public unary_function< Cell, typename Cell::Value >
+struct _Cell_min
+: public CGAL_STD::unary_function< Cell, typename Cell::Value >
 {
   typename Cell::Value
   operator()( const Cell& c) const
@@ -166,10 +166,10 @@ struct CGAL__Cell_min
 };
 
 template < class Cell >
-struct CGAL__Cell_max
-: public unary_function< Cell, typename Cell::Value > {
+struct _Cell_max
+: public CGAL_STD::unary_function< Cell, typename Cell::Value > {
 
-  CGAL__Cell_max( int offset) : ofs( offset) {}
+  _Cell_max( int offset) : ofs( offset) {}
 
   typename Cell::Value
   operator()( const Cell& c) const
@@ -182,10 +182,10 @@ private:
 
 #ifdef CGAL_CFG_RETURN_TYPE_BUG_1
 template < class T >
-struct CGAL_Traits_value_bug_fix1
+struct Traits_value_bug_fix1
 {
   typedef typename T::Value Value;
-  CGAL_Traits_value_bug_fix1( Value xt)
+  Traits_value_bug_fix1( Value xt)
   { _xt = xt; }
 
   operator Value() const
@@ -200,19 +200,30 @@ template < class InputIterator, class Traits >
 #ifndef CGAL_CFG_RETURN_TYPE_BUG_1
 typename Traits::Value
 #else
-CGAL_Traits_value_bug_fix1< Traits >
+Traits_value_bug_fix1< Traits >
 #endif
-CGAL_sorted_matrix_search( InputIterator f,
+sorted_matrix_search( InputIterator f,
                            InputIterator l,
                            Traits t)
 {
-  typedef typename Traits::Matrix           Matrix;
-  typedef typename Traits::Value            Value;
-  typedef CGAL__Padded_matrix< Matrix >     PaddedMatrix;
-  typedef CGAL__Matrix_cell< PaddedMatrix > Cell;
-  typedef vector< Cell >                    Cell_container;
-  typedef typename Cell_container::iterator
-    Cell_iterator;
+  #ifndef CGAL_CFG_NO_NAMESPACE
+  using std::max;
+  using std::nth_element;
+  using std::iter_swap;
+  using std::remove_if;
+  using std::logical_or;
+  using std::compose1;
+  using std::compose2;
+  using std::bind1st;
+  using std::bind2nd;
+  #endif
+  
+  typedef typename Traits::Matrix            Matrix;
+  typedef typename Traits::Value             Value;
+  typedef _Padded_matrix< Matrix >           PaddedMatrix;
+  typedef _Matrix_cell< PaddedMatrix >       Cell;
+  typedef std::vector< Cell >                Cell_container;
+  typedef typename Cell_container::iterator  Cell_iterator;
   typedef typename Cell_container::reverse_iterator
     Cell_reverse_iterator;
   
@@ -349,10 +360,10 @@ CGAL_sorted_matrix_search( InputIterator f,
     nth_element( active_cells.begin(),
                  active_cells.begin() + upper_median_rank,
                  active_cells.end(),
-                 CGAL_compose2_2(
+                 compose2_2(
                    t.compare_strictly(),
-                   CGAL__Cell_min< Cell >(),
-                   CGAL__Cell_min< Cell >()));
+                   _Cell_min< Cell >(),
+                   _Cell_min< Cell >()));
     
     Cell_iterator lower_median_cell =
       active_cells.begin() + upper_median_rank;
@@ -362,10 +373,10 @@ CGAL_sorted_matrix_search( InputIterator f,
     nth_element( active_cells.begin(),
                  active_cells.begin() + lower_median_rank,
                  active_cells.end(),
-                 CGAL_compose2_2(
+                 compose2_2(
                    t.compare_strictly(),
-                   CGAL__Cell_max< Cell >( ccd),
-                   CGAL__Cell_max< Cell >( ccd)));
+                   _Cell_max< Cell >( ccd),
+                   _Cell_max< Cell >( ccd)));
     
     Cell_iterator upper_median_cell =
       active_cells.begin() + lower_median_rank;
@@ -410,7 +421,7 @@ CGAL_sorted_matrix_search( InputIterator f,
             active_cells.end(),
             compose1(
               bind1st( t.compare_non_strictly(), min_median),
-              CGAL__Cell_min< Cell >()));
+              _Cell_min< Cell >()));
     
       } // lower_median and upper_median are feasible
       else { // lower_median is feasible, but upper_median is not
@@ -432,12 +443,12 @@ CGAL_sorted_matrix_search( InputIterator f,
                 bind1st(
                   t.compare_non_strictly(),
                   lower_median),
-                CGAL__Cell_min< Cell >()),
+                _Cell_min< Cell >()),
               compose1(
                 bind2nd(
                   t.compare_non_strictly(),
                   upper_median),
-                CGAL__Cell_max< Cell >( ccd))));
+                _Cell_max< Cell >( ccd))));
     
       } // lower_median is feasible, but upper_median is not
     else
@@ -461,12 +472,12 @@ CGAL_sorted_matrix_search( InputIterator f,
                 bind1st(
                   t.compare_non_strictly(),
                   upper_median),
-                CGAL__Cell_min< Cell >()),
+                _Cell_min< Cell >()),
               compose1(
                 bind2nd(
                   t.compare_non_strictly(),
                   lower_median),
-                CGAL__Cell_max< Cell >( ccd))));
+                _Cell_max< Cell >( ccd))));
     
       } // upper_median is feasible, but lower_median is not
       else { // both upper_median and lower_median are infeasible
@@ -482,7 +493,7 @@ CGAL_sorted_matrix_search( InputIterator f,
               bind2nd(
                 t.compare_non_strictly(),
                 max( lower_median, upper_median)),
-              CGAL__Cell_max< Cell >( ccd)));
+              _Cell_max< Cell >( ccd)));
     
       } // both upper_median and lower_median are infeasible
     
@@ -494,9 +505,10 @@ CGAL_sorted_matrix_search( InputIterator f,
   CGAL_assertion( ccd == 1);
 
   return (*active_cells.begin()).min();
-}    
+}
+CGAL_END_NAMESPACE
 
-#endif // ! (CGAL_SORTED_MATRIX_SEARCH_H)
+#endif // ! (SORTED_MATRIX_SEARCH_H)
 
 // ----------------------------------------------------------------------------
 // ** EOF

@@ -1,6 +1,6 @@
 // ======================================================================
 //
-// Copyright (c) 1998 The CGAL Consortium
+// Copyright (c) 1999 The GALIA Consortium
 //
 // This software and related documentation is part of the
 // Computational Geometry Algorithms Library (CGAL).
@@ -16,28 +16,28 @@
 // - Development licenses grant access to the source code of the library 
 //   to develop programs. These programs may be sold to other parties as 
 //   executable code. To obtain a development license, please contact
-//   the CGAL Consortium (at cgal@cs.uu.nl).
+//   the GALIA Consortium (at cgal@cs.uu.nl).
 // - Commercialization licenses grant access to the source code and the
 //   right to sell development licenses. To obtain a commercialization 
-//   license, please contact the CGAL Consortium (at cgal@cs.uu.nl).
+//   license, please contact the GALIA Consortium (at cgal@cs.uu.nl).
 //
 // This software and documentation is provided "as-is" and without
 // warranty of any kind. In no event shall the CGAL Consortium be
 // liable for any damage of any kind.
 //
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// The GALIA Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany) Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+// (Germany), Max-Planck-Institute Saarbrucken (Germany),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-1.2
-// release_date  : 1999, January 18
+// release       : CGAL-2.0
+// release_date  : 1999, June 03
 //
 // file          : include/CGAL/Random_convex_set_traits_2.h
-// package       : Random (1.12)
+// package       : Generator (2.10)
 // source        : src/rcs/rcs.aw
 // revision      : $Revision: 1.2 $
 // revision_date : $Date: 1998/03/06 16:19:47 $
@@ -46,7 +46,6 @@
 // coordinator   : ETH Zurich (Bernd Gaertner)
 //
 // Default Traits For Random Convex Point Sets
-//
 // email         : cgal@cs.uu.nl
 //
 // ======================================================================
@@ -57,18 +56,16 @@
 #ifndef CGAL_POINT_2_H
 #include <CGAL/Point_2.h>
 #endif
-#ifndef CGAL_COPY_N_H
-#include <CGAL/copy_n.h>
-#endif // CGAL_COPY_N_H
 
+CGAL_BEGIN_NAMESPACE
 template < class R >
-struct CGAL_Random_convex_set_traits {
+struct Random_convex_set_traits {
 
-  typedef CGAL_Point_2< R >      Point_2;
-  typedef CGAL_Direction_2< R >  Direction_2;
-  typedef typename R::FT         FT;
+  typedef Point_2< R >      Point_2;
+  typedef Direction_2< R >  Direction_2;
+  typedef typename R::FT    FT;
 
-  CGAL_Random_convex_set_traits() : _origin( CGAL_ORIGIN)
+  Random_convex_set_traits() : _origin( ORIGIN)
   {}
 
   Point_2
@@ -76,37 +73,36 @@ struct CGAL_Random_convex_set_traits {
   { return _origin; }
 
   struct Max_coordinate
-  : public unary_function< Point_2, FT >
+  : public CGAL_STD::unary_function< Point_2, FT >
   {
     FT
     operator()( const Point_2& p) const
-    { return CGAL_max( CGAL_abs( p.x()), CGAL_abs( p.y())); }
+    { return std::max( abs( p.x()), abs( p.y())); }
   };
 
   struct Sum
-  : public binary_function< Point_2, Point_2, Point_2 >
+  : public CGAL_STD::binary_function< Point_2, Point_2, Point_2 >
   {
     Point_2
     operator()( const Point_2& p, const Point_2& q) const
-    { return p + (q - CGAL_ORIGIN); }
+    { return p + (q - ORIGIN); }
   };
 
   struct Scale
-  : public binary_function< Point_2, FT, Point_2 >
+  : public CGAL_STD::binary_function< Point_2, FT, Point_2 >
   {
     Point_2
     operator()( const Point_2& p, const FT& k) const
-    { return CGAL_ORIGIN + (p - CGAL_ORIGIN) * k; }
+    { return ORIGIN + (p - ORIGIN) * k; }
   };
 
   struct Angle_less
-  : public binary_function< Point_2, Point_2, bool >
+  : public CGAL_STD::binary_function< Point_2, Point_2, bool >
   {
     bool
     operator()( const Point_2& p, const Point_2& q) const
     {
-      return Direction_2( p - CGAL_ORIGIN) <
-        Direction_2( q - CGAL_ORIGIN);
+      return Direction_2( p - ORIGIN) < Direction_2( q - ORIGIN);
     }
   };
 
@@ -117,26 +113,28 @@ private:
 template < class OutputIterator, class Point_generator >
 inline
 OutputIterator
-CGAL_random_convex_set_2( int n,
-                          OutputIterator o,
-                          const Point_generator& pg)
+random_convex_set_2( int n,
+                     OutputIterator o,
+                     const Point_generator& pg)
 {
   typedef typename Point_generator::value_type Point_2;
-  return CGAL__random_convex_set_2(
+  return _random_convex_set_2(
     n, o, pg, CGAL_reinterpret_cast( Point_2*, 0));
 }
 template < class OutputIterator, class Point_generator, class R >
 inline
 OutputIterator
-CGAL__random_convex_set_2( int n,
-                           OutputIterator o,
-                           const Point_generator& pg,
-                           CGAL_Point_2< R >*)
+_random_convex_set_2( int n,
+                      OutputIterator o,
+                      const Point_generator& pg,
+                      Point_2< R >*)
 {
-  return CGAL_random_convex_set_2(
-    n, o, pg, CGAL_Random_convex_set_traits< R >());
+  return random_convex_set_2(
+    n, o, pg, Random_convex_set_traits< R >());
 }
 
+
+CGAL_END_NAMESPACE
 
 #endif // ! (CGAL_RANDOM_CONVEX_SET_TRAITS_2_H)
 

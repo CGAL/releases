@@ -1,6 +1,6 @@
 // ======================================================================
 //
-// Copyright (c) 1997,1998 The CGAL Consortium
+// Copyright (c) 1999 The GALIA Consortium
 //
 // This software and related documentation is part of the
 // Computational Geometry Algorithms Library (CGAL).
@@ -16,40 +16,39 @@
 // - Development licenses grant access to the source code of the library 
 //   to develop programs. These programs may be sold to other parties as 
 //   executable code. To obtain a development license, please contact
-//   the CGAL Consortium (at cgal@cs.uu.nl).
+//   the GALIA Consortium (at cgal@cs.uu.nl).
 // - Commercialization licenses grant access to the source code and the
 //   right to sell development licenses. To obtain a commercialization 
-//   license, please contact the CGAL Consortium (at cgal@cs.uu.nl).
+//   license, please contact the GALIA Consortium (at cgal@cs.uu.nl).
 //
 // This software and documentation is provided "as-is" and without
 // warranty of any kind. In no event shall the CGAL Consortium be
 // liable for any damage of any kind.
 //
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// The GALIA Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany) Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+// (Germany), Max-Planck-Institute Saarbrucken (Germany),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-1.2
-// release_date  : 1999, January 18
+// release       : CGAL-2.0
+// release_date  : 1999, June 03
 //
 // file          : include/CGAL/Min_circle_2.h
-// package       : Min_circle_2 (3.1.1)
+// package       : Min_circle_2 (3.2.3)
 // chapter       : $CGAL_Chapter: Geometric Optimisation $
 //
 // source        : web/Optimisation/Min_circle_2.aw
-// revision      : $Revision: 5.3 $
-// revision_date : $Date: 1998/11/16 15:42:39 $
+// revision      : $Revision: 5.8 $
+// revision_date : $Date: 1999/04/19 16:20:38 $
 // author(s)     : Sven Schönherr
 //                 Bernd Gärtner
 //
 // coordinator   : ETH Zürich (Bernd Gärtner)
 //
 // implementation: 2D Smallest Enclosing Circle
-//
 // email         : cgal@cs.uu.nl
 //
 // ======================================================================
@@ -57,49 +56,48 @@
 #ifndef CGAL_MIN_CIRCLE_2_H
 #define CGAL_MIN_CIRCLE_2_H
 
-// Class declaration
-// =================
-template < class _Traits >
-class CGAL_Min_circle_2;
-
-// Class interface
-// ===============
 // includes
-#ifndef CGAL_RANDOM_H
-#  include <CGAL/Random.h>
-#endif
-#ifndef CGAL_OPTIMISATION_ASSERTIONS_H
-#  include <CGAL/optimisation_assertions.h>
-#endif
 #ifndef CGAL_OPTIMISATION_BASIC_H
 #  include <CGAL/optimisation_basic.h>
 #endif
-#ifndef CGAL_PROTECT_LIST_H
-#  include <list.h>
-#  define CGAL_PROTECT_LIST_H
+#ifndef CGAL_RANDOM_H
+#  include <CGAL/Random.h>
 #endif
-#ifndef CGAL_PROTECT_VECTOR_H
-#  include <vector.h>
-#  define CGAL_PROTECT_VECTOR_H
+#ifndef CGAL_PROTECT_LIST
+#  include <list>
+#  define CGAL_PROTECT_LIST
 #endif
-#ifndef CGAL_PROTECT_ALGO_H
-#  include <algo.h>
-#  define CGAL_PROTECT_ALGO_H
+#ifndef CGAL_PROTECT_VECTOR
+#  include <vector>
+#  define CGAL_PROTECT_VECTOR
 #endif
-#ifndef CGAL_PROTECT_IOSTREAM_H
-#  include <iostream.h>
-#  define CGAL_PROTECT_IOSTREAM_H
+#ifndef CGAL_PROTECT_ALGORITHM
+#  include <algorithm>
+#  define CGAL_PROTECT_ALGORITHM
+#endif
+#ifndef CGAL_PROTECT_IOSTREAM
+#  include <iostream>
+#  define CGAL_PROTECT_IOSTREAM
 #endif
 
+CGAL_BEGIN_NAMESPACE
+
+// Class declaration
+// =================
 template < class _Traits >
-class CGAL_Min_circle_2 {
+class Min_circle_2;
+
+// Class interface
+// ===============
+template < class _Traits >
+class Min_circle_2 {
   public:
     // types
-    typedef           _Traits                      Traits;
-    typedef typename  _Traits::Point               Point;
-    typedef typename  _Traits::Circle              Circle;
-    typedef typename  list<Point>::const_iterator  Point_iterator;
-    typedef           const Point *                Support_point_iterator;
+    typedef           _Traits                           Traits;
+    typedef typename  _Traits::Point                    Point;
+    typedef typename  _Traits::Circle                   Circle;
+    typedef           std::list<Point>::const_iterator  Point_iterator;
+    typedef           const Point *                     Support_point_iterator;
     
     /**************************************************************************
     WORKAROUND: The GNU compiler (g++ 2.7.2[.x]) does not accept types
@@ -108,32 +106,29 @@ class CGAL_Min_circle_2 {
     the class interface.
     
     // creation
-    CGAL_Min_circle_2( const Point*  first,
-                       const Point*  last,
-                       bool          randomize = false,
-                       CGAL_Random&  random    = CGAL_random,
-                       const Traits& traits    = Traits());
-    CGAL_Min_circle_2( list<Point>::const_iterator first,
-                       list<Point>::const_iterator last,
-                       bool          randomize = false,
-                       CGAL_Random&  random    = CGAL_random,
-                       const Traits& traits    = Traits());
-    CGAL_Min_circle_2( istream_iterator<Point,ptrdiff_t> first,
-                       istream_iterator<Point,ptrdiff_t> last,
-                       bool          randomize = false,
-                       CGAL_Random&  random    = CGAL_random,
-                       const Traits& traits    = Traits())
-    CGAL_Min_circle_2( const Traits& traits = Traits());
-    CGAL_Min_circle_2( const Point&  p,
-                       const Traits& traits = Traits());
-    CGAL_Min_circle_2( const Point&  p,
-                       const Point&  q,
-                       const Traits& traits = Traits());
-    CGAL_Min_circle_2( const Point&  p1,
-                       const Point&  p2,
-                       const Point&  p3,
-                       const Traits& traits = Traits());
-    ~CGAL_Min_circle_2( );
+    Min_circle_2( const Point*  first,
+                  const Point*  last,
+                  bool          randomize = false,
+                  Random&       random    = default_random,
+                  const Traits& traits    = Traits());
+    Min_circle_2( std::list<Point>::const_iterator first,
+                  std::list<Point>::const_iterator last,
+                  bool          randomize = false,
+                  Random&       random    = default_random,
+                  const Traits& traits    = Traits());
+    Min_circle_2( std::istream_iterator<Point,std::ptrdiff_t> first,
+                  std::istream_iterator<Point,std::ptrdiff_t> last,
+                  bool          randomize = false,
+                  Random&       random    = default_random,
+                  const Traits& traits    = Traits())
+    Min_circle_2( const Traits& traits = Traits());
+    Min_circle_2( const Point&  p,
+                  const Traits& traits = Traits());
+    Min_circle_2( const Point&  p, const Point&  q,
+                  const Traits& traits = Traits());
+    Min_circle_2( const Point&  p1, const Point&  p2, const Point&  p3,
+                  const Traits& traits = Traits());
+    ~Min_circle_2( );
     
     // access functions
     int  number_of_points        ( ) const;
@@ -150,7 +145,7 @@ class CGAL_Min_circle_2 {
     const Circle&  circle( ) const;
     
     // predicates
-    CGAL_Bounded_side  bounded_side( const Point& p) const;
+    Bounded_side  bounded_side( const Point& p) const;
     bool  has_on_bounded_side      ( const Point& p) const;
     bool  has_on_boundary          ( const Point& p) const;
     bool  has_on_unbounded_side    ( const Point& p) const;
@@ -162,10 +157,10 @@ class CGAL_Min_circle_2 {
     void  insert( const Point& p);
     void  insert( const Point* first,
                   const Point* last );
-    void  insert( list<Point>::const_iterator first,
-                  list<Point>::const_iterator last );
-    void  insert( istream_iterator<Point,ptrdiff_t> first,
-                  istream_iterator<Point,ptrdiff_t> last );
+    void  insert( std::list<Point>::const_iterator first,
+                  std::list<Point>::const_iterator last );
+    void  insert( std::istream_iterator<Point,std::ptrdiff_t> first,
+                  std::istream_iterator<Point,std::ptrdiff_t> last );
     void  clear( );
     
     // validity check
@@ -178,15 +173,15 @@ class CGAL_Min_circle_2 {
   private:
     // private data members
     Traits       tco;                           // traits class object
-    list<Point>  points;                        // doubly linked list of points
+    std::list<Point>  points;                   // doubly linked list of points
     int          n_support_points;              // number of support points
     Point*       support_points;                // array of support points
     
 
     // copying and assignment not allowed!
-    CGAL_Min_circle_2( const CGAL_Min_circle_2<_Traits>&);
-    CGAL_Min_circle_2<_Traits>&
-        operator = ( const CGAL_Min_circle_2<_Traits>&);
+    Min_circle_2( const Min_circle_2<_Traits>&);
+    Min_circle_2<_Traits>&
+        operator = ( const Min_circle_2<_Traits>&);
 
 // ============================================================================
 
@@ -275,7 +270,7 @@ class CGAL_Min_circle_2 {
 
     // in-circle test predicates
     inline
-    CGAL_Bounded_side
+    CGAL::Bounded_side
     bounded_side( const Point& p) const
     {
         return( tco.circle.bounded_side( p));
@@ -339,7 +334,7 @@ class CGAL_Min_circle_2 {
         if ( n_sp == 3) return;
     
         // test first n points
-        list<Point>::iterator  point_iter( points.begin());
+        std::list<Point>::iterator  point_iter( points.begin());
         for ( ; last != point_iter; ) {
             const Point& p( *point_iter);
     
@@ -364,28 +359,29 @@ class CGAL_Min_circle_2 {
     
         // STL-like constructor (member template)
         template < class InputIterator >
-        CGAL_Min_circle_2( InputIterator first,
-                           InputIterator last,
-                           bool          randomize = false,
-                           CGAL_Random&  random    = CGAL_random,
-                           const Traits& traits    = Traits())
+        Min_circle_2( InputIterator first,
+                      InputIterator last,
+                      bool          randomize = false,
+                      Random&       random    = default_random,
+                      const Traits& traits    = Traits())
             : tco( traits)
         {
             // allocate support points' array
             support_points = new Point[ 3];
     
-            // range not empty?
+            // range of points not empty?
             if ( first != last) {
     
                 // store points
                 if ( randomize) {
     
                     // shuffle points at random
-                    vector<Point> v( first, last);
-                    random_shuffle( v.begin(), v.end(), random);
-                    copy( v.begin(), v.end(), back_inserter( points)); }
+                    std::vector<Point> v( first, last);
+                    std::random_shuffle( v.begin(), v.end(), random);
+                    std::copy( v.begin(), v.end(),
+                               std::back_inserter( points)); }
                 else
-                    copy( first, last, back_inserter( points)); }
+                    std::copy( first, last, std::back_inserter( points)); }
     
             // compute mc
             mc( points.end(), 0);
@@ -394,89 +390,92 @@ class CGAL_Min_circle_2 {
     #else
     
         // STL-like constructor for C array and vector<Point>
-        CGAL_Min_circle_2( const Point*  first,
-                           const Point*  last,
-                           bool          randomize = false,
-                           CGAL_Random&  random    = CGAL_random,
-                           const Traits& traits    = Traits())
+        Min_circle_2( const Point*  first,
+                      const Point*  last,
+                      bool          randomize = false,
+                      Random&       random    = default_random,
+                      const Traits& traits    = Traits())
             : tco( traits)
         {
             // allocate support points' array
             support_points = new Point[ 3];
     
-            // range not empty?
-            if ( ( last-first) > 0) {
-    
-                // store points
-                if ( randomize) {
-    
-                    // shuffle points at random
-                    vector<Point> v( first, last);
-                    random_shuffle( v.begin(), v.end(), random);
-                    copy( v.begin(), v.end(), back_inserter( points)); }
-                else
-                    copy( first, last, back_inserter( points)); }
-    
-            // compute mc
-            mc( points.end(), 0);
-        }
-    
-        // STL-like constructor for list<Point>
-        CGAL_Min_circle_2( list<Point>::const_iterator first,
-                           list<Point>::const_iterator last,
-                           bool          randomize = false,
-                           CGAL_Random&  random    = CGAL_random,
-                           const Traits& traits    = Traits())
-            : tco( traits)
-        {
-            // allocate support points' array
-            support_points = new Point[ 3];
-    
-            // compute number of points
-            list<Point>::size_type n = 0;
-            CGAL__distance( first, last, n);
-            if ( n > 0) {
-    
-                // store points
-                if ( randomize) {
-    
-                    // shuffle points at random
-                    vector<Point> v;
-                    v.reserve( n);
-                    copy( first, last, back_inserter( v));
-                    random_shuffle( v.begin(), v.end(), random);
-                    copy( v.begin(), v.end(), back_inserter( points)); }
-                else
-                    copy( first, last, back_inserter( points)); }
-    
-            // compute mc
-            mc( points.end(), 0);
-        }
-    
-        // STL-like constructor for stream iterator istream_iterator<Point>
-        CGAL_Min_circle_2( istream_iterator<Point,ptrdiff_t>  first,
-                           istream_iterator<Point,ptrdiff_t>  last,
-                           bool          randomize = false,
-                           CGAL_Random&  random    = CGAL_random,
-                           const Traits& traits    = Traits())
-            : tco( traits)
-        {
-            // allocate support points' array
-            support_points = new Point[ 3];
-    
-            // range not empty?
+            // range of points not empty?
             if ( first != last) {
     
                 // store points
                 if ( randomize) {
     
                     // shuffle points at random
-                    vector<Point> v;
-                    copy( first, last, back_inserter( v));
-                    random_shuffle( v.begin(), v.end(), random);
-                    copy( v.begin(), v.end(), back_inserter( points)); }
+                    std::vector<Point> v( first, last);
+                    std::random_shuffle( v.begin(), v.end(), random);
+                    std::copy( v.begin(), v.end(),
+                               std::back_inserter( points)); }
                 else
-                    copy( first, last, back_inserter( points)); }
+                    std::copy( first, last, std::back_inserter( points)); }
+    
+            // compute mc
+            mc( points.end(), 0);
+        }
+    
+        // STL-like constructor for list<Point>
+        Min_circle_2( std::list<Point>::const_iterator first,
+                      std::list<Point>::const_iterator last,
+                      bool          randomize = false,
+                      Random&       random    = default_random,
+                      const Traits& traits    = Traits())
+            : tco( traits)
+        {
+            // allocate support points' array
+            support_points = new Point[ 3];
+    
+            // range of points not empty?
+            if ( first != last) {
+    
+                // store points
+                if ( randomize) {
+    
+                    // shuffle points at random
+                    std::list<Point>::size_type n = 0;
+                    distance( first, last, n);
+                    std::vector<Point> v;
+                    v.reserve( n);
+                    std::copy( first, last, std::back_inserter( v));
+                    std::random_shuffle( v.begin(), v.end(), random);
+                    std::copy( v.begin(), v.end(),
+                               std::back_inserter( points)); }
+                else
+                    std::copy( first, last, std::back_inserter( points)); }
+    
+            // compute mc
+            mc( points.end(), 0);
+        }
+    
+        // STL-like constructor for stream iterator istream_iterator<Point>
+        Min_circle_2( istream_iterator<Point,std::ptrdiff_t>  first,
+                      istream_iterator<Point,std::ptrdiff_t>  last,
+                      bool          randomize = false,
+                      Random&       random    = default_random,
+                      const Traits& traits    = Traits())
+            : tco( traits)
+        {
+            // allocate support points' array
+            support_points = new Point[ 3];
+    
+            // range of points not empty?
+            if ( first != last) {
+    
+                // store points
+                if ( randomize) {
+    
+                    // shuffle points at random
+                    std::vector<Point> v;
+                    std::copy( first, last, std::back_inserter( v));
+                    std::random_shuffle( v.begin(), v.end(), random);
+                    std::copy( v.begin(), v.end(),
+                               std::back_inserter( points)); }
+                else
+                    std::copy( first, last, std::back_inserter( points)); }
     
             // compute mc
             mc( points.end(), 0);
@@ -486,7 +485,7 @@ class CGAL_Min_circle_2 {
     
     // default constructor
     inline
-    CGAL_Min_circle_2( const Traits& traits = Traits())
+    Min_circle_2( const Traits& traits = Traits())
         : tco( traits), n_support_points( 0)
     {
         // allocate support points' array
@@ -500,7 +499,7 @@ class CGAL_Min_circle_2 {
     
     // constructor for one point
     inline
-    CGAL_Min_circle_2( const Point& p, const Traits& traits = Traits())
+    Min_circle_2( const Point& p, const Traits& traits = Traits())
         : tco( traits), points( 1, p), n_support_points( 1)
     {
         // allocate support points' array
@@ -515,9 +514,8 @@ class CGAL_Min_circle_2 {
     
     // constructor for two points
     inline
-    CGAL_Min_circle_2( const Point& p1,
-                       const Point& p2,
-                       const Traits& traits = Traits())
+    Min_circle_2( const Point& p1, const Point& p2,
+                  const Traits& traits = Traits())
         : tco( traits)
     {
         // allocate support points' array
@@ -533,10 +531,8 @@ class CGAL_Min_circle_2 {
     
     // constructor for three points
     inline
-    CGAL_Min_circle_2( const Point& p1,
-                       const Point& p2,
-                       const Point& p3,
-                       const Traits& traits = Traits())
+    Min_circle_2( const Point& p1, const Point& p2, const Point& p3,
+                  const Traits& traits = Traits())
         : tco( traits)
     {
         // allocate support points' array
@@ -555,7 +551,7 @@ class CGAL_Min_circle_2 {
     // Destructor
     // ----------
     inline
-    ~CGAL_Min_circle_2( )
+    ~Min_circle_2( )
     {
         // free support points' array
         delete[] support_points;
@@ -604,8 +600,8 @@ class CGAL_Min_circle_2 {
     
         inline
         void
-        insert( list<Point>::const_iterator first,
-                list<Point>::const_iterator last )
+        insert( std::list<Point>::const_iterator first,
+                std::list<Point>::const_iterator last )
         {
             for ( ; first != last; ++first)
                 insert( *first);
@@ -613,8 +609,8 @@ class CGAL_Min_circle_2 {
     
         inline
         void
-        insert( istream_iterator<Point,ptrdiff_t>  first,
-                istream_iterator<Point,ptrdiff_t>  last )
+        insert( std::istream_iterator<Point,std::ptrdiff_t>  first,
+                std::istream_iterator<Point,std::ptrdiff_t>  last )
         {
             for ( ; first != last; ++first)
                 insert( *first);
@@ -635,9 +631,13 @@ class CGAL_Min_circle_2 {
     bool
     is_valid( bool verbose = false, int level = 0) const
     {
-        CGAL_Verbose_ostream verr( verbose);
+    #ifndef CGAL_CFG_NO_NAMESPACE
+        using std::endl;
+    #endif
+    
+        CGAL::Verbose_ostream verr( verbose);
         verr << endl;
-        verr << "CGAL_Min_circle_2<Traits>::" << endl;
+        verr << "CGAL::Min_circle_2<Traits>::" << endl;
         verr << "is_valid( true, " << level << "):" << endl;
         verr << "  |P| = " << number_of_points()
              << ", |S| = " << number_of_support_points() << endl;
@@ -649,7 +649,7 @@ class CGAL_Min_circle_2 {
               point_iter != points_end();
               ++point_iter)
             if ( has_on_unbounded_side( *point_iter))
-                return( CGAL__optimisation_is_valid_fail( verr,
+                return( CGAL::_optimisation_is_valid_fail( verr,
                             "circle does not contain all points"));
         verr << "passed." << endl;
     
@@ -659,15 +659,15 @@ class CGAL_Min_circle_2 {
         
           case 0:
             if ( ! is_empty())
-                return( CGAL__optimisation_is_valid_fail( verr,
+                return( CGAL::_optimisation_is_valid_fail( verr,
                             "P is nonempty, \
                              but there are no support points."));
             break;
         
           case 1:
             if ( ( circle().center() != support_point( 0)    ) ||
-                 ( ! CGAL_is_zero( circle().squared_radius())) )
-                return( CGAL__optimisation_is_valid_fail( verr,
+                 ( ! CGAL::is_zero( circle().squared_radius())) )
+                return( CGAL::_optimisation_is_valid_fail( verr,
                             "circle differs from the circle \
                              spanned by its single support point."));
             break;
@@ -678,15 +678,15 @@ class CGAL_Min_circle_2 {
             
             // p equals q?
             if ( p == q)
-                return( CGAL__optimisation_is_valid_fail( verr,
+                return( CGAL::_optimisation_is_valid_fail( verr,
                             "the two support points are equal."));
             
             // segment(p,q) is not diameter?
             if ( ( ! has_on_boundary( p)                                ) ||
                  ( ! has_on_boundary( q)                                ) ||
                  ( tco.orientation( p, q,
-                                    circle().center()) != CGAL_COLLINEAR) )
-                return( CGAL__optimisation_is_valid_fail( verr,
+                                    circle().center()) != CGAL::COLLINEAR) )
+                return( CGAL::_optimisation_is_valid_fail( verr,
                             "circle does not have its \
                              two support points as diameter.")); }
             break;
@@ -698,43 +698,43 @@ class CGAL_Min_circle_2 {
             
             // p, q, r not pairwise distinct?
             if ( ( p == q) || ( q == r) || ( r == p))
-                return( CGAL__optimisation_is_valid_fail( verr,
+                return( CGAL::_optimisation_is_valid_fail( verr,
                             "at least two of the three \
                              support points are equal."));
             
             // p, q, r collinear?
-            if ( tco.orientation( p, q, r) == CGAL_COLLINEAR)
-                return( CGAL__optimisation_is_valid_fail( verr,
+            if ( tco.orientation( p, q, r) == CGAL::COLLINEAR)
+                return( CGAL::_optimisation_is_valid_fail( verr,
                             "the three support points are collinear."));
             
             // current circle not equal the unique circle through p,q,r ?
             Circle c( circle());
             c.set( p, q, r);
             if ( circle() != c)
-                return( CGAL__optimisation_is_valid_fail( verr,
+                return( CGAL::_optimisation_is_valid_fail( verr,
                             "circle is not the unique circle \
                              through its three support points."));
             
             // circle's center on boundary of triangle(p,q,r)?
             const Point& center( circle().center());
-            CGAL_Orientation o_pqz = tco.orientation( p, q, center);
-            CGAL_Orientation o_qrz = tco.orientation( q, r, center);
-            CGAL_Orientation o_rpz = tco.orientation( r, p, center);
-            if ( ( o_pqz == CGAL_COLLINEAR) ||
-                 ( o_qrz == CGAL_COLLINEAR) ||
-                 ( o_rpz == CGAL_COLLINEAR) )
-                return( CGAL__optimisation_is_valid_fail( verr,
+            CGAL::Orientation o_pqz = tco.orientation( p, q, center);
+            CGAL::Orientation o_qrz = tco.orientation( q, r, center);
+            CGAL::Orientation o_rpz = tco.orientation( r, p, center);
+            if ( ( o_pqz == CGAL::COLLINEAR) ||
+                 ( o_qrz == CGAL::COLLINEAR) ||
+                 ( o_rpz == CGAL::COLLINEAR) )
+                return( CGAL::_optimisation_is_valid_fail( verr,
                             "one of the three support points is redundant."));
             
             // circle's center not inside triangle(p,q,r)?
             if ( ( o_pqz != o_qrz) || ( o_qrz != o_rpz) || ( o_rpz != o_pqz))
-                return( CGAL__optimisation_is_valid_fail( verr,
+                return( CGAL::_optimisation_is_valid_fail( verr,
                             "circle's center is not in the \
                              convex hull of its three support points.")); }
             break;
         
           default:
-            return( CGAL__optimisation_is_valid_fail( verr,
+            return( CGAL::_optimisation_is_valid_fail( verr,
                         "illegal number of support points, \
                          not between 0 and 3."));
         };
@@ -759,10 +759,14 @@ class CGAL_Min_circle_2 {
 // I/O
 // ---
 template < class _Traits >
-ostream& operator << ( ostream& os, const CGAL_Min_circle_2<_Traits>& mc);
+std::ostream&
+operator << ( std::ostream& os, const Min_circle_2<_Traits>& mc);
 
 template < class _Traits >
-istream& operator >> ( istream& is, CGAL_Min_circle_2<_Traits>      & mc);
+std::istream&
+operator >> ( std::istream& is,       Min_circle_2<_Traits>& mc);
+
+CGAL_END_NAMESPACE
 
 #ifdef CGAL_CFG_NO_AUTOMATIC_TEMPLATE_INCLUSION
 #  include <CGAL/Min_circle_2.C>

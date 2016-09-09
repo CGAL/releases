@@ -1,6 +1,6 @@
 // ======================================================================
 //
-// Copyright (c) 1998 The CGAL Consortium
+// Copyright (c) 1999 The GALIA Consortium
 //
 // This software and related documentation is part of the
 // Computational Geometry Algorithms Library (CGAL).
@@ -16,55 +16,56 @@
 // - Development licenses grant access to the source code of the library 
 //   to develop programs. These programs may be sold to other parties as 
 //   executable code. To obtain a development license, please contact
-//   the CGAL Consortium (at cgal@cs.uu.nl).
+//   the GALIA Consortium (at cgal@cs.uu.nl).
 // - Commercialization licenses grant access to the source code and the
 //   right to sell development licenses. To obtain a commercialization 
-//   license, please contact the CGAL Consortium (at cgal@cs.uu.nl).
+//   license, please contact the GALIA Consortium (at cgal@cs.uu.nl).
 //
 // This software and documentation is provided "as-is" and without
 // warranty of any kind. In no event shall the CGAL Consortium be
 // liable for any damage of any kind.
 //
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// The GALIA Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany) Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+// (Germany), Max-Planck-Institute Saarbrucken (Germany),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-1.2
-// release_date  : 1999, January 18
+// release       : CGAL-2.0
+// release_date  : 1999, June 03
 //
 // file          : include/CGAL/Sorted_matrix_search_traits_adaptor.h
-// package       : Matrix_search (1.10)
+// package       : Matrix_search (1.17)
 // chapter       : $CGAL_Chapter: Geometric Optimisation $
 // source        : fjsearch.aw
-// revision      : $Revision: 1.10 $
-// revision_date : $Date: 1998/11/26 16:25:32 $
+// revision      : $Revision: 1.17 $
+// revision_date : $Date: 1999/06/01 14:08:08 $
 // author(s)     : Michael Hoffmann
 //
 // coordinator   : ETH Zurich (Bernd Gaertner)
 //
 // Frederickson-Johnson matrix search: traits class adaptor
-//
 // email         : cgal@cs.uu.nl
 //
 // ======================================================================
 
-#if ! (CGAL_SORTED_MATRIX_SEARCH_TRAITS_ADAPTOR_H)
-#define CGAL_SORTED_MATRIX_SEARCH_TRAITS_ADAPTOR_H 1
+#if ! (SORTED_MATRIX_SEARCH_TRAITS_ADAPTOR_H)
+#define SORTED_MATRIX_SEARCH_TRAITS_ADAPTOR_H 1
+
+CGAL_BEGIN_NAMESPACE
 
 template < class _FeasibilityTest, class _Matrix >
-class CGAL_Sorted_matrix_search_traits_adaptor {
+class Sorted_matrix_search_traits_adaptor {
 public:
   typedef _FeasibilityTest         FeasibilityTest;
   typedef _Matrix                  Matrix;
   typedef typename _Matrix::Value  Value;
-  typedef less< Value >            Compare_strictly;
-  typedef less_equal< Value >      Compare_non_strictly;
+  typedef std::less< Value >       Compare_strictly;
+  typedef std::less_equal< Value > Compare_non_strictly;
 
-  CGAL_Sorted_matrix_search_traits_adaptor(
+  Sorted_matrix_search_traits_adaptor(
     const FeasibilityTest& ft)
   : _ft( ft)
   {}
@@ -88,17 +89,19 @@ protected:
 //!!! with iterator traits we replace const Matrix&
 // by an iterator with value type Matrix
 template < class FeasibilityTest, class Matrix >
-CGAL_Sorted_matrix_search_traits_adaptor<
+Sorted_matrix_search_traits_adaptor<
   FeasibilityTest, Matrix >
-CGAL_sorted_matrix_search_traits_adaptor(
+sorted_matrix_search_traits_adaptor(
   const FeasibilityTest& f, const Matrix&)
 {
-  typedef CGAL_Sorted_matrix_search_traits_adaptor<
+  typedef Sorted_matrix_search_traits_adaptor<
     FeasibilityTest, Matrix > Traits;
   return Traits( f);
-} // CGAL_sorted_matrix_search_traits_adaptor( ... )
+} // sorted_matrix_search_traits_adaptor( ... )
 
-#endif // ! (CGAL_SORTED_MATRIX_SEARCH_TRAITS_ADAPTOR_H)
+CGAL_END_NAMESPACE
+
+#endif // ! (SORTED_MATRIX_SEARCH_TRAITS_ADAPTOR_H)
 
 // ----------------------------------------------------------------------------
 // ** EOF

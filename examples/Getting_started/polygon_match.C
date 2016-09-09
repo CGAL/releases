@@ -1,19 +1,25 @@
 #include "tutorial.h"
 #include <assert.h>
-#include <fstream.h>
-#include <iostream.h>
+#include <list>
+#include <iterator>
+#include <fstream>
+#include <iostream>
 #include <CGAL/boolean_operations_2.h>
 
-typedef Polygon_2::Edge_const_circulator Polygon_edge_circulator;
-typedef Polygon_2::Vertex_circulator Polygon_vertex_circulator;
-typedef Polygon_2::Vertex_iterator Polygon_vertex_iterator;
+using std::back_inserter;
+using std::cout;
+using std::endl;
 
-Point_2 centroid (Polygon_2 &polyg)
+typedef Polygon::Edge_const_circulator Polygon_edge_circulator;
+typedef Polygon::Vertex_circulator Polygon_vertex_circulator;
+typedef Polygon::Vertex_iterator Polygon_vertex_iterator;
+
+Point centroid (Polygon &polyg)
 {
   Polygon_vertex_circulator start = polyg.vertices_circulator();
 
   // check if the polygon is empty
-  assert (start != NULL);
+  assert (start != 0);
 
   Polygon_vertex_circulator cur = start;
   Polygon_vertex_circulator next = cur;
@@ -27,57 +33,57 @@ Point_2 centroid (Polygon_2 &polyg)
 
   // check if polygon has only two points
   if (polyg.size()==2)
-    return CGAL_ORIGIN + ((*cur-CGAL_ORIGIN) + (*next-CGAL_ORIGIN))/2;
+    return CGAL::ORIGIN + ((*cur-CGAL::ORIGIN) + (*next-CGAL::ORIGIN))/2;
 
-  Vector_2 cent(0,0);
-  Vector_2 aux(0,0);
+  Vector cent(0,0);
+  Vector aux(0,0);
   double a=0, atot=0;
   do {
     a = ((*cur).x()) * ((*next).y()) - ((*next).x()) * ((*cur).y());
     atot = atot + a;
-    cent = cent + ((*cur - CGAL_ORIGIN) + (*next - CGAL_ORIGIN)) * a;
+    cent = cent + ((*cur - CGAL::ORIGIN) + (*next - CGAL::ORIGIN)) * a;
     cur = next;
     ++next;
   } while (cur != start);
   atot = 3*atot;
   cent = cent/atot;
-  return CGAL_ORIGIN + cent;
+  return CGAL::ORIGIN + cent;
 }
 
 template< class ForwardIterator >
 double sum_area( ForwardIterator start, ForwardIterator beyond )
 {
-  Point_2 point;
-  Segment_2 segment;
-  Polygon_2 polygon;
+  Point point;
+  Segment segment;
+  Polygon polygon;
   double area=0;
 
   for( ForwardIterator it= start; it != beyond; it++) {
-    if( CGAL_assign( polygon, *it) ) {
+    if( CGAL::assign( polygon, *it) ) {
       area = area + polygon.area();
     }
   }
   return area;
 }
 
-double area_overlap(Polygon_2 &polyg1, Polygon_2 &polyg2)
+double area_overlap(Polygon &polyg1, Polygon &polyg2)
 {
-  list<CGAL_Object> result;
+  std::list<CGAL::Object> result;
 
-  CGAL_intersection (polyg1, polyg2, back_inserter(result) );
+  CGAL::intersection (polyg1, polyg2, back_inserter(result) );
   return sum_area( result.begin(), result.end() );
 }
 
-double area_difference (Polygon_2 &polyg1, Polygon_2 &polyg2)
+double area_difference (Polygon &polyg1, Polygon &polyg2)
 {
-  list<CGAL_Object> result;
+  std::list<CGAL::Object> result;
   double area1, area2;
 
-  CGAL_difference (polyg1, polyg2, back_inserter(result) );
+  CGAL::difference (polyg1, polyg2, back_inserter(result) );
   area1 = sum_area( result.begin(), result.end() );
 
   result.erase( result.begin(), result.end() );
-  CGAL_difference (polyg2, polyg1, back_inserter(result) );
+  CGAL::difference (polyg2, polyg1, back_inserter(result) );
   area2 = sum_area( result.begin(), result.end() );
 
   return area1+area2;
@@ -87,13 +93,13 @@ double area_difference (Polygon_2 &polyg1, Polygon_2 &polyg2)
 //                          main
 //-----------------------------------------------------------------------//
 
-void main(int argc, char *argv[])
+main(int argc, char *argv[])
 {
-  Polygon_2 polygA;
-  Polygon_2 polygB;
+  Polygon polygA;
+  Polygon polygB;
 
-  ifstream from("polygon_match.dat");
-  CGAL_set_ascii_mode(from);
+  std::ifstream from("polygon_match.dat");
+  CGAL::set_ascii_mode(from);
   from >> polygA >> polygB;
 
   if (polygA.is_empty() || polygB.is_empty()) {
@@ -108,7 +114,7 @@ void main(int argc, char *argv[])
   }
 
   // check counterclockwise orientation
-  if (polygA.orientation() == CGAL_CLOCKWISE) {
+  if (polygA.orientation() == CGAL::CLOCKWISE) {
     cout << "Polygon A is entered clockwise.";
     polygA.reverse_orientation();
     cout << " Its orientation has been reversed." << endl;
@@ -117,7 +123,7 @@ void main(int argc, char *argv[])
     cout << "Polygon A is entered counterclockwise." << endl;
 
   // check counterclockwise orientation
-  if (polygB.orientation() == CGAL_CLOCKWISE) {
+  if (polygB.orientation() == CGAL::CLOCKWISE) {
     cout << "Polygon B is entered clockwise.";
     polygB.reverse_orientation();
     cout << " Its orientation has been reversed." << endl;
@@ -130,12 +136,12 @@ void main(int argc, char *argv[])
        << area_difference(polygA, polygB) << endl;
 
   // transform B to put centroid B over centroid A
-  Point_2 centA = centroid(polygA);
-  Point_2 centB = centroid(polygB);
-  Vector_2 vec = centA - centB;
-  Transformation_2 transl(CGAL_TRANSLATION, vec);
+  Point centA = centroid(polygA);
+  Point centB = centroid(polygB);
+  Vector vec = centA - centB;
+  Transformation transl(CGAL::TRANSLATION, vec);
 
-  polygB = CGAL_transform (transl, polygB);
+  polygB = CGAL::transform (transl, polygB);
   cout << "Polygon B translated over " << vec << endl;
 
   cout << "New area of intersection: "

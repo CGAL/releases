@@ -1,6 +1,6 @@
 // ======================================================================
 //
-// Copyright (c) 1998 The CGAL Consortium
+// Copyright (c) 1999 The GALIA Consortium
 //
 // This software and related documentation is part of the
 // Computational Geometry Algorithms Library (CGAL).
@@ -16,44 +16,43 @@
 // - Development licenses grant access to the source code of the library 
 //   to develop programs. These programs may be sold to other parties as 
 //   executable code. To obtain a development license, please contact
-//   the CGAL Consortium (at cgal@cs.uu.nl).
+//   the GALIA Consortium (at cgal@cs.uu.nl).
 // - Commercialization licenses grant access to the source code and the
 //   right to sell development licenses. To obtain a commercialization 
-//   license, please contact the CGAL Consortium (at cgal@cs.uu.nl).
+//   license, please contact the GALIA Consortium (at cgal@cs.uu.nl).
 //
 // This software and documentation is provided "as-is" and without
 // warranty of any kind. In no event shall the CGAL Consortium be
 // liable for any damage of any kind.
 //
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// The GALIA Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany) Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+// (Germany), Max-Planck-Institute Saarbrucken (Germany),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-1.2
-// release_date  : 1999, January 18
+// release       : CGAL-2.0
+// release_date  : 1999, June 03
 //
 // file          : include/CGAL/Cartesian_matrix.h
-// package       : Matrix_search (1.10)
+// package       : Matrix_search (1.17)
 // chapter       : $CGAL_Chapter: Geometric Optimisation $
 // source        : mon_search.aw
-// revision      : $Revision: 1.10 $
-// revision_date : $Date: 1998/11/26 16:25:25 $
+// revision      : $Revision: 1.17 $
+// revision_date : $Date: 1999/06/01 14:08:00 $
 // author(s)     : Michael Hoffmann
 //
 // coordinator   : ETH Zurich (Bernd Gaertner)
 //
 // A Representation for Cartesian Matrices
-//
 // email         : cgal@cs.uu.nl
 //
 // ======================================================================
 
-#if ! (CGAL_CARTESIAN_MATRIX_H)
-#define CGAL_CARTESIAN_MATRIX_H 1
+#if ! (CARTESIAN_MATRIX_H)
+#define CARTESIAN_MATRIX_H 1
 
 #ifndef CGAL_BASIC_H
 #include <CGAL/basic.h>
@@ -62,22 +61,24 @@
 #include <CGAL/optimisation_assertions.h>
 #endif // CGAL_OPTIMISATION_ASSERTIONS_H
 
+CGAL_BEGIN_NAMESPACE
+
 template < class Operation,
            class RandomAccessIC_row,
            class RandomAccessIC_column >
-class CGAL_Cartesian_matrix {
+class Cartesian_matrix {
 public:
   typedef typename Operation::result_type           Value;
   typedef typename Operation::first_argument_type   RowValue;
   typedef typename Operation::second_argument_type  ColumnValue;
 
   /*
-  CGAL_Cartesian_matrix( Operation o = Operation())
+  Cartesian_matrix( Operation o = Operation())
   : op( o)
   {}
   */
 
-  CGAL_Cartesian_matrix( RandomAccessIC_row r_f,
+  Cartesian_matrix( RandomAccessIC_row r_f,
                          RandomAccessIC_row r_l,
                          RandomAccessIC_column c_f,
                          RandomAccessIC_column c_l)
@@ -87,7 +88,7 @@ public:
     n_columns( c_l - c_f)
   {}
 
-  CGAL_Cartesian_matrix( RandomAccessIC_row r_f,
+  Cartesian_matrix( RandomAccessIC_row r_f,
                          RandomAccessIC_row r_l,
                          RandomAccessIC_column c_f,
                          RandomAccessIC_column c_l,
@@ -121,29 +122,31 @@ protected:
   int                    n_rows;
   int                    n_columns;
   Operation              op;
-}; // class CGAL_Cartesian_matrix< ... >
+}; // class Cartesian_matrix< ... >
 
 template < class Operation,
            class RandomAccessIC_row,
            class RandomAccessIC_column >
 inline
-CGAL_Cartesian_matrix< Operation,
+Cartesian_matrix< Operation,
                        RandomAccessIC_row,
                        RandomAccessIC_column >
-CGAL_cartesian_matrix( RandomAccessIC_row r_f,
+cartesian_matrix( RandomAccessIC_row r_f,
                        RandomAccessIC_row r_l,
                        RandomAccessIC_column c_f,
                        RandomAccessIC_column c_l,
                        const Operation& o)
 {
   return
-  CGAL_Cartesian_matrix< Operation,
+  Cartesian_matrix< Operation,
                          RandomAccessIC_row,
                          RandomAccessIC_column >
   ( r_f, r_l, c_f, c_l, o);
 }
 
-#endif // ! (CGAL_CARTESIAN_MATRIX_H)
+CGAL_END_NAMESPACE
+
+#endif // ! (CARTESIAN_MATRIX_H)
 
 // ----------------------------------------------------------------------------
 // ** EOF

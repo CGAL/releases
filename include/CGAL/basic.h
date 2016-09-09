@@ -1,6 +1,6 @@
 // ======================================================================
 //
-// Copyright (c) 1998 The CGAL Consortium
+// Copyright (c) 1999 The GALIA Consortium
 //
 // This software and related documentation is part of the
 // Computational Geometry Algorithms Library (CGAL).
@@ -16,36 +16,35 @@
 // - Development licenses grant access to the source code of the library 
 //   to develop programs. These programs may be sold to other parties as 
 //   executable code. To obtain a development license, please contact
-//   the CGAL Consortium (at cgal@cs.uu.nl).
+//   the GALIA Consortium (at cgal@cs.uu.nl).
 // - Commercialization licenses grant access to the source code and the
 //   right to sell development licenses. To obtain a commercialization 
-//   license, please contact the CGAL Consortium (at cgal@cs.uu.nl).
+//   license, please contact the GALIA Consortium (at cgal@cs.uu.nl).
 //
 // This software and documentation is provided "as-is" and without
 // warranty of any kind. In no event shall the CGAL Consortium be
 // liable for any damage of any kind.
 //
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// The GALIA Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany) Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+// (Germany), Max-Planck-Institute Saarbrucken (Germany),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 // 
-// release       : CGAL-1.2
-// release_date  : 1999, January 18
+// release       : CGAL-2.0
+// release_date  : 1999, June 03
 // 
 // source        : basic.fw
 // file          : include/CGAL/basic.h
-// package       : Kernel_basic (1.2.12)
-// revision      : 1.2.12
-// revision_date : 08 Jan 1999 
+// package       : Kernel_basic (2.0.11)
+// revision      : 2.0.11
+// revision_date : 06 May 1999 
 // author(s)     : Lutz Kettner
 //                 Stefan Schirra
 //
 // coordinator   : MPI, Saarbruecken  (<Stefan.Schirra>)
-//
 // email         : cgal@cs.uu.nl
 //
 // ======================================================================
@@ -53,19 +52,29 @@
 
 #ifndef CGAL_BASIC_H
 #define CGAL_BASIC_H
+
 #ifndef CGAL_CONFIG_H
-#include <CGAL/config.h>
+#  include <CGAL/config.h>
 #endif // CGAL_CONFIG_H
 
+#include <iostream>
+#include <cstdlib>
+
 #ifdef CGAL_USE_LEDA
-#ifndef CGAL_PROTECT_LEDA_BASIC_H
-#include <LEDA/basic.h>
-#define CGAL_PROTECT_LEDA_BASIC_H
-#endif // CGAL_PROTECT_LEDA_BASIC_H
-#else
-#include <iostream.h>
-#include <stdlib.h>
+#  ifndef CGAL_PROTECT_LEDA_BASIC_H
+#    if ( __LEDA__ < 380 )
+#      define Max leda_Max
+#      define Min leda_Min
+#    endif // __LEDA__ < 380
+#    include <LEDA/basic.h>
+#    if ( __LEDA__ < 380 )
+#      undef Max
+#      undef Min
+#    endif // __LEDA__ < 380
+#    define CGAL_PROTECT_LEDA_BASIC_H
+#  endif // CGAL_PROTECT_LEDA_BASIC_H
 #endif  // CGAL_USE_LEDA
+
 
 #ifndef CGAL_ASSERTIONS_H
 #include <CGAL/assertions.h>
@@ -91,27 +100,27 @@
 #ifndef CGAL_NUMBER_TYPE_BASIC_H
 #include <CGAL/number_type_basic.h>
 #endif // CGAL_NUMBER_TYPE_BASIC_H
-// <IO/io.h> now after <number_type_basic.h>
 #ifndef CGAL_IO_IO_H
 #include <CGAL/IO/io.h>
 #endif // CGAL_IO_IO_H
 #ifndef CGAL_KERNEL_BASIC_H
 #include <CGAL/kernel_basic.h>
 #endif // CGAL_KERNEL_BASIC_H
-// #include <CGAL/basic_lk.h>
 
 #ifndef CGAL_KNOWN_BIT_SIZE_INTEGERS_H
 #include <CGAL/known_bit_size_integers.h>
 #endif // CGAL_KNOWN_BIT_SIZE_INTEGERS_H
 
+CGAL_BEGIN_NAMESPACE
+
 
 // Two struct's to denote boolean compile time decisions.
 // ======================================================
-struct CGAL_Tag_true  {};
-struct CGAL_Tag_false {};
+struct Tag_true  {};
+struct Tag_false {};
 
-inline bool CGAL_check_tag( CGAL_Tag_true)  {return true;}
-inline bool CGAL_check_tag( CGAL_Tag_false) {return false;}
+inline bool check_tag( Tag_true)  {return true;}
+inline bool check_tag( Tag_false) {return false;}
 
 // A function that asserts a specific compile time tag
 // forcing its two arguments to have equal type.
@@ -120,7 +129,7 @@ inline bool CGAL_check_tag( CGAL_Tag_false) {return false;}
 #ifndef CGAL_ASSERT_COMPILE_TIME_TAG
 #define CGAL_ASSERT_COMPILE_TIME_TAG 1
 template <class Base>
-struct CGAL__Assert_tag_class
+struct _Assert_tag_class
 {
     void match_compile_time_tag( const Base&) const {}
 };
@@ -128,9 +137,9 @@ struct CGAL__Assert_tag_class
 template <class Tag, class Derived>
 inline
 void
-CGAL_Assert_compile_time_tag( const Tag&, const Derived& b)
+Assert_compile_time_tag( const Tag&, const Derived& b)
 {
-  CGAL__Assert_tag_class<Tag> x;
+  _Assert_tag_class<Tag> x;
   x.match_compile_time_tag(b);
 }
 #endif // CGAL_ASSERT_COMPILE_TIME_TAG
@@ -138,7 +147,7 @@ CGAL_Assert_compile_time_tag( const Tag&, const Derived& b)
 template < class T>
 inline
 void
-CGAL_assert_equal_types( const T&, const T&) {}
+assert_equal_types( const T&, const T&) {}
 
 
 
@@ -162,6 +171,8 @@ CGAL_assert_equal_types( const T&, const T&) {}
 #ifndef CGAL_HUGE_INLINE
 #define CGAL_HUGE_INLINE
 #endif
+
+CGAL_END_NAMESPACE
 
 
 

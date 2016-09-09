@@ -1,6 +1,6 @@
 // ======================================================================
 //
-// Copyright (c) 1997 The CGAL Consortium
+// Copyright (c) 1999 The GALIA Consortium
 //
 // This software and related documentation is part of the
 // Computational Geometry Algorithms Library (CGAL).
@@ -16,38 +16,37 @@
 // - Development licenses grant access to the source code of the library 
 //   to develop programs. These programs may be sold to other parties as 
 //   executable code. To obtain a development license, please contact
-//   the CGAL Consortium (at cgal@cs.uu.nl).
+//   the GALIA Consortium (at cgal@cs.uu.nl).
 // - Commercialization licenses grant access to the source code and the
 //   right to sell development licenses. To obtain a commercialization 
-//   license, please contact the CGAL Consortium (at cgal@cs.uu.nl).
+//   license, please contact the GALIA Consortium (at cgal@cs.uu.nl).
 //
 // This software and documentation is provided "as-is" and without
 // warranty of any kind. In no event shall the CGAL Consortium be
 // liable for any damage of any kind.
 //
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// The GALIA Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany) Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+// (Germany), Max-Planck-Institute Saarbrucken (Germany),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-1.2
-// release_date  : 1999, January 18
+// release       : CGAL-2.0
+// release_date  : 1999, June 03
 //
 // file          : include/CGAL/Iterator_identity.h
-// package       : STL_Extension (1.17)
+// package       : STL_Extension (2.6)
 // chapter       : $CGAL_Chapter: STL Extensions for CGAL $
 // source        : stl_extension.fw
-// revision      : $Revision: 1.12 $
-// revision_date : $Date: 1998/10/08 14:35:33 $
+// revision      : $Revision: 1.3 $
+// revision_date : $Date: 1999/04/07 18:31:32 $
 // author(s)     : Lutz Kettner
 //
 // coordinator   : INRIA, Sophia Antipolis
 //
 // An iterator adaptor for the identity function.
-//
 // email         : cgal@cs.uu.nl
 //
 // ======================================================================
@@ -58,42 +57,35 @@
 #include <CGAL/circulator.h>
 #endif
 
+CGAL_BEGIN_NAMESPACE
+
 #ifdef CGAL_CFG_NO_ITERATOR_TRAITS
 template < class I, class Ref, class Ptr, class Val, class Dist, class Ctg>
 #else
 template < class I,
-           class Ref  = typename iterator_traits<I>::reference,
-           class Ptr  = typename iterator_traits<I>::pointer,
-           class Val  = typename iterator_traits<I>::value_type,
-           class Dist = typename iterator_traits<I>::difference_type,
-           class Ctg  = typename iterator_traits<I>::iterator_category>
+           class Ref  = typename std::iterator_traits<I>::reference,
+           class Ptr  = typename std::iterator_traits<I>::pointer,
+           class Val  = typename std::iterator_traits<I>::value_type,
+           class Dist = typename std::iterator_traits<I>::difference_type,
+           class Ctg = typename std::iterator_traits<I>::iterator_category>
 #endif
-class CGAL_Iterator_identity {
+class Iterator_identity {
 private:
     I        nt;    // The internal iterator.
 public:
-    typedef I  Iterator;
-    typedef CGAL_Iterator_identity<I,Ref,Ptr,Val,Dist,Ctg> Self;
-
-    typedef  Ctg                                     iterator_category;
-    typedef  Val                                     value_type;
-    typedef  Dist                                    difference_type;
-
-#ifdef CGAL_CFG_NO_ITERATOR_TRAITS
-    typedef  value_type&                             reference;
-    typedef  value_type*                             pointer;
-#else
-    typedef  typename iterator_traits<I>::reference  reference;
-    typedef  typename iterator_traits<I>::pointer    pointer;
-#endif
-    typedef  const value_type&                       const_reference;
-    typedef  const value_type*                       const_pointer;
+    typedef I      Iterator;
+    typedef Iterator_identity<I,Ref,Ptr,Val,Dist,Ctg>   Self;
+    typedef Ctg    iterator_category;
+    typedef Val    value_type;
+    typedef Dist   difference_type;
+    typedef Ref    reference;
+    typedef Ptr    pointer;
 
 // CREATION
 // --------
 
-    CGAL_Iterator_identity() {}
-    CGAL_Iterator_identity( Iterator j) : nt(j) {}
+    Iterator_identity() {}
+    Iterator_identity( Iterator j) : nt(j) {}
 
 // OPERATIONS Forward Category
 // ---------------------------
@@ -109,17 +101,9 @@ public:
     Ref  operator*() const {
         return *nt;                                              //###//
     }
-#ifndef CGAL_CFG_NO_ARROW_OPERATOR
-#ifdef CGAL_CFG_NO_LAZY_INSTANTIATION
-    Ptr  operator->() const {
-        return &(*nt);                                           //###//
-    }
-#else
     Ptr  operator->() const {
         return nt.operator->();                                  //###//
     }
-#endif
-#endif
     Self& operator++() {
         ++nt;                                                    //###//
         return *this;
@@ -146,9 +130,6 @@ public:
 // OPERATIONS Random Access Category
 // ---------------------------------
 
-// Make this adaptor bidirectional by default
-// if implicit instantiation is buggy.
-#ifndef CGAL_CFG_NO_LAZY_INSTANTIATION
     Self& operator+=( difference_type n) {
         nt += n;                                                 //###//
         return *this;
@@ -184,7 +165,6 @@ public:
     bool operator>=( const Self& i) const {
         return !(*this < i);
     }
-#endif // CGAL_CFG_NO_LAZY_INSTANTIATION //
 #ifdef CGAL_CFG_NO_ITERATOR_TRAITS
     friend inline  value_type*
     value_type( const Self&) {
@@ -198,9 +178,9 @@ public:
     distance_type( const Self&) {
         return (Dist*)(0);
     }
-    friend inline  CGAL_Iterator_tag
-    CGAL_query_circulator_or_iterator( const Self&) {
-        return CGAL_Iterator_tag();
+    friend inline  Iterator_tag
+    query_circulator_or_iterator( const Self&) {
+        return Iterator_tag();
     }
 #endif // CGAL_CFG_NO_ITERATOR_TRAITS //
 };
@@ -208,9 +188,11 @@ public:
 template < class D, class I, class Ref, class Ptr, class Val,
            class Dist, class Ctg>
 inline
-CGAL_Iterator_identity<I,Ref,Ptr,Val,Dist,Ctg>
-operator+( D n, CGAL_Iterator_identity<I,Ref,Ptr,Val,Dist,Ctg> i) {
+Iterator_identity<I,Ref,Ptr,Val,Dist,Ctg>
+operator+( D n, Iterator_identity<I,Ref,Ptr,Val,Dist,Ctg> i) {
     return i += Dist(n);
 }
+
+CGAL_END_NAMESPACE
 #endif // CGAL_ITERATOR_IDENTITY_H //
 // EOF //

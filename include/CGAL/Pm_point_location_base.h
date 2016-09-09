@@ -1,6 +1,6 @@
 // ======================================================================
 //
-// Copyright (c) 1997 The CGAL Consortium
+// Copyright (c) 1999 The GALIA Consortium
 //
 // This software and related documentation is part of the
 // Computational Geometry Algorithms Library (CGAL).
@@ -16,28 +16,28 @@
 // - Development licenses grant access to the source code of the library 
 //   to develop programs. These programs may be sold to other parties as 
 //   executable code. To obtain a development license, please contact
-//   the CGAL Consortium (at cgal@cs.uu.nl).
+//   the GALIA Consortium (at cgal@cs.uu.nl).
 // - Commercialization licenses grant access to the source code and the
 //   right to sell development licenses. To obtain a commercialization 
-//   license, please contact the CGAL Consortium (at cgal@cs.uu.nl).
+//   license, please contact the GALIA Consortium (at cgal@cs.uu.nl).
 //
 // This software and documentation is provided "as-is" and without
 // warranty of any kind. In no event shall the CGAL Consortium be
 // liable for any damage of any kind.
 //
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// The GALIA Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany) Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+// (Germany), Max-Planck-Institute Saarbrucken (Germany),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-1.2
-// release_date  : 1999, January 18
+// release       : CGAL-2.0
+// release_date  : 1999, June 03
 //
 // file          : include/CGAL/Pm_point_location_base.h
-// package       : pm (2.052)
+// package       : pm (3.07)
 // source        : 
 // revision      : 
 // revision_date : 
@@ -48,7 +48,6 @@
 // coordinator   : Tel-Aviv University (Dan Halperin)
 //
 // Chapter       : 
-//
 // email         : cgal@cs.uu.nl
 //
 // ======================================================================
@@ -59,12 +58,16 @@
 #include <CGAL/Pm_config.h>
 #endif
 
+
+CGAL_BEGIN_NAMESPACE
+
+
 ////////////////////////////////////////////////////////////////////
 //               ABSTRACT BASE CLASS OF STRATEGY
 //////////////////////////////////////////////////////////////////
 
 template <class Planar_map>
-class CGAL_Pm_point_location_base {
+class Pm_point_location_base {
 public:
   typedef typename Planar_map::Traits Traits;
   typedef typename Planar_map::Locate_type Locate_type;
@@ -74,10 +77,10 @@ public:
   typedef typename Traits::Point Point;
 
 
-  CGAL_Pm_point_location_base() {}
+  Pm_point_location_base() {}
 
   virtual void init(Planar_map& pmp, Traits& tr) = 0;
-  virtual ~CGAL_Pm_point_location_base() {}
+  virtual ~Pm_point_location_base() {}
 
   virtual void insert(Halfedge_handle h
                       //additions by iddo for arrangement
@@ -113,6 +116,8 @@ virtual void merge_edge(const X_curve &cv1,
  virtual void remove_edge(Halfedge_handle e) = 0;
 };
 
+
+CGAL_END_NAMESPACE
 
 #endif //CGAL_PM_POINT_LOCATION_BASE_H
 

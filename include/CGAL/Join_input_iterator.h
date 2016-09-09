@@ -1,6 +1,6 @@
 // ======================================================================
 //
-// Copyright (c) 1997 The CGAL Consortium
+// Copyright (c) 1999 The GALIA Consortium
 //
 // This software and related documentation is part of the
 // Computational Geometry Algorithms Library (CGAL).
@@ -16,38 +16,37 @@
 // - Development licenses grant access to the source code of the library 
 //   to develop programs. These programs may be sold to other parties as 
 //   executable code. To obtain a development license, please contact
-//   the CGAL Consortium (at cgal@cs.uu.nl).
+//   the GALIA Consortium (at cgal@cs.uu.nl).
 // - Commercialization licenses grant access to the source code and the
 //   right to sell development licenses. To obtain a commercialization 
-//   license, please contact the CGAL Consortium (at cgal@cs.uu.nl).
+//   license, please contact the GALIA Consortium (at cgal@cs.uu.nl).
 //
 // This software and documentation is provided "as-is" and without
 // warranty of any kind. In no event shall the CGAL Consortium be
 // liable for any damage of any kind.
 //
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// The GALIA Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany) Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+// (Germany), Max-Planck-Institute Saarbrucken (Germany),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-1.2
-// release_date  : 1999, January 18
+// release       : CGAL-2.0
+// release_date  : 1999, June 03
 //
 // file          : include/CGAL/Join_input_iterator.h
-// package       : STL_Extension (1.17)
+// package       : STL_Extension (2.6)
 // chapter       : $CGAL_Chapter: STL Extensions for CGAL $
 // source        : stl_extension.fw
-// revision      : $Revision: 1.12 $
-// revision_date : $Date: 1998/10/08 14:35:33 $
+// revision      : $Revision: 1.3 $
+// revision_date : $Date: 1999/04/07 18:31:32 $
 // author(s)     : Lutz Kettner
 //
 // coordinator   : INRIA, Sophia Antipolis
 //
 // Join_input_iterator.
-//
 // email         : cgal@cs.uu.nl
 //
 // ======================================================================
@@ -58,27 +57,25 @@
 #include <CGAL/circulator.h>
 #endif
 
+CGAL_BEGIN_NAMESPACE
+
 template < class I1, class  Creator >
-class CGAL_Join_input_iterator_1 {
+class Join_input_iterator_1 {
        // the join of one iterator `i1'. Applies `Creator' with
        // one argument `*i1'. `value_type' is equal to
        // `Creator::result_type'.
 public:
-    typedef CGAL_Join_input_iterator_1<I1,Creator>    Self;
-
-    typedef  input_iterator_tag                      iterator_category;
-    typedef  typename Creator::result_type           value_type;
+    typedef Join_input_iterator_1<I1,Creator>  Self;
+    typedef std::input_iterator_tag            iterator_category;
+    typedef typename Creator::result_type      value_type;
 #ifdef CGAL_CFG_NO_ITERATOR_TRAITS
-    typedef ptrdiff_t                                difference_type;
+    typedef std::ptrdiff_t                     difference_type;
 #else
-    typedef iterator_traits<I1>                      _Traits;
-    typedef typename _Traits::difference_type        difference_type;
+    typedef std::iterator_traits<I1>           ITraits;
+    typedef typename ITraits::difference_type  difference_type;
 #endif
-
-    typedef  value_type&                             reference;
-    typedef  const value_type&                       const_reference;
-    typedef  value_type*                             pointer;
-    typedef  const value_type*                       const_pointer;
+    typedef  const value_type&                 reference;
+    typedef  const value_type*                 pointer;
 
 protected:
     I1          j1;    // The 1st internal iterator.
@@ -88,29 +85,18 @@ public:
 // CREATION
 // --------
 
-    CGAL_Join_input_iterator_1() {}
-    CGAL_Join_input_iterator_1( I1 i1)
-        : j1(i1), val(Creator()(*j1)) {}
+    Join_input_iterator_1() {}
+    Join_input_iterator_1( I1 i1) : j1(i1), val(Creator()(*j1)) {}
 
 // OPERATIONS Forward Category
 // ---------------------------
 
     I1  current_iterator1() const { return j1;}
 
-    bool operator==( const Self& i) const {
-        return ( j1 == i.j1);
-    }
-    bool operator!=( const Self& i) const {
-        return !(*this == i);
-    }
-    const_reference  operator*() const {
-        return val;
-    }
-#ifndef CGAL_CFG_NO_ARROW_OPERATOR
-    const_pointer  operator->() const {
-        return &val;
-    }
-#endif
+    bool operator==( const Self& i) const { return ( j1 == i.j1); }
+    bool operator!=( const Self& i) const { return !(*this == i); }
+    reference  operator*()    const { return val; }
+    pointer    operator->()   const { return &val; }
     Self& operator++() {
         ++j1;
         val = Creator()(*j1);
@@ -126,42 +112,39 @@ public:
     value_type( const Self&) {
         return (value_type*)(0);
     }
-    friend inline  input_iterator_tag
+    friend inline  std::input_iterator_tag
     iterator_category( const Self&){
-        return input_iterator_tag();
+        return std::input_iterator_tag();
     }
     friend inline  difference_type*
     distance_type( const Self&) {
         return (difference_type*)(0);
     }
-    friend inline  CGAL_Iterator_tag
-    CGAL_query_circulator_or_iterator( const Self&) {
-        return CGAL_Iterator_tag();
+    friend inline  Iterator_tag
+    query_circulator_or_iterator( const Self&) {
+        return Iterator_tag();
     }
 #endif // CGAL_CFG_NO_ITERATOR_TRAITS //
 };
 
 template < class I1, class I2, class  Creator >
-class CGAL_Join_input_iterator_2 {
+class Join_input_iterator_2 {
        // the join of two iterators `i1' and `i2'. Applies `Creator' with
        // two arguments `*i1' and `*i2'. `value_type' is equal to
        // `Creator::result_type'.
 public:
-    typedef CGAL_Join_input_iterator_2<I1,I2,Creator> Self;
+    typedef Join_input_iterator_2<I1,I2,Creator> Self;
 
-    typedef  input_iterator_tag                      iterator_category;
-    typedef  typename Creator::result_type           value_type;
+    typedef std::input_iterator_tag              iterator_category;
+    typedef typename Creator::result_type        value_type;
 #ifdef CGAL_CFG_NO_ITERATOR_TRAITS
-    typedef ptrdiff_t                                difference_type;
+    typedef std::ptrdiff_t                       difference_type;
 #else
-    typedef iterator_traits<I1>                      _Traits;
-    typedef typename _Traits::difference_type        difference_type;
+    typedef std::iterator_traits<I1>             ITraits;
+    typedef typename ITraits::difference_type    difference_type;
 #endif
-
-    typedef  value_type&                             reference;
-    typedef  const value_type&                       const_reference;
-    typedef  value_type*                             pointer;
-    typedef  const value_type*                       const_pointer;
+    typedef const value_type&                    reference;
+    typedef const value_type*                    pointer;
 
 protected:
     I1          j1;    // The 1st internal iterator.
@@ -172,8 +155,8 @@ public:
 // CREATION
 // --------
 
-    CGAL_Join_input_iterator_2() {}
-    CGAL_Join_input_iterator_2( I1 i1, I2 i2)
+    Join_input_iterator_2() {}
+    Join_input_iterator_2( I1 i1, I2 i2)
         : j1(i1), j2(i2), val(Creator()(*j1,*j2)) {}
 
 // OPERATIONS Forward Category
@@ -185,17 +168,9 @@ public:
     bool operator==( const Self& i) const {
         return ( j1 == i.j1 && j2 == i.j2);
     }
-    bool operator!=( const Self& i) const {
-        return !(*this == i);
-    }
-    const_reference  operator*() const {
-        return val;
-    }
-#ifndef CGAL_CFG_NO_ARROW_OPERATOR
-    const_pointer  operator->() const {
-        return &val;
-    }
-#endif
+    bool operator!=( const Self& i) const { return !(*this == i); }
+    reference operator*() const { return val; }
+    pointer   operator->() const { return &val; }
     Self& operator++() {
         ++j1;
         ++j2;
@@ -212,42 +187,39 @@ public:
     value_type( const Self&) {
         return (value_type*)(0);
     }
-    friend inline  input_iterator_tag
+    friend inline  std::input_iterator_tag
     iterator_category( const Self&){
-        return input_iterator_tag();
+        return std::input_iterator_tag();
     }
     friend inline  difference_type*
     distance_type( const Self&) {
         return (difference_type*)(0);
     }
-    friend inline  CGAL_Iterator_tag
-    CGAL_query_circulator_or_iterator( const Self&) {
-        return CGAL_Iterator_tag();
+    friend inline  Iterator_tag
+    query_circulator_or_iterator( const Self&) {
+        return Iterator_tag();
     }
 #endif // CGAL_CFG_NO_ITERATOR_TRAITS //
 };
 
 template < class I1, class I2, class I3, class  Creator >
-class CGAL_Join_input_iterator_3 {
+class Join_input_iterator_3 {
        // the join of two iterators `i1' up to `i3'. Applies `Creator' with
-       // five arguments `*i1' up to `*i3'. `value_type' is equal to
+       // three arguments `*i1' up to `*i3'. `value_type' is equal to
        // `Creator::result_type'.
 public:
-    typedef CGAL_Join_input_iterator_3<I1,I2,I3,Creator> Self;
+    typedef Join_input_iterator_3<I1,I2,I3,Creator> Self;
 
-    typedef  input_iterator_tag                      iterator_category;
-    typedef  typename Creator::result_type           value_type;
+    typedef std::input_iterator_tag                 iterator_category;
+    typedef typename Creator::result_type           value_type;
 #ifdef CGAL_CFG_NO_ITERATOR_TRAITS
-    typedef ptrdiff_t                                difference_type;
+    typedef std::ptrdiff_t                          difference_type;
 #else
-    typedef iterator_traits<I1>                      _Traits;
-    typedef typename _Traits::difference_type        difference_type;
+    typedef std::iterator_traits<I1>                ITraits;
+    typedef typename ITraits::difference_type       difference_type;
 #endif
-
-    typedef  value_type&                             reference;
-    typedef  const value_type&                       const_reference;
-    typedef  value_type*                             pointer;
-    typedef  const value_type*                       const_pointer;
+    typedef const value_type&                       reference;
+    typedef const value_type*                       pointer;
 
 protected:
     I1          j1;    // The 1st internal iterator.
@@ -259,8 +231,8 @@ public:
 // CREATION
 // --------
 
-    CGAL_Join_input_iterator_3() {}
-    CGAL_Join_input_iterator_3( I1 i1, I2 i2, I3 i3)
+    Join_input_iterator_3() {}
+    Join_input_iterator_3( I1 i1, I2 i2, I3 i3)
         : j1(i1), j2(i2), j3(i3), val(Creator()(*j1,*j2,*j3)) {}
 
 // OPERATIONS Forward Category
@@ -273,17 +245,9 @@ public:
     bool operator==( const Self& i) const {
         return ( j1 == i.j1 && j2 == i.j2 && j3 == i.j3);
     }
-    bool operator!=( const Self& i) const {
-        return !(*this == i);
-    }
-    const_reference  operator*() const {
-        return val;
-    }
-#ifndef CGAL_CFG_NO_ARROW_OPERATOR
-    const_pointer  operator->() const {
-        return &val;
-    }
-#endif
+    bool operator!=( const Self& i) const { return !(*this == i); }
+    reference operator*() const { return val; }
+    pointer   operator->() const { return &val; }
     Self& operator++() {
         ++j1;
         ++j2;
@@ -301,42 +265,39 @@ public:
     value_type( const Self&) {
         return (value_type*)(0);
     }
-    friend inline  input_iterator_tag
+    friend inline  std::input_iterator_tag
     iterator_category( const Self&){
-        return input_iterator_tag();
+        return std::input_iterator_tag();
     }
     friend inline  difference_type*
     distance_type( const Self&) {
         return (difference_type*)(0);
     }
-    friend inline  CGAL_Iterator_tag
-    CGAL_query_circulator_or_iterator( const Self&) {
-        return CGAL_Iterator_tag();
+    friend inline  Iterator_tag
+    query_circulator_or_iterator( const Self&) {
+        return Iterator_tag();
     }
 #endif // CGAL_CFG_NO_ITERATOR_TRAITS //
 };
 
 template < class I1, class I2, class I3, class I4, class  Creator >
-class CGAL_Join_input_iterator_4 {
+class Join_input_iterator_4 {
        // the join of two iterators `i1' up to `i4'. Applies `Creator' with
-       // five arguments `*i1' up to `*i4'. `value_type' is equal to
+       // four arguments `*i1' up to `*i4'. `value_type' is equal to
        // `Creator::result_type'.
 public:
-    typedef CGAL_Join_input_iterator_4<I1,I2,I3,I4,Creator> Self;
+    typedef Join_input_iterator_4<I1,I2,I3,I4,Creator> Self;
 
-    typedef  input_iterator_tag                      iterator_category;
-    typedef  typename Creator::result_type           value_type;
+    typedef std::input_iterator_tag             iterator_category;
+    typedef typename Creator::result_type       value_type;
 #ifdef CGAL_CFG_NO_ITERATOR_TRAITS
-    typedef ptrdiff_t                                difference_type;
+    typedef std::ptrdiff_t                      difference_type;
 #else
-    typedef iterator_traits<I1>                      _Traits;
-    typedef typename _Traits::difference_type        difference_type;
+    typedef std::iterator_traits<I1>            ITraits;
+    typedef typename ITraits::difference_type   difference_type;
 #endif
-
-    typedef  value_type&                             reference;
-    typedef  const value_type&                       const_reference;
-    typedef  value_type*                             pointer;
-    typedef  const value_type*                       const_pointer;
+    typedef const value_type&                   reference;
+    typedef const value_type*                   pointer;
 
 protected:
     I1          j1;    // The 1st internal iterator.
@@ -349,8 +310,8 @@ public:
 // CREATION
 // --------
 
-    CGAL_Join_input_iterator_4() {}
-    CGAL_Join_input_iterator_4( I1 i1, I2 i2, I3 i3, I4 i4)
+    Join_input_iterator_4() {}
+    Join_input_iterator_4( I1 i1, I2 i2, I3 i3, I4 i4)
         : j1(i1), j2(i2), j3(i3), j4(i4), val(Creator()(*j1,*j2,*j3,*j4)){}
 
 // OPERATIONS Forward Category
@@ -367,17 +328,9 @@ public:
                  j3 == i.j3 &&
                  j4 == i.j4);
     }
-    bool operator!=( const Self& i) const {
-        return !(*this == i);
-    }
-    const_reference  operator*() const {
-        return val;
-    }
-#ifndef CGAL_CFG_NO_ARROW_OPERATOR
-    const_pointer  operator->() const {
-        return &val;
-    }
-#endif
+    bool operator!=( const Self& i) const { return !(*this == i); }
+    reference operator*() const { return val; }
+    pointer   operator->() const { return &val; }
     Self& operator++() {
         ++j1;
         ++j2;
@@ -396,43 +349,40 @@ public:
     value_type( const Self&) {
         return (value_type*)(0);
     }
-    friend inline  input_iterator_tag
+    friend inline  std::input_iterator_tag
     iterator_category( const Self&){
-        return input_iterator_tag();
+        return std::input_iterator_tag();
     }
     friend inline  difference_type*
     distance_type( const Self&) {
         return (difference_type*)(0);
     }
-    friend inline  CGAL_Iterator_tag
-    CGAL_query_circulator_or_iterator( const Self&) {
-        return CGAL_Iterator_tag();
+    friend inline  Iterator_tag
+    query_circulator_or_iterator( const Self&) {
+        return Iterator_tag();
     }
 #endif // CGAL_CFG_NO_ITERATOR_TRAITS //
 };
 
 template < class I1, class I2, class I3, class I4, class I5,
            class  Creator >
-class CGAL_Join_input_iterator_5 {
+class Join_input_iterator_5 {
        // the join of two iterators `i1' up to `i5'. Applies `Creator' with
        // five arguments `*i1' up to `*i5'. `value_type' is equal to
        // `Creator::result_type'.
 public:
-    typedef CGAL_Join_input_iterator_5<I1,I2,I3,I4,I5,Creator> Self;
+    typedef Join_input_iterator_5<I1,I2,I3,I4,I5,Creator> Self;
 
-    typedef  input_iterator_tag                      iterator_category;
-    typedef  typename Creator::result_type           value_type;
+    typedef std::input_iterator_tag             iterator_category;
+    typedef typename Creator::result_type       value_type;
 #ifdef CGAL_CFG_NO_ITERATOR_TRAITS
-    typedef ptrdiff_t                                difference_type;
+    typedef std::ptrdiff_t                      difference_type;
 #else
-    typedef iterator_traits<I1>                      _Traits;
-    typedef typename _Traits::difference_type        difference_type;
+    typedef std::iterator_traits<I1>            ITraits;
+    typedef typename ITraits::difference_type   difference_type;
 #endif
-
-    typedef  value_type&                             reference;
-    typedef  const value_type&                       const_reference;
-    typedef  value_type*                             pointer;
-    typedef  const value_type*                       const_pointer;
+    typedef const value_type&                   reference;
+    typedef const value_type*                   pointer;
 
 protected:
     I1          j1;    // The 1st internal iterator.
@@ -446,8 +396,8 @@ public:
 // CREATION
 // --------
 
-    CGAL_Join_input_iterator_5() {}
-    CGAL_Join_input_iterator_5( I1 i1, I2 i2, I3 i3, I4 i4, I5 i5)
+    Join_input_iterator_5() {}
+    Join_input_iterator_5( I1 i1, I2 i2, I3 i3, I4 i4, I5 i5)
         : j1(i1), j2(i2), j3(i3), j4(i4), j5(i5),
           val(Creator()(*j1,*j2,*j3,*j4,*j5)) {}
 
@@ -467,17 +417,9 @@ public:
                  j4 == i.j4 &&
                  j5 == i.j5);
     }
-    bool operator!=( const Self& i) const {
-        return !(*this == i);
-    }
-    const_reference  operator*() const {
-        return val;
-    }
-#ifndef CGAL_CFG_NO_ARROW_OPERATOR
-    const_pointer  operator->() const {
-        return &val;
-    }
-#endif
+    bool operator!=( const Self& i) const { return !(*this == i); }
+    reference operator*() const { return val; }
+    pointer   operator->() const { return &val; }
     Self& operator++() {
         ++j1;
         ++j2;
@@ -497,19 +439,21 @@ public:
     value_type( const Self&) {
         return (value_type*)(0);
     }
-    friend inline  input_iterator_tag
+    friend inline  std::input_iterator_tag
     iterator_category( const Self&){
-        return input_iterator_tag();
+        return std::input_iterator_tag();
     }
     friend inline  difference_type*
     distance_type( const Self&) {
         return (difference_type*)(0);
     }
-    friend inline  CGAL_Iterator_tag
-    CGAL_query_circulator_or_iterator( const Self&) {
-        return CGAL_Iterator_tag();
+    friend inline  Iterator_tag
+    query_circulator_or_iterator( const Self&) {
+        return Iterator_tag();
     }
 #endif // CGAL_CFG_NO_ITERATOR_TRAITS //
-};    
+};
+
+CGAL_END_NAMESPACE
 #endif // CGAL_JOIN_INPUT_ITERATOR_H //
 // EOF //

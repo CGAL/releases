@@ -1,6 +1,6 @@
 // ======================================================================
 //
-// Copyright (c) 1997,1998 The CGAL Consortium
+// Copyright (c) 1999 The GALIA Consortium
 //
 // This software and related documentation is part of the
 // Computational Geometry Algorithms Library (CGAL).
@@ -16,117 +16,130 @@
 // - Development licenses grant access to the source code of the library 
 //   to develop programs. These programs may be sold to other parties as 
 //   executable code. To obtain a development license, please contact
-//   the CGAL Consortium (at cgal@cs.uu.nl).
+//   the GALIA Consortium (at cgal@cs.uu.nl).
 // - Commercialization licenses grant access to the source code and the
 //   right to sell development licenses. To obtain a commercialization 
-//   license, please contact the CGAL Consortium (at cgal@cs.uu.nl).
+//   license, please contact the GALIA Consortium (at cgal@cs.uu.nl).
 //
 // This software and documentation is provided "as-is" and without
 // warranty of any kind. In no event shall the CGAL Consortium be
 // liable for any damage of any kind.
 //
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// The GALIA Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany) Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+// (Germany), Max-Planck-Institute Saarbrucken (Germany),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-1.2
-// release_date  : 1999, January 18
+// release       : CGAL-2.0
+// release_date  : 1999, June 03
 //
 // file          : include/CGAL/Min_ellipse_2.C
-// package       : Min_ellipse_2 (3.1.1)
+// package       : Min_ellipse_2 (3.2.3)
 // chapter       : $CGAL_Chapter: Geometric Optimisation $
 //
 // source        : web/Optimisation/Min_ellipse_2.aw
-// revision      : $Revision: 5.3 $
-// revision_date : $Date: 1998/11/16 15:42:43 $
+// revision      : $Revision: 5.8 $
+// revision_date : $Date: 1999/04/19 16:20:39 $
 // author(s)     : Sven Schönherr
 //                 Bernd Gärtner
 //
 // coordinator   : ETH Zürich (Bernd Gärtner)
 //
 // implementation: 2D Smallest Enclosing Ellipse
-//
 // email         : cgal@cs.uu.nl
 //
 // ======================================================================
+
+CGAL_BEGIN_NAMESPACE
 
 // Class implementation (continued)
 // ================================
 // I/O
 // ---
 template < class _Traits >
-ostream&
-operator << ( ostream& os, const CGAL_Min_ellipse_2<_Traits>& min_ellipse)
+std::ostream&
+operator << ( std::ostream& os,
+              const Min_ellipse_2<_Traits>& min_ellipse)
 {
-    typedef typename  CGAL_Min_ellipse_2<_Traits>::Point  Point;
+#ifndef CGAL_CFG_NO_NAMESPACE
+    using namespace std;
+#endif
 
-    switch ( CGAL_get_mode( os)) {
+    typedef  Min_ellipse_2<_Traits>::Point  Point;
+    typedef  ostream_iterator<Point>        Os_it;
 
-      case CGAL_IO::PRETTY:
+    switch ( CGAL::get_mode( os)) {
+
+      case CGAL::IO::PRETTY:
         os << endl;
-        os << "CGAL_Min_ellipse_2( |P| = "<< min_ellipse.number_of_points()
+        os << "CGAL::Min_ellipse_2( |P| = "<<min_ellipse.number_of_points()
            << ", |S| = " << min_ellipse.number_of_support_points() << endl;
         os << "  P = {" << endl;
         os << "    ";
         copy( min_ellipse.points_begin(), min_ellipse.points_end(),
-              ostream_iterator<Point>( os, ",\n    "));
+              Os_it( os, ",\n    "));
         os << "}" << endl;
         os << "  S = {" << endl;
         os << "    ";
         copy( min_ellipse.support_points_begin(),
               min_ellipse.support_points_end(),
-              ostream_iterator<Point>( os, ",\n    "));
+              Os_it( os, ",\n    "));
         os << "}" << endl;
         os << "  ellipse = " << min_ellipse.ellipse() << endl;
         os << ")" << endl;
         break;
 
-      case CGAL_IO::ASCII:
+      case CGAL::IO::ASCII:
         copy( min_ellipse.points_begin(), min_ellipse.points_end(),
-              ostream_iterator<Point>( os, "\n"));
+              Os_it( os, "\n"));
         break;
 
-      case CGAL_IO::BINARY:
+      case CGAL::IO::BINARY:
         copy( min_ellipse.points_begin(), min_ellipse.points_end(),
-              ostream_iterator<Point>( os));
+              Os_it( os));
         break;
 
       default:
         CGAL_optimisation_assertion_msg( false,
-                                         "CGAL_get_mode( os) invalid!");
+                                         "CGAL::get_mode( os) invalid!");
         break; }
 
     return( os);
 }
 
 template < class Traits >
-istream&
-operator >> ( istream& is, CGAL_Min_ellipse_2<Traits>& min_ellipse)
+std::istream&
+operator >> ( std::istream& is, CGAL::Min_ellipse_2<Traits>& min_ellipse)
 {
-    switch ( CGAL_get_mode( is)) {
+#ifndef CGAL_CFG_NO_NAMESPACE
+    using namespace std;
+#endif
 
-      case CGAL_IO::PRETTY:
+    switch ( CGAL::get_mode( is)) {
+
+      case CGAL::IO::PRETTY:
         cerr << endl;
         cerr << "Stream must be in ascii or binary mode" << endl;
         break;
 
-      case CGAL_IO::ASCII:
-      case CGAL_IO::BINARY:
-        typedef typename  CGAL_Min_ellipse_2<Traits>::Point  Point;
-        typedef           istream_iterator<Point,ptrdiff_t>  Is_it;
+      case CGAL::IO::ASCII:
+      case CGAL::IO::BINARY:
+        typedef  Min_ellipse_2<Traits>::Point  Point;
+        typedef  istream_iterator<Point>       Is_it;
         min_ellipse.clear();
         min_ellipse.insert( Is_it( is), Is_it());
         break;
 
       default:
-        CGAL_optimisation_assertion_msg( false, "CGAL_IO::mode invalid!");
+        CGAL_optimisation_assertion_msg( false, "CGAL::IO::mode invalid!");
         break; }
 
     return( is);
 }
+
+CGAL_END_NAMESPACE
 
 // ===== EOF ==================================================================

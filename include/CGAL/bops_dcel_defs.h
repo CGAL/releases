@@ -1,7 +1,6 @@
-//  -*- Mode: c++ -*-
 // ======================================================================
 //
-// Copyright (c) 1997 The CGAL Consortium
+// Copyright (c) 1999 The GALIA Consortium
 //
 // This software and related documentation is part of the
 // Computational Geometry Algorithms Library (CGAL).
@@ -17,38 +16,37 @@
 // - Development licenses grant access to the source code of the library 
 //   to develop programs. These programs may be sold to other parties as 
 //   executable code. To obtain a development license, please contact
-//   the CGAL Consortium (at cgal@cs.uu.nl).
+//   the GALIA Consortium (at cgal@cs.uu.nl).
 // - Commercialization licenses grant access to the source code and the
 //   right to sell development licenses. To obtain a commercialization 
-//   license, please contact the CGAL Consortium (at cgal@cs.uu.nl).
+//   license, please contact the GALIA Consortium (at cgal@cs.uu.nl).
 //
 // This software and documentation is provided "as-is" and without
 // warranty of any kind. In no event shall the CGAL Consortium be
 // liable for any damage of any kind.
 //
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// The GALIA Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany) Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+// (Germany), Max-Planck-Institute Saarbrucken (Germany),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-1.2
-// release_date  : 1999, January 18
+// release       : CGAL-2.0
+// release_date  : 1999, June 03
 //
 // file          : include/CGAL/bops_dcel_defs.h
-// package       : bops (1.1.2)
+// package       : bops (2.1.5)
 // source        : include/CGAL/bops_dcel_defs.h
-// revision      : $Revision: 1.1.2 $
+// revision      : $Revision: WIP $
 // revision_date : $Date: Wed Dec  9 13:28:51 MET 1998  $
-// author(s)     :             Wolfgang Freiseisen
+// author(s)     : Wolfgang Freiseisen
 //
 // coordinator   : RISC Linz
 //  (Wolfgang Freiseisen)
 //
 // 
-//
 // email         : cgal@cs.uu.nl
 //
 // ======================================================================
@@ -58,11 +56,11 @@
 
 #include <CGAL/basic.h>
 
-#include <pair.h>
-#include <list.h>
-#include <vector.h>
-#include <set.h>
-#include <algo.h>
+#include <utility>
+#include <list>
+#include <vector>
+#include <set>
+#include <algorithm>
 
 #include <CGAL/Point_2.h>
 #include <CGAL/Segment_2.h>
@@ -92,47 +90,49 @@
 
 #endif /* CGAL__DCEL_DEBUG_ON */
 
+CGAL_BEGIN_NAMESPACE
+
 /* Colors for the DCEL */
-class CGAL__Dcel_Color {
+class _Dcel_Color {
 public:
-  CGAL__Dcel_Color() : _c(0) {}
-  CGAL__Dcel_Color( const CGAL__Dcel_Color& c ) : _c(c._c) {}
-  CGAL__Dcel_Color( int c ) : _c(c) {}
+  _Dcel_Color() : _c(0) {}
+  _Dcel_Color( const _Dcel_Color& c ) : _c(c._c) {}
+  _Dcel_Color( int c ) : _c(c) {}
 
   void operator=(int i) { _c= i; }
-  void operator=(CGAL__Dcel_Color other) { _c= other._c; }
+  void operator=(_Dcel_Color other) { _c= other._c; }
   operator int() const {return _c;}
-  CGAL__Dcel_Color operator|( const CGAL__Dcel_Color& c) const {
-    return CGAL__Dcel_Color( _c | c._c );
+  _Dcel_Color operator|( const _Dcel_Color& c) const {
+    return _Dcel_Color( _c | c._c );
   }
 private:
   int _c;
 };
 
-const CGAL__Dcel_Color   CGAL__NO_COLOR= 0;
-const CGAL__Dcel_Color   CGAL__UNCOLORED= 0;
-const CGAL__Dcel_Color   CGAL__RED= 1;
-const CGAL__Dcel_Color   CGAL__BLACK= 2;
-const CGAL__Dcel_Color   CGAL__RED_AND_BLACK= 3;
-const CGAL__Dcel_Color   CGAL__TWICE_COLORED= 3;
+const _Dcel_Color   _NO_COLOR= 0;
+const _Dcel_Color   _UNCOLORED= 0;
+const _Dcel_Color   _RED= 1;
+const _Dcel_Color   _BLACK= 2;
+const _Dcel_Color   _RED_AND_BLACK= 3;
+const _Dcel_Color   _TWICE_COLORED= 3;
 
 
 
-template<class I> class CGAL__Dcel_base;
-template<class I> class CGAL__Dcel_vertex_type;
-template<class I> class CGAL__Dcel_face_type;
-template<class I> class CGAL__Dcel_edge_type;
+template<class I> class _Dcel_base;
+template<class I> class _Dcel_vertex_type;
+template<class I> class _Dcel_face_type;
+template<class I> class _Dcel_edge_type;
 
 
-/* CGAL__Dcel_point_compare: 
+/* _Dcel_point_compare: 
  * ------------------------
  *   predicate structure for the comparison of points in a container
- *   see also in CGAL__Dcel<I>::insert_new_vertex()
+ *   see also in _Dcel<I>::insert_new_vertex()
  */
 template <class point_type, class vertex_type>
-struct CGAL__Dcel_point_compare {
-    CGAL__Dcel_point_compare() {}
-    CGAL__Dcel_point_compare(const point_type& p) : _pt(p) {}
+struct _Dcel_point_compare {
+    _Dcel_point_compare() {}
+    _Dcel_point_compare(const point_type& p) : _pt(p) {}
     bool operator()( const vertex_type& v ) {
       return _pt == v.point();
     }
@@ -140,8 +140,8 @@ struct CGAL__Dcel_point_compare {
 };
 
 template <class point_type>
-struct CGAL__Dcel_point_smaller_x :
-  binary_function<point_type, point_type, bool>
+struct _Dcel_point_smaller_x :
+  CGAL_STD::binary_function<point_type, point_type, bool>
 {
   bool operator()(const point_type& p1, const point_type& p2) const {
     return p1.x() <= p2.x();
@@ -150,18 +150,18 @@ struct CGAL__Dcel_point_smaller_x :
 
 
 template <class _I>
-struct CGAL__Dcel_defs : public _I {
-  typedef CGAL__Dcel_defs<_I>                I;
+struct _Dcel_defs : public _I {
+  typedef _Dcel_defs<_I>                I;
 
 #ifdef CGAL_CFG_INCOMPLETE_TYPE_BUG_5
-  CGAL__Dcel_edge_type<I>   _dummy_edge;
-  CGAL__Dcel_face_type<I>   _dummy_face;
-  CGAL__Dcel_vertex_type<I> _dummy_vertex;
+  _Dcel_edge_type<I>   _dummy_edge;
+  _Dcel_face_type<I>   _dummy_face;
+  _Dcel_vertex_type<I> _dummy_vertex;
 #endif // ...
 
-  typedef vector<CGAL__Dcel_edge_type<I> >   Edges_container;
-  typedef vector<CGAL__Dcel_face_type<I> >   Faces_container;
-  typedef vector<CGAL__Dcel_vertex_type<I> > Vertices_container;
+  typedef std::vector<_Dcel_edge_type<I> >   Edges_container;
+  typedef std::vector<_Dcel_face_type<I> >   Faces_container;
+  typedef std::vector<_Dcel_vertex_type<I> > Vertices_container;
 
   typedef typename Edges_container::const_iterator    const_edges_iterator;
   typedef typename Faces_container::const_iterator    const_faces_iterator;
@@ -175,8 +175,8 @@ struct CGAL__Dcel_defs : public _I {
   typedef typename _I::Point                          Point;
 #endif
 
-  typedef CGAL__Dcel_point_smaller_x<Point>  Point_smaller;
-  typedef set<Point, Point_smaller>          Points_container;
+  typedef _Dcel_point_smaller_x<Point>  Point_smaller;
+  typedef std::set<Point, Point_smaller>          Points_container;
   typedef typename Points_container::const_iterator   const_points_iterator;
   typedef typename Points_container::iterator         points_iterator;
 
@@ -186,5 +186,7 @@ struct CGAL__Dcel_defs : public _I {
   typedef typename Faces_container::const_iterator face_iterator;
   typedef typename Vertices_container::const_iterator vertex_iterator;
 };
+
+CGAL_END_NAMESPACE
 
 #endif /* CGAL__DCEL_DEFS_H */

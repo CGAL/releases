@@ -8,7 +8,7 @@ template <class R>
 class PM_input
 {
 public:
-	typedef CGAL_Point_2<R> Point;
+	typedef CGAL::Point_2<R> Point;
 	typedef struct { int s, t; } Curve;
 
 	PM_input()
@@ -100,26 +100,26 @@ public:
 		return pnts[i];
 	}
 
-	friend CGAL_STD_IO_ ostream &operator<<(CGAL_STD_IO_ ostream &os, const PM_input &pmi)
+	friend std::ostream &operator<<(std::ostream &os, const PM_input &pmi)
 	{
-		CGAL_set_ascii_mode(os);
-                os << pmi.num_pnts << endl;
+		CGAL::set_ascii_mode(os);
+                os << pmi.num_pnts << std::endl;
                 int i;
 		for (i = 0; i < pmi.num_pnts; i++)
 		{
-			os << pmi.pnts[i] << endl;
+			os << pmi.pnts[i] << std::endl;
 		}
-		os << pmi.num_cvs << endl;
+		os << pmi.num_cvs << std::endl;
 		for (i = 0; i < pmi.num_cvs; i++)
 		{
-			os << pmi.cvs[i].s << "  " << pmi.cvs[i].t << endl;
+			os << pmi.cvs[i].s << "  " << pmi.cvs[i].t << std::endl;
 		}
 		return os;
 	}
 
-	friend CGAL_STD_IO_ istream &operator>>(CGAL_STD_IO_ istream &is, PM_input &pmi)
+	friend std::istream &operator>>(std::istream &is, PM_input &pmi)
 	{
-		CGAL_set_ascii_mode(is);
+		CGAL::set_ascii_mode(is);
 		pmi.delete_all();
 		Point p;
 		

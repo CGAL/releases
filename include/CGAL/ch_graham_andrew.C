@@ -1,6 +1,6 @@
 // ======================================================================
 //
-// Copyright (c) 1998 The CGAL Consortium
+// Copyright (c) 1999 The GALIA Consortium
 //
 // This software and related documentation is part of the
 // Computational Geometry Algorithms Library (CGAL).
@@ -16,34 +16,33 @@
 // - Development licenses grant access to the source code of the library 
 //   to develop programs. These programs may be sold to other parties as 
 //   executable code. To obtain a development license, please contact
-//   the CGAL Consortium (at cgal@cs.uu.nl).
+//   the GALIA Consortium (at cgal@cs.uu.nl).
 // - Commercialization licenses grant access to the source code and the
 //   right to sell development licenses. To obtain a commercialization 
-//   license, please contact the CGAL Consortium (at cgal@cs.uu.nl).
+//   license, please contact the GALIA Consortium (at cgal@cs.uu.nl).
 //
 // This software and documentation is provided "as-is" and without
 // warranty of any kind. In no event shall the CGAL Consortium be
 // liable for any damage of any kind.
 //
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// The GALIA Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany) Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+// (Germany), Max-Planck-Institute Saarbrucken (Germany),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
-// release       : CGAL-1.2
-// release_date  : 1999, January 18
+// release       : CGAL-2.0
+// release_date  : 1999, June 03
 //
 // file          : include/CGAL/ch_graham_andrew.C
-// package       : Convex_hull (1.3.2)
+// package       : Convex_hull (2.0.8)
 // source        : convex_hull_2.lw
-// revision      : 1.3.2
-// revision_date : 09 Dec 1998
+// revision      : 2.0.8
+// revision_date : 06 May 1999
 // author(s)     : Stefan Schirra
 //
 // coordinator   : MPI, Saarbruecken
-//
 // email         : cgal@cs.uu.nl
 //
 // ======================================================================
@@ -57,23 +56,25 @@
 #include <CGAL/ch_graham_andrew.h>
 #endif // CGAL_CH_GRAHAM_ANDREW_H
 
+CGAL_BEGIN_NAMESPACE
+
 template <class BidirectionalIterator, class OutputIterator, class Traits>
 OutputIterator
-CGAL_ch_graham_andrew_scan( BidirectionalIterator first,
-                            BidirectionalIterator last,
-                            OutputIterator        result,
-                            const Traits&         ch_traits)
+ch_graham_andrew_scan( BidirectionalIterator first,
+                       BidirectionalIterator last,
+                       OutputIterator        result,
+                       const Traits&         ch_traits)
 {
   typedef  typename Traits::Less_xy   Less_xy;
   typedef  typename Traits::Point_2   Point_2;
   typedef  typename Traits::Leftturn  Leftturn;
 
-  vector< BidirectionalIterator >    S;
+  std::vector< BidirectionalIterator >    S;
   BidirectionalIterator              alpha;
   BidirectionalIterator              beta;
   BidirectionalIterator              iter;
   CGAL_ch_precondition( first != last );
-  CGAL_ch_precondition( CGAL_successor(first) != last );
+  CGAL_ch_precondition( successor(first) != last );
 
   --last;
   CGAL_ch_precondition( *first != *last );
@@ -92,7 +93,7 @@ CGAL_ch_graham_andrew_scan( BidirectionalIterator first,
   if ( iter != last )
   {
       S.push_back( iter );
-      typedef typename vector<BidirectionalIterator>::reverse_iterator  
+      typedef typename std::vector<BidirectionalIterator>::reverse_iterator  
               rev_iterator;
       rev_iterator  stack_rev_iter = S.rbegin(); 
       alpha = iter;
@@ -118,22 +119,22 @@ CGAL_ch_graham_andrew_scan( BidirectionalIterator first,
 
   }
 
-  typedef typename vector< BidirectionalIterator >::iterator  std_iterator;
+  typedef typename std::vector< BidirectionalIterator >::iterator  std_iterator;
   std_iterator  stack_iter = S.begin();
   #if defined(CGAL_CH_NO_POSTCONDITIONS) || defined(CGAL_NO_POSTCONDITIONS) \
     || defined(NDEBUG)
   OutputIterator  res(result);
   #else
-  CGAL_Tee_for_output_iterator<OutputIterator,Point_2> res(result);
+  Tee_for_output_iterator<OutputIterator,Point_2> res(result);
   #endif // no postconditions ...
   for ( ++stack_iter;  stack_iter != S.end(); ++stack_iter)
   { *res =  **stack_iter;  ++res; }
   CGAL_ch_postcondition( \
-      CGAL_is_ccw_strongly_convex_2( res.output_so_far_begin(), \
+      is_ccw_strongly_convex_2( res.output_so_far_begin(), \
                                      res.output_so_far_end(), \
                                      ch_traits));
   CGAL_ch_expensive_postcondition( \
-      CGAL_ch_brute_force_chain_check_2( \
+      ch_brute_force_chain_check_2( \
           first, last, \
           res.output_so_far_begin(), res.output_so_far_end(), \
           ch_traits));
@@ -147,7 +148,7 @@ CGAL_ch_graham_andrew_scan( BidirectionalIterator first,
 
 template <class BidirectionalIterator, class OutputIterator, class Traits>
 OutputIterator
-CGAL_ch__ref_graham_andrew_scan( BidirectionalIterator first,
+ch__ref_graham_andrew_scan( BidirectionalIterator first,
                                  BidirectionalIterator last,
                                  OutputIterator&       result,
                                  const Traits&         ch_traits)
@@ -156,12 +157,12 @@ CGAL_ch__ref_graham_andrew_scan( BidirectionalIterator first,
   typedef  typename Traits::Point_2   Point_2;
   typedef  typename Traits::Leftturn  Leftturn;
 
-  vector< BidirectionalIterator >    S;
+  std::vector< BidirectionalIterator >    S;
   BidirectionalIterator              alpha;
   BidirectionalIterator              beta;
   BidirectionalIterator              iter;
   CGAL_ch_precondition( first != last );
-  CGAL_ch_precondition( CGAL_successor(first) != last );
+  CGAL_ch_precondition( successor(first) != last );
 
   --last;
   CGAL_ch_precondition( *first != *last );
@@ -180,7 +181,7 @@ CGAL_ch__ref_graham_andrew_scan( BidirectionalIterator first,
   if ( iter != last )
   {
       S.push_back( iter );
-      typedef typename vector<BidirectionalIterator>::reverse_iterator  
+      typedef typename std::vector<BidirectionalIterator>::reverse_iterator  
               rev_iterator;
       rev_iterator  stack_rev_iter = S.rbegin(); 
       alpha = iter;
@@ -206,7 +207,7 @@ CGAL_ch__ref_graham_andrew_scan( BidirectionalIterator first,
 
   }
 
-  typedef typename vector< BidirectionalIterator >::iterator  std_iterator;
+  typedef typename std::vector< BidirectionalIterator >::iterator  std_iterator;
   std_iterator  stack_iter = S.begin();
   for ( ++stack_iter;  stack_iter != S.end(); ++stack_iter)
   { *result =  **stack_iter;  ++result; }
@@ -215,7 +216,7 @@ CGAL_ch__ref_graham_andrew_scan( BidirectionalIterator first,
 
 template <class InputIterator, class OutputIterator, class Traits>
 OutputIterator
-CGAL_ch_graham_andrew( InputIterator  first,
+ch_graham_andrew( InputIterator  first,
                        InputIterator  last,
                        OutputIterator result,
                        const Traits&  ch_traits)
@@ -225,9 +226,9 @@ CGAL_ch_graham_andrew( InputIterator  first,
   typedef  typename Traits::Leftturn  Leftturn;
 
   if (first == last) return result;
-  vector< Point_2 >  V;
-  copy( first, last, back_inserter(V) );
-  sort( V.begin(), V.end(), ch_traits.get_less_xy_object() );
+  std::vector< Point_2 >  V;
+  std::copy( first, last, std::back_inserter(V) );
+  std::sort( V.begin(), V.end(), ch_traits.get_less_xy_object() );
   if ( *(V.begin()) == *(V.rbegin()) )
   {
       *result = *(V.begin());  ++result;
@@ -238,16 +239,16 @@ CGAL_ch_graham_andrew( InputIterator  first,
     || defined(NDEBUG)
   OutputIterator  res(result);
   #else
-  CGAL_Tee_for_output_iterator<OutputIterator,Point_2> res(result);
+  Tee_for_output_iterator<OutputIterator,Point_2> res(result);
   #endif // no postconditions ...
-  CGAL_ch__ref_graham_andrew_scan( V.begin(), V.end(),  res, ch_traits);
-  CGAL_ch__ref_graham_andrew_scan( V.rbegin(), V.rend(), res, ch_traits);
+  ch__ref_graham_andrew_scan( V.begin(), V.end(),  res, ch_traits);
+  ch__ref_graham_andrew_scan( V.rbegin(), V.rend(), res, ch_traits);
   CGAL_ch_postcondition( \
-      CGAL_is_ccw_strongly_convex_2( res.output_so_far_begin(), \
+      is_ccw_strongly_convex_2( res.output_so_far_begin(), \
                                      res.output_so_far_end(), \
                                      ch_traits));
   CGAL_ch_expensive_postcondition( \
-      CGAL_ch_brute_force_check_2( \
+      ch_brute_force_check_2( \
           V.begin(), V.end(), \
           res.output_so_far_begin(), res.output_so_far_end(), \
           ch_traits));
@@ -263,7 +264,7 @@ CGAL_ch_graham_andrew( InputIterator  first,
 
 template <class InputIterator, class OutputIterator, class Traits>
 OutputIterator
-CGAL_ch_lower_hull_scan( InputIterator  first,
+ch_lower_hull_scan( InputIterator  first,
                          InputIterator  last,
                          OutputIterator result,
                          const Traits&  ch_traits)
@@ -273,9 +274,9 @@ CGAL_ch_lower_hull_scan( InputIterator  first,
   typedef  typename Traits::Leftturn  Leftturn;
 
   if (first == last) return result;
-  vector< Point_2 >  V;
-  copy( first, last, back_inserter(V) );
-  sort( V.begin(), V.end(), ch_traits.get_less_xy_object() );
+  std::vector< Point_2 >  V;
+  std::copy( first, last, std::back_inserter(V) );
+  std::sort( V.begin(), V.end(), ch_traits.get_less_xy_object() );
   if ( *(V.begin()) == *(V.rbegin()) )
   {
       *result = *(V.begin());  ++result;
@@ -286,9 +287,9 @@ CGAL_ch_lower_hull_scan( InputIterator  first,
     || defined(NDEBUG)
   OutputIterator  res(result);
   #else
-  CGAL_Tee_for_output_iterator<OutputIterator,Point_2> res(result);
+  Tee_for_output_iterator<OutputIterator,Point_2> res(result);
   #endif // no postconditions ...
-  CGAL_ch_graham_andrew_scan( V.begin(), V.end(), res, ch_traits);
+  ch_graham_andrew_scan( V.begin(), V.end(), res, ch_traits);
   #if defined(CGAL_CH_NO_POSTCONDITIONS) || defined(CGAL_NO_POSTCONDITIONS) \
     || defined(NDEBUG)
   return res;
@@ -298,7 +299,7 @@ CGAL_ch_lower_hull_scan( InputIterator  first,
 }
 template <class InputIterator, class OutputIterator, class Traits>
 OutputIterator
-CGAL_ch_upper_hull_scan( InputIterator  first,
+ch_upper_hull_scan( InputIterator  first,
                          InputIterator  last,
                          OutputIterator result,
                          const Traits&  ch_traits)
@@ -308,18 +309,18 @@ CGAL_ch_upper_hull_scan( InputIterator  first,
   typedef  typename Traits::Leftturn  Leftturn;
 
   if (first == last) return result;
-  vector< Point_2 >  V;
-  copy( first, last, back_inserter(V) );
-  sort( V.begin(), V.end(), ch_traits.get_less_xy_object() );
+  std::vector< Point_2 >  V;
+  std::copy( first, last, std::back_inserter(V) );
+  std::sort( V.begin(), V.end(), ch_traits.get_less_xy_object() );
   if ( *(V.begin()) == *(V.rbegin()) )
   { return result; }
   #if defined(CGAL_CH_NO_POSTCONDITIONS) || defined(CGAL_NO_POSTCONDITIONS) \
     || defined(NDEBUG)
   OutputIterator  res(result);
   #else
-  CGAL_Tee_for_output_iterator<OutputIterator,Point_2> res(result);
+  Tee_for_output_iterator<OutputIterator,Point_2> res(result);
   #endif // no postconditions ...
-  CGAL_ch_graham_andrew_scan( V.rbegin(), V.rend(), res, ch_traits);
+  ch_graham_andrew_scan( V.rbegin(), V.rend(), res, ch_traits);
   #if defined(CGAL_CH_NO_POSTCONDITIONS) || defined(CGAL_NO_POSTCONDITIONS) \
     || defined(NDEBUG)
   return res;
@@ -327,5 +328,6 @@ CGAL_ch_upper_hull_scan( InputIterator  first,
   return res.to_output_iterator();
   #endif // no postconditions ...
 }
+CGAL_END_NAMESPACE
 
 #endif // CGAL_CH_GRAHAM_ANDREW_C

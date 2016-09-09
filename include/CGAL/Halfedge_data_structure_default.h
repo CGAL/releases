@@ -1,6 +1,6 @@
 // ======================================================================
 //
-// Copyright (c) 1997 The CGAL Consortium
+// Copyright (c) 1999 The GALIA Consortium
 //
 // This software and related documentation is part of the
 // Computational Geometry Algorithms Library (CGAL).
@@ -16,38 +16,37 @@
 // - Development licenses grant access to the source code of the library 
 //   to develop programs. These programs may be sold to other parties as 
 //   executable code. To obtain a development license, please contact
-//   the CGAL Consortium (at cgal@cs.uu.nl).
+//   the GALIA Consortium (at cgal@cs.uu.nl).
 // - Commercialization licenses grant access to the source code and the
 //   right to sell development licenses. To obtain a commercialization 
-//   license, please contact the CGAL Consortium (at cgal@cs.uu.nl).
+//   license, please contact the GALIA Consortium (at cgal@cs.uu.nl).
 //
 // This software and documentation is provided "as-is" and without
 // warranty of any kind. In no event shall the CGAL Consortium be
 // liable for any damage of any kind.
 //
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// The GALIA Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany) Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+// (Germany), Max-Planck-Institute Saarbrucken (Germany),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-1.2
-// release_date  : 1999, January 18
+// release       : CGAL-2.0
+// release_date  : 1999, June 03
 //
 // file          : include/CGAL/Halfedge_data_structure_default.h
-// package       : Halfedge_DS (1.9)
+// package       : Halfedge_DS (2.4)
 // chapter       : $CGAL_Chapter: Halfedge Data Structures $
 // source        : hds.fw
-// revision      : $Revision: 1.10 $
-// revision_date : $Date: 1998/10/14 14:02:03 $
+// revision      : $Revision: 1.3 $
+// revision_date : $Date: 1999/04/07 19:29:14 $
 // author(s)     : Lutz Kettner
 //
 // coordinator   : MPI Saarbruecken (Stefan Schirra)
 //
 // Halfedge Data Structure Default Implementation for CGAL.
-//
 // email         : cgal@cs.uu.nl
 //
 // ======================================================================
@@ -62,22 +61,19 @@
 #include <CGAL/Halfedge_data_structure_using_list.h>
 #endif
 
-template <class Pt>
-class CGAL_Halfedge_data_structure_default
-    : public CGAL_Halfedge_data_structure_using_list<
-          CGAL_Vertex_max_base<Pt>,
-          CGAL_Halfedge_max_base,
-          CGAL_Facet_max_base
-      > {
-public:  // CREATION
+CGAL_BEGIN_NAMESPACE
 
-    CGAL_Halfedge_data_structure_default() {}
-    CGAL_Halfedge_data_structure_default( Size v, Size h, Size f)
-        : CGAL_Halfedge_data_structure_using_list<
-              CGAL_Vertex_max_base<Pt>,
-              CGAL_Halfedge_max_base,
-              CGAL_Facet_max_base
-          > (v,h,f) {}
+template <class Pt>
+class Halfedge_data_structure_default
+    : public Halfedge_data_structure_using_list<
+          Vertex_max_base<Pt>, Halfedge_max_base, Facet_max_base> {
+public:  // CREATION
+    Halfedge_data_structure_default() {}
+    Halfedge_data_structure_default( Size v, Size h, Size f)
+    : Halfedge_data_structure_using_list<
+        Vertex_max_base<Pt>, Halfedge_max_base, Facet_max_base> (v,h,f) {}
 };
+
+CGAL_END_NAMESPACE
 #endif // CGAL_HALFEDGE_DATA_STRUCTURE_DEFAULT_H //
 // EOF //

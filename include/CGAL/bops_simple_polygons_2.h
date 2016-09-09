@@ -1,7 +1,6 @@
-//  -*- Mode: c++ -*-
 // ======================================================================
 //
-// Copyright (c) 1997 The CGAL Consortium
+// Copyright (c) 1999 The GALIA Consortium
 //
 // This software and related documentation is part of the
 // Computational Geometry Algorithms Library (CGAL).
@@ -17,38 +16,37 @@
 // - Development licenses grant access to the source code of the library 
 //   to develop programs. These programs may be sold to other parties as 
 //   executable code. To obtain a development license, please contact
-//   the CGAL Consortium (at cgal@cs.uu.nl).
+//   the GALIA Consortium (at cgal@cs.uu.nl).
 // - Commercialization licenses grant access to the source code and the
 //   right to sell development licenses. To obtain a commercialization 
-//   license, please contact the CGAL Consortium (at cgal@cs.uu.nl).
+//   license, please contact the GALIA Consortium (at cgal@cs.uu.nl).
 //
 // This software and documentation is provided "as-is" and without
 // warranty of any kind. In no event shall the CGAL Consortium be
 // liable for any damage of any kind.
 //
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// The GALIA Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany) Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+// (Germany), Max-Planck-Institute Saarbrucken (Germany),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-1.2
-// release_date  : 1999, January 18
+// release       : CGAL-2.0
+// release_date  : 1999, June 03
 //
 // file          : include/CGAL/bops_simple_polygons_2.h
-// package       : bops (1.1.2)
+// package       : bops (2.1.5)
 // source        : include/CGAL/bops_simple_polygons_2.h
-// revision      : $Revision: 1.1.2 $
+// revision      : $Revision: WIP $
 // revision_date : $Date: Wed Dec  9 13:28:54 MET 1998  $
-// author(s)     :             Wolfgang Freiseisen
+// author(s)     : Wolfgang Freiseisen
 //
 // coordinator   : RISC Linz
 //  (Wolfgang Freiseisen)
 //
 // 
-//
 // email         : cgal@cs.uu.nl
 //
 // ======================================================================
@@ -58,26 +56,27 @@
 
 //#define CGAL__BOPS_DEBUG_ON
 //#define CGAL__DCEL_DEBUG_ON
-//#define CGAL__DCEL__V2E_DEBUG_ON
+//#define _DCEL__V2E_DEBUG_ON
 //#define CGAL__INTERSECTING_POLYGONS_DEBUG_ON
 
-#include <list.h>
-#include <vector.h>
+#include <list>
+#include <vector>
 #include <CGAL/bops_dcel.h>
 #include <CGAL/nsquare_intersecting.h>
 #include <CGAL/intersecting_polygons.h>
 
+CGAL_BEGIN_NAMESPACE
 
 template<class I>
-class CGAL_Bops_Polygons_2 : public I {
+class Bops_Polygons_2 : public I {
 public:
 	typedef typename I::R                         R;
 	//typedef 		 I::NT FT;
-	typedef typename I::Point                     Point_2;
+	typedef typename I::Point                     _Point_2;
 	typedef typename I::Segment                   Segment_2;
 	typedef typename I::Object                    Object;
 	typedef typename I::Output_polygon_container  Polygon_Container;
-	typedef typename I::Output_polygon            Polygon_2;
+	typedef typename I::Output_polygon            _Polygon_2;
 	typedef typename I::Output_object_container   Output_container;
 
 	typedef typename Output_container::const_iterator    result_iterator;
@@ -89,16 +88,16 @@ public:
 	size_type size()                  const { return _result.size(); }
 	bool empty()                      const { return _result.empty(); }
 	
-	void add_to_result( const Polygon_2& pgon) {
+	void add_to_result( const _Polygon_2& pgon) {
 		_result.push_back(I::Make_object(pgon) );
 	}
 	
-	void add_to_result( const list<Point_2>& l) {
-		_result.push_back(I::Make_object(Polygon_2(l.begin(),l.end())) );
+	void add_to_result( const std::list<_Point_2>& l) {
+		_result.push_back(I::Make_object(_Polygon_2(l.begin(),l.end())) );
 	}
 	
 	virtual bool operation() = 0;
-	virtual ~CGAL_Bops_Polygons_2() {}
+	virtual ~Bops_Polygons_2() {}
 protected:
 	/*
 	 *	Intersection-Type of Polygons A,B
@@ -111,21 +110,21 @@ protected:
 		is_intersection  = 4
 	};
 
-	Output_container  _result;  // list<CGAL_Object> _result;
+	Output_container  _result;  // std::list<Object> _result;
 };
 
 
 
 template<class I>
-class CGAL_Bops_Simple_Polygons_2 : public CGAL_Bops_Polygons_2<I> {
+class Bops_Simple_Polygons_2 : public Bops_Polygons_2<I> {
 public:
 
-  typedef CGAL_Bops_dcel<I>                			Dcel;
+  typedef Bops_dcel<I>                			Dcel;
   typedef typename Dcel::const_faces_iterator       face_iterator;
   typedef typename Dcel::const_edges_iterator       edge_iterator;
   typedef typename Dcel::const_vertices_iterator    vertex_iterator;
       
-  typedef CGAL__intersecting_polygons<R, Polygon_Container> Intersect_Polygons;
+  typedef _intersecting_polygons<R, Polygon_Container> Intersect_Polygons;
 
   bool operation() {
     if( !_init ) return false;
@@ -136,7 +135,7 @@ public:
   }
 
 
-  CGAL_Bops_Simple_Polygons_2() {
+  Bops_Simple_Polygons_2() {
     marked_vector_init();
     _pgon_intersection_type= is_empty;
     _init= false;
@@ -146,7 +145,7 @@ public:
   bool do_intersect() const {
     return _init ? ( _pgon_intersection_type > 0) : false; }
 
-  CGAL_Bops_Simple_Polygons_2(const Polygon_2& pgon1, const Polygon_2& pgon2)
+  Bops_Simple_Polygons_2(const _Polygon_2& pgon1, const _Polygon_2& pgon2)
     : _pgon1(pgon1), _pgon2(pgon2)
   {
       _inter_res= Intersect_Polygons(pgon1,pgon2);
@@ -165,7 +164,7 @@ public:
   }
  
      
-  virtual ~CGAL_Bops_Simple_Polygons_2() {}
+  virtual ~Bops_Simple_Polygons_2() {}
 
 protected:
 
@@ -214,8 +213,8 @@ protected:
 
   void create_dcel(void) {
     /* built up the graph (step 2 in README) */
-    vector<Point_2> ptlst;
-    list< pair<int,int> > edlst;
+    std::vector<_Point_2> ptlst;
+    std::list< std::pair<int,int> > edlst;
 
     _inter_res.get_graph_information(ptlst,edlst);
 #   ifdef CGAL__BOPS_DEBUG_ON
@@ -236,14 +235,14 @@ protected:
     marked_vector_init();
 
     /* coloring the dcel */
-    list<Point_2> pts_on_A;
-    list<Point_2> pts_on_B;
+    std::list<_Point_2> pts_on_A;
+    std::list<_Point_2> pts_on_B;
 
 
     pts_on_A = _inter_res.get_color_informationA();
-    dcel.colorize(pts_on_A, CGAL__RED);
+    dcel.colorize(pts_on_A, _RED);
     pts_on_B = _inter_res.get_color_informationB();
-    dcel.colorize(pts_on_B, CGAL__BLACK);
+    dcel.colorize(pts_on_B, _BLACK);
 
 
 #   ifdef CGAL__BOPS_DEBUG_ON
@@ -255,7 +254,7 @@ protected:
 #   endif
   }
 
-  int walk_around(face_iterator face, list<Point_2>& result) const
+  int walk_around(face_iterator face, std::list<_Point_2>& result) const
   {
     /*
        traverses a face in the DCEL and puts the vertices as points in
@@ -285,7 +284,7 @@ protected:
   }
 
 
-  Polygon_2 walk_around(face_iterator face, bool ccw = true) const {
+  _Polygon_2 walk_around(face_iterator face, bool ccw = true) const {
     /*
        traverses a face in the DCEL and puts the vertices as points in
        into a polygon.
@@ -294,29 +293,29 @@ protected:
        in the DCEL, i.e. marked.size() >= dcel.number_of_edges
        (The result is always be ordered clockwise.)
     */
-    list<Point_2> pt_list;
+    std::list<_Point_2> pt_list;
     if( walk_around( face, pt_list) )
-      return ccw ? Polygon_2(pt_list.rbegin(), pt_list.rend()) :
-                   Polygon_2(pt_list.begin(),  pt_list.end()) ;
+      return ccw ? _Polygon_2(pt_list.rbegin(), pt_list.rend()) :
+                   _Polygon_2(pt_list.begin(),  pt_list.end()) ;
   
-    return Polygon_2();
+    return _Polygon_2();
   }
 
   void marked_vector_init() {
-    marked= vector<bool>(dcel.number_of_edges());
-    marked_vertex= vector<bool>(dcel.number_of_vertices());
+    marked= std::vector<bool>(dcel.number_of_edges());
+    marked_vertex= std::vector<bool>(dcel.number_of_vertices());
   }
 
   void unmark () {
-    fill(marked.begin(), marked.end(), false);
-    fill(marked_vertex.begin(), marked_vertex.end(), false);
+    std::fill(marked.begin(), marked.end(), false);
+    std::fill(marked_vertex.begin(), marked_vertex.end(), false);
   }
 
   void mark   (vertex_iterator v) const {
-    (vector<bool>::reference)marked_vertex[(*v).index()]= true;
+    const_cast<Bops_Simple_Polygons_2<I>*>(this)->marked_vertex[(*v).index()]= true;
   }
   void unmark (vertex_iterator v) const {
-    (vector<bool>::reference)marked_vertex[(*v).index()]= false;
+    const_cast<Bops_Simple_Polygons_2<I>*>(this)->marked_vertex[(*v).index()]= false;
   }
 
   bool is_unmarked (vertex_iterator v) const {
@@ -330,40 +329,40 @@ protected:
   bool is_marked (edge_iterator e) const { return !is_unmarked(e); }
 
   void mark   (edge_iterator e) const {
-    (vector<bool>::reference)marked[(*e).index()]= true;
+    const_cast<Bops_Simple_Polygons_2<I>*>(this)->marked[(*e).index()]= true;
   }
   void unmark (edge_iterator e) const {
-    (vector<bool>::reference)marked[(*e).index()]= false;
+    const_cast<Bops_Simple_Polygons_2<I>*>(this)->marked[(*e).index()]= false;
   }
 
   void mark   (int index) const {
-    (vector<bool>::reference)marked[index]= true;
+    const_cast<Bops_Simple_Polygons_2<I>*>(this)->marked[index]= true;
   }
   void unmark (int index) const {
-    (vector<bool>::reference)marked[index]= false;
+    const_cast<Bops_Simple_Polygons_2<I>*>(this)->marked[index]= false;
   }
 
   bool _init;
-  Polygon_2 _pgon1, _pgon2;
+  _Polygon_2 _pgon1, _pgon2;
   Intersection_type _pgon_intersection_type;
   Dcel dcel;
-  vector<bool> marked;        // marked list for edges
-  vector<bool> marked_vertex; // marked list for vertices
+  std::vector<bool> marked;        // marked list for edges
+  std::vector<bool> marked_vertex; // marked list for vertices
 
   Intersect_Polygons _inter_res;
 };
 
 
 template<class I>
-struct CGAL_Bops_Simple_Polygons_2_Intersection
-       : public CGAL_Bops_Simple_Polygons_2<I>
+struct Bops_Simple_Polygons_2_Intersection
+       : public Bops_Simple_Polygons_2<I>
 {
-  typedef typename CGAL_Bops_Simple_Polygons_2<I>::Polygon_2 Polygon_2;
-  CGAL_Bops_Simple_Polygons_2_Intersection() {}
+  typedef typename Bops_Simple_Polygons_2<I>::_Polygon_2 _Polygon_2;
+  Bops_Simple_Polygons_2_Intersection() {}
 
-  CGAL_Bops_Simple_Polygons_2_Intersection(
-       const Polygon_2& pgon1, const Polygon_2& pgon2)
-       : CGAL_Bops_Simple_Polygons_2<I>( pgon1, pgon2) {
+  Bops_Simple_Polygons_2_Intersection(
+       const _Polygon_2& pgon1, const _Polygon_2& pgon2)
+       : Bops_Simple_Polygons_2<I>( pgon1, pgon2) {
   }
 
   void perform(void);
@@ -371,15 +370,15 @@ struct CGAL_Bops_Simple_Polygons_2_Intersection
 
 
 template<class I>
-struct CGAL_Bops_Simple_Polygons_2_Difference
-       : public CGAL_Bops_Simple_Polygons_2<I>
+struct Bops_Simple_Polygons_2_Difference
+       : public Bops_Simple_Polygons_2<I>
 {
-  typedef typename CGAL_Bops_Simple_Polygons_2<I>::Polygon_2 Polygon_2;
-  CGAL_Bops_Simple_Polygons_2_Difference() {}
+  typedef typename Bops_Simple_Polygons_2<I>::_Polygon_2 _Polygon_2;
+  Bops_Simple_Polygons_2_Difference() {}
 
-  CGAL_Bops_Simple_Polygons_2_Difference(
-       const Polygon_2& pgon1, const Polygon_2& pgon2)
-       : CGAL_Bops_Simple_Polygons_2<I>( pgon1, pgon2) {
+  Bops_Simple_Polygons_2_Difference(
+       const _Polygon_2& pgon1, const _Polygon_2& pgon2)
+       : Bops_Simple_Polygons_2<I>( pgon1, pgon2) {
   }
 
   void perform(void);
@@ -387,20 +386,21 @@ struct CGAL_Bops_Simple_Polygons_2_Difference
 
 
 template<class I>
-struct CGAL_Bops_Simple_Polygons_2_Union
-       : public CGAL_Bops_Simple_Polygons_2<I>
+struct Bops_Simple_Polygons_2_Union
+       : public Bops_Simple_Polygons_2<I>
 {
-  typedef typename CGAL_Bops_Simple_Polygons_2<I>::Polygon_2 Polygon_2;
-  CGAL_Bops_Simple_Polygons_2_Union() {}
+  typedef typename Bops_Simple_Polygons_2<I>::_Polygon_2 _Polygon_2;
+  Bops_Simple_Polygons_2_Union() {}
 
-  CGAL_Bops_Simple_Polygons_2_Union(
-       const Polygon_2& pgon1, const Polygon_2& pgon2)
-       : CGAL_Bops_Simple_Polygons_2<I>( pgon1, pgon2) {
+  Bops_Simple_Polygons_2_Union(
+       const _Polygon_2& pgon1, const _Polygon_2& pgon2)
+       : Bops_Simple_Polygons_2<I>( pgon1, pgon2) {
   }
 
   void perform(void);
 };
 
+CGAL_END_NAMESPACE
 
 #ifdef CGAL_CFG_NO_AUTOMATIC_TEMPLATE_INCLUSION
 #include <CGAL/bops_simple_polygons_2.C>

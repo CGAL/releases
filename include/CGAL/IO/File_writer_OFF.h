@@ -1,6 +1,6 @@
 // ======================================================================
 //
-// Copyright (c) 1997 The CGAL Consortium
+// Copyright (c) 1999 The GALIA Consortium
 //
 // This software and related documentation is part of the
 // Computational Geometry Algorithms Library (CGAL).
@@ -16,38 +16,37 @@
 // - Development licenses grant access to the source code of the library 
 //   to develop programs. These programs may be sold to other parties as 
 //   executable code. To obtain a development license, please contact
-//   the CGAL Consortium (at cgal@cs.uu.nl).
+//   the GALIA Consortium (at cgal@cs.uu.nl).
 // - Commercialization licenses grant access to the source code and the
 //   right to sell development licenses. To obtain a commercialization 
-//   license, please contact the CGAL Consortium (at cgal@cs.uu.nl).
+//   license, please contact the GALIA Consortium (at cgal@cs.uu.nl).
 //
 // This software and documentation is provided "as-is" and without
 // warranty of any kind. In no event shall the CGAL Consortium be
 // liable for any damage of any kind.
 //
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// The GALIA Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany) Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+// (Germany), Max-Planck-Institute Saarbrucken (Germany),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-1.2
-// release_date  : 1999, January 18
+// release       : CGAL-2.0
+// release_date  : 1999, June 03
 //
 // file          : include/CGAL/IO/File_writer_OFF.h
-// package       : Polyhedron_IO (1.11)
+// package       : Polyhedron_IO (2.5)
 // chapter       : $CGAL_Chapter: Support Library ... $
 // source        : polyhedron_io.fw
-// revision      : $Revision: 1.8 $
-// revision_date : $Date: 1998/10/08 22:46:22 $
+// revision      : $Revision: 1.4 $
+// revision_date : $Date: 1999/03/24 11:16:26 $
 // author(s)     : Lutz Kettner
 //
 // coordinator   : Herve Bronnimann
 //
 // Writer for polyhedral surfaces in object file format (OFF)
-//
 // email         : cgal@cs.uu.nl
 //
 // ======================================================================
@@ -60,51 +59,52 @@
 #ifndef CGAL_IO_FILE_HEADER_OFF_H
 #include <CGAL/IO/File_header_OFF.h>
 #endif // CGAL_IO_FILE_HEADER_OFF_H
+#ifndef CGAL_PROTECT_IOSTREAM
+#include <iostream>
+#define CGAL_PROTECT_IOSTREAM
+#endif
+#ifndef CGAL_PROTECT_CSTDDEF
+#include <cstddef>
+#define CGAL_PROTECT_CSTDDEF
+#endif
 
-#ifndef CGAL_PROTECT_IOSTREAM_H
-#include <iostream.h>
-#define CGAL_PROTECT_IOSTREAM_H
-#endif // CGAL_PROTECT_IOSTREAM_H
-#ifndef CGAL_PROTECT_STDDEF_H
-#include <stddef.h>
-#define CGAL_PROTECT_STDDEF_H
-#endif // CGAL_PROTECT_STDDEF_H
+CGAL_BEGIN_NAMESPACE
 
-class CGAL_File_writer_OFF {
-    ostream*                    m_out;
-    CGAL_File_header_OFF         m_header;
+class File_writer_OFF {
+    std::ostream*           m_out;
+    File_header_OFF         m_header;
 public:
-    CGAL_File_writer_OFF( bool verbose = false) : m_header( verbose) {}
-    CGAL_File_writer_OFF( const CGAL_File_header_OFF& h) : m_header( h) {}
+    File_writer_OFF( bool verbose = false) : m_header( verbose) {}
+    File_writer_OFF( const File_header_OFF& h) : m_header( h) {}
 
-    ostream&                    out()          { return *m_out;   }
-    CGAL_File_header_OFF&        header()       { return m_header; }
-    const CGAL_File_header_OFF&  header() const { return m_header; }
+    std::ostream&           out()          { return *m_out;   }
+    File_header_OFF&        header()       { return m_header; }
+    const File_header_OFF&  header() const { return m_header; }
 
-    void write_header( ostream& out,
-                       size_t vertices,
-                       size_t halfedges,
-                       size_t facets,
-                       int    normals = false);
+    void write_header( std::ostream& out,
+                       std::size_t   vertices,
+                       std::size_t   halfedges,
+                       std::size_t   facets,
+                       int           normals = false);
     void write_footer() {
         if ( m_header.ascii() && m_header.comments())
             out() << "\n\n# End of OFF #";
-        out() << endl;
+        out() << std::endl;
     }
     void write_vertex( const double& x, const double& y, const double& z) {
         if ( m_header.binary()) {
-            CGAL__Binary_write_float32( out(), x);
-            CGAL__Binary_write_float32( out(), y);
-            CGAL__Binary_write_float32( out(), z);
+            _Binary_write_float32( out(), x);
+            _Binary_write_float32( out(), y);
+            _Binary_write_float32( out(), z);
         } else {
             out() << '\n' << x << ' ' << y << ' ' << z;
         }
     }
     void write_normal( const double& x, const double& y, const double& z) {
         if ( m_header.binary()) {
-            CGAL__Binary_write_float32( out(), x);
-            CGAL__Binary_write_float32( out(), y);
-            CGAL__Binary_write_float32( out(), z);
+            _Binary_write_float32( out(), x);
+            _Binary_write_float32( out(), y);
+            _Binary_write_float32( out(), z);
         } else {
             out() << ' ' << ' ' << x << ' ' << y << ' ' << z;
         }
@@ -121,24 +121,26 @@ public:
             }
         }
     }
-    void write_facet_begin( size_t no) {
+    void write_facet_begin( std::size_t no) {
         if ( m_header.binary())
-            CGAL__Binary_write_integer32( out(), no);
+            _Binary_write_integer32( out(), no);
         else
             out() << no << ' ';
     }
-    void write_facet_vertex_index( size_t index) {
+    void write_facet_vertex_index( std::size_t index) {
         if ( m_header.binary())
-            CGAL__Binary_write_integer32( out(), index);
+            _Binary_write_integer32( out(), index);
         else
             out() << ' ' << index;
     }
     void write_facet_end() {
         if ( m_header.binary())
-            CGAL__Binary_write_integer32( out(), 0);
+            _Binary_write_integer32( out(), 0);
         else
             out() << '\n';
     }
 };
+
+CGAL_END_NAMESPACE
 #endif // CGAL_IO_FILE_WRITER_OFF_H //
 // EOF //

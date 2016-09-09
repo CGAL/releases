@@ -1,46 +1,47 @@
 #include "tutorial.h"
 #include <CGAL/convex_hull_2.h>
-#include <list.h>
-#include <iostream.h>
+#include <list>
+#include <iterator>
+#include <iostream>
 
 
-typedef list<Point_2> pointlist;
+typedef std::list<Point> pointlist;
 
 const int IN_COUNT = 6;
 
-static Point_2 in[IN_COUNT] = {
-    Point_2(0, 0),
-    Point_2(3, 4),
-    Point_2(0, 10),
-    Point_2(11, 12),
-    Point_2(7, 1),
-    Point_2(6, 5),
+static Point in[IN_COUNT] = {
+    Point(0, 0),
+    Point(3, 4),
+    Point(0, 10),
+    Point(11, 12),
+    Point(7, 1),
+    Point(6, 5),
 };
 
 template <class iterator>
 void write(iterator cur, iterator beyond)
 {
     for (; cur != beyond; ++cur)
-        cout << *cur << '\n';
+        std::cout << *cur << '\n';
 }
 
 void list_version()
 {
     pointlist out;
-    CGAL_convex_hull_points_2(in, in+IN_COUNT, back_inserter(out));
+    CGAL::convex_hull_points_2(in, in+IN_COUNT, std::back_inserter(out));
     write(out.begin(), out.end());
 }
 
 void array_version()
 {
-    Point_2 out[IN_COUNT], *beyond;
-    beyond = CGAL_convex_hull_points_2(in, in+IN_COUNT, out);
+    Point out[IN_COUNT], *beyond;
+    beyond = CGAL::convex_hull_points_2(in, in+IN_COUNT, out);
     write(out, beyond);
 }
 
-void main()
+main()
 {
     list_version();
-    cout<<'\n';
+    std::cout<<'\n';
     array_version();
 }

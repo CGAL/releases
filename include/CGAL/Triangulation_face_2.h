@@ -1,6 +1,6 @@
 // ======================================================================
 //
-// Copyright (c) 1997 The CGAL Consortium
+// Copyright (c) 1999 The GALIA Consortium
 //
 // This software and related documentation is part of the
 // Computational Geometry Algorithms Library (CGAL).
@@ -16,35 +16,34 @@
 // - Development licenses grant access to the source code of the library 
 //   to develop programs. These programs may be sold to other parties as 
 //   executable code. To obtain a development license, please contact
-//   the CGAL Consortium (at cgal@cs.uu.nl).
+//   the GALIA Consortium (at cgal@cs.uu.nl).
 // - Commercialization licenses grant access to the source code and the
 //   right to sell development licenses. To obtain a commercialization 
-//   license, please contact the CGAL Consortium (at cgal@cs.uu.nl).
+//   license, please contact the GALIA Consortium (at cgal@cs.uu.nl).
 //
 // This software and documentation is provided "as-is" and without
 // warranty of any kind. In no event shall the CGAL Consortium be
 // liable for any damage of any kind.
 //
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// The GALIA Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany) Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+// (Germany), Max-Planck-Institute Saarbrucken (Germany),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-1.2
-// release_date  : 1999, January 18
+// release       : CGAL-2.0
+// release_date  : 1999, June 03
 //
 // file          : include/CGAL/Triangulation_face_2.h
-// package       : Triangulation (2.10)
+// package       : Triangulation (3.17)
 // source        : $Source: /u/alcor/0/prisme_util/CGAL/Local/cvsroot/Triangulation/include/CGAL/Triangulation_face_2.h,v $
-// revision      : $Revision: 1.4.1.8 $
-// revision_date : $Date: 1998/12/03 17:11:33 $
+// revision      : $Revision: 1.4.1.9 $
+// revision_date : $Date: 1999/02/26 16:02:55 $
 // author(s)     : Mariette Yvinec
 //
 // coordinator   : Mariette Yvinec
-//
 //
 // email         : cgal@cs.uu.nl
 //
@@ -57,18 +56,19 @@
 #include <CGAL/Triangulation_short_names_2.h>
 #include <CGAL/Triangulation_default_data_structure_2.h>
 
+CGAL_BEGIN_NAMESPACE
 
 template < class Gt, class Tds >
-class CGAL_Triangulation_vertex_2;
+class Triangulation_vertex_2;
 
 template < class Gt, class Tds >
-class CGAL_Triangulation_vertex_handle_2;
+class Triangulation_vertex_handle_2;
 
 template < class Gt, class Tds >
-class CGAL_Triangulation_face_handle_2;
+class Triangulation_face_handle_2;
 
 template < class Gt, class Tds >
-class CGAL_Triangulation_face_2  : public  Tds::Face
+class Triangulation_face_2  : public  Tds::Face
 {
 public:
   //  typedef Tds Tds;
@@ -81,21 +81,21 @@ public:
   typedef typename Tds::Vertex Ve;
   typedef typename Tds::Face Fa;
 
-  typedef CGAL_Triangulation_vertex_2<Gt,Tds> Vertex;
-  typedef CGAL_Triangulation_face_2<Gt,Tds> Face;
+  typedef Triangulation_vertex_2<Gt,Tds> Vertex;
+  typedef Triangulation_face_2<Gt,Tds> Face;
 
-  typedef CGAL_Triangulation_vertex_handle_2<Gt,Tds> Vertex_handle;
-  typedef CGAL_Triangulation_face_handle_2<Gt,Tds> Face_handle;
-  //  typedef pair<Face_handle, int>     Edge;
+  typedef Triangulation_vertex_handle_2<Gt,Tds> Vertex_handle;
+  typedef Triangulation_face_handle_2<Gt,Tds> Face_handle;
+  //  typedef std::pair<Face_handle, int>     Edge;
 
 
   inline
-  CGAL_Triangulation_face_2()
+  Triangulation_face_2()
     : Fa()
   { }
 
   inline
-  CGAL_Triangulation_face_2(const Vertex_handle& v0,
+  Triangulation_face_2(const Vertex_handle& v0,
 			  const Vertex_handle& v1,
 			  const Vertex_handle& v2)
     : Fa(&(*v0), &(*v1), &(*v2))
@@ -103,7 +103,7 @@ public:
         
     
   inline
-  CGAL_Triangulation_face_2(const Vertex_handle& v0,
+  Triangulation_face_2(const Vertex_handle& v0,
 			  const Vertex_handle& v1,
 			  const Vertex_handle& v2,
 			  const Face_handle& n0,
@@ -210,5 +210,7 @@ public:
     }
 
 };
+
+CGAL_END_NAMESPACE
 
 #endif //CGAL_TRIANGULATION_FACE_2_H

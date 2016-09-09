@@ -1,6 +1,6 @@
 // ======================================================================
 //
-// Copyright (c) 1998 The CGAL Consortium
+// Copyright (c) 1999 The GALIA Consortium
 //
 // This software and related documentation is part of the
 // Computational Geometry Algorithms Library (CGAL).
@@ -16,36 +16,35 @@
 // - Development licenses grant access to the source code of the library 
 //   to develop programs. These programs may be sold to other parties as 
 //   executable code. To obtain a development license, please contact
-//   the CGAL Consortium (at cgal@cs.uu.nl).
+//   the GALIA Consortium (at cgal@cs.uu.nl).
 // - Commercialization licenses grant access to the source code and the
 //   right to sell development licenses. To obtain a commercialization 
-//   license, please contact the CGAL Consortium (at cgal@cs.uu.nl).
+//   license, please contact the GALIA Consortium (at cgal@cs.uu.nl).
 //
 // This software and documentation is provided "as-is" and without
 // warranty of any kind. In no event shall the CGAL Consortium be
 // liable for any damage of any kind.
 //
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// The GALIA Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany) Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+// (Germany), Max-Planck-Institute Saarbrucken (Germany),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 // 
-// release       : CGAL-1.2
-// release_date  : 1999, January 18
+// release       : CGAL-2.0
+// release_date  : 1999, June 03
 // 
 // source        : Plane_3.fw
 // file          : include/CGAL/Plane_3.h
-// package       : _3 (1.4)
-// revision      : 1.4
-// revision_date : 15 Dec 1998 
+// package       : _3 (2.1.2)
+// revision      : 2.1.2
+// revision_date : 21 May 1999 
 // author(s)     : Andreas Fabri
 //                 Stefan Schirra
 //
 // coordinator   : MPI, Saarbruecken  (<Stefan.Schirra>)
-//
 // email         : cgal@cs.uu.nl
 //
 // ======================================================================
@@ -82,157 +81,161 @@
 #include <CGAL/Point_2.h>
 #endif // CGAL_POINT_2_H
 
+CGAL_BEGIN_NAMESPACE
+
 template <class _R>
-class CGAL_Plane_3 : public _R::Plane_3
+class Plane_3 : public _R::Plane_3
 {
 public:
   typedef          _R                       R;
   typedef typename R::RT                    RT;
   typedef typename R::FT                    FT;
-  typedef typename R::Plane_3               Plane_3;
+  typedef typename R::Plane_3               RPlane_3;
 
-  CGAL_Plane_3() : Plane_3()
+  Plane_3() : RPlane_3()
   {}
-  CGAL_Plane_3(const CGAL_Plane_3<R>& p) : Plane_3(p)
+  Plane_3(const Plane_3<R>& p) : RPlane_3(p)
   {}
-  CGAL_Plane_3(const Plane_3& p) : Plane_3(p)
+  Plane_3(const RPlane_3&  p) : RPlane_3(p)
   {}
-  CGAL_Plane_3(const CGAL_Point_3<R>& p,
-               const CGAL_Point_3<R>& q,
-               const CGAL_Point_3<R>& r)
-    : Plane_3(p,q,r)
+  Plane_3(const Point_3<R>& p,
+               const Point_3<R>& q,
+               const Point_3<R>& r)
+    : RPlane_3(p,q,r)
   {}
-  CGAL_Plane_3(const CGAL_Point_3<R>& p, const CGAL_Direction_3<R>& d)
-    : Plane_3(p,d)
+  Plane_3(const Point_3<R>& p, const Direction_3<R>& d)
+    : RPlane_3(p,d)
   {}
-  CGAL_Plane_3(const CGAL_Point_3<R>& p, const CGAL_Vector_3<R>& v)
-    : Plane_3(p,v)
+  Plane_3(const Point_3<R>& p, const Vector_3<R>& v)
+    : RPlane_3(p,v)
   {}
-  CGAL_Plane_3(const RT& a, const RT& b, const RT& c, const RT& d)
-    : Plane_3(a,b,c,d)
+  Plane_3(const RT& a, const RT& b, const RT& c, const RT& d)
+    : RPlane_3(a,b,c,d)
   {}
-  CGAL_Plane_3(const CGAL_Line_3<R>& l, const CGAL_Point_3<R>& p)
-    : Plane_3(l,p)
+  Plane_3(const Line_3<R>& l, const Point_3<R>& p)
+    : RPlane_3(l,p)
   {}
-  CGAL_Plane_3(const CGAL_Segment_3<R>& s, const CGAL_Point_3<R>& p)
-    : Plane_3(s,p)
+  Plane_3(const Segment_3<R>& s, const Point_3<R>& p)
+    : RPlane_3(s,p)
   {}
-  CGAL_Plane_3(CGAL_Ray_3<R>& r, const CGAL_Point_3<R>& p)
-    : Plane_3(r,p)
+  Plane_3(Ray_3<R>& r, const Point_3<R>& p)
+    : RPlane_3(r,p)
   {}
 
-  CGAL_Plane_3<R>&      operator=(const CGAL_Plane_3<R>& p)
+  Plane_3<R>&      operator=(const Plane_3<R>& p)
   {
-    Plane_3::operator=(p);
+    RPlane_3::operator=(p);
     return *this;
   }
 
-  bool                  operator==(const CGAL_Plane_3<R>& p) const
-  { return Plane_3::operator==(p); }
+  bool                  operator==(const Plane_3<R>& p) const
+  { return RPlane_3::operator==(p); }
 
-  bool                  operator!=(const CGAL_Plane_3<R>& p) const
+  bool                  operator!=(const Plane_3<R>& p) const
   { return !(*this == p); }
 
   int                   id() const   /* XXX */
   { return (int) PTR ; }
 
   RT a() const
-  { return Plane_3::a(); }
+  { return RPlane_3::a(); }
 
   RT                    b() const
-  { return Plane_3::b(); }
+  { return RPlane_3::b(); }
 
   RT                    c() const
-  { return Plane_3::c(); }
+  { return RPlane_3::c(); }
 
   RT                    d() const
-  { return Plane_3::d(); }
+  { return RPlane_3::d(); }
 
-  CGAL_Line_3<R>       perpendicular_line(const CGAL_Point_3<R>& p) const
-  { return Plane_3::perpendicular_line(p); }
+  Line_3<R>       perpendicular_line(const Point_3<R>& p) const
+  { return RPlane_3::perpendicular_line(p); }
 
-  CGAL_Plane_3<R>      opposite() const
-  { return Plane_3::opposite(); }
+  Plane_3<R>      opposite() const
+  { return RPlane_3::opposite(); }
 
-  CGAL_Point_3<R>      projection(const CGAL_Point_3<R>& p) const
-  { return Plane_3::projection(p); }
+  Point_3<R>      projection(const Point_3<R>& p) const
+  { return RPlane_3::projection(p); }
 
-  CGAL_Point_3<R>      point() const
-  { return Plane_3::point(); }
+  Point_3<R>      point() const
+  { return RPlane_3::point(); }
 
-  CGAL_Vector_3<R>     orthogonal_vector() const
-  { return Plane_3::orthogonal_vector(); }
+  Vector_3<R>     orthogonal_vector() const
+  { return RPlane_3::orthogonal_vector(); }
 
-  CGAL_Direction_3<R>  orthogonal_direction() const
-  { return Plane_3::orthogonal_direction(); }
+  Direction_3<R>  orthogonal_direction() const
+  { return RPlane_3::orthogonal_direction(); }
 
-  CGAL_Vector_3<R>     base1() const
-  { return Plane_3::base1(); }
+  Vector_3<R>     base1() const
+  { return RPlane_3::base1(); }
 
-  CGAL_Vector_3<R>     base2() const
-  { return Plane_3::base2(); }
+  Vector_3<R>     base2() const
+  { return RPlane_3::base2(); }
 
     /*
-  CGAL_Point_3<R>       to_plane_basis(const CGAL_Point_3<R>& p) const
+  Point_3<R>       to_plane_basis(const Point_3<R>& p) const
     {
-      return R::Plane_3::to_plane_basis(p);
+      return R::RPlane_3::to_plane_basis(p);
     }
     */
 
-  CGAL_Point_2<R>      to_2d(const CGAL_Point_3<R>& p) const
-  { return Plane_3::to_2d(p); }
+  Point_2<R>      to_2d(const Point_3<R>& p) const
+  { return RPlane_3::to_2d(p); }
 
-  CGAL_Point_3<R>      to_3d(const CGAL_Point_2<R>& p) const
-  { return Plane_3::to_3d(p); }
+  Point_3<R>      to_3d(const Point_2<R>& p) const
+  { return RPlane_3::to_3d(p); }
 
-  CGAL_Plane_3<R>      transform( CGAL_Aff_transformation_3<R>& t) const
-  { return CGAL_Plane_3<R>( Plane_3::transform(t) ); }
+  Plane_3<R>      transform( Aff_transformation_3<R>& t) const
+  { return Plane_3<R>( RPlane_3::transform(t) ); }
 
-  CGAL_Oriented_side   oriented_side(const CGAL_Point_3<R>& p) const
-  { return Plane_3::oriented_side(p); }
+  Oriented_side   oriented_side(const Point_3<R>& p) const
+  { return RPlane_3::oriented_side(p); }
 
-  bool                 has_on(const  CGAL_Point_3<R>& p) const
-  { return Plane_3::has_on_boundary(p); }
+  bool                 has_on(const  Point_3<R>& p) const
+  { return RPlane_3::has_on_boundary(p); }
 
-  bool                 has_on(const  CGAL_Line_3<R>& l) const
-  { return Plane_3::has_on_boundary(l); }
+  bool                 has_on(const  Line_3<R>& l) const
+  { return RPlane_3::has_on_boundary(l); }
 
-  bool                 has_on_boundary(const  CGAL_Point_3<R>& p) const
-  { return Plane_3::has_on_boundary(p); }
+  bool                 has_on_boundary(const  Point_3<R>& p) const
+  { return RPlane_3::has_on_boundary(p); }
 
-  bool                 has_on_boundary(const  CGAL_Line_3<R>& l) const
-  { return Plane_3::has_on_boundary(l); }
+  bool                 has_on_boundary(const  Line_3<R>& l) const
+  { return RPlane_3::has_on_boundary(l); }
 
-  bool                 has_on_positive_side(const  CGAL_Point_3<R>& p) const
-  { return Plane_3::has_on_positive_side(p); }
+  bool                 has_on_positive_side(const  Point_3<R>& p) const
+  { return RPlane_3::has_on_positive_side(p); }
 
-  bool                 has_on_negative_side(const  CGAL_Point_3<R>& p) const
-  { return Plane_3::has_on_negative_side(p); }
+  bool                 has_on_negative_side(const  Point_3<R>& p) const
+  { return RPlane_3::has_on_negative_side(p); }
 
   bool                 is_degenerate() const
-  { return Plane_3::is_degenerate(); }
+  { return RPlane_3::is_degenerate(); }
 };
 
-#ifndef CGAL_NO_OSTREAM_INSERT_PLANE_3
+#ifndef NO_OSTREAM_INSERT_PLANE_3
 template < class R >
-ostream&
-operator<<(ostream& os, const CGAL_Plane_3<R>& p)
+std::ostream&
+operator<<(std::ostream& os, const Plane_3<R>& p)
 {
-  typedef typename  R::Plane_3        Plane_3;
-  return os << (const Plane_3&)p;
+  typedef typename  R::Plane_3        RPlane_3;
+  return os << (const RPlane_3& )p;
 }
-#endif // CGAL_NO_OSTREAM_INSERT_PLANE_3
+#endif // NO_OSTREAM_INSERT_PLANE_3
 
-#ifndef CGAL_NO_ISTREAM_EXTRACT_PLANE_3
+#ifndef NO_ISTREAM_EXTRACT_PLANE_3
 template < class R >
-istream&
-operator>>(istream& is, CGAL_Plane_3<R>& t)
+std::istream&
+operator>>(std::istream& is, Plane_3<R>& t)
 {
-  typedef typename  R::Plane_3        Plane_3;
-  return is >> (Plane_3&)t;
+  typedef typename  R::Plane_3        RPlane_3;
+  return is >> (RPlane_3& )t;
 }
-#endif // CGAL_NO_ISTREAM_EXTRACT_PLANE_3
+#endif // NO_ISTREAM_EXTRACT_PLANE_3
 
+
+CGAL_END_NAMESPACE
 
 
 #endif // CGAL_PLANE_3_H

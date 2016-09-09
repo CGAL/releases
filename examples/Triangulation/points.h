@@ -282,37 +282,37 @@ public:
     return (p == q);
   }
 
-  CGAL_Comparison_result compare_x(const Point &p, const Point &q) const
+  CGAL::Comparison_result compare_x(const Point &p, const Point &q) const
   {
-    return CGAL_compare(p->x(), q->x());
+    return CGAL::compare(p->x(), q->x());
   }
 
-  CGAL_Comparison_result compare_y(const Point &p, const Point &q) const
+  CGAL::Comparison_result compare_y(const Point &p, const Point &q) const
   {
-    return CGAL_compare(p->y(), q->y());
+    return CGAL::compare(p->y(), q->y());
   }
 
-  CGAL_Orientation orientation(const Point &p,
+  CGAL::Orientation orientation(const Point &p,
                                const Point &q,
                                const Point &r) const
   {
     if(*p==*q || *p == *r || *q == *r){
       cout << "coll" << endl;
-      return CGAL_COLLINEAR;
+      return CGAL::COLLINEAR;
     }
-    return CGAL_orientationC2(p->x(), p->y(), q->x(), q->y(), r->x(), r->y());
+    return CGAL::orientationC2(p->x(), p->y(), q->x(), q->y(), r->x(), r->y());
   }
 
 
-  CGAL_Orientation extremal(const Point &p,
+  CGAL::Orientation extremal(const Point &p,
                             const Point &q,
 			    const Point &r) const
   {
     if(*p==*q || *p == *r || *q == *r){
       cout << "coll" << endl;
-      return CGAL_COLLINEAR;
+      return CGAL::COLLINEAR;
     }
-    return CGAL_orientationC2(p->x(), p->y(), q->x(), q->y(), r->x(), r->y());
+    return CGAL::orientationC2(p->x(), p->y(), q->x(), q->y(), r->x(), r->y());
   }
 
   point circumcenter(const point& p, const point& q, const point& r)

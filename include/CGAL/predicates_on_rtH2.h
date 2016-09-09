@@ -1,6 +1,6 @@
 // ======================================================================
 //
-// Copyright (c) 1998 The CGAL Consortium
+// Copyright (c) 1999 The GALIA Consortium
 //
 // This software and related documentation is part of the
 // Computational Geometry Algorithms Library (CGAL).
@@ -16,35 +16,34 @@
 // - Development licenses grant access to the source code of the library 
 //   to develop programs. These programs may be sold to other parties as 
 //   executable code. To obtain a development license, please contact
-//   the CGAL Consortium (at cgal@cs.uu.nl).
+//   the GALIA Consortium (at cgal@cs.uu.nl).
 // - Commercialization licenses grant access to the source code and the
 //   right to sell development licenses. To obtain a commercialization 
-//   license, please contact the CGAL Consortium (at cgal@cs.uu.nl).
+//   license, please contact the GALIA Consortium (at cgal@cs.uu.nl).
 //
 // This software and documentation is provided "as-is" and without
 // warranty of any kind. In no event shall the CGAL Consortium be
 // liable for any damage of any kind.
 //
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// The GALIA Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany) Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+// (Germany), Max-Planck-Institute Saarbrucken (Germany),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 // 
-// release       : CGAL-1.2
-// release_date  : 1999, January 18
+// release       : CGAL-2.0
+// release_date  : 1999, June 03
 // 
 // source        : predicates_on_rtH2.fw
 // file          : include/CGAL/predicates_on_rtH2.h
-// package       : H2 (1.3.1)
-// revision      : 1.3.1
-// revision_date : 02 Jan 1999 
+// package       : H2 (2.1.3)
+// revision      : 2.1.3
+// revision_date : 21 May 1999 
 // author(s)     : Stefan Schirra
 //
 // coordinator   : MPI, Saarbruecken
-//
 // email         : cgal@cs.uu.nl
 //
 // ======================================================================
@@ -53,10 +52,12 @@
 #ifndef CGAL_PREDICATES_ON_RTH2_H
 #define CGAL_PREDICATES_ON_RTH2_H
 
+CGAL_BEGIN_NAMESPACE
+
 template <class RT>
 CGAL_KERNEL_INLINE
-CGAL_Orientation
-CGAL_orientationH2( const RT& phx, const RT& phy, const RT& phw,
+Orientation
+orientationH2( const RT& phx, const RT& phy, const RT& phw,
                     const RT& qhx, const RT& qhy, const RT& qhw,
                     const RT& rhx, const RT& rhy, const RT& rhw )
 {
@@ -75,18 +76,18 @@ CGAL_orientationH2( const RT& phx, const RT& phy, const RT& phw,
   
   if (det < RT0  )
   {
-      return CGAL_CLOCKWISE;
+      return CLOCKWISE;
   }
   else
   {
-      return (RT0 < det) ? CGAL_COUNTERCLOCKWISE : CGAL_COLLINEAR;
+      return (RT0 < det) ? COUNTERCLOCKWISE : COLLINEAR;
   }
 }
 
 template <class RT>
 CGAL_KERNEL_INLINE
 bool
-CGAL_leftturnH2( const RT& phx, const RT& phy, const RT& phw,
+leftturnH2( const RT& phx, const RT& phy, const RT& phw,
                  const RT& qhx, const RT& qhy, const RT& qhw,
                  const RT& rhx, const RT& rhy, const RT& rhw )
 {
@@ -109,7 +110,7 @@ CGAL_leftturnH2( const RT& phx, const RT& phy, const RT& phw,
 template <class RT>
 CGAL_KERNEL_INLINE
 bool
-CGAL_rightturnH2(const RT& phx, const RT& phy, const RT& phw,
+rightturnH2(const RT& phx, const RT& phy, const RT& phw,
                  const RT& qhx, const RT& qhy, const RT& qhw,
                  const RT& rhx, const RT& rhy, const RT& rhw )
 {
@@ -132,7 +133,7 @@ CGAL_rightturnH2(const RT& phx, const RT& phy, const RT& phw,
 template <class RT>
 CGAL_KERNEL_INLINE
 bool
-CGAL_collinearH2(const RT& phx, const RT& phy, const RT& phw,
+collinearH2(const RT& phx, const RT& phy, const RT& phw,
                  const RT& qhx, const RT& qhy, const RT& qhw,
                  const RT& rhx, const RT& rhy, const RT& rhw )
 {
@@ -153,13 +154,13 @@ CGAL_collinearH2(const RT& phx, const RT& phy, const RT& phw,
 }
 template <class RT>
 CGAL_KERNEL_INLINE
-CGAL_Bounded_side
-CGAL_side_of_bounded_circleH2( const RT& qhx, const RT& qhy, const RT& qhw,
+Bounded_side
+side_of_bounded_circleH2( const RT& qhx, const RT& qhy, const RT& qhw,
                                const RT& rhx, const RT& rhy, const RT& rhw,
                                const RT& shx, const RT& shy, const RT& shw,
                                const RT& thx, const RT& thy, const RT& thw )
 {
-  CGAL_kernel_precondition( ! CGAL_collinearH2(qhx, qhy, ghw,
+  CGAL_kernel_precondition( ! collinearH2(qhx, qhy, ghw,
                                                rhx, rhy, rhw,
                                                shx, shy, shw) );
   
@@ -195,27 +196,27 @@ CGAL_side_of_bounded_circleH2( const RT& qhx, const RT& qhy, const RT& qhw,
   
   if ( det == RT0 )
   {
-      return CGAL_ON_BOUNDARY;
+      return ON_BOUNDARY;
   }
   else
   {
-      if (CGAL_orientation(q,r,s) == CGAL_CLOCKWISE)
+      if (orientation(q,r,s) == CLOCKWISE)
       {
           det = -det;
       }
-      return (RT0 < det ) ? CGAL_ON_BOUNDED_SIDE : CGAL_ON_UNBOUNDED_SIDE;
+      return (RT0 < det ) ? ON_BOUNDED_SIDE : ON_UNBOUNDED_SIDE;
   }
 }
 
 template <class RT>
 CGAL_KERNEL_INLINE
-CGAL_Oriented_side
-CGAL_side_of_oriented_circleH2(const RT& qhx, const RT& qhy, const RT& qhw,
+Oriented_side
+side_of_oriented_circleH2(const RT& qhx, const RT& qhy, const RT& qhw,
                                const RT& rhx, const RT& rhy, const RT& rhw,
                                const RT& shx, const RT& shy, const RT& shw,
                                const RT& thx, const RT& thy, const RT& thw )
 {
-  CGAL_kernel_precondition( ! CGAL_collinearH2(qhx, qhy, ghw,
+  CGAL_kernel_precondition( ! collinearH2(qhx, qhy, ghw,
                                                rhx, rhy, rhw,
                                                shx, shy, shw) );
   
@@ -249,14 +250,14 @@ CGAL_side_of_oriented_circleH2(const RT& qhx, const RT& qhy, const RT& qhw,
            + i * ( b*(g*p - h*o) + f*(d*o - c*p) + n*(c*h - d*g) )
            - m * ( b*(g*l - h*k) + f*(d*k - c*l) + j*(c*h - d*g) );
   
-  if ( det < RT0 )  return CGAL_ON_NEGATIVE_SIDE;
-  else return (RT0 < det ) ? CGAL_ON_POSITIVE_SIDE :
-                             CGAL_ON_ORIENTED_BOUNDARY;
+  if ( det < RT0 )  return ON_NEGATIVE_SIDE;
+  else return (RT0 < det ) ? ON_POSITIVE_SIDE :
+                             ON_ORIENTED_BOUNDARY;
 }
 template <class RT>
 CGAL_KERNEL_INLINE
-CGAL_Comparison_result
-CGAL_compare_lexicographically_xyH2(const RT& phx, const RT& phy, const RT& phw,
+Comparison_result
+compare_lexicographically_xyH2(const RT& phx, const RT& phy, const RT& phw,
                                     const RT& qhx, const RT& qhy, const RT& qhw)
 {
   RT pV = phx*qhw;
@@ -268,52 +269,52 @@ CGAL_compare_lexicographically_xyH2(const RT& phx, const RT& phy, const RT& phw,
   }
   if ( pV < qV )
   {
-      return CGAL_SMALLER;
+      return SMALLER;
   }
   else
   {
-      return (qV < pV) ? CGAL_LARGER : CGAL_EQUAL;
+      return (qV < pV) ? LARGER : EQUAL;
   }
 }
 
 template <class RT>
 CGAL_KERNEL_INLINE
-CGAL_Comparison_result
-CGAL_compare_xH2( const RT& phx, const RT& phw,
+Comparison_result
+compare_xH2( const RT& phx, const RT& phw,
                   const RT& qhx, const RT& qhw )
 {
   RT com = phx * qhw - qhx * phw;
   if ( com < RT0 )
   {
-      return CGAL_SMALLER;
+      return SMALLER;
   }
   else if ( RT0 < com )
   {
-      return CGAL_LARGER;
+      return LARGER;
   }
-  return CGAL_EQUAL;
+  return EQUAL;
 }
 
-// No CGAL_compare_yH2; use CGAL_compare_xH2( py, pw, qy, qw)
+// No compare_yH2; use compare_xH2( py, pw, qy, qw)
 
 template < class RT >
 CGAL_KERNEL_INLINE
-CGAL_Comparison_result
-CGAL_compare_deltax_deltayH2(const RT& phx, const RT& phw,
+Comparison_result
+compare_deltax_deltayH2(const RT& phx, const RT& phw,
                              const RT& qhx, const RT& qhw,
                              const RT& rhy, const RT& rhw,
                              const RT& shy, const RT& shw )
-  const RT  tbc1 = CGAL_abs(phx*qhw - qhx*phw) * rhw*shw;
-  const RT  tbc2 = CGAL_abs(rhy*shw - shy*rhw) * phw*qhw;
-  return (tbc2 < tbc1) ? CGAL_LARGER
-                       : (tbc1 == tbc2) ? CGAL_EQUAL : CGAL_SMALLER;
+  const RT  tbc1 = abs(phx*qhw - qhx*phw) * rhw*shw;
+  const RT  tbc2 = abs(rhy*shw - shy*rhw) * phw*qhw;
+  return (tbc2 < tbc1) ? LARGER
+                       : (tbc1 == tbc2) ? EQUAL : SMALLER;
 
 }
 
 template <class RT>
 CGAL_KERNEL_INLINE
 bool
-CGAL_collinear_are_ordered_along_lineH2(
+collinear_are_ordered_along_lineH2(
      const RT& phx, const RT& phy, const RT& phw,
      const RT& qhx, const RT& qhy, const RT& qhw,
      const RT& rhx, const RT& rhy, const RT& rhw
@@ -340,7 +341,7 @@ CGAL_collinear_are_ordered_along_lineH2(
 template <class RT>
 CGAL_KERNEL_INLINE
 bool
-CGAL_collinear_are_strictly_ordered_along_lineH2(
+collinear_are_strictly_ordered_along_lineH2(
      const RT& phx, const RT& phy, const RT& phw,
      const RT& qhx, const RT& qhy, const RT& qhw,
      const RT& rhx, const RT& rhy, const RT& rhw)
@@ -362,6 +363,8 @@ CGAL_collinear_are_strictly_ordered_along_lineH2(
 }
 
 
+
+CGAL_END_NAMESPACE
 
 
 #ifdef CGAL_ARITHMETIC_FILTER_H

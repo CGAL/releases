@@ -1,6 +1,6 @@
 // ======================================================================
 //
-// Copyright (c) 1998 The CGAL Consortium
+// Copyright (c) 1999 The GALIA Consortium
 //
 // This software and related documentation is part of the
 // Computational Geometry Algorithms Library (CGAL).
@@ -16,36 +16,35 @@
 // - Development licenses grant access to the source code of the library 
 //   to develop programs. These programs may be sold to other parties as 
 //   executable code. To obtain a development license, please contact
-//   the CGAL Consortium (at cgal@cs.uu.nl).
+//   the GALIA Consortium (at cgal@cs.uu.nl).
 // - Commercialization licenses grant access to the source code and the
 //   right to sell development licenses. To obtain a commercialization 
-//   license, please contact the CGAL Consortium (at cgal@cs.uu.nl).
+//   license, please contact the GALIA Consortium (at cgal@cs.uu.nl).
 //
 // This software and documentation is provided "as-is" and without
 // warranty of any kind. In no event shall the CGAL Consortium be
 // liable for any damage of any kind.
 //
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// The GALIA Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany) Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+// (Germany), Max-Planck-Institute Saarbrucken (Germany),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 // 
-// release       : CGAL-1.2
-// release_date  : 1999, January 18
+// release       : CGAL-2.0
+// release_date  : 1999, June 03
 // 
 // source        : Point_2.fw
 // file          : include/CGAL/Point_2.h
-// package       : _2 (1.3)
-// revision      : 1.3
-// revision_date : 15 Dec 1998 
+// package       : _2 (2.1.2)
+// revision      : 2.1.2
+// revision_date : 09 May 1999 
 // author(s)     : Andreas Fabri
 //                 Stefan Schirra
 //
 // coordinator   : MPI, Saarbruecken  (<Stefan.Schirra>)
-//
 // email         : cgal@cs.uu.nl
 //
 // ======================================================================
@@ -74,61 +73,63 @@
 #include <CGAL/Vector_2.h>
 #endif // CGAL_VECTOR_2_H
 
+CGAL_BEGIN_NAMESPACE
+
 template <class _R>
-class CGAL_Point_2 : public _R::Point_2
+class Point_2 : public _R::Point_2
 {
 public:
   typedef  _R   R;
   typedef typename R::RT                    RT;
   typedef typename R::FT                    FT;
-  typedef typename R::Point_2               Point_2;
-  typedef typename R::Vector_2              Vector_2;
+  typedef typename R::Point_2               RPoint_2;
+  typedef typename R::Vector_2              RVector_2;
 
 
 friend  inline
-        CGAL_Point_2<R>
-        operator+ CGAL_NULL_TMPL_ARGS (const CGAL_Origin &o,
-                                       const CGAL_Vector_2<R> &v);
+        Point_2<R>
+        operator+ CGAL_NULL_TMPL_ARGS (const Origin &o,
+                                       const Vector_2<R> &v);
 friend  inline
-        CGAL_Point_2<R>
-        operator- CGAL_NULL_TMPL_ARGS (const CGAL_Origin &o,
-                                       const CGAL_Vector_2<R> &v);
+        Point_2<R>
+        operator- CGAL_NULL_TMPL_ARGS (const Origin &o,
+                                       const Vector_2<R> &v);
 
-  CGAL_Point_2()
+  Point_2()
   {}
 
-  CGAL_Point_2(const CGAL_Origin &o)
-    : Point_2(o)
+  Point_2(const Origin &o)
+    : RPoint_2(o)
   {}
 
-  CGAL_Point_2(const CGAL_Point_2<R> &p)
-    : Point_2((Point_2&)p)
+  Point_2(const Point_2<R> &p)
+    : RPoint_2((RPoint_2&)p)
   {}
 
-  CGAL_Point_2(const Point_2 &p)
-    : Point_2(p)
+  Point_2(const RPoint_2& p)
+    : RPoint_2(p)
   {}
 
-  CGAL_Point_2(const RT &hx, const RT &hy)
-    : Point_2(hx, hy)
+  Point_2(const RT &hx, const RT &hy)
+    : RPoint_2(hx, hy)
   {}
 
-  CGAL_Point_2(const RT &hx, const RT &hy, const RT &hw)
-    : Point_2(hx, hy, hw)
+  Point_2(const RT &hx, const RT &hy, const RT &hw)
+    : RPoint_2(hx, hy, hw)
   {}
 
-  CGAL_Point_2<R> &operator=(const CGAL_Point_2<R> &p)
+  Point_2<R> &operator=(const Point_2<R> &p)
   {
-    Point_2::operator=(p);
+    RPoint_2::operator=(p);
     return *this;
   }
 
-  bool operator==(const CGAL_Point_2<R> &p) const
+  bool operator==(const Point_2<R> &p) const
   {
-    return Point_2::operator==(p);
+    return RPoint_2::operator==(p);
   }
 
-  bool operator!=(const CGAL_Point_2<R> &p) const
+  bool operator!=(const Point_2<R> &p) const
   {
     return !(*this == p);
   }
@@ -140,36 +141,36 @@ friend  inline
 
   RT hx() const
   {
-    return Point_2::hx();
+    return RPoint_2::hx();
   }
 
   RT hy() const
   {
-    return Point_2::hy();
+    return RPoint_2::hy();
   }
 
   RT hw() const
   {
-    return Point_2::hw();
+    return RPoint_2::hw();
   }
   FT x() const
   {
-    return Point_2::x();
+    return RPoint_2::x();
   }
 
   FT y() const
   {
-    return Point_2::y();
+    return RPoint_2::y();
   }
 
   RT homogeneous(int i) const
   {
-    return Point_2::homogeneous(i);
+    return RPoint_2::homogeneous(i);
   }
 
   FT cartesian(int i) const
   {
-    return Point_2::cartesian(i);
+    return RPoint_2::cartesian(i);
   }
 
   FT operator[](int i) const
@@ -182,162 +183,162 @@ friend  inline
     return 2;
   }
 
-  CGAL_Bbox_2       bbox() const
+  Bbox_2       bbox() const
   {
-    return Point_2::bbox();
+    return RPoint_2::bbox();
   }
 
-  CGAL_Point_2<R> transform(const CGAL_Aff_transformation_2<R> &t) const
+  Point_2<R> transform(const Aff_transformation_2<R> &t) const
   {
-    return Point_2::transform(t);
+    return RPoint_2::transform(t);
   }
 
 private:
 
-  CGAL_Point_2(const Vector_2 &v)
-    : Point_2(v)
+  Point_2(const RVector_2& v)
+    : RPoint_2(v)
   {}
 };
 
-#ifndef CGAL_NO_OSTREAM_INSERT_POINT_2
+#ifndef NO_OSTREAM_INSERT_POINT_2
 template < class R >
-ostream &
-operator<<(ostream &os, const CGAL_Point_2<R> &p)
+std::ostream &
+operator<<(std::ostream &os, const Point_2<R> &p)
 {
-  typedef typename  R::Point_2    Point_2;
-  return os << (const Point_2&)p;
+  typedef typename  R::Point_2    RPoint_2;
+  return os << (const RPoint_2&)p;
 }
-#endif // CGAL_NO_OSTREAM_INSERT_POINT_2
+#endif // NO_OSTREAM_INSERT_POINT_2
 
-#ifndef CGAL_NO_ISTREAM_EXTRACT_POINT_2
+#ifndef NO_ISTREAM_EXTRACT_POINT_2
 template < class R >
-istream &
-operator>>(istream &is, CGAL_Point_2<R> &p)
+std::istream &
+operator>>(std::istream &is, Point_2<R> &p)
 {
-  typedef typename  R::Point_2    Point_2;
-  return is >> (Point_2&)p;
+  typedef typename  R::Point_2    RPoint_2;
+  return is >> (RPoint_2&)p;
 }
-#endif // CGAL_NO_ISTREAM_EXTRACT_POINT_2
+#endif // NO_ISTREAM_EXTRACT_POINT_2
 
 template <class R>
 inline
-CGAL_Point_2<R>
-operator+(const CGAL_Origin &o, const CGAL_Vector_2<R> &v);
+Point_2<R>
+operator+(const Origin &o, const Vector_2<R> &v);
 
 template <class R>
 inline
-CGAL_Point_2<R>
-operator-(const CGAL_Origin &o, const CGAL_Vector_2<R> &v);
+Point_2<R>
+operator-(const Origin &o, const Vector_2<R> &v);
 
 template <class R>
 inline
-CGAL_Vector_2<R>
-operator-(const CGAL_Point_2<R> &p, const CGAL_Origin &);
+Vector_2<R>
+operator-(const Point_2<R> &p, const Origin &);
+
+CGAL_END_NAMESPACE
 
 
 #ifndef CGAL_AFF_TRANSFORMATION_2_H
 #include <CGAL/Aff_transformation_2.h>
 #endif // CGAL_AFF_TRANSFORMATION_2_H
 
-template < class R >
-inline
-CGAL_Point_2<R> operator+(const CGAL_Point_2<R> &p,
-                          const CGAL_Vector_2<R> &v)
-{
-  typedef typename  R::Point_2     Point_2;
-  typedef typename  R::Vector_2    Vector_2;
-  return CGAL_Point_2<R>((const Point_2&)p + (const Vector_2&)v) ;
-}
-
-#ifdef CGAL_VECTOR_WRAPPER
-template < class R >
-inline
-CGAL_Point_2<R> operator+(const CGAL_Point_2<R> &p,
-                          const CGAL__Vector_2_rft_wrapper<R> &wrapper)
-{
-  typedef typename  R::Point_2     Point_2;
-  typedef typename  R::Vector_2    Vector_2;
-  return CGAL_Point_2<R>((const Point_2&)p +
-                      (const Vector_2&)((const CGAL_Vector_2<R>&)wrapper)) ;
-}
+CGAL_BEGIN_NAMESPACE
 
 template < class R >
 inline
-CGAL_Point_2<R> operator-(const CGAL_Point_2<R> &p,
-                          const CGAL__Vector_2_rft_wrapper<R> &wrapper)
+Point_2<R> operator+(const Point_2<R> &p,
+                     const Vector_2<R> &v)
 {
-  typedef typename  R::Point_2     Point_2;
-  typedef typename  R::Vector_2    Vector_2;
-  return CGAL_Point_2<R>((const Point_2&)p -
-                      (const Vector_2&)((const CGAL_Vector_2<R>&)wrapper)) ;
+  typedef typename  R::Point_2     RPoint_2;
+  typedef typename  R::Vector_2    RVector_2;
+  return Point_2<R>((const RPoint_2&)p + (const RVector_2&)v) ;
 }
-#endif // CGAL_VECTOR_WRAPPER
 
+#ifdef VECTOR_WRAPPER
 template < class R >
 inline
-CGAL_Point_2<R> operator-(const CGAL_Point_2<R> &p,
-                          const CGAL_Vector_2<R> &v)
+Point_2<R> operator+(const Point_2<R> &p,
+                     const _Vector_2_rft_wrapper<R> &wrapper)
 {
-  typedef typename  R::Point_2     Point_2;
-  typedef typename  R::Vector_2    Vector_2;
-  return CGAL_Point_2<R>((const Point_2&)p - (const Vector_2&)v) ;
+  typedef typename  R::Point_2     RPoint_2;
+  typedef typename  R::Vector_2    RVector_2;
+  return Point_2<R>((const RPoint_2&)p +
+                    (const RVector_2&)((const Vector_2<R>&)wrapper)) ;
 }
 
 template < class R >
 inline
-CGAL_Point_2<R> operator+(const CGAL_Origin &,
-                          const CGAL_Vector_2<R> &v)
+Point_2<R> operator-(const Point_2<R> &p,
+                     const _Vector_2_rft_wrapper<R> &wrapper)
 {
-  return CGAL_Point_2<R>(v) ;
+  typedef typename  R::Point_2     RPoint_2;
+  typedef typename  R::Vector_2    RVector_2;
+  return Point_2<R>((const RPoint_2&)p -
+                    (const RVector_2&)((const Vector_2<R>&)wrapper)) ;
 }
-
+#endif // VECTOR_WRAPPER
 
 template < class R >
 inline
-CGAL_Point_2<R> operator-(const CGAL_Origin &,
-                          const CGAL_Vector_2<R> &v)
+Point_2<R> operator-(const Point_2<R> &p,
+                          const Vector_2<R> &v)
 {
-  return CGAL_Point_2<R>(-v) ;
-}
-
-template < class R >
-inline
-CGAL_Vector_2<R> operator-(const CGAL_Point_2<R> &p,
-                           const CGAL_Point_2<R> &q)
-{
-  typedef typename  R::Point_2     Point_2;
-  return CGAL_Vector_2<R>((const Point_2&)p - (const Point_2&)q) ;
+  typedef typename  R::Point_2     RPoint_2;
+  typedef typename  R::Vector_2    RVector_2;
+  return Point_2<R>((const RPoint_2&)p - (const RVector_2&)v) ;
 }
 
 template < class R >
 inline
-CGAL_Vector_2<R> operator-(const CGAL_Point_2<R> &p,
-                           const CGAL_Origin &)
+Point_2<R> operator+(const Origin &,
+                     const Vector_2<R> &v)
+{ return Point_2<R>(v) ; }
+
+
+template < class R >
+inline
+Point_2<R> operator-(const Origin &,
+                     const Vector_2<R> &v)
+{ return Point_2<R>(-v) ; }
+
+template < class R >
+inline
+Vector_2<R> operator-(const Point_2<R> &p,
+                           const Point_2<R> &q)
 {
-  return CGAL_Vector_2<R>(p) ;
+  typedef typename  R::Point_2     RPoint_2;
+  return Vector_2<R>((const RPoint_2&)p - (const RPoint_2&)q) ;
 }
 
 template < class R >
 inline
-CGAL_Vector_2<R> operator-(const CGAL_Origin &,
-                           const CGAL_Point_2<R> &p)
+Vector_2<R> operator-(const Point_2<R> &p,
+                      const Origin &)
+{ return Vector_2<R>(p) ; }
+
+template < class R >
+inline
+Vector_2<R> operator-(const Origin &,
+                      const Point_2<R> &p)
 {
-  typedef typename  R::Point_2     Point_2;
-  return CGAL_Vector_2<R>(CGAL_ORIGIN - (const Point_2&)p) ;
+  typedef typename  R::Point_2     RPoint_2;
+  return Vector_2<R>(ORIGIN - (const RPoint_2&)p) ;
 }
 
 
 template <class R>
 inline
 bool
-operator==(const CGAL_Origin& o, const CGAL_Point_2<R>& p)
+operator==(const Origin& o, const Point_2<R>& p)
 { return p == o; }
 
 template <class R>
 inline
 bool
-operator!=(const CGAL_Origin& o, const CGAL_Point_2<R>& p)
+operator!=(const Origin& o, const Point_2<R>& p)
 { return p != o; }
+
+CGAL_END_NAMESPACE
 
 
 #endif // CGAL_POINT_2_H

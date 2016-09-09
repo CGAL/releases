@@ -1,6 +1,6 @@
 // ======================================================================
 //
-// Copyright (c) 1998 The CGAL Consortium
+// Copyright (c) 1999 The GALIA Consortium
 //
 // This software and related documentation is part of the
 // Computational Geometry Algorithms Library (CGAL).
@@ -16,35 +16,34 @@
 // - Development licenses grant access to the source code of the library 
 //   to develop programs. These programs may be sold to other parties as 
 //   executable code. To obtain a development license, please contact
-//   the CGAL Consortium (at cgal@cs.uu.nl).
+//   the GALIA Consortium (at cgal@cs.uu.nl).
 // - Commercialization licenses grant access to the source code and the
 //   right to sell development licenses. To obtain a commercialization 
-//   license, please contact the CGAL Consortium (at cgal@cs.uu.nl).
+//   license, please contact the GALIA Consortium (at cgal@cs.uu.nl).
 //
 // This software and documentation is provided "as-is" and without
 // warranty of any kind. In no event shall the CGAL Consortium be
 // liable for any damage of any kind.
 //
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// The GALIA Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany) Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+// (Germany), Max-Planck-Institute Saarbrucken (Germany),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 // 
-// release       : CGAL-1.2
-// release_date  : 1999, January 18
+// release       : CGAL-2.0
+// release_date  : 1999, June 03
 // 
 // source        : Homogeneous.fw
 // file          : include/CGAL/homogeneous_classes.h
-// package       : Kernel_basic (1.2.12)
-// revision      : 1.2.12
-// revision_date : 08 Jan 1999 
+// package       : Kernel_basic (2.0.11)
+// revision      : 2.0.11
+// revision_date : 06 May 1999 
 // author(s)     : Stefan Schirra
 //
 // coordinator   : MPI, Saarbruecken
-//
 // email         : cgal@cs.uu.nl
 //
 // ======================================================================
@@ -53,74 +52,78 @@
 #ifndef CGAL_HOMOGENEOUS_CLASSES_H
 #define CGAL_HOMOGENEOUS_CLASSES_H
 
-template < class FT, class RT >
-class CGAL_PointH2;
+CGAL_BEGIN_NAMESPACE
 
 template < class FT, class RT >
-class CGAL_VectorH2;
+class PointH2;
 
 template < class FT, class RT >
-class CGAL_DirectionH2;
+class VectorH2;
 
 template < class FT, class RT >
-class CGAL_LineH2;
+class DirectionH2;
 
 template < class FT, class RT >
-class CGAL_RayH2;
+class LineH2;
 
 template < class FT, class RT >
-class CGAL_SegmentH2;
+class RayH2;
 
 template < class FT, class RT >
-class CGAL_TriangleH2;
+class SegmentH2;
 
 template < class FT, class RT >
-class CGAL_CircleH2;
+class TriangleH2;
 
 template < class FT, class RT >
-class CGAL_Iso_rectangleH2;
+class CircleH2;
 
 template < class FT, class RT >
-class CGAL_Aff_transformationH2;
+class Iso_rectangleH2;
 
 template < class FT, class RT >
-class CGAL_PointH3;
+class Aff_transformationH2;
 
 template < class FT, class RT >
-class CGAL_VectorH3;
+class PointH3;
 
 template < class FT, class RT >
-class CGAL_DirectionH3;
+class VectorH3;
 
 template < class FT, class RT >
-class CGAL_PlaneH3;
+class DirectionH3;
 
 template < class FT, class RT >
-class CGAL_LineH3;
+class PlaneH3;
 
 template < class FT, class RT >
-class CGAL_RayH3;
+class LineH3;
 
 template < class FT, class RT >
-class CGAL_SegmentH3;
+class RayH3;
 
 template < class FT, class RT >
-class CGAL_TriangleH3;
+class SegmentH3;
 
 template < class FT, class RT >
-class CGAL_Iso_rectangleH3;
+class TriangleH3;
 
 template < class FT, class RT >
-class CGAL_TetrahedronH3;
+class Iso_rectangleH3;
 
 template < class FT, class RT >
-class CGAL_Aff_transformationH3;
+class TetrahedronH3;
+
+template < class FT, class RT >
+class Aff_transformationH3;
 
 template < class PT, class DA >
-class CGAL_ConicHPA2;
+class ConicHPA2;
 
 template <class FT, class RT>
-class CGAL_PointHd;
+class PointHd;
+
+CGAL_END_NAMESPACE
 
 
 #endif // CGAL_HOMOGENEOUS_CLASSES_H

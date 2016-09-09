@@ -1,6 +1,6 @@
 // ======================================================================
 //
-// Copyright (c) 1997 The CGAL Consortium
+// Copyright (c) 1999 The GALIA Consortium
 //
 // This software and related documentation is part of the
 // Computational Geometry Algorithms Library (CGAL).
@@ -16,35 +16,34 @@
 // - Development licenses grant access to the source code of the library 
 //   to develop programs. These programs may be sold to other parties as 
 //   executable code. To obtain a development license, please contact
-//   the CGAL Consortium (at cgal@cs.uu.nl).
+//   the GALIA Consortium (at cgal@cs.uu.nl).
 // - Commercialization licenses grant access to the source code and the
 //   right to sell development licenses. To obtain a commercialization 
-//   license, please contact the CGAL Consortium (at cgal@cs.uu.nl).
+//   license, please contact the GALIA Consortium (at cgal@cs.uu.nl).
 //
 // This software and documentation is provided "as-is" and without
 // warranty of any kind. In no event shall the CGAL Consortium be
 // liable for any damage of any kind.
 //
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// The GALIA Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany) Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+// (Germany), Max-Planck-Institute Saarbrucken (Germany),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-1.2
-// release_date  : 1999, January 18
+// release       : CGAL-2.0
+// release_date  : 1999, June 03
 //
 // file          : src/io.C
-// package       : iostream (1.8)
-// source        : web/io.fw
-// revision      : $Revision: 1.10 $
-// revision_date : $Date: 1998/07/22 12:49:21 $
+// package       : iostream (2.1)
+// source        : $RCSfile: io.C,v $
+// revision      : $Revision: 1.2 $
+// revision_date : $Date: 1999/05/27 14:19:24 $
 // author(s)     : Andreas Fabri
 //
-// coordinator   : Herve Bronnimann
-//
+// coordinator   : Mariette.Yvinec
 //
 // email         : cgal@cs.uu.nl
 //
@@ -57,69 +56,71 @@
 #include <CGAL/basic.h>
 #include <CGAL/IO/io.h>
 
-int CGAL_IO::mode = ios::xalloc();
+CGAL_BEGIN_NAMESPACE
+
+int IO::mode = std::ios::xalloc();
 
 
-CGAL_IO::Mode
-CGAL_get_mode(ios& i)
+IO::Mode
+get_mode(std::ios& i)
 {
-    return CGAL_static_cast(CGAL_IO::Mode,i.iword(CGAL_IO::mode));
+    return CGAL_static_cast(IO::Mode,i.iword(IO::mode));
 }
 
-CGAL_IO::Mode
-CGAL_set_ascii_mode(ios& i)
+IO::Mode
+set_ascii_mode(std::ios& i)
 {
-    CGAL_IO::Mode m = CGAL_get_mode(i);
-    i.iword(CGAL_IO::mode) = CGAL_IO::ASCII;
+    IO::Mode m = get_mode(i);
+    i.iword(IO::mode) = IO::ASCII;
     return m;
 }
 
 
-CGAL_IO::Mode
-CGAL_set_binary_mode(ios& i)
+IO::Mode
+set_binary_mode(std::ios& i)
 {
-    CGAL_IO::Mode m = CGAL_get_mode(i);
-    i.iword(CGAL_IO::mode) = CGAL_IO::BINARY;
+    IO::Mode m = get_mode(i);
+    i.iword(IO::mode) = IO::BINARY;
     return m;
 }
 
 
-CGAL_IO::Mode
-CGAL_set_pretty_mode(ios& i)
+IO::Mode
+set_pretty_mode(std::ios& i)
 {
-    CGAL_IO::Mode m = CGAL_get_mode(i);
-    i.iword(CGAL_IO::mode) = CGAL_IO::PRETTY;
+    IO::Mode m = get_mode(i);
+    i.iword(IO::mode) = IO::PRETTY;
     return m;
 }
 
 
-CGAL_IO::Mode
-CGAL_set_mode(ios& i, CGAL_IO::Mode m)
+IO::Mode
+set_mode(std::ios& i, IO::Mode m)
 {
-    CGAL_IO::Mode old = CGAL_get_mode(i);
-    i.iword(CGAL_IO::mode) = m;
+    IO::Mode old = get_mode(i);
+    i.iword(IO::mode) = m;
     return old;
 }
 
 bool
-CGAL_is_pretty(ios& i)
+is_pretty(std::ios& i)
 {
-    return i.iword(CGAL_IO::mode) == CGAL_IO::PRETTY;
+    return i.iword(IO::mode) == IO::PRETTY;
 }
 
 bool
-CGAL_is_ascii(ios& i)
+is_ascii(std::ios& i)
 {
-    return i.iword(CGAL_IO::mode) == CGAL_IO::ASCII;
+    return i.iword(IO::mode) == IO::ASCII;
 }
 
 
 bool
-CGAL_is_binary(ios& i)
+is_binary(std::ios& i)
 {
-    return i.iword(CGAL_IO::mode) == CGAL_IO::BINARY;
+    return i.iword(IO::mode) == IO::BINARY;
 }
 
-
+CGAL_END_NAMESPACE
 
 #endif // CGAL_IO_C

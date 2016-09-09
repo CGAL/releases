@@ -1,7 +1,6 @@
-//  -*- Mode: c++ -*-
 // ======================================================================
 //
-// Copyright (c) 1997 The CGAL Consortium
+// Copyright (c) 1999 The GALIA Consortium
 //
 // This software and related documentation is part of the
 // Computational Geometry Algorithms Library (CGAL).
@@ -17,38 +16,37 @@
 // - Development licenses grant access to the source code of the library 
 //   to develop programs. These programs may be sold to other parties as 
 //   executable code. To obtain a development license, please contact
-//   the CGAL Consortium (at cgal@cs.uu.nl).
+//   the GALIA Consortium (at cgal@cs.uu.nl).
 // - Commercialization licenses grant access to the source code and the
 //   right to sell development licenses. To obtain a commercialization 
-//   license, please contact the CGAL Consortium (at cgal@cs.uu.nl).
+//   license, please contact the GALIA Consortium (at cgal@cs.uu.nl).
 //
 // This software and documentation is provided "as-is" and without
 // warranty of any kind. In no event shall the CGAL Consortium be
 // liable for any damage of any kind.
 //
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// The GALIA Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany) Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+// (Germany), Max-Planck-Institute Saarbrucken (Germany),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-1.2
-// release_date  : 1999, January 18
+// release       : CGAL-2.0
+// release_date  : 1999, June 03
 //
 // file          : include/CGAL/min_sqr_distance_traits.h
-// package       : bops (1.1.2)
+// package       : bops (2.1.5)
 // source        : include/CGAL/min_sqr_distance_traits.h
-// revision      : $Revision: 1.1.2 $
+// revision      : $Revision: WIP $
 // revision_date : $Date: Wed Dec  9 13:28:58 MET 1998  $
-// author(s)     :             Wolfgang Freiseisen
+// author(s)     : Wolfgang Freiseisen
 //
 // coordinator   : RISC Linz
 //  (Wolfgang Freiseisen)
 //
 // 
-//
 // email         : cgal@cs.uu.nl
 //
 // ======================================================================
@@ -65,27 +63,24 @@
 #ifndef CGAL_HOMOGENEOUS_H
 #include <CGAL/Homogeneous.h>
 #endif
-#include <list.h>
-#include <vector.h>
-#include <multiset.h>
-#include <algo.h>
+#include <list>
+#include <vector>
+#include <set>
+#include <algorithm>
 #ifndef CGAL_POINT_2_H
 #include <CGAL/Point_2.h>
 #endif
 
+CGAL_BEGIN_NAMESPACE
 
-template < class _R >
-struct min_sqr_distance_traits : public _R {
-  typedef _R R;
-  typedef typename _R::FT NT;
-  //typedef CGAL_Point_2< CGAL_Cartesian<double> > dPoint;
-  struct dPoint {
-    dPoint() : _x(0.0), _y(0.0) {}
-    dPoint(double sx, double sy) : _x(sx), _y(sy) {}
-    dPoint(const dPoint& p) : _x(p.x()), _y(p.y()) {}
+
+  struct _dPoint {
+    _dPoint() : _x(0.0), _y(0.0) {}
+    _dPoint(double sx, double sy) : _x(sx), _y(sy) {}
+    _dPoint(const _dPoint& p) : _x(p.x()), _y(p.y()) {}
     double x() const { return _x; }
     double y() const { return _y; }
-    dPoint& operator=(const dPoint& p) {
+    _dPoint& operator=(const _dPoint& p) {
       _x= p.x();
       _y= p.y();
       return *this;
@@ -93,14 +88,22 @@ struct min_sqr_distance_traits : public _R {
     double _x, _y;
   };
 
-  typedef CGAL_Point_2<R>  Point;
+
+template < class _R >
+struct min_sqr_distance_traits : public _R {
+  typedef _R R;
+  typedef typename _R::FT NT;
+  //typedef Point_2< Cartesian<double> > dPoint;
+  typedef _dPoint dPoint;
+
+  typedef CGAL::Point_2<R>  Point;
 
 
   NT sqr( const NT& a ) const { return a * a; }
   double dsqr( const double& a ) const { return a * a; }
 
   double to_double(const NT& a) const {
-    return CGAL_to_double(a);
+    return CGAL::to_double(a);
   }
  
 
@@ -128,5 +131,7 @@ struct min_sqr_distance_traits : public _R {
     return dsqr(p1.x()-p2.x());
   }
 };
+
+CGAL_END_NAMESPACE
 
 #endif // CGAL_MIN_SQR_DISTANCE_TRAITS_H

@@ -1,6 +1,6 @@
 // ======================================================================
 //
-// Copyright (c) 1997,1998 The CGAL Consortium
+// Copyright (c) 1999 The GALIA Consortium
 //
 // This software and related documentation is part of the
 // Computational Geometry Algorithms Library (CGAL).
@@ -16,40 +16,39 @@
 // - Development licenses grant access to the source code of the library 
 //   to develop programs. These programs may be sold to other parties as 
 //   executable code. To obtain a development license, please contact
-//   the CGAL Consortium (at cgal@cs.uu.nl).
+//   the GALIA Consortium (at cgal@cs.uu.nl).
 // - Commercialization licenses grant access to the source code and the
 //   right to sell development licenses. To obtain a commercialization 
-//   license, please contact the CGAL Consortium (at cgal@cs.uu.nl).
+//   license, please contact the GALIA Consortium (at cgal@cs.uu.nl).
 //
 // This software and documentation is provided "as-is" and without
 // warranty of any kind. In no event shall the CGAL Consortium be
 // liable for any damage of any kind.
 //
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// The GALIA Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany) Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+// (Germany), Max-Planck-Institute Saarbrucken (Germany),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-1.2
-// release_date  : 1999, January 18
+// release       : CGAL-2.0
+// release_date  : 1999, June 03
 //
 // file          : include/CGAL/Conic_misc.h
-// package       : Min_ellipse_2 (3.1.1)
+// package       : Min_ellipse_2 (3.2.3)
 // chapter       : $CGAL_Chapter: Geometric Optimisation $
 //
 // source        : web/Optimisation/Conic_2.aw
-// revision      : $Revision: 5.2 $
-// revision_date : $Date: 1998/11/11 09:59:19 $
+// revision      : $Revision: 5.7 $
+// revision_date : $Date: 1999/04/19 16:19:47 $
 // author(s)     : Bernd Gärtner
 //                 Sven Schönherr
 //
 // coordinator   : ETH Zürich (Bernd Gärtner)
 //
 // implementation: 2D Conic
-//
 // email         : cgal@cs.uu.nl
 //
 // ======================================================================
@@ -57,26 +56,28 @@
 #ifndef CONIC_MISC_H
 #define CONIC_MISC_H
 
+CGAL_BEGIN_NAMESPACE
+
 template < class R>
-class CGAL_Conic_2;
+class Conic_2;
 
 
-enum CGAL_Conic_type
+enum Conic_type
 {
-    CGAL_HYPERBOLA = -1,
-    CGAL_PARABOLA,
-    CGAL_ELLIPSE
+    HYPERBOLA = -1,
+    PARABOLA,
+    ELLIPSE
 };
 
 
-typedef CGAL_Bounded_side CGAL_Convex_side;
-const CGAL_Convex_side CGAL_ON_CONVEX_SIDE = CGAL_ON_BOUNDED_SIDE;
-const CGAL_Convex_side CGAL_ON_NONCONVEX_SIDE = CGAL_ON_UNBOUNDED_SIDE;
+typedef CGAL::Bounded_side Convex_side;
+const Convex_side ON_CONVEX_SIDE    = CGAL::ON_BOUNDED_SIDE;
+const Convex_side ON_NONCONVEX_SIDE = CGAL::ON_UNBOUNDED_SIDE;
 
 
 
 
-double CGAL_best_value (double *values, int nr_values,
+double best_value (double *values, int nr_values,
                         double a2, double a1, double a0,
                         double b3, double b2, double b1, double b0)
 {
@@ -94,19 +95,19 @@ double CGAL_best_value (double *values, int nr_values,
                 det_positive = true;
             }
     }
-    CGAL_kernel_precondition (det_positive);
+    CGAL_optimisation_precondition (det_positive);
     return best;
 }
 
 
-int CGAL_solve_cubic (double c3, double c2, double c1, double c0,
+int solve_cubic (double c3, double c2, double c1, double c0,
                       double &r1, double &r2, double &r3)
 {
     if (c3 == 0.0) {
         // quadratic equation
         if (c2 == 0) {
             // linear equation
-            CGAL_kernel_precondition (c1 != 0);
+            CGAL_optimisation_precondition (c1 != 0);
             r1 = -c0/c1;
             return 1;
         }
@@ -170,6 +171,8 @@ int CGAL_solve_cubic (double c3, double c2, double c1, double c0,
 }
 
 
+
+CGAL_END_NAMESPACE
 
 #endif // CONIC_MISC_H
 

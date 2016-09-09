@@ -1,6 +1,6 @@
 // ======================================================================
 //
-// Copyright (c) 1997 The CGAL Consortium
+// Copyright (c) 1999 The GALIA Consortium
 //
 // This software and related documentation is part of the
 // Computational Geometry Algorithms Library (CGAL).
@@ -16,28 +16,28 @@
 // - Development licenses grant access to the source code of the library 
 //   to develop programs. These programs may be sold to other parties as 
 //   executable code. To obtain a development license, please contact
-//   the CGAL Consortium (at cgal@cs.uu.nl).
+//   the GALIA Consortium (at cgal@cs.uu.nl).
 // - Commercialization licenses grant access to the source code and the
 //   right to sell development licenses. To obtain a commercialization 
-//   license, please contact the CGAL Consortium (at cgal@cs.uu.nl).
+//   license, please contact the GALIA Consortium (at cgal@cs.uu.nl).
 //
 // This software and documentation is provided "as-is" and without
 // warranty of any kind. In no event shall the CGAL Consortium be
 // liable for any damage of any kind.
 //
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// The GALIA Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany) Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+// (Germany), Max-Planck-Institute Saarbrucken (Germany),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-1.2
-// release_date  : 1999, January 18
+// release       : CGAL-2.0
+// release_date  : 1999, June 03
 //
 // file          : include/CGAL/Trapezoidal_map_2.C
-// package       : pm (2.052)
+// package       : pm (3.07)
 // source        : 
 // revision      : 
 // revision_date : 
@@ -48,7 +48,6 @@
 // coordinator   : Tel-Aviv University (Dan Halperin)
 //
 // Chapter       : 
-//
 // email         : cgal@cs.uu.nl
 //
 // ======================================================================
@@ -57,30 +56,48 @@
 #endif
 
 //#include <float.h>
-#include <limits.h>
+//#include <climits>
 
 /*
 template <class Traits, class X_curve_plus>
-Traits* CGAL_Trapezoidal_map_2<Traits, X_curve_plus>::traits= 0;
+Traits* Trapezoidal_map_2<Traits, X_curve_plus>::traits= 0;
 */
+
+
+CGAL_BEGIN_NAMESPACE
 template <class Traits, class X_curve_plus>
-const double CGAL_Trapezoidal_map_2<Traits, X_curve_plus>::depth_threshold = 2;
+const double Trapezoidal_map_2<Traits, X_curve_plus>::depth_threshold = 2;
 
 template <class Traits, class X_curve_plus>
-const double CGAL_Trapezoidal_map_2<Traits, X_curve_plus>::size_threshold = 2;
+const double Trapezoidal_map_2<Traits, X_curve_plus>::size_threshold = 2;
 
 template <class Traits, class X_curve_plus>
  typename Traits::Point
-CGAL_Trapezoidal_map_2<Traits, X_curve_plus>::POINT_AT_LEFT_TOP_INFINITY = 
+Trapezoidal_map_2<Traits, X_curve_plus>::POINT_AT_LEFT_TOP_INFINITY = 
 Point();
 
 template <class Traits, class X_curve_plus>
  typename Traits::Point
-CGAL_Trapezoidal_map_2<Traits, X_curve_plus>::POINT_AT_RIGHT_BOTTOM_INFINITY = 
+Trapezoidal_map_2<Traits, X_curve_plus>::POINT_AT_RIGHT_BOTTOM_INFINITY = 
 Point();
 
 
 template <class Traits, class X_curve_plus>
-CGAL_Trapezoidal_map_2<Traits, X_curve_plus>::curve
-CGAL_Trapezoidal_map_2<Traits, X_curve_plus>::infinite_dummy_curve = 
+Trapezoidal_map_2<Traits, X_curve_plus>::curve
+Trapezoidal_map_2<Traits, X_curve_plus>::infinite_dummy_curve = 
 X_curve_plus();
+
+
+CGAL_END_NAMESPACE
+
+
+
+
+
+
+
+
+
+
+
+

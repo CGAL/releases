@@ -1,6 +1,6 @@
 // ======================================================================
 //
-// Copyright (c) 1997 The CGAL Consortium
+// Copyright (c) 1999 The GALIA Consortium
 //
 // This software and related documentation is part of the
 // Computational Geometry Algorithms Library (CGAL).
@@ -16,35 +16,34 @@
 // - Development licenses grant access to the source code of the library 
 //   to develop programs. These programs may be sold to other parties as 
 //   executable code. To obtain a development license, please contact
-//   the CGAL Consortium (at cgal@cs.uu.nl).
+//   the GALIA Consortium (at cgal@cs.uu.nl).
 // - Commercialization licenses grant access to the source code and the
 //   right to sell development licenses. To obtain a commercialization 
-//   license, please contact the CGAL Consortium (at cgal@cs.uu.nl).
+//   license, please contact the GALIA Consortium (at cgal@cs.uu.nl).
 //
 // This software and documentation is provided "as-is" and without
 // warranty of any kind. In no event shall the CGAL Consortium be
 // liable for any damage of any kind.
 //
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// The GALIA Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany) Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+// (Germany), Max-Planck-Institute Saarbrucken (Germany),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-1.2
-// release_date  : 1999, January 18
+// release       : CGAL-2.0
+// release_date  : 1999, June 03
 //
 // file          : include/CGAL/Triangulation_ds_iterators_2.h
-// package       : Triangulation (2.10)
+// package       : Triangulation (3.17)
 // source        : $RCSfile: Triangulation_ds_iterators_2.h,v $
-// revision      : $Revision: 1.3.1.7 $
-// revision_date : $Date: 1998/12/14 09:41:55 $
+// revision      : $Revision: 1.3.1.13 $
+// revision_date : $Date: 1999/05/11 07:18:01 $
 // author(s)     : Mariette Yvinec
 //
 // coordinator   : Mariette Yvinec
-//
 //
 // email         : cgal@cs.uu.nl
 //
@@ -55,40 +54,31 @@
 
 
 
-#include <pair.h>
+#include <utility>
+#include <iterator>
 
 #include <CGAL/triangulation_assertions.h>
 #include <CGAL/Triangulation_short_names_2.h>
 #include <CGAL/Triangulation_utils_2.h>
 
-//template< class Gt , class Vb, class Fb> 
-//class CGAL_Triangulation_default_data_structure_2;
-
+CGAL_BEGIN_NAMESPACE
 
 //template < class Gt , class Vb, class Fb>
 template <class Tds>
-class CGAL_Triangulation_ds_iterator_base_2
-  : public CGAL_Triangulation_cw_ccw_2
+class Triangulation_ds_iterator_base_2
+  : public Triangulation_cw_ccw_2
 {
 public:
-//   typedef Gt Geom_traits;
-//   
-//   typedef CGAL_Triangulation_ds_vertex_2<Vb,Fb> Vertex;
-//   typedef CGAL_Triangulation_ds_face_2<Vb,Fb> Face;
-//   typedef pair<Face*, int>  Edge;
-// 
-//   typedef CGAL_Triangulation_default_data_structure_2<Gt,Vb,Fb> Tds;
-
   typedef typename Tds::Geom_traits Geom_traits;
   typedef typename Tds::Vertex Vertex;
   typedef typename Tds::Face  Face;
   typedef typename Tds::Edge Edge;
 
-  CGAL_Triangulation_ds_iterator_base_2()
+  Triangulation_ds_iterator_base_2()
      : _tds(NULL), pos(NULL)
         {}
 
-  CGAL_Triangulation_ds_iterator_base_2(Tds* tds)
+  Triangulation_ds_iterator_base_2(Tds* tds)
      : _tds(tds), pos(NULL)
   {
     if(_tds->number_of_vertices() < 2) {
@@ -97,11 +87,11 @@ public:
     pos = _tds->infinite_face();
   }
 
- CGAL_Triangulation_ds_iterator_base_2(Tds* tds, int i)
+ Triangulation_ds_iterator_base_2(Tds* tds, int)
      :  _tds(tds), pos(NULL)
  {}
 
-  CGAL_Triangulation_ds_iterator_base_2(Tds* tds, Face* f)
+  Triangulation_ds_iterator_base_2(Tds* tds, Face* f)
     : _tds(tds), pos(f)
   {}
    
@@ -179,10 +169,10 @@ protected:
                 return f->index( _tds->infinite_vertex() );
             }
             if(_tds->geom_traits().compare_y(f->vertex(0)->point(),
-					     f->vertex(1)->point()) == CGAL_SMALLER)
+					     f->vertex(1)->point()) == CGAL::SMALLER)
 	      //  v0 < v1
 	      if(_tds->geom_traits().compare_y(f->vertex(2)->point(),
-						 f->vertex(1)->point())==CGAL_SMALLER)
+						 f->vertex(1)->point())==CGAL::SMALLER)
 		//  v0,v2 < v1
 		{ return 1; }
 	      else
@@ -192,11 +182,11 @@ protected:
 	      //  v1 <= v0
         
 	      if(_tds->geom_traits().compare_y(f->vertex(1)->point(),
-					       f->vertex(2)->point())!=CGAL_SMALLER)
+					       f->vertex(2)->point())!=CGAL::SMALLER)
 		//  v2 <= v1 <= v0
 		if(_tds->geom_traits().compare_y(
 						 f->vertex(0)->point(),
-						 f->vertex(1)->point()) == CGAL_EQUAL)
+						 f->vertex(1)->point()) == CGAL::EQUAL)
 		  //  v2 <= v1 == v0
 		  { return 1; }
 		else
@@ -206,7 +196,7 @@ protected:
 		//  v1<=v0, v1<v2
 		if(_tds->geom_traits().compare_y(f->vertex(0)->point(),
 						 f->vertex(2)->point())
-		   ==CGAL_SMALLER)
+		   ==CGAL::SMALLER)
 		  //  v1 <= v0 < v2
 		  { return 2; }
 		else
@@ -217,43 +207,34 @@ protected:
 };
 
 
-
-//template < class Gt , class Vb, class Fb> 
 template<class Tds>
-class CGAL_Triangulation_ds_face_iterator_2
-//  : public CGAL_Triangulation_ds_iterator_base_2<Gt,Vb,Fb>,
-//    public 
-// bidirectional_iterator<CGAL_Triangulation_ds_face_2<Vb,Fb>, ptrdiff_t>
-  : public CGAL_Triangulation_ds_iterator_base_2<Tds>,
-    public bidirectional_iterator<typename Tds::Face, ptrdiff_t>
+class Triangulation_ds_face_iterator_2
+  : public Triangulation_ds_iterator_base_2<Tds>
+    //    public bidirectional_iterator<typename Tds::Face, ptrdiff_t>
+    // public CGAL_STD::iterator<std::bidirectional_iterator_tag,
+    //                          typename Tds::Face>
 {
 public:
-//   typedef Gt Geom_traits;
-//   
-//   typedef CGAL_Triangulation_ds_vertex_2<Vb,Fb> Vertex;
-//   typedef CGAL_Triangulation_ds_face_2<Vb,Fb> Face;
-//   typedef pair<Face*, int>  Edge;
-// 
-//   typedef CGAL_Triangulation_default_data_structure_2<Gt,Vb,Fb> Tds;
-//   typedef CGAL_Triangulation_ds_iterator_base_2<Gt,Vb,Fb> Iterator_base;
-// 
-//   typedef CGAL_Triangulation_ds_face_iterator_2<Gt,Vb,Fb> Face_iterator;
-//   typedef CGAL_Triangulation_ds_vertex_iterator_2<Gt,Vb,Fb> Vertex_iterator;
-//   typedef CGAL_Triangulation_ds_edge_iterator_2<Gt,Vb,Fb> Edge_iterator;
-//   
+  typedef typename Tds::Face       value_type;
+  typedef typename Tds::Face *     pointer;
+  typedef typename Tds::Face &     reference;
+  typedef std::size_t     size_type;
+  typedef std::ptrdiff_t  difference_type;
+  typedef std::bidirectional_iterator_tag   iterator_category;
+
 
   typedef typename Tds::Geom_traits Geom_traits;
   typedef typename Tds::Vertex Vertex;
   typedef typename Tds::Face  Face;
   typedef typename Tds::Edge Edge;
 
-  typedef CGAL_Triangulation_ds_iterator_base_2<Tds> Iterator_base;
-  typedef CGAL_Triangulation_ds_face_iterator_2<Tds> Face_iterator;
+  typedef Triangulation_ds_iterator_base_2<Tds> Iterator_base;
+  typedef Triangulation_ds_face_iterator_2<Tds> Face_iterator;
 
-        CGAL_Triangulation_ds_face_iterator_2()
+        Triangulation_ds_face_iterator_2()
             : Iterator_base()
         {}
-        CGAL_Triangulation_ds_face_iterator_2(Tds * tds)
+        Triangulation_ds_face_iterator_2(Tds * tds)
             : Iterator_base(tds)
         {
 	  if (tds->number_of_vertices()<2){
@@ -270,11 +251,11 @@ public:
             }
 	}
 
-        CGAL_Triangulation_ds_face_iterator_2(Tds* tds, int i)
+        Triangulation_ds_face_iterator_2(Tds* tds, int i)
 	  : Iterator_base(tds,i)
         {}
 
-        CGAL_Triangulation_ds_face_iterator_2(const Face_iterator& fi)
+        Triangulation_ds_face_iterator_2(const Face_iterator& fi)
           : Iterator_base(fi._tds, fi.pos)
         {}
         
@@ -363,43 +344,36 @@ public:
 };
 
 
-//template < class Gt , class Vb, class Fb> 
 template < class Tds>
-class CGAL_Triangulation_ds_vertex_iterator_2
-//  : public CGAL_Triangulation_ds_iterator_base_2<Gt,Vb,Fb>,
-//    public 
-// bidirectional_iterator<CGAL_Triangulation_ds_vertex_2<Vb,Fb>, ptrdiff_t>
-: public CGAL_Triangulation_ds_iterator_base_2<Tds>,
-  public bidirectional_iterator<typename Tds::Vertex, ptrdiff_t>
+class Triangulation_ds_vertex_iterator_2
+: public Triangulation_ds_iterator_base_2<Tds>
+  //public bidirectional_iterator<typename Tds::Vertex, ptrdiff_t>
+  //public CGAL_STD::iterator<std::bidirectional_iterator_tag,
+  //                          typename Tds::Vertex>
 {
 public:
-//   typedef Gt Geom_traits;
-//   
-//   typedef CGAL_Triangulation_ds_vertex_2<Vb,Fb> Vertex;
-//   typedef CGAL_Triangulation_ds_face_2<Vb,Fb> Face;
-//   typedef pair<Face*, int>  Edge;
-// 
-//   typedef CGAL_Triangulation_default_data_structure_2<Gt,Vb,Fb> Tds;
-//   typedef CGAL_Triangulation_ds_iterator_base_2<Gt,Vb,Fb> Iterator_base;
-// 
-//   typedef CGAL_Triangulation_ds_face_iterator_2<Gt,Vb,Fb> Face_iterator;
-//   typedef CGAL_Triangulation_ds_vertex_iterator_2<Gt,Vb,Fb> Vertex_iterator;
-// 
+  typedef typename Tds::Vertex      value_type;
+  typedef typename Tds::Vertex *     pointer;
+  typedef typename Tds::Vertex &     reference;
+  typedef std::size_t     size_type;
+  typedef std::ptrdiff_t  difference_type;
+  typedef std::bidirectional_iterator_tag   iterator_category;
+
   typedef typename Tds::Geom_traits Geom_traits;
   typedef typename Tds::Vertex Vertex;
   typedef typename Tds::Face  Face;
   typedef typename Tds::Edge Edge;
 
-  typedef CGAL_Triangulation_ds_iterator_base_2<Tds> Iterator_base;
-  typedef CGAL_Triangulation_ds_vertex_iterator_2<Tds> Vertex_iterator;
+  typedef Triangulation_ds_iterator_base_2<Tds> Iterator_base;
+  typedef Triangulation_ds_vertex_iterator_2<Tds> Vertex_iterator;
 
 
-     CGAL_Triangulation_ds_vertex_iterator_2()
+     Triangulation_ds_vertex_iterator_2()
             : Iterator_base()
         {}
     
     
-    CGAL_Triangulation_ds_vertex_iterator_2(Tds * tds)
+    Triangulation_ds_vertex_iterator_2(Tds * tds)
         :  Iterator_base(tds)
     {
         switch( _tds->number_of_vertices() ){
@@ -420,7 +394,7 @@ public:
         }
     }
     
-    CGAL_Triangulation_ds_vertex_iterator_2(Tds* tds, int i)
+    Triangulation_ds_vertex_iterator_2(Tds* tds, int i)
             : Iterator_base(tds,i)
     {}
 
@@ -530,7 +504,7 @@ public:
                 int i = cw(maximum(pos));    // candidate associate vertex
                 if(_tds->geom_traits().compare_y(pos->vertex(i)->point(),
 						 pos->vertex(cw(i))->point())
-                   ==CGAL_LARGER){
+                   ==CGAL::LARGER){
                     //   vcw(i) < vi
                     return pos->vertex(i);
                 }
@@ -538,17 +512,17 @@ public:
                     Face* f=pos->neighbor(cw(i));
                                    // next edge on the CH in cw order
                     int   j=f->index(_tds->infinite_vertex() );
-                    CGAL_Comparison_result comp =
+                    CGAL::Comparison_result comp =
                         _tds->geom_traits().compare_y(pos->vertex(i)->point(),
 						      f->vertex(cw(j))->point());
-                    if (comp == CGAL_SMALLER){         //  vi smaller vertex
+                    if (comp == CGAL::SMALLER){         //  vi smaller vertex
                         return pos->vertex(i);
                     }
-                    if(comp ==CGAL_EQUAL){            // horizontal part of CH
+                    if(comp ==CGAL::EQUAL){            // horizontal part of CH
                         comp = _tds->geom_traits().compare_x(
                                                  pos->vertex(i)->point(),
 						 f->vertex(cw(j))->point());
-                        if(comp == CGAL_LARGER){        // lower hull
+                        if(comp == CGAL::LARGER){        // lower hull
                             return pos->vertex(i);
                         }
                         if(pos->vertex(cw(i)) == f->vertex(cw(j))){ 
@@ -565,46 +539,35 @@ public:
 };
 
 
-//template < class Gt , class Vb, class Fb> 
 template <class Tds>
-class CGAL_Triangulation_ds_edge_iterator_2
-// : public CGAL_Triangulation_ds_iterator_base_2<Gt,Vb,Fb>,
-// public 
-// bidirectional_iterator<
-//  pair<CGAL_Triangulation_ds_face_2<Vb,Fb>,int>, ptrdiff_t>
- : public CGAL_Triangulation_ds_iterator_base_2<Tds>,
-   public bidirectional_iterator<typename Tds::Edge, ptrdiff_t>
+class Triangulation_ds_edge_iterator_2
+ : public Triangulation_ds_iterator_base_2<Tds>
+   //public bidirectional_iterator<typename Tds::Edge, ptrdiff_t>
+   //public CGAL_STD::iterator<std::bidirectional_iterator_tag,
+   //                          typename Tds::Edge>
 {
 public:
-// //   typedef Gt Geom_traits;
-// //   
-// //   typedef CGAL_Triangulation_ds_vertex_2<Vb,Fb> Vertex;
-// //   typedef CGAL_Triangulation_ds_face_2<Vb,Fb> Face;
-// //   typedef pair<Face*, int>  Edge;
-// // 
-// //   typedef CGAL_Triangulation_default_data_structure_2<Gt,Vb,Fb> Tds;
-// // typedef CGAL_Triangulation_ds_iterator_base_2<Gt,Vb,Fb> Iterator_base;
-// 
-// //   typedef CGAL_Triangulation_ds_face_iterator_2<Gt,Vb,Fb>
-  // Face_iterator;
-// // typedef CGAL_Triangulation_ds_vertex_iterator_2<Gt,Vb,Fb> 
-  // // Vertex_iterator;
-//   typedef CGAL_Triangulation_ds_edge_iterator_2<Gt,Vb,Fb> Edge_iterator;
-// 
+  typedef typename Tds::Edge      value_type;
+  typedef typename Tds::Edge *     pointer;
+  typedef typename Tds::Edge &     reference;
+  typedef std::size_t     size_type;
+  typedef std::ptrdiff_t  difference_type;
+  typedef std::bidirectional_iterator_tag   iterator_category;
+
   typedef typename Tds::Geom_traits Geom_traits;
   typedef typename Tds::Vertex Vertex;
   typedef typename Tds::Face  Face;
   typedef typename Tds::Edge Edge;
 
-  typedef CGAL_Triangulation_ds_iterator_base_2<Tds> Iterator_base;
-  typedef CGAL_Triangulation_ds_edge_iterator_2<Tds> Edge_iterator;
+  typedef Triangulation_ds_iterator_base_2<Tds> Iterator_base;
+  typedef Triangulation_ds_edge_iterator_2<Tds> Edge_iterator;
 
-     CGAL_Triangulation_ds_edge_iterator_2()
+     Triangulation_ds_edge_iterator_2()
             : Iterator_base(),status(0)
         {}
     
     
-    CGAL_Triangulation_ds_edge_iterator_2(Tds * tds)
+    Triangulation_ds_edge_iterator_2(Tds * tds)
         :  Iterator_base(tds)
     {
       if (tds->number_of_vertices()<2){
@@ -622,7 +585,7 @@ public:
       }
     } 
     
-    CGAL_Triangulation_ds_edge_iterator_2(Tds* tds, int i)
+    Triangulation_ds_edge_iterator_2(Tds* tds, int i)
             : Iterator_base(tds,i),status(0)
     {}
 
@@ -713,7 +676,7 @@ Edge_iterator&
     operator*() const
     {
         int j = (status<3) ? status : (status<6) ? status-3 : status-6;
-        return make_pair(pos, j);
+        return std::make_pair(pos, j);
     }
     
     
@@ -732,7 +695,7 @@ private:
             if(_tds->geom_traits().compare_y(
 				       pos->vertex(cw(i))->point(),
 				       pos->vertex(ccw(i))->point())
-               == CGAL_LARGER){
+               == CGAL::LARGER){
                 //  vccw(i) < vcw(i)
                 // right edges = i cw(i)  cw(i) ccw(i)
                 status = (forward) ? 3+ccw(i) : 6+i;
@@ -742,22 +705,22 @@ private:
             }
             return true;
         }
-        CGAL_Comparison_result comp = _tds->geom_traits().compare_y(
+        CGAL::Comparison_result comp = _tds->geom_traits().compare_y(
 						pos->vertex(cw(i))->point(),
 						pos->vertex(ccw(i))->point());
-        if( comp==CGAL_SMALLER){
+        if( comp==CGAL::SMALLER){
             return false;
         }
-        if( comp==CGAL_LARGER){
+        if( comp==CGAL::LARGER){
             //  vccw(i) < vcw(i)
             // right edge =  cw(i) ccw(i)
             status = i;
             return true;
         }
-        // comp = CGAL_EQUAL
+        // comp = CGAL::EQUAL
         if ( _tds->geom_traits().compare_x(pos->vertex(cw(i))->point(),
 					   pos->vertex(ccw(i))->point())
-             == CGAL_SMALLER){
+             == CGAL::SMALLER){
             //  vccw(i) < vcw(i)
             // upper horizontal edge =  cw(i) ccw(i)
             status = i;
@@ -767,6 +730,8 @@ private:
         return false;
     }
 };
+
+CGAL_END_NAMESPACE
 
 #endif //CGAL_TRIANGULATION_DS_ITERATORS_2_H
 

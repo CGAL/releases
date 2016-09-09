@@ -1,6 +1,6 @@
 // ======================================================================
 //
-// Copyright (c) 1998 The CGAL Consortium
+// Copyright (c) 1999 The GALIA Consortium
 //
 // This software and related documentation is part of the
 // Computational Geometry Algorithms Library (CGAL).
@@ -16,34 +16,33 @@
 // - Development licenses grant access to the source code of the library 
 //   to develop programs. These programs may be sold to other parties as 
 //   executable code. To obtain a development license, please contact
-//   the CGAL Consortium (at cgal@cs.uu.nl).
+//   the GALIA Consortium (at cgal@cs.uu.nl).
 // - Commercialization licenses grant access to the source code and the
 //   right to sell development licenses. To obtain a commercialization 
-//   license, please contact the CGAL Consortium (at cgal@cs.uu.nl).
+//   license, please contact the GALIA Consortium (at cgal@cs.uu.nl).
 //
 // This software and documentation is provided "as-is" and without
 // warranty of any kind. In no event shall the CGAL Consortium be
 // liable for any damage of any kind.
 //
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// The GALIA Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany) Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+// (Germany), Max-Planck-Institute Saarbrucken (Germany),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
-// release       : CGAL-1.2
-// release_date  : 1999, January 18
+// release       : CGAL-2.0
+// release_date  : 1999, June 03
 //
 // file          : include/CGAL/dd_geo/chull_support_3.h
-// package       : Convex_hull_3 (1.1.3)
+// package       : Convex_hull_3 (2.0.4)
 // source        : chull_traits.lw
-// revision      : 1.1.3
-// revision_date : 23 Jul 1998
+// revision      : 2.0.3
+// revision_date : 28 Apr 1999
 // author(s)     : Stefan Schirra
 //
 // coordinator   : MPI, Saarbruecken
-//
 // email         : cgal@cs.uu.nl
 //
 // ======================================================================
@@ -55,21 +54,22 @@
 #include <CGAL/Polyhedron_incremental_builder_3.h>
 #include <CGAL/Polyhedron_3.h>
 
+CGAL_BEGIN_NAMESPACE
 template <class _HDS>
-class CGAL_Build_polyhedron_from_GRAPH : public CGAL_Modifier_base< _HDS>
+class Build_polyhedron_from_GRAPH : public Modifier_base< _HDS>
 {
   public:
     typedef _HDS                           HDS;
     typedef typename HDS::Vertex           HdsVertex;
     typedef typename HdsVertex::Point      Point;
 
-    CGAL_Build_polyhedron_from_GRAPH( GRAPH<Point, int>& G ) 
+    Build_polyhedron_from_GRAPH( GRAPH<Point, int>& G ) 
       : gr(G) 
       { CGAL_assertion( G.is_map() ); }
 
     void operator()( HDS& hds )
          {
-           CGAL_Polyhedron_incremental_builder_3<HDS> B( hds, true);
+           Polyhedron_incremental_builder_3<HDS> B( hds, true);
            leda_node_array<int> index(gr);
            leda_node v;
            CGAL_assertion( gr.is_map() );
@@ -121,7 +121,7 @@ class CGAL_Build_polyhedron_from_GRAPH : public CGAL_Modifier_base< _HDS>
 };
 
 template <class _HDS, class _ChullType>
-class CGAL_Build_polyhedron_from_chull : public CGAL_Modifier_base< _HDS>
+class Build_polyhedron_from_chull : public Modifier_base< _HDS>
 {
   public:
     typedef _HDS                           HDS;
@@ -133,13 +133,13 @@ class CGAL_Build_polyhedron_from_chull : public CGAL_Modifier_base< _HDS>
                                            FacetIterator;
     typedef typename ChullType::ch_vertex  chVertex;
 
-    CGAL_Build_polyhedron_from_chull( ChullType& CH) 
+    Build_polyhedron_from_chull( ChullType& CH) 
       : ch(CH) {}
 
     void operator()( HDS& hds )
          {
            CGAL_assertion( ch.dcurrent() == 3); 
-           CGAL_Polyhedron_incremental_builder_3<HDS> B( hds, true);
+           Polyhedron_incremental_builder_3<HDS> B( hds, true);
            B.begin_surface( 100, 300);  // would be nice to have statistical data on
                                         // Chull available other than print_statistics()
            leda_map< chVertex, int>  index( -1);
@@ -168,12 +168,12 @@ class CGAL_Build_polyhedron_from_chull : public CGAL_Modifier_base< _HDS>
                chVertex v0 = ch.vertex_of_facet(f,0);
                chVertex v1 = ch.vertex_of_facet(f,1);
                chVertex v2 = ch.vertex_of_facet(f,2);
-               if ( CGAL_orientation( 
+               if ( orientation( 
                                             ch.associated_point(v0),
                                             ch.associated_point(v1),
                                             ch.associated_point(v2),
                                             center
-                                          ) == CGAL_POSITIVE )
+                                          ) == POSITIVE )
                {
                    B.add_vertex_to_facet( index[v0] );
                    B.add_vertex_to_facet( index[v1] );
@@ -195,5 +195,6 @@ class CGAL_Build_polyhedron_from_chull : public CGAL_Modifier_base< _HDS>
     ChullType& ch;
 };
 
+CGAL_END_NAMESPACE
 
 #endif // CGAL_CHULL_SUPPORT_3_H

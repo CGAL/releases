@@ -3,20 +3,20 @@
 #include <CGAL/Circle_2.h>
 #include <CGAL/Triangulation_2.h>
 #include <CGAL/point_generators_2.h>
-#include <iostream.h>
+#include <iostream>
 
-typedef Triangulation_2::Edge_iterator  Edge_iterator;
-typedef Triangulation_2::Face  Face;
-typedef Triangulation_2::Edge  Edge;
-typedef Triangulation_2::Vertex  Vertex;
+typedef Triangulation::Edge_iterator  Edge_iterator;
+typedef Triangulation::Face  Face;
+typedef Triangulation::Edge  Edge;
+typedef Triangulation::Vertex  Vertex;
 typedef Face::Face_handle Face_handle;
 typedef Vertex::Vertex_handle Vertex_handle;
 
-void main ()
+main()
 {
     const int numPoints = 50;
-    CGAL_Random_points_in_square_2<Point_2> g(100.0);  // random points generator
-    Triangulation_2 tr;                                // empty triangulation
+    CGAL::Random_points_in_square_2<Point> g(100.0);  // random points generator
+    Triangulation tr;                                // empty triangulation
 
     // construct a triangulation
     for (int i=0; i<numPoints; ++i) {
@@ -42,7 +42,7 @@ void main ()
        Vertex_handle opposite2 = neighbor->vertex(neighbor->index(face));
 
        // smallest circle through edge vertices
-       Circle_2 circle(edgev1->point(), edgev2->point());
+       Circle circle(edgev1->point(), edgev2->point());
 
        if ( ! tr.is_infinite(opposite1) ) {            // opposite1 infinite?
           if (circle.has_on_bounded_side(opposite1->point()) ) {
@@ -58,6 +58,6 @@ void main ()
        }
 
        // opposite vertex 1 and 2 not inside circle, output edge as segment
-       cout << Segment_2(edgev1->point(), edgev2->point()) << endl;
+       std::cout << Segment(edgev1->point(), edgev2->point()) << endl;
     }
 }

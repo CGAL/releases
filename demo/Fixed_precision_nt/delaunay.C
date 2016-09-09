@@ -18,19 +18,22 @@
 
 #include <CGAL/IO/Window_stream.h>
 
-typedef CGAL_Fixed_precision_nt coord_type;
+using namespace CGAL;
+
+
+typedef Fixed_precision_nt coord_type;
 static bool Fixed_precision_nt_init_result 
-                =  CGAL_Fixed_precision_nt::init(2000.0);
+                =  Fixed_precision_nt::init(2000.0);
 
-typedef CGAL_Cartesian<coord_type>  Rep;
+typedef Cartesian<coord_type>  Repclass;
 
-typedef CGAL_Point_2<Rep>  Point_;
+typedef Point_2<Repclass>  Point_;
 
-typedef CGAL_Triangulation_euclidean_traits_2<Rep> Traits_;
-typedef CGAL_Triangulation_vertex_base_2<Traits_> Vb;
-typedef CGAL_Triangulation_face_base_2<Traits_>  Fb;
-typedef CGAL_Triangulation_default_data_structure_2<Traits_,Vb,Fb> Tds;
-typedef CGAL_Delaunay_triangulation_2<Traits_,Tds>  Delaunay_;
+typedef Triangulation_euclidean_traits_2<Repclass> Traits_;
+typedef Triangulation_vertex_base_2<Traits_> Vb;
+typedef Triangulation_face_base_2<Traits_>  Fb;
+typedef Triangulation_default_data_structure_2<Traits_,Vb,Fb> Tds;
+typedef Delaunay_triangulation_2<Traits_,Tds>  Delaunay_;
 
 
 
@@ -38,10 +41,10 @@ typedef CGAL_Delaunay_triangulation_2<Traits_,Tds>  Delaunay_;
 int main(int argc, char* argv[])
 {
     Delaunay_ D;
-    CGAL_Window_stream W(200,200); // physical window size
+    Window_stream W(200,200); // physical window size
 
     W.init(-1,1,-1);   // logical window size
-    W << CGAL_BLUE;
+    W << BLUE;
     W.set_mode(leda_src_mode);
     W.set_node_width(3);
     W.display();

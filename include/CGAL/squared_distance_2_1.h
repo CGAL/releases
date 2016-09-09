@@ -1,6 +1,6 @@
 // ======================================================================
 //
-// Copyright (c) 1998 The CGAL Consortium
+// Copyright (c) 1999 The GALIA Consortium
 //
 // This software and related documentation is part of the
 // Computational Geometry Algorithms Library (CGAL).
@@ -16,33 +16,32 @@
 // - Development licenses grant access to the source code of the library 
 //   to develop programs. These programs may be sold to other parties as 
 //   executable code. To obtain a development license, please contact
-//   the CGAL Consortium (at cgal@cs.uu.nl).
+//   the GALIA Consortium (at cgal@cs.uu.nl).
 // - Commercialization licenses grant access to the source code and the
 //   right to sell development licenses. To obtain a commercialization 
-//   license, please contact the CGAL Consortium (at cgal@cs.uu.nl).
+//   license, please contact the GALIA Consortium (at cgal@cs.uu.nl).
 //
 // This software and documentation is provided "as-is" and without
 // warranty of any kind. In no event shall the CGAL Consortium be
 // liable for any damage of any kind.
 //
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// The GALIA Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany) Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+// (Germany), Max-Planck-Institute Saarbrucken (Germany),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-1.2
-// release_date  : 1999, January 18
+// release       : CGAL-2.0
+// release_date  : 1999, June 03
 //
 // file          : include/CGAL/squared_distance_2_1.h
-// package       : Distance_2 (1.5)
+// package       : Distance_2 (2.1.2)
 // source        : sqdistance_2.fw
 // author(s)     : Geert-Jan Giezeman
 //
 // coordinator   : Saarbruecken
-//
 //
 // email         : cgal@cs.uu.nl
 //
@@ -56,161 +55,164 @@
 #include <CGAL/user_classes.h>
 #endif // CGAL_USER_CLASSES_H
 
+CGAL_BEGIN_NAMESPACE
 
 template <class R>
 inline R_FT_return(R)
-CGAL_squared_distance(
-    const CGAL_Point_2<R> & pt1,
-    const CGAL_Point_2<R> & pt2)
+squared_distance(
+    const Point_2<R> & pt1,
+    const Point_2<R> & pt2)
 {
-    CGAL_Vector_2<R> vec(pt1-pt2);
+    Vector_2<R> vec(pt1-pt2);
     return (R_FT_return(R))(vec*vec);
 }
 
 
 template <class R>
 extern R_FT_return(R)
-CGAL_squared_distance(
-    const CGAL_Point_2<R> &pt,
-    const CGAL_Line_2<R> &line);
+squared_distance(
+    const Point_2<R> &pt,
+    const Line_2<R> &line);
 
 template <class R>
 inline R_FT_return(R)
-CGAL_squared_distance(
-    const CGAL_Line_2<R> & line,
-    const CGAL_Point_2<R> & pt)
+squared_distance(
+    const Line_2<R> & line,
+    const Point_2<R> & pt)
 {
-    return CGAL_squared_distance(pt, line);
-}
-template <class R>
-extern R_FT_return(R)
-CGAL_squared_distance(
-    const CGAL_Point_2<R> &pt,
-    const CGAL_Ray_2<R> &ray);
-
-template <class R>
-inline R_FT_return(R)
-CGAL_squared_distance(
-    const CGAL_Ray_2<R> & ray,
-    const CGAL_Point_2<R> & pt)
-{
-    return CGAL_squared_distance(pt, ray);
+    return squared_distance(pt, line);
 }
 
 template <class R>
-extern void
-CGAL_distance_index(
-    int &ind,
-    const CGAL_Point_2<R> &pt,
-    const CGAL_Ray_2<R> &ray);
-
-template <class R>
 extern R_FT_return(R)
-CGAL_squared_distance_indexed(const CGAL_Point_2<R> &pt,
-    const CGAL_Ray_2<R> &ray, int ind1, int ind2);
-
-template <class R>
-extern R_FT_return(R)
-CGAL_squared_distance(
-    const CGAL_Point_2<R> &pt,
-    const CGAL_Segment_2<R> &seg);
-
+squared_distance(
+    const Point_2<R> &pt,
+    const Ray_2<R> &ray);
 
 template <class R>
 inline R_FT_return(R)
-CGAL_squared_distance(
-    const CGAL_Segment_2<R> & seg,
-    const CGAL_Point_2<R> & pt)
+squared_distance(
+    const Ray_2<R> & ray,
+    const Point_2<R> & pt)
 {
-    return CGAL_squared_distance(pt, seg);
+    return squared_distance(pt, ray);
 }
 
 
 template <class R>
 extern void
-CGAL_distance_index(
+distance_index(
     int &ind,
-    const CGAL_Point_2<R> &pt,
-    const CGAL_Segment_2<R> &seg);
+    const Point_2<R> &pt,
+    const Ray_2<R> &ray);
 
 template <class R>
 extern R_FT_return(R)
-CGAL_squared_distance_indexed(const CGAL_Point_2<R> &pt,
-    const CGAL_Segment_2<R> &seg, int ind1, int ind2);
-template <class R>
-extern R_FT_return(R)
-CGAL_squared_distance(
-    const CGAL_Segment_2<R> &,
-    const CGAL_Segment_2<R> &);
-
-
+squared_distance_indexed(const Point_2<R> &pt,
+    const Ray_2<R> &ray, int ind1, int ind2);
 
 template <class R>
 extern R_FT_return(R)
-CGAL_squared_distance(
-    const CGAL_Segment_2<R> &seg,
-    const CGAL_Ray_2<R> &ray);
+squared_distance(
+    const Point_2<R> &pt,
+    const Segment_2<R> &seg);
 
 
 template <class R>
 inline R_FT_return(R)
-CGAL_squared_distance(
-    const CGAL_Ray_2<R> & ray,
-    const CGAL_Segment_2<R> & seg)
+squared_distance(
+    const Segment_2<R> & seg,
+    const Point_2<R> & pt)
 {
-    return CGAL_squared_distance(seg, ray);
+    return squared_distance(pt, seg);
+}
+
+
+template <class R>
+extern void
+distance_index(
+    int &ind,
+    const Point_2<R> &pt,
+    const Segment_2<R> &seg);
+
+template <class R>
+extern R_FT_return(R)
+squared_distance_indexed(const Point_2<R> &pt,
+    const Segment_2<R> &seg, int ind1, int ind2);
+
+template <class R>
+extern R_FT_return(R)
+squared_distance(
+    const Segment_2<R> &,
+    const Segment_2<R> &);
+
+
+template <class R>
+extern R_FT_return(R)
+squared_distance(
+    const Segment_2<R> &seg,
+    const Ray_2<R> &ray);
+
+
+template <class R>
+inline R_FT_return(R)
+squared_distance(
+    const Ray_2<R> & ray,
+    const Segment_2<R> & seg)
+{
+    return squared_distance(seg, ray);
 }
 
 
 template <class R>
 extern R_FT_return(R)
-CGAL_squared_distance(
-    const CGAL_Segment_2<R> &seg,
-    const CGAL_Line_2<R> &line);
+squared_distance(
+    const Segment_2<R> &seg,
+    const Line_2<R> &line);
 
 
 template <class R>
 inline R_FT_return(R)
-CGAL_squared_distance(
-    const CGAL_Line_2<R> & line,
-    const CGAL_Segment_2<R> & seg)
+squared_distance(
+    const Line_2<R> & line,
+    const Segment_2<R> & seg)
 {
-    return CGAL_squared_distance(seg, line);
+    return squared_distance(seg, line);
 }
 
 
 template <class R>
 extern R_FT_return(R)
-CGAL_squared_distance(
-    const CGAL_Ray_2<R> &ray1,
-    const CGAL_Ray_2<R> &ray2);
+squared_distance(
+    const Ray_2<R> &ray1,
+    const Ray_2<R> &ray2);
 
 
 template <class R>
 extern R_FT_return(R)
-CGAL_squared_distance(
-    const CGAL_Line_2<R> &line,
-    const CGAL_Ray_2<R> &ray);
+squared_distance(
+    const Line_2<R> &line,
+    const Ray_2<R> &ray);
 
 
 template <class R>
 inline R_FT_return(R)
-CGAL_squared_distance(
-    const CGAL_Ray_2<R> & ray,
-    const CGAL_Line_2<R> & line)
+squared_distance(
+    const Ray_2<R> & ray,
+    const Line_2<R> & line)
 {
-    return CGAL_squared_distance(line, ray);
+    return squared_distance(line, ray);
 }
 
 
 template <class R>
 extern R_FT_return(R)
-CGAL_squared_distance(
-    const CGAL_Line_2<R> &line1,
-    const CGAL_Line_2<R> &line2);
+squared_distance(
+    const Line_2<R> &line1,
+    const Line_2<R> &line2);
 
 
-
+CGAL_END_NAMESPACE
 
 #ifdef CGAL_CFG_NO_AUTOMATIC_TEMPLATE_INCLUSION
 #include <CGAL/squared_distance_2_1.C>

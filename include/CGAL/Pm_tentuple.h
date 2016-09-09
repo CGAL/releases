@@ -1,6 +1,6 @@
 // ======================================================================
 //
-// Copyright (c) 1997 The CGAL Consortium
+// Copyright (c) 1999 The GALIA Consortium
 //
 // This software and related documentation is part of the
 // Computational Geometry Algorithms Library (CGAL).
@@ -16,28 +16,28 @@
 // - Development licenses grant access to the source code of the library 
 //   to develop programs. These programs may be sold to other parties as 
 //   executable code. To obtain a development license, please contact
-//   the CGAL Consortium (at cgal@cs.uu.nl).
+//   the GALIA Consortium (at cgal@cs.uu.nl).
 // - Commercialization licenses grant access to the source code and the
 //   right to sell development licenses. To obtain a commercialization 
-//   license, please contact the CGAL Consortium (at cgal@cs.uu.nl).
+//   license, please contact the GALIA Consortium (at cgal@cs.uu.nl).
 //
 // This software and documentation is provided "as-is" and without
 // warranty of any kind. In no event shall the CGAL Consortium be
 // liable for any damage of any kind.
 //
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// The GALIA Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany) Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+// (Germany), Max-Planck-Institute Saarbrucken (Germany),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-1.2
-// release_date  : 1999, January 18
+// release       : CGAL-2.0
+// release_date  : 1999, June 03
 //
 // file          : include/CGAL/Pm_tentuple.h
-// package       : pm (2.052)
+// package       : pm (3.07)
 // source        : 
 // revision      : 
 // revision_date : 
@@ -48,14 +48,18 @@
 // coordinator   : Tel-Aviv University (Dan Halperin)
 //
 // Chapter       : 
-//
 // email         : cgal@cs.uu.nl
 //
 // ======================================================================
 #ifndef CGAL_PM_TENTUPLE_H
 #define CGAL_PM_TENTUPLE_H
+
+
+CGAL_BEGIN_NAMESPACE
+
+
 template <class F0,class F1,class F2,class F3,class F4,class F5,class F6,class F7,class F8,class F9>
-class CGAL_Pm_tentuple : public CGAL_Rep
+class Pm_tentuple : public Rep
 {
 public:
 	F0 e0;
@@ -69,15 +73,30 @@ public:
 	F8 e8;
 	F9 e9;
 	
-	CGAL_Pm_tentuple()
+	Pm_tentuple()
 	{}
-	CGAL_Pm_tentuple(const F0 & a0, const F1 & a1, const F2 & a2, const F3 & a3,const F4 & a4, const F5 & a5, const F6 & a6, const F7 & a7, const F8 & a8, const F9 & a9)
+	Pm_tentuple(const F0 & a0, const F1 & a1, const F2 & a2, const F3 & a3,const F4 & a4, const F5 & a5, const F6 & a6, const F7 & a7, const F8 & a8, const F9 & a9)
 		: e0(a0),e1(a1),e2(a2),e3(a3),e4(a4),e5(a5),e6(a6),e7(a7),e8(a8),e9(a9)
 	{}
-	CGAL_Pm_tentuple(const CGAL_Pm_tentuple<F0,F1,F2,F3,F4,F5,F6,F7,F8,F9> & a)
+	Pm_tentuple(const Pm_tentuple<F0,F1,F2,F3,F4,F5,F6,F7,F8,F9> & a)
 		: e0(a.e0),e1(a.e1),e2(a.e2),e3(a.e3),e4(a.e4),e5(a.e5),e6(a.e6),e7(a.e7),e8(a.e8),e9(a.e9)
 	{}
-	~CGAL_Pm_tentuple()
+	~Pm_tentuple()
 	{}
 };
+
+
+CGAL_END_NAMESPACE
+
 #endif
+
+
+
+
+
+
+
+
+
+
+

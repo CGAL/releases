@@ -24,26 +24,26 @@
 #include <CGAL/Pm_naive_point_location.h>
 #endif
 
-typedef CGAL_Homogeneous<long>                     coord_t;
-typedef CGAL_Pm_segment_exact_traits<coord_t>         pmtraits;
+typedef CGAL::Homogeneous<long>                     coord_t;
+typedef CGAL::Pm_segment_exact_traits<coord_t>         pmtraits;
 typedef pmtraits::Point                               point;
 typedef pmtraits::X_curve                             curve;
-typedef CGAL_Pm_default_dcel<pmtraits>                pmdcel;
+typedef CGAL::Pm_default_dcel<pmtraits>                pmdcel;
 
 int main()
 {
-  // creating an instance of CGAL_Planar_map_2<pmdcel,pmtraits>
+  // creating an instance of CGAL::Planar_map_2<pmdcel,pmtraits>
 #ifndef NAIVE_POINT_LOCATION   
-  CGAL_Planar_map_2<pmdcel,pmtraits> pm;
+  CGAL::Planar_map_2<pmdcel,pmtraits> pm;
 #else
-  CGAL_Pm_naive_point_location< CGAL_Planar_map_2<pmdcel,pmtraits> > naive_pl;
-  CGAL_Planar_map_2<pmdcel,pmtraits> pm(&naive_pl);
+  CGAL::Pm_naive_point_location< CGAL::Planar_map_2<pmdcel,pmtraits> > naive_pl;
+  CGAL::Planar_map_2<pmdcel,pmtraits> pm(&naive_pl);
 #endif
 
   curve cv[6];
   int i;
 
-  CGAL_set_ascii_mode(cout);
+  CGAL::set_ascii_mode(std::cout);
 
   point a1(1, 1), a2(1, 0), a3(0, 0), a4(0, 1), a5(1,4,2) ;
 
@@ -67,16 +67,16 @@ int main()
   cv[4] = curve(a5, a1);
   cv[5] = curve(a1, a4);
    
-  cout << "the curves of the map :" << endl; 
+  std::cout << "the curves of the map :" << std::endl; 
   for (i = 0; i < 6; i++)
-    cout << cv[i] << endl;
+    std::cout << cv[i] << std::endl;
 
-  cout << endl;
+  std::cout << std::endl;
 
 
   // insert the five curves to the map
-  cout << "inserting the curves to the map..." << endl;
-  CGAL_Planar_map_2<pmdcel,pmtraits>::Halfedge_handle e[6];  
+  std::cout << "inserting the curves to the map..." << std::endl;
+  CGAL::Planar_map_2<pmdcel,pmtraits>::Halfedge_handle e[6];  
 
   e[0]=pm.insert(cv[0]);
 
@@ -101,14 +101,14 @@ int main()
   */
 
   // check the validity of the map
-  cout << "check map validity... ";
+  std::cout << "check map validity... ";
   if (pm.is_valid())
-    cout << "map valid!" << endl;
+    std::cout << "map valid!" << std::endl;
   else
-    cout << "map invalid!" << endl;
-  cout << endl << "Printing map: " << endl;
+    std::cout << "map invalid!" << std::endl;
+  std::cout << std::endl << "Printing map: " << std::endl;
   
-  cout << pm ;
+  std::cout << pm ;
   
   return 0;  
 }

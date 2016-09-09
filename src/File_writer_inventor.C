@@ -1,6 +1,6 @@
 // ======================================================================
 //
-// Copyright (c) 1997 The CGAL Consortium
+// Copyright (c) 1999 The GALIA Consortium
 //
 // This software and related documentation is part of the
 // Computational Geometry Algorithms Library (CGAL).
@@ -16,38 +16,37 @@
 // - Development licenses grant access to the source code of the library 
 //   to develop programs. These programs may be sold to other parties as 
 //   executable code. To obtain a development license, please contact
-//   the CGAL Consortium (at cgal@cs.uu.nl).
+//   the GALIA Consortium (at cgal@cs.uu.nl).
 // - Commercialization licenses grant access to the source code and the
 //   right to sell development licenses. To obtain a commercialization 
-//   license, please contact the CGAL Consortium (at cgal@cs.uu.nl).
+//   license, please contact the GALIA Consortium (at cgal@cs.uu.nl).
 //
 // This software and documentation is provided "as-is" and without
 // warranty of any kind. In no event shall the CGAL Consortium be
 // liable for any damage of any kind.
 //
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// The GALIA Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany) Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+// (Germany), Max-Planck-Institute Saarbrucken (Germany),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-1.2
-// release_date  : 1999, January 18
+// release       : CGAL-2.0
+// release_date  : 1999, June 03
 //
 // file          : src/File_writer_inventor.C
-// package       : Polyhedron_IO (1.11)
+// package       : Polyhedron_IO (2.5)
 // chapter       : $CGAL_Chapter: Support Library ... $
 // source        : polyhedron_io.fw
-// revision      : $Revision: 1.8 $
-// revision_date : $Date: 1998/10/08 22:46:22 $
+// revision      : $Revision: 1.4 $
+// revision_date : $Date: 1999/03/24 11:16:26 $
 // author(s)     : Lutz Kettner
 //
 // coordinator   : Herve Bronnimann
 //
 // Writer for polyhedral surfaces OpenInventor format (.iv)
-//
 // email         : cgal@cs.uu.nl
 //
 // ======================================================================
@@ -56,9 +55,14 @@
 #include <CGAL/IO/File_writer_inventor.h>
 #endif // CGAL_IO_FILE_WRITER_INVENTOR_H
 
+CGAL_BEGIN_NAMESPACE
+
 void
-CGAL_File_writer_inventor::
-write_header( ostream& o, size_t vertices, size_t halfedges,size_t facets){
+File_writer_inventor::
+write_header( std::ostream& o,
+              std::size_t   vertices,
+              std::size_t   halfedges,
+              std::size_t   facets){
     m_out    = &o;
     m_facets = facets;
     out() << "# " << vertices  << " vertices\n";
@@ -66,11 +70,11 @@ write_header( ostream& o, size_t vertices, size_t halfedges,size_t facets){
     out() << "# " << facets    << " facets\n\n";
     out() << "Separator {\n"
              "    Coordinate3 {\n"
-             "        point   [" << endl;
+             "        point   [" << std::endl;
 }
 
 void
-CGAL_File_writer_inventor::
+File_writer_inventor::
 write_facet_header() const {
     out() << "        ] #point\n"
              "    } #Coordinate3\n"
@@ -80,10 +84,12 @@ write_facet_header() const {
 }
 
 void
-CGAL_File_writer_inventor::
+File_writer_inventor::
 write_footer() const {
     out() << "        ] #coordIndex\n"
              "    } #IndexedFaceSet\n"
-             "} #Separator" << endl;
+             "} #Separator" << std::endl;
 }
+
+CGAL_END_NAMESPACE
 // EOF //

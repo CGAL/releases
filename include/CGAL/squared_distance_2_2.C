@@ -1,6 +1,6 @@
 // ======================================================================
 //
-// Copyright (c) 1998 The CGAL Consortium
+// Copyright (c) 1999 The GALIA Consortium
 //
 // This software and related documentation is part of the
 // Computational Geometry Algorithms Library (CGAL).
@@ -16,33 +16,32 @@
 // - Development licenses grant access to the source code of the library 
 //   to develop programs. These programs may be sold to other parties as 
 //   executable code. To obtain a development license, please contact
-//   the CGAL Consortium (at cgal@cs.uu.nl).
+//   the GALIA Consortium (at cgal@cs.uu.nl).
 // - Commercialization licenses grant access to the source code and the
 //   right to sell development licenses. To obtain a commercialization 
-//   license, please contact the CGAL Consortium (at cgal@cs.uu.nl).
+//   license, please contact the GALIA Consortium (at cgal@cs.uu.nl).
 //
 // This software and documentation is provided "as-is" and without
 // warranty of any kind. In no event shall the CGAL Consortium be
 // liable for any damage of any kind.
 //
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// The GALIA Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany) Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+// (Germany), Max-Planck-Institute Saarbrucken (Germany),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-1.2
-// release_date  : 1999, January 18
+// release       : CGAL-2.0
+// release_date  : 1999, June 03
 //
 // file          : include/CGAL/squared_distance_2_2.C
-// package       : Distance_2 (1.5)
+// package       : Distance_2 (2.1.2)
 // source        : sqdistance_2.fw
 // author(s)     : Geert-Jan Giezeman
 //
 // coordinator   : Saarbruecken
-//
 //
 // email         : cgal@cs.uu.nl
 //
@@ -79,27 +78,30 @@
 #ifndef CGAL_SQUARED_DISTANCE_2_1_H
 #include <CGAL/squared_distance_2_1.h>
 #endif // CGAL_SQUARED_DISTANCE_2_1_H
+CGAL_BEGIN_NAMESPACE
+
+
 
 template <class R>
 extern void
-CGAL_distance_index(
+distance_index(
     int &ind1,
     int &ind2,
-    const CGAL_Point_2<R> &pt,
-    const CGAL_Triangle_2<R> &triangle)
+    const Point_2<R> &pt,
+    const Triangle_2<R> &triangle)
 {
-    const CGAL_Point_2<R> &vt0 = triangle.vertex(0);
-    const CGAL_Point_2<R> &vt1 = triangle.vertex(1);
-    const CGAL_Point_2<R> &vt2 = triangle.vertex(2);
-    if (CGAL_leftturn(vt0, vt1, vt2)) {
-        if (CGAL_rightturn(vt0, vt1, pt)) {
-            if (!CGAL_is_acute_angle(vt0, vt1, pt)) {
-                if (CGAL_rightturn(vt1, vt2, pt)) {
-                    if (!CGAL_is_acute_angle(vt1, vt2, pt)) {
+    const Point_2<R> &vt0 = triangle.vertex(0);
+    const Point_2<R> &vt1 = triangle.vertex(1);
+    const Point_2<R> &vt2 = triangle.vertex(2);
+    if (leftturn(vt0, vt1, vt2)) {
+        if (rightturn(vt0, vt1, pt)) {
+            if (!is_acute_angle(vt0, vt1, pt)) {
+                if (rightturn(vt1, vt2, pt)) {
+                    if (!is_acute_angle(vt1, vt2, pt)) {
                         ind1 = 2; ind2 = -1;
                         return;
                     }
-                    if (!CGAL_is_acute_angle(vt2, vt1, pt)) {
+                    if (!is_acute_angle(vt2, vt1, pt)) {
                         ind1 = 1; ind2 = -1;
                         return;
                     }
@@ -109,13 +111,13 @@ CGAL_distance_index(
                 ind1 = 1; ind2 = -1;
                 return;
             }
-            if (!CGAL_is_acute_angle(vt1, vt0, pt)) {
-                if (CGAL_rightturn(vt2, vt0, pt)) {
-                    if (!CGAL_is_acute_angle(vt0, vt2, pt)) {
+            if (!is_acute_angle(vt1, vt0, pt)) {
+                if (rightturn(vt2, vt0, pt)) {
+                    if (!is_acute_angle(vt0, vt2, pt)) {
                         ind1 = 2; ind2 = -1;
                         return;
                     }
-                    if (!CGAL_is_acute_angle(vt2, vt0, pt)) {
+                    if (!is_acute_angle(vt2, vt0, pt)) {
                         ind1 = 0; ind2 = -1;
                         return;
                     }
@@ -128,14 +130,14 @@ CGAL_distance_index(
             ind1 = 0; ind2 = 1;
             return;
         } else {
-            if (CGAL_rightturn(vt1, vt2, pt)) {
-                if (!CGAL_is_acute_angle(vt1, vt2, pt)) {
-                    if (CGAL_rightturn(vt2, vt0, pt)) {
-                        if (!CGAL_is_acute_angle(vt0, vt2, pt)) {
+            if (rightturn(vt1, vt2, pt)) {
+                if (!is_acute_angle(vt1, vt2, pt)) {
+                    if (rightturn(vt2, vt0, pt)) {
+                        if (!is_acute_angle(vt0, vt2, pt)) {
                             ind1 = 2; ind2 = -1;
                             return;
                         }
-                        if (!CGAL_is_acute_angle(vt2, vt0, pt)) {
+                        if (!is_acute_angle(vt2, vt0, pt)) {
                             ind1 = 0; ind2 = -1;
                             return;
                         }
@@ -145,19 +147,19 @@ CGAL_distance_index(
                     ind1 = 0; ind2 = -1;
                     return;
                 }
-                if (!CGAL_is_acute_angle(vt2, vt1, pt)) {
+                if (!is_acute_angle(vt2, vt1, pt)) {
                     ind1 = 1; ind2 = -1;
                     return;
                 }
                 ind1 = 1; ind2 = 2;
                 return;
             } else {
-                if (CGAL_rightturn(vt2, vt0, pt)) {
-                    if (!CGAL_is_acute_angle(vt2, vt0, pt)) {
+                if (rightturn(vt2, vt0, pt)) {
+                    if (!is_acute_angle(vt2, vt0, pt)) {
                         ind1 = 0; ind2 = -1;
                         return;
                     }
-                    if (!CGAL_is_acute_angle(vt0, vt2, pt)) {
+                    if (!is_acute_angle(vt0, vt2, pt)) {
                         ind1 = 2; ind2 = -1;
                         return;
                     }
@@ -170,14 +172,14 @@ CGAL_distance_index(
             }
         }
     } else {
-        if (CGAL_rightturn(vt0, vt2, pt)) {
-            if (!CGAL_is_acute_angle(vt0, vt2, pt)) {
-                if (CGAL_rightturn(vt2, vt1, pt)) {
-                    if (!CGAL_is_acute_angle(vt2, vt1, pt)) {
+        if (rightturn(vt0, vt2, pt)) {
+            if (!is_acute_angle(vt0, vt2, pt)) {
+                if (rightturn(vt2, vt1, pt)) {
+                    if (!is_acute_angle(vt2, vt1, pt)) {
                         ind1 = 1; ind2 = -1;
                         return;
                     }
-                    if (!CGAL_is_acute_angle(vt1, vt2, pt)) {
+                    if (!is_acute_angle(vt1, vt2, pt)) {
                         ind1 = 2; ind2 = -1;
                         return;
                     }
@@ -187,13 +189,13 @@ CGAL_distance_index(
                 ind1 = 2; ind2 = -1;
                 return;
             }
-            if (!CGAL_is_acute_angle(vt2, vt0, pt)) {
-                if (CGAL_rightturn(vt1, vt0, pt)) {
-                    if (!CGAL_is_acute_angle(vt0, vt1, pt)) {
+            if (!is_acute_angle(vt2, vt0, pt)) {
+                if (rightturn(vt1, vt0, pt)) {
+                    if (!is_acute_angle(vt0, vt1, pt)) {
                         ind1 = 1; ind2 = -1;
                         return;
                     }
-                    if (!CGAL_is_acute_angle(vt1, vt0, pt)) {
+                    if (!is_acute_angle(vt1, vt0, pt)) {
                         ind1 = 0; ind2 = -1;
                         return;
                     }
@@ -206,14 +208,14 @@ CGAL_distance_index(
             ind1 = 0; ind2 = 2;
             return;
         } else {
-            if (CGAL_rightturn(vt2, vt1, pt)) {
-                if (!CGAL_is_acute_angle(vt2, vt1, pt)) {
-                    if (CGAL_rightturn(vt1, vt0, pt)) {
-                        if (!CGAL_is_acute_angle(vt0, vt1, pt)) {
+            if (rightturn(vt2, vt1, pt)) {
+                if (!is_acute_angle(vt2, vt1, pt)) {
+                    if (rightturn(vt1, vt0, pt)) {
+                        if (!is_acute_angle(vt0, vt1, pt)) {
                             ind1 = 1; ind2 = -1;
                             return;
                         }
-                        if (!CGAL_is_acute_angle(vt1, vt0, pt)) {
+                        if (!is_acute_angle(vt1, vt0, pt)) {
                             ind1 = 0; ind2 = -1;
                             return;
                         }
@@ -223,19 +225,19 @@ CGAL_distance_index(
                     ind1 = 0; ind2 = -1;
                     return;
                 }
-                if (!CGAL_is_acute_angle(vt1, vt2, pt)) {
+                if (!is_acute_angle(vt1, vt2, pt)) {
                     ind1 = 2; ind2 = -1;
                     return;
                 }
                 ind1 = 2; ind2 = 1;
                 return;
             } else {
-                if (CGAL_rightturn(vt1, vt0, pt)) {
-                    if (!CGAL_is_acute_angle(vt1, vt0, pt)) {
+                if (rightturn(vt1, vt0, pt)) {
+                    if (!is_acute_angle(vt1, vt0, pt)) {
                         ind1 = 0; ind2 = -1;
                         return;
                     }
-                    if (!CGAL_is_acute_angle(vt0, vt1, pt)) {
+                    if (!is_acute_angle(vt0, vt1, pt)) {
                         ind1 = 1; ind2 = -1;
                         return;
                     }
@@ -250,39 +252,42 @@ CGAL_distance_index(
     }
 }
 
+
 template <class R>
 extern R_FT_return(R)
-CGAL_squared_distance_indexed(const CGAL_Point_2<R> &pt,
-    const CGAL_Triangle_2<R> &triangle, int ind1, int ind2)
+squared_distance_indexed(const Point_2<R> &pt,
+    const Triangle_2<R> &triangle, int ind1, int ind2)
 {
     typedef typename R::FT FT;
     if (ind1 == -1)
         return (R_FT_return(R))(FT(0));
     if (ind2 == -1)
-        return CGAL_squared_distance(pt, triangle.vertex(ind1));
-    return CGAL_squared_distance(pt,
-        CGAL_Line_2<R>(triangle.vertex(ind1), triangle.vertex(ind2)));
+        return squared_distance(pt, triangle.vertex(ind1));
+    return squared_distance(pt,
+        Line_2<R>(triangle.vertex(ind1), triangle.vertex(ind2)));
 }
+
 
 template <class R>
 extern R_FT_return(R)
-CGAL_squared_distance(
-    const CGAL_Point_2<R> &pt,
-    const CGAL_Triangle_2<R> &triangle)
+squared_distance(
+    const Point_2<R> &pt,
+    const Triangle_2<R> &triangle)
 {
     int ind1,ind2;
-    CGAL_distance_index(ind1, ind2, pt, triangle);
-    return CGAL_squared_distance_indexed(pt, triangle, ind1, ind2);
+    distance_index(ind1, ind2, pt, triangle);
+    return squared_distance_indexed(pt, triangle, ind1, ind2);
 }
+
 
 template <class R>
 extern R_FT_return(R)
-CGAL_squared_distance(
-    const CGAL_Line_2<R> &line,
-    const CGAL_Triangle_2<R> &triangle)
+squared_distance(
+    const Line_2<R> &line,
+    const Triangle_2<R> &triangle)
 {
     typedef typename R::FT FT;
-    CGAL_Oriented_side side0;
+    Oriented_side side0;
     side0 = line.oriented_side(triangle.vertex(0));
     if (line.oriented_side(triangle.vertex(1)) != side0)
         return (R_FT_return(R))(FT(0));
@@ -290,31 +295,32 @@ CGAL_squared_distance(
         return (R_FT_return(R))(FT(0));
     FT mindist, dist;
     int i;
-    mindist = CGAL_squared_distance(triangle.vertex(0),line);
+    mindist = squared_distance(triangle.vertex(0),line);
     for (i=1; i<3; i++) {
-        dist = CGAL_squared_distance(triangle.vertex(i),line);
+        dist = squared_distance(triangle.vertex(i),line);
         if (dist < mindist)
             mindist = dist;
     }
     return (R_FT_return(R))(mindist);
 }
 
+
 template <class R>
 extern R_FT_return(R)
-CGAL_squared_distance(
-    const CGAL_Ray_2<R> &ray,
-    const CGAL_Triangle_2<R> &triangle)
+squared_distance(
+    const Ray_2<R> &ray,
+    const Triangle_2<R> &triangle)
 {
     typedef typename R::FT FT;
     int i, ind_tr1, ind_tr2, ind_ray = 0, ind1;
     FT mindist, dist;
-    CGAL_distance_index(ind_tr1, ind_tr2, ray.source(), triangle);
+    distance_index(ind_tr1, ind_tr2, ray.source(), triangle);
     mindist =
-        CGAL_squared_distance_indexed(ray.source(), triangle, ind_tr1,ind_tr2);
+        squared_distance_indexed(ray.source(), triangle, ind_tr1,ind_tr2);
     for (i=0; i<3; i++) {
-        const CGAL_Point_2<R>& pt = triangle.vertex(i);
-        CGAL_distance_index(ind1, pt, ray);
-        dist = CGAL_squared_distance_indexed(pt, ray, ind1);
+        const Point_2<R>& pt = triangle.vertex(i);
+        distance_index(ind1, pt, ray);
+        dist = squared_distance_indexed(pt, ray, ind1);
         if (dist < mindist) {
             ind_ray = ind1;
             ind_tr1 = i; ind_tr2 = -1;
@@ -328,15 +334,15 @@ CGAL_squared_distance(
     if (ind_tr2 != -1) {
 // Check if all the segment vertices lie at the same side of
 // the triangle segment.
-        const CGAL_Point_2<R> &vt1 = triangle.vertex(ind_tr1);
-        const CGAL_Point_2<R> &vt2 = triangle.vertex(ind_tr2);
-        if (CGAL_clockwise(ray.direction().vector(), vt2-vt1)) {
+        const Point_2<R> &vt1 = triangle.vertex(ind_tr1);
+        const Point_2<R> &vt2 = triangle.vertex(ind_tr2);
+        if (clockwise(ray.direction().vector(), vt2-vt1)) {
             mindist = FT(0);
         }
     } else {
 // Check if all the triangle vertices lie at the same side of the segment.
-        const CGAL_Line_2<R> &sl = ray.supporting_line();
-        CGAL_Oriented_side or = sl.oriented_side(triangle.vertex(0));
+        const Line_2<R> &sl = ray.supporting_line();
+        Oriented_side or = sl.oriented_side(triangle.vertex(0));
         for (i=1; i<3; i++) {
             if (sl.oriented_side(triangle.vertex(i)) != or) {
                 mindist = FT(0);
@@ -347,20 +353,21 @@ CGAL_squared_distance(
     return (R_FT_return(R))(mindist);
 }
 
+
 template <class R>
 extern R_FT_return(R)
-CGAL_squared_distance(
-    const CGAL_Segment_2<R> &seg,
-    const CGAL_Triangle_2<R> &triangle)
+squared_distance(
+    const Segment_2<R> &seg,
+    const Triangle_2<R> &triangle)
 {
     typedef typename R::FT FT;
     int i, ind_tr1 = 0, ind_tr2 = -1, ind_seg = 0, ind1, ind2;
     FT mindist, dist;
-    mindist = CGAL_squared_distance(seg.source(), triangle.vertex(0));
+    mindist = squared_distance(seg.source(), triangle.vertex(0));
     for (i=0; i<2; i++) {
-        const CGAL_Point_2<R> &pt = seg.vertex(i);
-        CGAL_distance_index(ind1, ind2, pt, triangle);
-        dist = CGAL_squared_distance_indexed(pt, triangle, ind1, ind2);
+        const Point_2<R> &pt = seg.vertex(i);
+        distance_index(ind1, ind2, pt, triangle);
+        dist = squared_distance_indexed(pt, triangle, ind1, ind2);
         if (dist < mindist) {
             ind_seg = i;
             ind_tr1 = ind1; ind_tr2 = ind2;
@@ -368,9 +375,9 @@ CGAL_squared_distance(
         }
     }
     for (i=0; i<3; i++) {
-        const CGAL_Point_2<R>& pt = triangle.vertex(i);
-        CGAL_distance_index(ind1, pt, seg);
-        dist = CGAL_squared_distance_indexed(pt, seg, ind1);
+        const Point_2<R>& pt = triangle.vertex(i);
+        distance_index(ind1, pt, seg);
+        dist = squared_distance_indexed(pt, seg, ind1);
         if (dist < mindist) {
             ind_seg = ind1;
             ind_tr1 = i; ind_tr2 = -1;
@@ -385,19 +392,19 @@ CGAL_squared_distance(
     if (ind_tr2 != -1) {
 // Check if all the segment vertices lie at the same side of
 // the triangle segment.
-        const CGAL_Point_2<R> &vt1 = triangle.vertex(ind_tr1);
-        const CGAL_Point_2<R> &vt2 = triangle.vertex(ind_tr2);
-        CGAL_Orientation or = CGAL_orientation(vt1, vt2, seg.source());
-        if (CGAL_orientation(vt1, vt2, seg.target()) != or) {
+        const Point_2<R> &vt1 = triangle.vertex(ind_tr1);
+        const Point_2<R> &vt2 = triangle.vertex(ind_tr2);
+        Orientation or = orientation(vt1, vt2, seg.source());
+        if (orientation(vt1, vt2, seg.target()) != or) {
             mindist = FT(0);
         }
     } else {
 // Check if all the triangle vertices lie at the same side of the segment.
-        const CGAL_Point_2<R> &vt1 = seg.source();
-        const CGAL_Point_2<R> &vt2 = seg.target();
-        CGAL_Orientation or = CGAL_orientation(vt1, vt2, triangle.vertex(0));
+        const Point_2<R> &vt1 = seg.source();
+        const Point_2<R> &vt2 = seg.target();
+        Orientation or = orientation(vt1, vt2, triangle.vertex(0));
         for (i=1; i<3; i++) {
-            if (CGAL_orientation(vt1, vt2, triangle.vertex(i)) != or) {
+            if (orientation(vt1, vt2, triangle.vertex(i)) != or) {
                 mindist = FT(0);
                 break;
             }
@@ -406,21 +413,22 @@ CGAL_squared_distance(
     return (R_FT_return(R))(mindist);
 }
 
+
 template <class R>
 extern R_FT_return(R)
-CGAL_squared_distance(
-    const CGAL_Triangle_2<R> &triangle1,
-    const CGAL_Triangle_2<R> &triangle2)
+squared_distance(
+    const Triangle_2<R> &triangle1,
+    const Triangle_2<R> &triangle2)
 {
     typedef typename R::FT FT;
     int i, ind1_1 = 0,ind1_2 = -1, ind2_1 = 0, ind2_2 = -1, ind1, ind2;
     FT mindist, dist;
     mindist =
-       CGAL_squared_distance(triangle1.vertex(0), triangle2.vertex(0));
+       squared_distance(triangle1.vertex(0), triangle2.vertex(0));
     for (i=0; i<3; i++) {
-        const CGAL_Point_2<R>& pt = triangle1.vertex(i);
-        CGAL_distance_index(ind1, ind2, pt, triangle2);
-        dist = CGAL_squared_distance_indexed(pt, triangle2, ind1, ind2);
+        const Point_2<R>& pt = triangle1.vertex(i);
+        distance_index(ind1, ind2, pt, triangle2);
+        dist = squared_distance_indexed(pt, triangle2, ind1, ind2);
         if (dist < mindist) {
             ind1_1 = i; ind1_2 = -1;
             ind2_1 = ind1; ind2_2 = ind2;
@@ -428,9 +436,9 @@ CGAL_squared_distance(
         }
     }
     for (i=0; i<3; i++) {
-        const CGAL_Point_2<R>& pt = triangle2.vertex(i);
-        CGAL_distance_index(ind1, ind2, pt, triangle1);
-        dist = CGAL_squared_distance_indexed(pt, triangle1, ind1, ind2);
+        const Point_2<R>& pt = triangle2.vertex(i);
+        distance_index(ind1, ind2, pt, triangle1);
+        dist = squared_distance_indexed(pt, triangle1, ind1, ind2);
         if (dist < mindist) {
             ind1_1 = ind1; ind1_2 = ind2;
             ind2_1 = i; ind2_2 = -1;
@@ -444,21 +452,21 @@ CGAL_squared_distance(
     // of overlapping triangles.
     // Check if all the vertices lie at the same side of the segment.
     if (ind1_2 != -1) {
-        const CGAL_Point_2<R> &vt1 = triangle1.vertex(ind1_1);
-        const CGAL_Point_2<R> &vt2 = triangle1.vertex(ind1_2);
-        CGAL_Orientation or = CGAL_orientation(vt1, vt2, triangle2.vertex(0));
+        const Point_2<R> &vt1 = triangle1.vertex(ind1_1);
+        const Point_2<R> &vt2 = triangle1.vertex(ind1_2);
+        Orientation or = orientation(vt1, vt2, triangle2.vertex(0));
         for (i=1; i<3; i++) {
-            if (CGAL_orientation(vt1, vt2, triangle2.vertex(i)) != or) {
+            if (orientation(vt1, vt2, triangle2.vertex(i)) != or) {
                 mindist = FT(0);
                 break;
             }
         }
     } else {
-        const CGAL_Point_2<R> &vt1 = triangle2.vertex(ind2_1);
-        const CGAL_Point_2<R> &vt2 = triangle2.vertex(ind2_2);
-        CGAL_Orientation or = CGAL_orientation(vt1, vt2, triangle1.vertex(0));
+        const Point_2<R> &vt1 = triangle2.vertex(ind2_1);
+        const Point_2<R> &vt2 = triangle2.vertex(ind2_2);
+        Orientation or = orientation(vt1, vt2, triangle1.vertex(0));
         for (i=1; i<3; i++) {
-            if (CGAL_orientation(vt1, vt2, triangle1.vertex(i)) != or) {
+            if (orientation(vt1, vt2, triangle1.vertex(i)) != or) {
                 mindist = FT(0);
                 break;
             }
@@ -467,3 +475,4 @@ CGAL_squared_distance(
     return (R_FT_return(R))(mindist);
 }
 
+CGAL_END_NAMESPACE

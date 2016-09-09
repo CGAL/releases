@@ -1,6 +1,6 @@
 // ======================================================================
 //
-// Copyright (c) 1997 The CGAL Consortium
+// Copyright (c) 1999 The GALIA Consortium
 //
 // This software and related documentation is part of the
 // Computational Geometry Algorithms Library (CGAL).
@@ -16,35 +16,34 @@
 // - Development licenses grant access to the source code of the library 
 //   to develop programs. These programs may be sold to other parties as 
 //   executable code. To obtain a development license, please contact
-//   the CGAL Consortium (at cgal@cs.uu.nl).
+//   the GALIA Consortium (at cgal@cs.uu.nl).
 // - Commercialization licenses grant access to the source code and the
 //   right to sell development licenses. To obtain a commercialization 
-//   license, please contact the CGAL Consortium (at cgal@cs.uu.nl).
+//   license, please contact the GALIA Consortium (at cgal@cs.uu.nl).
 //
 // This software and documentation is provided "as-is" and without
 // warranty of any kind. In no event shall the CGAL Consortium be
 // liable for any damage of any kind.
 //
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// The GALIA Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany) Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+// (Germany), Max-Planck-Institute Saarbrucken (Germany),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-1.2
-// release_date  : 1999, January 18
+// release       : CGAL-2.0
+// release_date  : 1999, June 03
 //
 // file          : include/CGAL/Triangulation_face_base_2.h
-// package       : Triangulation (2.10)
-// source        : $Source: /u/alcor/0/prisme_util/CGAL/Local/cvsroot/Triangulation/include/CGAL/Triangulation_face_base_2.h,v $
-// revision      : $Revision: 1.6.1.6 $
-// revision_date : $Date: 1998/12/10 17:44:37 $
+// package       : Triangulation (3.17)
+// source        : $FCSfile$
+// revision      : $Revision: 1.6.1.10 $
+// revision_date : $Date: 1999/05/11 07:29:16 $
 // author(s)     : Mariette Yvinec
 //
 // coordinator   : Mariette Yvinec
-//
 //
 // email         : cgal@cs.uu.nl
 //
@@ -58,30 +57,32 @@
 #include <CGAL/Triangulation_short_names_2.h>
 #include <CGAL/Triangulation_utils_2.h>
 
+CGAL_BEGIN_NAMESPACE 
+
 template < class Gt >
-class CGAL_Triangulation_face_base_2 
-  : public CGAL_Triangulation_cw_ccw_2
+class Triangulation_face_base_2 
+  : public Triangulation_cw_ccw_2
 {
 public:
   // typedef typename Gt::Triangle Triangle;
-  typedef CGAL_Triangulation_face_base_2  Face_base;
+  typedef Triangulation_face_base_2  Face_base;
 
   inline
-  CGAL_Triangulation_face_base_2()
+  Triangulation_face_base_2()
   {
     set_vertices();
     set_neighbors();
   }
 
   inline
-  CGAL_Triangulation_face_base_2( void* v0, void* v1, void* v2)
+  Triangulation_face_base_2( void* v0, void* v1, void* v2)
   {
     set_vertices(v0, v1, v2);
     set_neighbors();
   }
 
   inline
-  CGAL_Triangulation_face_base_2(void* v0, void* v1, void* v2,
+  Triangulation_face_base_2(void* v0, void* v1, void* v2,
 				 void* n0, void* n1, void* n2)
   {
     set_vertices(v0, v1, v2);
@@ -125,17 +126,10 @@ public:
   inline 
   int vertex_index(const void* v) const
   {
-    if (v == V[0]) {
-      return 0;
-    }
-    if (v == V[1]) {
-      return 1;
-    }
-    if (v == V[2]) {
-      return 2;
-    }
-    CGAL_triangulation_assertion(false); // we should not get here
-    return -1;
+    if (v == V[0]) return 0;
+    if (v == V[1]) return 1;
+    CGAL_triangulation_assertion( v == V[2] );
+    return 2;
   }
 
   inline 
@@ -175,17 +169,10 @@ public:
   inline 
   int face_index(const void* n) const
   {
-    if (n == N[0]) {
-      return 0;
-    }
-    if (n == N[1]) {
-      return 1;
-    }
-    if (n == N[2]) {
-      return 2;
-    }
-    CGAL_triangulation_precondition(false); // we should not get here
-    return -1;
+    if (n == N[0]) return 0;
+    if (n == N[1]) return 1;
+    CGAL_triangulation_assertion( n == N[2] );
+    return 2;
   }
     
  
@@ -208,9 +195,7 @@ public:
   inline 
   void set_vertices()
   {
-    V[0] = NULL;
-    V[1] = NULL;
-    V[2] = NULL;
+    V[0] = V[1] = V[2] = NULL;
   }
     
     
@@ -227,9 +212,7 @@ public:
   inline 
   void set_neighbors()
   {
-    N[0] = NULL;
-    N[1] = NULL;
-    N[2] = NULL;
+    N[0] = N[1] = N[2] = NULL;
   }
     
   inline
@@ -241,8 +224,6 @@ public:
     N[1] = n1;
     N[2] = n2;
   }
- 
- 
  
    
  
@@ -257,4 +238,7 @@ private:
   void* V[3];
   void* N[3];
 };
+
+CGAL_END_NAMESPACE 
+
 #endif //CGAL_TRIANGULATION_FACE_BASE_2_H

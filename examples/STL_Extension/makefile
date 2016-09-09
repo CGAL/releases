@@ -30,14 +30,14 @@ LDFLAGS = \
 #---------------------------------------------------------------------#
 
 all:            \
-                in_list_prog 
+                in_place_list_prog 
 
-in_list_prog: in_list_prog.o
-	$(CGAL_CXX) -o in_list_prog in_list_prog.o $(LDFLAGS)
+in_place_list_prog: in_place_list_prog.o
+	$(CGAL_CXX) -o in_place_list_prog in_place_list_prog.o $(LDFLAGS)
 
 clean:
 	rm -f *.o \
-                   in_list_prog \
+                   in_place_list_prog \
                    core
 
 #---------------------------------------------------------------------#

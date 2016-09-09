@@ -11,22 +11,22 @@
 //#include  <typeinfo>
 //#endif  /* __GNUG__ */ 
 
-#include  <iostream.h>
-#include  <time.h>
-#include  <assert.h>
+#include <iostream>
+#include <ctime>
+#include <cassert>
 
 #include  <CGAL/Cartesian.h>
 #include  <CGAL/Point_3.h>
 
-#include  <list.h>
+#include <list>
 
 #include  <CGAL/kdtree_d.h>
 
-typedef CGAL_Point_3<CGAL_Cartesian<double> >  point;
-typedef CGAL_Kdtree_interface_3d<point>  kd_interface;
-typedef CGAL_Kdtree_d<kd_interface>  kd_tree;
+typedef CGAL::Point_3<CGAL::Cartesian<double> >  point;
+typedef CGAL::Kdtree_interface_3d<point>  kd_interface;
+typedef CGAL::Kdtree_d<kd_interface>  kd_tree;
 typedef kd_tree::Box  box;
-typedef list<point>  points_list; 
+typedef std::list<point>  points_list; 
 
 
 
@@ -63,19 +63,19 @@ void random_points( int  num, points_list &l )
 int   main()
 {
 
-  CGAL_Kdtree_d<kd_interface>  tree(3);
+  CGAL::Kdtree_d<kd_interface>  tree(3);
   
   srand( (unsigned)time(NULL) );
   
-  cout << "Choosing randomly 30 points in the cube (0,0,0)-(10,10,10)\n" ;
+  std::cout << "Choosing randomly 30 points in the cube (0,0,0)-(10,10,10)\n" ;
   
   points_list  l , res;
   random_points( 30, l);
   
   
-  cout << "Listing of random points:\n" ;
-  copy (l.begin(),l.end(),ostream_iterator<point>(cout,"\n") );
-  cout << endl;
+  std::cout << "Listing of random points:\n" ;
+  std::copy (l.begin(),l.end(),std::ostream_iterator<point>(std::cout,"\n") );
+  std::cout << endl;
   
   // building the tree for the random points
   tree.build( l );
@@ -88,11 +88,11 @@ int   main()
   
   //searching the box r
   box r(point(2,2,2), point(7,7,7) ,3);
-  tree.search( back_inserter( res ), r );
+  tree.search( std::back_inserter( res ), r );
   
-  cout << "Listing of the points in the box (2,2,2)-(7,7,7) : \n" ;
-  copy (res.begin(),res.end(),ostream_iterator<point>(cout,"\n") );
-  cout << endl;
+  std::cout << "Listing of the points in the box (2,2,2)-(7,7,7) : \n" ;
+  std::copy (res.begin(),res.end(),std::ostream_iterator<point>(std::cout,"\n") );
+  std::cout << endl;
   
   tree.delete_all();
   
@@ -100,4 +100,11 @@ int   main()
   
   return  0;
 }
+
+
+
+
+
+
+
 

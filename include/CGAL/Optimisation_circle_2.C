@@ -1,6 +1,6 @@
 // ======================================================================
 //
-// Copyright (c) 1997,1998 The CGAL Consortium
+// Copyright (c) 1999 The GALIA Consortium
 //
 // This software and related documentation is part of the
 // Computational Geometry Algorithms Library (CGAL).
@@ -16,117 +16,121 @@
 // - Development licenses grant access to the source code of the library 
 //   to develop programs. These programs may be sold to other parties as 
 //   executable code. To obtain a development license, please contact
-//   the CGAL Consortium (at cgal@cs.uu.nl).
+//   the GALIA Consortium (at cgal@cs.uu.nl).
 // - Commercialization licenses grant access to the source code and the
 //   right to sell development licenses. To obtain a commercialization 
-//   license, please contact the CGAL Consortium (at cgal@cs.uu.nl).
+//   license, please contact the GALIA Consortium (at cgal@cs.uu.nl).
 //
 // This software and documentation is provided "as-is" and without
 // warranty of any kind. In no event shall the CGAL Consortium be
 // liable for any damage of any kind.
 //
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// The GALIA Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany) Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+// (Germany), Max-Planck-Institute Saarbrucken (Germany),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-1.2
-// release_date  : 1999, January 18
+// release       : CGAL-2.0
+// release_date  : 1999, June 03
 //
 // file          : include/CGAL/Optimisation_circle_2.C
-// package       : Min_circle_2 (3.1.1)
+// package       : Min_circle_2 (3.2.3)
 // chapter       : $CGAL_Chapter: Geometric Optimisation $
 //
 // source        : web/Optimisation/Min_circle_2.aw
-// revision      : $Revision: 5.3 $
-// revision_date : $Date: 1998/11/16 15:42:39 $
+// revision      : $Revision: 5.8 $
+// revision_date : $Date: 1999/04/19 16:20:38 $
 // author(s)     : Sven Schönherr
 //                 Bernd Gärtner
 //
 // coordinator   : ETH Zürich (Bernd Gärtner)
 //
 // implementation: 2D Optimisation Circle
-//
 // email         : cgal@cs.uu.nl
 //
 // ======================================================================
 
-// Class implementation (continued)
-// ================================
 // includes
 #ifndef CGAL_OPTIMISATION_ASSERTIONS_H
 #  include <CGAL/optimisation_assertions.h>
 #endif
 
+CGAL_BEGIN_NAMESPACE
+
+// Class implementation (continued)
+// ================================
+
 // I/O
 // ---
 template < class _R >
-ostream&
-operator << ( ostream& os, const CGAL_Optimisation_circle_2<_R>& c)
+std::ostream&
+operator << ( std::ostream& os, const CGAL::Optimisation_circle_2<_R>& c)
 {
-    switch ( CGAL_get_mode( os)) {
+    switch ( CGAL::get_mode( os)) {
 
-      case CGAL_IO::PRETTY:
-        os << "CGAL_Optimisation_circle_2( "
+      case CGAL::IO::PRETTY:
+        os << "CGAL::Optimisation_circle_2( "
            << c.center() << ", "
            << c.squared_radius() << ')';
         break;
 
-      case CGAL_IO::ASCII:
+      case CGAL::IO::ASCII:
         os << c.center() << ' ' << c.squared_radius();
         break;
 
-      case CGAL_IO::BINARY:
+      case CGAL::IO::BINARY:
         os << c.center();
-        CGAL_write( os, c.squared_radius());
+        CGAL::write( os, c.squared_radius());
         break;
 
       default:
         CGAL_optimisation_assertion_msg( false,
-                                         "CGAL_get_mode( os) invalid!");
+                                         "CGAL::get_mode( os) invalid!");
         break; }
 
     return( os);
 }
 
 template < class _R >
-istream&
-operator >> ( istream& is, CGAL_Optimisation_circle_2<_R>& c)
+std::istream&
+operator >> ( std::istream& is, CGAL::Optimisation_circle_2<_R>& c)
 {
-    typedef typename  CGAL_Optimisation_circle_2<_R>::Point     Point;
-    typedef typename  CGAL_Optimisation_circle_2<_R>::Distance  Distance;
+    typedef  CGAL::Optimisation_circle_2<_R>::Point     Point;
+    typedef  CGAL::Optimisation_circle_2<_R>::Distance  Distance;
 
-    switch ( CGAL_get_mode( is)) {
+    switch ( CGAL::get_mode( is)) {
 
-      case CGAL_IO::PRETTY:
-        cerr << endl;
-        cerr << "Stream must be in ascii or binary mode" << endl;
+      case CGAL::IO::PRETTY:
+        cerr << std::endl;
+        cerr << "Stream must be in ascii or binary mode" << std::endl;
         break;
 
-      case CGAL_IO::ASCII: {
+      case CGAL::IO::ASCII: {
         Point     center;
         Distance  squared_radius;
         is >> center >> squared_radius;
         c.set( center, squared_radius); }
         break;
 
-      case CGAL_IO::BINARY: {
+      case CGAL::IO::BINARY: {
         Point     center;
         Distance  squared_radius;
         is >> center;
-        CGAL_read( is, squared_radius);
+        CGAL::read( is, squared_radius);
         c.set( center, squared_radius); }
         break;
 
       default:
         CGAL_optimisation_assertion_msg( false,
-                                         "CGAL_get_mode( is) invalid!");
+                                         "CGAL::get_mode( is) invalid!");
         break; }
 
     return( is);
 }
+
+CGAL_END_NAMESPACE
 
 // ===== EOF ==================================================================

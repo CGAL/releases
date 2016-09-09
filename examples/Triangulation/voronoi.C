@@ -8,7 +8,7 @@
 #include <iterator.h>
 
 // Define shorter names to please linker (g++/egcs)
-#define CGAL_Cartesian Cart
+#define Cartesian Cart
 
 #include <CGAL/Cartesian.h>
 
@@ -89,50 +89,42 @@ parse(int argc, char* argv[], Options &opt)
 
 //typedef leda_integer  coord_type;
 typedef double coord_type;
-//typedef CGAL_Fixed coord_type;
+//typedef CGAL::Fixed coord_type;
 
-typedef CGAL_Cartesian<coord_type>  Rep;
-//typedef CGAL_Homogeneous<coord_type>  Rep;
+typedef CGAL::Cartesian<coord_type>  Rpst;
+//typedef CGAL::Homogeneous<coord_type>  Rpst;
 
-typedef CGAL_Point_2<Rep>  Point;
-typedef CGAL_Segment_2<Rep>  Segment;
-typedef CGAL_Ray_2<Rep>  Ray;
-typedef CGAL_Line_2<Rep>  Line;
-typedef CGAL_Triangle_2<Rep>  Triangle;
+typedef CGAL::Point_2<Rpst>  Point;
+typedef CGAL::Segment_2<Rpst>  Segment;
+typedef CGAL::Ray_2<Rpst>  Ray;
+typedef CGAL::Line_2<Rpst>  Line;
+typedef CGAL::Triangle_2<Rpst>  Triangle;
 
-typedef CGAL_Triangulation_euclidean_traits_2<Rep> Gt;
-typedef CGAL_Triangulation_vertex_base_2<Gt> Vb;
-typedef CGAL_Triangulation_face_base_2<Gt>  Fb;
-typedef CGAL_Triangulation_default_data_structure_2<Gt,Vb,Fb> Tds;
-typedef CGAL_Delaunay_triangulation_2<Gt,Tds>  Triangulation_2;
+typedef CGAL::Triangulation_euclidean_traits_2<Rpst> Gt;
+typedef CGAL::Triangulation_vertex_base_2<Gt> Vb;
+typedef CGAL::Triangulation_face_base_2<Gt>  Fb;
+typedef CGAL::Triangulation_default_data_structure_2<Gt,Vb,Fb> Tds;
+typedef CGAL::Delaunay_triangulation_2<Gt,Tds>  Triangulation;
 
-typedef Triangulation_2::Face  Face;
-typedef Triangulation_2::Vertex Vertex;
-typedef Triangulation_2::Face_handle  Face_handle;
-typedef Triangulation_2::Vertex_handle Vertex_handle;
+typedef Triangulation::Face  Face;
+typedef Triangulation::Vertex Vertex;
+typedef Triangulation::Face_handle  Face_handle;
+typedef Triangulation::Vertex_handle Vertex_handle;
 
-typedef Triangulation_2::Face_circulator  Face_circulator;
-typedef Triangulation_2::Vertex_circulator  Vertex_circulator;
+typedef Triangulation::Face_circulator  Face_circulator;
+typedef Triangulation::Vertex_circulator  Vertex_circulator;
 
-typedef Triangulation_2::Locate_type Locate_type;
+typedef Triangulation::Locate_type Locate_type;
 
-typedef Triangulation_2::Face_iterator  Face_iterator;
-typedef Triangulation_2::Vertex_iterator  Vertex_iterator;
-typedef Triangulation_2::Edge_iterator  Edge_iterator;
-typedef Triangulation_2::Line_face_circulator  Line_face_circulator;
+typedef Triangulation::Face_iterator  Face_iterator;
+typedef Triangulation::Vertex_iterator  Vertex_iterator;
+typedef Triangulation::Edge_iterator  Edge_iterator;
+typedef Triangulation::Line_face_circulator  Line_face_circulator;
 
 
-#ifdef __GNU__
-template < class R >
-bool operator<(const CGAL_Point_2<R>& p, const CGAL_Point_2<R>& q)
-{
-    return CGAL_compare_lexicographically_xy (p, q) == CGAL_SMALLER;
-}
-#endif // __GNU__
 
-Triangulation_2 *T_global;
 
-void input_from_file(Triangulation_2 &T,
+void input_from_file(Triangulation &T,
                      const Options& opt)
 {
     if(! opt.file_input){
@@ -140,7 +132,7 @@ void input_from_file(Triangulation_2 &T,
     }
 
     ifstream is(opt.fname);
-    CGAL_set_ascii_mode(is);
+    CGAL::set_ascii_mode(is);
 
     int n;
     is >> n;
@@ -157,7 +149,7 @@ main(int argc, char* argv[])
     Options opt;
     parse(argc, argv, opt);
 
-    Triangulation_2 T;
+    Triangulation T;
 
     input_from_file(T, opt);
     
@@ -171,9 +163,9 @@ main(int argc, char* argv[])
 	Edge_iterator eit, ebegin=T.edges_begin(), eend=T.edges_end(); 
 	for (eit=ebegin; eit != eend; ++eit)
 	  {
-	    CGAL_Object o = T.dual(eit);
-	    Triangulation_2::Segment s;
-	    if (CGAL_assign(s,o)) cout << s << endl;
+	    CGAL::Object o = T.dual(eit);
+	    Triangulation::Segment s;
+	    if (CGAL::assign(s,o)) cout << s << endl;
 	  }
       }
 
@@ -182,9 +174,9 @@ main(int argc, char* argv[])
 	Edge_iterator eit, ebegin=T.edges_begin(), eend=T.edges_end(); 
 	for (eit=ebegin; eit != eend; ++eit)
 	  {
-	    CGAL_Object o = T.dual(eit);
-	    Triangulation_2::Ray r;
-	    if (CGAL_assign(r,o)) cout << r << endl;
+	    CGAL::Object o = T.dual(eit);
+	    Triangulation::Ray r;
+	    if (CGAL::assign(r,o)) cout << r << endl;
 	  }
       }
 

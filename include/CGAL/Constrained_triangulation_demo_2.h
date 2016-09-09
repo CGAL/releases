@@ -1,6 +1,6 @@
 // ======================================================================
 //
-// Copyright (c) 1997 The CGAL Consortium
+// Copyright (c) 1999 The GALIA Consortium
 //
 // This software and related documentation is part of the
 // Computational Geometry Algorithms Library (CGAL).
@@ -16,35 +16,34 @@
 // - Development licenses grant access to the source code of the library 
 //   to develop programs. These programs may be sold to other parties as 
 //   executable code. To obtain a development license, please contact
-//   the CGAL Consortium (at cgal@cs.uu.nl).
+//   the GALIA Consortium (at cgal@cs.uu.nl).
 // - Commercialization licenses grant access to the source code and the
 //   right to sell development licenses. To obtain a commercialization 
-//   license, please contact the CGAL Consortium (at cgal@cs.uu.nl).
+//   license, please contact the GALIA Consortium (at cgal@cs.uu.nl).
 //
 // This software and documentation is provided "as-is" and without
 // warranty of any kind. In no event shall the CGAL Consortium be
 // liable for any damage of any kind.
 //
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// The GALIA Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany) Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+// (Germany), Max-Planck-Institute Saarbrucken (Germany),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-1.2
-// release_date  : 1999, January 18
+// release       : CGAL-2.0
+// release_date  : 1999, June 03
 //
 // file          : include/CGAL/Constrained_triangulation_demo_2.h
-// package       : Triangulation (2.10)
-// source        : $Source: /u/alcor/0/prisme_util/CGAL/Local/cvsroot/Triangulation/include/CGAL/Constrained_triangulation_demo_2.h,v $
-// revision      : $Revision: 1.1.1.2 $
-// revision_date : $Date: 1998/09/23 08:02:33 $
+// package       : Triangulation (3.17)
+// source        : $RCSfile: Constrained_triangulation_demo_2.h,v $
+// revision      : $Revision: 1.1.1.4 $
+// revision_date : $Date: 1999/03/11 16:48:11 $
 // author(s)     : Mariette Yvinec
 //
 // coordinator   : Mariette Yvinec
-//
 //
 // email         : cgal@cs.uu.nl
 //
@@ -57,37 +56,37 @@
 #include <CGAL/Constrained_triangulation_sweep_demo_2.h>
 #include <CGAL/IO/Window_stream.h>
 
-// template < class Gt,class Tds>
-// class CGAL_Constrained_triangulation_sweep_demo_2;
+CGAL_BEGIN_NAMESPACE
 
 template < class Gt,class Tds>
-class CGAL_Constrained_triangulation_demo_2
-  : public CGAL_Constrained_triangulation_2<Gt,Tds>
+class Constrained_triangulation_demo_2
+  : public Constrained_triangulation_2<Gt,Tds>
 {
 public:
-  typedef CGAL_Constrained_triangulation_2<Gt,Tds> Constrained_triangulation;
-  typedef CGAL_Constrained_triangulation_sweep_demo_2<Gt,Tds>  Sweep_demo;
+  typedef Constrained_triangulation_2<Gt,Tds> Constrained_triangulation;
+  typedef Constrained_triangulation_sweep_demo_2<Gt,Tds>  Sweep_demo;
   typedef typename Gt::Segment Segment;
-  typedef CGAL_Window_stream Window_stream;
+  typedef Window_stream Window_stream;
 
-CGAL_Constrained_triangulation_demo_2() :  
-  CGAL_Constrained_triangulation_2<Gt,Tds>() {} 
+Constrained_triangulation_demo_2() :  
+  Constrained_triangulation_2<Gt,Tds>() {} 
   
-CGAL_Constrained_triangulation_demo_2(const Gt& gt=Gt()) 
-  : CGAL_Constrained_triangulation_2<Gt,Tds>(gt) {}
+Constrained_triangulation_demo_2(const Gt& gt=Gt()) 
+  : Constrained_triangulation_2<Gt,Tds>(gt) {}
   
 
-CGAL_Constrained_triangulation_demo_2(Window_stream& W,
+Constrained_triangulation_demo_2(Window_stream& W,
 				     list<Constraint>& lc, const Gt& gt=Gt()) 
-  : CGAL_Constrained_triangulation_2<Gt,Tds>(gt)
+  : Constrained_triangulation_2<Gt,Tds>(gt)
 {
   Sweep_demo  sweep(W,lc, gt);
-  CGAL_Constrained_triangulation_2<Gt,Tds> Tr( sweep.vertex(), gt);
+  Constrained_triangulation_2<Gt,Tds> Tr( sweep.vertex(), gt);
   swap(Tr);
   CGAL_triangulation_postcondition( is_valid() );
 }
 
 };
 
+CGAL_END_NAMESPACE
 
 #endif //CGAL_CONSTRAINED_TRIANGULATION_DEMO_2_H

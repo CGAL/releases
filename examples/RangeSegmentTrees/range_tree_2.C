@@ -1,6 +1,6 @@
 // ============================================================================
 //
-// Copyright (c) 1997 The CGAL Consortium
+// Copyright (c) 1999 The GALIA Consortium
 //
 // This software and related documentation is part of the
 // Computational Geometry Algorithms Library (CGAL).
@@ -16,25 +16,25 @@
 // - Development licenses grant access to the source code of the library 
 //   to develop programs. These programs may be sold to other parties as 
 //   executable code. To obtain a development license, please contact
-//   the CGAL Consortium (at cgal@cs.uu.nl).
+//   the GALIA Consortium (at cgal@cs.uu.nl).
 // - Commercialization licenses grant access to the source code and the
 //   right to sell development licenses. To obtain a commercialization 
-//   license, please contact the CGAL Consortium (at cgal@cs.uu.nl).
+//   license, please contact the GALIA Consortium (at cgal@cs.uu.nl).
 //
 // This software and documentation is provided "as-is" and without
 // warranty of any kind. In no event shall the CGAL Consortium be
 // liable for any damage of any kind.
 //
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// The GALIA Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany) Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+// (Germany), Max-Planck-Institute Saarbrucken (Germany),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-1.2
-// release_date  : 1999, January 18
+// release       : CGAL-2.0
+// release_date  : 1999, June 03
 //
 // file          : src/examples/RangeSegmentTrees/range_tree_2.C
 // source        : src/examples/RangeSegmentTrees/range_tree_2.C
@@ -48,26 +48,27 @@
 // A two dimensional Range Tree is defined in this class.
 // Ti is the type of each dimension of the tree.
 //
+//
 // email         : cgal@cs.uu.nl
 //
 // ======================================================================
 #include <CGAL/basic.h> 
-#include <iostream.h>
+#include <iostream>
 #include <CGAL/Range_tree_k.h>
 #include <Tree_Traits.h>
-#include <vector.h>
-#include <iterator.h>
-#include <pair.h>
+#include <vector>
+#include <iterator>
+#include <utility>
 
-typedef CGAL_Range_tree_2<Tree_traits_2> Range_tree_2_type;
+typedef CGAL::Range_tree_2<CGAL::Tree_traits_2> Range_tree_2_type;
 
 int main()
 {
-  typedef Tree_traits_2::Key Key;
-  typedef Tree_traits_2::Interval Interval;
+  typedef CGAL::Tree_traits_2::Key Key;
+  typedef CGAL::Tree_traits_2::Interval Interval;
 
-  vector<Key> InputList, OutputList;
-  typedef vector<Key>::iterator V_iterator;
+  std::vector<Key> InputList, OutputList;
+  typedef std::vector<Key>::iterator V_iterator;
   V_iterator first, last, current;
 
   int i,j;
@@ -87,7 +88,7 @@ int main()
   Interval win(Interval(Key(4,8.1),Key(5,8.2)));
 
   cerr << "\n Window Query: \n";
-  Range_tree_2->window_query(win, back_inserter(OutputList));
+  Range_tree_2->window_query(win, std::back_inserter(OutputList));
   current=OutputList.begin();
 
   while(current!=OutputList.end())
@@ -96,7 +97,7 @@ int main()
     current++;
   }
 
-  if(Range_tree_2->Range_tree_2->is_valid())
+  if(Range_tree_2->CRange_tree_2->is_valid())
     cerr << "Tree is valid\n";
   else
     cerr << "Tree is not valid\n";

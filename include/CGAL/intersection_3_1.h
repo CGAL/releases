@@ -1,6 +1,6 @@
 // ======================================================================
 //
-// Copyright (c) 1997 The CGAL Consortium
+// Copyright (c) 1999 The GALIA Consortium
 //
 // This software and related documentation is part of the
 // Computational Geometry Algorithms Library (CGAL).
@@ -16,33 +16,32 @@
 // - Development licenses grant access to the source code of the library 
 //   to develop programs. These programs may be sold to other parties as 
 //   executable code. To obtain a development license, please contact
-//   the CGAL Consortium (at cgal@cs.uu.nl).
+//   the GALIA Consortium (at cgal@cs.uu.nl).
 // - Commercialization licenses grant access to the source code and the
 //   right to sell development licenses. To obtain a commercialization 
-//   license, please contact the CGAL Consortium (at cgal@cs.uu.nl).
+//   license, please contact the GALIA Consortium (at cgal@cs.uu.nl).
 //
 // This software and documentation is provided "as-is" and without
 // warranty of any kind. In no event shall the CGAL Consortium be
 // liable for any damage of any kind.
 //
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// The GALIA Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany) Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+// (Germany), Max-Planck-Institute Saarbrucken (Germany),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-1.2
-// release_date  : 1999, January 18
+// release       : CGAL-2.0
+// release_date  : 1999, June 03
 //
 // file          : include/CGAL/intersection_3_1.h
-// package       : Intersections_3 (1.3)
+// package       : Intersections_3 (2.1.1)
 // source        : web/intersection_3.fw
 // author(s)     : Geert-Jan Giezeman
 //
 // coordinator   : Saarbruecken
-//
 //
 // email         : cgal@cs.uu.nl
 //
@@ -62,146 +61,173 @@
 #endif // CGAL_BBOX_INTERSECTION_3_H
 
 
+CGAL_BEGIN_NAMESPACE
+
 template <class R>
-CGAL_Object
-CGAL_intersection(const CGAL_Plane_3<R> &plane1, const CGAL_Plane_3<R>&plane2);
+Object
+intersection(const Plane_3<R> &plane1, const Plane_3<R>&plane2);
 
 template <class R>
 inline bool
-CGAL_do_intersect(const CGAL_Plane_3<R> &plane1, const CGAL_Plane_3<R>&plane2)
+do_intersect(const Plane_3<R> &plane1, const Plane_3<R>&plane2)
 {
-    return ! CGAL_intersection(plane1, plane2).is_empty();
+    return ! intersection(plane1, plane2).is_empty();
 }
+CGAL_END_NAMESPACE
 
 
 
+
+CGAL_BEGIN_NAMESPACE
 
 template <class R>
-CGAL_Object
-CGAL_intersection(const CGAL_Plane_3<R> &plane, const CGAL_Line_3<R>&line);
+Object
+intersection(const Plane_3<R> &plane, const Line_3<R>&line);
 
 template <class R>
 inline
-CGAL_Object
-CGAL_intersection(const CGAL_Line_3<R>&line, const CGAL_Plane_3<R> &plane)
+Object
+intersection(const Line_3<R>&line, const Plane_3<R> &plane)
 {
-    return CGAL_intersection(plane,line);
+    return intersection(plane,line);
 }
 
 template <class R>
 bool
-CGAL_do_intersect(const CGAL_Plane_3<R> &p2, const CGAL_Line_3<R> &p1);
+do_intersect(const Plane_3<R> &p2, const Line_3<R> &p1);
 
 
 template <class R>
 inline bool
-CGAL_do_intersect(
-    const CGAL_Line_3<R> &p1,
-    const CGAL_Plane_3<R> &p2)
+do_intersect(
+    const Line_3<R> &p1,
+    const Plane_3<R> &p2)
 {
-    return CGAL_do_intersect(p2,p1);
+    return do_intersect(p2,p1);
 }
 
+CGAL_END_NAMESPACE
 
+
+
+
+CGAL_BEGIN_NAMESPACE
 
 template <class R>
-CGAL_Object
-CGAL_intersection(const CGAL_Plane_3<R> &plane, const CGAL_Ray_3<R>&ray);
+Object
+intersection(const Plane_3<R> &plane, const Ray_3<R>&ray);
 
 template <class R>
 inline
-CGAL_Object
-CGAL_intersection(const CGAL_Ray_3<R>&ray, const CGAL_Plane_3<R> &plane)
+Object
+intersection(const Ray_3<R>&ray, const Plane_3<R> &plane)
 {
-    return CGAL_intersection(plane,ray);
+    return intersection(plane,ray);
 }
 
 template <class R>
 bool
-CGAL_do_intersect(const CGAL_Plane_3<R> &p1, const CGAL_Ray_3<R> &p2);
+do_intersect(const Plane_3<R> &p1, const Ray_3<R> &p2);
 
 
 template <class R>
 inline bool
-CGAL_do_intersect(
-    const CGAL_Ray_3<R> &p1,
-    const CGAL_Plane_3<R> &p2)
+do_intersect(
+    const Ray_3<R> &p1,
+    const Plane_3<R> &p2)
 {
-    return CGAL_do_intersect(p2,p1);
+    return do_intersect(p2,p1);
 }
+CGAL_END_NAMESPACE
 
 
+
+CGAL_BEGIN_NAMESPACE
 
 template <class R>
-CGAL_Object
-CGAL_intersection(const CGAL_Plane_3<R> &plane, const CGAL_Segment_3<R>&seg);
+Object
+intersection(const Plane_3<R> &plane, const Segment_3<R>&seg);
 
 template <class R>
 inline
-CGAL_Object
-CGAL_intersection(const CGAL_Segment_3<R>&seg, const CGAL_Plane_3<R> &plane)
+Object
+intersection(const Segment_3<R>&seg, const Plane_3<R> &plane)
 {
-    return CGAL_intersection(plane,seg);
+    return intersection(plane,seg);
 }
 
 template <class R>
 bool
-CGAL_do_intersect(const CGAL_Plane_3<R> &p1, const CGAL_Segment_3<R> &p2);
+do_intersect(const Plane_3<R> &p1, const Segment_3<R> &p2);
 
 
 template <class R>
 inline bool
-CGAL_do_intersect(
-    const CGAL_Segment_3<R> &p1,
-    const CGAL_Plane_3<R> &p2)
+do_intersect(
+    const Segment_3<R> &p1,
+    const Plane_3<R> &p2)
 {
-    return CGAL_do_intersect(p2,p1);
+    return do_intersect(p2,p1);
 }
 
+CGAL_END_NAMESPACE
 
+
+
+
+CGAL_BEGIN_NAMESPACE
 
 template <class R>
-CGAL_Object
-CGAL_intersection(const CGAL_Line_3<R> &line,
-        const CGAL_Bbox_3 &box) ;
+Object
+intersection(const Line_3<R> &line,
+        const Bbox_3 &box) ;
 
 template <class R>
-inline CGAL_Object
-CGAL_intersection(const CGAL_Bbox_3 &box,
-        const CGAL_Line_3<R> &line)
+inline Object
+intersection(const Bbox_3 &box,
+        const Line_3<R> &line)
 {
-    return CGAL_intersection(line, box);
+    return intersection(line, box);
 }
 
+CGAL_END_NAMESPACE
 
+
+
+CGAL_BEGIN_NAMESPACE
 
 template <class R>
-CGAL_Object
-CGAL_intersection(const CGAL_Ray_3<R> &ray,
-        const CGAL_Bbox_3 &box) ;
+Object
+intersection(const Ray_3<R> &ray,
+        const Bbox_3 &box) ;
 
 template <class R>
-inline CGAL_Object
-CGAL_intersection(const CGAL_Bbox_3 &box,
-        const CGAL_Ray_3<R> &ray)
+inline Object
+intersection(const Bbox_3 &box,
+        const Ray_3<R> &ray)
 {
-    return CGAL_intersection(ray, box);
+    return intersection(ray, box);
 }
 
+CGAL_END_NAMESPACE
 
+
+
+CGAL_BEGIN_NAMESPACE
 
 template <class R>
-CGAL_Object
-CGAL_intersection(const CGAL_Segment_3<R> &seg,
-        const CGAL_Bbox_3 &box) ;
+Object
+intersection(const Segment_3<R> &seg,
+        const Bbox_3 &box) ;
 
 template <class R>
-inline CGAL_Object
-CGAL_intersection(const CGAL_Bbox_3 &box,
-        const CGAL_Segment_3<R> &seg)
+inline Object
+intersection(const Bbox_3 &box,
+        const Segment_3<R> &seg)
 {
-    return CGAL_intersection(seg, box);
+    return intersection(seg, box);
 }
+CGAL_END_NAMESPACE
 
 
 

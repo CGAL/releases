@@ -1,6 +1,6 @@
 // ======================================================================
 //
-// Copyright (c) 1997 The CGAL Consortium
+// Copyright (c) 1999 The GALIA Consortium
 //
 // This software and related documentation is part of the
 // Computational Geometry Algorithms Library (CGAL).
@@ -16,37 +16,37 @@
 // - Development licenses grant access to the source code of the library 
 //   to develop programs. These programs may be sold to other parties as 
 //   executable code. To obtain a development license, please contact
-//   the CGAL Consortium (at cgal@cs.uu.nl).
+//   the GALIA Consortium (at cgal@cs.uu.nl).
 // - Commercialization licenses grant access to the source code and the
 //   right to sell development licenses. To obtain a commercialization 
-//   license, please contact the CGAL Consortium (at cgal@cs.uu.nl).
+//   license, please contact the GALIA Consortium (at cgal@cs.uu.nl).
 //
 // This software and documentation is provided "as-is" and without
 // warranty of any kind. In no event shall the CGAL Consortium be
 // liable for any damage of any kind.
 //
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// The GALIA Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany) Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+// (Germany), Max-Planck-Institute Saarbrucken (Germany),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-1.2
-// release_date  : 1999, January 18
+// release       : CGAL-2.0
+// release_date  : 1999, June 03
 //
 // file          : include/CGAL/Real_timer.h
-// package       : Support_LK (1.18)
-// source        : Support_LK/web/Real_timer.h
-// revision      : $Revision: 1.3 $
-// revision_date : $Date: 1998/06/02 22:38:14 $ 
+// package       : Timer (1.1)
+// chapter       : $CGAL_Chapter: Timer $
+// source        : Timer/web/Real_timer.h
+// revision      : $Revision: 1.5 $
+// revision_date : $Date: 1999/03/07 21:35:46 $ 
 // author(s)     : Lutz Kettner
 //
 // coordinator   : INRIA, Sophia Antipolis
 //
 // A timer class to measure real-time.
-//
 // email         : cgal@cs.uu.nl
 //
 // ======================================================================
@@ -57,15 +57,14 @@
 #ifndef CGAL_BASIC_H
 #include <CGAL/basic.h>
 #endif
-
-#ifndef CGAL_PROTECT_STDLIB_H
-#include <stdlib.h>
-#define CGAL_PROTECT_STDLIB_H
-#endif // CGAL_PROTECT_STDLIB_H
-#ifndef CGAL_PROTECT_LIMITS_H
-#include <limits.h>
-#define CGAL_PROTECT_LIMITS_H
-#endif // CGAL_PROTECT_LIMITS_H
+#ifndef CGAL_PROTECT_CSTDLIB
+#include <cstdlib>
+#define CGAL_PROTECT_CSTDLIB
+#endif
+#ifndef CGAL_PROTECT_CLIMITS
+#include <climits>
+#define CGAL_PROTECT_CLIMITS
+#endif
 
 // used for gettimeofday()
 #ifndef CGAL_PROTECT_SYS_TIME_H
@@ -73,28 +72,29 @@
 #define CGAL_PROTECT_SYS_TIME_H
 #endif // CGAL_PROTECT_SYS_TIME_H
 
+CGAL_BEGIN_NAMESPACE
 
 // SECTION: A Timer Measuring Real-Time
 // ========================================================================
 // 
 // DEFINITION
 // 
-// A timer `t' of type CGAL_Real_timer is an object with a state. It is
+// A timer `t' of type Real_timer is an object with a state. It is
 // either running or it is stopped. The state is controlled with
 // `t.start()' and `t.stop()' . The timer counts the time elapsed since
 // its creation or last reset. It counts only the time where it is in the
 // running state. The time information is given in seconds.
 
-class CGAL_Real_timer {
+class Real_timer {
 private:
     double          elapsed;
     struct timeval  started;
-    int             _intervals;
+    int             interv;
     bool            running;
     double          eps;
 
 public:
-    CGAL_Real_timer();
+    Real_timer() : elapsed(0), interv(0), running(false) {}
 
     void     start();
     void     stop ();
@@ -102,7 +102,7 @@ public:
     bool     is_running() const { return running; }
 
     double   time()       const;
-    int      intervals()  const { return _intervals; }
+    int      intervals()  const { return interv; }
     double   precision()  const { return eps; }
     double   max() const        { return double(INT_MAX);}
 };
@@ -110,70 +110,61 @@ public:
 
 /*****************************************************************************/
 
-// Member functions CGAL_Real_timer
+// Member functions Real_timer
 // ================================
 
-inline void
-CGAL_Real_timer::start( )
-{
+inline void Real_timer::start() {
     CGAL_assertion( ! running);
     int res = gettimeofday( &started, NULL);
     if ( res < 0) {
-	cerr << "CGAL_Real_timer error: gettimeofday() returned -1." 
-	     << endl;
-	abort();
+	cerr << "Real_timer error: gettimeofday() returned -1." << endl;
+	std::abort();
     }
     running = true;
-    ++ _intervals;
+    ++ interv;
 }
 
-inline void
-CGAL_Real_timer::stop( )
-{
-    CGAL_assertion( running);
+inline void Real_timer::stop() {
+    CGAL_assertion(running);
     struct timeval t;
     int res = gettimeofday( &t, NULL);
     if ( res < 0) {
-	cerr << "CGAL_Real_timer error: gettimeofday() returned -1." 
-	     << endl;
-	abort();
+	cerr << "Real_timer error: gettimeofday() returned -1." << endl;
+	std::abort();
     }
     elapsed +=   double(t.tv_sec  - started.tv_sec) 
-               + double(t.tv_usec - started.tv_usec) /1000000;
+               + double(t.tv_usec - started.tv_usec) / 1000000;
     running  = false;
 }
 
-inline void
-CGAL_Real_timer::reset( )
-{
-    _intervals = 0;
+inline void Real_timer::reset() {
+    interv = 0;
     elapsed = 0;
-    if ( running) {
+    if (running) {
 	int res = gettimeofday( &started, NULL);
 	if ( res < 0) {
-	    cerr << "CGAL_Real_timer error: gettimeofday() returned -1." 
-		 << endl;
-	    abort();
+	    cerr << "Real_timer error: gettimeofday() returned -1." << endl;
+	    std::abort();
 	}
-	++ _intervals;
+	++ interv;
     }
 }
 
-inline double
-CGAL_Real_timer::time() const {
-    if ( running) {
+inline double Real_timer::time() const {
+    if (running) {
 	struct timeval t;
 	int res = gettimeofday( &t, NULL);
 	if ( res < 0) {
-	    cerr << "CGAL_Real_timer error: gettimeofday() returned -1." 
-		 << endl;
-	    abort();
+	    cerr << "Real_timer error: gettimeofday() returned -1." << endl;
+	    std::abort();
 	}
 	return elapsed  + double(t.tv_sec  - started.tv_sec) 
-                        + double(t.tv_usec - started.tv_usec) /1000000;
+                        + double(t.tv_usec - started.tv_usec) / 1000000;
     }
     return elapsed;
 }
+
+CGAL_END_NAMESPACE
 
 #endif // CGAL_REAL_TIMER_H //
 // EOF //

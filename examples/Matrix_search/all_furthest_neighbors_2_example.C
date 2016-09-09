@@ -1,6 +1,6 @@
 // ============================================================================
 //
-// Copyright (c) 1998 The CGAL Consortium
+// Copyright (c) 1999 The GALIA Consortium
 //
 // This software and related documentation is part of the
 // Computational Geometry Algorithms Library (CGAL).
@@ -16,38 +16,37 @@
 // - Development licenses grant access to the source code of the library 
 //   to develop programs. These programs may be sold to other parties as 
 //   executable code. To obtain a development license, please contact
-//   the CGAL Consortium (at cgal@cs.uu.nl).
+//   the GALIA Consortium (at cgal@cs.uu.nl).
 // - Commercialization licenses grant access to the source code and the
 //   right to sell development licenses. To obtain a commercialization 
-//   license, please contact the CGAL Consortium (at cgal@cs.uu.nl).
+//   license, please contact the GALIA Consortium (at cgal@cs.uu.nl).
 //
 // This software and documentation is provided "as-is" and without
 // warranty of any kind. In no event shall the CGAL Consortium be
 // liable for any damage of any kind.
 //
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// The GALIA Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany) Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+// (Germany), Max-Planck-Institute Saarbrucken (Germany),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-1.2
-// release_date  : 1999, January 18
+// release       : CGAL-2.0
+// release_date  : 1999, June 03
 //
 // file          : all_furthest_neighbors_2_example.C
 // chapter       : $CGAL_Chapter: Geometric Optimisation $
 // package       : $CGAL_Package: Matrix_search $
 // source        : mon_search.aw
-// revision      : $Revision: 1.10 $
-// revision_date : $Date: 1998/11/26 16:25:13 $
+// revision      : $Revision: 1.17 $
+// revision_date : $Date: 1999/06/01 14:07:44 $
 // author(s)     : Michael Hoffmann
 //
 // coordinator   : ETH Zurich (Bernd Gaertner)
 //
 // Example program: All Furthest Neighbors for a Convex Polygon
-//
 // email         : cgal@cs.uu.nl
 //
 // ======================================================================
@@ -73,43 +72,37 @@
 #ifndef CGAL_IO_OSTREAM_ITERATOR_H
 #include <CGAL/IO/Ostream_iterator.h>
 #endif // CGAL_IO_OSTREAM_ITERATOR_H
-#ifndef CGAL_PROTECT_IOSTREAM_H
-#include <iostream.h>
-#define CGAL_PROTECT_IOSTREAM_H
-#endif // CGAL_PROTECT_IOSTREAM_H
-#ifndef CGAL_PROTECT_VECTOR_H
-#include <vector.h>
-#define CGAL_PROTECT_VECTOR_H
-#endif // CGAL_PROTECT_VECTOR_H
+#include <iostream>
+#include <vector>
 
-typedef double                                 FT;
-typedef CGAL_Cartesian< FT >                   R;
-typedef CGAL_Point_2< R >                      Point_2;
-typedef CGAL_Polygon_traits_2< R >             P_traits;
-typedef vector< Point_2 >                      Point_cont;
-typedef CGAL_Polygon_2< P_traits, Point_cont > Polygon_2;
-typedef CGAL_Random_points_in_square_2<
-  Point_2,
-  CGAL_Creator_uniform_2< FT, Point_2 > >
-Point_generator;
-typedef CGAL_Ostream_iterator< int, ostream >  Ostream_iterator;
+using namespace std;
+using CGAL::random_convex_set_2;
+using CGAL::all_furthest_neighbors;
+
+typedef double                                   FT;
+typedef CGAL::Cartesian< FT >                    R;
+typedef CGAL::Point_2< R >                       Point;
+typedef CGAL::Polygon_traits_2< R >              P_traits;
+typedef vector< Point >                          Point_cont;
+typedef CGAL::Polygon_2< P_traits, Point_cont >  Polygon;
+typedef CGAL::Creator_uniform_2< FT, Point >     Creator;
+typedef CGAL::Random_points_in_square_2< Point, Creator >
+  Point_generator;
+typedef CGAL::Ostream_iterator< int, ostream >   Oiterator;
 
 int
 main()
 {
   // generate random convex polygon:
-  Polygon_2 p;
-  CGAL_random_convex_set_2( 10,
-                            back_inserter( p),
-                            Point_generator( 1));
+  Polygon p;
+  random_convex_set_2( 10, back_inserter( p), Point_generator( 1));
 
   // compute all furthest neighbors:
-  CGAL_all_furthest_neighbors(
+  all_furthest_neighbors(
     p.vertices_begin(),
     p.vertices_end(),
-    Ostream_iterator( cout));
+    Oiterator( cout));
   cout << endl;
-
 } 
 // ----------------------------------------------------------------------------
 // ** EOF

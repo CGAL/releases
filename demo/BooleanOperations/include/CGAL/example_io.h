@@ -1,7 +1,7 @@
 //  -*- Mode: c++ -*-
 // ============================================================================
 //
-// Copyright (c) 1997 The CGAL Consortium
+// Copyright (c) 1999 The GALIA Consortium
 //
 // This software and related documentation is part of the
 // Computational Geometry Algorithms Library (CGAL).
@@ -17,25 +17,25 @@
 // - Development licenses grant access to the source code of the library 
 //   to develop programs. These programs may be sold to other parties as 
 //   executable code. To obtain a development license, please contact
-//   the CGAL Consortium (at cgal@cs.uu.nl).
+//   the GALIA Consortium (at cgal@cs.uu.nl).
 // - Commercialization licenses grant access to the source code and the
 //   right to sell development licenses. To obtain a commercialization 
-//   license, please contact the CGAL Consortium (at cgal@cs.uu.nl).
+//   license, please contact the GALIA Consortium (at cgal@cs.uu.nl).
 //
 // This software and documentation is provided "as-is" and without
 // warranty of any kind. In no event shall the CGAL Consortium be
 // liable for any damage of any kind.
 //
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// The GALIA Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany) Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+// (Germany), Max-Planck-Institute Saarbrucken (Germany),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-1.2
-// release_date  : 1999, January 18
+// release       : CGAL-2.0
+// release_date  : 1999, June 03
 //
 // file          : demo/BooleanOperations/include/CGAL/example_io.h
 // source        : demo/BooleanOperations/include/CGAL/example_io.h
@@ -47,7 +47,6 @@
 //  (Wolfgang Freiseisen)
 //
 // 
-//
 // email         : cgal@cs.uu.nl
 //
 // ======================================================================
@@ -55,12 +54,12 @@
 #ifndef EXAMPLE_IO_H
 #define EXAMPLE_IO_H
 
-ostream& operator<<(ostream& o, CGAL_Orientation orient) {
-  if(orient == CGAL_CLOCKWISE )
+ostream& operator<<(ostream& o, Orientation orient) {
+  if(orient == CLOCKWISE )
       o << "CLW";
-  else if(orient == CGAL_COUNTERCLOCKWISE )
+  else if(orient == COUNTERCLOCKWISE )
       o << "CCW";
-  else /* CGAL_COLLINEAR */
+  else /* COLLINEAR */
       o << "COL";
   return o;
 }
@@ -90,23 +89,23 @@ void test_input(vector<Point_2>& vA, vector<Point_2>& vB) {
   vB[3]= Point_2(5,2);
 }
 
-void test_result_output( const list<CGAL_Object>& result ) {
+void test_result_output( const list<Object>& result ) {
   Point_2 pt;
   Segment_2 seg;
   Polygon_2 pgon;
 
-  list<CGAL_Object>::const_iterator it;
+  list<Object>::const_iterator it;
   cout << endl << "RESULT: (size=" << result.size() << ")" << endl;
 
   for( it= result.begin(); it != result.end(); it++) {
-    if( CGAL_assign( pgon, *it) ) { /* polygon */
+    if( assign( pgon, *it) ) { /* polygon */
       //cout << "POLYGON" << endl;
       cout << "pgon " << pgon << endl;
     }
-    else if( CGAL_assign( seg, *it) ) { /* segment */
+    else if( assign( seg, *it) ) { /* segment */
       cout << "seg  " << seg << endl;
     }
-    else if( CGAL_assign( pt, *it) )  { /* point */
+    else if( assign( pt, *it) )  { /* point */
       cout << "pt   " << pt << endl;
     }
     else { /* nothing */

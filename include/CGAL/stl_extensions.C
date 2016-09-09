@@ -1,6 +1,6 @@
 // ======================================================================
 //
-// Copyright (c) 1998 The CGAL Consortium
+// Copyright (c) 1999 The GALIA Consortium
 //
 // This software and related documentation is part of the
 // Computational Geometry Algorithms Library (CGAL).
@@ -16,34 +16,33 @@
 // - Development licenses grant access to the source code of the library 
 //   to develop programs. These programs may be sold to other parties as 
 //   executable code. To obtain a development license, please contact
-//   the CGAL Consortium (at cgal@cs.uu.nl).
+//   the GALIA Consortium (at cgal@cs.uu.nl).
 // - Commercialization licenses grant access to the source code and the
 //   right to sell development licenses. To obtain a commercialization 
-//   license, please contact the CGAL Consortium (at cgal@cs.uu.nl).
+//   license, please contact the GALIA Consortium (at cgal@cs.uu.nl).
 //
 // This software and documentation is provided "as-is" and without
 // warranty of any kind. In no event shall the CGAL Consortium be
 // liable for any damage of any kind.
 //
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// The GALIA Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany) Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+// (Germany), Max-Planck-Institute Saarbrucken (Germany),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
-// release       : CGAL-1.2
-// release_date  : 1999, January 18
+// release       : CGAL-2.0
+// release_date  : 1999, June 03
 //
 // file          : include/CGAL/stl_extensions.C
-// package       : Convex_hull (1.3.2)
+// package       : Convex_hull (2.0.8)
 // source        : stl_extensions.lw
-// revision      : 1.3.2
-// revision_date : 09 Dec 1998
+// revision      : 2.0.1
+// revision_date : 24 Mar 1999
 // author(s)     : Stefan Schirra
 //
 // coordinator   : MPI, Saarbruecken
-//
 // email         : cgal@cs.uu.nl
 //
 // ======================================================================
@@ -53,9 +52,10 @@
 
 #include <CGAL/stl_extensions.h>
 
+CGAL_BEGIN_NAMESPACE
 template <class InputIterator, class OutputIterator, class UnaryPredicate>
 OutputIterator
-CGAL_copy_if( InputIterator first, InputIterator last,
+copy_if( InputIterator first, InputIterator last,
               OutputIterator  result,
               UnaryPredicate  pred )
 {
@@ -69,8 +69,8 @@ CGAL_copy_if( InputIterator first, InputIterator last,
 
 template <class InputIterator, class OutputIterator1, 
           class OutputIterator2, class UnaryPredicate>
-pair<OutputIterator1,OutputIterator2>
-CGAL_copy_if_else( InputIterator first, InputIterator last,
+std::pair<OutputIterator1,OutputIterator2>
+copy_if_else( InputIterator first, InputIterator last,
                    OutputIterator1 result1,
                    OutputIterator2 result2,
                    UnaryPredicate  pred )
@@ -87,9 +87,10 @@ CGAL_copy_if_else( InputIterator first, InputIterator last,
         *result2++ = *first;
     }
  }
- return pair<OutputIterator1,OutputIterator2>(result1,result2);
+ return std::pair<OutputIterator1,OutputIterator2>(result1,result2);
 }
 
+CGAL_END_NAMESPACE
 
 #endif // CGAL_STL_EXTENSIONS_C
 

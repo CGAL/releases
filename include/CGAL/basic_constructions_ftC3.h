@@ -1,6 +1,6 @@
 // ======================================================================
 //
-// Copyright (c) 1997 The CGAL Consortium
+// Copyright (c) 1999 The GALIA Consortium
 //
 // This software and related documentation is part of the
 // Computational Geometry Algorithms Library (CGAL).
@@ -16,35 +16,34 @@
 // - Development licenses grant access to the source code of the library 
 //   to develop programs. These programs may be sold to other parties as 
 //   executable code. To obtain a development license, please contact
-//   the CGAL Consortium (at cgal@cs.uu.nl).
+//   the GALIA Consortium (at cgal@cs.uu.nl).
 // - Commercialization licenses grant access to the source code and the
 //   right to sell development licenses. To obtain a commercialization 
-//   license, please contact the CGAL Consortium (at cgal@cs.uu.nl).
+//   license, please contact the GALIA Consortium (at cgal@cs.uu.nl).
 //
 // This software and documentation is provided "as-is" and without
 // warranty of any kind. In no event shall the CGAL Consortium be
 // liable for any damage of any kind.
 //
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// The GALIA Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany) Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+// (Germany), Max-Planck-Institute Saarbrucken (Germany),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-1.2
-// release_date  : 1999, January 18
+// release       : CGAL-2.0
+// release_date  : 1999, June 03
 //
 // file          : include/CGAL/basic_constructions_ftC3.h
-// package       : C3 (1.6)
+// package       : C3 (2.1.5)
 // source        : web/basic_constructions_ftC3.fw
-// revision      : $Revision: 1.1 $
-// revision_date : $Date: 1998/12/04 12:24:07 $
+// revision      : $Revision: 1.5 $
+// revision_date : $Date: 1999/05/24 06:41:39 $
 // author(s)     : Herve.Bronnimann
 //
 // coordinator   : INRIA Sophia-Antipolis
-//
 //
 // email         : cgal@cs.uu.nl
 //
@@ -58,95 +57,78 @@
 #include <CGAL/determinant.h>
 #endif
 
+CGAL_BEGIN_NAMESPACE
+
 template < class FT >
 CGAL_KERNEL_INLINE
 void
-CGAL_midpointC3( const FT &px, const FT &py, const FT &pz,
-                 const FT &qx, const FT &qy, const FT &qz,
-                 FT &x, FT &y, FT &z)
+midpointC3( const FT &px, const FT &py, const FT &pz,
+            const FT &qx, const FT &qy, const FT &qz,
+            FT &x, FT &y, FT &z)
 {
-  const FT FT2(2);
-  x = (px+qx) / FT2;
-  y = (py+qy) / FT2;
-  z = (pz+qz) / FT2;
+  FT half = FT(1) / FT(2);
+  x = (px+qx) * half;
+  y = (py+qy) * half;
+  z = (pz+qz) * half;
 }
 
 template < class FT >
 void
-CGAL_circumcenterC3( const FT &px, const FT &py, const FT &pz,
-                     const FT &qx, const FT &qy, const FT &qz,
-                     const FT &rx, const FT &ry, const FT &rz,
-                     const FT &sx, const FT &sy, const FT &sz,
-                     FT &x, FT &y, FT &z)
+circumcenterC3( const FT &px, const FT &py, const FT &pz,
+                const FT &qx, const FT &qy, const FT &qz,
+                const FT &rx, const FT &ry, const FT &rz,
+                const FT &sx, const FT &sy, const FT &sz,
+                FT &x, FT &y, FT &z)
 {
-  // const FT FT1(1);
-  // FT p2( px*px + py*py + pz*pz );
-  // FT q2( qx*qx + qy*qy + qz*qz );
-  // FT r2( rx*rx + ry*ry + rz*rz );
-  // FT s2( sx*sx + sy*sy + sz*sz );
-  // FT num_x( CGAL_det4x4_by_formula(py,pz,p2,FT1,
-  //                                  qy,qz,q2,FT1,
-  //                                  ry,rz,r2,FT1,
-  //                                  sy,sz,s2,FT1));
-  // FT num_y( CGAL_det4x4_by_formula(px,pz,p2,FT1,
-  //                                  qx,qz,q2,FT1,
-  //                                  rx,rz,r2,FT1,
-  //                                  sx,sz,s2,FT1));
-  // FT num_z( CGAL_det4x4_by_formula(px,py,p2,FT1,
-  //                                  qx,qy,q2,FT1,
-  //                                  rx,ry,r2,FT1,
-  //                                  sx,sy,s2,FT1));
-  // FT den( CGAL_det4x4_by_formula(px,py,pz,FT1,
-  //                                qx,qy,qz,FT1,
-  //                                rx,ry,rz,FT1,
-  //                                sx,sy,sz,FT1) * FT(2) );
-  // Optimized code: [equivalent to above, but less readble]
-  const FT psx = px-sx;
-  const FT psy = py-sy;
-  const FT psz = pz-sz;
-  const FT ps2 = (px+sx)*psx + (py+sy)*psy + (pz+sz)*psz;
-  const FT qsx = qx-sx;
-  const FT qsy = qy-sy;
-  const FT qsz = qz-sz;
-  const FT qs2 = (qx+sx)*qsx + (qy+sy)*qsy + (qz+sz)*qsz;
-  const FT rsx = rx-sx;
-  const FT rsy = ry-sy;
-  const FT rsz = rz-sz;
-  const FT rs2 = (rx+sx)*rsx + (ry+sy)*rsy + (rz+sz)*rsz;
-  const FT num_x( CGAL_det3x3_by_formula(psy,psz,ps2,
-                                         qsy,qsz,qs2,
-                                         rsy,rsz,rs2));
-  const FT num_y( CGAL_det3x3_by_formula(psx,psz,ps2,
-                                         qsx,qsz,qs2,
-                                         rsx,rsz,rs2));
-  const FT num_z( CGAL_det3x3_by_formula(psx,psy,ps2,
-                                         qsx,qsy,qs2,
-                                         rsx,rsy,rs2));
-  const FT den( CGAL_det3x3_by_formula(psx,psy,psz,
-                                       qsx,qsy,qsz,
-                                       rsx,rsy,rsz) * FT(2) );
-  CGAL_kernel_assertion( den != FT(0) );
+  // Translate s to origin to simplify the expression.
+  FT psx = px-sx;
+  FT psy = py-sy;
+  FT psz = pz-sz;
+  FT ps2 = square(psx) + square(psy) + square(psz);
+  FT qsx = qx-sx;
+  FT qsy = qy-sy;
+  FT qsz = qz-sz;
+  FT qs2 = square(qsx) + square(qsy) + square(qsz);
+  FT rsx = rx-sx;
+  FT rsy = ry-sy;
+  FT rsz = rz-sz;
+  FT rs2 = square(rsx) + square(rsy) + square(rsz);
 
-  x = num_x/den;
-  y = - num_y/den;
-  z = num_z/den;
+  FT num_x = det3x3_by_formula(psy,psz,ps2,
+                               qsy,qsz,qs2,
+                               rsy,rsz,rs2);
+  FT num_y = det3x3_by_formula(psx,psz,ps2,
+                               qsx,qsz,qs2,
+                               rsx,rsz,rs2);
+  FT num_z = det3x3_by_formula(psx,psy,ps2,
+                               qsx,qsy,qs2,
+                               rsx,rsy,rs2);
+  FT den   = det3x3_by_formula(psx,psy,psz,
+                               qsx,qsy,qsz,
+                               rsx,rsy,rsz);
+  CGAL_kernel_assertion( den != FT(0) );
+  FT inv = FT(1)/(FT(2) * den);
+
+  x = sx + num_x*inv;
+  y = sy - num_y*inv;
+  z = sz + num_z*inv;
 }
 
 template <class FT>
 CGAL_KERNEL_MEDIUM_INLINE
 void
-CGAL_projectionC3(const FT &pa, const FT &pb, const FT &pc, const FT &pd,
-                  const FT &px, const FT &py, const FT &pz,
-                  FT &x, FT &y, FT &z)
+projectionC3(const FT &pa, const FT &pb, const FT &pc, const FT &pd,
+             const FT &px, const FT &py, const FT &pz,
+             FT &x, FT &y, FT &z)
 {
   // the equation of the plane is Ax+By+Cz+D=0
   // the normal direction is (A,B,C)
   // the projected point is p-lambda(A,B,C) where
   // A(x-lambda A) + B(y-lambda B) + C(z-lambda C) + D = 0
 
-  const FT num = pa*px + pb*py + pc*pz + pd;
-  const FT den = pa*pa + pb*pb + pc*pc;
-  const FT lambda = num / den;
+  FT num = pa*px + pb*py + pc*pz + pd;
+  FT den = pa*pa + pb*pb + pc*pc;
+  FT lambda = num / den;
 
   x = px - lambda * pa;
   y = py - lambda * pb;
@@ -157,41 +139,46 @@ CGAL_projectionC3(const FT &pa, const FT &pb, const FT &pc, const FT &pd,
 template < class FT >
 CGAL_KERNEL_INLINE
 FT
-CGAL_squared_distanceC3( const FT &px, const FT &py, const FT &pz,
-                         const FT &qx, const FT &qy, const FT &qz)
+squared_distanceC3( const FT &px, const FT &py, const FT &pz,
+                    const FT &qx, const FT &qy, const FT &qz)
 {
-  FT x = px - qx;
-  FT y = py - qy;
-  FT z = pz - qz;
-  return( x*x + y*y + z*z );
+  return square(px-qx) + square(py-qy) + square(pz-qz);
 }
 
 template < class FT >
 CGAL_KERNEL_INLINE
 FT
-CGAL_scaled_distance_to_planeC3(
+scaled_distance_to_directionC3(const FT &pa, const FT &pb, const FT &pc,
+                               const FT &px, const FT &py)
+{
+  return pa*px + pb*py + pc*pz;
+}
+
+template < class FT >
+CGAL_KERNEL_INLINE
+FT
+scaled_distance_to_planeC3(
      const FT &pa, const FT &pb, const FT &pc, const FT &pd,
      const FT &px, const FT &py)
 {
-  // as for C2, we could avoid the extra +pd for comparison purposes,
-  // but it is not consistent with the name nor with the implicit
-  // version below...
   return pa*px + pb*py + pc*pz + pd;
 }
 
 template < class FT >
 CGAL_KERNEL_INLINE
 FT
-CGAL_scaled_distance_to_planeC3(
+scaled_distance_to_planeC3(
      const FT &ppx, const FT &ppy, const FT &ppz,
      const FT &pqx, const FT &pqy, const FT &pqz,
      const FT &prx, const FT &pry, const FT &prz,
-     const FT &px, const FT &py, const FT &pz)
+     const FT &px,  const FT &py,  const FT &pz)
 {
-  return CGAL_det3x3_by_formula(ppx-px,ppy-py,ppz-pz,
-                                pqx-px,pqy-py,pqz-pz,
-                                prx-px,pry-py,prz-pz);
+  return det3x3_by_formula(ppx-px,ppy-py,ppz-pz,
+                           pqx-px,pqy-py,pqz-pz,
+                           prx-px,pry-py,prz-pz);
 }
 
+
+CGAL_END_NAMESPACE
 
 #endif // CGAL_BASIC_CONSTRUCTIONS_FTC3_H

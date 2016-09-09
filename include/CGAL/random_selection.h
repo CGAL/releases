@@ -1,6 +1,6 @@
 // ======================================================================
 //
-// Copyright (c) 1997 The CGAL Consortium
+// Copyright (c) 1999 The GALIA Consortium
 //
 // This software and related documentation is part of the
 // Computational Geometry Algorithms Library (CGAL).
@@ -16,63 +16,64 @@
 // - Development licenses grant access to the source code of the library 
 //   to develop programs. These programs may be sold to other parties as 
 //   executable code. To obtain a development license, please contact
-//   the CGAL Consortium (at cgal@cs.uu.nl).
+//   the GALIA Consortium (at cgal@cs.uu.nl).
 // - Commercialization licenses grant access to the source code and the
 //   right to sell development licenses. To obtain a commercialization 
-//   license, please contact the CGAL Consortium (at cgal@cs.uu.nl).
+//   license, please contact the GALIA Consortium (at cgal@cs.uu.nl).
 //
 // This software and documentation is provided "as-is" and without
 // warranty of any kind. In no event shall the CGAL Consortium be
 // liable for any damage of any kind.
 //
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// The GALIA Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany) Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+// (Germany), Max-Planck-Institute Saarbrucken (Germany),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-1.2
-// release_date  : 1999, January 18
+// release       : CGAL-2.0
+// release_date  : 1999, June 03
 //
 // file          : include/CGAL/random_selection.h
-// package       : Random (1.12)
-// chapter       : $CGAL_Chapter: Random Sources and Geometric Object Genera. $
+// package       : Generator (2.10)
+// chapter       : $CGAL_Chapter: Geometric Object Generators $
 // source        : generators.fw
-// revision      : $Revision: 1.9 $
-// revision_date : $Date: 1998/02/11 17:26:45 $
+// revision      : $Revision: 1.13 $
+// revision_date : $Date: 1999/04/20 15:58:18 $
 // author(s)     : Lutz Kettner
 //
 // coordinator   : INRIA, Sophia Antipolis
 //
 // Copy n randomly chosen items
-//
 // email         : cgal@cs.uu.nl
 //
 // ======================================================================
 
 #ifndef CGAL_RANDOM_SELECTION_H
 #define CGAL_RANDOM_SELECTION_H 1
-#ifndef CGAL_PROTECT_STDDEF_H
-#include <stddef.h>
-#define CGAL_PROTECT_STDDEF_H
-#endif // CGAL_PROTECT_STDDEF_H
-#ifndef CGAL_PROTECT_ITERATOR_H
-#include <iterator.h>
-#define CGAL_PROTECT_ITERATOR_H
-#endif // CGAL_PROTECT_ITERATOR_H
+#ifndef CGAL_PROTECT_CSTDDEF
+#include <cstddef>
+#define CGAL_PROTECT_CSTDDEF
+#endif
+#ifndef CGAL_PROTECT_ITERATOR
+#include <iterator>
+#define CGAL_PROTECT_ITERATOR
+#endif
 #ifndef CGAL_RANDOM_H
 #include <CGAL/Random.h>
 #endif
 
+CGAL_BEGIN_NAMESPACE
+
 template <class RandomAccessIterator, class Size, class OutputIterator,
           class Random>
-OutputIterator CGAL_random_selection( RandomAccessIterator first,
-                                      RandomAccessIterator last,
-                                      Size n,
-                                      OutputIterator result,
-                                      Random& rnd)
+OutputIterator random_selection( RandomAccessIterator first,
+                                 RandomAccessIterator last,
+                                 Size n,
+                                 OutputIterator result,
+                                 Random& rnd)
     // choose a random item from the range [`first',`last') and write it
     // to `first2', each item from the range with equal probability.
     // Repeat this n times, thus writing n items to `first2'. A single
@@ -87,14 +88,14 @@ OutputIterator CGAL_random_selection( RandomAccessIterator first,
 }
 
 template <class RandomAccessIterator, class Size, class OutputIterator>
-OutputIterator CGAL_random_selection( RandomAccessIterator first,
-                                      RandomAccessIterator last,
-                                      Size n,
-                                      OutputIterator result)
+OutputIterator random_selection( RandomAccessIterator first,
+                                 RandomAccessIterator last,
+                                 Size n,
+                                 OutputIterator result)
 {
-    return CGAL_random_selection( first, last, n, result, CGAL_random);
+    return random_selection( first, last, n, result, default_random);
 }
 
-
+CGAL_END_NAMESPACE    
 #endif // CGAL_RANDOM_SELECTION_H //
 // EOF //

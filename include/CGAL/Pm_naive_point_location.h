@@ -1,6 +1,6 @@
 // ======================================================================
 //
-// Copyright (c) 1997 The CGAL Consortium
+// Copyright (c) 1999 The GALIA Consortium
 //
 // This software and related documentation is part of the
 // Computational Geometry Algorithms Library (CGAL).
@@ -16,28 +16,28 @@
 // - Development licenses grant access to the source code of the library 
 //   to develop programs. These programs may be sold to other parties as 
 //   executable code. To obtain a development license, please contact
-//   the CGAL Consortium (at cgal@cs.uu.nl).
+//   the GALIA Consortium (at cgal@cs.uu.nl).
 // - Commercialization licenses grant access to the source code and the
 //   right to sell development licenses. To obtain a commercialization 
-//   license, please contact the CGAL Consortium (at cgal@cs.uu.nl).
+//   license, please contact the GALIA Consortium (at cgal@cs.uu.nl).
 //
 // This software and documentation is provided "as-is" and without
 // warranty of any kind. In no event shall the CGAL Consortium be
 // liable for any damage of any kind.
 //
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// The GALIA Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany) Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+// (Germany), Max-Planck-Institute Saarbrucken (Germany),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-1.2
-// release_date  : 1999, January 18
+// release       : CGAL-2.0
+// release_date  : 1999, June 03
 //
 // file          : include/CGAL/Pm_naive_point_location.h
-// package       : pm (2.052)
+// package       : pm (3.07)
 // source        : 
 // revision      : 
 // revision_date : 
@@ -48,7 +48,6 @@
 // coordinator   : Tel-Aviv University (Dan Halperin)
 //
 // Chapter       : 
-//
 // email         : cgal@cs.uu.nl
 //
 // ======================================================================
@@ -67,12 +66,15 @@
 #include <CGAL/Planar_map_misc.h>
 #endif
 
+
+CGAL_BEGIN_NAMESPACE
+
 ////////////////////////////////////////////////////////
 //NAIVE STRATEGY
 ////////////////////////////////////////////////////////
 
 template <class Planar_map>
-class CGAL_Pm_naive_point_location : public CGAL_Pm_point_location_base<Planar_map> {
+class Pm_naive_point_location : public Pm_point_location_base<Planar_map> {
 public:
   typedef typename Planar_map::Traits_wrap Traits_wrap;
 private:
@@ -81,7 +83,7 @@ private:
 
 public:
 
-  CGAL_Pm_naive_point_location() : CGAL_Pm_point_location_base<Planar_map>(),traits(0) {}
+  Pm_naive_point_location() : Pm_point_location_base<Planar_map>(),traits(0) {}
   
   void init(Planar_map& pmp, Traits& tr) {
     pm = &pmp;
@@ -139,7 +141,7 @@ private:
         
         if (traits->curve_compare_at_x_left(curr->curve(),
                                             lowest_left->curve(), 
-                                            v->point())==CGAL_SMALLER)
+                                            v->point())==SMALLER)
           lowest_left = curr;
       }
     
@@ -151,7 +153,7 @@ private:
         
         if (traits->curve_compare_at_x_right(curr->curve(),
                                              lowest_right->curve(), 
-                                             v->point())==CGAL_LARGER
+                                             v->point())==LARGER
             )
           lowest_right = curr;
       }
@@ -160,18 +162,18 @@ private:
     
     if (traits->curve_is_vertical(curr->curve())) {
         if (traits->compare_y(v->point(),
-                               curr->source()->point())==CGAL_LARGER)
+                               curr->source()->point())==LARGER)
           //debug
-          //{ cout << "vertical up = " << curr->curve() << endl;
+          //{ std::cout << "vertical up = " << curr->curve() << std::endl;
 
           vertical_up=curr; 
 
         //}//enddebug
 
         if (traits->compare_y(v->point(),
-                               curr->source()->point())==CGAL_SMALLER)
+                               curr->source()->point())==SMALLER)
           //debug
-          //{ cout << "vertical down = " << curr->curve() << endl;
+          //{ std::cout << "vertical down = " << curr->curve() << std::endl;
 
            vertical_down=curr;
         //}//enddebug
@@ -218,8 +220,8 @@ private:
 //if unbounded face - returns NULL or some edge on unbounded face 
 //if its a vertex returns a halfedge pointing _at_ it
 template <class Planar_map>
-CGAL_Pm_naive_point_location<Planar_map>::Halfedge_handle
-CGAL_Pm_naive_point_location<Planar_map>::locate(const Point& p, Locate_type& lt){
+Pm_naive_point_location<Planar_map>::Halfedge_handle
+Pm_naive_point_location<Planar_map>::locate(const Point& p, Locate_type& lt){
   typename Planar_map::Vertex_iterator vit=pm->vertices_begin();
   for (; vit!=pm->vertices_end(); ++vit) {
     if (traits->point_is_same(p,vit->point()) ) {
@@ -265,8 +267,8 @@ CGAL_Pm_naive_point_location<Planar_map>::locate(const Point& p, Locate_type& lt
 
 
 template <class Planar_map>
-CGAL_Pm_naive_point_location<Planar_map>::Halfedge_handle
-CGAL_Pm_naive_point_location<Planar_map>::vertical_ray_shoot(const Point& p, Locate_type& lt, bool up) {
+Pm_naive_point_location<Planar_map>::Halfedge_handle
+Pm_naive_point_location<Planar_map>::vertical_ray_shoot(const Point& p, Locate_type& lt, bool up) {
 
   typename Planar_map::Halfedge_iterator closest_edge = pm->halfedges_end();
   bool first = false;
@@ -280,12 +282,12 @@ CGAL_Pm_naive_point_location<Planar_map>::vertical_ray_shoot(const Point& p, Loc
   if (up) 
     {
       point_above_under = Traits::UNDER_CURVE;
-      curve_above_under = CGAL_LARGER;
+      curve_above_under = LARGER;
     } 
   else 
     {
       point_above_under = Traits::ABOVE_CURVE;
-      curve_above_under = CGAL_SMALLER;
+      curve_above_under = SMALLER;
     }
   for (typename Planar_map::Halfedge_iterator it = pm->halfedges_begin(); it != pm->halfedges_end(); ++it) 
     {
@@ -360,7 +362,13 @@ CGAL_Pm_naive_point_location<Planar_map>::vertical_ray_shoot(const Point& p, Loc
         return  closest_edge->twin();
     }
 }
+
+
+
+CGAL_END_NAMESPACE
+
 #endif //CGAL_PM_NAIVE_POINT_LOCATION_H
+
 
 
 

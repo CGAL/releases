@@ -1,7 +1,7 @@
 //  -*- Mode: c++ -*-
 // ============================================================================
 //
-// Copyright (c) 1997 The CGAL Consortium
+// Copyright (c) 1999 The GALIA Consortium
 //
 // This software and related documentation is part of the
 // Computational Geometry Algorithms Library (CGAL).
@@ -17,25 +17,25 @@
 // - Development licenses grant access to the source code of the library 
 //   to develop programs. These programs may be sold to other parties as 
 //   executable code. To obtain a development license, please contact
-//   the CGAL Consortium (at cgal@cs.uu.nl).
+//   the GALIA Consortium (at cgal@cs.uu.nl).
 // - Commercialization licenses grant access to the source code and the
 //   right to sell development licenses. To obtain a commercialization 
-//   license, please contact the CGAL Consortium (at cgal@cs.uu.nl).
+//   license, please contact the GALIA Consortium (at cgal@cs.uu.nl).
 //
 // This software and documentation is provided "as-is" and without
 // warranty of any kind. In no event shall the CGAL Consortium be
 // liable for any damage of any kind.
 //
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// The GALIA Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany) Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+// (Germany), Max-Planck-Institute Saarbrucken (Germany),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-1.2
-// release_date  : 1999, January 18
+// release       : CGAL-2.0
+// release_date  : 1999, June 03
 //
 // file          : demo/BooleanOperations/test_bops.C
 // source        : demo/BooleanOperations/test_bops.C
@@ -47,33 +47,35 @@
 //  (Wolfgang Freiseisen)
 //
 // 
-//
 // email         : cgal@cs.uu.nl
 //
 // ======================================================================
 
 #include <CGAL/test_bops.h>
 
+using namespace CGAL;
+using namespace std;
+
 int test_iso_rectangles(void) {
   Iso_rectangle_2 A(Point_2(0,5), Point_2(6,2));
   Iso_rectangle_2 B(Point_2(4,3), Point_2(7,0));
-  list<CGAL_Object> result;
+  list<Object> result;
   cout << "iso_rectangle A: " << A << endl;
   cout << "iso_rectangle B: " << B << endl;
   cout << "INTERSECTION(A,B)" << " - ";
-  CGAL_intersection(A, B, back_inserter(result));
+  intersection(A, B, back_inserter(result));
   test_result_output(result);
-  result= list<CGAL_Object>();
+  result= list<Object>();
   cout << "UNION(A,B)" << " - ";
-  CGAL_union(A, B, back_inserter(result));
+  Union(A, B, back_inserter(result));
   test_result_output(result);
-  result= list<CGAL_Object>();
+  result= list<Object>();
   cout << "DIFFERENCE(A,B)" << " - ";
-  CGAL_difference(A, B, back_inserter(result));
+  difference(A, B, back_inserter(result));
   test_result_output(result);
-  result= list<CGAL_Object>();
+  result= list<Object>();
   cout << "DIFFERENCE(B,A)" << " - ";
-  CGAL_difference(B, A, back_inserter(result));
+  difference(B, A, back_inserter(result));
   test_result_output(result);
   return 0;
 }
@@ -81,18 +83,18 @@ int test_iso_rectangles(void) {
 int test_triangles(void) {
   Triangle_2 A(Point_2(0,3), Point_2(2,0), Point_2(4,1));
   Triangle_2 B(Point_2(-1,1), Point_2(1,0), Point_2(3,3));
-  list<CGAL_Object> result;
+  list<Object> result;
   cout << "triangle A: " << A << endl;
   cout << "triangle B: " << B << endl;
   cout << "INTERSECTION" << endl;
-  //CGAL_intersection(A, B, back_inserter(result));
+  //intersection(A, B, back_inserter(result));
   //test_result_output(result);
   cout << "UNION" << endl;
-  CGAL_union(A, B, back_inserter(result));
+  union(A, B, back_inserter(result));
   test_result_output(result);
-  result= list<CGAL_Object>();
+  result= list<Object>();
   cout << "DIFFERENCE" << endl;
-  CGAL_difference(A, B, back_inserter(result));
+  difference(A, B, back_inserter(result));
   test_result_output(result);
   return 0;
 }
@@ -107,12 +109,12 @@ int test_intersection(void) {
   cout << "polygon A: " << A << endl;
   cout << "polygon B: " << B << endl;
 
-  list<CGAL_Object> result;
+  list<Object> result;
   /*
-  insert_iterator< list<CGAL_Object> > result_iterator(result, result.begin());
-  CGAL_intersection(A,B, result_iterator);
+  insert_iterator< list<Object> > result_iterator(result, result.begin());
+  intersection(A,B, result_iterator);
   */
-  CGAL_intersection(A,B, back_inserter(result));
+  intersection(A,B, back_inserter(result));
   test_result_output(result);
   
   return 0;
@@ -128,8 +130,8 @@ int test_difference(void) {
   cout << "polygon A: " << A << endl;
   cout << "polygon B: " << B << endl;
 
-  list<CGAL_Object> result;
-  CGAL_difference(A,B, back_inserter(result) );
+  list<Object> result;
+  difference(A,B, back_inserter(result) );
   test_result_output(result);
 
   return 0;
@@ -145,8 +147,8 @@ int test_union(void) {
   cout << "polygon A: " << A << endl;
   cout << "polygon B: " << B << endl;
 
-  list<CGAL_Object> result;
-  CGAL_union(A,B, back_inserter(result) );
+  list<Object> result;
+  union(A,B, back_inserter(result) );
   test_result_output(result);
 
   return 0;

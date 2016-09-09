@@ -2,7 +2,7 @@
 #define __TREE_TRAITS__
 // ============================================================================
 //
-// Copyright (c) 1997 The CGAL Consortium
+// Copyright (c) 1999 The GALIA Consortium
 //
 // This software and related documentation is part of the
 // Computational Geometry Algorithms Library (CGAL).
@@ -18,25 +18,25 @@
 // - Development licenses grant access to the source code of the library 
 //   to develop programs. These programs may be sold to other parties as 
 //   executable code. To obtain a development license, please contact
-//   the CGAL Consortium (at cgal@cs.uu.nl).
+//   the GALIA Consortium (at cgal@cs.uu.nl).
 // - Commercialization licenses grant access to the source code and the
 //   right to sell development licenses. To obtain a commercialization 
-//   license, please contact the CGAL Consortium (at cgal@cs.uu.nl).
+//   license, please contact the GALIA Consortium (at cgal@cs.uu.nl).
 //
 // This software and documentation is provided "as-is" and without
 // warranty of any kind. In no event shall the CGAL Consortium be
 // liable for any damage of any kind.
 //
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// The GALIA Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany) Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+// (Germany), Max-Planck-Institute Saarbrucken (Germany),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-1.2
-// release_date  : 1999, January 18
+// release       : CGAL-2.0
+// release_date  : 1999, June 03
 //
 // file          : src/test/RangeSegmentTrees/include/Tree_Traits.h
 // source        : src/test/RangeSegmentTrees/include/Tree_Traits.h
@@ -47,18 +47,21 @@
 // coordinator   : Peter Widmayer, ETH Zurich
 //
 //
+//
 // email         : cgal@cs.uu.nl
 //
 // ======================================================================
 
-#include <function.h>
-#include <pair.h>
+#include <functional>
+#include <utility>
+
+CGAL_BEGIN_NAMESPACE
 
 class Tree_traits_1{
  public:
   typedef double Key;
   typedef double Key_1;
-  typedef pair<Key,Key> Interval;
+  typedef std::pair<Key,Key> Interval;
 
   class _Low_1{
   public:
@@ -82,7 +85,7 @@ class Tree_traits_1{
   public:
     bool operator()(Key_1 k1, Key_1 k2)
     {
-      return less<double>()(k1,k2);
+      return std::less<double>()(k1,k2);
     }
   };
 
@@ -96,10 +99,10 @@ class Tree_traits_1{
 
 class Tree_traits_2{
  public:
-  typedef pair<int, double> Key;
+  typedef std::pair<int, double> Key;
   typedef int Key_1;
   typedef double Key_2;
-  typedef pair<Key,Key> Interval;
+  typedef std::pair<Key,Key> Interval;
 
   class _Low_1{
   public:
@@ -141,7 +144,7 @@ class Tree_traits_2{
   public:
     bool operator()(Key_1 k1, Key_1 k2)
     {
-      return less<int>()(k1,k2);
+      return std::less<int>()(k1,k2);
     }
   };
 
@@ -150,7 +153,7 @@ class Tree_traits_2{
     
     bool operator()(Key_2 k1, Key_2 k2)
     {
-      return less<double>()(k1,k2);
+      return std::less<double>()(k1,k2);
     }
   };
 
@@ -180,7 +183,7 @@ class Tree_traits_3{
   typedef int Key_1;
   typedef double Key_2;
   typedef long Key_3;
-  typedef pair<Key,Key> Interval;
+  typedef std::pair<Key,Key> Interval;
 
   class _Low_1{
   public:
@@ -241,7 +244,7 @@ class Tree_traits_3{
     
     bool operator()(Key_1 k1, Key_1 k2)
     {
-      return less<int>()(k1,k2);
+      return std::less<int>()(k1,k2);
     }
   };
 
@@ -250,7 +253,7 @@ class Tree_traits_3{
     
     bool operator()(Key_2 k1, Key_2 k2)
     {
-      return less<double>()(k1,k2);
+      return std::less<double>()(k1,k2);
     }
   };
 
@@ -259,7 +262,7 @@ class Tree_traits_3{
     
     bool operator()(Key_3 k1, Key_3 k2)
     {
-      return less<long>()(k1,k2);
+      return std::less<long>()(k1,k2);
     }
   };
 
@@ -296,7 +299,7 @@ class Tree_traits_4{
   typedef double Key_2;
   typedef long Key_3;
   typedef double Key_4;
-  typedef pair<Key,Key> Interval;
+  typedef std::pair<Key,Key> Interval;
 
   class _Low_1{
   public:
@@ -375,7 +378,7 @@ class Tree_traits_4{
     
     bool operator()(Key_1 k1, Key_1 k2)
     {
-      return less<int>()(k1,k2);
+      return std::less<int>()(k1,k2);
     }
   };
 
@@ -384,7 +387,7 @@ class Tree_traits_4{
     
     bool operator()(Key_2 k1, Key_2 k2)
     {
-      return less<double>()(k1,k2);
+      return std::less<double>()(k1,k2);
     }
   };
 
@@ -393,7 +396,7 @@ class Tree_traits_4{
     
     bool operator()(Key_3 k1, Key_3 k2)
     {
-      return less<long>()(k1,k2);
+      return std::less<long>()(k1,k2);
     }
   };
 
@@ -402,7 +405,7 @@ class Tree_traits_4{
     
     bool operator()(Key_4 k1, Key_4 k2)
     {
-      return less<double>()(k1,k2);
+      return std::less<double>()(k1,k2);
     }
   };
 
@@ -424,5 +427,7 @@ class Tree_traits_4{
   typedef _Key_4 key_4;
 };
 
+CGAL_END_NAMESPACE
 
 #endif
+

@@ -1,6 +1,6 @@
 // ======================================================================
 //
-// Copyright (c) 1997,1998 The CGAL Consortium
+// Copyright (c) 1999 The GALIA Consortium
 //
 // This software and related documentation is part of the
 // Computational Geometry Algorithms Library (CGAL).
@@ -16,59 +16,56 @@
 // - Development licenses grant access to the source code of the library 
 //   to develop programs. These programs may be sold to other parties as 
 //   executable code. To obtain a development license, please contact
-//   the CGAL Consortium (at cgal@cs.uu.nl).
+//   the GALIA Consortium (at cgal@cs.uu.nl).
 // - Commercialization licenses grant access to the source code and the
 //   right to sell development licenses. To obtain a commercialization 
-//   license, please contact the CGAL Consortium (at cgal@cs.uu.nl).
+//   license, please contact the GALIA Consortium (at cgal@cs.uu.nl).
 //
 // This software and documentation is provided "as-is" and without
 // warranty of any kind. In no event shall the CGAL Consortium be
 // liable for any damage of any kind.
 //
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// The GALIA Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany) Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+// (Germany), Max-Planck-Institute Saarbrucken (Germany),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-1.2
-// release_date  : 1999, January 18
+// release       : CGAL-2.0
+// release_date  : 1999, June 03
 //
 // file          : include/CGAL/Optimisation_ellipse_2.C
-// package       : Min_ellipse_2 (3.1.1)
+// package       : Min_ellipse_2 (3.2.3)
 // chapter       : $CGAL_Chapter: Geometric Optimisation $
 //
 // source        : web/Optimisation/Min_ellipse_2.aw
-// revision      : $Revision: 5.3 $
-// revision_date : $Date: 1998/11/16 15:42:43 $
+// revision      : $Revision: 5.8 $
+// revision_date : $Date: 1999/04/19 16:20:39 $
 // author(s)     : Sven Schönherr
 //                 Bernd Gärtner
 //
 // coordinator   : ETH Zürich (Bernd Gärtner)
 //
 // implementation: 2D Optimisation Ellipse
-//
 // email         : cgal@cs.uu.nl
 //
 // ======================================================================
 
+CGAL_BEGIN_NAMESPACE
+
 // Class implementation (continued)
 // ================================
-// includes
-#ifndef CGAL_OPTIMISATION_ASSERTIONS_H
-#  include <CGAL/optimisation_assertions.h>
-#endif
 
 // I/O
 // ---
 template < class _R >
-ostream&
-operator << ( ostream& os, const CGAL_Optimisation_ellipse_2<_R>& e)
+std::ostream&
+operator << ( std::ostream& os, const CGAL::Optimisation_ellipse_2<_R>& e)
 {
     const char* const  empty       = "";
-    const char* const  pretty_head = "CGAL_Optimisation_ellipse_2( ";
+    const char* const  pretty_head = "CGAL::Optimisation_ellipse_2( ";
     const char* const  pretty_sep  = ", ";
     const char* const  pretty_tail = ")";
     const char* const  ascii_sep   = " ";
@@ -77,20 +74,20 @@ operator << ( ostream& os, const CGAL_Optimisation_ellipse_2<_R>& e)
     const char*  sep  = empty;
     const char*  tail = empty;
 
-    switch ( CGAL_get_mode( os)) {
-      case CGAL_IO::PRETTY:
+    switch ( CGAL::get_mode( os)) {
+      case CGAL::IO::PRETTY:
         head = pretty_head;
         sep  = pretty_sep;
         tail = pretty_tail;
         break;
-      case CGAL_IO::ASCII:
+      case CGAL::IO::ASCII:
         sep  = ascii_sep;
         break;
-      case CGAL_IO::BINARY:
+      case CGAL::IO::BINARY:
         break;
       default:
         CGAL_optimisation_assertion_msg( false,
-                                         "CGAL_get_mode( os) invalid!");
+                                         "CGAL::get_mode( os) invalid!");
         break; }
 
     os << head << e.n_boundary_points;
@@ -118,19 +115,19 @@ operator << ( ostream& os, const CGAL_Optimisation_ellipse_2<_R>& e)
 }
 
 template < class _R >
-istream&
-operator >> ( istream& is, CGAL_Optimisation_ellipse_2<_R>& e)
+std::istream&
+operator >> ( std::istream& is, CGAL::Optimisation_ellipse_2<_R>& e)
 {
-    switch ( CGAL_get_mode( is)) {
+    switch ( CGAL::get_mode( is)) {
 
-      case CGAL_IO::PRETTY:
-        cerr << endl;
-        cerr << "Stream must be in ascii or binary mode" << endl;
+      case CGAL::IO::PRETTY:
+        cerr << std::endl;
+        cerr << "Stream must be in ascii or binary mode" << std::endl;
         break;
 
-      case CGAL_IO::ASCII:
-      case CGAL_IO::BINARY:
-        CGAL_read( is, e.n_boundary_points);
+      case CGAL::IO::ASCII:
+      case CGAL::IO::BINARY:
+        CGAL::read( is, e.n_boundary_points);
         switch ( e.n_boundary_points) {
           case 0:
             break;
@@ -153,10 +150,12 @@ operator >> ( istream& is, CGAL_Optimisation_ellipse_2<_R>& e)
 
       default:
         CGAL_optimisation_assertion_msg( false,
-                                         "CGAL_get_mode( is) invalid!");
+                                         "CGAL::get_mode( is) invalid!");
         break; }
 
     return( is);
 }
+
+CGAL_END_NAMESPACE
 
 // ===== EOF ==================================================================

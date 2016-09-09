@@ -19,23 +19,23 @@
 #include <CGAL/IO/Planar_map_iostream.h>
 
 
-typedef CGAL_Homogeneous<long>                     coord_t;
-typedef CGAL_Pm_segment_exact_traits<coord_t>   pmtraits;
+typedef CGAL::Homogeneous<long>                     coord_t;
+typedef CGAL::Pm_segment_exact_traits<coord_t>   pmtraits;
 
 typedef pmtraits::Point                         point;
 typedef pmtraits::X_curve                       curve;
 
-typedef CGAL_Pm_default_dcel<pmtraits>                    pmdcel;
+typedef CGAL::Pm_default_dcel<pmtraits>                    pmdcel;
 
 int main()
 {
-  // creating an instance of CGAL_Planar_map_2<pmdcel,pmtraits>
-  CGAL_Planar_map_2<pmdcel,pmtraits> pm;
+  // creating an instance of CGAL::Planar_map_2<pmdcel,pmtraits>
+  CGAL::Planar_map_2<pmdcel,pmtraits> pm;
 
   curve cv[5];
   int i;
 
-  CGAL_set_ascii_mode(cout);
+  CGAL::set_ascii_mode(std::cout);
 
   point a1(100, 0), a2(20, 50), a3(180, 50), a4(100, 100);
 
@@ -46,20 +46,20 @@ int main()
   cv[3] = curve(a2, a4);
   cv[4] = curve(a3, a4);
   
-  CGAL_Planar_map_2<pmdcel,pmtraits>::Halfedge_handle e[5];  
+  CGAL::Planar_map_2<pmdcel,pmtraits>::Halfedge_handle e[5];  
   // insert the five curves to the map and return e[i]
   for (i = 0; i < 5; i++)
   {
     e[i]=pm.insert(cv[i]);
-    cout << "is " ;
+    std::cout << "is " ;
     if (!pm.is_valid() )
-      cout << "in" ;
-    cout << "valid" << endl  ;
+      std::cout << "in" ;
+    std::cout << "valid" << std::endl  ;
   }
   
    //map before splitting the edge and adding curve
-  cout << "Map before:" << endl;
-  cout << pm << endl;
+  std::cout << "Map before:" << std::endl;
+  std::cout << pm << std::endl;
   
 
   //splitting e[2] of the map at the middle and inserting an edge between the 
@@ -68,12 +68,12 @@ int main()
   curve c1(a2,p);
   curve c2(p,a3);
 
-  CGAL_Planar_map_2<pmdcel,pmtraits>::Halfedge_handle se = pm.split_edge(e[2],c1,c2); 
+  CGAL::Planar_map_2<pmdcel,pmtraits>::Halfedge_handle se = pm.split_edge(e[2],c1,c2); 
 
   pm.insert_at_vertices( curve(p,a1), se->target(),e[0]->source() );
 
-  cout << "Map after:" << endl;
-  cout << pm;
+  std::cout << "Map after:" << std::endl;
+  std::cout << pm;
 
   return 0;  
 }

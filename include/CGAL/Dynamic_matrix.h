@@ -1,6 +1,6 @@
 // ======================================================================
 //
-// Copyright (c) 1998 The CGAL Consortium
+// Copyright (c) 1999 The GALIA Consortium
 //
 // This software and related documentation is part of the
 // Computational Geometry Algorithms Library (CGAL).
@@ -16,62 +16,62 @@
 // - Development licenses grant access to the source code of the library 
 //   to develop programs. These programs may be sold to other parties as 
 //   executable code. To obtain a development license, please contact
-//   the CGAL Consortium (at cgal@cs.uu.nl).
+//   the GALIA Consortium (at cgal@cs.uu.nl).
 // - Commercialization licenses grant access to the source code and the
 //   right to sell development licenses. To obtain a commercialization 
-//   license, please contact the CGAL Consortium (at cgal@cs.uu.nl).
+//   license, please contact the GALIA Consortium (at cgal@cs.uu.nl).
 //
 // This software and documentation is provided "as-is" and without
 // warranty of any kind. In no event shall the CGAL Consortium be
 // liable for any damage of any kind.
 //
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// The GALIA Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany) Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+// (Germany), Max-Planck-Institute Saarbrucken (Germany),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-1.2
-// release_date  : 1999, January 18
+// release       : CGAL-2.0
+// release_date  : 1999, June 03
 //
 // file          : include/CGAL/Dynamic_matrix.h
-// package       : Matrix_search (1.10)
+// package       : Matrix_search (1.17)
 // chapter       : $CGAL_Chapter: Geometric Optimisation $
 // source        : mon_search.aw
-// revision      : $Revision: 1.10 $
-// revision_date : $Date: 1998/11/26 16:25:26 $
+// revision      : $Revision: 1.17 $
+// revision_date : $Date: 1999/06/01 14:08:02 $
 // author(s)     : Michael Hoffmann
 //
 // coordinator   : ETH Zurich (Bernd Gaertner)
 //
 // A Representation for Dynamic Matrices
-//
 // email         : cgal@cs.uu.nl
 //
 // ======================================================================
 
-#if ! (CGAL_DYNAMIC_MATRIX_H)
-#define CGAL_DYNAMIC_MATRIX_H 1
+#if ! (DYNAMIC_MATRIX_H)
+#define DYNAMIC_MATRIX_H 1
 
 #ifndef CGAL_OPTIMISATION_ASSERTIONS_H
 #include <CGAL/optimisation_assertions.h>
 #endif // CGAL_OPTIMISATION_ASSERTIONS_H
 
+CGAL_BEGIN_NAMESPACE
+
 template < class Matrix >
-class CGAL_Dynamic_matrix
+class Dynamic_matrix
 // adaptor for a matrix class
 // to allow replacement of columns in constant time
 // and extraction of all even rows in linear time
 {
 public:
-  typedef vector< int >                  CoordContainer;
-  typedef CGAL_Dynamic_matrix< Matrix >  ThisMatrixClass;
-  typedef typename Matrix::Value         Value;
+  typedef std::vector< int >        CoordContainer;
+  typedef Dynamic_matrix< Matrix >  ThisMatrixClass;
+  typedef typename Matrix::Value    Value;
 
-  CGAL_Dynamic_matrix( const Matrix& m,
-                       int r_p = 0)
+  Dynamic_matrix( const Matrix& m, int r_p = 0)
   : matrix( &m),
     column_indices( m.number_of_columns()),
     row_power( r_p),
@@ -84,8 +84,7 @@ public:
   int
   number_of_rows() const
   {
-    return
-    ( matrix->number_of_rows() + row_offset) >> row_power;
+    return ( matrix->number_of_rows() + row_offset) >> row_power;
   }
 
   int
@@ -101,7 +100,7 @@ public:
   }
 
   Value
-  operator()( pair< int, int > p) const
+  operator()( std::pair< int, int > p) const
   {
     return (*this)( p.first, p.second);
   }
@@ -124,9 +123,7 @@ public:
   }
 
 private:
-  CGAL_Dynamic_matrix( const Matrix* m,
-                       const CoordContainer& c_i,
-                       int r_p)
+  Dynamic_matrix( const Matrix* m, const CoordContainer& c_i, int r_p)
   : matrix( m),
     column_indices( c_i),
     row_power( r_p),
@@ -137,8 +134,7 @@ public:
   ThisMatrixClass*
   extract_all_even_rows() const
   {
-    return new ThisMatrixClass(
-      matrix, column_indices, row_power + 1);
+    return new ThisMatrixClass( matrix, column_indices, row_power + 1);
   }
 
 private:
@@ -150,13 +146,13 @@ private:
 
 template < class Matrix >
 inline
-CGAL_Dynamic_matrix< Matrix >
-CGAL_dynamic_matrix( const Matrix& m)
-{ return CGAL_Dynamic_matrix< Matrix >( m); }
+Dynamic_matrix< Matrix >
+dynamic_matrix( const Matrix& m)
+{ return Dynamic_matrix< Matrix >( m); }
 
+CGAL_END_NAMESPACE
 
-
-#endif // ! (CGAL_DYNAMIC_MATRIX_H)
+#endif // ! (DYNAMIC_MATRIX_H)
 
 // ----------------------------------------------------------------------------
 // ** EOF

@@ -1,9 +1,9 @@
-This is Computational Geometry Algorithms Library version 1.2 (CGAL-1.2).
+This is Computational Geometry Algorithms Library version 2.0 (CGAL-2.0).
 
-Installation notes are available in several formats. The file INSTALL in this
-directory contains a plain text format. A PostScript file named installation.ps
-can be found in directory doc_ps. The pdf file installation.pdf can be found
-in doc_pdf. The HTML version is in doc_html/installation/main.html.
+Installation notes are available in several formats. 
+A PostScript file named installation.ps can be found in directory doc_ps.
+The pdf file installation.pdf can be found in doc_pdf.
+The HTML version is in doc_html/installation/contents.html.
 
 The documentation of CGAL is available in various formats (HTML, PostScript,
 PDF). It is not bundled with the software but can be downloaded separately.
@@ -13,7 +13,7 @@ For more information on CGAL, see the URL http://www.cs.uu.nl/CGAL/.
 The CGAL software falls under the license below. 
 // ============================================================================
 //
-// Copyright (c) 1999 The CGAL Consortium
+// Copyright (c) 1999 The GALIA Consortium
 //
 // This software and related documentation is part of the
 // Computational Geometry Algorithms Library (CGAL).
@@ -29,19 +29,20 @@ The CGAL software falls under the license below.
 // - Development licenses grant access to the source code of the library 
 //   to develop programs. These programs may be sold to other parties as 
 //   executable code. To obtain a development license, please contact
-//   the CGAL Consortium (at cgal@cs.uu.nl).
+//   the GALIA Consortium (at cgal@cs.uu.nl).
 // - Commercialization licenses grant access to the source code and the
 //   right to sell development licenses. To obtain a commercialization 
-//   license, please contact the CGAL Consortium (at cgal@cs.uu.nl).
+//   license, please contact the GALIA Consortium (at cgal@cs.uu.nl).
 //
 // This software and documentation is provided "as-is" and without
 // warranty of any kind. In no event shall the CGAL Consortium be
 // liable for any damage of any kind.
 //
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// The GALIA Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
-// INRIA Sophia-Antipolis (France), Max-Planck-Institute Saarbrucken
-// (Germany), RISC Linz (Austria), and Tel-Aviv University (Israel).
+// INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
+// (Germany), Max-Planck-Institute Saarbrucken (Germany),
+// and Tel-Aviv University (Israel).
 //
 // ============================================================================
 

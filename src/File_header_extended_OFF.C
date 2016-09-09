@@ -1,6 +1,6 @@
 // ======================================================================
 //
-// Copyright (c) 1997 The CGAL Consortium
+// Copyright (c) 1999 The GALIA Consortium
 //
 // This software and related documentation is part of the
 // Computational Geometry Algorithms Library (CGAL).
@@ -16,38 +16,37 @@
 // - Development licenses grant access to the source code of the library 
 //   to develop programs. These programs may be sold to other parties as 
 //   executable code. To obtain a development license, please contact
-//   the CGAL Consortium (at cgal@cs.uu.nl).
+//   the GALIA Consortium (at cgal@cs.uu.nl).
 // - Commercialization licenses grant access to the source code and the
 //   right to sell development licenses. To obtain a commercialization 
-//   license, please contact the CGAL Consortium (at cgal@cs.uu.nl).
+//   license, please contact the GALIA Consortium (at cgal@cs.uu.nl).
 //
 // This software and documentation is provided "as-is" and without
 // warranty of any kind. In no event shall the CGAL Consortium be
 // liable for any damage of any kind.
 //
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// The GALIA Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany) Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+// (Germany), Max-Planck-Institute Saarbrucken (Germany),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-1.2
-// release_date  : 1999, January 18
+// release       : CGAL-2.0
+// release_date  : 1999, June 03
 //
 // file          : src/File_header_extended_OFF.C
-// package       : Polyhedron_IO (1.11)
+// package       : Polyhedron_IO (2.5)
 // chapter       : $CGAL_Chapter: Support Library ... $
 // source        : polyhedron_io.fw
-// revision      : $Revision: 1.8 $
-// revision_date : $Date: 1998/10/08 22:46:22 $
+// revision      : $Revision: 1.4 $
+// revision_date : $Date: 1999/03/24 11:16:26 $
 // author(s)     : Lutz Kettner
 //
 // coordinator   : Herve Bronnimann
 //
 // Extended file header information of an object file format (OFF) file
-//
 // email         : cgal@cs.uu.nl
 //
 // ======================================================================
@@ -55,53 +54,51 @@
 #ifndef CGAL_IO_FILE_HEADER_EXTENDED_OFF_H
 #include <CGAL/IO/File_header_extended_OFF.h>
 #endif // CGAL_IO_FILE_HEADER_EXTENDED_OFF_H
-
 #ifndef CGAL_BASIC_H
 #include <CGAL/basic.h>
 #endif // CGAL_BASIC_H
-#ifndef CGAL_PROTECT_STDLIB_H
-#include <stdlib.h>
-#define CGAL_PROTECT_STDLIB_H
-#endif // CGAL_PROTECT_STDLIB_H
-#ifndef CGAL_PROTECT_CTYPE_H
-#include <ctype.h>
-#define CGAL_PROTECT_CTYPE_H
-#endif // CGAL_PROTECT_CTYPE_H
-#ifndef CGAL_PROTECT_STRING_H
-#include <string.h>
-#define CGAL_PROTECT_STRING_H
-#endif // CGAL_PROTECT_STRING_H
-#ifndef CGAL_PROTECT_IOSTREAM_H
-#include <iostream.h>
-#define CGAL_PROTECT_IOSTREAM_H
-#endif // CGAL_PROTECT_IOSTREAM_H
-#ifndef CGAL_PROTECT_STRSTREAM_H
-#include <strstream.h>
-#define CGAL_PROTECT_STRSTREAM_H
-#endif // CGAL_PROTECT_STRSTREAM_H
-#ifndef CGAL_PROTECT_ALGO_H
-#include <algo.h>
-#define CGAL_PROTECT_ALGO_H
-#endif // CGAL_PROTECT_ALGO_H
+#ifndef CGAL_PROTECT_CSTDLIB
+#include <cstdlib>
+#define CGAL_PROTECT_CSTDLIB
+#endif
+#ifndef CGAL_PROTECT_CCTYPE
+#include <cctype>
+#define CGAL_PROTECT_CCTYPE
+#endif
+#ifndef CGAL_PROTECT_CSTRING
+#include <cstring>
+#define CGAL_PROTECT_CSTRING
+#endif
+#ifndef CGAL_PROTECT_IOSTREAM
+#include <iostream>
+#define CGAL_PROTECT_IOSTREAM
+#endif
+#ifndef CGAL_PROTECT_STRSTREAM
+#include <strstream>
+#define CGAL_PROTECT_STRSTREAM
+#endif
+#ifndef CGAL_PROTECT_ALGORITHM
+#include <algorithm>
+#define CGAL_PROTECT_ALGORITHM
+#endif
 
+CGAL_BEGIN_NAMESPACE
 
-bool CGAL_File_header_extended_OFF::
+bool File_header_extended_OFF::
 is_POL()  const {
     return is_OFF() && polyhedral_surface();
 }
 
-bool CGAL_File_header_extended_OFF::
+bool File_header_extended_OFF::
 is_CBP()  const {
     return is_POL() && triangulated() && non_empty_facets() &&
         normalized_to_sphere() && radius() <= 1.0;
 }
 
-bool CGAL_File_header_extended_OFF::
-is_TRN()  const {
-    return is_CBP() && terrain();
-}
+bool File_header_extended_OFF::
+is_TRN()  const { return is_CBP() && terrain(); }
 
-int  CGAL_File_header_extended_OFF::
+int  File_header_extended_OFF::
 is_CBPn() const {
     if ( is_POL() && triangulated() && non_empty_facets() &&
          normalized_to_sphere() && rounded() &&
@@ -111,24 +108,22 @@ is_CBPn() const {
         return 0;
 }
 
-int  CGAL_File_header_extended_OFF::
-is_TRNn() const {
-    return ( terrain() ? is_CBPn() : 0);
-}
+int  File_header_extended_OFF::
+is_TRNn() const { return ( terrain() ? is_CBPn() : 0); }
 
 
 // The proper file suffix with respect to file format.
-const char* CGAL_File_header_extended_OFF::
+const char* File_header_extended_OFF::
 suffix() const {
     if ( is_TRNn()) {
-        ostrstream out( (char*)m_suffix, 20);
+        std::ostrstream out( (char*)m_suffix, 20);
         out << "trn" << m_rounded_bits << '\0';
         return m_suffix;
     }
     if ( is_TRN())
         return "trn";
     if ( is_CBPn()) {
-        ostrstream out( (char*)m_suffix, 20);
+        std::ostrstream out( (char*)m_suffix, 20);
         out << "cbp" << m_rounded_bits << '\0';
         return m_suffix;
     }
@@ -140,17 +135,17 @@ suffix() const {
 }
 
 // The proper format name.
-const char* CGAL_File_header_extended_OFF::
+const char* File_header_extended_OFF::
 format_name() const {
     if ( is_TRNn()) {
-        ostrstream out( (char*)m_format_name, 20);
+        std::ostrstream out( (char*)m_format_name, 20);
         out << "TRN" << m_rounded_bits << '\0';
         return m_format_name;
     }
     if ( is_TRN())
         return "TRN";
     if ( is_CBPn()) {
-        ostrstream out( (char*)m_format_name, 20);
+        std::ostrstream out( (char*)m_format_name, 20);
         out << "CBP" << m_rounded_bits << '\0';
         return m_format_name;
     }
@@ -161,8 +156,8 @@ format_name() const {
     return "OFF";
 }
 
-CGAL_File_header_extended_OFF& CGAL_File_header_extended_OFF::
-operator+=( const CGAL_File_header_extended_OFF& header) {
+File_header_extended_OFF& File_header_extended_OFF::
+operator+=( const File_header_extended_OFF& header) {
     m_verbose              = m_verbose || header.m_verbose;
     m_polyhedral_surface   = m_polyhedral_surface &&
                              header.m_polyhedral_surface;
@@ -173,9 +168,10 @@ operator+=( const CGAL_File_header_extended_OFF& header) {
     m_terrain              = m_terrain && header.m_terrain;
     m_normalized_to_sphere = m_normalized_to_sphere &&
                              header.m_normalized_to_sphere;
-    m_radius               = max(m_radius, header.m_radius);
+    m_radius               = std::max(m_radius, header.m_radius);
     m_rounded              = m_rounded && header.m_rounded;
-    m_rounded_bits         = max( m_rounded_bits, header.m_rounded_bits);
+    m_rounded_bits         = std::max( m_rounded_bits,
+                                       header.m_rounded_bits);
     m_off_header           = m_off_header && header.m_off_header;
     return *this;
 }
@@ -184,7 +180,8 @@ operator+=( const CGAL_File_header_extended_OFF& header) {
 #define OUTBOOL(item) out << "# " #item " " << (h.item() ? '1':'0') << '\n'
 
 // Write extended header incl. CGAL/ENDCBP keywords.
-ostream& operator<<( ostream& out, const CGAL_File_header_extended_OFF& h) {
+std::ostream& operator<<( std::ostream& out,
+                          const File_header_extended_OFF& h) {
     out << "#CBP\n";
     OUTBOOL( polyhedral_surface);
     OUT(     halfedges);
@@ -195,7 +192,7 @@ ostream& operator<<( ostream& out, const CGAL_File_header_extended_OFF& h) {
     OUT(     radius);
     OUTBOOL( rounded);
     OUT(     rounded_bits);
-    out << "# ENDCBP\n" << endl;
+    out << "# ENDCBP\n" << std::endl;
     return out;
 }
 #undef OUT
@@ -215,7 +212,7 @@ ostream& operator<<( ostream& out, const CGAL_File_header_extended_OFF& h) {
     }
 
 // Scan extended header. The CBP keyword must be read already.
-istream& operator>>( istream& in, CGAL_File_header_extended_OFF& h) {
+std::istream& operator>>( std::istream& in, File_header_extended_OFF& h) {
     const int max_keyword = 42;
     char c;
     char keyword[max_keyword] = "";
@@ -233,14 +230,16 @@ istream& operator>>( istream& in, CGAL_File_header_extended_OFF& h) {
         INBOOL( rounded)
         IN(     rounded_bits, int)
         else if ( h.verbose()) {
-            cerr << "warning: CGAL_File_header_extended_OFF: unknown key '"
-                 << keyword << "'." << endl;
+            std::cerr << "warning: File_header_extended_OFF: unknown key '"
+                      << keyword << "'." << std::endl;
         }
         in >> keyword;
     }
-    in >> CGAL_skip_until_EOL >> CGAL_skip_comment_OFF;
+    in >> skip_until_EOL >> skip_comment_OFF;
     return in;
 }
 #undef IN
 #undef INBOOL
+
+CGAL_END_NAMESPACE
 // EOF //

@@ -1,6 +1,6 @@
 // ======================================================================
 //
-// Copyright (c) 1997,1998 The CGAL Consortium
+// Copyright (c) 1999 The GALIA Consortium
 //
 // This software and related documentation is part of the
 // Computational Geometry Algorithms Library (CGAL).
@@ -16,57 +16,45 @@
 // - Development licenses grant access to the source code of the library 
 //   to develop programs. These programs may be sold to other parties as 
 //   executable code. To obtain a development license, please contact
-//   the CGAL Consortium (at cgal@cs.uu.nl).
+//   the GALIA Consortium (at cgal@cs.uu.nl).
 // - Commercialization licenses grant access to the source code and the
 //   right to sell development licenses. To obtain a commercialization 
-//   license, please contact the CGAL Consortium (at cgal@cs.uu.nl).
+//   license, please contact the GALIA Consortium (at cgal@cs.uu.nl).
 //
 // This software and documentation is provided "as-is" and without
 // warranty of any kind. In no event shall the CGAL Consortium be
 // liable for any damage of any kind.
 //
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// The GALIA Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany) Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+// (Germany), Max-Planck-Institute Saarbrucken (Germany),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-1.2
-// release_date  : 1999, January 18
+// release       : CGAL-2.0
+// release_date  : 1999, June 03
 //
 // file          : include/CGAL/Optimisation_ellipse_2.h
-// package       : Min_ellipse_2 (3.1.1)
+// package       : Min_ellipse_2 (3.2.3)
 // chapter       : $CGAL_Chapter: Geometric Optimisation $
 //
 // source        : web/Optimisation/Min_ellipse_2.aw
-// revision      : $Revision: 5.3 $
-// revision_date : $Date: 1998/11/16 15:42:43 $
+// revision      : $Revision: 5.8 $
+// revision_date : $Date: 1999/04/19 16:20:39 $
 // author(s)     : Sven Schönherr
 //                 Bernd Gärtner
 //
 // coordinator   : ETH Zürich (Bernd Gärtner)
 //
 // implementation: 2D Optimisation Ellipse
-//
 // email         : cgal@cs.uu.nl
 //
 // ======================================================================
 
 #ifndef CGAL_OPTIMISATION_ELLIPSE_2_H
 #define CGAL_OPTIMISATION_ELLIPSE_2_H
-
-// Class declaration
-// =================
-template < class _R >
-class CGAL_Optimisation_ellipse_2;
-
-class ostream;
-class istream;
-
-// Class interface
-// ===============
 
 // the following include is needed by `to_double()'
 #ifndef CGAL_CARTESIAN_H
@@ -84,40 +72,60 @@ class istream;
 #  include <CGAL/optimisation_assertions.h>
 #endif
 #ifndef CGAL_IO_FORWARD_DECL_WINDOW_STREAM_H
-#include <CGAL/IO/forward_decl_window_stream.h>
+#  include <CGAL/IO/forward_decl_window_stream.h>
 #endif
+
+CGAL_BEGIN_NAMESPACE
+
+// Class declaration
+// =================
+template < class _R >
+class Optimisation_ellipse_2;
+
+CGAL_END_NAMESPACE
 
 // Function declarations
 // =====================
 // I/O
 // ---
-template < class _R >
-ostream&
-operator << ( ostream&, const CGAL_Optimisation_ellipse_2<_R>&);
+/*
+class std::ostream;
+class std::istream;
 
 template < class _R >
-istream&
-operator >> ( istream&, CGAL_Optimisation_ellipse_2<_R>&);
+std::ostream&
+operator << ( std::ostream&, const CGAL::Optimisation_ellipse_2<_R>&);
+*/
+template < class _R >
+std::istream&
+operator >> ( std::istream&, CGAL::Optimisation_ellipse_2<_R>&);
 
 template < class _R >
-CGAL_Window_stream&
-operator << ( CGAL_Window_stream&, const CGAL_Optimisation_ellipse_2<_R>&);
+CGAL::Window_stream&
+operator << ( CGAL::Window_stream&,
+              const CGAL::Optimisation_ellipse_2<_R>&);
 
+CGAL_BEGIN_NAMESPACE
+
+// Class interface
+// ===============
 template < class _R >
-class CGAL_Optimisation_ellipse_2 {
-    friend  ostream&  operator << CGAL_NULL_TMPL_ARGS (
-        ostream&, const CGAL_Optimisation_ellipse_2<_R>&);
-    friend  istream&  operator >> CGAL_NULL_TMPL_ARGS (
-        istream&, CGAL_Optimisation_ellipse_2<_R> &);
-    friend  CGAL_Window_stream& operator << CGAL_NULL_TMPL_ARGS (
-        CGAL_Window_stream&, const CGAL_Optimisation_ellipse_2<_R>&);
+class Optimisation_ellipse_2 {
+    friend  std::ostream&  operator << CGAL_NULL_TMPL_ARGS (
+        std::ostream&, const Optimisation_ellipse_2<_R>&);
+    friend  std::istream&  operator >> CGAL_NULL_TMPL_ARGS (
+        std::istream&, Optimisation_ellipse_2<_R> &);
+    /*
+    friend  CGAL::Window_stream& operator << CGAL_NULL_TMPL_ARGS (
+        CGAL::Window_stream&, const Optimisation_ellipse_2<_R>&);
+    */
   public:
     // types
-    typedef           _R               R;
-    typedef           typename _R::RT  RT;
-    typedef           typename _R::FT  FT;
-    typedef           CGAL_Point_2<R>  Point;
-    typedef           CGAL_Conic_2<R>  Conic;
+    typedef           _R                R;
+    typedef  typename _R::RT            RT;
+    typedef  typename _R::FT            FT;
+    typedef           CGAL::Point_2<R>  Point;
+    typedef           CGAL::Conic_2<R>  Conic;
     
     /**************************************************************************
     WORKAROUND: The GNU compiler (g++ 2.7.2[.*]) does not accept types
@@ -128,7 +136,7 @@ class CGAL_Optimisation_ellipse_2 {
     // creation
     void  set( );
     void  set( const Point& p);
-    void  set( const Point& p, const Point& q);
+    void  set( const Point& p,  const Point& q);
     void  set( const Point& p1, const Point& p2, const Point& p3);
     void  set( const Point& p1, const Point& p2,
                const Point& p3, const Point& p4);
@@ -139,11 +147,11 @@ class CGAL_Optimisation_ellipse_2 {
     int  number_of_boundary_points()
     
     // equality tests
-    bool  operator == ( const CGAL_Optimisation_ellipse_2<R>& e) const;
-    bool  operator != ( const CGAL_Optimisation_ellipse_2<R>& e) const;
+    bool  operator == ( const Optimisation_ellipse_2<R>& e) const;
+    bool  operator != ( const Optimisation_ellipse_2<R>& e) const;
     
     // predicates
-    CGAL_Bounded_side  bounded_side( const Point& p) const;
+    CGAL::Bounded_side  bounded_side( const Point& p) const;
     bool  has_on_bounded_side      ( const Point& p) const;
     bool  has_on_boundary          ( const Point& p) const;
     bool  has_on_unbounded_side    ( const Point& p) const;
@@ -152,7 +160,7 @@ class CGAL_Optimisation_ellipse_2 {
     bool  is_degenerate( ) const;
     **************************************************************************/
 
-  private:
+  /* private: */
     // private data members
     int    n_boundary_points;                   // number of boundary points
     Point  boundary_point1, boundary_point2;    // two boundary points
@@ -233,7 +241,7 @@ class CGAL_Optimisation_ellipse_2 {
         return( n_boundary_points);
     }
     
-    CGAL_Conic_2< CGAL_Cartesian< double > >
+    Conic_2< Cartesian< double > >
     to_double( ) const
     {
         CGAL_optimisation_precondition( ! is_degenerate());
@@ -243,14 +251,14 @@ class CGAL_Optimisation_ellipse_2 {
         if ( n_boundary_points == 4)
             t = conic1.vol_minimum( dr, ds, dt, du, dv, dw);
     
-        CGAL_Conic_2<R> c( conic1);
-        CGAL_Conic_2< CGAL_Cartesian<double> > e;
-        e.set( CGAL_to_double( c.r()) + t*CGAL_to_double( dr),
-               CGAL_to_double( c.s()) + t*CGAL_to_double( ds),
-               CGAL_to_double( c.t()) + t*CGAL_to_double( dt),
-               CGAL_to_double( c.u()) + t*CGAL_to_double( du),
-               CGAL_to_double( c.v()) + t*CGAL_to_double( dv),
-               CGAL_to_double( c.w()) + t*CGAL_to_double( dw));
+        Conic_2<R> c( conic1);
+        Conic_2< Cartesian<double> > e;
+        e.set( CGAL::to_double( c.r()) + t*CGAL::to_double( dr),
+               CGAL::to_double( c.s()) + t*CGAL::to_double( ds),
+               CGAL::to_double( c.t()) + t*CGAL::to_double( dt),
+               CGAL::to_double( c.u()) + t*CGAL::to_double( du),
+               CGAL::to_double( c.v()) + t*CGAL::to_double( dv),
+               CGAL::to_double( c.w()) + t*CGAL::to_double( dw));
     
         return( e);
     }
@@ -258,7 +266,7 @@ class CGAL_Optimisation_ellipse_2 {
     // Equality tests
     // --------------
     bool
-    operator == ( const CGAL_Optimisation_ellipse_2<R>& e) const
+    operator == ( const Optimisation_ellipse_2<R>& e) const
     {
         if ( n_boundary_points != e.n_boundary_points)
             return( false);
@@ -290,7 +298,7 @@ class CGAL_Optimisation_ellipse_2 {
     
     inline
     bool
-    operator != ( const CGAL_Optimisation_ellipse_2<R>& e) const
+    operator != ( const Optimisation_ellipse_2<R>& e) const
     {
         return( ! operator == ( e));
     }
@@ -298,21 +306,21 @@ class CGAL_Optimisation_ellipse_2 {
     // Predicates
     // ----------
     inline
-    CGAL_Bounded_side
+    CGAL::Bounded_side
     bounded_side( const Point& p) const
     {
         switch ( n_boundary_points) {
           case 0:
-            return( CGAL_ON_UNBOUNDED_SIDE);
+            return( CGAL::ON_UNBOUNDED_SIDE);
           case 1:
             return( ( p == boundary_point1) ?
-                           CGAL_ON_BOUNDARY : CGAL_ON_UNBOUNDED_SIDE);
+                           CGAL::ON_BOUNDARY : CGAL::ON_UNBOUNDED_SIDE);
           case 2:
             return(    ( p == boundary_point1)
                     || ( p == boundary_point2)
-                    || ( CGAL_are_ordered_along_line(
+                    || ( CGAL::are_ordered_along_line(
                              boundary_point1, p, boundary_point2)) ?
-                         CGAL_ON_BOUNDARY : CGAL_ON_UNBOUNDED_SIDE);
+                         CGAL::ON_BOUNDARY : CGAL::ON_UNBOUNDED_SIDE);
           case 3:
           case 5:
             return( conic1.convex_side( p));
@@ -325,34 +333,34 @@ class CGAL_Optimisation_ellipse_2 {
                 c.analyse();
                 return( c.convex_side( p)); }
             else {
-                int tau_star = -c.vol_derivative( dr, ds, dt, du, dv, dw);
-                return( CGAL_Bounded_side( CGAL_sign( tau_star))); } }
+                int tau_star = c.vol_derivative( dr, ds, dt, du, dv, dw);
+                return( CGAL::Bounded_side( CGAL::sign( tau_star))); } }
           default:
             CGAL_optimisation_assertion( ( n_boundary_points >= 0) &&
                                          ( n_boundary_points <= 5) ); }
         // keeps g++ happy
-        return( CGAL_Bounded_side( 0));
+        return( CGAL::Bounded_side( 0));
     }
     
     inline
     bool
     has_on_bounded_side( const Point& p) const
     {
-        return( bounded_side( p) == CGAL_ON_BOUNDED_SIDE);
+        return( bounded_side( p) == CGAL::ON_BOUNDED_SIDE);
     }
     
     inline
     bool
     has_on_boundary( const Point& p) const
     {
-        return( bounded_side( p) == CGAL_ON_BOUNDARY);
+        return( bounded_side( p) == CGAL::ON_BOUNDARY);
     }
     
     inline
     bool
     has_on_unbounded_side( const Point& p) const
     {
-        return( bounded_side( p) == CGAL_ON_UNBOUNDED_SIDE);
+        return( bounded_side( p) == CGAL::ON_UNBOUNDED_SIDE);
     }
     
     inline
@@ -369,6 +377,8 @@ class CGAL_Optimisation_ellipse_2 {
         return( n_boundary_points < 3);
     }
 };
+
+CGAL_END_NAMESPACE
 
 #ifdef CGAL_CFG_NO_AUTOMATIC_TEMPLATE_INCLUSION
 #  include <CGAL/Optimisation_ellipse_2.C>

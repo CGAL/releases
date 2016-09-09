@@ -1,6 +1,6 @@
 // ======================================================================
 //
-// Copyright (c) 1998 The CGAL Consortium
+// Copyright (c) 1999 The GALIA Consortium
 //
 // This software and related documentation is part of the
 // Computational Geometry Algorithms Library (CGAL).
@@ -16,36 +16,35 @@
 // - Development licenses grant access to the source code of the library 
 //   to develop programs. These programs may be sold to other parties as 
 //   executable code. To obtain a development license, please contact
-//   the CGAL Consortium (at cgal@cs.uu.nl).
+//   the GALIA Consortium (at cgal@cs.uu.nl).
 // - Commercialization licenses grant access to the source code and the
 //   right to sell development licenses. To obtain a commercialization 
-//   license, please contact the CGAL Consortium (at cgal@cs.uu.nl).
+//   license, please contact the GALIA Consortium (at cgal@cs.uu.nl).
 //
 // This software and documentation is provided "as-is" and without
 // warranty of any kind. In no event shall the CGAL Consortium be
 // liable for any damage of any kind.
 //
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// The GALIA Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany) Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+// (Germany), Max-Planck-Institute Saarbrucken (Germany),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 // 
-// release       : CGAL-1.2
-// release_date  : 1999, January 18
+// release       : CGAL-2.0
+// release_date  : 1999, June 03
 // 
 // source        : predicates_on_points_2.fw
 // file          : include/CGAL/predicates_on_points_2.h
-// package       : _2 (1.3)
-// revision      : 1.3
-// revision_date : 15 Dec 1998 
+// package       : _2 (2.1.2)
+// revision      : 2.1.2
+// revision_date : 09 May 1999 
 // author(s)     : Andreas Fabri
 //                 Stefan Schirra
 //
 // coordinator   : MPI, Saarbruecken  (<Stefan.Schirra>)
-//
 // email         : cgal@cs.uu.nl
 //
 // ======================================================================
@@ -74,312 +73,316 @@
 #include <CGAL/Point_2.h>
 #endif // CGAL_POINT_2_H
 
+CGAL_BEGIN_NAMESPACE
+
 template < class R >
 inline
-bool CGAL_x_equal(const CGAL_Point_2<R> &p,
-                  const CGAL_Point_2<R> &q)
+bool x_equal(const Point_2<R> &p,
+             const Point_2<R> &q)
 {
-  typedef typename R::Point_2   Point_2;
-  return CGAL_x_equal((const Point_2&)p, (const Point_2&)q);
+  typedef typename R::Point_2   RPoint_2;
+  return x_equal((const RPoint_2&)p, (const RPoint_2&)q);
 }
 
 template < class R >
 inline
-bool CGAL_y_equal(const CGAL_Point_2<R> &p,
-                  const CGAL_Point_2<R> &q)
+bool y_equal(const Point_2<R> &p,
+             const Point_2<R> &q)
 {
-  typedef typename R::Point_2   Point_2;
-  return CGAL_y_equal((const Point_2&)p, (const Point_2&)q);
+  typedef typename R::Point_2   RPoint_2;
+  return y_equal((const RPoint_2&)p, (const RPoint_2&)q);
 }
 
 
 template < class R >
 inline
-CGAL_Comparison_result CGAL_compare_x(const CGAL_Point_2<R> &p,
-                                      const CGAL_Point_2<R> &q)
+Comparison_result compare_x(const Point_2<R> &p,
+                            const Point_2<R> &q)
 {
-  typedef typename R::Point_2   Point_2;
-  return CGAL_compare_x((const Point_2&)p, (const Point_2&)q);
+  typedef typename R::Point_2   RPoint_2;
+  return compare_x((const RPoint_2&)p, (const RPoint_2&)q);
 }
 
 template < class R >
 inline
-CGAL_Comparison_result CGAL_compare_y(const CGAL_Point_2<R> &p,
-                                      const CGAL_Point_2<R> &q)
+Comparison_result compare_y(const Point_2<R> &p,
+                            const Point_2<R> &q)
 {
-  typedef typename R::Point_2   Point_2;
-  return CGAL_compare_y((const Point_2&)p, (const Point_2&)q);
+  typedef typename R::Point_2   RPoint_2;
+  return compare_y((const RPoint_2&)p, (const RPoint_2&)q);
 }
 
 template < class R >
 inline
-CGAL_Comparison_result
-CGAL_compare_deltax_deltay(const CGAL_Point_2<R>& p,
-                           const CGAL_Point_2<R>& q,
-                           const CGAL_Point_2<R>& r,
-                           const CGAL_Point_2<R>& s)
+Comparison_result
+compare_deltax_deltay(const Point_2<R>& p,
+                      const Point_2<R>& q,
+                      const Point_2<R>& r,
+                      const Point_2<R>& s)
 {
-  typedef typename R::Point_2   Point_2;
-  return CGAL_compare_deltax_deltay((const Point_2&)p,
-                                    (const Point_2&)q,
-                                    (const Point_2&)r,
-                                    (const Point_2&)s);
+  typedef typename R::Point_2   RPoint_2;
+  return compare_deltax_deltay((const RPoint_2&)p,
+                               (const RPoint_2&)q,
+                               (const RPoint_2&)r,
+                               (const RPoint_2&)s);
 }
 
 template < class R >
 inline
-CGAL_Comparison_result
-CGAL_compare_lexicographically_xy(const CGAL_Point_2<R>& p,
-                                  const CGAL_Point_2<R>& q)
+Comparison_result
+compare_lexicographically_xy(const Point_2<R>& p,
+                             const Point_2<R>& q)
 {
-  typedef typename R::Point_2   Point_2;
-  return  CGAL_compare_lexicographically_xy((const Point_2&)p,
-                                            (const Point_2&)q);
-}
-
-template < class R >
-inline
-bool
-CGAL_lexicographically_xy_smaller_or_equal(const CGAL_Point_2<R>& p,
-                                           const CGAL_Point_2<R>& q)
-{
-  typedef typename R::Point_2   Point_2;
-  return CGAL_lexicographically_xy_smaller_or_equal((const Point_2&)p,
-                                                    (const Point_2&)q);
+  typedef typename R::Point_2   RPoint_2;
+  return  compare_lexicographically_xy((const RPoint_2&)p,
+                                       (const RPoint_2&)q);
 }
 
 template < class R >
 inline
 bool
-CGAL_lexicographically_xy_smaller(const CGAL_Point_2<R>& p,
-                                  const CGAL_Point_2<R>& q)
+lexicographically_xy_smaller_or_equal(const Point_2<R>& p,
+                                      const Point_2<R>& q)
 {
-  typedef typename R::Point_2   Point_2;
- return CGAL_lexicographically_xy_smaller((const Point_2&)p,
-                                          (const Point_2&)q);
+  typedef typename R::Point_2   RPoint_2;
+  return lexicographically_xy_smaller_or_equal((const RPoint_2&)p,
+                                               (const RPoint_2&)q);
 }
 
 template < class R >
 inline
 bool
-CGAL_lexicographically_xy_larger_or_equal(const CGAL_Point_2<R>& p,
-                                          const CGAL_Point_2<R>& q)
+lexicographically_xy_smaller(const Point_2<R>& p,
+                                  const Point_2<R>& q)
 {
-  typedef typename R::Point_2   Point_2;
- return !CGAL_lexicographically_xy_smaller((const Point_2&)p,
-                                           (const Point_2&)q);
+  typedef typename R::Point_2   RPoint_2;
+ return lexicographically_xy_smaller((const RPoint_2&)p,
+                                     (const RPoint_2&)q);
 }
 
 template < class R >
 inline
 bool
-CGAL_lexicographically_xy_larger(const CGAL_Point_2<R>& p,
-                                 const CGAL_Point_2<R>& q)
+lexicographically_xy_larger_or_equal(const Point_2<R>& p,
+                                     const Point_2<R>& q)
 {
-  typedef typename R::Point_2   Point_2;
-  return !CGAL_lexicographically_xy_smaller_or_equal((const Point_2&)p,
-                                                     (const Point_2&)q);
-}
-
-
-template < class R >
-inline
-CGAL_Comparison_result
-CGAL_compare_lexicographically_yx(const CGAL_Point_2<R>& p,
-                                  const CGAL_Point_2<R>& q)
-{
-  typedef typename R::Point_2   Point_2;
-  return  CGAL_compare_lexicographically_yx((const Point_2&)p,
-                                            (const Point_2&)q);
+  typedef typename R::Point_2   RPoint_2;
+ return !lexicographically_xy_smaller((const RPoint_2&)p,
+                                      (const RPoint_2&)q);
 }
 
 template < class R >
 inline
 bool
-CGAL_lexicographically_yx_smaller_or_equal(const CGAL_Point_2<R>& p,
-                                           const CGAL_Point_2<R>& q)
+lexicographically_xy_larger(const Point_2<R>& p,
+                            const Point_2<R>& q)
 {
-  typedef typename R::Point_2   Point_2;
-  return CGAL_lexicographically_yx_smaller_or_equal((const Point_2&)p,
-                                                    (const Point_2&)q);
+  typedef typename R::Point_2   RPoint_2;
+  return !lexicographically_xy_smaller_or_equal((const RPoint_2&)p,
+                                                (const RPoint_2&)q);
+}
+
+
+template < class R >
+inline
+Comparison_result
+compare_lexicographically_yx(const Point_2<R>& p,
+                                  const Point_2<R>& q)
+{
+  typedef typename R::Point_2   RPoint_2;
+  return  compare_lexicographically_yx((const RPoint_2&)p,
+                                       (const RPoint_2&)q);
 }
 
 template < class R >
 inline
 bool
-CGAL_lexicographically_yx_smaller(const CGAL_Point_2<R>& p,
-                                  const CGAL_Point_2<R>& q)
+lexicographically_yx_smaller_or_equal(const Point_2<R>& p,
+                                      const Point_2<R>& q)
 {
-  typedef typename R::Point_2   Point_2;
- return CGAL_lexicographically_yx_smaller((const Point_2&)p,
-                                          (const Point_2&)q);
+  typedef typename R::Point_2   RPoint_2;
+  return lexicographically_yx_smaller_or_equal((const RPoint_2&)p,
+                                               (const RPoint_2&)q);
 }
 
 template < class R >
 inline
 bool
-CGAL_lexicographically_yx_larger_or_equal(const CGAL_Point_2<R>& p,
-                                          const CGAL_Point_2<R>& q)
+lexicographically_yx_smaller(const Point_2<R>& p,
+                             const Point_2<R>& q)
 {
-  typedef typename R::Point_2   Point_2;
- return !CGAL_lexicographically_yx_smaller((const Point_2&)p,
-                                           (const Point_2&)q);
+  typedef typename R::Point_2   RPoint_2;
+ return lexicographically_yx_smaller((const RPoint_2&)p,
+                                     (const RPoint_2&)q);
 }
 
 template < class R >
 inline
 bool
-CGAL_lexicographically_yx_larger(const CGAL_Point_2<R>& p,
-                                 const CGAL_Point_2<R>& q)
+lexicographically_yx_larger_or_equal(const Point_2<R>& p,
+                                     const Point_2<R>& q)
 {
-  typedef typename R::Point_2   Point_2;
-  return !CGAL_lexicographically_yx_smaller_or_equal((const Point_2&)p,
-                                                     (const Point_2&)q);
+  typedef typename R::Point_2   RPoint_2;
+ return !lexicographically_yx_smaller((const RPoint_2&)p,
+                                      (const RPoint_2&)q);
 }
 
 template < class R >
 inline
 bool
-CGAL_are_ordered_along_line(const CGAL_Point_2<R> &p,
-                            const CGAL_Point_2<R> &q,
-                            const CGAL_Point_2<R> &r)
+lexicographically_yx_larger(const Point_2<R>& p,
+                            const Point_2<R>& q)
 {
-  typedef typename R::Point_2   Point_2;
-  return CGAL_are_ordered_along_line((const Point_2&)p,
-                                     (const Point_2&)q,
-                                     (const Point_2&)r);
+  typedef typename R::Point_2   RPoint_2;
+  return !lexicographically_yx_smaller_or_equal((const RPoint_2&)p,
+                                                (const RPoint_2&)q);
 }
 
 template < class R >
 inline
 bool
-CGAL_collinear_are_ordered_along_line(const CGAL_Point_2<R> &p,
-                                      const CGAL_Point_2<R> &q,
-                                      const CGAL_Point_2<R> &r)
+are_ordered_along_line(const Point_2<R> &p,
+                       const Point_2<R> &q,
+                       const Point_2<R> &r)
 {
-  typedef typename R::Point_2   Point_2;
-  return CGAL_collinear_are_ordered_along_line((const Point_2&)p,
-                                               (const Point_2&)q,
-                                               (const Point_2&)r);
+  typedef typename R::Point_2   RPoint_2;
+  return are_ordered_along_line((const RPoint_2&)p,
+                                (const RPoint_2&)q,
+                                (const RPoint_2&)r);
 }
 
 template < class R >
 inline
 bool
-CGAL_are_strictly_ordered_along_line(const CGAL_Point_2<R> &p,
-                            const CGAL_Point_2<R> &q,
-                            const CGAL_Point_2<R> &r)
+collinear_are_ordered_along_line(const Point_2<R> &p,
+                                 const Point_2<R> &q,
+                                 const Point_2<R> &r)
 {
-  typedef typename R::Point_2   Point_2;
-  return CGAL_are_strictly_ordered_along_line((const Point_2&)p,
-                                              (const Point_2&)q,
-                                              (const Point_2&)r);
+  typedef typename R::Point_2   RPoint_2;
+  return collinear_are_ordered_along_line((const RPoint_2&)p,
+                                          (const RPoint_2&)q,
+                                          (const RPoint_2&)r);
+}
+
+template < class R >
+inline
+bool
+are_strictly_ordered_along_line(const Point_2<R> &p,
+                            const Point_2<R> &q,
+                            const Point_2<R> &r)
+{
+  typedef typename R::Point_2   RPoint_2;
+  return are_strictly_ordered_along_line((const RPoint_2&)p,
+                                         (const RPoint_2&)q,
+                                         (const RPoint_2&)r);
 }
 template < class R >
 inline
 bool
-CGAL_collinear_are_strictly_ordered_along_line(const CGAL_Point_2<R> &p,
-                                      const CGAL_Point_2<R> &q,
-                                      const CGAL_Point_2<R> &r)
+collinear_are_strictly_ordered_along_line(const Point_2<R> &p,
+                                          const Point_2<R> &q,
+                                          const Point_2<R> &r)
 {
-  typedef typename R::Point_2   Point_2;
+  typedef typename R::Point_2   RPoint_2;
   return
-  CGAL_collinear_are_strictly_ordered_along_line((const Point_2&)p,
-                                                 (const Point_2&)q,
-                                                 (const Point_2&)r);
+  collinear_are_strictly_ordered_along_line((const RPoint_2&)p,
+                                            (const RPoint_2&)q,
+                                            (const RPoint_2&)r);
 }
 template < class R >
 inline
 bool
-CGAL_collinear(const CGAL_Point_2<R> &p,
-               const CGAL_Point_2<R> &q,
-               const CGAL_Point_2<R> &r)
+collinear(const Point_2<R> &p,
+          const Point_2<R> &q,
+          const Point_2<R> &r)
 {
-  typedef typename R::Point_2   Point_2;
-  return (CGAL_collinear((const Point_2&)p,
-                         (const Point_2&)q,
-                         (const Point_2&)r));
+  typedef typename R::Point_2   RPoint_2;
+  return (collinear((const RPoint_2&)p,
+                    (const RPoint_2&)q,
+                    (const RPoint_2&)r));
 }
 
 template < class R >
 inline
 bool
-CGAL_leftturn(const CGAL_Point_2<R> &p,
-              const CGAL_Point_2<R> &q,
-              const CGAL_Point_2<R> &r)
+leftturn(const Point_2<R> &p,
+         const Point_2<R> &q,
+         const Point_2<R> &r)
 {
-  typedef typename R::Point_2   Point_2;
-  return CGAL_leftturn((const Point_2&)p,
-                       (const Point_2&)q,
-                       (const Point_2&)r);
+  typedef typename R::Point_2   RPoint_2;
+  return leftturn((const RPoint_2&)p,
+                  (const RPoint_2&)q,
+                  (const RPoint_2&)r);
 }
 
 template < class R >
 inline
 bool
-CGAL_rightturn(const CGAL_Point_2<R> &p,
-               const CGAL_Point_2<R> &q,
-               const CGAL_Point_2<R> &r)
+rightturn(const Point_2<R> &p,
+          const Point_2<R> &q,
+          const Point_2<R> &r)
 {
-  typedef typename R::Point_2   Point_2;
-  return CGAL_rightturn((const Point_2&)p,
-                        (const Point_2&)q,
-                        (const Point_2&)r);
+  typedef typename R::Point_2   RPoint_2;
+  return rightturn((const RPoint_2&)p,
+                   (const RPoint_2&)q,
+                   (const RPoint_2&)r);
 }
 
 template < class R >
 inline
 bool
-CGAL_rightturn(const CGAL_Origin &o,
-               const CGAL_Point_2<R> &q,
-               const CGAL_Point_2<R> &r)
+rightturn(const Origin &o,
+          const Point_2<R> &q,
+          const Point_2<R> &r)
 {
-  typedef typename R::Point_2   Point_2;
-  return CGAL_rightturn(o, (const Point_2&)q, (const Point_2&)r);
+  typedef typename R::Point_2   RPoint_2;
+  return rightturn(o, (const RPoint_2&)q, (const RPoint_2&)r);
 }
 
 template < class R >
 inline
-CGAL_Orientation
-CGAL_orientation(const CGAL_Point_2<R> &p,
-                 const CGAL_Point_2<R>&q,
-                 const CGAL_Point_2<R> &r)
+Orientation
+orientation(const Point_2<R> &p,
+            const Point_2<R>&q,
+            const Point_2<R> &r)
 {
-  typedef typename R::Point_2   Point_2;
-  return CGAL_orientation((const Point_2&)p,
-                          (const Point_2&)q,
-                          (const Point_2&)r);
+  typedef typename R::Point_2   RPoint_2;
+  return CGAL::orientation((const RPoint_2&)p,
+                           (const RPoint_2&)q,
+                           (const RPoint_2&)r);
 }
 
 template <class R >
 inline
-CGAL_Oriented_side
-CGAL_side_of_oriented_circle(const CGAL_Point_2<R> &p,
-                             const CGAL_Point_2<R> &q,
-                             const CGAL_Point_2<R> &r,
-                             const CGAL_Point_2<R> &test)
+Oriented_side
+side_of_oriented_circle(const Point_2<R> &p,
+                        const Point_2<R> &q,
+                        const Point_2<R> &r,
+                        const Point_2<R> &test)
 {
-  typedef typename R::Point_2   Point_2;
-  return CGAL_side_of_oriented_circle((const Point_2&)p,
-                                      (const Point_2&)q,
-                                      (const Point_2&)r,
-                                      (const Point_2&)test);
+  typedef typename R::Point_2   RPoint_2;
+  return side_of_oriented_circle((const RPoint_2&)p,
+                                 (const RPoint_2&)q,
+                                 (const RPoint_2&)r,
+                                 (const RPoint_2&)test);
 }
 
 template <class R >
 inline
-CGAL_Bounded_side
-CGAL_side_of_bounded_circle(const CGAL_Point_2<R> &p,
-                            const CGAL_Point_2<R> &q,
-                            const CGAL_Point_2<R> &r,
-                            const CGAL_Point_2<R> &test)
+Bounded_side
+side_of_bounded_circle(const Point_2<R> &p,
+                       const Point_2<R> &q,
+                       const Point_2<R> &r,
+                       const Point_2<R> &test)
 {
-  typedef typename R::Point_2   Point_2;
-  return CGAL_side_of_bounded_circle((const Point_2&)p,
-                                     (const Point_2&)q,
-                                     (const Point_2&)r,
-                                     (const Point_2&)test);
+  typedef typename R::Point_2   RPoint_2;
+  return side_of_bounded_circle((const RPoint_2&)p,
+                                (const RPoint_2&)q,
+                                (const RPoint_2&)r,
+                                (const RPoint_2&)test);
 }
+
+CGAL_END_NAMESPACE
 
 
 #endif  // CGAL_PREDICATES_ON_POINTS_2_H

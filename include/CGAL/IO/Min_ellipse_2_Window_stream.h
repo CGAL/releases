@@ -1,6 +1,6 @@
 // ======================================================================
 //
-// Copyright (c) 1997,1998 The CGAL Consortium
+// Copyright (c) 1999 The GALIA Consortium
 //
 // This software and related documentation is part of the
 // Computational Geometry Algorithms Library (CGAL).
@@ -16,40 +16,39 @@
 // - Development licenses grant access to the source code of the library 
 //   to develop programs. These programs may be sold to other parties as 
 //   executable code. To obtain a development license, please contact
-//   the CGAL Consortium (at cgal@cs.uu.nl).
+//   the GALIA Consortium (at cgal@cs.uu.nl).
 // - Commercialization licenses grant access to the source code and the
 //   right to sell development licenses. To obtain a commercialization 
-//   license, please contact the CGAL Consortium (at cgal@cs.uu.nl).
+//   license, please contact the GALIA Consortium (at cgal@cs.uu.nl).
 //
 // This software and documentation is provided "as-is" and without
 // warranty of any kind. In no event shall the CGAL Consortium be
 // liable for any damage of any kind.
 //
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// The GALIA Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany) Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+// (Germany), Max-Planck-Institute Saarbrucken (Germany),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-1.2
-// release_date  : 1999, January 18
+// release       : CGAL-2.0
+// release_date  : 1999, June 03
 //
 // file          : include/CGAL/IO/Min_ellipse_2_Window_stream.h
-// package       : Min_ellipse_2 (3.1.1)
+// package       : Min_ellipse_2 (3.2.3)
 // chapter       : $CGAL_Chapter: Geometric Optimisation $
 //
 // source        : web/Optimisation/Min_ellipse_2.aw
-// revision      : $Revision: 5.3 $
-// revision_date : $Date: 1998/11/16 15:42:43 $
+// revision      : $Revision: 5.8 $
+// revision_date : $Date: 1999/04/19 16:20:39 $
 // author(s)     : Sven Schönherr
 //                 Bernd Gärtner
 //
 // coordinator   : ETH Zürich (Bernd Gärtner)
 //
 // implementation: graphical output to `leda_window' for Min_ellipse_2 algo.
-//
 // email         : cgal@cs.uu.nl
 //
 // ======================================================================
@@ -71,9 +70,9 @@
 #define CGAL_IO_WINDOW_STREAM_OPTIMISATION_ELLIPSE_2
 
 template< class R >
-CGAL_Window_stream&
-operator << ( CGAL_Window_stream &ws,
-              const CGAL_Optimisation_ellipse_2<R>& oe)
+CGAL::Window_stream&
+operator << ( CGAL::Window_stream &ws,
+              const CGAL::Optimisation_ellipse_2<R>& oe)
 {
     switch ( oe.n_boundary_points) {
       case 0:
@@ -82,10 +81,10 @@ operator << ( CGAL_Window_stream &ws,
         ws << oe.boundary_point1;
         break;
       case 2: {
-        double  px1( CGAL_to_double( oe.boundary_point1.x()));
-        double  py1( CGAL_to_double( oe.boundary_point1.y()));
-        double  px2( CGAL_to_double( oe.boundary_point2.x()));
-        double  py2( CGAL_to_double( oe.boundary_point2.y()));
+        double  px1( CGAL::to_double( oe.boundary_point1.x()));
+        double  py1( CGAL::to_double( oe.boundary_point1.y()));
+        double  px2( CGAL::to_double( oe.boundary_point2.x()));
+        double  py2( CGAL::to_double( oe.boundary_point2.y()));
         ws.draw_segment( px1, py1, px2, py2); }
         break;
       case 3:
@@ -96,7 +95,6 @@ operator << ( CGAL_Window_stream &ws,
       default:
         CGAL_optimisation_assertion( ( oe.n_boundary_points >= 0) &&
                                      ( oe.n_boundary_points <= 5) ); }
-
     return( ws);
 }
 
@@ -110,11 +108,11 @@ operator << ( CGAL_Window_stream &ws,
 #define CGAL_IO_WINDOW_STREAM_MIN_ELLIPSE_2
 
 template< class R >
-CGAL_Window_stream&
-operator << ( CGAL_Window_stream &ws,
-              const CGAL_Min_ellipse_2<R>& min_ellipse)
+CGAL::Window_stream&
+operator << ( CGAL::Window_stream &ws,
+              const CGAL::Min_ellipse_2<R>& min_ellipse)
 {
-    typedef  typename CGAL_Min_ellipse_2<R>::Point_iterator  Point_iterator;
+    typedef CGAL::Min_ellipse_2<R>::Point_iterator  Point_iterator;
 
     Point_iterator  first( min_ellipse.points_begin());
     Point_iterator  last ( min_ellipse.points_end());

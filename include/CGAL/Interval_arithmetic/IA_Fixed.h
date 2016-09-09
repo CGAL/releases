@@ -1,6 +1,6 @@
 // ======================================================================
 //
-// Copyright (c) 1998 The CGAL Consortium
+// Copyright (c) 1999 The GALIA Consortium
 //
 // This software and related documentation is part of the
 // Computational Geometry Algorithms Library (CGAL).
@@ -16,34 +16,33 @@
 // - Development licenses grant access to the source code of the library 
 //   to develop programs. These programs may be sold to other parties as 
 //   executable code. To obtain a development license, please contact
-//   the CGAL Consortium (at cgal@cs.uu.nl).
+//   the GALIA Consortium (at cgal@cs.uu.nl).
 // - Commercialization licenses grant access to the source code and the
 //   right to sell development licenses. To obtain a commercialization 
-//   license, please contact the CGAL Consortium (at cgal@cs.uu.nl).
+//   license, please contact the GALIA Consortium (at cgal@cs.uu.nl).
 //
 // This software and documentation is provided "as-is" and without
 // warranty of any kind. In no event shall the CGAL Consortium be
 // liable for any damage of any kind.
 //
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// The GALIA Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany) Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+// (Germany), Max-Planck-Institute Saarbrucken (Germany),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-1.2
-// release_date  : 1999, January 18
+// release       : CGAL-2.0
+// release_date  : 1999, June 03
 //
 // file          : include/CGAL/Interval_arithmetic/IA_Fixed.h
-// package       : Interval_arithmetic (2.7)
-// revision      : $Revision: 2.4 $
-// revision_date : $Date: 1998/12/22 13:48:41 $
+// package       : Interval_arithmetic (4.15)
+// revision      : $Revision: 2.9 $
+// revision_date : $Date: 1999/04/13 15:48:16 $
 // author(s)     : Sylvain Pion
 //
 // coordinator   : INRIA Sophia-Antipolis (<Mariette.Yvinec>)
-//
 //
 // email         : cgal@cs.uu.nl
 //
@@ -52,14 +51,26 @@
 #ifndef CGAL_IA_FIXED_H
 #define CGAL_IA_FIXED_H
 
-// The Fixed is in fact a float => exact conversion.
+CGAL_BEGIN_NAMESPACE
 
-template <>
+// The Fixed is in fact a float => trivial conversion.
+
 inline
-CGAL_Interval_nt_advanced
-CGAL_convert_to <CGAL_Interval_nt_advanced> (const CGAL_Fixed_precision_nt &z)
+Interval_nt_advanced
+convert_from_to (const Interval_nt_advanced&, const Fixed_precision_nt & z)
 {
-    return CGAL_Interval_nt_advanced (z.to_double());
+    return to_double(z);
 }
+
+#ifndef CGAL_CFG_NO_EXPLICIT_TEMPLATE_FUNCTION_ARGUMENT_SPECIFICATION
+struct converter<Interval_nt_advanced,Fixed_precision_nt>
+{
+    static inline Interval_nt_advanced do_it (const Fixed_precision_nt & z)
+    { return to_double(z); }
+};
+#endif // CGAL_CFG_NO_EXPLICIT_TEMPLATE_FUNCTION_ARGUMENT_SPECIFICATION
+
+
+CGAL_END_NAMESPACE
 
 #endif	 // CGAL_IA_FIXED_H

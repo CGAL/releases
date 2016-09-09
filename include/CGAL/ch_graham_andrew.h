@@ -1,6 +1,6 @@
 // ======================================================================
 //
-// Copyright (c) 1998 The CGAL Consortium
+// Copyright (c) 1999 The GALIA Consortium
 //
 // This software and related documentation is part of the
 // Computational Geometry Algorithms Library (CGAL).
@@ -16,34 +16,33 @@
 // - Development licenses grant access to the source code of the library 
 //   to develop programs. These programs may be sold to other parties as 
 //   executable code. To obtain a development license, please contact
-//   the CGAL Consortium (at cgal@cs.uu.nl).
+//   the GALIA Consortium (at cgal@cs.uu.nl).
 // - Commercialization licenses grant access to the source code and the
 //   right to sell development licenses. To obtain a commercialization 
-//   license, please contact the CGAL Consortium (at cgal@cs.uu.nl).
+//   license, please contact the GALIA Consortium (at cgal@cs.uu.nl).
 //
 // This software and documentation is provided "as-is" and without
 // warranty of any kind. In no event shall the CGAL Consortium be
 // liable for any damage of any kind.
 //
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// The GALIA Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany) Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+// (Germany), Max-Planck-Institute Saarbrucken (Germany),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
-// release       : CGAL-1.2
-// release_date  : 1999, January 18
+// release       : CGAL-2.0
+// release_date  : 1999, June 03
 //
 // file          : include/CGAL/ch_graham_andrew.h
-// package       : Convex_hull (1.3.2)
+// package       : Convex_hull (2.0.8)
 // source        : convex_hull_2.lw
-// revision      : 1.3.2
-// revision_date : 09 Dec 1998
+// revision      : 2.0.8
+// revision_date : 06 May 1999
 // author(s)     : Stefan Schirra
 //
 // coordinator   : MPI, Saarbruecken
-//
 // email         : cgal@cs.uu.nl
 //
 // ======================================================================
@@ -55,20 +54,22 @@
 #include <CGAL/ch_utils.h>
 #ifdef CGAL_REP_CLASS_DEFINED
 #include <CGAL/convex_hull_traits_2.h>
-#ifdef CGAL_STL_GCC
-#ifndef CGAL_GNU_ISTREAM_ITERATOR_VALUE_TYPE_FIX_H
+#ifdef STL_GCC
+#ifndef GNU_ISTREAM_ITERATOR_VALUE_TYPE_FIX_H
 #include <CGAL/gnu_istream_iterator_value_type_fix.h>
-#endif // CGAL_GNU_ISTREAM_ITERATOR_VALUE_TYPE_FIX_H
-#endif // CGAL_STL_GCC
+#endif // GNU_ISTREAM_ITERATOR_VALUE_TYPE_FIX_H
+#endif // STL_GCC
 #endif // CGAL_REP_CLASS_DEFINED
-#ifndef CGAL_CH_NO_POSTCONDITIONS
+#ifndef CH_NO_POSTCONDITIONS
 #include <CGAL/convexity_check_2.h>
 
-#endif // CGAL_CH_NO_POSTCONDITIONS
+#endif // CH_NO_POSTCONDITIONS
 
 
-#include <vector.h>
-#include <algo.h>
+#include <vector>
+#include <algorithm>
+
+CGAL_BEGIN_NAMESPACE
 /*{\Moptions
 outfile=cgal_ch_I_gas.man
 }*/
@@ -76,7 +77,7 @@ outfile=cgal_ch_I_gas.man
 /*{\Mtext
 \settowidth{\typewidth}{|OutputIterator|}
 \addtolength{\typewidth}{\colsep}
-\settowidth{\callwidth}{|CGAL_ch_|}
+\settowidth{\callwidth}{|ch_|}
 \computewidths
 }*/
 
@@ -85,7 +86,7 @@ outfile=cgal_ch_I_gas.man
 
 template <class BidirectionalIterator, class OutputIterator, class Traits>
 OutputIterator
-CGAL_ch_graham_andrew_scan( BidirectionalIterator first,
+ch_graham_andrew_scan( BidirectionalIterator first,
                             BidirectionalIterator last,
                             OutputIterator        result,
                             const Traits& ch_traits );
@@ -102,7 +103,7 @@ point type |Traits::Point_2|.
 
 template <class BidirectionalIterator, class OutputIterator, class Traits>
 OutputIterator
-CGAL_ch__ref_graham_andrew_scan( BidirectionalIterator first,
+ch__ref_graham_andrew_scan( BidirectionalIterator first,
                                  BidirectionalIterator last,
                                  OutputIterator&       result,
                                  const Traits&         ch_traits);
@@ -116,12 +117,12 @@ outfile=cgal_ch_I_ga.man
 
 template <class InputIterator, class OutputIterator, class Traits>
 OutputIterator
-CGAL_ch_graham_andrew( InputIterator  first,
+ch_graham_andrew( InputIterator  first,
                        InputIterator  last,
                        OutputIterator result,
                        const Traits&  ch_traits );
 /*{\Mfuncl 
-same as |CGAL_convex_hull_points_2(first,last,result)|.\\
+same as |convex_hull_points_2(first,last,result)|.\\
 {\sc traits}: uses |Traits::Point_2|, |Traits::Leftturn|
 and |Traits::Less_xy|.
 }*/
@@ -135,31 +136,31 @@ outfile=cgal_ch_gas.man
 /*{\Mtext 
 \settowidth{\typewidth}{|OutputIterator|}
 \addtolength{\typewidth}{\colsep}
-\settowidth{\callwidth}{|CGAL_ch_|}
+\settowidth{\callwidth}{|ch_|}
 \computewidths
 }*/
 
 template <class BidirectionalIterator, class OutputIterator, class R>
 inline
 OutputIterator
-CGAL_ch__graham_andrew_scan( BidirectionalIterator first,
+ch__graham_andrew_scan( BidirectionalIterator first,
                              BidirectionalIterator last,
                              OutputIterator        result,
-                             CGAL_Point_2<R>* )
+                             Point_2<R>* )
 {
-  return CGAL_ch_graham_andrew_scan( first, last, result, 
-                                     CGAL_convex_hull_traits_2<R>() );
+  return ch_graham_andrew_scan( first, last, result, 
+                                convex_hull_traits_2<R>() );
 }
 
 template <class BidirectionalIterator, class OutputIterator>
 inline
 OutputIterator
-CGAL_ch_graham_andrew_scan( BidirectionalIterator first,
+ch_graham_andrew_scan( BidirectionalIterator first,
                             BidirectionalIterator last,
                             OutputIterator        result )
 { 
-  return CGAL_ch__graham_andrew_scan( first, last, result, 
-                                      value_type(first) ); 
+  return ch__graham_andrew_scan( first, last, result, 
+                                 std::value_type(first) ); 
 }
 /*{\Mfuncl 
 computes the sorted sequence of extreme points which are not left 
@@ -175,39 +176,40 @@ outfile=cgal_ch_ga.man
 template <class InputIterator, class OutputIterator, class R>
 inline
 OutputIterator
-CGAL_ch__graham_andrew( InputIterator     first,
+ch__graham_andrew( InputIterator     first,
                         InputIterator     last,
                         OutputIterator    result,
-                        CGAL_Point_2<R>* )
+                        Point_2<R>* )
 {
-  return CGAL_ch_graham_andrew(first, last, result, 
-                               CGAL_convex_hull_traits_2<R>());
+  return ch_graham_andrew(first, last, result, 
+                               convex_hull_traits_2<R>());
 }
 
 template <class InputIterator, class OutputIterator>
 inline
 OutputIterator
-CGAL_ch_graham_andrew( InputIterator  first,
+ch_graham_andrew( InputIterator  first,
                        InputIterator  last,
                        OutputIterator result )
-{ return CGAL_ch__graham_andrew( first, last, result, value_type(first) ); }
+{ return ch__graham_andrew( first, last, result, std::value_type(first) ); }
 /*{\Mfuncl 
-same as |CGAL_convex_hull_points_2(first,last,result)|.
+same as |convex_hull_points_2(first,last,result)|.
 }*/
 
 #endif // CGAL_POINT_2_H
 template <class InputIterator, class OutputIterator, class Traits>
 OutputIterator
-CGAL_ch_lower_hull_scan( InputIterator  first,
+ch_lower_hull_scan( InputIterator  first,
                          InputIterator  last,
                          OutputIterator result,
                          const Traits&  ch_traits);
 template <class InputIterator, class OutputIterator, class Traits>
 OutputIterator
-CGAL_ch_upper_hull_scan( InputIterator  first,
+ch_upper_hull_scan( InputIterator  first,
                          InputIterator  last,
                          OutputIterator result,
                          const Traits&  ch_traits);
+CGAL_END_NAMESPACE
 
 #ifdef CGAL_CFG_NO_AUTOMATIC_TEMPLATE_INCLUSION
 #include <CGAL/ch_graham_andrew.C>

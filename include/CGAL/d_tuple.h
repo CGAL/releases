@@ -1,6 +1,6 @@
 // ======================================================================
 //
-// Copyright (c) 1998 The CGAL Consortium
+// Copyright (c) 1999 The GALIA Consortium
 //
 // This software and related documentation is part of the
 // Computational Geometry Algorithms Library (CGAL).
@@ -16,36 +16,35 @@
 // - Development licenses grant access to the source code of the library 
 //   to develop programs. These programs may be sold to other parties as 
 //   executable code. To obtain a development license, please contact
-//   the CGAL Consortium (at cgal@cs.uu.nl).
+//   the GALIA Consortium (at cgal@cs.uu.nl).
 // - Commercialization licenses grant access to the source code and the
 //   right to sell development licenses. To obtain a commercialization 
-//   license, please contact the CGAL Consortium (at cgal@cs.uu.nl).
+//   license, please contact the GALIA Consortium (at cgal@cs.uu.nl).
 //
 // This software and documentation is provided "as-is" and without
 // warranty of any kind. In no event shall the CGAL Consortium be
 // liable for any damage of any kind.
 //
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// The GALIA Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany) Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+// (Germany), Max-Planck-Institute Saarbrucken (Germany),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 // 
-// release       : CGAL-1.2
-// release_date  : 1999, January 18
+// release       : CGAL-2.0
+// release_date  : 1999, June 03
 // 
 // source        : ddim_points.fw
 // file          : include/CGAL/d_tuple.h
-// package       : _d (0.9.2)
-// revision      : 0.9.2
-// revision_date : 01 Jul 1998 
+// package       : _d (2.1)
+// revision      : 2.1
+// revision_date : 26 Feb 1999 
 // author(s)     : Sven Schoenherr
 //                 Bernd Gaertner
 //
 // coordinator   : MPI, Saarbruecken  (<Stefan.Schirra>)
-//
 // email         : cgal@cs.uu.nl
 //
 // ======================================================================
@@ -54,14 +53,16 @@
 #ifndef CGAL__D_TUPLE_H
 #define CGAL__D_TUPLE_H
 
+CGAL_BEGIN_NAMESPACE
+
 template < class T >
-class CGAL__d_tuple : public CGAL_Rep
+class _d_tuple : public Rep
 {
     public:
     const int d;
     T* e;
 
-    CGAL__d_tuple(int dim = 0, bool cartesian = true) : d(dim)
+    _d_tuple(int dim = 0, bool cartesian = true) : d(dim)
     {
     if (cartesian)
         e = new T[d];
@@ -69,9 +70,12 @@ class CGAL__d_tuple : public CGAL_Rep
         e = new T[d+1];
     }
 
-    ~CGAL__d_tuple ()
+    ~_d_tuple ()
     {
         delete[] e;
     }
 };
+CGAL_END_NAMESPACE
+
+
 #endif // CGAL__D_TUPLE_H

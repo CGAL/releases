@@ -1,9 +1,0 @@
-demo/Random_LEDA/README
------------------------
-
-Demo programs illustrating the use of the random generators in CGAL.
-The result is visualized in a LEDA window.
-
-The provided makefile is prepared to link with LEDA.
-
-Lutz Kettner

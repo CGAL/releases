@@ -1,6 +1,6 @@
 // ======================================================================
 //
-// Copyright (c) 1997 The CGAL Consortium
+// Copyright (c) 1999 The GALIA Consortium
 //
 // This software and related documentation is part of the
 // Computational Geometry Algorithms Library (CGAL).
@@ -16,35 +16,34 @@
 // - Development licenses grant access to the source code of the library 
 //   to develop programs. These programs may be sold to other parties as 
 //   executable code. To obtain a development license, please contact
-//   the CGAL Consortium (at cgal@cs.uu.nl).
+//   the GALIA Consortium (at cgal@cs.uu.nl).
 // - Commercialization licenses grant access to the source code and the
 //   right to sell development licenses. To obtain a commercialization 
-//   license, please contact the CGAL Consortium (at cgal@cs.uu.nl).
+//   license, please contact the GALIA Consortium (at cgal@cs.uu.nl).
 //
 // This software and documentation is provided "as-is" and without
 // warranty of any kind. In no event shall the CGAL Consortium be
 // liable for any damage of any kind.
 //
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// The GALIA Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany) Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+// (Germany), Max-Planck-Institute Saarbrucken (Germany),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-1.2
-// release_date  : 1999, January 18
+// release       : CGAL-2.0
+// release_date  : 1999, June 03
 //
 // file          : include/CGAL/Polygon_2_algorithms.h
-// package       : Polygon (1.13)
+// package       : Polygon (2.4.7)
 // source        : 
 // revision      : 1.8a
 // revision_date : 13 Mar 1998
 // author(s)     : Wieger Wesselink
 //
 // coordinator   : Utrecht University
-//
 //
 // email         : cgal@cs.uu.nl
 //
@@ -74,46 +73,48 @@
 #endif // CGAL_POLYGON_TRAITS_2_H
 #endif // CGAL_REP_CLASS_DEFINED
 
+CGAL_BEGIN_NAMESPACE
+
 //-----------------------------------------------------------------------//
 //                  algorithms for sequences of 2D points
 //-----------------------------------------------------------------------//
 
 template <class ForwardIterator, class Traits>
-ForwardIterator CGAL_left_vertex_2(ForwardIterator first,
+ForwardIterator left_vertex_2(ForwardIterator first,
                                    ForwardIterator last,
                                    const Traits& traits);
 
 template <class ForwardIterator, class Traits>
-ForwardIterator CGAL_right_vertex_2(ForwardIterator first,
+ForwardIterator right_vertex_2(ForwardIterator first,
                                     ForwardIterator last,
                                     const Traits& traits);
 
 template <class ForwardIterator, class Traits>
-ForwardIterator CGAL_top_vertex_2(ForwardIterator first,
+ForwardIterator top_vertex_2(ForwardIterator first,
                                   ForwardIterator last,
                                   const Traits& traits);
 
 template <class ForwardIterator, class Traits>
-ForwardIterator CGAL_bottom_vertex_2(ForwardIterator first,
+ForwardIterator bottom_vertex_2(ForwardIterator first,
                                      ForwardIterator last,
                                      const Traits& traits);
 
 template <class InputIterator>
-CGAL_Bbox_2 CGAL_bbox_2(InputIterator first, InputIterator last);
+Bbox_2 bbox_2(InputIterator first, InputIterator last);
 
 template <class ForwardIterator, class Numbertype, class Traits>
-void CGAL_area_2(ForwardIterator first,
+void area_2(ForwardIterator first,
                  ForwardIterator last,
                  Numbertype& result,
                  const Traits& traits);
 
 template <class ForwardIterator, class Traits>
-bool CGAL_is_convex_2(ForwardIterator first,
+bool is_convex_2(ForwardIterator first,
                       ForwardIterator last,
                       const Traits& traits);
 
 template <class ForwardIterator, class Traits>
-bool CGAL_is_simple_2(ForwardIterator first,
+bool is_simple_2(ForwardIterator first,
                       ForwardIterator last,
                       const Traits& traits);
 
@@ -121,19 +122,19 @@ bool CGAL_is_simple_2(ForwardIterator first,
 // of Point, but this is not allowed by g++ 2.7.2.
 
 template <class ForwardIterator, class Point, class Traits>
-CGAL_Oriented_side CGAL_oriented_side_2(ForwardIterator first,
+Oriented_side oriented_side_2(ForwardIterator first,
                                         ForwardIterator last,
                                         const Point& point,
                                         const Traits& traits);
 
 template <class ForwardIterator, class Point, class Traits>
-CGAL_Bounded_side CGAL_bounded_side_2(ForwardIterator first,
+Bounded_side bounded_side_2(ForwardIterator first,
                                       ForwardIterator last,
                                       const Point& point,
                                       const Traits& traits);
 
 template <class ForwardIterator, class Traits>
-CGAL_Orientation CGAL_orientation_2(ForwardIterator first,
+Orientation orientation_2(ForwardIterator first,
                                     ForwardIterator last,
                                     const Traits& traits);
 
@@ -144,160 +145,162 @@ CGAL_Orientation CGAL_orientation_2(ForwardIterator first,
 #ifdef CGAL_REP_CLASS_DEFINED
 template <class ForwardIterator, class R>
 inline
-ForwardIterator CGAL_left_vertex_2_aux(ForwardIterator first,
+ForwardIterator left_vertex_2_aux(ForwardIterator first,
                                        ForwardIterator last,
-                                       const CGAL_Point_2<R>)
+                                       const Point_2<R>)
 {
-  return CGAL_left_vertex_2(first, last, CGAL_Polygon_traits_2<R>());
+  return left_vertex_2(first, last, Polygon_traits_2<R>());
 }
 
 template <class ForwardIterator>
 inline
-ForwardIterator CGAL_left_vertex_2(ForwardIterator first,
+ForwardIterator left_vertex_2(ForwardIterator first,
                                    ForwardIterator last)
 {
-  return CGAL_left_vertex_2_aux(first, last, *first);
+  return left_vertex_2_aux(first, last, *first);
 }
 
 template <class ForwardIterator, class R>
 inline
-ForwardIterator CGAL_right_vertex_2_aux(ForwardIterator first,
+ForwardIterator right_vertex_2_aux(ForwardIterator first,
                                         ForwardIterator last,
-                                        const CGAL_Point_2<R>&)
+                                        const Point_2<R>&)
 {
-  return CGAL_right_vertex_2(first, last, CGAL_Polygon_traits_2<R>());
+  return right_vertex_2(first, last, Polygon_traits_2<R>());
 }
 
 template <class ForwardIterator>
 inline
-ForwardIterator CGAL_right_vertex_2(ForwardIterator first,
+ForwardIterator right_vertex_2(ForwardIterator first,
                                     ForwardIterator last)
 {
-  return CGAL_right_vertex_2_aux(first, last, *first);
+  return right_vertex_2_aux(first, last, *first);
 }
 
 template <class ForwardIterator, class R>
 inline
-ForwardIterator CGAL_top_vertex_2_aux(ForwardIterator first,
+ForwardIterator top_vertex_2_aux(ForwardIterator first,
                                       ForwardIterator last,
-                                      const CGAL_Point_2<R>&)
+                                      const Point_2<R>&)
 {
-  return CGAL_top_vertex_2(first, last, CGAL_Polygon_traits_2<R>());
+  return top_vertex_2(first, last, Polygon_traits_2<R>());
 }
 
 template <class ForwardIterator>
 inline
-ForwardIterator CGAL_top_vertex_2(ForwardIterator first,
+ForwardIterator top_vertex_2(ForwardIterator first,
                                   ForwardIterator last)
 {
-  return CGAL_top_vertex_2_aux(first, last, *first);
+  return top_vertex_2_aux(first, last, *first);
 }
 
 template <class ForwardIterator, class R>
 inline
-ForwardIterator CGAL_bottom_vertex_2_aux(ForwardIterator first,
+ForwardIterator bottom_vertex_2_aux(ForwardIterator first,
                                          ForwardIterator last,
-                                         const CGAL_Point_2<R>&)
+                                         const Point_2<R>&)
 {
-  return CGAL_bottom_vertex_2(first, last, CGAL_Polygon_traits_2<R>());
+  return bottom_vertex_2(first, last, Polygon_traits_2<R>());
 }
 
 template <class ForwardIterator>
 inline
-ForwardIterator CGAL_bottom_vertex_2(ForwardIterator first,
+ForwardIterator bottom_vertex_2(ForwardIterator first,
                                      ForwardIterator last)
 {
-  return CGAL_bottom_vertex_2_aux(first, last, *first);
+  return bottom_vertex_2_aux(first, last, *first);
 }
 
 template <class ForwardIterator, class Numbertype, class R>
 inline
-void CGAL_area_2_aux(ForwardIterator first,
+void area_2_aux(ForwardIterator first,
                      ForwardIterator last,
                      Numbertype& result,
-                     const CGAL_Point_2<R>&)
+                     const Point_2<R>&)
 {
-  CGAL_area_2(first, last, result, CGAL_Polygon_traits_2<R>());
+  area_2(first, last, result, Polygon_traits_2<R>());
 }
 
 template <class ForwardIterator, class Numbertype>
 inline
-void CGAL_area_2(ForwardIterator first,
+void area_2(ForwardIterator first,
                  ForwardIterator last,
                  Numbertype& result)
 {
-  CGAL_area_2_aux(first, last, result, *first);
+  area_2_aux(first, last, result, *first);
 }
 
 template <class ForwardIterator, class R>
 inline
-bool CGAL_is_convex_2_aux(ForwardIterator first,
+bool is_convex_2_aux(ForwardIterator first,
                           ForwardIterator last,
-                          const CGAL_Point_2<R>&)
+                          const Point_2<R>&)
 {
-  return CGAL_is_convex_2(first, last, CGAL_Polygon_traits_2<R>());
+  return is_convex_2(first, last, Polygon_traits_2<R>());
 }
 
 template <class ForwardIterator>
 inline
-bool CGAL_is_convex_2(ForwardIterator first,
+bool is_convex_2(ForwardIterator first,
                       ForwardIterator last)
 {
-  return CGAL_is_convex_2_aux(first, last, *first);
+  return is_convex_2_aux(first, last, *first);
 }
 
 template <class ForwardIterator, class R>
 inline
-bool CGAL_is_simple_2_aux(ForwardIterator first,
+bool is_simple_2_aux(ForwardIterator first,
                           ForwardIterator last,
-                          const CGAL_Point_2<R>&)
+                          const Point_2<R>&)
 {
-  return CGAL_is_simple_2(first, last, CGAL_Polygon_traits_2<R>());
+  return is_simple_2(first, last, Polygon_traits_2<R>());
 }
 
 template <class ForwardIterator>
 inline
-bool CGAL_is_simple_2(ForwardIterator first,
+bool is_simple_2(ForwardIterator first,
                       ForwardIterator last)
 {
-  return CGAL_is_simple_2_aux(first, last, *first);
+  return is_simple_2_aux(first, last, *first);
 }
 
 template <class ForwardIterator, class R>
 inline
-CGAL_Oriented_side CGAL_oriented_side_2(ForwardIterator first,
+Oriented_side oriented_side_2(ForwardIterator first,
                                         ForwardIterator last,
-                                        const CGAL_Point_2<R>& point)
+                                        const Point_2<R>& point)
 {
-  return CGAL_oriented_side_2(first, last, point, CGAL_Polygon_traits_2<R>());
+  return oriented_side_2(first, last, point, Polygon_traits_2<R>());
 }
 
 template <class ForwardIterator, class R>
 inline
-CGAL_Bounded_side CGAL_bounded_side_2(ForwardIterator first,
+Bounded_side bounded_side_2(ForwardIterator first,
                                       ForwardIterator last,
-                                      const CGAL_Point_2<R>& point)
+                                      const Point_2<R>& point)
 {
-  return CGAL_bounded_side_2(first, last, point, CGAL_Polygon_traits_2<R>());
+  return bounded_side_2(first, last, point, Polygon_traits_2<R>());
 }
 
 template <class ForwardIterator, class R>
 inline
-CGAL_Orientation CGAL_orientation_2_aux(ForwardIterator first,
+Orientation orientation_2_aux(ForwardIterator first,
                                         ForwardIterator last,
-                                        const CGAL_Point_2<R>&)
+                                        const Point_2<R>&)
 {
-  return CGAL_orientation_2(first, last, CGAL_Polygon_traits_2<R>());
+  return orientation_2(first, last, Polygon_traits_2<R>());
 }
 
 template <class ForwardIterator>
 inline
-CGAL_Orientation CGAL_orientation_2(ForwardIterator first,
+Orientation orientation_2(ForwardIterator first,
                                     ForwardIterator last)
 {
-  return CGAL_orientation_2_aux(first, last, *first);
+  return orientation_2_aux(first, last, *first);
 }
 #endif // CGAL_REP_CLASS_DEFINED
+
+CGAL_END_NAMESPACE
 
 #ifdef CGAL_CFG_NO_AUTOMATIC_TEMPLATE_INCLUSION 
 #include <CGAL/Polygon_2_algorithms.C>

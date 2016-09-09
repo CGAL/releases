@@ -1,6 +1,6 @@
 // ======================================================================
 //
-// Copyright (c) 1997 The CGAL Consortium
+// Copyright (c) 1999 The GALIA Consortium
 //
 // This software and related documentation is part of the
 // Computational Geometry Algorithms Library (CGAL).
@@ -16,38 +16,37 @@
 // - Development licenses grant access to the source code of the library 
 //   to develop programs. These programs may be sold to other parties as 
 //   executable code. To obtain a development license, please contact
-//   the CGAL Consortium (at cgal@cs.uu.nl).
+//   the GALIA Consortium (at cgal@cs.uu.nl).
 // - Commercialization licenses grant access to the source code and the
 //   right to sell development licenses. To obtain a commercialization 
-//   license, please contact the CGAL Consortium (at cgal@cs.uu.nl).
+//   license, please contact the GALIA Consortium (at cgal@cs.uu.nl).
 //
 // This software and documentation is provided "as-is" and without
 // warranty of any kind. In no event shall the CGAL Consortium be
 // liable for any damage of any kind.
 //
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// The GALIA Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany) Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+// (Germany), Max-Planck-Institute Saarbrucken (Germany),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-1.2
-// release_date  : 1999, January 18
+// release       : CGAL-2.0
+// release_date  : 1999, June 03
 //
 // file          : include/CGAL/IO/File_writer_wavefront.h
-// package       : Polyhedron_IO (1.11)
+// package       : Polyhedron_IO (2.5)
 // chapter       : $CGAL_Chapter: Support Library ... $
 // source        : polyhedron_io.fw
-// revision      : $Revision: 1.8 $
-// revision_date : $Date: 1998/10/08 22:46:22 $
+// revision      : $Revision: 1.4 $
+// revision_date : $Date: 1999/03/24 11:16:26 $
 // author(s)     : Lutz Kettner
 //
 // coordinator   : Herve Bronnimann
 //
 // Writer for polyhedral surfaces in Wavefront file format (.obj)
-//
 // email         : cgal@cs.uu.nl
 //
 // ======================================================================
@@ -57,27 +56,28 @@
 #ifndef CGAL_IO_BINARY_FILE_IO_H
 #include <CGAL/IO/binary_file_io.h>
 #endif // CGAL_IO_BINARY_FILE_IO_H
+#ifndef CGAL_PROTECT_IOSTREAM
+#include <iostream>
+#define CGAL_PROTECT_IOSTREAM
+#endif
+#ifndef CGAL_PROTECT_CSTDDEF
+#include <cstddef>
+#define CGAL_PROTECT_CSTDDEF
+#endif
 
-#ifndef CGAL_PROTECT_IOSTREAM_H
-#include <iostream.h>
-#define CGAL_PROTECT_IOSTREAM_H
-#endif // CGAL_PROTECT_IOSTREAM_H
-#ifndef CGAL_PROTECT_STDDEF_H
-#include <stddef.h>
-#define CGAL_PROTECT_STDDEF_H
-#endif // CGAL_PROTECT_STDDEF_H
+CGAL_BEGIN_NAMESPACE
 
-class CGAL_File_writer_wavefront {
-    ostream*  m_out;
-    size_t    m_facets;
+class File_writer_wavefront {
+    std::ostream*  m_out;
+    std::size_t    m_facets;
 public:
-    ostream& out() const { return *m_out; }
-    void write_header( ostream& out,
-                       size_t vertices,
-                       size_t halfedges,
-                       size_t facets);
+    std::ostream& out() const { return *m_out; }
+    void write_header( std::ostream& out,
+                       std::size_t vertices,
+                       std::size_t halfedges,
+                       std::size_t facets);
     void write_footer() const {
-        out() << "\n# End of Wavefront obj format #" << endl;
+        out() << "\n# End of Wavefront obj format #" << std::endl;
     }
     void write_vertex( const double& x, const double& y, const double& z) {
         out() << "v " << x << ' ' << y << ' ' << z << '\n';
@@ -86,15 +86,17 @@ public:
         out() << "\n# " << m_facets << " facets\n";
         out() << "# ------------------------------------------\n\n";
     }
-    void write_facet_begin( size_t) {  // no unused
+    void write_facet_begin( std::size_t) {  // no unused
         out() << "f ";
     }
-    void write_facet_vertex_index( size_t index) {
+    void write_facet_vertex_index( std::size_t index) {
         out() << ' ' << index + 1;
     }
     void write_facet_end() {
         out() << '\n';
     }
 };
+
+CGAL_END_NAMESPACE
 #endif // CGAL_IO_FILE_WRITER_WAVEFRONT_H //
 // EOF //

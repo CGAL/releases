@@ -1,6 +1,6 @@
 // ======================================================================
 //
-// Copyright (c) 1998 The CGAL Consortium
+// Copyright (c) 1999 The GALIA Consortium
 //
 // This software and related documentation is part of the
 // Computational Geometry Algorithms Library (CGAL).
@@ -16,34 +16,33 @@
 // - Development licenses grant access to the source code of the library 
 //   to develop programs. These programs may be sold to other parties as 
 //   executable code. To obtain a development license, please contact
-//   the CGAL Consortium (at cgal@cs.uu.nl).
+//   the GALIA Consortium (at cgal@cs.uu.nl).
 // - Commercialization licenses grant access to the source code and the
 //   right to sell development licenses. To obtain a commercialization 
-//   license, please contact the CGAL Consortium (at cgal@cs.uu.nl).
+//   license, please contact the GALIA Consortium (at cgal@cs.uu.nl).
 //
 // This software and documentation is provided "as-is" and without
 // warranty of any kind. In no event shall the CGAL Consortium be
 // liable for any damage of any kind.
 //
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// The GALIA Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany) Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+// (Germany), Max-Planck-Institute Saarbrucken (Germany),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
-// release       : CGAL-1.2
-// release_date  : 1999, January 18
+// release       : CGAL-2.0
+// release_date  : 1999, June 03
 //
 // file          : include/CGAL/ch_jarvis.C
-// package       : Convex_hull (1.3.2)
+// package       : Convex_hull (2.0.8)
 // source        : convex_hull_2.lw
-// revision      : 1.3.2
-// revision_date : 09 Dec 1998
+// revision      : 2.0.8
+// revision_date : 06 May 1999
 // author(s)     : Stefan Schirra
 //
 // coordinator   : MPI, Saarbruecken
-//
 // email         : cgal@cs.uu.nl
 //
 // ======================================================================
@@ -55,14 +54,16 @@
 #ifndef CGAL_CH_JARVIS_H
 #include <CGAL/ch_jarvis.h>
 #endif // CGAL_CH_JARVIS_H
+
+CGAL_BEGIN_NAMESPACE
 template <class ForwardIterator, class OutputIterator, 
           class Point, class Traits>
 OutputIterator
-CGAL_ch_jarvis_march(ForwardIterator first, ForwardIterator last,
-                     const Point& start_p, 
-                     const Point& stop_p, 
-                     OutputIterator  result,
-                     const Traits& ch_traits)
+ch_jarvis_march(ForwardIterator first, ForwardIterator last,
+                const Point& start_p, 
+                const Point& stop_p, 
+                OutputIterator  result,
+                const Traits& ch_traits)
 {
   if (first == last) return result;
   typedef   typename Traits::Less_rotate_ccw       Less_rotate_ccw;
@@ -71,7 +72,7 @@ CGAL_ch_jarvis_march(ForwardIterator first, ForwardIterator last,
     || defined(NDEBUG)
   OutputIterator  res(result);
   #else
-  CGAL_Tee_for_output_iterator<OutputIterator,Point_2> res(result);
+  Tee_for_output_iterator<OutputIterator,Point_2> res(result);
   #endif // no postconditions ...
   CGAL_ch_assertion_code( \
       int count_points = 0; )
@@ -86,7 +87,7 @@ CGAL_ch_jarvis_march(ForwardIterator first, ForwardIterator last,
   CGAL_ch_exactness_assertion_code( \
       Point previous_point = start_p; ) 
 
-  ForwardIterator it = min_element( first, last, rotation_predicate );
+  ForwardIterator it = std::min_element( first, last, rotation_predicate );
   while ( *it != stop_p )
   {
       CGAL_ch_exactness_assertion( \
@@ -101,14 +102,14 @@ CGAL_ch_jarvis_march(ForwardIterator first, ForwardIterator last,
           constructed_points <= count_points + 1 );
 
       rotation_predicate = ch_traits.get_less_rotate_ccw_object( *it );
-      it = min_element( first, last, rotation_predicate );
+      it = std::min_element( first, last, rotation_predicate );
   } 
   CGAL_ch_postcondition( \
-      CGAL_is_ccw_strongly_convex_2( res.output_so_far_begin(), \
+      is_ccw_strongly_convex_2( res.output_so_far_begin(), \
                                      res.output_so_far_end(), \
                                      ch_traits));
   CGAL_ch_expensive_postcondition( \
-      CGAL_ch_brute_force_check_2( 
+      ch_brute_force_check_2( 
           first, last, \
           res.output_so_far_begin(), res.output_so_far_end(), \
           ch_traits));
@@ -122,16 +123,17 @@ CGAL_ch_jarvis_march(ForwardIterator first, ForwardIterator last,
 
 template <class ForwardIterator, class OutputIterator, class Traits>
 OutputIterator
-CGAL_ch_jarvis(ForwardIterator first, ForwardIterator last, 
+ch_jarvis(ForwardIterator first, ForwardIterator last, 
                OutputIterator  result,
                const Traits& ch_traits)
 {
   if (first == last) return result;
   ForwardIterator start;
-  CGAL_ch_w_point(first, last, start, ch_traits);
-  return CGAL_ch_jarvis_march( first, last, *start, *start, result, ch_traits);
+  ch_w_point(first, last, start, ch_traits);
+  return ch_jarvis_march( first, last, *start, *start, result, ch_traits);
 }
 
+CGAL_END_NAMESPACE
 
 #endif // CGAL_CH_JARVIS_C
 

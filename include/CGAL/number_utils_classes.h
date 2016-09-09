@@ -1,6 +1,6 @@
 // ======================================================================
 //
-// Copyright (c) 1997 The CGAL Consortium
+// Copyright (c) 1999 The GALIA Consortium
 //
 // This software and related documentation is part of the
 // Computational Geometry Algorithms Library (CGAL).
@@ -16,37 +16,36 @@
 // - Development licenses grant access to the source code of the library 
 //   to develop programs. These programs may be sold to other parties as 
 //   executable code. To obtain a development license, please contact
-//   the CGAL Consortium (at cgal@cs.uu.nl).
+//   the GALIA Consortium (at cgal@cs.uu.nl).
 // - Commercialization licenses grant access to the source code and the
 //   right to sell development licenses. To obtain a commercialization 
-//   license, please contact the CGAL Consortium (at cgal@cs.uu.nl).
+//   license, please contact the GALIA Consortium (at cgal@cs.uu.nl).
 //
 // This software and documentation is provided "as-is" and without
 // warranty of any kind. In no event shall the CGAL Consortium be
 // liable for any damage of any kind.
 //
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// The GALIA Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany) Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+// (Germany), Max-Planck-Institute Saarbrucken (Germany),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-1.2
-// release_date  : 1999, January 18
+// release       : CGAL-2.0
+// release_date  : 1999, June 03
 //
 // file          : include/CGAL/number_utils_classes.h
-// package       : Number_types (1.6)
+// package       : Number_types (2.1.5)
 // source        : 
-// revision      : 1.6
-// revision_date : 13 Jan 99
+// revision      : 2.0.5
+// revision_date : 14 Mar 99
 // author(s)     : Michael Hoffmann
 //
 // coordinator   : MPI, Saarbruecken  (<Stefan.Schirra>)
 //           
 //                 slight modification of Michael's 1.1 version
-//
 // email         : cgal@cs.uu.nl
 //
 // ======================================================================
@@ -56,80 +55,89 @@
 #ifndef CGAL_NUMBER_UTILS_CLASSES_H
 #define CGAL_NUMBER_UTILS_CLASSES_H 1
 
-#include <function.h>
+#ifndef CGAL_CONFIG_H
+#include <CGAL/config.h>
+#endif // CGAL_CONFIG_H
+
+#include <algorithm>
+#include <functional>
+
+CGAL_BEGIN_NAMESPACE
 
 template < class NT >
-struct CGAL_Is_zero : public unary_function< NT, bool > {
+struct Is_zero :public CGAL_STD::unary_function< NT, bool > {
   bool operator()( const NT& x) const
-  { return CGAL_is_zero( x); }
+  { return is_zero( x); }
 };
 
 template < class NT >
-struct CGAL_Is_one : public unary_function< NT, bool > {
+struct Is_one :public CGAL_STD::unary_function< NT, bool > {
   bool operator()( const NT& x) const
-  { return CGAL_is_one( x); }
+  { return is_one( x); }
 };
 
 template < class NT >
-struct CGAL_Is_negative : public unary_function< NT, bool > {
+struct Is_negative :public CGAL_STD::unary_function< NT, bool > {
   bool operator()( const NT& x) const
-  { return CGAL_is_negative( x); }
+  { return is_negative( x); }
 };
 
 template < class NT >
-struct CGAL_Is_positive : public unary_function< NT, bool > {
+struct Is_positive :public CGAL_STD::unary_function< NT, bool > {
   bool operator()( const NT& x) const
-  { return CGAL_is_positive( x); }
+  { return is_positive( x); }
 };
 
-// CGAL_Sign would result in a name clash with enum.h
+// Sign would result in a name clash with enum.h
 template < class NT >
-struct CGAL_Sgn : public unary_function< NT, int > {
-  CGAL_Sign operator()( const NT& x) const
-  { return CGAL_sign( x); }
-};
-
-template < class NT >
-struct CGAL_Lexicographical_sign
-  : public binary_function< NT, NT, int > {
-
-  CGAL_Sign operator()( const NT& x, const NT& y) const
-  { return CGAL_lexicographical_sign( x, y); }
+struct Sgn :public CGAL_STD::unary_function< NT, int > {
+  Sign operator()( const NT& x) const
+  { return sign( x); }
 };
 
 template < class NT >
-struct CGAL_Abs : public unary_function< NT, NT > {
+struct Lexicographical_sign
+  :public CGAL_STD::binary_function< NT, NT, int > {
+
+  Sign operator()( const NT& x, const NT& y) const
+  { return lexicographical_sign( x, y); }
+};
+
+template < class NT >
+struct Abs :public CGAL_STD::unary_function< NT, NT > {
   NT operator()( const NT& x) const
-  { return CGAL_abs( x); }
+  { return abs( x); }
 };
 
 template < class NT >
-struct CGAL_Min : public binary_function< NT, NT, NT > {
+struct Min :public CGAL_STD::binary_function< NT, NT, NT > {
   NT operator()( const NT& x, const NT& y) const
-  { return CGAL_min( x, y); }
+  { return std::min( x, y); }
 };
 
 template < class NT >
-struct CGAL_Max : public binary_function< NT, NT, NT > {
+struct Max :public CGAL_STD::binary_function< NT, NT, NT > {
   NT operator()( const NT& x, const NT& y) const
-  { return CGAL_max( x, y); }
+  { return std::max( x, y); }
 };
 
 template < class NT >
-struct CGAL_Compare
-  : public binary_function< NT, NT, CGAL_Comparison_result > {
+struct Compare
+  :public CGAL_STD::binary_function< NT, NT, Comparison_result > {
 
-  CGAL_Comparison_result
+  Comparison_result
   operator()( const NT& x, const NT& y) const
-  { return CGAL_compare( x, y); }
+  { return compare( x, y); }
 };
 
 template < class NT >
-struct CGAL_Square : public unary_function< NT, NT > {
+struct Square :public CGAL_STD::unary_function< NT, NT > {
 
   NT
   operator()( const NT& x) const
-  { return CGAL_square( x ); }
+  { return square( x ); }
 };
 
-#endif
+CGAL_END_NAMESPACE
+
+#endif // CGAL_NUMBER_UTILS_CLASSES_H

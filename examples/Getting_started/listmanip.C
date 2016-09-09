@@ -1,5 +1,7 @@
 #include "tutorial.h"
-#include <list.h>
+#include <list>
+
+using std::list;
 
 void remove_2(list<int> &l)
 {

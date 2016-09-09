@@ -15,14 +15,14 @@
 #include <CGAL/Planar_map_2.h>
 
 
-typedef CGAL_Cartesian<double>                        coord_t;
-typedef CGAL_Pm_segment_epsilon_traits<coord_t>       pmtraits;
-//typedef CGAL_Pm_segment_epsilon_traits<coord_t,1,4>       pmtraits;
+typedef CGAL::Cartesian<double>                        coord_t;
+typedef CGAL::Pm_segment_epsilon_traits<coord_t>       pmtraits;
+//typedef CGAL::Pm_segment_epsilon_traits<coord_t,1,4>       pmtraits;
 typedef pmtraits::Point                               point;
 typedef pmtraits::X_curve                             curve;
-typedef CGAL_Pm_default_dcel<pmtraits>                pmdcel;
+typedef CGAL::Pm_default_dcel<pmtraits>                pmdcel;
 
-typedef CGAL_Planar_map_2<pmdcel,pmtraits>   planar_map;
+typedef CGAL::Planar_map_2<pmdcel,pmtraits>   planar_map;
 typedef planar_map::Halfedge_handle	Halfedge_handle;
 typedef planar_map::Halfedge_const_handle	Halfedge_const_handle;
 typedef planar_map::Locate_type Locate_type;
@@ -35,13 +35,13 @@ void draw_point_locate(const point &, const planar_map&);
 
 int main()
 {
-	// creating an instance of CGAL_Planar_map_2<pmdcel,pmtraits>
+	// creating an instance of CGAL::Planar_map_2<pmdcel,pmtraits>
 	planar_map pm;
 
 	curve cv[18];
 	int i;
 
-	CGAL_set_ascii_mode(cout);
+	CGAL::set_ascii_mode(std::cout);
 
 	point a1(6, 1), a2(1, 3), a3(4, 3), a4(8, 3), a5(11,3) ;
 	point a6(3, 5), a7(9, 5), a8(1, 7), a9(4, 7), a10(8,7) ;
@@ -67,56 +67,56 @@ int main()
 	cv[16] = curve(a10, a11);
 	cv[17] = curve(a10, a12);
    
-	  cout << "the curves of the map :" << endl; 
+	  std::cout << "the curves of the map :" << std::endl; 
 	  for (i = 0; i < 18; i++)
-		cout << cv[i] << endl;
+		std::cout << cv[i] << std::endl;
 
-	  cout << endl;
+	  std::cout << std::endl;
 
   // insert the curves to the map
-	cout << "inserting the curves to the map..." << endl;
+	std::cout << "inserting the curves to the map..." << std::endl;
 	for (i = 0; i < 18; i++)
           pm.insert(cv[i]);
 
   // check the validity of the map
-	cout << "check map validity... ";
+	std::cout << "check map validity... ";
 	if (pm.is_valid())
-		cout << "map valid!" << endl;
+		std::cout << "map valid!" << std::endl;
 	else{
-		cout << "map invalid!" << endl;
+		std::cout << "map invalid!" << std::endl;
 		return 1;
 	}
-	cout << endl;
+	std::cout << std::endl;
   
   // draw the map 
-	cout << "    1  3 4  6  8 9 11		 " << endl;
-	cout << "								 " << endl;
-	cout << "           a12            9             "<< "a1(" << a1 << ")  a2(" << a2 << ")  a3(" << a3 << ")" << endl;        
-	cout << "           *  *           8             "<< "a4(" << a4 << ")  a5(" << a5 << ")  a6(" << a6 << ")" << endl;
-	cout << "    a8===a9===a10==a11    7             "<< "a7(" << a7 << ")  a8(" << a8 << ")  a9(" << a9 << ")" << endl;
-	cout << "     *  *       *  *      6             "<< "a10(" << a10 << ")  a11(" << a11 << ")  a12(" << a12 << ")" << endl;
-	cout << "      a6         a7       5" << endl;
-	cout << "     *  *       *  *      4" << endl;
-	cout << "    a2===a3===a4==a5      3" << endl;
-	cout << "          *   *           2" << endl;
-	cout << "           a1             1" << endl;
+	std::cout << "    1  3 4  6  8 9 11		 " << std::endl;
+	std::cout << "								 " << std::endl;
+	std::cout << "           a12            9             "<< "a1(" << a1 << ")  a2(" << a2 << ")  a3(" << a3 << ")" << std::endl;        
+	std::cout << "           *  *           8             "<< "a4(" << a4 << ")  a5(" << a5 << ")  a6(" << a6 << ")" << std::endl;
+	std::cout << "    a8===a9===a10==a11    7             "<< "a7(" << a7 << ")  a8(" << a8 << ")  a9(" << a9 << ")" << std::endl;
+	std::cout << "     *  *       *  *      6             "<< "a10(" << a10 << ")  a11(" << a11 << ")  a12(" << a12 << ")" << std::endl;
+	std::cout << "      a6         a7       5" << std::endl;
+	std::cout << "     *  *       *  *      4" << std::endl;
+	std::cout << "    a2===a3===a4==a5      3" << std::endl;
+	std::cout << "          *   *           2" << std::endl;
+	std::cout << "           a1             1" << std::endl;
 
   // try to find some point locations
 	draw_point_locate( point(6,1) , pm );
 	draw_point_locate( point(2,3) , pm );
 	draw_point_locate( point(6,8) , pm );
-        cout << endl ;
+        std::cout << std::endl ;
 
-        cout << "Enter x coordinate for point location:" << endl;
+        std::cout << "Enter x coordinate for point location:" << std::endl;
         double x;
-        cin >> x;
-        cout << "Enter y coordinate for point location:" << endl;
+        std::cin >> x;
+        std::cout << "Enter y coordinate for point location:" << std::endl;
         double y;
-        cin >> y;
+        std::cin >> y;
         
         draw_point_locate( point(x,y) ,pm );
 
-        //        cout << endl << pm;
+        //        std::cout << std::endl << pm;
 
 	return 0;
 
@@ -126,31 +126,31 @@ void draw_point_locate(const point & p, const planar_map & pm){
 	Locate_type lt;	
         Halfedge_const_handle edge  = pm.locate( p,  lt);
 	Ccb_halfedge_const_circulator curr,first;
-        cout << "The location of point " << p << " is of type " ;
+        std::cout << "The location of point " << p << " is of type " ;
 	switch ( lt ) {
-	case CGAL_Planar_map_2<pmdcel,pmtraits>::VERTEX	:	
-          cout << "VERTEX" << endl;
-          cout << "The vertex is : (" << edge->target()->point() << ")" << endl;
+	case CGAL::Planar_map_2<pmdcel,pmtraits>::VERTEX	:	
+          std::cout << "VERTEX" << std::endl;
+          std::cout << "The vertex is : (" << edge->target()->point() << ")" << std::endl;
           break;
-	case CGAL_Planar_map_2<pmdcel,pmtraits>::EDGE	:
-          cout << "EDGE" << endl;
- 		 cout << "The edge is : {(" << edge->source()->point() ;
-                 cout<< ")->(" << edge->target()->point() << ")}" << endl;
+	case CGAL::Planar_map_2<pmdcel,pmtraits>::EDGE	:
+          std::cout << "EDGE" << std::endl;
+ 		 std::cout << "The edge is : {(" << edge->source()->point() ;
+                 std::cout<< ")->(" << edge->target()->point() << ")}" << std::endl;
 		 break;
-	case CGAL_Planar_map_2<pmdcel,pmtraits>::FACE	:
+	case CGAL::Planar_map_2<pmdcel,pmtraits>::FACE	:
                  first = Ccb_halfedge_const_circulator(edge);
                  curr=first;
-                cout << "FACE" << endl;
-		cout << "The face is : " ;
-                cout << "[" ;
+                std::cout << "FACE" << std::endl;
+		std::cout << "The face is : " ;
+                std::cout << "[" ;
                 do {
-                  cout << "(" << curr->target()->point() << ")-" ;
+                  std::cout << "(" << curr->target()->point() << ")-" ;
                   ++curr;
                 }while (curr!=first) ;
-                  cout << "(" << curr->target()->point() << ")]" << endl;
+                  std::cout << "(" << curr->target()->point() << ")]" << std::endl;
 		break;
-	case CGAL_Planar_map_2<pmdcel,pmtraits>::UNBOUNDED_FACE	:
-          cout << "UNBOUNDED_FACE" << endl;
+	case CGAL::Planar_map_2<pmdcel,pmtraits>::UNBOUNDED_FACE	:
+          std::cout << "UNBOUNDED_FACE" << std::endl;
 		break;
 	}
 

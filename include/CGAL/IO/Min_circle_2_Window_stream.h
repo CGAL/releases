@@ -1,6 +1,6 @@
 // ======================================================================
 //
-// Copyright (c) 1997,1998 The CGAL Consortium
+// Copyright (c) 1999 The GALIA Consortium
 //
 // This software and related documentation is part of the
 // Computational Geometry Algorithms Library (CGAL).
@@ -16,40 +16,39 @@
 // - Development licenses grant access to the source code of the library 
 //   to develop programs. These programs may be sold to other parties as 
 //   executable code. To obtain a development license, please contact
-//   the CGAL Consortium (at cgal@cs.uu.nl).
+//   the GALIA Consortium (at cgal@cs.uu.nl).
 // - Commercialization licenses grant access to the source code and the
 //   right to sell development licenses. To obtain a commercialization 
-//   license, please contact the CGAL Consortium (at cgal@cs.uu.nl).
+//   license, please contact the GALIA Consortium (at cgal@cs.uu.nl).
 //
 // This software and documentation is provided "as-is" and without
 // warranty of any kind. In no event shall the CGAL Consortium be
 // liable for any damage of any kind.
 //
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// The GALIA Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany) Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+// (Germany), Max-Planck-Institute Saarbrucken (Germany),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-1.2
-// release_date  : 1999, January 18
+// release       : CGAL-2.0
+// release_date  : 1999, June 03
 //
 // file          : include/CGAL/IO/Min_circle_2_Window_stream.h
-// package       : Min_circle_2 (3.1.1)
+// package       : Min_circle_2 (3.2.3)
 // chapter       : $CGAL_Chapter: Geometric Optimisation $
 //
 // source        : web/Optimisation/Min_circle_2.aw
-// revision      : $Revision: 5.3 $
-// revision_date : $Date: 1998/11/16 15:42:39 $
+// revision      : $Revision: 5.8 $
+// revision_date : $Date: 1999/04/19 16:20:38 $
 // author(s)     : Sven Schönherr
 //                 Bernd Gärtner
 //
 // coordinator   : ETH Zürich (Bernd Gärtner)
 //
 // implementation: graphical output to `leda_window' for Min_circle_2 algorith.
-//
 // email         : cgal@cs.uu.nl
 //
 // ======================================================================
@@ -67,15 +66,15 @@
 #define CGAL_IO_WINDOW_STREAM_OPTIMISATION_CIRCLE_2
 
 template< class R >
-CGAL_Window_stream&
-operator << ( CGAL_Window_stream &ws,
-              const CGAL_Optimisation_circle_2<R>& oc)
+CGAL::Window_stream&
+operator << ( CGAL::Window_stream &ws,
+              const CGAL::Optimisation_circle_2<R>& oc)
 {
-    double  cx( CGAL_to_double( oc.center().x()));
-    double  cy( CGAL_to_double( oc.center().y()));
-    double  sr( CGAL_to_double( oc.squared_radius()));
+    double  cx( CGAL::to_double( oc.center().x()));
+    double  cy( CGAL::to_double( oc.center().y()));
+    double  sr( CGAL::to_double( oc.squared_radius()));
 
-    if ( ! CGAL_is_negative( sr))
+    if ( ! CGAL::is_negative( sr))
         ws.draw_circle( cx, cy, sqrt( sr));
     return( ws);
 }
@@ -90,11 +89,11 @@ operator << ( CGAL_Window_stream &ws,
 #define CGAL_IO_WINDOW_STREAM_MIN_CIRCLE_2
 
 template< class R >
-CGAL_Window_stream&
-operator << ( CGAL_Window_stream &ws,
-              const CGAL_Min_circle_2<R>& min_circle)
+CGAL::Window_stream&
+operator << ( CGAL::Window_stream &ws,
+              const CGAL::Min_circle_2<R>& min_circle)
 {
-    typedef  typename CGAL_Min_circle_2<R>::Point_iterator  Point_iterator;
+    typedef  CGAL::Min_circle_2<R>::Point_iterator  Point_iterator;
 
     Point_iterator  first( min_circle.points_begin());
     Point_iterator  last ( min_circle.points_end());

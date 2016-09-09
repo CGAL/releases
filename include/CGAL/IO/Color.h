@@ -1,6 +1,6 @@
 // ======================================================================
 //
-// Copyright (c) 1997 The CGAL Consortium
+// Copyright (c) 1999 The GALIA Consortium
 //
 // This software and related documentation is part of the
 // Computational Geometry Algorithms Library (CGAL).
@@ -16,51 +16,49 @@
 // - Development licenses grant access to the source code of the library 
 //   to develop programs. These programs may be sold to other parties as 
 //   executable code. To obtain a development license, please contact
-//   the CGAL Consortium (at cgal@cs.uu.nl).
+//   the GALIA Consortium (at cgal@cs.uu.nl).
 // - Commercialization licenses grant access to the source code and the
 //   right to sell development licenses. To obtain a commercialization 
-//   license, please contact the CGAL Consortium (at cgal@cs.uu.nl).
+//   license, please contact the GALIA Consortium (at cgal@cs.uu.nl).
 //
 // This software and documentation is provided "as-is" and without
 // warranty of any kind. In no event shall the CGAL Consortium be
 // liable for any damage of any kind.
 //
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// The GALIA Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany) Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+// (Germany), Max-Planck-Institute Saarbrucken (Germany),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-1.2
-// release_date  : 1999, January 18
+// release       : CGAL-2.0
+// release_date  : 1999, June 03
 //
 // file          : include/CGAL/IO/Color.h
-// package       : iostream (1.8)
-// source        :
-// revision      : $Revision: 1.5 $
-// revision_date : $Date: 1998/07/22 12:49:21 $
-// author(s)     : Andreas Fabri
+// package       : iostream (2.1)
+// source        : $RCSfile: Color.h,v $
+// revision      : $Revision: 1.2 $
+// revision_date : $Date: 1999/03/08 10:51:22 $
+// author(s)     : Andreas Fabri, Hervé Brönnimann
 //
 // coordinator   : Herve Bronnimann
-//
 //
 // email         : cgal@cs.uu.nl
 //
 // ======================================================================
 
 
-// Source: Color.h
-// Author: Andreas Fabri
-
 #ifndef CGAL_COLOR_H
 #define CGAL_COLOR_H
 
-class CGAL_Color {
+CGAL_BEGIN_NAMESPACE
+
+class Color {
 public:
-  CGAL_Color() {}
-  CGAL_Color(int red, int green, int blue)
+  Color() {}
+  Color(int red, int green, int blue)
     : _red(red), _green(green), _blue(blue)
   {}
 
@@ -72,19 +70,19 @@ public:
   int green() const {return _green;}
   int blue() const {return _blue;}
 
-  bool operator==(const CGAL_Color &c) const
+  bool operator==(const Color &c) const
   {
     return ( (red() == c.red()) &&
              (green() == c.green()) &&
              (blue() == c.blue()) );
   }
 
-  bool operator!=(CGAL_Color &c) const
+  bool operator!=(Color &c) const
   {
     return !( (*this) == c);
   }
 
-  CGAL_Color& operator=(const CGAL_Color &c)
+  Color& operator=(const Color &c)
   {
     _red = c.red();
     _green = c.green();
@@ -99,13 +97,14 @@ private:
 };
 
 
-const CGAL_Color CGAL_BLACK  = CGAL_Color(0, 0, 0);
-const CGAL_Color CGAL_WHITE  = CGAL_Color(255, 255, 255);
-const CGAL_Color CGAL_RED    = CGAL_Color(255, 0, 0);
-const CGAL_Color CGAL_GREEN  = CGAL_Color(0, 255, 0);
-const CGAL_Color CGAL_BLUE   = CGAL_Color(0, 0, 255);
-const CGAL_Color CGAL_VIOLET = CGAL_Color(255, 0, 255);
-const CGAL_Color CGAL_ORANGE = CGAL_Color(255, 170, 0);
+extern const Color BLACK;
+extern const Color WHITE;
+extern const Color RED;
+extern const Color GREEN;
+extern const Color BLUE;
+extern const Color VIOLET;
+extern const Color ORANGE;
 
+CGAL_END_NAMESPACE
 
 #endif  // CGAL_COLOR_H

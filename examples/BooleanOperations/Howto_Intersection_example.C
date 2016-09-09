@@ -1,7 +1,7 @@
 //  -*- Mode: c++ -*-
 // ============================================================================
 //
-// Copyright (c) 1997 The CGAL Consortium
+// Copyright (c) 1999 The GALIA Consortium
 //
 // This software and related documentation is part of the
 // Computational Geometry Algorithms Library (CGAL).
@@ -17,25 +17,25 @@
 // - Development licenses grant access to the source code of the library 
 //   to develop programs. These programs may be sold to other parties as 
 //   executable code. To obtain a development license, please contact
-//   the CGAL Consortium (at cgal@cs.uu.nl).
+//   the GALIA Consortium (at cgal@cs.uu.nl).
 // - Commercialization licenses grant access to the source code and the
 //   right to sell development licenses. To obtain a commercialization 
-//   license, please contact the CGAL Consortium (at cgal@cs.uu.nl).
+//   license, please contact the GALIA Consortium (at cgal@cs.uu.nl).
 //
 // This software and documentation is provided "as-is" and without
 // warranty of any kind. In no event shall the CGAL Consortium be
 // liable for any damage of any kind.
 //
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// The GALIA Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany) Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+// (Germany), Max-Planck-Institute Saarbrucken (Germany),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-1.2
-// release_date  : 1999, January 18
+// release       : CGAL-2.0
+// release_date  : 1999, June 03
 //
 // file          : examples/BooleanOperations/Howto_Intersection_example.C
 // source        : examples/BooleanOperations/Howto_Intersection_example.C
@@ -47,7 +47,6 @@
 //  (Wolfgang Freiseisen)
 //
 // 
-//
 // email         : cgal@cs.uu.nl
 //
 // ======================================================================
@@ -56,7 +55,7 @@
   This is an example program for the usage of the boolean operation
   Intersection with cartesian coordiantes.
 
-  The number type it uses is a non-exact one:    CGAL_Quotient<int>
+  The number type it uses is a non-exact one:    Quotient<int>
                                ---------
 */
 
@@ -64,54 +63,56 @@
 #include <CGAL/Cartesian.h>
 #include <CGAL/basic.h>
 
-#include <list.h>
+#include <list>
 #include <CGAL/boolean_operations_2.h>
 
+using std::list;
 
-typedef CGAL_Quotient<long int>          TestNum;
-typedef CGAL_Homogeneous<TestNum>        R_type;
+typedef CGAL::Quotient<long int>          TestNum;
+typedef CGAL::Homogeneous<TestNum>        R_type;
 
-typedef CGAL_Point_2<R_type>             Point_2;
-typedef CGAL_Segment_2<R_type>           Segment_2;
+typedef CGAL::Point_2<R_type>             Point;
+typedef CGAL::Segment_2<R_type>           Segment;
 
-typedef list< Point_2 >                  Container;
-typedef CGAL_Polygon_traits_2<R_type>    Polygon_traits_2;
-typedef CGAL_Polygon_2< Polygon_traits_2, Container >  Polygon_2;
+typedef list<Point>                  Container;
+typedef CGAL::Polygon_traits_2<R_type>    Polygon_traits;
+typedef CGAL::Polygon_2< Polygon_traits, Container >  Polygon;
 
-typedef vector<Point_2>                  Input_container;
-
+typedef std::vector<Point>                  Input_container;
+using CGAL::Object;
+using CGAL::assign;
 
 int example_intersection(
   const Input_container& container_A,
   const Input_container& container_B
 ) {
   /* possible results */
-  Point_2   point;
-  Segment_2 segment;
-  Polygon_2 polygon;
+  Point   point;
+  Segment segment;
+  Polygon polygon;
 
   /* instantiate Polygon A and B with containers */
-  Polygon_2 A(container_A.begin(), container_A.end());
-  Polygon_2 B(container_B.begin(), container_B.end());
+  Polygon A(container_A.begin(), container_A.end());
+  Polygon B(container_B.begin(), container_B.end());
 
   /* declaration of the result container */
-  list<CGAL_Object> result;
+  list<Object> result;
 
   /* performing intersection of A and B */
-  CGAL_intersection(A, B, back_inserter(result));
+  CGAL::intersection(A, B, std::back_inserter(result));
   
   /* do something with the result */
 
   /* declaration of an iterator on the result container */
-  list<CGAL_Object>::const_iterator it;
+  list<Object>::const_iterator it;
   for( it= result.begin(); it != result.end(); it++) {
-    if( CGAL_assign( polygon, *it) ) {
+    if( assign( polygon, *it) ) {
         /* polygon detected */
     }
-    else if( CGAL_assign( segment, *it) ) {
+    else if( assign( segment, *it) ) {
         /* segment detected */
     }
-    else if( CGAL_assign( point, *it) )  {  
+    else if( assign( point, *it) )  {  
         /* point detected */
     }
     else {
@@ -129,16 +130,16 @@ int main(void)
 {
   Input_container container_A(6), container_B(4);
 
-  container_A[0]= Point_2(2,4);
-  container_A[1]= Point_2(0,3);
-  container_A[2]= Point_2(1,1);
-  container_A[3]= Point_2(2,3);
-  container_A[4]= Point_2(3,1);
-  container_A[5]= Point_2(4,3);
-  container_B[0]= Point_2(0,2);
-  container_B[1]= Point_2(0,0);
-  container_B[2]= Point_2(5,0);
-  container_B[3]= Point_2(5,2);
+  container_A[0]= Point(2,4);
+  container_A[1]= Point(0,3);
+  container_A[2]= Point(1,1);
+  container_A[3]= Point(2,3);
+  container_A[4]= Point(3,1);
+  container_A[5]= Point(4,3);
+  container_B[0]= Point(0,2);
+  container_B[1]= Point(0,0);
+  container_B[2]= Point(5,0);
+  container_B[3]= Point(5,2);
 
   example_intersection( container_A, container_B);
   return 0;

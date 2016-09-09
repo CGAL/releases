@@ -1,6 +1,6 @@
 // ======================================================================
 //
-// Copyright (c) 1998 The CGAL Consortium
+// Copyright (c) 1999 The GALIA Consortium
 //
 // This software and related documentation is part of the
 // Computational Geometry Algorithms Library (CGAL).
@@ -16,35 +16,34 @@
 // - Development licenses grant access to the source code of the library 
 //   to develop programs. These programs may be sold to other parties as 
 //   executable code. To obtain a development license, please contact
-//   the CGAL Consortium (at cgal@cs.uu.nl).
+//   the GALIA Consortium (at cgal@cs.uu.nl).
 // - Commercialization licenses grant access to the source code and the
 //   right to sell development licenses. To obtain a commercialization 
-//   license, please contact the CGAL Consortium (at cgal@cs.uu.nl).
+//   license, please contact the GALIA Consortium (at cgal@cs.uu.nl).
 //
 // This software and documentation is provided "as-is" and without
 // warranty of any kind. In no event shall the CGAL Consortium be
 // liable for any damage of any kind.
 //
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// The GALIA Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany) Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+// (Germany), Max-Planck-Institute Saarbrucken (Germany),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 // 
-// release       : CGAL-1.2
-// release_date  : 1999, January 18
+// release       : CGAL-2.0
+// release_date  : 1999, June 03
 // 
 // source        : Tuples.fw
 // file          : include/CGAL/Fourtuple.h
-// package       : Kernel_basic (1.2.12)
-// revision      : 1.2.12
-// revision_date : 08 Jan 1999 
+// package       : Kernel_basic (2.0.11)
+// revision      : 2.0.11
+// revision_date : 06 May 1999 
 // author(s)     : Andreas Fabri
 //
 // coordinator   : MPI, Saarbruecken  (<Stefan.Schirra>)
-//
 // email         : cgal@cs.uu.nl
 //
 // ======================================================================
@@ -53,8 +52,10 @@
 #ifndef CGAL__FOURTUPLE_H
 #define CGAL__FOURTUPLE_H
 
+CGAL_BEGIN_NAMESPACE
+
 template < class T >
-class CGAL__Fourtuple : public CGAL_Rep
+class _Fourtuple : public Rep
 {
 public:
   T  e0;
@@ -62,13 +63,15 @@ public:
   T  e2;
   T  e3;
 
-  CGAL__Fourtuple()
+  _Fourtuple()
   {}
-  CGAL__Fourtuple(const T & a0, const T & a1, const T & a2, const T & a3)
+  _Fourtuple(const T & a0, const T & a1, const T & a2, const T & a3)
     : e0(a0), e1(a1), e2(a2), e3(a3)
   {}
 
-  ~CGAL__Fourtuple()
+  ~_Fourtuple()
   {}
 };
-#endif
+CGAL_END_NAMESPACE
+
+#endif // CGAL__FOURTUPLE_H

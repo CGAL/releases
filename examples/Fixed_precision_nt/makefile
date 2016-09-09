@@ -24,7 +24,7 @@ CXXFLAGS = -I../include -I../../include $(CGAL_CXXFLAGS) \
 #---------------------------------------------------------------------#
 
 LDFLAGS = $(CGAL_LDFLAGS)
-WINDOW_LDFLAGS = $(CGAL_WINDOW_LDFLAGS)
+
 
 #---------------------------------------------------------------------#
 #                    target entries

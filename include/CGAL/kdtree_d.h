@@ -1,6 +1,6 @@
 // ======================================================================
 //
-// Copyright (c) 1997 The CGAL Consortium
+// Copyright (c) 1999 The GALIA Consortium
 //
 // This software and related documentation is part of the
 // Computational Geometry Algorithms Library (CGAL).
@@ -16,28 +16,28 @@
 // - Development licenses grant access to the source code of the library 
 //   to develop programs. These programs may be sold to other parties as 
 //   executable code. To obtain a development license, please contact
-//   the CGAL Consortium (at cgal@cs.uu.nl).
+//   the GALIA Consortium (at cgal@cs.uu.nl).
 // - Commercialization licenses grant access to the source code and the
 //   right to sell development licenses. To obtain a commercialization 
-//   license, please contact the CGAL Consortium (at cgal@cs.uu.nl).
+//   license, please contact the GALIA Consortium (at cgal@cs.uu.nl).
 //
 // This software and documentation is provided "as-is" and without
 // warranty of any kind. In no event shall the CGAL Consortium be
 // liable for any damage of any kind.
 //
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// The GALIA Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany) Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+// (Germany), Max-Planck-Institute Saarbrucken (Germany),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-1.2
-// release_date  : 1999, January 18
+// release       : CGAL-2.0
+// release_date  : 1999, June 03
 //
 // file          : include/CGAL/kdtree_d.h
-// package       : kdtree (1.12.3)
+// package       : kdtree (2.1)
 // source        : 
 // revision      : 
 // revision_date : 
@@ -47,7 +47,6 @@
 // coordinator   : Tel-Aviv University (Dan Halperin)
 //
 // 
-//
 // email         : cgal@cs.uu.nl
 //
 // ======================================================================
@@ -55,12 +54,14 @@
 #ifndef  CGAL_KDTREE_D_H
 #define  CGAL_KDTREE_D_H
 
-#include  <string.h> //make Sun CC 4.1 happy
-#include  <list.h>
+#include <cstring>
+#include <list>
 
+
+CGAL_BEGIN_NAMESPACE
 
 /*=======================================================================
- * CGAL_Kdtree_interface -
+ * Kdtree_interface -
  *    This is the default interface of point. It assume that PT (the 
  * point type have the following properties:
  *    default constructor
@@ -70,7 +71,7 @@
 \*=======================================================================*/
 
 template <class  PT>
-class  CGAL_Kdtree_interface
+class  Kdtree_interface
 {
 public:
     typedef  PT    Point;
@@ -99,7 +100,7 @@ public:
 
 
 template <class  PT>
-class  CGAL_Kdtree_interface_2d
+class  Kdtree_interface_2d
 {
 public:
     typedef  PT    Point;
@@ -134,7 +135,7 @@ public:
 
 
 template <class  PT>
-class  CGAL_Kdtree_interface_3d
+class  Kdtree_interface_3d
 {
 public:
     typedef  PT    Point;
@@ -172,21 +173,21 @@ public:
 
 
 /*=========================================================================
- * CGAL_kdtree_d - 
+ * kdtree_d - 
  *     A the kdtree class.
  *
  * Remark: The kd-trees allocates all the memory it needs in advance,
  *   This results in a rather efficient memory management, and a fast
  *   iplementation.   
 \*=========================================================================*/
-template <class I>
-class CGAL_Kdtree_d 
+template <class Traits>
+class Kdtree_d 
 {
   class Plane;
 
 public:
-    typedef typename I::Point      Point;
-    typedef list<Point>   List_points;
+    typedef typename Traits::Point      Point;
+    typedef std::list<Point>   List_points;
 
 
     //-------------------------------------------------------------------------
@@ -303,7 +304,7 @@ public:
             p_arr[ k ].type = FINITE;
             //p_arr[ k ].p_pnt = &point;
 
-            I::copy_coord( k, def_pnt, point );
+            Traits::copy_coord( k, def_pnt, point );
             p_arr[ k ].p_pnt =  &def_pnt;
         }
 
@@ -314,7 +315,7 @@ public:
 
             p_arr[ k ] = point.p_arr[ k ];
             if  ( p_arr[ k ].type == FINITE ) {
-                I::copy_coord( k, def_pnt, *(p_arr[ k ].p_pnt) );
+                Traits::copy_coord( k, def_pnt, *(p_arr[ k ].p_pnt) );
                 p_arr[ k ].p_pnt =  &def_pnt;
             }
         }
@@ -336,7 +337,7 @@ public:
                 if  ( b.type != FINITE ) 
                     return  -b.type;
                 else 
-                    return  I::compare( k, *a.p_pnt, *b.p_pnt );
+                    return  Traits::compare( k, *a.p_pnt, *b.p_pnt );
             }
         }
 
@@ -363,7 +364,7 @@ public:
             if  ( a.type != FINITE ) 
                 return  a.type;
             else 
-                return  I::compare( k, *a.p_pnt, point );
+                return  Traits::compare( k, *a.p_pnt, point );
         }
 
         int  dimension() const
@@ -590,6 +591,15 @@ public:
 
             return  right.compare_vector( o.right );
         }
+	// destructor - needed in ...recursive ... DVP
+
+	~Box() 
+	  {
+	    left.term();
+	    right.term();
+	    dim = 0;
+	  }
+
     };
 
 
@@ -630,7 +640,7 @@ private:
         {
             int  cmp;
     
-            cmp = I::compare( coord, p, *normal );
+            cmp = Traits::compare( coord, p, *normal );
     
             if  ( ! f_plus )
                 cmp = -cmp;
@@ -745,7 +755,7 @@ private:
             return   ((left == NULL)  &&  (right == NULL)); 
         }
 	
-        typedef back_insert_iterator<List_points>  back_iter;
+        typedef std::back_insert_iterator<List_points>  back_iter;
 
         Node() : plane()
         { 
@@ -799,6 +809,7 @@ private:
                 //printf( "\tsearch_recursive done...\n" );
                 //printf( "6" );
                 //fflush( stdout );
+		delete p_r;
                 return;
             } 
                 
@@ -809,9 +820,10 @@ private:
                 node->search( result, rect, *p_r );
             //printf( "x" );
             //fflush( stdout );
+	    delete p_r;
         }
 
-        void search( back_insert_iterator<List_points>  result,
+        void search( std::back_insert_iterator<List_points>  result,
                      const  Box  &rect, Box &region )
         {
             if (is_point()) {
@@ -857,7 +869,7 @@ private:
 
     static  int         comp( const Point  & a, const Point  & b, int dim )
     {
-        return  I::compare( dim, a, b );
+        return  Traits::compare( dim, a, b );
     }
 
     static int  partition( Point_ptr  * arr, int left, int right,
@@ -981,9 +993,9 @@ private:
     }
  
 public:
-    typedef list<Point> list_points;
+    typedef std::list<Point> list_points;
 
-    CGAL_Kdtree_d(int k = 2) 
+    Kdtree_d(int k = 2) 
     { 
         dim = k;
         root = NULL; 
@@ -991,7 +1003,7 @@ public:
         p_node_arr = NULL;
     }
 	
-    ~CGAL_Kdtree_d() 
+    ~Kdtree_d() 
     {
         delete_all();
     }
@@ -1026,7 +1038,7 @@ public:
         p_node_arr = NULL;
     }
 	
-    void search( back_insert_iterator<list_points>   result,
+    void search( std::back_insert_iterator<list_points>   result,
                  Box  & rect )
     {
         if (root == NULL)
@@ -1037,7 +1049,7 @@ public:
         root->search( result, rect, region );
     }
 
-    void build(list<Point> &l)
+    void build(std::list<Point> &l)
     {
         int  i;
         Point_ptr  * p_arr;
@@ -1056,7 +1068,7 @@ public:
 
         /* fill the array */
         i = 0;
-        for ( typename list<Point>::iterator j = l.begin(); 
+        for ( typename std::list<Point>::iterator j = l.begin(); 
               j != l.end(); 
               j++ ) 
         {
@@ -1073,6 +1085,9 @@ public:
         delete[]  p_arr;
     }
 };
+
+
+CGAL_END_NAMESPACE
 
 
 #else   /* CGAL_KDTREE_D_H */

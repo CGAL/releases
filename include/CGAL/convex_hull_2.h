@@ -1,6 +1,6 @@
 // ======================================================================
 //
-// Copyright (c) 1998 The CGAL Consortium
+// Copyright (c) 1999 The GALIA Consortium
 //
 // This software and related documentation is part of the
 // Computational Geometry Algorithms Library (CGAL).
@@ -16,34 +16,33 @@
 // - Development licenses grant access to the source code of the library 
 //   to develop programs. These programs may be sold to other parties as 
 //   executable code. To obtain a development license, please contact
-//   the CGAL Consortium (at cgal@cs.uu.nl).
+//   the GALIA Consortium (at cgal@cs.uu.nl).
 // - Commercialization licenses grant access to the source code and the
 //   right to sell development licenses. To obtain a commercialization 
-//   license, please contact the CGAL Consortium (at cgal@cs.uu.nl).
+//   license, please contact the GALIA Consortium (at cgal@cs.uu.nl).
 //
 // This software and documentation is provided "as-is" and without
 // warranty of any kind. In no event shall the CGAL Consortium be
 // liable for any damage of any kind.
 //
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// The GALIA Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany) Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+// (Germany), Max-Planck-Institute Saarbrucken (Germany),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
-// release       : CGAL-1.2
-// release_date  : 1999, January 18
+// release       : CGAL-2.0
+// release_date  : 1999, June 03
 //
 // file          : include/CGAL/convex_hull_2.h
-// package       : Convex_hull (1.3.2)
+// package       : Convex_hull (2.0.8)
 // source        : convex_hull_2.lw
-// revision      : 1.3.2
-// revision_date : 09 Dec 1998
+// revision      : 2.0.8
+// revision_date : 06 May 1999
 // author(s)     : Stefan Schirra
 //
 // coordinator   : MPI, Saarbruecken
-//
 // email         : cgal@cs.uu.nl
 //
 // ======================================================================
@@ -55,21 +54,23 @@
 #include <CGAL/ch_utils.h>
 #ifdef CGAL_REP_CLASS_DEFINED
 #include <CGAL/convex_hull_traits_2.h>
-#ifdef CGAL_STL_GCC
-#ifndef CGAL_GNU_ISTREAM_ITERATOR_VALUE_TYPE_FIX_H
+#ifdef STL_GCC
+#ifndef GNU_ISTREAM_ITERATOR_VALUE_TYPE_FIX_H
 #include <CGAL/gnu_istream_iterator_value_type_fix.h>
-#endif // CGAL_GNU_ISTREAM_ITERATOR_VALUE_TYPE_FIX_H
-#endif // CGAL_STL_GCC
+#endif // GNU_ISTREAM_ITERATOR_VALUE_TYPE_FIX_H
+#endif // STL_GCC
 #endif // CGAL_REP_CLASS_DEFINED
-#ifndef CGAL_CH_NO_POSTCONDITIONS
+#ifndef CH_NO_POSTCONDITIONS
 #include <CGAL/convexity_check_2.h>
 
-#endif // CGAL_CH_NO_POSTCONDITIONS
+#endif // CH_NO_POSTCONDITIONS
 
 
 #include <CGAL/ch_akl_toussaint.h>
 #include <CGAL/ch_bykat.h>
-#include <iterator.h> 
+#include <iterator> 
+
+CGAL_BEGIN_NAMESPACE
 /*{\Moptions
 outfile=cgal_ch_I_default.man
 }*/
@@ -77,7 +78,7 @@ outfile=cgal_ch_I_default.man
 /*{\Mtext
 \settowidth{\typewidth}{|OutputIterator|}
 \addtolength{\typewidth}{\colsep}
-\settowidth{\callwidth}{|CGAL_ch_|}
+\settowidth{\callwidth}{|ch_|}
 \computewidths
 }*/
 
@@ -87,49 +88,49 @@ outfile=cgal_ch_I_default.man
 template <class InputIterator, class OutputIterator, class Traits>
 inline
 OutputIterator
-CGAL___convex_hull_points_2(InputIterator first, InputIterator last,
+__convex_hull_points_2(InputIterator first, InputIterator last,
                             OutputIterator  result,
                             const Traits& ch_traits,
-                            input_iterator_tag )
-{ return CGAL_ch_bykat(first, last, result, ch_traits); }
+                            std::input_iterator_tag )
+{ return ch_bykat(first, last, result, ch_traits); }
 
 template <class InputIterator, class OutputIterator, class Traits>
 inline
 OutputIterator
-CGAL___convex_hull_points_2(InputIterator first, InputIterator last,
+__convex_hull_points_2(InputIterator first, InputIterator last,
                             OutputIterator  result,
                             const Traits& ch_traits,
-                            forward_iterator_tag )
-{ return CGAL_ch_akl_toussaint(first, last, result, ch_traits); }
+                            std::forward_iterator_tag )
+{ return ch_akl_toussaint(first, last, result, ch_traits); }
 
 template <class InputIterator, class OutputIterator, class Traits>
 inline
 OutputIterator
-CGAL___convex_hull_points_2(InputIterator first, InputIterator last,
+__convex_hull_points_2(InputIterator first, InputIterator last,
                             OutputIterator  result,
                             const Traits& ch_traits,
-                            bidirectional_iterator_tag )
-{ return CGAL_ch_akl_toussaint(first, last, result, ch_traits); }
+                            std::bidirectional_iterator_tag )
+{ return ch_akl_toussaint(first, last, result, ch_traits); }
 
 template <class InputIterator, class OutputIterator, class Traits>
 inline
 OutputIterator
-CGAL___convex_hull_points_2(InputIterator first, InputIterator last,
+__convex_hull_points_2(InputIterator first, InputIterator last,
                             OutputIterator  result,
                             const Traits& ch_traits,
-                            random_access_iterator_tag )
-{ return CGAL_ch_akl_toussaint(first, last, result, ch_traits); }
+                            std::random_access_iterator_tag )
+{ return ch_akl_toussaint(first, last, result, ch_traits); }
 
 
 template <class InputIterator, class OutputIterator, class Traits>
 inline
 OutputIterator
-CGAL_convex_hull_points_2(InputIterator first, InputIterator last,
+convex_hull_points_2(InputIterator first, InputIterator last,
                           OutputIterator  result,
                           const Traits& ch_traits)
 {
-  return CGAL___convex_hull_points_2(first, last, result, ch_traits,
-                                     iterator_category(first) );
+  return __convex_hull_points_2(first, last, result, ch_traits,
+                                std::iterator_category(first) );
 }
 /*{\Mfuncl generates the counterclockwise sequence of extreme points
 of the points in the range [|first|,|last|). The resulting sequence
@@ -150,17 +151,17 @@ outfile=cgal_ch_I_default2.man
 /*{\Mtext
 \settowidth{\typewidth}{|OutputIterator|}
 \addtolength{\typewidth}{\colsep}
-\settowidth{\callwidth}{|CGAL_ch_|}
+\settowidth{\callwidth}{|ch_|}
 \computewidths
 }*/
 
 template <class InputIterator, class OutputIterator, class Traits>
 inline
 OutputIterator
-CGAL_lower_hull_points_2(InputIterator first, InputIterator last,
+lower_hull_points_2(InputIterator first, InputIterator last,
                          OutputIterator  result,
                          const Traits& ch_traits)
-{ return CGAL_ch_lower_hull_scan(first, last, result, ch_traits); }
+{ return ch_lower_hull_scan(first, last, result, ch_traits); }
 /*{\Mfuncl generates the counterclockwise sequence of extreme points
 on the lower hull of the points in the range [|first|,|last|). 
 The resulting sequence is placed starting at position |result|, 
@@ -176,10 +177,10 @@ and |Traits::Leftturn|.
 template <class InputIterator, class OutputIterator, class Traits>
 inline
 OutputIterator
-CGAL_upper_hull_points_2(InputIterator first, InputIterator last,
+upper_hull_points_2(InputIterator first, InputIterator last,
                          OutputIterator  result,
                          const Traits& ch_traits)
-{ return CGAL_ch_upper_hull_scan(first, last, result, ch_traits); }
+{ return ch_upper_hull_scan(first, last, result, ch_traits); }
 /*{\Mfuncl generates the counterclockwise sequence of extreme points
 on the upper hull of the points in the range [|first|,|last|). 
 The resulting sequence is placed starting at position |result|, 
@@ -199,29 +200,29 @@ outfile=cgal_ch_default.man
 /*{\Mtext 
 \settowidth{\typewidth}{|OutputIterator|}
 \addtolength{\typewidth}{\colsep}
-\settowidth{\callwidth}{|CGAL_ch_|}
+\settowidth{\callwidth}{|ch_|}
 \computewidths
 }*/
 
 template <class ForwardIterator, class OutputIterator, class R>
 inline
 OutputIterator 
-CGAL__convex_hull_points_2(ForwardIterator first, ForwardIterator last, 
+_convex_hull_points_2(ForwardIterator first, ForwardIterator last, 
                            OutputIterator  result,
-                           CGAL_Point_2<R>* )
+                           Point_2<R>* )
 { 
-  return CGAL_convex_hull_points_2(first, last, result,
-                                   CGAL_convex_hull_traits_2<R>() );
+  return convex_hull_points_2(first, last, result,
+                                   convex_hull_traits_2<R>() );
 }
 
 template <class ForwardIterator, class OutputIterator>
 inline
 OutputIterator 
-CGAL_convex_hull_points_2(ForwardIterator first, ForwardIterator last, 
+convex_hull_points_2(ForwardIterator first, ForwardIterator last, 
                           OutputIterator  result )
 { 
-  return CGAL__convex_hull_points_2(first, last, result,
-                                    value_type(first) );
+  return _convex_hull_points_2(first, last, result,
+                                    std::value_type(first) );
 }
 /*{\Mfuncl generates the counterclockwise sequence of extreme points
 of the points in the range [|first|,|last|). The resulting sequence
@@ -232,7 +233,7 @@ sequence.\\
 {\it Preconditions:} 
 The source range [|first|,|last|) does not contain |result|.
 As for all default versions, the value type of the iterators 
-must be |CGAL_Point_2<R>| for some representation class |R|. 
+must be |Point_2<R>| for some representation class |R|. 
 }*/
 /*{\Moptions
 outfile=cgal_ch_default2.man
@@ -241,29 +242,29 @@ outfile=cgal_ch_default2.man
 /*{\Mtext 
 \settowidth{\typewidth}{|OutputIterator|}
 \addtolength{\typewidth}{\colsep}
-\settowidth{\callwidth}{|CGAL_ch_|}
+\settowidth{\callwidth}{|ch_|}
 \computewidths
 }*/
 
 template <class ForwardIterator, class OutputIterator, class R>
 inline
 OutputIterator 
-CGAL__lower_hull_points_2(ForwardIterator first, ForwardIterator last, 
+_lower_hull_points_2(ForwardIterator first, ForwardIterator last, 
                           OutputIterator  result,
-                          CGAL_Point_2<R>* )
+                          Point_2<R>* )
 { 
-  return CGAL_lower_hull_points_2(first, last, result,
-                                  CGAL_convex_hull_traits_2<R>() );
+  return lower_hull_points_2(first, last, result,
+                                  convex_hull_traits_2<R>() );
 }
 
 template <class ForwardIterator, class OutputIterator>
 inline
 OutputIterator 
-CGAL_lower_hull_points_2(ForwardIterator first, ForwardIterator last, 
+lower_hull_points_2(ForwardIterator first, ForwardIterator last, 
                          OutputIterator  result )
 { 
-  return CGAL__lower_hull_points_2(first, last, result,
-                                   value_type(first) );
+  return _lower_hull_points_2(first, last, result,
+                                   std::value_type(first) );
 }
 /*{\Mfuncl generates the counterclockwise sequence of extreme points
 on the lower hull of the points in the range [|first|,|last|). 
@@ -274,28 +275,28 @@ not included.\\
 {\it Preconditions:} 
 The source range [|first|,|last|) does not contain |result|.
 As for all default versions, the value type of the iterators 
-must be |CGAL_Point_2<R>| for some representation class |R|. 
+must be |Point_2<R>| for some representation class |R|. 
 }*/
 
 template <class ForwardIterator, class OutputIterator, class R>
 inline
 OutputIterator 
-CGAL__upper_hull_points_2(ForwardIterator first, ForwardIterator last, 
+_upper_hull_points_2(ForwardIterator first, ForwardIterator last, 
                           OutputIterator  result,
-                          CGAL_Point_2<R>* )
+                          Point_2<R>* )
 { 
-  return CGAL_upper_hull_points_2(first, last, result,
-                                  CGAL_convex_hull_traits_2<R>() );
+  return upper_hull_points_2(first, last, result,
+                                  convex_hull_traits_2<R>() );
 }
 
 template <class ForwardIterator, class OutputIterator>
 inline
 OutputIterator 
-CGAL_upper_hull_points_2(ForwardIterator first, ForwardIterator last, 
+upper_hull_points_2(ForwardIterator first, ForwardIterator last, 
                          OutputIterator  result )
 { 
-  return CGAL__upper_hull_points_2(first, last, result,
-                                   value_type(first) );
+  return _upper_hull_points_2(first, last, result,
+                                   std::value_type(first) );
 }
 /*{\Mfuncl generates the counterclockwise sequence of extreme points
 on the upper hull of the points in the range [|first|,|last|). 
@@ -306,9 +307,10 @@ not included.\\
 {\it Preconditions:} 
 The source range [|first|,|last|) does not contain |result|.
 As for all default versions, the value type of the iterators 
-must be |CGAL_Point_2<R>| for some representation class |R|. 
+must be |Point_2<R>| for some representation class |R|. 
 }*/
 #endif // CGAL_POINT_2_H
+CGAL_END_NAMESPACE
 
 #endif // CGAL_CONVEX_HULL_2_H
 

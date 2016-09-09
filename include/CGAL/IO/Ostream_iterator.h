@@ -1,6 +1,6 @@
 // ======================================================================
 //
-// Copyright (c) 1997 The CGAL Consortium
+// Copyright (c) 1999 The GALIA Consortium
 //
 // This software and related documentation is part of the
 // Computational Geometry Algorithms Library (CGAL).
@@ -16,38 +16,37 @@
 // - Development licenses grant access to the source code of the library 
 //   to develop programs. These programs may be sold to other parties as 
 //   executable code. To obtain a development license, please contact
-//   the CGAL Consortium (at cgal@cs.uu.nl).
+//   the GALIA Consortium (at cgal@cs.uu.nl).
 // - Commercialization licenses grant access to the source code and the
 //   right to sell development licenses. To obtain a commercialization 
-//   license, please contact the CGAL Consortium (at cgal@cs.uu.nl).
+//   license, please contact the GALIA Consortium (at cgal@cs.uu.nl).
 //
 // This software and documentation is provided "as-is" and without
 // warranty of any kind. In no event shall the CGAL Consortium be
 // liable for any damage of any kind.
 //
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// The GALIA Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany) Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+// (Germany), Max-Planck-Institute Saarbrucken (Germany),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-1.2
-// release_date  : 1999, January 18
+// release       : CGAL-2.0
+// release_date  : 1999, June 03
 //
 // file          : include/CGAL/IO/Ostream_iterator.h
-// package       : Support_LK (1.18)
-// chapter       : $CGAL_Chapter: Support Library Manual ... $
+// package       : Stream_support (2.3)
+// chapter       : $CGAL_Chapter: Stream Support $
 // source        : support.fw
-// revision      : $Revision: 1.11 $
-// revision_date : $Date: 1998/10/07 18:46:59 $
+// revision      : $Revision: 2.1 $
+// revision_date : $Date: 1999/03/05 15:59:34 $
 // author(s)     : Lutz Kettner
 //
 // coordinator   : INRIA, Sophia Antipolis
 //
 // A General Ostream_iterator
-//
 // email         : cgal@cs.uu.nl
 //
 // ======================================================================
@@ -58,55 +57,59 @@
 #include <CGAL/circulator.h>
 #endif
 
-// This proxy is for the CGAL_Ostream_iterator.
+CGAL_BEGIN_NAMESPACE
+
+// This proxy is for the Ostream_iterator.
 template <class T, class Stream>
-class CGAL_Ostream_proxy {
+class Ostream_proxy {
     Stream& stream;
 public:
-    CGAL_Ostream_proxy( Stream& s) : stream(s) {}
-    CGAL_Ostream_proxy<T,Stream>&  operator=( const T& t) {
+    Ostream_proxy( Stream& s) : stream(s) {}
+    Ostream_proxy<T,Stream>&  operator=( const T& t) {
         stream << t;
         return *this;
     }
 };
 
 template <class T, class Stream>
-class CGAL_Ostream_iterator {
+class Ostream_iterator {
     Stream& stream;
 public:
-    typedef  T                    value_type;
-    typedef  T&                   reference;
-    typedef  const T&             const_reference;
-    typedef  T*                   pointer;
-    typedef  const T*             const_pointer;
-    typedef  ptrdiff_t            difference_type;
-    typedef  output_iterator_tag  iterator_category;
+    typedef  T                         value_type;
+    typedef  T&                        reference;
+    typedef  const T&                  const_reference;
+    typedef  T*                        pointer;
+    typedef  const T*                  const_pointer;
+    typedef  std::ptrdiff_t            difference_type;
+    typedef  std::output_iterator_tag  iterator_category;
 
-    CGAL_Ostream_iterator( Stream& s) : stream(s) {}
-    CGAL_Ostream_iterator<T,Stream>& operator++()      { return *this;}
-    CGAL_Ostream_iterator<T,Stream>  operator++(int)   { return *this;}
-    CGAL_Ostream_proxy<T,Stream>     operator*() const {
-        return CGAL_Ostream_proxy<T,Stream>(stream);
+    Ostream_iterator( Stream& s) : stream(s) {}
+    Ostream_iterator<T,Stream>& operator++()      { return *this;}
+    Ostream_iterator<T,Stream>  operator++(int)   { return *this;}
+    Ostream_proxy<T,Stream>     operator*() const {
+        return Ostream_proxy<T,Stream>(stream);
     }
 };
 
 #ifdef CGAL_CFG_NO_ITERATOR_TRAITS
 template <class T, class Stream> inline
-output_iterator_tag
-iterator_category( const CGAL_Ostream_iterator<T,Stream>&) {
-    return output_iterator_tag();
+std::output_iterator_tag
+iterator_category( const Ostream_iterator<T,Stream>&) {
+    return std::output_iterator_tag();
 }
 template <class T, class Stream> inline
 T*
-value_type( const CGAL_Ostream_iterator<T,Stream>&) {
+value_type( const Ostream_iterator<T,Stream>&) {
     return (T*)0;
 }
 template <class T, class Stream> inline
-CGAL_Iterator_tag
-CGAL_query_circulator_or_iterator(
-    const CGAL_Ostream_iterator<T,Stream>&) {
-    return CGAL_Iterator_tag();
+Iterator_tag
+query_circulator_or_iterator(
+    const Ostream_iterator<T,Stream>&) {
+    return Iterator_tag();
 }
 #endif
+
+CGAL_END_NAMESPACE
 #endif // CGAL_IO_OSTREAM_ITERATOR_H //
 // EOF //

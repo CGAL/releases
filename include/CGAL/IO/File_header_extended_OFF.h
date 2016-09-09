@@ -1,6 +1,6 @@
 // ======================================================================
 //
-// Copyright (c) 1997 The CGAL Consortium
+// Copyright (c) 1999 The GALIA Consortium
 //
 // This software and related documentation is part of the
 // Computational Geometry Algorithms Library (CGAL).
@@ -16,38 +16,37 @@
 // - Development licenses grant access to the source code of the library 
 //   to develop programs. These programs may be sold to other parties as 
 //   executable code. To obtain a development license, please contact
-//   the CGAL Consortium (at cgal@cs.uu.nl).
+//   the GALIA Consortium (at cgal@cs.uu.nl).
 // - Commercialization licenses grant access to the source code and the
 //   right to sell development licenses. To obtain a commercialization 
-//   license, please contact the CGAL Consortium (at cgal@cs.uu.nl).
+//   license, please contact the GALIA Consortium (at cgal@cs.uu.nl).
 //
 // This software and documentation is provided "as-is" and without
 // warranty of any kind. In no event shall the CGAL Consortium be
 // liable for any damage of any kind.
 //
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// The GALIA Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany) Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+// (Germany), Max-Planck-Institute Saarbrucken (Germany),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-1.2
-// release_date  : 1999, January 18
+// release       : CGAL-2.0
+// release_date  : 1999, June 03
 //
 // file          : include/CGAL/IO/File_header_extended_OFF.h
-// package       : Polyhedron_IO (1.11)
+// package       : Polyhedron_IO (2.5)
 // chapter       : $CGAL_Chapter: Support Library ... $
 // source        : polyhedron_io.fw
-// revision      : $Revision: 1.8 $
-// revision_date : $Date: 1998/10/08 22:46:22 $
+// revision      : $Revision: 1.4 $
+// revision_date : $Date: 1999/03/24 11:16:26 $
 // author(s)     : Lutz Kettner
 //
 // coordinator   : Herve Bronnimann
 //
 // Extended file header information of an object file format (OFF) file
-//
 // email         : cgal@cs.uu.nl
 //
 // ======================================================================
@@ -57,12 +56,14 @@
 #ifndef CGAL_BASIC_H
 #include <CGAL/basic.h>
 #endif
-#ifndef CGAL_PROTECT_IOSTREAM_H
-#include <iostream.h>
-#define CGAL_PROTECT_IOSTREAM_H
-#endif // CGAL_PROTECT_IOSTREAM_H
+#ifndef CGAL_PROTECT_IOSTREAM
+#include <iostream>
+#define CGAL_PROTECT_IOSTREAM
+#endif
 
-class  CGAL_File_header_extended_OFF {
+CGAL_BEGIN_NAMESPACE
+
+class  File_header_extended_OFF {
     bool     m_verbose;     // Print error messages if true.
     bool     m_polyhedral_surface;
     int      m_halfedges;
@@ -77,8 +78,8 @@ class  CGAL_File_header_extended_OFF {
     char     m_suffix[20];
     char     m_format_name[20];
 public:
-    typedef  CGAL_File_header_extended_OFF  Self;
-    CGAL_File_header_extended_OFF( bool verbose = false)
+    typedef  File_header_extended_OFF  Self;
+    File_header_extended_OFF( bool verbose = false)
     :   m_verbose               ( verbose),
         m_polyhedral_surface    ( false),
         m_halfedges             ( 0),
@@ -131,13 +132,14 @@ public:
 };
 
 // Write extended header incl. CGAL/ENDCBP keywords.
-ostream& operator<<( ostream& out, const CGAL_File_header_extended_OFF& h);
+std::ostream& operator<<( std::ostream& out,
+                          const File_header_extended_OFF& h);
 
 // Scan extended header. The CBP keyword must be read already.
-istream& operator>>( istream& in, CGAL_File_header_extended_OFF& h);
+std::istream& operator>>( std::istream& in, File_header_extended_OFF& h);
 
 // istream modifier skips chars until end of line.
-inline istream& CGAL_skip_until_EOL( istream& in) {
+inline std::istream& skip_until_EOL( std::istream& in) {
     char c;
     while ( in.get(c) && c != '\n')
         ;
@@ -145,12 +147,14 @@ inline istream& CGAL_skip_until_EOL( istream& in) {
 }
 
 // istream modifier that checks for OFF comments and removes them.
-inline istream& CGAL_skip_comment_OFF( istream& in) {
+inline std::istream& skip_comment_OFF( std::istream& in) {
     char c;
     while( (in >> c) && c == '#')
-        in >> CGAL_skip_until_EOL;
+        in >> skip_until_EOL;
     in.putback(c);
     return in;
 }
+
+CGAL_END_NAMESPACE
 #endif // CGAL_IO_FILE_HEADER_EXTENDED_OFF_H //
 // EOF //

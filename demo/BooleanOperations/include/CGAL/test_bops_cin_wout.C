@@ -1,7 +1,7 @@
 //  -*- Mode: c++ -*-
 // ============================================================================
 //
-// Copyright (c) 1997 The CGAL Consortium
+// Copyright (c) 1999 The GALIA Consortium
 //
 // This software and related documentation is part of the
 // Computational Geometry Algorithms Library (CGAL).
@@ -17,25 +17,25 @@
 // - Development licenses grant access to the source code of the library 
 //   to develop programs. These programs may be sold to other parties as 
 //   executable code. To obtain a development license, please contact
-//   the CGAL Consortium (at cgal@cs.uu.nl).
+//   the GALIA Consortium (at cgal@cs.uu.nl).
 // - Commercialization licenses grant access to the source code and the
 //   right to sell development licenses. To obtain a commercialization 
-//   license, please contact the CGAL Consortium (at cgal@cs.uu.nl).
+//   license, please contact the GALIA Consortium (at cgal@cs.uu.nl).
 //
 // This software and documentation is provided "as-is" and without
 // warranty of any kind. In no event shall the CGAL Consortium be
 // liable for any damage of any kind.
 //
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// The GALIA Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany) Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+// (Germany), Max-Planck-Institute Saarbrucken (Germany),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-1.2
-// release_date  : 1999, January 18
+// release       : CGAL-2.0
+// release_date  : 1999, June 03
 //
 // file          : demo/BooleanOperations/include/CGAL/test_bops_cin_wout.C
 // source        : demo/BooleanOperations/include/CGAL/test_bops_cin_wout.C
@@ -47,7 +47,6 @@
 //  (Wolfgang Freiseisen)
 //
 // 
-//
 // email         : cgal@cs.uu.nl
 //
 // ======================================================================
@@ -65,88 +64,88 @@
 #undef black
 
 
-//CGAL_Window_stream& operator <<(CGAL_Window_stream& w, const Polygon_2& pgon);
-CGAL_Window_stream& operator <<(CGAL_Window_stream& w, const CGAL_Object& obj);
+//Window_stream& operator <<(Window_stream& w, const Polygon_2& pgon);
+Window_stream& operator <<(Window_stream& w, const Object& obj);
 
 template <class T>
-class CGAL_Window_ostream_iterator : public output_iterator
+class Window_ostream_iterator : public output_iterator
 {
 protected:
-    CGAL_Window_stream* stream;
+    Window_stream* stream;
 public:
-    CGAL_Window_ostream_iterator(CGAL_Window_stream& s) : stream(&s) {}
-    CGAL_Window_ostream_iterator<T>& operator=(const T& value)
+    Window_ostream_iterator(Window_stream& s) : stream(&s) {}
+    Window_ostream_iterator<T>& operator=(const T& value)
     {
         *stream << value;
         return *this;
     }
-    CGAL_Window_ostream_iterator<T>& operator*() { return *this; }
-    CGAL_Window_ostream_iterator<T>& operator++() { return *this; }
-    CGAL_Window_ostream_iterator<T>& operator++(int) { return *this; }
+    Window_ostream_iterator<T>& operator*() { return *this; }
+    Window_ostream_iterator<T>& operator++() { return *this; }
+    Window_ostream_iterator<T>& operator++(int) { return *this; }
 };
 
 
-CGAL_Window_stream& operator <<(
-		CGAL_Window_stream& w,
+Window_stream& operator <<(
+		Window_stream& w,
 		const Polygon_2& pgon)
 {
-	CGAL_Window_ostream_iterator< Segment_2 > w_seg(w);
+	Window_ostream_iterator< Segment_2 > w_seg(w);
 	copy(pgon.edges_begin(), pgon.edges_end(), w_seg);
 	return w;
 }
 
-void print_stream(CGAL_Window_stream& w, const Polygon_2& pgon)
+void print_stream(Window_stream& w, const Polygon_2& pgon)
 {
-	CGAL_Window_ostream_iterator< Segment_2 > w_seg(w);
+	Window_ostream_iterator< Segment_2 > w_seg(w);
 	copy(pgon.edges_begin(), pgon.edges_end(), w_seg);
 	return;
 }                     
 
-CGAL_Window_stream& operator <<(CGAL_Window_stream& w, const CGAL_Object& obj) {
+Window_stream& operator <<(Window_stream& w, const Object& obj) {
   Point_2 pt;
   Segment_2 seg;
   Polygon_2 pgon;
   Iso_rectangle_2 irect;
   Triangle_2 triangle;
-  if( CGAL_assign( pgon, obj) )          {
+  if( assign( pgon, obj) )          {
 	/* polygon */
 	print_stream(w,pgon);
 	//w << pgon;
   }
-  else if( CGAL_assign( irect, obj) )    { /* iso-rectangle */ w << irect; }
-  else if( CGAL_assign( triangle, obj) ) { /* triangle */ w << triangle; }
-  else if( CGAL_assign( seg, obj) )      { /* segment */ w << seg; }
-  else if( CGAL_assign( pt, obj) )       { /* point */   w << pt; }
+  else if( assign( irect, obj) )    { /* iso-rectangle */ w << irect; }
+  else if( assign( triangle, obj) ) { /* triangle */ w << triangle; }
+  else if( assign( seg, obj) )      { /* segment */ w << seg; }
+  else if( assign( pt, obj) )       { /* point */   w << pt; }
   return w;
 }
 
 #define wout (*W_global_ptr)
-CGAL_Window_stream *W_global_ptr;
-CGAL_Window_ostream_iterator< CGAL_Object >   winout_obj(wout);
-CGAL_Window_ostream_iterator< Segment_2 > winout_seg(wout);
+Window_stream *W_global_ptr;
+Window_ostream_iterator< Object >   winout_obj(wout);
+Window_ostream_iterator< Segment_2 > winout_seg(wout);
 
-int click_to_continue(CGAL_Window_stream& W= wout)
+int click_to_continue(Window_stream& W= wout)
 {
   double x, y;
   return W.read_mouse(x,y);
 }
 
 
-void test_result_win_output_base( const list<CGAL_Object>& result ) {
+void test_result_win_output_base( const list<Object>& result ) {
   Point_2 pt;
   Segment_2 seg;
   Polygon_2 pgon;
   Iso_rectangle_2 irect;
   Triangle_2 triangle;
  
-  list<CGAL_Object>::const_iterator it;
-  wout << CGAL_RED;
+  list<Object>::const_iterator it;
+  wout << RED;
   for( it= result.begin(); it != result.end(); it++) {
-    if( CGAL_assign( pgon, *it) )          { /* polygon */ wout << pgon; }
-    else if( CGAL_assign( irect, *it) )    { /* iso-rectangle */ wout << irect; }
-    else if( CGAL_assign( triangle, *it) ) { /* triangle */ wout << triangle; }
-    else if( CGAL_assign( seg, *it) )      { /* segment */ wout << seg; }
-    else if( CGAL_assign( pt, *it) )       { /* point */   wout << pt; }
+    if( assign( pgon, *it) )          { /* polygon */ wout << pgon; }
+    else if( assign( irect, *it) )    { /* iso-rectangle */ wout << irect; }
+    else if( assign( triangle, *it) ) { /* triangle */ wout << triangle; }
+    else if( assign( seg, *it) )      { /* segment */ wout << seg; }
+    else if( assign( pt, *it) )       { /* point */   wout << pt; }
   }
  
   return;
@@ -156,22 +155,22 @@ template< class _polygon>
 void test_result_win_output(
    const _polygon& A,
    const _polygon& B,
-   const list<CGAL_Object>& result
+   const list<Object>& result
 )
 {
   bool loop_on= true;
   wout.clear();
-  wout << CGAL_BLACK << A << CGAL_BLUE << B;
+  wout << BLACK << A << BLUE << B;
   test_result_win_output_base(result);
   while( loop_on == true ) {
     switch( click_to_continue() ) {
       case -2: //middle button
         wout.clear();
-        wout << CGAL_BLACK << A << CGAL_BLUE << B;
+        wout << BLACK << A << BLUE << B;
         break;
       case -3: //right button
         wout.clear();
-        wout << CGAL_BLACK << A << CGAL_BLUE << B;
+        wout << BLACK << A << BLUE << B;
         test_result_win_output_base(result);
         break;
       case -1: //left button
@@ -192,9 +191,9 @@ void test_result_win_output(
 
 template< class _polygon>
 void test_intersection(const _polygon& A, const _polygon& B) {
-  wout << CGAL_BLACK << A << CGAL_BLUE << B;
-  list<CGAL_Object> result;
-  CGAL_intersection(A,B, back_inserter(result));
+  wout << BLACK << A << BLUE << B;
+  list<Object> result;
+  intersection(A,B, back_inserter(result));
   test_result_output(result);
   test_result_win_output(A,B,result);
 }
@@ -202,9 +201,9 @@ void test_intersection(const _polygon& A, const _polygon& B) {
 
 template< class _polygon>
 void test_difference(const _polygon& A, const _polygon& B) {
-  wout << CGAL_BLACK << A << CGAL_BLUE << B;
-  list<CGAL_Object> result;
-  CGAL_difference(A,B, back_inserter(result));
+  wout << BLACK << A << BLUE << B;
+  list<Object> result;
+  difference(A,B, back_inserter(result));
   test_result_output(result);
   test_result_win_output(A,B,result);
 }
@@ -212,9 +211,9 @@ void test_difference(const _polygon& A, const _polygon& B) {
 
 template< class _polygon>
 void test_union(const _polygon& A, const _polygon& B) {
-  wout << CGAL_BLACK << A << CGAL_BLUE << B;
-  list<CGAL_Object> result;
-  CGAL_union(A,B, back_inserter(result));
+  wout << BLACK << A << BLUE << B;
+  list<Object> result;
+  union(A,B, back_inserter(result));
   test_result_output(result);
   test_result_win_output(A,B,result);
 }
@@ -241,7 +240,7 @@ int main( int argc, char *argv[] )
 	return 1;
   }
   // check counterclockwise orientation
-  if ( A.orientation() == CGAL_CLOCKWISE) {
+  if ( A.orientation() == CLOCKWISE) {
     A.reverse_orientation();
     cout << "orientation reversed" << endl;
   }
@@ -252,7 +251,7 @@ int main( int argc, char *argv[] )
 	return 1;
   }
   // check counterclockwise orientation
-  if ( B.orientation() == CGAL_CLOCKWISE) {
+  if ( B.orientation() == CLOCKWISE) {
     B.reverse_orientation();
     cout << "orientation reversed" << endl;
   }
@@ -260,15 +259,15 @@ int main( int argc, char *argv[] )
   
   // WINDOW-INIT
   float w = 600.0, h = 600.0;
-  CGAL_Window_stream W(w,h);
-  CGAL_cgalize(W);
+  Window_stream W(w,h);
+  cgalize(W);
   //double x_extension= 1.0;
   //double y_extension = x_extension * h / w;
   //W.init(-x_extension, x_extension, -y_extension);//(-1.0, 1.0, -1.0);
   W_global_ptr = &W;
   
-  CGAL_Bbox_2 box_A= A.bbox();
-  CGAL_Bbox_2 box_B= B.bbox();
+  Bbox_2 box_A= A.bbox();
+  Bbox_2 box_B= B.bbox();
   double xmin= min(box_A.xmin(), box_B.xmin());
   double xmax= max(box_A.xmax(), box_B.xmax());
   double ymin= min(box_A.ymin(), box_B.ymin());
@@ -281,7 +280,7 @@ int main( int argc, char *argv[] )
   W.init(xmin-dx,xmin+d+dx,ymin-dy);
   W.display();
   W.clear();
-  wout << CGAL_BLACK << A << CGAL_BLUE << B;
+  wout << BLACK << A << BLUE << B;
   click_to_continue(W);
 
   switch( arg ) {

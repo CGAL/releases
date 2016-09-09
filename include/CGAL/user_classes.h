@@ -1,6 +1,6 @@
 // ======================================================================
 //
-// Copyright (c) 1998 The CGAL Consortium
+// Copyright (c) 1999 The GALIA Consortium
 //
 // This software and related documentation is part of the
 // Computational Geometry Algorithms Library (CGAL).
@@ -16,36 +16,35 @@
 // - Development licenses grant access to the source code of the library 
 //   to develop programs. These programs may be sold to other parties as 
 //   executable code. To obtain a development license, please contact
-//   the CGAL Consortium (at cgal@cs.uu.nl).
+//   the GALIA Consortium (at cgal@cs.uu.nl).
 // - Commercialization licenses grant access to the source code and the
 //   right to sell development licenses. To obtain a commercialization 
-//   license, please contact the CGAL Consortium (at cgal@cs.uu.nl).
+//   license, please contact the GALIA Consortium (at cgal@cs.uu.nl).
 //
 // This software and documentation is provided "as-is" and without
 // warranty of any kind. In no event shall the CGAL Consortium be
 // liable for any damage of any kind.
 //
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// The GALIA Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany) Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+// (Germany), Max-Planck-Institute Saarbrucken (Germany),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 // 
-// release       : CGAL-1.2
-// release_date  : 1999, January 18
+// release       : CGAL-2.0
+// release_date  : 1999, June 03
 // 
 // source        : user_classes.fw
 // file          : include/CGAL/user_classes.h
-// package       : Kernel_basic (1.2.12)
-// revision      : 1.2.12
-// revision_date : 08 Jan 1999 
+// package       : Kernel_basic (2.0.11)
+// revision      : 2.0.11
+// revision_date : 06 May 1999 
 // author(s)     : Andreas Fabri
 //                 Stefan Schirra
 //
 // coordinator   : MPI, Saarbruecken  (<Stefan.Schirra>)
-//
 // email         : cgal@cs.uu.nl
 //
 // ======================================================================
@@ -54,77 +53,80 @@
 #ifndef CGAL_USER_CLASSES_H
 #define CGAL_USER_CLASSES_H
 
-template < class R >
-class CGAL_Point_2;
+CGAL_BEGIN_NAMESPACE
 
 template < class R >
-class CGAL_Vector_2;
+class Point_2;
 
 template < class R >
-class CGAL_Direction_2;
+class Vector_2;
 
 template < class R >
-class CGAL_Line_2;
+class Direction_2;
 
 template < class R >
-class CGAL_Ray_2;
+class Line_2;
 
 template < class R >
-class CGAL_Segment_2;
+class Ray_2;
 
 template < class R >
-class CGAL_Triangle_2;
+class Segment_2;
 
 template < class R >
-class CGAL_Iso_rectangle_2;
+class Triangle_2;
 
 template < class R >
-class CGAL_Iso_rectangle_3;
+class Iso_rectangle_2;
 
 template < class R >
-class CGAL_Aff_transformation_base_2;
+class Iso_rectangle_3;
 
 template < class R >
-class CGAL_Aff_transformation_2;
+class Aff_transformation_base_2;
 
 template < class R >
-class CGAL_Aff_transformation_3;
+class Aff_transformation_2;
 
 template < class R >
-class CGAL_Plane_3;
+class Aff_transformation_3;
+
+template < class R >
+class Plane_3;
 
 template < class FT >
-class CGAL_Point_3;
+class Point_3;
 
 template < class FT >
-class CGAL_Vector_3;
+class Vector_3;
 
 template < class FT >
-class CGAL_Direction_3;
+class Direction_3;
 
 template < class R >
-class CGAL_Line_3;
+class Line_3;
 
 template < class FT >
-class CGAL_Ray_3;
+class Ray_3;
 
 template < class FT >
-class CGAL_Segment_3;
+class Segment_3;
 
 template < class FT >
-class CGAL_Triangle_3;
+class Triangle_3;
 
 template < class FT >
-class CGAL_Tetrahedron_3;
+class Tetrahedron_3;
 
 
 template < class R >
-class CGAL__Vector_2_rft_wrapper;
+class _Vector_2_rft_wrapper;
 
 template < class R >
-class CGAL__Vector_3_rft_wrapper;
+class _Vector_3_rft_wrapper;
 
 template < class R>
-class CGAL_Point_d;
+class Point_d;
+CGAL_END_NAMESPACE
 
 #endif  // CGAL_USER_CLASSES_H

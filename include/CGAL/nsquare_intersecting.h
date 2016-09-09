@@ -1,7 +1,6 @@
-//  -*- Mode: c++ -*-
 // ======================================================================
 //
-// Copyright (c) 1997 The CGAL Consortium
+// Copyright (c) 1999 The GALIA Consortium
 //
 // This software and related documentation is part of the
 // Computational Geometry Algorithms Library (CGAL).
@@ -17,38 +16,37 @@
 // - Development licenses grant access to the source code of the library 
 //   to develop programs. These programs may be sold to other parties as 
 //   executable code. To obtain a development license, please contact
-//   the CGAL Consortium (at cgal@cs.uu.nl).
+//   the GALIA Consortium (at cgal@cs.uu.nl).
 // - Commercialization licenses grant access to the source code and the
 //   right to sell development licenses. To obtain a commercialization 
-//   license, please contact the CGAL Consortium (at cgal@cs.uu.nl).
+//   license, please contact the GALIA Consortium (at cgal@cs.uu.nl).
 //
 // This software and documentation is provided "as-is" and without
 // warranty of any kind. In no event shall the CGAL Consortium be
 // liable for any damage of any kind.
 //
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// The GALIA Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany) Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+// (Germany), Max-Planck-Institute Saarbrucken (Germany),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-1.2
-// release_date  : 1999, January 18
+// release       : CGAL-2.0
+// release_date  : 1999, June 03
 //
 // file          : include/CGAL/nsquare_intersecting.h
-// package       : bops (1.1.2)
+// package       : bops (2.1.5)
 // source        : include/CGAL/nsquare_intersecting.h
-// revision      : $Revision: 1.1.2 $
+// revision      : $Revision: WIP $
 // revision_date : $Date: Wed Dec  9 13:28:56 MET 1998  $
-// author(s)     :             Carl Van Geem
+// author(s)     : Carl Van Geem
 //
 // coordinator   : RISC Linz
 //  (Wolfgang Freiseisen)
 //
 // 
-//
 // email         : cgal@cs.uu.nl
 //
 // ======================================================================
@@ -70,7 +68,7 @@
 #include <CGAL/basic.h>
 #endif
 
-#include <list.h>
+#include <list>
 
 #ifndef CGAL_CARTESIAN_H
 #include <CGAL/Cartesian.h>
@@ -92,20 +90,21 @@
 #include <CGAL/Polygon_2.h>
 #endif
 
-#include <iostream.h>
+#include <iostream>
 
+CGAL_BEGIN_NAMESPACE
 
 template < class R >
-class CGAL_Intersectionresult
+class Intersectionresult
 {
-  typedef CGAL_Point_2<R> Point;
-  typedef CGAL_Segment_2<R> Segment;
-  typedef list<Segment> Segment_list;
-  //typedef CGAL_Polygon_2<CGAL_Polygon_traits_2<R>, Container > Polygon;
+  typedef Point_2<R> Point;
+  typedef Segment_2<R> Segment;
+  typedef std::list<Segment> Segment_list;
+  //typedef Polygon_2<Polygon_traits_2<R>, Container > Polygon;
   //typedef typename Polygon::Edge_const_iterator edge_iterator;
 
  private:
-  CGAL_Object                    _intersection_object;
+  Object                    _intersection_object;
   Segment_list      _segments_poly1;
   Segment_list      _segments_poly2;
   bool                           _is_vertex_of_poly1;
@@ -116,9 +115,9 @@ class CGAL_Intersectionresult
   bool                           _is_vertex_edge_intersection;
   bool                           _is_edge_edge_intersection;
  public:
-  CGAL_Intersectionresult() ;
-  CGAL_Intersectionresult (const CGAL_Intersectionresult<R> &ires ) ;
-  CGAL_Intersectionresult (const Point &iobj,
+  Intersectionresult() ;
+  Intersectionresult (const Intersectionresult<R> &ires ) ;
+  Intersectionresult (const Point &iobj,
                            const Segment &iseg1,
                            const Segment &iseg2,
                            const bool &i_is_vertex_of_poly1,
@@ -128,7 +127,7 @@ class CGAL_Intersectionresult
                            const bool &i_is_vertex_vertex_intersection,
                            const bool &i_is_vertex_edge_intersection,
                            const bool &i_is_edge_edge_intersection) ;
-  CGAL_Intersectionresult (const Segment &iobj,
+  Intersectionresult (const Segment &iobj,
                            const Segment &iseg1,
                            const Segment &iseg2,
                            const bool &i_is_vertex_of_poly1,
@@ -138,13 +137,13 @@ class CGAL_Intersectionresult
                            const bool &i_is_vertex_vertex_intersection,
                            const bool &i_is_vertex_edge_intersection,
                            const bool &i_is_edge_edge_intersection) ;
-  CGAL_Intersectionresult<R>  &operator=(const CGAL_Intersectionresult<R> 
+  Intersectionresult<R>  &operator=(const Intersectionresult<R> 
                                                                    &ires) ; 
-  ~CGAL_Intersectionresult() ;
+  ~Intersectionresult() ;
 
 
-  CGAL_Object     intersection_object() const { return _intersection_object;}
-  CGAL_Object&    intersection_object() { return _intersection_object;}
+  Object     intersection_object() const { return _intersection_object;}
+  Object&    intersection_object() { return _intersection_object;}
   Segment_list  segments_poly1() const { return _segments_poly1;}
   Segment_list& segments_poly1() { return _segments_poly1;}
   Segment_list  segments_poly2() const { return _segments_poly2;}
@@ -179,28 +178,28 @@ class CGAL_Intersectionresult
 
 
 template < class R > 
-class CGAL_List_of_intersections
+class List_of_intersections
 {
  public:
-  typedef CGAL_Point_2<R> Point;
-  typedef CGAL_Segment_2<R> Segment;
-  typedef list<Segment> Segment_list;
-  //typedef CGAL_Polygon_2<CGAL_Polygon_traits_2<R>, Container > Polygon;
+  typedef Point_2<R> Point;
+  typedef Segment_2<R> Segment;
+  typedef std::list<Segment> Segment_list;
+  //typedef Polygon_2<Polygon_traits_2<R>, Container > Polygon;
   //typedef typename Polygon::Edge_const_iterator edge_iterator;
 
  private:
-   list<CGAL_Intersectionresult<R> >    _list_of_intersections;
+   std::list<Intersectionresult<R> >    _list_of_intersections;
  public:
-   CGAL_List_of_intersections() ;
-   CGAL_List_of_intersections(const CGAL_List_of_intersections<R> &ilist) ;
-   CGAL_List_of_intersections<R> &operator=(
-                              const CGAL_List_of_intersections<R> &ilist) ;
-   ~CGAL_List_of_intersections() ;
+   List_of_intersections() ;
+   List_of_intersections(const List_of_intersections<R> &ilist) ;
+   List_of_intersections<R> &operator=(
+                              const List_of_intersections<R> &ilist) ;
+   ~List_of_intersections() ;
 
 
-   list<CGAL_Intersectionresult<R> >  list_of_intersections() const {
+   std::list<Intersectionresult<R> >  list_of_intersections() const {
                                    return _list_of_intersections; }
-   list<CGAL_Intersectionresult<R> >&  list_of_intersections() {
+   std::list<Intersectionresult<R> >&  list_of_intersections() {
                                    return _list_of_intersections; }
    void add( const Point &iobj,
              const Segment &iseg1,
@@ -213,7 +212,7 @@ class CGAL_List_of_intersections
              const bool &i_is_vertex_edge_intersection,
              const bool &i_is_edge_edge_intersection) 
       {
-       CGAL_Intersectionresult<R> ires( 
+       Intersectionresult<R> ires( 
             iobj,
             iseg1,
             iseg2,
@@ -240,7 +239,7 @@ class CGAL_List_of_intersections
              const bool &i_is_vertex_edge_intersection,
              const bool &i_is_edge_edge_intersection) 
       {
-       CGAL_Intersectionresult<R> ires( 
+       Intersectionresult<R> ires( 
             iobj,
             iseg1,
             iseg2,
@@ -260,27 +259,27 @@ class CGAL_List_of_intersections
 
 
 template < class R, class Container >
-class CGAL_nsquareintersection {
+class nsquareintersection {
  public:
-  typedef CGAL_Point_2<R> Point;
-  typedef CGAL_Segment_2<R> Segment;
-  typedef list<Segment> Segment_list;
-  typedef CGAL_Polygon_2<CGAL_Polygon_traits_2<R>, Container > Polygon;
+  typedef Point_2<R> Point;
+  typedef Segment_2<R> Segment;
+  typedef std::list<Segment> Segment_list;
+  typedef Polygon_2<Polygon_traits_2<R>, Container > Polygon;
   typedef typename Polygon::Edge_const_iterator edge_iterator;
   typedef typename Segment_list::iterator segment_iterator;
 
-  CGAL_nsquareintersection() {}
-  list <CGAL_Intersectionresult<R> > operator()(
+  nsquareintersection() {}
+  std::list<Intersectionresult<R> > operator()(
                           segment_iterator beginpoly1,
                           segment_iterator endpoly1,
                           segment_iterator beginpoly2,
                           segment_iterator endpoly2) 
  {
-  CGAL_List_of_intersections<R> tobereturned;
-  list<CGAL_Intersectionresult<R> >::iterator it;
+  List_of_intersections<R> tobereturned;
+  std::list<Intersectionresult<R> >::iterator it;
   segment_iterator it1;
   segment_iterator it2;
-  CGAL_Object    result;
+  Object    result;
   Point ipoint;
 
   Segment isegment;
@@ -298,17 +297,17 @@ class CGAL_nsquareintersection {
    {
     for(it2 = beginpoly2; it2 != endpoly2; it2++ )
      {
-      if ( CGAL_do_intersect(*it1, *it2) )
+      if ( do_intersect(*it1, *it2) )
        {
-        result = CGAL_intersection(*it1, *it2);
-        if ( CGAL_assign(ipoint, result) )
+        result = intersection(*it1, *it2);
+        if ( assign(ipoint, result) )
          {/* report intersection */
           it = tobereturned.list_of_intersections().begin();
           notfound = true;
           while ((it != tobereturned.list_of_intersections().end())
                   && (notfound) )
             {
-             if ( ( CGAL_assign(acgalpoint, (*it).intersection_object()) )
+             if ( ( assign(acgalpoint, (*it).intersection_object()) )
               &&  ( acgalpoint == ipoint ) )
                {
                 notfound = false;
@@ -368,7 +367,7 @@ class CGAL_nsquareintersection {
                          i_is_edge_edge_intersection) ;
            }
          }
-        else if ( CGAL_assign(isegment, result) )
+        else if ( assign(isegment, result) )
          {/* report intersection */
           i_is_edge_of_poly1 = (isegment == *it1) ;
           i_is_edge_of_poly2 = (isegment == *it2) ;
@@ -384,17 +383,17 @@ class CGAL_nsquareintersection {
   return tobereturned.list_of_intersections();
  }
 
-  list <CGAL_Intersectionresult<R> > operator()(
+  std::list<Intersectionresult<R> > operator()(
          edge_iterator beginpoly1,
          edge_iterator endpoly1,
          edge_iterator beginpoly2,
          edge_iterator endpoly2)
  {
-  CGAL_List_of_intersections<R> tobereturned;
-  list<CGAL_Intersectionresult<R> >::iterator it;
+  List_of_intersections<R> tobereturned;
+  std::list<Intersectionresult<R> >::iterator it;
   edge_iterator it1;
   edge_iterator it2;
-  CGAL_Object    result;
+  Object    result;
   Point ipoint;
 
   Segment isegment;
@@ -412,17 +411,17 @@ class CGAL_nsquareintersection {
    {
     for(it2 = beginpoly2; it2 != endpoly2; ++it2 )
      {
-      if ( CGAL_do_intersect(*it1, *it2) )
+      if ( do_intersect(*it1, *it2) )
        {
-        result = CGAL_intersection(*it1, *it2);
-        if ( CGAL_assign(ipoint, result) )
+        result = intersection(*it1, *it2);
+        if ( assign(ipoint, result) )
          {/* report intersection */
           it = tobereturned.list_of_intersections().begin();
           notfound = true;
           while ((it != tobereturned.list_of_intersections().end())
                   && (notfound) )
             {
-             if ( ( CGAL_assign(acgalpoint, (*it).intersection_object()) )
+             if ( ( assign(acgalpoint, (*it).intersection_object()) )
               &&  ( acgalpoint == ipoint ) )
                {
                 notfound = false;
@@ -482,7 +481,7 @@ class CGAL_nsquareintersection {
                          i_is_edge_edge_intersection) ;
            }
          }
-        else if ( CGAL_assign(isegment, result) )
+        else if ( assign(isegment, result) )
          {/* report intersection */
           i_is_edge_of_poly1 = (isegment == *it1) ;
           i_is_edge_of_poly2 = (isegment == *it2) ;
@@ -500,6 +499,8 @@ class CGAL_nsquareintersection {
 
 
 };
+
+CGAL_END_NAMESPACE
 
 #ifdef CGAL_CFG_NO_AUTOMATIC_TEMPLATE_INCLUSION
 #include <CGAL/nsquare_intersecting.C>

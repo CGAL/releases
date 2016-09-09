@@ -1,6 +1,6 @@
 // ======================================================================
 //
-// Copyright (c) 1997 The CGAL Consortium
+// Copyright (c) 1999 The GALIA Consortium
 //
 // This software and related documentation is part of the
 // Computational Geometry Algorithms Library (CGAL).
@@ -16,47 +16,46 @@
 // - Development licenses grant access to the source code of the library 
 //   to develop programs. These programs may be sold to other parties as 
 //   executable code. To obtain a development license, please contact
-//   the CGAL Consortium (at cgal@cs.uu.nl).
+//   the GALIA Consortium (at cgal@cs.uu.nl).
 // - Commercialization licenses grant access to the source code and the
 //   right to sell development licenses. To obtain a commercialization 
-//   license, please contact the CGAL Consortium (at cgal@cs.uu.nl).
+//   license, please contact the GALIA Consortium (at cgal@cs.uu.nl).
 //
 // This software and documentation is provided "as-is" and without
 // warranty of any kind. In no event shall the CGAL Consortium be
 // liable for any damage of any kind.
 //
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// The GALIA Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany) Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+// (Germany), Max-Planck-Institute Saarbrucken (Germany),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-1.2
-// release_date  : 1999, January 18
+// release       : CGAL-2.0
+// release_date  : 1999, June 03
 //
 // file          : src/assertions.C
-// package       : Kernel_basic (1.2.12)
+// package       : Kernel_basic (2.0.11)
 // source        : assertions.fw
 // author(s)     : Geert-Jan Giezeman and Sven Schönherr
 //
 // coordinator   : MPI, Saarbruecken  (<Stefan.Schirra>)
 //
-//
 // email         : cgal@cs.uu.nl
 //
 // ======================================================================
-// TODO: add CGAL_EXIT_WITH_SUCCESS (Stefan S.)
 
 
-#include <stdlib.h>
-#include <CGAL/assertions.h>
 #include <CGAL/config.h>
-#include <iostream.h>
+#include <cstdlib>
+#include <CGAL/assertions.h>
+#include <iostream>
 
-#include <assert.h>
+#include <cassert>
 
+CGAL_BEGIN_NAMESPACE
 // not_implemented function
 // ------------------------
 void
@@ -68,26 +67,26 @@ not_implemented()
 // static behaviour variables
 // --------------------------
 
-static CGAL_Failure_behaviour CGAL__error_behaviour = CGAL_ABORT;
-static CGAL_Failure_behaviour CGAL__warning_behaviour = CGAL_CONTINUE;
+static Failure_behaviour _error_behaviour   = ABORT;
+static Failure_behaviour _warning_behaviour = CONTINUE;
 
 // standard error handlers
 // -----------------------
 static
 void
-CGAL__standard_error_handler(
+_standard_error_handler(
         const char* what,
         const char* expr,
         const char* file,
         int         line,
         const char* msg )
 {
-    cerr << "CGAL error: " << what << " violation!" << endl
-         << "Expr: " << expr << endl
-         << "File: " << file << endl
-         << "Line: " << line << endl;
+    std::cerr << "CGAL error: " << what << " violation!" << std::endl
+         << "Expr: " << expr << std::endl
+         << "File: " << file << std::endl
+         << "Line: " << line << std::endl;
     if ( msg != 0)
-        cerr << "Explanation:" << msg << endl;
+        std::cerr << "Explanation:" << msg << std::endl;
 }
 
 
@@ -95,87 +94,84 @@ CGAL__standard_error_handler(
 // ------------------------
 static
 void
-CGAL__standard_warning_handler( const char *,
+_standard_warning_handler( const char *,
                           const char* expr,
                           const char* file,
                           int         line,
                           const char* msg )
 {
-    cerr << "CGAL warning: check violation!" << endl
-         << "Expr: " << expr << endl
-         << "File: " << file << endl
-         << "Line: " << line << endl;
+    std::cerr << "CGAL warning: check violation!" << std::endl
+         << "Expr: " << expr << std::endl
+         << "File: " << file << std::endl
+         << "Line: " << line << std::endl;
     if ( msg != 0)
-        cerr << "Explanation:" << msg << endl;
+        std::cerr << "Explanation:" << msg << std::endl;
 
 }
 
 // default handler settings
 // ------------------------
-static CGAL_Failure_function
-CGAL__error_handler = CGAL__standard_error_handler;
+static Failure_function
+_error_handler = _standard_error_handler;
 
-static CGAL_Failure_function
-CGAL__warning_handler = CGAL__standard_warning_handler;
+static Failure_function
+_warning_handler = _standard_warning_handler;
 
 // failure functions
 // -----------------
 void
-CGAL_assertion_fail( const char* expr,
+assertion_fail( const char* expr,
                      const char* file,
                      int         line,
                      const char* msg )
 {
-    (*CGAL__error_handler)("assertion", expr, file, line, msg);
-    switch (CGAL__error_behaviour) {
-    case CGAL_ABORT:
+    (*_error_handler)("assertion", expr, file, line, msg);
+    switch (_error_behaviour) {
+    case ABORT:
         abort();
-    case CGAL_EXIT:
+    case EXIT:
         exit(1);  // EXIT_FAILURE
-//  TODO:
-//    case CGAL_EXIT_WITH_SUCCESS:
-//        exit(0);  // EXIT_SUCCESS
-    case CGAL_CONTINUE:
+    case EXIT_WITH_SUCCESS:
+        exit(0);  // EXIT_SUCCESS
+    case CONTINUE:
         ;
     }
 }
 
 void
-CGAL_precondition_fail( const char* expr,
+precondition_fail( const char* expr,
                         const char* file,
                         int         line,
                         const char* msg )
 {
-    (*CGAL__error_handler)("precondition", expr, file, line, msg);
-    switch (CGAL__error_behaviour) {
-    case CGAL_ABORT:
+    (*_error_handler)("precondition", expr, file, line, msg);
+    switch (_error_behaviour) {
+    case ABORT:
         abort();
-    case CGAL_EXIT:
+    case EXIT:
         exit(1);  // EXIT_FAILURE
-//  TODO:
-//    case CGAL_EXIT_WITH_SUCCESS:
-//        exit(0);  // EXIT_SUCCESS
-    case CGAL_CONTINUE:
+    case EXIT_WITH_SUCCESS:
+        exit(0);  // EXIT_SUCCESS
+    case CONTINUE:
         ;
     }
 }
 
 void
-CGAL_postcondition_fail(const char* expr,
+postcondition_fail(const char* expr,
                          const char* file,
                          int         line,
                          const char* msg )
 {
-    (*CGAL__error_handler)("postcondition", expr, file, line, msg);
-    switch (CGAL__error_behaviour) {
-    case CGAL_ABORT:
+    (*_error_handler)("postcondition", expr, file, line, msg);
+    switch (_error_behaviour) {
+    case ABORT:
         abort();
-    case CGAL_EXIT:
+    case EXIT:
         exit(1);  // EXIT_FAILURE
-//  TODO:
-//    case CGAL_EXIT_WITH_SUCCESS:
-//        exit(0);  // EXIT_SUCCESS
-    case CGAL_CONTINUE:
+    case EXIT_WITH_SUCCESS:
+        exit(0);  // EXIT_SUCCESS
+    case CONTINUE:
         ;
     }
 }
@@ -184,21 +180,20 @@ CGAL_postcondition_fail(const char* expr,
 // warning function
 // ----------------
 void
-CGAL_warning_fail( const char* expr,
+warning_fail( const char* expr,
                    const char* file,
                    int         line,
                    const char* msg )
 {
-    (*CGAL__warning_handler)("warning", expr, file, line, msg);
-    switch (CGAL__warning_behaviour) {
-    case CGAL_ABORT:
+    (*_warning_handler)("warning", expr, file, line, msg);
+    switch (_warning_behaviour) {
+    case ABORT:
         abort();
-    case CGAL_EXIT:
+    case EXIT:
         exit(1);  // EXIT_FAILURE
-//  TODO:
-//    case CGAL_EXIT_WITH_SUCCESS:
-//        exit(0);  // EXIT_SUCCESS
-    case CGAL_CONTINUE:
+    case EXIT_WITH_SUCCESS:
+        exit(0);  // EXIT_SUCCESS
+    case CONTINUE:
         ;
     }
 }
@@ -206,36 +201,38 @@ CGAL_warning_fail( const char* expr,
 
 // error handler set functions
 // ---------------------------
-CGAL_Failure_function
-CGAL_set_error_handler( CGAL_Failure_function handler)
+Failure_function
+set_error_handler( Failure_function handler)
 {
-    CGAL_Failure_function result = CGAL__error_handler;
-    CGAL__error_handler = handler;
+    Failure_function result = _error_handler;
+    _error_handler = handler;
     return( result);
 }
 
-CGAL_Failure_function
-CGAL_set_warning_handler( CGAL_Failure_function handler)
+Failure_function
+set_warning_handler( Failure_function handler)
 {
-    CGAL_Failure_function result = CGAL__warning_handler;
-    CGAL__warning_handler = handler;
+    Failure_function result = _warning_handler;
+    _warning_handler = handler;
     return( result);
 }
 
-CGAL_Failure_behaviour
-CGAL_set_error_behaviour(CGAL_Failure_behaviour eb)
+Failure_behaviour
+set_error_behaviour(Failure_behaviour eb)
 {
-    CGAL_Failure_behaviour result = CGAL__error_behaviour;
-    CGAL__error_behaviour = eb;
+    Failure_behaviour result = _error_behaviour;
+    _error_behaviour = eb;
     return result;
 }
 
-CGAL_Failure_behaviour
-CGAL_set_warning_behaviour(CGAL_Failure_behaviour eb)
+Failure_behaviour
+set_warning_behaviour(Failure_behaviour eb)
 {
-    CGAL_Failure_behaviour result = CGAL__warning_behaviour;
-    CGAL__warning_behaviour = eb;
+    Failure_behaviour result = _warning_behaviour;
+    _warning_behaviour = eb;
     return result;
 }
+
+CGAL_END_NAMESPACE
 
 

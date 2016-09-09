@@ -1,6 +1,6 @@
 // ======================================================================
 //
-// Copyright (c) 1998 The CGAL Consortium
+// Copyright (c) 1999 The GALIA Consortium
 //
 // This software and related documentation is part of the
 // Computational Geometry Algorithms Library (CGAL).
@@ -16,36 +16,35 @@
 // - Development licenses grant access to the source code of the library 
 //   to develop programs. These programs may be sold to other parties as 
 //   executable code. To obtain a development license, please contact
-//   the CGAL Consortium (at cgal@cs.uu.nl).
+//   the GALIA Consortium (at cgal@cs.uu.nl).
 // - Commercialization licenses grant access to the source code and the
 //   right to sell development licenses. To obtain a commercialization 
-//   license, please contact the CGAL Consortium (at cgal@cs.uu.nl).
+//   license, please contact the GALIA Consortium (at cgal@cs.uu.nl).
 //
 // This software and documentation is provided "as-is" and without
 // warranty of any kind. In no event shall the CGAL Consortium be
 // liable for any damage of any kind.
 //
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// The GALIA Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany) Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+// (Germany), Max-Planck-Institute Saarbrucken (Germany),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 // 
-// release       : CGAL-1.2
-// release_date  : 1999, January 18
+// release       : CGAL-2.0
+// release_date  : 1999, June 03
 // 
 // source        : Ray_3.fw
 // file          : include/CGAL/Ray_3.h
-// package       : _3 (1.4)
-// revision      : 1.4
-// revision_date : 15 Dec 1998 
+// package       : _3 (2.1.2)
+// revision      : 2.1.2
+// revision_date : 21 May 1999 
 // author(s)     : Andreas Fabri
 //                 Stefan Schirra
 //
 // coordinator   : MPI, Saarbruecken  (<Stefan.Schirra>)
-//
 // email         : cgal@cs.uu.nl
 //
 // ======================================================================
@@ -70,85 +69,89 @@
 #endif // CGAL_RAYC3_H
 #endif // CGAL_CARTESIAN_H
 
+CGAL_BEGIN_NAMESPACE
+
 template <class _R>
-class CGAL_Ray_3 : public _R::Ray_3
+class Ray_3 : public _R::Ray_3
 {
 public:
   typedef          _R                       R;
   typedef typename R::RT                    RT;
   typedef typename R::FT                    FT;
-  typedef typename R::Ray_3                 Ray_3;
+  typedef typename R::Ray_3                 RRay_3;
 
-  CGAL_Ray_3() : Ray_3()
+  Ray_3() : RRay_3()
   {}
-  CGAL_Ray_3(const CGAL_Ray_3<R>& r) : Ray_3(r)
+  Ray_3(const Ray_3<R>& r) : RRay_3(r)
   {}
-  CGAL_Ray_3(const Ray_3& r) : Ray_3(r)
+  Ray_3(const RRay_3&  r) : RRay_3(r)
   {}
-  CGAL_Ray_3(const CGAL_Point_3<R>& sp,
-            const CGAL_Point_3<R>& secondp)
-    : Ray_3(sp, secondp)
+  Ray_3(const Point_3<R>& sp,
+            const Point_3<R>& secondp)
+    : RRay_3(sp, secondp)
   {}
-  CGAL_Ray_3(const CGAL_Point_3<R>& sp,
-            const CGAL_Direction_3<R>& d)
-    : Ray_3(sp, d)
+  Ray_3(const Point_3<R>& sp,
+            const Direction_3<R>& d)
+    : RRay_3(sp, d)
   {}
 
-  CGAL_Ray_3<R>&      operator=(const CGAL_Ray_3<R>& r)
+  Ray_3<R>&      operator=(const Ray_3<R>& r)
   {
-      Ray_3::operator=(r);
+      RRay_3::operator=(r);
       return *this;
   }
-  bool                operator==(const CGAL_Ray_3<R>& r) const
-  { return Ray_3::operator==(r); }
-  bool                operator!=(const CGAL_Ray_3<R>& r) const
+  bool                operator==(const Ray_3<R>& r) const
+  { return RRay_3::operator==(r); }
+  bool                operator!=(const Ray_3<R>& r) const
   { return !(*this == r); }
 
   int                 id() const  /* XXX */
   { return (int)  PTR ; }
 
-  CGAL_Point_3<R>     start() const
-  { return Ray_3::start(); }
-  CGAL_Point_3<R>     source() const
-  { return Ray_3::source(); }
-  CGAL_Point_3<R>     second_point() const
-  { return Ray_3::second_point(); }
-  CGAL_Point_3<R>     point(int i) const
-  { return Ray_3::point(i); }
-  CGAL_Direction_3<R> direction() const
-  { return Ray_3::direction(); }
-  CGAL_Line_3<R>      supporting_line() const
-  { return Ray_3::supporting_line(); }
-  CGAL_Ray_3<R>       opposite() const
-  { return Ray_3::opposite(); }
-  CGAL_Ray_3<R>       transform(const CGAL_Aff_transformation_3<R>& t) const
-  { return Ray_3::transform(t); }
+  Point_3<R>     start() const
+  { return RRay_3::start(); }
+  Point_3<R>     source() const
+  { return RRay_3::source(); }
+  Point_3<R>     second_point() const
+  { return RRay_3::second_point(); }
+  Point_3<R>     point(int i) const
+  { return RRay_3::point(i); }
+  Direction_3<R> direction() const
+  { return RRay_3::direction(); }
+  Line_3<R>      supporting_line() const
+  { return RRay_3::supporting_line(); }
+  Ray_3<R>       opposite() const
+  { return RRay_3::opposite(); }
+  Ray_3<R>       transform(const Aff_transformation_3<R>& t) const
+  { return RRay_3::transform(t); }
   bool                is_degenerate() const
-  { return Ray_3::is_degenerate(); }
-  bool                has_on(const CGAL_Point_3<R>& p) const
-  { return Ray_3::has_on(p); }
+  { return RRay_3::is_degenerate(); }
+  bool                has_on(const Point_3<R>& p) const
+  { return RRay_3::has_on(p); }
 };
 
-#ifndef CGAL_NO_OSTREAM_INSERT_RAY_3
+#ifndef NO_OSTREAM_INSERT_RAY_3
 template < class R >
-ostream&
-operator<<(ostream& os, const CGAL_Ray_3<R>& r)
+std::ostream&
+operator<<(std::ostream& os, const Ray_3<R>& r)
 {
-  typedef typename  R::Ray_3        Ray_3;
-  return os << (const Ray_3&)r;
+  typedef typename  R::Ray_3        RRay_3;
+  return os << (const RRay_3& )r;
 }
-#endif // CGAL_NO_OSTREAM_INSERT_RAY_3
+#endif // NO_OSTREAM_INSERT_RAY_3
 
-#ifndef CGAL_NO_ISTREAM_EXTRACT_RAY_3
+#ifndef NO_ISTREAM_EXTRACT_RAY_3
 template < class R >
-istream&
-operator>>(istream& is, CGAL_Ray_3<R>& r)
+std::istream&
+operator>>(std::istream& is, Ray_3<R>& r)
 {
-  typedef typename  R::Ray_3        Ray_3;
-  return is >> (Ray_3&)r;
+  typedef typename  R::Ray_3        RRay_3;
+  return is >> (RRay_3& )r;
 }
-#endif // CGAL_NO_ISTREAM_EXTRACT_RAY_3
+#endif // NO_ISTREAM_EXTRACT_RAY_3
 
+
+CGAL_END_NAMESPACE
 
 
 #ifndef CGAL_LINE_3_H

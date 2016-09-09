@@ -1,6 +1,6 @@
 // ======================================================================
 //
-// Copyright (c) 1997 The CGAL Consortium
+// Copyright (c) 1999 The GALIA Consortium
 //
 // This software and related documentation is part of the
 // Computational Geometry Algorithms Library (CGAL).
@@ -16,53 +16,58 @@
 // - Development licenses grant access to the source code of the library 
 //   to develop programs. These programs may be sold to other parties as 
 //   executable code. To obtain a development license, please contact
-//   the CGAL Consortium (at cgal@cs.uu.nl).
+//   the GALIA Consortium (at cgal@cs.uu.nl).
 // - Commercialization licenses grant access to the source code and the
 //   right to sell development licenses. To obtain a commercialization 
-//   license, please contact the CGAL Consortium (at cgal@cs.uu.nl).
+//   license, please contact the GALIA Consortium (at cgal@cs.uu.nl).
 //
 // This software and documentation is provided "as-is" and without
 // warranty of any kind. In no event shall the CGAL Consortium be
 // liable for any damage of any kind.
 //
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// The GALIA Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany) Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+// (Germany), Max-Planck-Institute Saarbrucken (Germany),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-1.2
-// release_date  : 1999, January 18
+// release       : CGAL-2.0
+// release_date  : 1999, June 03
 //
 // file          : include/CGAL/Modifier_base.h
-// package       : STL_Extension (1.17)
-// chapter       : $CGAL_Chapter: STL Extensions for CGAL $
-// source        : stl_extension.fw
-// revision      : $Revision: 1.12 $
-// revision_date : $Date: 1998/10/08 14:35:33 $
+// package       : Modifier (1.2)
+// chapter       : $CGAL_Chapter: Protected access to the internal repr.$
+// source        : modifier.fw
+// revision      : $Revision: 1.1 $
+// revision_date : $Date: 1999/03/07 21:51:06 $
 // author(s)     : Lutz Kettner
 //
 // coordinator   : INRIA, Sophia Antipolis
 //
 // Modifier providing protected access to internal representations.
-//
 // email         : cgal@cs.uu.nl
 //
 // ======================================================================
 
 #ifndef CGAL_MODIFIER_BASE_H
 #define CGAL_MODIFIER_BASE_H 1
-template < class R>
-class CGAL_Modifier_base {
+
+CGAL_BEGIN_NAMESPACE
+
+template <class R>
+class Modifier_base {
     // Abstract Base Class for protected internal access.
     // It defines the common interface for all modifiers.
 public:
     typedef R Representation;
     virtual void operator()( R& rep) = 0;
         // Postcondition: `rep' is a valid representation.
-    virtual ~CGAL_Modifier_base() {}
+    virtual ~Modifier_base() {}
 };
+
+CGAL_END_NAMESPACE
+
 #endif // CGAL_MODIFIER_BASE_H //
 // EOF //

@@ -32,18 +32,18 @@ LDFLAGS = \
 #---------------------------------------------------------------------#
 
 all:            \
-                geomview \
+                geomview_demo \
                 viewpoint2off 
 
-geomview: geomview.o
-	$(CGAL_CXX) -o geomview geomview.o $(LDFLAGS)
+geomview_demo: geomview_demo.o
+	$(CGAL_CXX) -o geomview_demo geomview_demo.o $(LDFLAGS)
 
 viewpoint2off: viewpoint2off.o
 	$(CGAL_CXX) -o viewpoint2off viewpoint2off.o $(LDFLAGS)
 
 clean:
 	rm -f *.o \
-                   geomview \
+                   geomview_demo \
                    viewpoint2off \
                    core
 

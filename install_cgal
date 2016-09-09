@@ -2,10 +2,10 @@
 # ---------------------------------------------------------------------
 # A CGAL Installation Script Prototype 
 # ---------------------------------------------------------------------
-# $Id: install_cgal,v 1.31 1998/11/26 16:06:35 hoffmann Exp $
+# $Id: install_cgal,v 1.43 1999/05/25 12:51:03 hoffmann Exp $
 # ---------------------------------------------------------------------
 # 
-# Copyright (c) 1998 The CGAL Consortium
+# Copyright (c) 1998, 1999 The CGAL Consortium
 #
 # This software and related documentation is part of the
 # Computational Geometry Algorithms Library (CGAL).
@@ -32,8 +32,9 @@
 #
 # The CGAL Consortium consists of Utrecht University (The Netherlands),
 # ETH Zurich (Switzerland), Free University of Berlin (Germany),
-# INRIA Sophia-Antipolis (France), Max-Planck-Institute Saarbrucken
-# (Germany), RISC Linz (Austria), and Tel-Aviv University (Israel).
+# INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
+# (Germany) Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+# and Tel-Aviv University (Israel).
 #
 # ---------------------------------------------------------------------
 
@@ -45,9 +46,9 @@
 # CGAL specific:
 
 # ---------------------------------------------
-CGAL_VERSION='1.2'
+CGAL_VERSION='2.0'
 # ---------------------------------------------
-CGAL_INSTALL_VERSION='$Revision: 1.31 $'
+CGAL_INSTALL_VERSION='$Revision: 1.43 $'
 # ---------------------------------------------
 CGAL_INSTALL_CONF_VERSION='1.1'
 # ---------------------------------------------
@@ -123,6 +124,10 @@ CGAL_TESTSUITE=''
 # is to be supported
 SUPPORT_MIPSPRO_64='y'
 
+# ---------------------------------------------
+# the directory of an existing CGAL installation
+# we want to upgrade 
+UPGRADE_FROM=''
 
 # ---------------------------------------------
 # LEDA specific:
@@ -145,26 +150,6 @@ NEED_EXTRA_LEDA_LDIR='y'
 
 # did LEDA tests succeed ('' - no, 'y' - yep)
 LEDA_TEST_PASSED=''
-
-
-# ---------------------------------------------
-# STL specific:
-#
-
-# specifies STL setting (since this is compiler specific,
-# it will be updated each time a compiler is chosen)
-# 'e' means an extra STL is needed and
-# 'b' means compiler is shipped with an STL (and it should be used)
-# while 'x' means to use an extra STL anyway
-STL_STATUS='b'
-STL_DIR=''
-
-# type of STL: (see test_stl_version below)
-CGAL_STL_VERSION='CGAL_STL_UNKNOWN'
-
-# did STL tests succeed ('' - no, 'y' - yep)
-STL_TEST_PASSED=''
-
 
 # ---------------------------------------------
 # GMP specific:
@@ -213,6 +198,10 @@ INSTALL_LOGFILE_REDIRECTION='>/dev/null'
 # The strings are set in search_for_compilers resp. compiler_absolute
 COMPILER=''
 
+# indicates whether the compiler is supported by CGAL or not
+# empty <=> unsupported
+CGAL_SUPPORT_COMPILER=''
+
 # string defining OS and compiler
 # (used for naming makefiles and lib directories)
 CGAL_OS_COMPILER=''
@@ -248,13 +237,12 @@ If you get stuck, please read the documentation."
 print_usage_information()
 {
 	${_printf} "%s\n\n" \
-"usage: `basename $0`  
-      [--help | --version | -i | --interactive |
-       -ni <comp> | --non-interactive <comp> | -os <comp> |
-       --build-all | --rebuild-all]
+"usage: `basename $0`
+      [--help | --version | -i | --interactive | -u <dir> | 
+       --upgrade <dir> | --build-all | --rebuild-all |
+       -ni <comp> | --non-interactive <comp> | -os <comp>]
       [-leda] [-gmp] [--verbose]
-      [--CGAL_DIR <dir>] [--STL_DIR <dir>]
-      [--leda-sys-incl] [--leda-sys-lib]
+      [--CGAL_DIR <dir>] [--leda-sys-incl] [--leda-sys-lib]
       [--LEDA_INCL_DIR <dir>] [--LEDA_LIB_DIR <dir>]
       [--GMP_INCL_DIR <dir>] [--GMP_LIB_DIR <dir>]
 
@@ -267,6 +255,17 @@ print_usage_information()
   --interactive  
                runs the script in interactive mode
                (other options - except for --CGAL_DIR - are ignored)
+  --upgrade <dir>
+               runs the script in upgrade mode
+	       Use this option, if you upgrade from CGAL-1.*
+	       and supply the directory where CGAL-1 is installed
+	       on your system.
+	       The config/install files and GMP installations will 
+	       be copied from there.
+  --rebuild-all
+	       (Re)build compiler configuration files and libraries
+	       for all compilers for which a config/install file
+	       exists.
   --non-interactive <comp>   
                runs the script in non-interactive mode
                i.e. makefiles are generated for C++ compiler
@@ -391,10 +390,10 @@ _check_for_sysutil()
     elif [ -x /usr/bin/$1 ]; then 
 	eval "_$1=/usr/bin/$1" 
     else
-	_check_for_util $*
+	_check_for_util ${*}
 	return $?
     fi
-    _tmp="echo $\_`echo ${3:-$1}`"
+   _tmp="echo $\_`echo ${3:-$1}`"
     _tmp=`eval "${_tmp}"`
     _tmp=`eval "echo ${_tmp}"`
     log_print "$1 is ${_tmp}." 
@@ -442,7 +441,7 @@ _check_dir_exists_create()
     if [ ! -d "${1}" ]; then
 	log_print \
 	    "WARNING: Directory ${1} does not exist, it will be created."
-	${_mkdir} ${1}
+	${_mkdir} -p ${1}
     fi
     _check_read ${1}
     _check_write ${1}
@@ -541,10 +540,9 @@ _install_version_number()
 # (they should be on a unix system, but ...)
 check_for_utils()
 {
-    _which='which'
+    _which=real_which
     _check_for_sysutil basename y
     _check_for_sysutil dirname y
-    _which=real_which
     _check_for_sysutil uname y
     _check_for_sysutil printf y
     _check_for_sysutil cat y
@@ -555,10 +553,11 @@ check_for_utils()
     _check_for_sysutil ls y
     _check_for_sysutil chmod y
     _check_for_sysutil mkdir y
-    _check_for_sysutil tput y
     _check_for_sysutil fgrep y
     _check_for_sysutil sed y
     _check_for_sysutil awk y
+    _check_for_sysutil tee y
+    _check_for_sysutil find y
     if [ -n "${PAGER}" -a ! -x "${PAGER}" ]; then
 	_check_for_sysutil `$_basename ${PAGER}` y
 	PAGER=`eval "echo \$\_$PAGER"`
@@ -576,7 +575,7 @@ check_for_utils()
 guess_os()
 {
     _tmp=`${_uname} -p 2>/dev/null`
-    if [ -z "${_tmp}" ]; then
+    if [ -z "${_tmp}" -o "${_tmp}" = 'unknown' ]; then
 	_tmp=`${_uname} -m 2>/dev/null`
     fi
     if [ -n "${_tmp}" ]; then
@@ -584,7 +583,7 @@ guess_os()
     else
 	$1 "WARNING: Could not determine architecture."
     fi
-    SYST="${_tmp}`${_uname} -s`-`${_uname} -r`"
+    SYST="${_tmp}`${_uname} -s | ${_sed} 's/_//g'`-`${_uname} -r | ${_awk} '{print $1}'`"
     $1 "OS is \"${SYST}\"." 
 }
 
@@ -592,21 +591,6 @@ guess_os()
 # compiler related functions:
 # -------------------------------------------------------------------
 
-
-# this header is used to disable the STL-in-std-namespace
-# for MIPSPRO later than 7.2
-write_sgi_no_namespace_header()
-{
-    ${_printf} "%s\n" '
-    #if defined(__sgi) && !defined(__GNUC__) && defined(_COMPILER_VERSION)
-    #if (_COMPILER_VERSION >= 721) && defined(_NAMESPACES)
-    #define __STL_NO_NAMESPACES
-    #include <stl_config.h>
-    #undef __STL_USE_NAMESPACES
-    #endif
-    #endif
-'
-}
 
 # give version numbers for GNU GCC
 # NB: truncated to *.*.* (three numbers)
@@ -851,6 +835,33 @@ set_compiler_flags()
 tmp_code_file=redirect_tmpfile.C
 tmp_header_file=redirect_tmpfile
 
+# this function is used to add symbols to namespace std
+# (that should be present, but are not due to compiler/stdlib bugs)
+print_using()
+{
+    _tmp=${1}
+    shift
+    ${_printf} "\n%s\n" \
+	"#if defined(CGAL_CFG_NO_STD${_tmp}_NAMESPACE) && !defined(CGAL_NO_STD${_tmp}_NAMESPACE)"
+    ${_printf} "\n%s\n" "namespace std {"
+    for i in ${*}; do
+	${_printf} "\t%s\n" "using ::${i};"
+    done
+    ${_printf} "%s\n" "}"
+    ${_printf} "\n%s\n" \
+	"#endif // CGAL_CFG_NO_STD${_tmp}_NAMESPACE && !CGAL_NO_STD${_tmp}_NAMESPACE"
+}
+
+# this function is used to undefine macros (used for cctype)
+print_undef()
+{
+    for i in ${*}; do
+	${_printf} "%s\n" "#ifdef ${i}"
+	${_printf} "%s\n" "#undef ${i}"
+	${_printf} "%s\n" "#endif // ${i}"
+    done
+}
+
 create_replacement_header()
 #
 # Create one header as a replacement for a standard header, if necessary.
@@ -858,16 +869,25 @@ create_replacement_header()
 #   create_replacement_header standard_header_name suffix replacements...
 #
 {
+    uncond=''
+    # special option to create header unconditionally (for CCTYPE_MACRO_BUG)
+    if [ "${1}" = "notest" ]; then
+	shift
+	uncond='y'
+    fi
     replacement_header=rh
     header_name=$1
     header_suffix=$2
     shift 2
+    _final_file="${CGAL_INCL_CONF_DIR}/${CGAL_OS_COMPILER}/${header_name}${header_suffix}"
 #
 # Test if the standard header exists. Return if it does.
 #
-    ${_printf} "%s\n" "#include <$header_name>" > ${tmp_code_file}
-    ${_printf} "%s\n" "int main() {return 0;}" >> ${tmp_code_file}
-    if `compiler_bin` ${tmp_code_file} >/dev/null 2>&1; then return; fi
+    if [ -z "${uncond}" ]; then
+	${_printf} "%s\n" "#include <$header_name>" > ${tmp_code_file}
+	${_printf} "%s\n" "int main() {return 0;}" >> ${tmp_code_file}
+	if `compiler_bin` ${tmp_code_file} >/dev/null 2>&1; then return; fi
+    fi
 #
 # The standard header does not exist.
 # If some of the replacement headers do exist, they included in a
@@ -879,16 +899,75 @@ create_replacement_header()
         ${_printf} "%s\n" "#include <$arg>" > ${tmp_code_file}
 	${_printf} "%s\n" "int main() {return 0;}" >> ${tmp_code_file}
 	if `compiler_bin` ${tmp_code_file} >/dev/null 2>&1; then
+	    ${_sed} "s/@CGAL@/${CGAL_VERSION}/;s@FILE@${_final_file};s/@VERSION@/${CGAL_INSTALL_VERSION}/" <<EOF3 >>${replacement_header}
+// Copyright (c) 1999 The CGAL Consortium
+//
+// This software and related documentation is part of the
+// Computational Geometry Algorithms Library (CGAL).
+//
+// release       : @CGAL@
+// file          : @FILE@
+// package       : Installation (@VERSION@)
+//
+// This file was automatically generated during installation.
+// It wraps a standard header file that did not exist for this compiler
+// and adds its symbols to namespace std.
+// The existence of this file indicates that your compiler does not
+// conform to the ISO/IEC standard 14882 for C++.
+
+EOF3
 	    ${_printf} "%s\n" "#include <$arg>" >> ${replacement_header}
 	fi
     done
+
+
+
 #
 # Move the replacement header to the platform specific config directory.
 # This directory should be created first.
 #
     if [ -s ${replacement_header} ]
     then
-	mv ${replacement_header} "${CGAL_INCL_CONF_DIR}/${CGAL_OS_COMPILER}/CGAL/${header_name}${header_suffix}"
+#
+# this is just an ugly list of additions to namespace std
+#  
+	case ${header_name} in
+	    iosfwd|ios) 
+		print_using IO ios >> ${replacement_header};;
+	    fstream) print_using IO filebuf ifstream ofstream fstream >> ${replacement_header};;
+	    streambuf) print_using IO streampos streamoff streambuf >> ${replacement_header};;
+	    iomanip) print_using IO setbase resetiosflags setiosflags setfill setprecision setw >> ${replacement_header};;
+	    iostream) print_using IO cin cout cerr clog endl ends flush ios streampos streamoff streambuf ostream istream iostream istream_withassign ostream_withassign iostream_withassign >> ${replacement_header};;
+# those do not exist e.g. on mipspro: wcin wcout wcerr wclog
+ 	    istream) print_using IO istream istream_withassign >> ${replacement_header};;
+	    ostream) print_using IO ostream ostream_withassign >> ${replacement_header};;
+	    strstream) print_using IO strstream istrstream ostrstream >> ${replacement_header};;
+	    csetjmp) print_using C longjmp jmp_buf >> ${replacement_header};;
+	    cstdarg) print_using C va_list >> ${replacement_header};;
+	    ctime) print_using C size_t time_t clock_t tm asctime ctime clock difftime gmtime localtime mktime time strftime >> ${replacement_header};;
+	    csignal) print_using C sig_atomic_t raise signal >> ${replacement_header};;
+	    cstdlib) print_using C abort atexit exit getenv system calloc malloc free realloc atof atoi atol mblen mbstowcs mbtowc strtod strtol strtoul wcstombs wctomb bsearch qsort div_t ldiv_t abs div labs ldiv rand srand >> ${replacement_header};;
+	    # the functions from cctype are implemented as macros
+	    # on some platforms (IRIX6, Solaris2.6)
+	    # but they have to be functions according to the std!
+	    cctype) ${_printf} "\n%s\n" \
+		"#ifdef CGAL_CFG_CCTYPE_MACRO_BUG" >> ${replacement_header}
+		    print_undef isalnum isalpha iscntrl isdigit isgraph islower isprint ispunct isspace isupper isxdigit >> ${replacement_header}
+		    ${_printf} "\n%s\n" \
+		"#endif // CGAL_CFG_CCTYPE_MACRO_BUG" >> ${replacement_header}
+		    print_using C isalnum isalpha iscntrl isdigit isgraph islower isprint ispunct isspace isupper isxdigit >> ${replacement_header};;
+	    cwctype) print_using C wctrans_t wctype_t wint_t iswalnum iswalpha iswcntrl iswctype iswdigit iswgraph iswlower iswprint iswpunct iswspace iswupper iswxdigit towctrans towlower towupper wctrans wctype >> ${replacement_header};;
+	    cstring) print_using C size_t memchr memcmp memcpy memmove memset strcat strchr strcmp strcoll strcpy strcspn strerror strlen strncat strncmp strncpy strpbrk strrchr strspn strstr strtok strxfrm >> ${replacement_header};;
+	    cwchar) print_using C wint_t size_t fgetwc fgetws fputwc fputws getwc getwchar putwc putwchar ungetwc wcscat wcschr wcscmp wcscoll wcscpy wcscspn wcsftime wcslen wcsncat wcsncmp wcsncpy wcspbrk wcsrchr wcsspn wcstod wcstok wcstol wcstoul wcsxfrm >> ${replacement_header};;
+	    cstdio) print_using C FILE fpos_t size_t clearerr fclose feof ferror fflush fgetc fgetpos fgets fopen fprintf fputc fputs fread freopen fscanf fseek fsetpos ftell fwrite getc getchar gets perror printf putc putchar puts remove rename rewind scanf setbuf setvbuf sprintf sscanf tmpfile tmpnam ungetc vfprintf vprintf vsprintf >> ${replacement_header};;
+	    cmath) print_using C acos asin atan2 atan ceil cos cosh exp fabs floor fmod frexp ldexp log10 log modf pow sin sinh sqrt tan tanh >> ${replacement_header};;
+	    cstddef) print_using C ptrdiff_t size_t >> ${replacement_header};;
+	esac
+#
+# end of ugly list of additions to namespace std :)
+#  
+	${_printf} "\n%s\n" "// EOF //" >> ${replacement_header}
+	mv ${replacement_header} "${_final_file}"
     fi
 }
 
@@ -902,7 +981,7 @@ create_standard_header_replacements()
     ${_printf} "%s\n" "#include <${tmp_header_file}>" > ${tmp_code_file}
     ${_printf} "%s\n" \
 	"int main() { CGAL_nt result = 0; return result;}" >> ${tmp_code_file}
-    if `compiler_bin` -I . ${tmp_code_file} >/dev/null 2>&1
+    if `compiler_bin` -I. ${tmp_code_file} >/dev/null 2>&1
     then
 	header_suffix=""
     else
@@ -962,6 +1041,7 @@ utility function.h pair.h
 typeinfo typeinfo.h
 string
 streambuf streambuf.h
+strstream strstream.h
 stdexcept stdexcept.h
 stack stack.h
 sstream sstream.h
@@ -970,7 +1050,7 @@ EOF2
 }
 
 #
-# end of code segemnt from make_redirection_headers
+# end of code segment from make_redirection_headers
 # --------------------------------------------------------------------------
 
 # COMPILER SPECS TEST:
@@ -980,12 +1060,14 @@ EOF2
 # ($1 nonzero indicates verbosity)
 test_compiler_specifica()
 {
+    cd ${CGAL_TEST_CONF_DIR}
     _check_dir_exists_create ${CGAL_INCL_CONF_DIR}
     _check_dir_exists_create ${CGAL_INCL_CONF_DIR}/${CGAL_OS_COMPILER}
+    create_standard_header_replacements
     _check_dir_exists_create ${CGAL_INCL_CONF_DIR}/${CGAL_OS_COMPILER}/CGAL
     _file=${CGAL_INCL_CONF_DIR}/${CGAL_OS_COMPILER}/CGAL/compiler_config.h
     ${_printf} "%s\n" \
-	"// Copyright (c) 1998 The CGAL Consortium" \
+	"// Copyright (c) 1998, 1999 The CGAL Consortium" \
 	> ${_file}
     ${_printf} "%s\n" \
 	"//" \
@@ -1026,14 +1108,30 @@ test_compiler_specifica()
     ${_printf} "%s\n\n" \
 	"//" \
 	>> ${_file}
-    set_stl_version "${INSTALL_VERBOSE}"
+
+    # test for STL
+    ${_printf} "%s%s\n" \
+	"//+----------------------------------------------------------" \
+	"----------------" \
+	    >> ${_file}
     ${_printf} "%s\n" \
-	"// CGAL STL version id:" \
-	>> ${_file}
-    ${_printf} "%s\n\n" \
-	"#define ${CGAL_STL_VERSION} 1" \
-	>> ${_file}
-    cd ${CGAL_TEST_CONF_DIR}
+	"// The compiler has to provide a Standard Template Library" \
+	    >> ${_file}
+    ${_printf} "%s%s\n" \
+	"//+----------------------------------------------------------" \
+	"----------------" \
+	    >> ${_file}
+    if test_stl_general "${INSTALL_VERBOSE}" 'STL'; then
+	log_print "`extended_compiler_description` seems to have STL."
+	${_printf} "%s\n\n" "// STL test ok" >> ${_file}
+    else
+	log_print "`extended_compiler_description` seems NOT to have STL."
+	${_printf} "%s\n\n" \
+	    "#error \"This compiler does not have a working STL\"" \
+	    >> ${_file}
+    fi
+
+    # test for other compiler features/bugs
     for i in ${CGAL_TEST_CONF_DIR}/CGAL*.C; do
 	${_cat} ${i} > ${TMP_CXX_FILE}.C
 	${_printf} "%s%s\n" \
@@ -1056,16 +1154,19 @@ test_compiler_specifica()
 	fi
 	if _compile_test \
 	    "${_tmp_name}" \
-	    "${CUSTOM_CXXFLAGS} `stl_cxxflags`" \
+	    "`compiler_test_cxxflags` " \
 	    "$1" \
 	    "${_NO}" \
 	  && _link_run_test \
 	    "${_tmp_name}" \
-	    "${CUSTOM_LDFLAGS} " \
+	    "`compiler_test_ldflags` " \
 	    "$1" \
 	    "${_NO}"
 	then
 	    ${_printf} "%s" "//" >> ${_file}
+	elif [ "`${_basename} ${i}`" = "CGAL_CFG_CCTYPE_MACRO_BUG.C" ]; then
+	    # we have to generate the redirection header cctype
+	    create_replacement_header notest cctype "" ctype.h
 	fi
 	${_printf} "%s\n\n" \
 	    "#define ${CGAL_CONFIG_PREFIX}${_test_name} 1" \
@@ -1073,7 +1174,6 @@ test_compiler_specifica()
 	cleanup_after_compile
 	cleanup_after_link_run
     done
-    create_standard_header_replacements
     cd ${CGAL_DIR}
 }
 
@@ -1104,6 +1204,20 @@ cgal_ldflags()
     if [ -n "${RUNTIME_LINKER_FLAG}" ]; then
 	${_printf} "%s" "/`full_ostype` "
     fi
+}
+
+#---------------------------------------------------------
+# flags for the compiler tests
+
+compiler_test_cxxflags()
+{
+    ${_printf} "%s" \
+	"${CUSTOM_CXXFLAGS} -I${CGAL_INCL_CONF_DIR}/${CGAL_OS_COMPILER} "
+}
+
+compiler_test_ldflags()
+{
+    ${_printf} "%s" "${CUSTOM_LDFLAGS} -lm "
 }
 
 #---------------------------------------------------------
@@ -1149,26 +1263,6 @@ gmp_test_ldflags()
 }
 
 #---------------------------------------------------------
-# flags for STL
-
-stl_cxxflags()
-{
-    if [ "${STL_STATUS}" != "b" ]; then
-	${_printf} "%s" "-I`_where_is 'STL_DIR'` "
-    fi
-}
-
-stl_test_cxxflags()
-{
-    ${_printf} "%s" "${CUSTOM_CXXFLAGS} `stl_cxxflags`"
-}
-
-stl_test_ldflags()
-{
-    ${_printf} "%s" "${CUSTOM_LDFLAGS} -lm"
-}
-
-#---------------------------------------------------------
 # flags for LEDA
 leda_cxxflags()
 {
@@ -1190,13 +1284,13 @@ leda_ldflags()
 
 leda_test_cxxflags()
 {
-    ${_printf} "%s" "${CUSTOM_CXXFLAGS} "
+    ${_printf} "%s" "`compiler_test_cxxflags` "
     leda_cxxflags
 }
 
 leda_test_ldflags()
 {
-    ${_printf} "%s" "${CUSTOM_LDFLAGS} "
+    ${_printf} "%s" "`compiler_test_ldflags` "
     leda_ldflags
     ${_printf} "%s" "-lm "
 }
@@ -1207,7 +1301,7 @@ leda_test_ldflags()
 # print cxxflags for current setting
 compiler_flags()
 {
-    ${_printf} "%s" "${CUSTOM_CXXFLAGS} `cgal_cxxflags``stl_cxxflags``leda_cxxflags``gmp_cxxflags`"
+    ${_printf} "%s" "${CUSTOM_CXXFLAGS} `cgal_cxxflags``leda_cxxflags``gmp_cxxflags`"
 }
 
 # print ldflags for current setting
@@ -1419,8 +1513,8 @@ search_for_compilers()
 	    _search_compiler gcc g++ ''
 	    ;;
 	*IRIX*|*SunOS*)
-	    _search_compiler cc CC ''
 	    _search_compiler gcc g++ ''
+	    _search_compiler cc CC ''
 	    ;;
 	*)
 	    _search_compiler gcc g++ ''
@@ -1494,7 +1588,7 @@ _expr_expr()
 {
     # we have to do the indirection in three steps
     # (since there can be only one `...` expression level)
-    eval "_result=`/bin/expr ${1} \"${2}\" ${3}`"
+    eval "_result=`${_expr} ${1} \"${2}\" ${3}`"
     if [ $? != 0 ]; then
 	exit_on_error "Cannot evaluate \"${1}\" in _expr_expr()"
     fi
@@ -1506,7 +1600,7 @@ _bc_expr()
 {
     # we have to do the indirection in three steps
     # (since there can be only one `...` expression level)
-    eval "_result=`echo $1 \"$2\" $3 | /bin/bc`"
+    eval "_result=`echo $1 \"$2\" $3 | ${_bc}`"
     if [ $? != 0 ]; then
 	exit_on_error "Cannot evaluate \"${1}\" in _bc_expr()"
     fi
@@ -1519,9 +1613,10 @@ set_expr()
     # first try shell let, then expr, bc, dc and csh
     if /bin/sh -tc 'e=0; let e+=1' 2>/dev/null; then
 	_EXPR=_let_expr
-    elif [ -x /bin/expr ]; then
+#    elif [ -x /bin/expr ]; then
+    elif _check_for_sysutil expr n; then
 	_EXPR=_expr_expr
-    elif [ -x /bin/bc ]; then
+    elif _check_for_sysutil expr n; then
 	_EXPR=_bc_expr
     else
 	exit_on_error "Cannot find either of \"expr\" or \"bc\"" \
@@ -1743,24 +1838,32 @@ set_menu_lines()
 # set some variables for output
 set_terminal_variables()
 {
-    ${_tput} smcup # turn on cup (see man terminfo)
-    _line_up=`${_tput} cuu1`"\r"
-    _bold_on=`${_tput} bold`
-    _bold_off=`${_tput} sgr0`
-    _clear_screen=`${_tput} clear`
-    _clear_end_of_display=`${_tput} ed`
-    eval "${_EXPR} ${_MENU_WIDTH} \* 10"
-    length "${_LEFTSPACE}"
-    eval "${_EXPR} ${_result} + $?"
-    # for two-star('**') border
-    eval "${_EXPR} ${_result} + 4"
-    if [ `${_tput} cols` -lt ${_result} ]; then
-	print_filled_line
-	print_line \
-	"${_bold_on}WARNING${_bold_off}: Your terminal screen is too narrow."
-	print_line "It should have at least ${_result} columns."
-	print_filled_line
-	wait_for_enter
+    if _check_for_sysutil tput n; then
+	${_tput} smcup # turn on cup (see man terminfo)
+	_line_up=`${_tput} cuu1`"\r"
+	_bold_on=`${_tput} bold`
+	_bold_off=`${_tput} sgr0`
+	_clear_screen=`${_tput} clear`
+	_clear_end_of_display=`${_tput} ed`
+	eval "${_EXPR} ${_MENU_WIDTH} \* 10"
+	length "${_LEFTSPACE}"
+	eval "${_EXPR} ${_result} + $?"
+	# for two-star('**') border
+	eval "${_EXPR} ${_result} + 4"
+	if [ `${_tput} cols` -lt ${_result} ]; then
+	    print_filled_line
+	    print_line \
+	    "${_bold_on}WARNING${_bold_off}: Your terminal screen is too narrow."
+	    print_line "It should have at least ${_result} columns."
+	    print_filled_line
+	    wait_for_enter
+	fi
+    else
+	eval "${_EXPR} ${_MENU_WIDTH} \* 10"
+	length "${_LEFTSPACE}"
+	eval "${_EXPR} ${_result} + $?"
+	# for two-star('**') border
+	eval "${_EXPR} ${_result} + 4"
     fi
 }
 
@@ -1883,14 +1986,14 @@ check_LEDA_LIB_DIR()
     return 0
 }
 
-check_STL_DIR()
+check_UPGRADE_FROM()
 {
-    if [ -n "${STL_DIR}" ]; then
-	if [ ! -r $STL_DIR/iterator.h ]; then
-	    $1 "WARNING: STL_DIR should contain iterator.h." 
-	else
-	    return 1
-	fi
+    if [ ! -d "${UPGRADE_FROM}/include/CGAL" ]; then
+	$1 "WARNING: UPGRADE_FROM should contain a subdirectory \"include/CGAL\"." 
+    elif [ ! -d "${UPGRADE_FROM}/lib" ]; then
+	$1 "WARNING: UPGRADE_FROM should contain a subdirectory \"lib\"." 
+    else
+	return 1
     fi
     return 0
 }
@@ -1902,28 +2005,6 @@ check_LEDA_SUPPORT()
 	return 0
     fi
     return 1
-}
-
-check_STL_STATUS()
-{
-    if [ "${STL_STATUS}" != "b" -a "${STL_STATUS}" != "x" \
-	-a "${STL_STATUS}" != "e" ]; then
-	$1 "WARNING: STL_STATUS is not set correctly." 
-	return 0
-    fi
-    return 1
-}
-
-check_CGAL_STL_VERSION()
-{
-    case ${CGAL_STL_VERSION} in
-	CGAL_STL_GCC|CGAL_STL_HP|CGAL_STL_SGI_WWW|CGAL_STL_SGI_3_0|\
-	    CGAL_STL_SGI_WWW_OLD|CGAL_STL_SGI_CC|CGAL_STL_UNKNOWN)
-	return 1;;
-	*)
-	$1 "WARNING: CGAL_STL_VERSION is not set correctly." 
-	return 0;;
-    esac
 }
 
 check_CGAL_INSTALL_VERSION()
@@ -2202,10 +2283,8 @@ test_for_leda_lib_in_sys_lib()
 test_leda()
 {
     if [ -n "${LEDA_SUPPORT}" ]; then
-	write_sgi_no_namespace_header > ${TMP_CXX_FILE}.C
 	${_printf} "%s\n" '
-	    #include <iostream.h>
-	    #include <assert.h>
+	    #include <cassert>
 	    #include <LEDA/integer.h>
 	    #include <LEDA/REDEFINE_NAMES.h>
 	    typedef integer I;
@@ -2217,7 +2296,7 @@ test_leda()
 	    assert( a + b == I( 580245));
 	    assert( a - b == I( -333333));
 	    return 0;
-	    }' >> ${TMP_CXX_FILE}.C
+	    }' > ${TMP_CXX_FILE}.C
 
 	if _compile_test LEDA "`leda_test_cxxflags`" $1 && \
 	    _link_run_test LEDA "`leda_test_ldflags`" $1
@@ -2234,187 +2313,8 @@ test_leda()
 }
 
 # ---------------------------------------------------------------------
-# STL TESTS:
-# (I use "@error" instead of "#error" to indicate an error,
-#  since sunpro CC treats the latter as warnings ...)
+# STL TEST:
 
-# test, if STL is original HP from 1994 (or compatible?)
-# (return 0, iff it is)
-# (test program due to Lutz Kettner)
-# ($1 nonzero indicates verbosity)
-_test_hp_1994_stl()
-{
-    ${_printf} "%s\n" '
-	#include <assert.h>
-	#include <defalloc.h>
-	#include <iterator.h>
-	#define Allocator allocator
-	#include <list.h>
-	
-	#ifndef LIST_H
-	@error Program does not use the HP STL from 1994.
-	#endif
-	
-	#ifdef Allocator
-	@error Program does not use the HP STL from 1994.
-	#endif
-
-	int main() {
-	    list<int> l;
-	    l.push_back(42);
-	    assert( 42 == *(l.begin()));
-	    return 0;
-	}' > ${TMP_CXX_FILE}.C
-    
-    _compile_test "HP STL" "`stl_test_cxxflags` " $1 && \
-	_link_run_test "HP STL" "`stl_test_ldflags` " $1
-    return $?
-}
-
-# test, if STL is SGI STL from 1996 (or compatible?)
-# (return 0, iff it is)
-# (test program due to Lutz Kettner)
-# ($1 nonzero indicates verbosity)
-_test_sgi_1996_stl()
-{
-    ${_printf} "%s\n" '
-	#include <assert.h>
-	#include <defalloc.h>
-	#include <iterator.h>
-	#define Allocator allocator
-	#include <list.h>
-
-	#ifndef __SGI_STL_LIST_H
-	@error Program does not use the old SGI STL from the web from 1996.
-	#endif
-
-	#ifndef Allocator
-	@error Program does not use the old SGI STL from the web from 1996.
-	#endif
-
-	template< class T> inline
-	int check( const __list_const_iterator<T>&){
-	    return 1;
-	}
-
-	int main() {
-	    const list<int> l;
-	    assert( check( l.begin()));
-	    return 0;
-	}' > ${TMP_CXX_FILE}.C
-    
-    _compile_test "SGI 1996 STL" "`stl_test_cxxflags` " $1 && \
-	_link_run_test "SGI 1996 STL" "`stl_test_ldflags` " $1
-    return $?
-}
-
-# test, if STL is SGI STL supplied with compiler (or compatible?)
-# (return 0, iff it is)
-# (test program due to Lutz Kettner)
-# ($1 nonzero indicates verbosity)
-_test_sgi_cc_stl()
-{
-    ${_printf} "%s\n" '
-	#include <assert.h>
-	#include <defalloc.h>
-	#include <iterator.h>
-	#define Allocator allocator
-	#include <list.h>
-
-	#ifndef LIST_H
-	@error Program does not use the SGI STL shipped with C++ from 1996.
-	#endif
-
-	#ifndef Allocator
-	@error Program does not use the SGI STL shipped with C++ from 1996.
-	#endif
-
-	int main() {
-	    list<int> l;
-	    l.push_back(42);
-	    assert( 42 == *(l.begin()));
-	    return 0;
-	}' > ${TMP_CXX_FILE}.C
-    
-    _compile_test "SGI CC STL" "`stl_test_cxxflags` " $1 && \
-	_link_run_test "SGI CC STL" "`stl_test_ldflags` " $1
-    return $?
-}
-
-# test, if STL is SGI STL from June 1997 (or compatible?)
-# (return 0, iff it is)
-# (test program due to Lutz Kettner)
-# ($1 nonzero indicates verbosity)
-_test_sgi_june_1997_stl()
-{
-    ${_printf} "%s\n" '
-	#include <assert.h>
-	#include <defalloc.h>
-	#include <iterator.h>
-	#define Allocator allocator
-	#include <list.h>
-
-	#ifndef __SGI_STL_LIST_H
-	@error Program does not use the SGI STL from June 13, 1997.
-	#endif
-
-	#ifndef Allocator
-	@error Program does not use the SGI STL from June 13, 1997.
-	#endif
-    
-	template< class T, class Ref> inline
-	int check( const __list_iterator<T,Ref>&){
-	    return 1;
-	}
-
-	int main() {
-	    list<int> l;
-	    assert( check( l.begin()));
-	    return 0;
-	}' > ${TMP_CXX_FILE}.C
-    
-    _compile_test "SGI 6/97 STL" "`stl_test_cxxflags` " $1 && \
-	_link_run_test "SGI 6/97 STL" "`stl_test_ldflags` " $1
-    return $?
-}
-
-# test, if STL is SGI STL 3.0 (or compatible?)
-# (return 0, iff it is)
-# (test program due to Lutz Kettner)
-# ($1 nonzero indicates verbosity)
-_test_sgi_3_0_stl()
-{
-    write_sgi_no_namespace_header > ${TMP_CXX_FILE}.C
-    ${_printf} "%s\n" '
-	#include <assert.h>
-	#include <defalloc.h>
-	#include <iterator.h>
-	#define Allocator allocator
-	#include <list.h>
-
-	#ifndef __SGI_STL_LIST_H
-	#error Program does not use the SGI STL 3.0.
-	#endif
-
-	#ifndef Allocator
-	#error Program does not use the SGI STL 3.0.
-	#endif
-
-	template< class T, class Ref, class Ptr> inline
-	int check( const __list_iterator<T,Ref,Ptr>&){
-	    return 1;
-	}
-
-	int main() {
-	    list<int> l;
-	    assert( check( l.begin()));
-	    return 0;
-	}' >> ${TMP_CXX_FILE}.C
-    
-    _compile_test "SGI STL 3.0" "`stl_test_cxxflags` " $1 && \
-	_link_run_test "SGI STL 3.0" "`stl_test_ldflags` " $1
-    return $?
-}
 
 # test, if STL works
 # (return 0, iff it is)
@@ -2423,14 +2323,13 @@ _test_sgi_3_0_stl()
 # ($2 gives comment for _compile_test)
 test_stl_general()
 {
-    write_sgi_no_namespace_header > ${TMP_CXX_FILE}.C
     ${_printf} "%s\n" '
-	#include <iostream.h>
-	#include <algo.h>
-	#include <vector.h>
-	#include <list.h>
-	#include <iterator.h>
-	#include <assert.h>
+	#include <algorithm>
+	#include <list>
+	#include <iterator>
+	#include <cassert>
+
+	using std::list;
 
 	list<char> lst( char* s) {
 	    list<char> x;
@@ -2440,91 +2339,20 @@ test_stl_general()
 
 	int main() {
 	    list<char> list1 = lst( "mark twain");
-	    reverse( list1.begin(), list1.end());
+	    std::reverse( list1.begin(), list1.end());
 	    assert( list1 == lst( "niawt kram"));
 	    return 0;
-	}' >> ${TMP_CXX_FILE}.C
+	}' > ${TMP_CXX_FILE}.C
     
     if [ -z "$1" ]; then
-	_compile_test "${2}" "${CUSTOM_CXXFLAGS} " '' && \
-	    _link_run_test "${2}" "${CUSTOM_LDFLAGS} " ''
+	_compile_test "${2}" "`compiler_test_cxxflags` " '' && \
+	    _link_run_test "${2}" "`compiler_test_ldflags` " ''
     else
-	_compile_test "${2}" "`stl_test_cxxflags` " $1 && \
-	    _link_run_test "${2}" "`stl_test_ldflags` " $1 
+	_compile_test "${2}" " " $1 && \
+	    _link_run_test "${2}" " " $1 
     fi
     return $?
 }
-
-# determine which STL version is used
-# ($1 nonzero indicates verbosity)
-# we have the following different types:
-# CGAL_STL_GCC
-# CGAL_STL_HP
-# CGAL_STL_SGI_3_0
-# CGAL_STL_SGI_WWW
-# CGAL_STL_SGI_WWW_OLD
-# CGAL_STL_SGI_CC
-# CGAL_STL_UNKNOWN
-set_stl_version()
-{
-    if [ "`compiler_basename`" = "g++" -a \
-	 "`compiler_version`" = "2.7.2" -a \
-	 "${STL_STATUS}" = "b" ]
-    then
-	CGAL_STL_VERSION='CGAL_STL_GCC'
-    elif _test_sgi_3_0_stl $1; then
-	CGAL_STL_VERSION='CGAL_STL_SGI_3_0'
-    elif _test_sgi_june_1997_stl $1; then
-	CGAL_STL_VERSION='CGAL_STL_SGI_WWW'
-    elif _test_sgi_1996_stl $1; then
-	CGAL_STL_VERSION='CGAL_STL_SGI_WWW_OLD'
-    elif _test_sgi_cc_stl $1; then
-	CGAL_STL_VERSION='CGAL_STL_SGI_CC'
-    elif _test_hp_1994_stl $1; then
-	CGAL_STL_VERSION='CGAL_STL_HP'
-    else
-	CGAL_STL_VERSION='CGAL_STL_UNKNOWN'
-    fi
-    log_print "STL type seems to be ${CGAL_STL_VERSION}."
-}
-
-# checks, if current compiler has a builtin STL
-# (iff so, return 0) and sets STL_STATUS 
-# (and CGAL_STL_VERSION) correspondingly
-test_for_builtin_stl()
-{
-    _OLD_STL_STATUS=${STL_STATUS}
-    STL_STATUS='b'
-    if test_stl_general "${INSTALL_VERBOSE}" 'builtin STL'; then
-	log_print "`extended_compiler_description` seems to have builtin STL."
-	if [ "${_OLD_STL_STATUS}" = "x" ]; then
-	    log_print "... but we do not use it."
-	    STL_STATUS="x"
-	fi	
-	test_compiler_specifica "${INSTALL_VERBOSE}"
-	STL_TEST_PASSED='y'
-	return 0
-    else
-	log_print "`extended_compiler_description` seems NOT to have builtin STL."
-	STL_STATUS='e'
-	STL_TEST_PASSED=''
-	return 1
-    fi
-}
-
-# test, if STL works
-# return 0, if it does, return 1 otherwise
-test_stl()
-{
-    if test_stl_general 'v' 'STL'; then
-	test_compiler_specifica "${INSTALL_VERBOSE}"
-	STL_TEST_PASSED='y'
-	return 0
-    fi
-    STL_TEST_PASSED=''
-    return 1
-}
-
 
 # ---------------------------------------------------------------------
 # GNU GMP TEST:
@@ -2589,7 +2417,6 @@ print_os_setting()
 {
     ${1} "OS:\t\t${SYST}" 
     ${1} "COMPILER:\t`extended_compiler_description`" 
-    ${1} "STL:\t\t${CGAL_STL_VERSION}" 
     _set_tmp_to_not_or_not "${LEDA_SUPPORT}"
     ${1} "LEDA:\t\t${_tmp}supported" 
     _set_tmp_to_not_or_not "${GMP_SUPPORT}"
@@ -2680,22 +2507,6 @@ retrieve_compiler_settings()
 	fi
     fi
 
-    # STL specific stuff:
-    if try_to_get_var_from_file STL_STATUS "${_file}"; then
-	# couldn't get STL_STATUS
-	SETUP_COMPLETE=''
-    fi
-    if try_to_get_var_from_file STL_DIR "${_file}"; then
-	if [ "${STL_STATUS}" != "b" ]; then
-	    SETUP_COMPLETE=''
-	fi
-    fi
-    if try_to_get_var_from_file CGAL_STL_VERSION "${_file}"; then
-	# couldn't get CGAL_STL_VERSION
-	CGAL_STL_VERSION='CGAL_STL_UNKNOWN'
-	SETUP_COMPLETE=''
-    fi
-
     if try_to_get_var_from_file CUSTOM_CXXFLAGS "${_file}"; then
 	CUSTOM_CXXFLAGS=''
     fi
@@ -2768,8 +2579,6 @@ store_compiler_settings()
 	>>${_file}
     _store_install_config_variable COMPILER >>${_file}
     _store_install_config_variable CGAL_INSTALL_VERSION >>${_file}
-    _store_install_config_variable STL_STATUS >>${_file}
-    _store_install_config_variable STL_DIR >>${_file}
     _store_install_config_variable LEDA_SUPPORT >>${_file}
     _store_install_config_variable NEED_EXTRA_LEDA_IDIR >>${_file}
     _store_install_config_variable LEDA_INCL_DIR >>${_file}
@@ -2781,7 +2590,6 @@ store_compiler_settings()
     _store_install_config_variable GMP_LIB_DIR >>${_file}
     _store_install_config_variable CUSTOM_CXXFLAGS  >>${_file}
     _store_install_config_variable CUSTOM_LDFLAGS >>${_file}
-    _store_install_config_variable CGAL_STL_VERSION >>${_file}
     ${_printf} "\n%s\n" \
 	"/* EOF */" \
 	>>${_file}
@@ -2802,15 +2610,6 @@ test_setup()
     SETUP_COMPLETE=''
     make_lib_dir
     link_gmp
-    # STL
-    if [ -z "${STL_TEST_PASSED}" ]; then
-	test_stl
-	if [ $? = 1 ]; then
-	    return 1
-	fi
-    else
-	_passed_message 'STL'
-    fi
 
     # LEDA
     if [ -z "${LEDA_TEST_PASSED}" ]; then
@@ -2843,14 +2642,12 @@ test_setup()
 # such that all previous test results are invalidated
 reset_all_test_variables()
 {
-    STL_TEST_PASSED=''
     LEDA_TEST_PASSED=''
     GMP_TEST_PASSED=''
 }
 
 # load the settings for ${COMPILER},
-# if a config file exists, otherwise check for "builtin" STL
-# and set STL_STATUS accordingly
+# if a config file exists, otherwise check for STL
 _choose_compiler()
 {
     log_print \
@@ -2861,15 +2658,10 @@ _choose_compiler()
     if [ -z "${SETUP_COMPLETE}" ]; then
 	# reset all TEST_PASSED variables
 	reset_all_test_variables
-	test_for_builtin_stl
-	if [ "${STL_STATUS}" = "b" -o -n "${STL_DIR}" ]; then
-	    test_setup
-    	else
-	    SETUP_COMPLETE=''
-	fi
+	test_compiler_specifica "${INSTALL_VERBOSE}"
+	test_setup
     else
 	# reset all TEST_PASSED variables
-	STL_TEST_PASSED='y'
 	if [ -n "${LEDA_SUPPORT}" ]; then
 	    LEDA_TEST_PASSED='y'
 	else
@@ -2883,6 +2675,29 @@ _choose_compiler()
     fi
 }
 
+# sets the CGAL_SUPPORT_COMPILER variable for CGAL_COMPILER to
+# empty (unsupported) or 'y' (supported).
+_set_support()
+{
+    case `compiler_description` in
+	*SUNPRO*) CGAL_SUPPORT_COMPILER='';;
+	*MIPSPRO*n32*) 
+	    case `compiler_version` in
+		7.2*) CGAL_SUPPORT_COMPILER='y';;
+		*) CGAL_SUPPORT_COMPILER='';;
+	    esac
+	    ;;
+	*GNU*)
+	    case `compiler_version` in
+		2.8.1*) CGAL_SUPPORT_COMPILER='y';;
+		egcs-2*) CGAL_SUPPORT_COMPILER='y';;
+		*) CGAL_SUPPORT_COMPILER='';;
+	    esac
+	    ;;
+	*) CGAL_SUPPORT_COMPILER='';;
+    esac
+}
+
 # set COMPILER to ${COMPILER}_$1 (for $1 in {1..${_COMPILER_NUMBER}-1})
 _set_compiler()
 {
@@ -2893,6 +2708,7 @@ _set_compiler()
     _tmp=`eval "echo '$'_COMPILER_$1"`
     _tmp=`eval "echo ${_tmp}"`
     COMPILER=${_tmp}
+    _set_support
 }
 
 
@@ -2909,21 +2725,16 @@ menu_header()
     print_line     "OS:                  ${SYST}"
     print_line \
 	"Compiler:            `extended_compiler_description`"
-    if [ "${STL_STATUS}" = "x" ]; then
-	print_line "Builtin STL:         not used." 
-    elif [ "${STL_STATUS}" = "b" ]; then
-	print_line "Builtin STL:         used." 
-    fi
-    if [ "${STL_STATUS}" != 'b' -a -z "${STL_DIR}" ]; then
-	print_line     "STL_DIR:             please configure!!!" 
-    else
-	print_line     "STL_VERSION:         ${CGAL_STL_VERSION}"
-    fi
     _set_tmp_to_not_or_not "${LEDA_SUPPORT}"
     print_line     "LEDA:                ${_tmp}supported." 
     _set_tmp_to_not_or_not "${GMP_SUPPORT}"
     print_line     "GMP:                 ${_tmp}supported." 
     print_empty_line
+    if [ -n "${CGAL_SUPPORT_COMPILER}" ]; then
+	print_line     "Compiler is supported by CGAL."
+    else
+	print_line     "Compiler is NOT supported by CGAL."
+    fi
     if [ -z "${SETUP_COMPLETE}" ]; then
 	print_line "The setup has ${_bold_on}not${_bold_off} been tested." 
     else
@@ -3057,13 +2868,6 @@ compiler_menu()
     while [ 0 ]; do
 	menu_header 'Compiler'
 	print_line "${_bold_on}<C>${_bold_off}  Choose compiler"
-	if [ "${STL_STATUS}" != "e" ]; then
-	    print_line "${_bold_on}<S>${_bold_off}  Toggle use of builtin STL" 
-	fi
-	if [ "${STL_STATUS}" != "b" ]; then
-	    print_line "${_bold_on}<I>${_bold_off}  STL  include directory" 
-	    print_line "     ${STL_DIR:-<undefined>}" 
-	fi
 	print_line "${_bold_on}<F>${_bold_off}  Set custom compiler flags"
 	print_multi_line "${CUSTOM_CXXFLAGS:-<none>}"
 	print_line "${_bold_on}<L>${_bold_off}  Set custom linker flags"
@@ -3074,25 +2878,6 @@ compiler_menu()
 	case ${KEY} in
 	    c|C)
 		compiler_choose_menu
-		;;
-	    s|S)
-		if [ "${STL_STATUS}" = "x" ]; then
-		    STL_STATUS="b"
-		    STL_TEST_PASSED='y'
-		elif [ "${STL_STATUS}" = "b" ]; then
-		    STL_STATUS="x"
-		    STL_TEST_PASSED=''
-		    SETUP_COMPLETE=''
-		fi
-		;;
-	    i|I)
-		if [ "${STL_STATUS}" != "b" ]; then
-		    if change_dir STL_DIR dir; then
-			go_down_lines 1
-			flush_buffer
-			test_stl 'v'
-		    fi
-    		fi
 		;;
 	    f|F)
 		change_value CUSTOM_CXXFLAGS
@@ -3533,22 +3318,6 @@ write_compiler_flags()
     >> ${FILE}
 
   #
-  # CGAL_STL_INCLUDE_DIRECTIVE
-  #
-  print_as_shell_comment \
-    "*** Fill in your STL include directory ***" \
-    >> ${FILE}
-  print_as_shell_comment \
-    "(including the -I directive)" \
-    >> ${FILE}
-  print_as_shell_comment \
-    "(e.g. -I/usr/local/STL)" \
-    >> ${FILE}
-  ${_printf} "%s\n\n" \
-    "CGAL_STL_INCLUDE_DIRECTIVE = `stl_cxxflags`" \
-    >> ${FILE}
-
-  #
   # LEDA_INCL_DIR
   #
   if [ -n "${LEDA_SUPPORT}" -a -n "${NEED_EXTRA_LEDA_IDIR}" ]; then
@@ -3608,7 +3377,6 @@ write_compiler_flags()
   ${_printf} "%s\\\\\n" "CGAL_CXXFLAGS = " >> ${FILE}
   makefile_print_line "\$(CUSTOM_CXXFLAGS)" >> ${FILE}
   makefile_print_line "${ADDITIONAL_CXXFLAGS}" >> ${FILE}
-  makefile_print_line "\$(CGAL_STL_INCLUDE_DIRECTIVE)" >> ${FILE}
   if [ -n "${GMP_SUPPORT}" ]; then
     makefile_print_line "-DCGAL_USE_GMP" >> ${FILE}
     if [ "${GMP_INSTALLATION}" = 'x' -o \
@@ -3619,7 +3387,13 @@ write_compiler_flags()
   fi
   makefile_print_line "-I\$(CGAL_INCL_CONF_DIR)" >> ${FILE}
   if [ -n "${LEDA_SUPPORT}" ]; then
-    makefile_print_line "-DCGAL_USE_LEDA -DLEDA_PREFIX" >> ${FILE}
+    case ${CGAL_OS_COMPILER} in
+	*g++-2.8*)
+	    makefile_print_line "-DCGAL_USE_LEDA -DLEDA_PREFIX -DLEDA_NO_DEFAULT_COMPARE" \
+	    >> ${FILE};;
+		*)
+	    makefile_print_line "-DCGAL_USE_LEDA -DLEDA_PREFIX" >> ${FILE};;
+    esac
     if [ -n "${NEED_EXTRA_LEDA_IDIR}" ]; then
 	makefile_print_line "-I\$(CGAL_INCL_DIR)" >> ${FILE}
 	${_printf} "\t%s\n\n" "-I\$(LEDA_INCL_DIR)" >> ${FILE}
@@ -3781,6 +3555,7 @@ create_include_makefile()
   # CGAL_CXX
   # 
   makefile_header "compiler" >> ${FILE}
+  ${_printf} "%s\n" "CGAL_CC  = `c_compiler_bin`" >> ${FILE}
   ${_printf} "%s\n" "CGAL_CXX = ${CGAL_CXX}" >> ${FILE}
 
   write_compiler_flags
@@ -3788,6 +3563,22 @@ create_include_makefile()
 
   makefile_header "commands and flags for creating libraries" \
     >> ${FILE}
+
+  # 
+  # CGAL_EXTRA_OBJECTS
+  # 
+  case ${SYST} in
+    *IRIX*-5) 
+	${_printf} "%s\n" \
+	"CGAL_EXTRA_OBJECTS = workaround_4_irix.o" \
+	>> ${FILE}
+	;;
+    *IRIX*-6*) 
+	${_printf} "%s\n" \
+	"CGAL_EXTRA_OBJECTS = workaround_4_irix6.o" \
+	>> ${FILE}
+	;;
+  esac
 
   # 
   # CGAL_LIB
@@ -3944,7 +3735,7 @@ _do_compile()
     if [ -f ${COMPILE_LOGFILE} -a ! -w ${COMPILE_LOGFILE} ]; then
 	${_rm} -f ${COMPILE_LOGFILE} 
     fi
-    if make -f makefile_$1 >${COMPILE_LOGFILE} 2>&1; then
+    if make -k -f makefile_$1 >${COMPILE_LOGFILE} 2>&1; then
 	log_print "Compilation of $1 ${_libname} succeeded."
 	${_printf} "%s\n" " done."
 	ANY_LIB_COMPILED='y'
@@ -4006,7 +3797,9 @@ build_cgal()
 	${_printf} "\n${_LEFTSPACE}%s\n" \
 	"----------------------------------------------------------" \
 	    >> ${INSTALL_RIS_LOGFILE}
-	_do_compile sharedlib
+	if _do_compile sharedlib; then
+	    ${_rm} -f ${CGAL_DIR}/.upgrade-tag
+	fi
     fi
     write_buffer "\n"
     print_filled_line
@@ -4023,6 +3816,48 @@ lib_menu()
 
     # build the libs:
     build_cgal
+}
+
+
+# ---------------------------------------------------------------------
+# (re)build all function
+#
+build_all()
+{
+    guess_os log_print
+    ${_printf} "\n\n"
+    for i in `${_ls} ${CGAL_INSTALL_CONF_DIR}/${SYST}* 2>/dev/null`
+    do
+	INSTALL_LOGFILE_REDIRECTION="|print_with_indent | ${_tee} -a ${INSTALL_LOGFILE}"
+	log_print
+	log_print \
+	    "--------------------------------------------------------"
+	log_print "Build on `${_basename} ${i}`:" 
+	log_print \
+	    "--------------------------------------------------------"
+	INSTALL_LOGFILE_REDIRECTION=">>${INSTALL_LOGFILE}"
+	try_to_get_var_from_file COMPILER ${i}
+	if [ -n "${COMPILER}" ]; then
+	    set_ostype
+	    set_compiler_flags
+	    retrieve_compiler_settings
+	    case ${_WHAT_TO_DO} in
+		*rebuild-all*)
+		    test_compiler_specifica "${INSTALL_VERBOSE}";;
+	    esac
+	    lib_menu
+	    store_compiler_settings
+	else
+	    log_print "Cannot rebuild the library."
+	    print_filled_line
+	    print_empty_line
+	    print_headline "Cannot build on `${_basename} ${i}` !" 
+	    print_headline "No COMPILER defined in config/install/..."
+	    print_filled_line
+	    write_buffer "\n"
+	    flush_buffer
+	fi
+    done
 }
 
 
@@ -4063,6 +3898,94 @@ test_menu()
 
 
 # ---------------------------------------------------------------------
+# upgrade menu
+#
+
+upgrade()
+{
+    _check_read ${UPGRADE_FROM}
+    _check_execute ${UPGRADE_FROM}
+    # copy config install files
+    write_buffer "\n"
+    print_filled_line
+    print_headline "Upgrading from ${UPGRADE_FROM}"
+    print_filled_line
+    print_line "copying config install files"
+    print_filled_line
+    flush_buffer
+    log_print "copy config install files ... "
+    ${_cp} -r ${UPGRADE_FROM}/config/install ${CGAL_DIR}/config
+    log_print "done."
+
+    # copy gmp header and libs
+    if [ -f ${UPGRADE_FROM}/include/gmp.h ]; then
+	go_up_lines 1
+	print_line "copying gmp header"
+	print_filled_line
+	flush_buffer
+	log_print "copy gmp header ... "
+	${_cp} ${UPGRADE_FROM}/include/gmp.h ${CGAL_INCL_DIR}
+	log_print "done."
+    fi
+    go_up_lines 1
+    print_line "searching/copying evt. gmp libs"
+    print_filled_line
+    flush_buffer
+    log_print "copy gmp libs ... "
+    for i in `${_find} ${UPGRADE_FROM} -follow -name "libgmp.a" -print`; do
+	go_up_lines 1
+	print_line "`${_printf} ${i} | ${_awk} 'BEGIN {FS=\"/\"} {i=NF-1;print $i}'`"
+	print_filled_line
+	flush_buffer
+	newdir=`${_dirname} ${i} | ${_sed} "s${UPGRADE_FROM}/lib${CGAL_LIB_DIR}g"`
+	_check_dir_exists_create ${newdir}
+	cp ${i} ${newdir}
+    done
+    print_headline "D O N E"
+    go_up_lines 1
+    print_filled_line
+    flush_buffer
+    log_print "done."
+}
+
+upgrade_menu()
+{
+    # try to find CGAL-1.* directories first
+    for try in ${CGAL_DIR}/../CGAL-1*; do
+	if [ -d "${try}" -a -r "${try}" -a -x "${try}" ]; then
+	    UPGRADE_FROM="`cd ${try}; pwd`"
+	fi
+    done
+    while [ 0 ]; do
+	clear_screen
+	print_filled_line
+	print_headline "CGAL $CGAL_VERSION Installation Upgrade Menu"
+	print_line     "OS: ${SYST}"
+	print_empty_line
+	print_line     "${_bold_on}<U>${_bold_off}  Upgrade from an existing CGAL Installation" 
+	print_line     "  in ${UPGRADE_FROM:-<undefined>}" 
+	print_line     "${_bold_on}<D>${_bold_off}  Change directory for upgrade" 
+	menu_tailer 'Main Menu'
+
+	case ${KEY} in
+	    u|U) print_empty_line
+		 upgrade
+		 _WHAT_TO_DO=rebuild-all
+		 go_up_lines 2
+		 flush_buffer
+		 build_all
+		 ${_rm} -f ${CGAL_DIR}/.upgrade-tag
+		 return
+		 ;;
+	    d|D) change_dir UPGRADE_FROM dir;;
+	    q|Q) return;;
+	esac
+    done
+}
+
+
+
+# ---------------------------------------------------------------------
 # main menu
 #
 
@@ -4093,6 +4016,9 @@ main_menu()
 	if [ -n "${CGAL_TESTSUITE}" -a -n "${LIB_COMPILED}" ]; then
 	    print_line     "${_bold_on}<S>${_bold_off}  Run CGAL testsuite" 
 	fi
+	if [ -f ${CGAL_DIR}/.upgrade-tag ]; then
+	    print_line "${_bold_on}<U>${_bold_off}  Upgrade from an existing CGAL installation" 
+	fi
 	menu_tailer 'OS'
 
 	case $KEY in
@@ -4100,6 +4026,11 @@ main_menu()
 	    l|L) leda_menu;;
 	    g|G) gmp_menu;;
 	    b|B) lib_menu;;
+	    u|U)
+		if [ -f ${CGAL_DIR}/.upgrade-tag ]; then
+		    upgrade_menu
+		fi
+		;;
 	    a|A)
 		reset_all_test_variables
 		go_down_lines 3
@@ -4111,7 +4042,7 @@ main_menu()
 		if [ -n "${GMP_SUPPORT}" ]; then
 		    search_gmp "${INSTALL_VERBOSE}"
 		fi
-		test_for_builtin_stl
+		test_compiler_specifica "${INSTALL_VERBOSE}"
 		test_setup;;
 	    t|T) 
 		go_down_lines 3
@@ -4235,10 +4166,12 @@ set_variable_from_command_line()
 	eval "$1=\"${_tmp}\""
 	write_buffer "${_LEFTSPACE}Set $1 to \"`value_of $1`\".\n" 
 	return 1
-    else
+    elif [ -n "$3" ]; then
 	eval "$1=\"$3\""
 	write_buffer "${_LEFTSPACE}Set $1 to \"`value_of $1`\".\n" 
 	return 0
+    else
+	exit_on_error "Argument \"${1}\" expected"
     fi
 }
 
@@ -4246,9 +4179,9 @@ set_variable_from_command_line()
 _WHAT_TO_DO=''
 _CONFLICT=''
 _ANY_OPT=''
-_check_for_sysutil printf y
-_check_for_sysutil awk y
-_check_for_sysutil rm y
+_awk=awk
+_printf=printf
+_rm=rm
 initial_check
 while [ ${#} -gt 0 ]; do
     case ${*} in
@@ -4258,13 +4191,6 @@ while [ ${#} -gt 0 ]; do
 	    fi
 	    set_dirs_dependant_on_cgal_dir
 	    initial_check
-	    ;;
-	--stl_dir*|--STL_DIR*|-STL_DIR*|-stl_dir*)
-	    _ANY_OPT='y'
-	    if set_variable_from_command_line 'STL_DIR' "$1" "$2"; then
-		shift
-	    fi
-	    STL_STATUS='e'
 	    ;;
 	--leda_sys_incl*|--LEDA_SYS_INCL*|--leda-sys-incl*|--LEDA-SYS-INCL*|\
 -leda_sys_incl*|-LEDA_SYS_INCL*|-leda-sys-incl*|-LEDA-SYS-INCL*)
@@ -4333,6 +4259,15 @@ while [ ${#} -gt 0 ]; do
 		_CONFLICT='y'
 	    fi
 	    _WHAT_TO_DO='interactive'
+	    ;;
+	--upgrade*|-u*|-U*)
+	    if [ -n "${_WHAT_TO_DO}" ]; then
+		_CONFLICT='y'
+	    fi
+	    if set_variable_from_command_line 'UPGRADE_FROM' "$1" "$2"; then
+		shift
+	    fi
+	    _WHAT_TO_DO='upgrade'
 	    ;;
 	--verbose*|-verbose*)
 	    INSTALL_VERBOSE='y'
@@ -4430,6 +4365,14 @@ case ${_WHAT_TO_DO} in
 	${_printf} "%s\n" \
 	    "--------------------------------------------------------"
 	;;
+    *upgrade*)
+	cgal_install_header
+	${_printf} "%s" "starting ${_WHAT_TO_DO} -"
+	startup_interactive
+	guess_os log_print
+	upgrade
+	finish_interactive
+	;;
     *interactive*)
 	cgal_install_header
 	# start interactive part
@@ -4460,39 +4403,7 @@ case ${_WHAT_TO_DO} in
 	cgal_install_header
 	${_printf} "%s" "starting ${_WHAT_TO_DO} -"
 	startup_interactive
-	guess_os log_print
-	${_printf} "\n\n"
-	for i in `${_ls} ${CGAL_INSTALL_CONF_DIR}/${SYST}* 2>/dev/null`
-	do
-	    log_print
-	    log_print \
-		"--------------------------------------------------------"
-	    log_print "Build on `${_basename} ${i}`:" 
-	    log_print \
-		"--------------------------------------------------------"
-	    try_to_get_var_from_file COMPILER ${i}
-	    if [ -n "${COMPILER}" ]; then
-		set_ostype
-		set_compiler_flags
-		retrieve_compiler_settings
-		case ${_WHAT_TO_DO} in
-		    *rebuild-all*)
-			test_compiler_specifica "${INSTALL_VERBOSE}"
-			;;
-		esac
-		lib_menu
-		store_compiler_settings
-	    else
-		log_print "Cannot rebuild the library."
-		print_filled_line
-		print_empty_line
-		print_headline "Cannot build on `${_basename} ${i}` !" 
-		print_headline "No COMPILER defined in config/install/..."
-		print_filled_line
-		write_buffer "\n"
-		flush_buffer
-	    fi
-	done
+	build_all
 	finish_interactive
 	;;
     *help*)

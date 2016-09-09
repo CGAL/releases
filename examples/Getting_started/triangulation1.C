@@ -1,29 +1,29 @@
 #include "tutorial.h"
 #include <CGAL/Point_2.h>
 #include <CGAL/Triangulation_2.h>
-#include <vector.h>
+#include <vector>
 
 
-void main ()
+main()
 {
   const int numPoints1 = 4;
 
-  static Point_2 points1[numPoints1] = {
-    Point_2(0.4, 1),
-    Point_2(1, 0.3),
-    Point_2(0.0, -0.9),
-    Point_2(-1, 0)
+  static Point points1[numPoints1] = {
+    Point(0.4, 1),
+    Point(1, 0.3),
+    Point(0.0, -0.9),
+    Point(-1, 0)
     };
 
-  Point_2 point2(0.0, 0.0);
-  Point_2 point3(-1,1);
+  Point point2(0.0, 0.0);
+  Point point3(-1,1);
 
-  vector<Point_2> points4(3);
-  points4[0] = Point_2(1, 0.9);
-  points4[1] = Point_2(1.4, -0.3);
-  points4[2] = Point_2(0.6, 0);
+  std::vector<Point> points4(3);
+  points4[0] = Point(1, 0.9);
+  points4[1] = Point(1.4, -0.3);
+  points4[2] = Point(0.6, 0);
 
-  Triangulation_2 tr;                           // create an empty triangulation
+  Triangulation tr;                           // create an empty triangulation
 
   tr.insert(points1, points1+numPoints1);       // insert array of Point-s
   tr.insert(point2);                            // insert interior Point

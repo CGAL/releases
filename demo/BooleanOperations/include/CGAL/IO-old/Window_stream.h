@@ -1,7 +1,7 @@
 //  -*- Mode: c++ -*-
 // ============================================================================
 //
-// Copyright (c) 1997 The CGAL Consortium
+// Copyright (c) 1999 The GALIA Consortium
 //
 // This software and related documentation is part of the
 // Computational Geometry Algorithms Library (CGAL).
@@ -17,25 +17,25 @@
 // - Development licenses grant access to the source code of the library 
 //   to develop programs. These programs may be sold to other parties as 
 //   executable code. To obtain a development license, please contact
-//   the CGAL Consortium (at cgal@cs.uu.nl).
+//   the GALIA Consortium (at cgal@cs.uu.nl).
 // - Commercialization licenses grant access to the source code and the
 //   right to sell development licenses. To obtain a commercialization 
-//   license, please contact the CGAL Consortium (at cgal@cs.uu.nl).
+//   license, please contact the GALIA Consortium (at cgal@cs.uu.nl).
 //
 // This software and documentation is provided "as-is" and without
 // warranty of any kind. In no event shall the CGAL Consortium be
 // liable for any damage of any kind.
 //
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// The GALIA Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany) Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+// (Germany), Max-Planck-Institute Saarbrucken (Germany),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-1.2
-// release_date  : 1999, January 18
+// release       : CGAL-2.0
+// release_date  : 1999, June 03
 //
 // file          : demo/BooleanOperations/include/CGAL/IO-old/Window_stream.h
 // source        : demo/BooleanOperations/include/CGAL/IO-old/Window_stream.h
@@ -47,7 +47,6 @@
 //  (Wolfgang Freiseisen)
 //
 // 
-//
 // email         : cgal@cs.uu.nl
 //
 // ======================================================================
@@ -63,22 +62,22 @@
 typedef window LEDA_Window;
 #include <LEDA/UNDEFINE_NAMES.h>
 
-class CGAL_Window_stream : public LEDA_Window  {
+class Window_stream : public LEDA_Window  {
 
 public:
-  CGAL_Window_stream(int xpix = 300,
+  Window_stream(int xpix = 300,
                      int ypix = 300,
                      int xpos = 400,
                      int ypos = 400)
     : LEDA_Window(xpix, ypix)
   {
-    set_frame_label("CGAL_Window_stream");
+    set_frame_label("Window_stream");
     LEDA_Window::display(xpos, ypos);
   }
 
 
 
-  void init(const CGAL_Bbox_2 &b = CGAL_Bbox_2(0, 0, 100, 100))
+  void init(const Bbox_2 &b = Bbox_2(0, 0, 100, 100))
   {
     LEDA_Window::init(b.xmin(), b.xmax(), b.ymin());
     set_fg_color(black);
@@ -110,76 +109,76 @@ private:
 
 #ifdef CGAL_POINT_2_H
 template< class R >
-CGAL_Window_stream& operator<<(CGAL_Window_stream &w, const CGAL_Point_2<R> &p)
+Window_stream& operator<<(Window_stream &w, const Point_2<R> &p)
 {
-  w.draw_point(CGAL_to_double(p.x()), CGAL_to_double(p.y()));
+  w.draw_point(to_double(p.x()), to_double(p.y()));
   return w;
 }
 
 
 template< class R >
-CGAL_Window_stream& operator>>(CGAL_Window_stream &w, CGAL_Point_2<R> &p)
+Window_stream& operator>>(Window_stream &w, Point_2<R> &p)
 {
   double x, y;
   w.read_mouse(x,y);
   w.draw_point(x,y);
-  p = CGAL_Point_2<R>(x,y);
+  p = Point_2<R>(x,y);
   return w;
 }
 #endif //  CGAL_POINT_2_H
 
 #ifdef CGAL_LINE_2_H
 template< class R >
-CGAL_Window_stream& operator<<(CGAL_Window_stream &w,const CGAL_Segment_2<R> &s)
+Window_stream& operator<<(Window_stream &w,const Segment_2<R> &s)
 {
-  w.draw_segment(CGAL_to_double(s.source().x()),
-                 CGAL_to_double(s.source().y()),
-                 CGAL_to_double(s.target().x()),
-                 CGAL_to_double(s.target().y()));
+  w.draw_segment(to_double(s.source().x()),
+                 to_double(s.source().y()),
+                 to_double(s.target().x()),
+                 to_double(s.target().y()));
   return w;
 }
 
 template< class R >
-CGAL_Window_stream& operator>>(CGAL_Window_stream &w,
-                               CGAL_Segment_2<R> &s)
+Window_stream& operator>>(Window_stream &w,
+                               Segment_2<R> &s)
 {
   double x1, y1, x2, y2;
   w.read_mouse(x1,y1);
   w.read_mouse_seg(x1,y1, x2, y2);
   w.draw_segment(x1,y1, x2, y2);
-  s = CGAL_Segment_2<R>(CGAL_Point_2<R>(x1,y1),
-                        CGAL_Point_2<R>(x2,y2));
+  s = Segment_2<R>(Point_2<R>(x1,y1),
+                        Point_2<R>(x2,y2));
   return w;
 }
 
 
 template< class R >
-CGAL_Window_stream& operator<<(CGAL_Window_stream &w, const CGAL_Line_2<R> &l)
+Window_stream& operator<<(Window_stream &w, const Line_2<R> &l)
 {
-  CGAL_Point_2<R> p1 = l.point(),
+  Point_2<R> p1 = l.point(),
                   p2 = p1 + l.direction().vector();
 
-  w.draw_line(CGAL_to_double(p1.x()), CGAL_to_double(p1.y()),
-              CGAL_to_double(p2.x()), CGAL_to_double(p2.y()));
+  w.draw_line(to_double(p1.x()), to_double(p1.y()),
+              to_double(p2.x()), to_double(p2.y()));
   return w;
 }
 
 template< class R >
-CGAL_Window_stream& operator>>(CGAL_Window_stream &w, CGAL_Line_2<R> &l)
+Window_stream& operator>>(Window_stream &w, Line_2<R> &l)
 {
   double x1, y1, x2, y2;
   w.read_mouse(x1,y1);
   w.read_mouse_seg(x1,y1, x2, y2);
   w.draw_line(x1,y1, x2, y2);
 
-  l = CGAL_Line_2<R>(CGAL_Point_2<R>(x1,y1),
-                     CGAL_Point_2<R>(x2,y2));
+  l = Line_2<R>(Point_2<R>(x1,y1),
+                     Point_2<R>(x2,y2));
   return w;
 }
 #endif //CGAL_LINE_2_H
 
-inline CGAL_Window_stream& operator<<(CGAL_Window_stream &w,
-                                      const CGAL_Color& c)
+inline Window_stream& operator<<(Window_stream &w,
+                                      const Color& c)
 {
   w.set_fg_color(color(c.red(), c.green(), c.blue()));
 
@@ -189,13 +188,13 @@ inline CGAL_Window_stream& operator<<(CGAL_Window_stream &w,
 
 #ifdef CGAL_ISO_RECTANGLE_2_H
 template< class R >
-CGAL_Window_stream& operator<<(CGAL_Window_stream &w,
-                               const CGAL_Iso_rectangle_2<R> &r)
+Window_stream& operator<<(Window_stream &w,
+                               const Iso_rectangle_2<R> &r)
 {
-  double xmin = CGAL_to_double(r.min().x()),
-         ymin = CGAL_to_double(r.min().y()),
-         xmax = CGAL_to_double(r.max().x()),
-         ymax = CGAL_to_double(r.max().y());
+  double xmin = to_double(r.min().x()),
+         ymin = to_double(r.min().y()),
+         xmax = to_double(r.max().x()),
+         ymax = to_double(r.max().y());
 
 
   w.draw_segment(xmin, ymin, xmax, ymin);
@@ -207,14 +206,14 @@ CGAL_Window_stream& operator<<(CGAL_Window_stream &w,
 }
 
 template< class R >
-CGAL_Window_stream& operator>>(CGAL_Window_stream &w,
-                               CGAL_Iso_rectangle_2<R> &r)
+Window_stream& operator>>(Window_stream &w,
+                               Iso_rectangle_2<R> &r)
 {
   double x1, y1, x2, y2;
   w.read_mouse(x1,y1);
   w.read_mouse_rect(x1,y1, x2, y2);
-  r = CGAL_Iso_rectangle_2<R>(CGAL_Point_2<R>(x1,y1),
-                              CGAL_Point_2<R>(x2,y2));
+  r = Iso_rectangle_2<R>(Point_2<R>(x1,y1),
+                              Point_2<R>(x2,y2));
   w << r;
   return w;
 }
@@ -223,15 +222,15 @@ CGAL_Window_stream& operator>>(CGAL_Window_stream &w,
 
 #ifdef CGAL_TRIANGLE_2_H
 template< class R >
-CGAL_Window_stream& operator<<(CGAL_Window_stream &w,
-                               const CGAL_Triangle_2<R> &t)
+Window_stream& operator<<(Window_stream &w,
+                               const Triangle_2<R> &t)
 {
-  double x0 = CGAL_to_double(t.vertex(0).x()),
-         y0 = CGAL_to_double(t.vertex(0).y()),
-         x1 = CGAL_to_double(t.vertex(1).x()),
-         y1 = CGAL_to_double(t.vertex(1).y()),
-         x2 = CGAL_to_double(t.vertex(2).x()),
-         y2 = CGAL_to_double(t.vertex(2).y());
+  double x0 = to_double(t.vertex(0).x()),
+         y0 = to_double(t.vertex(0).y()),
+         x1 = to_double(t.vertex(1).x()),
+         y1 = to_double(t.vertex(1).y()),
+         x2 = to_double(t.vertex(2).x()),
+         y2 = to_double(t.vertex(2).y());
 
 
   w.draw_segment(x0, y0, x1, y1);
@@ -242,8 +241,8 @@ CGAL_Window_stream& operator<<(CGAL_Window_stream &w,
 }
 
 template< class R >
-CGAL_Window_stream& operator>>(CGAL_Window_stream &w,
-                               CGAL_Triangle_2<R> &t)
+Window_stream& operator>>(Window_stream &w,
+                               Triangle_2<R> &t)
 {
   double x0, y0, x1, y1, x2, y2;
   w.read_mouse(x0,y0);
@@ -252,9 +251,9 @@ CGAL_Window_stream& operator>>(CGAL_Window_stream &w,
   w.read_mouse_seg(x1,y1, x2, y2);
   w.draw_seg(x1,y1, x2, y2);
   w.draw_seg(x2,y2, x0, y0);
-  r = CGAL_Triangle_2<R>(CGAL_Point_2<R>(x0,y0),
-                         CGAL_Point_2<R>(x1,y1),
-                         CGAL_Point_2<R>(x2,y2));
+  r = Triangle_2<R>(Point_2<R>(x0,y0),
+                         Point_2<R>(x1,y1),
+                         Point_2<R>(x2,y2));
   return w;
 }
 
@@ -270,30 +269,30 @@ CGAL_Window_stream& operator>>(CGAL_Window_stream &w,
 #include <CGAL/intersection_2_1.h>
 
 template< class R >
-CGAL_Window_stream& operator<<(CGAL_Window_stream &w, const CGAL_Ray_2<R> &r)
+Window_stream& operator<<(Window_stream &w, const Ray_2<R> &r)
 {
-  CGAL_Point_2<R> p;
-  CGAL_Segment_2<R> s;
-  CGAL_Point_2<R> point[4];
-  CGAL_Point_2<R> ipoint[2];
+  Point_2<R> p;
+  Segment_2<R> s;
+  Point_2<R> point[4];
+  Point_2<R> ipoint[2];
 
-  point[0] = CGAL_Point_2<R>(w.xmin(), w.ymin());
-  point[1] = CGAL_Point_2<R>(w.xmin(), w.ymax());
-  point[2] = CGAL_Point_2<R>(w.xmax(), w.ymax());
-  point[3] = CGAL_Point_2<R>(w.xmax(), w.ymin());
+  point[0] = Point_2<R>(w.xmin(), w.ymin());
+  point[1] = Point_2<R>(w.xmin(), w.ymax());
+  point[2] = Point_2<R>(w.xmax(), w.ymax());
+  point[3] = Point_2<R>(w.xmax(), w.ymin());
 
   int no_of_intersections = 0;
   for(int i=0; i < 4; i++) {
-    CGAL_Segment_2<R> seg(point[i],point[(i+1)%4]);
-    CGAL_Object o = CGAL_intersection(seg, r);
-    if ( CGAL_assign(p, o) ) {
+    Segment_2<R> seg(point[i],point[(i+1)%4]);
+    Object o = intersection(seg, r);
+    if ( assign(p, o) ) {
       ipoint[no_of_intersections] = p;
       no_of_intersections++;
-    }else if( CGAL_assign(s, o) ) {
-      w.draw_segment(CGAL_to_double(s.source().x()),
-                     CGAL_to_double(s.source().y()),
-                     CGAL_to_double(s.target().x()),
-                     CGAL_to_double(s.target().y()));
+    }else if( assign(s, o) ) {
+      w.draw_segment(to_double(s.source().x()),
+                     to_double(s.source().y()),
+                     to_double(s.target().x()),
+                     to_double(s.target().y()));
       return w;
     }
   }
@@ -301,28 +300,28 @@ CGAL_Window_stream& operator<<(CGAL_Window_stream &w, const CGAL_Ray_2<R> &r)
   if( no_of_intersections == 1 ) {
     // the start point of the ray is inside the window
 
-    w.draw_segment(CGAL_to_double(r.source().x()),
-                   CGAL_to_double(r.source().y()),
-                   CGAL_to_double(ipoint[0].x()),
-                   CGAL_to_double(ipoint[0].y()));
+    w.draw_segment(to_double(r.source().x()),
+                   to_double(r.source().y()),
+                   to_double(ipoint[0].x()),
+                   to_double(ipoint[0].y()));
   } else if( no_of_intersections == 2 ) {
-    w.draw_segment(CGAL_to_double(ipoint[0].x()),
-                   CGAL_to_double(ipoint[0].y()),
-                   CGAL_to_double(ipoint[1].x()),
-                   CGAL_to_double(ipoint[1].y()));
+    w.draw_segment(to_double(ipoint[0].x()),
+                   to_double(ipoint[0].y()),
+                   to_double(ipoint[1].x()),
+                   to_double(ipoint[1].y()));
   }
 
   return w;
 }
 
 template< class R >
-CGAL_Window_stream& operator>>(CGAL_Window_stream &w, CGAL_Ray_2<R> &r)
+Window_stream& operator>>(Window_stream &w, Ray_2<R> &r)
 {
   double x1, y1, x2, y2;
   w.read_mouse(x1,y1);
   w.read_mouse_seg(x1,y1, x2, y2);
-  r = CGAL_Ray_2<R>(CGAL_Point_2<R>(x1,y1),
-                    CGAL_Point_2<R>(x2,y2));
+  r = Ray_2<R>(Point_2<R>(x1,y1),
+                    Point_2<R>(x2,y2));
   w << r;
   return w;
 }
@@ -331,10 +330,10 @@ CGAL_Window_stream& operator>>(CGAL_Window_stream &w, CGAL_Ray_2<R> &r)
 
 
 
-#ifdef CGAL_TRIANGULATION_ELEMENT_2_H
+#ifdef TRIANGULATION_ELEMENT_2_H
 template < class R >
-CGAL_Window_stream& operator<<(CGAL_Window_stream &os,
-                               const CGAL_Triangulation_element_2<R> *t)
+Window_stream& operator<<(Window_stream &os,
+                               const Triangulation_element_2<R> *t)
 {
 
   switch(t->finite_vertices()){
@@ -351,11 +350,11 @@ CGAL_Window_stream& operator<<(CGAL_Window_stream &os,
       }else if(! t->is_finite(2)){
         fi = 2;
       }
-      os << CGAL_Segment_2<R>((*t)[fi-1], (*t)[fi+1]);
-      os << CGAL_Ray_2<R>((*t)[fi+2],
-                          (*t)[fi+2] + ((*t)[fi] - CGAL_ORIGIN));
-      os << CGAL_Ray_2<R>((*t)[fi+1],
-                          (*t)[fi+1] + ((*t)[fi] - CGAL_ORIGIN));
+      os << Segment_2<R>((*t)[fi-1], (*t)[fi+1]);
+      os << Ray_2<R>((*t)[fi+2],
+                          (*t)[fi+2] + ((*t)[fi] - ORIGIN));
+      os << Ray_2<R>((*t)[fi+1],
+                          (*t)[fi+1] + ((*t)[fi] - ORIGIN));
    break;
     }
   case 1:
@@ -367,24 +366,24 @@ CGAL_Window_stream& operator<<(CGAL_Window_stream &os,
         fi = 2;
       }
 
-      os << CGAL_Ray_2<R>((*t)[fi],
-                          (*t)[fi]+ ((*t)[fi+1] - CGAL_ORIGIN));
-      os << CGAL_Ray_2<R>((*t)[fi],
-                          (*t)[fi]+ ((*t)[fi+2] - CGAL_ORIGIN));
+      os << Ray_2<R>((*t)[fi],
+                          (*t)[fi]+ ((*t)[fi+1] - ORIGIN));
+      os << Ray_2<R>((*t)[fi],
+                          (*t)[fi]+ ((*t)[fi+2] - ORIGIN));
       break;
     }
   }
   return os;
 }
-#endif // CGAL_TRIANGULATION_ELEMENT_2_H
+#endif // TRIANGULATION_ELEMENT_2_H
 
 #ifdef CGAL_TRIANGULATION_2_H
 
 template < class R >
-CGAL_Window_stream &operator<<(CGAL_Window_stream &os,
-                               CGAL_Triangulation_2<R> &T)
+Window_stream &operator<<(Window_stream &os,
+                               Triangulation_2<R> &T)
 {
-  CGAL_Triangulation_element_2<R> *t;
+  Triangulation_element_2<R> *t;
 
   forall_triangulation_elements(t, T){
     os << t;
@@ -394,10 +393,10 @@ CGAL_Window_stream &operator<<(CGAL_Window_stream &os,
 #endif //  CGAL_TRIANGULATION_2_H
 
 
-#ifdef CGAL_PARABOLA_2_H
+#ifdef PARABOLA_2_H
 template< class R >
-CGAL_Window_stream& operator<<(CGAL_Window_stream &w,
-                               const CGAL_Parabola_2<R> &par)
+Window_stream& operator<<(Window_stream &w,
+                               const Parabola_2<R> &par)
 {
   double width = w.xmax()-w.xmin();
   double height = w.ymax()-w.ymin();
@@ -405,7 +404,7 @@ CGAL_Window_stream& operator<<(CGAL_Window_stream &w,
 
   double lambda=1.0;
   
-  CGAL_Point_2<R> p1 = par.base(),
+  Point_2<R> p1 = par.base(),
                   p2;
 
   while((par(lambda)-p1).operator*(par(lambda)-p1) < diag_sq){
@@ -422,37 +421,37 @@ CGAL_Window_stream& operator<<(CGAL_Window_stream &w,
   int i;
   for(lambda = 0.0, i=0; i<=50 ; lambda += delta,i++){
     p2 = par(lambda);
-    w << CGAL_Segment_2<R>(p1,p2);
+    w << Segment_2<R>(p1,p2);
     p1 = p2;
   }
   p1 = par.base();
   for(lambda = 0.0, i=0; i<=50 ; lambda -= delta,i++){
     p2 = par(lambda);
-    w << CGAL_Segment_2<R>(p1,p2);
+    w << Segment_2<R>(p1,p2);
     p1 = p2;
   }
   return w;
 }
 
 template< class R >
-CGAL_Window_stream& operator>>(CGAL_Window_stream &w,
-                               CGAL_Parabola_2<R> &par)
+Window_stream& operator>>(Window_stream &w,
+                               Parabola_2<R> &par)
 {
-  CGAL_Line_2<R> l;
-  CGAL_Point_2<R> p;
+  Line_2<R> l;
+  Point_2<R> p;
   w >> l;
   w >> p;
-  par = CGAL_Parabola_2<R>(l,p);
+  par = Parabola_2<R>(l,p);
   w << par;
   return w;
 }
 
-#endif // CGAL_PARABOLA_2_H
+#endif // PARABOLA_2_H
 
-#ifdef CGAL_PARABOLA_ARC_2_H
+#ifdef PARABOLA_ARC_2_H
 template< class R >
-CGAL_Window_stream& operator<<(CGAL_Window_stream &w,
-                               const CGAL_Parabola_arc_2<R> &arc)
+Window_stream& operator<<(Window_stream &w,
+                               const Parabola_arc_2<R> &arc)
 {
   double lambda, lmin, lmax;
 
@@ -464,48 +463,48 @@ CGAL_Window_stream& operator<<(CGAL_Window_stream &w,
     lmax = arc.lambda_source();
   }
 
-  double delta = CGAL_abs(lmax - lmin)/100.0;
+  double delta = abs(lmax - lmin)/100.0;
 
-  CGAL_Point_2<R> p1 = arc.source();
+  Point_2<R> p1 = arc.source();
   for(lambda = lmin;  lambda <= lmax; lambda += delta)
     {
-      CGAL_Point_2<R> p2 = arc.supporting_parabola()(lambda);
-      w << CGAL_Segment_2<R>(p1,p2);
+      Point_2<R> p2 = arc.supporting_parabola()(lambda);
+      w << Segment_2<R>(p1,p2);
       p1 = p2;
     }
   return w;
 }
-#endif // CGAL_PARABOLA_ARC_2_H
+#endif // PARABOLA_ARC_2_H
 
 
 #ifdef CGAL_CIRCLE_2_H
 template< class R >
-CGAL_Window_stream& operator<<(CGAL_Window_stream &w,
-                               const CGAL_Circle_2<R> &c)
+Window_stream& operator<<(Window_stream &w,
+                               const Circle_2<R> &c)
 {
-  double cx = CGAL_to_double(c.center().x()),
-         cy = CGAL_to_double(c.center().y()),
-         r = CGAL_to_double(c.squared_radius());
+  double cx = to_double(c.center().x()),
+         cy = to_double(c.center().y()),
+         r = to_double(c.squared_radius());
 
   w.draw_circle(cx, cy , sqrt(r));
   return w;
 }
 
 template< class R >
-CGAL_Window_stream& operator>>(CGAL_Window_stream &w,
-                               CGAL_Circle_2<R> &c)
+Window_stream& operator>>(Window_stream &w,
+                               Circle_2<R> &c)
 {
   double cx, cy, x1, y1;
   w.read_mouse(cx,cy);
   w.read_mouse_circle(cx,cy, x1, y1);
-  CGAL_Point_2<R> center(cx, cy),
+  Point_2<R> center(cx, cy),
                   p(x1, y1);
 
-  CGAL_Vector_2<R> v = center - p;
+  Vector_2<R> v = center - p;
   R::FT sr = v*v;
 
   w.draw_circle(cx, cy , sqrt(sr));
-  c = CGAL_Circle_2<R>(center, sr);
+  c = Circle_2<R>(center, sr);
   return w;
 }
 
@@ -514,8 +513,8 @@ CGAL_Window_stream& operator>>(CGAL_Window_stream &w,
 
 
 #ifdef CGAL_BBOX_2_H
-inline CGAL_Window_stream& operator<<(CGAL_Window_stream &w,
-                                      const CGAL_Bbox_2 &b)
+inline Window_stream& operator<<(Window_stream &w,
+                                      const Bbox_2 &b)
 {
   line_style style = w.set_line_style(dotted);
   double xmin = b.xmin(),

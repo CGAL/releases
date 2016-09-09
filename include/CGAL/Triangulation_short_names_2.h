@@ -1,6 +1,6 @@
 // ======================================================================
 //
-// Copyright (c) 1997 The CGAL Consortium
+// Copyright (c) 1999 The GALIA Consortium
 //
 // This software and related documentation is part of the
 // Computational Geometry Algorithms Library (CGAL).
@@ -16,35 +16,34 @@
 // - Development licenses grant access to the source code of the library 
 //   to develop programs. These programs may be sold to other parties as 
 //   executable code. To obtain a development license, please contact
-//   the CGAL Consortium (at cgal@cs.uu.nl).
+//   the GALIA Consortium (at cgal@cs.uu.nl).
 // - Commercialization licenses grant access to the source code and the
 //   right to sell development licenses. To obtain a commercialization 
-//   license, please contact the CGAL Consortium (at cgal@cs.uu.nl).
+//   license, please contact the GALIA Consortium (at cgal@cs.uu.nl).
 //
 // This software and documentation is provided "as-is" and without
 // warranty of any kind. In no event shall the CGAL Consortium be
 // liable for any damage of any kind.
 //
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// The GALIA Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany) Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+// (Germany), Max-Planck-Institute Saarbrucken (Germany),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-1.2
-// release_date  : 1999, January 18
+// release       : CGAL-2.0
+// release_date  : 1999, June 03
 //
 // file          : include/CGAL/Triangulation_short_names_2.h
-// package       : Triangulation (2.10)
+// package       : Triangulation (3.17)
 // source        : $Source: /u/alcor/0/prisme_util/CGAL/Local/cvsroot/Triangulation/include/CGAL/Triangulation_short_names_2.h,v $
-// revision      : $Revision: 1.3.1.4 $
-// revision_date : $Date: 1998/12/03 17:11:35 $
+// revision      : $Revision: 1.3.1.10 $
+// revision_date : $Date: 1999/04/30 14:09:27 $
 // author(s)     : Mariette Yvinec
 //
 // coordinator   : Mariette Yvinec
-//
 //
 // email         : cgal@cs.uu.nl
 //
@@ -54,30 +53,34 @@
 #define CGAL_TRIANGULATION_SHORT_NAMES_2_H
 
 
+//Define shorter names to please linker (g++/egcs)
 
+   #define Triangulation_default_data_structure_2 Tdds
+   #define Triangulation_vertex_base_2  Trvb
+   #define Triangulation_face_base_2  Trfb
+   #define Triangulation_euclidean_traits_2 Et2
+   #define Triangulation_euclidean_traits_xy_3 Etxy3
+   #define Triangulation_euclidean_traits_xz_3 Etxz3
+   #define Triangulation_euclidean_traits_yz_3 Etyz3
 
-// Define shorter names to please linker (g++/egcs)
-   #define CGAL_Triangulation_default_data_structure_2 CGAL_Tdds
-   #define CGAL_Triangulation_vertex_base_2  CGAL_Trvb
-   #define CGAL_Triangulation_face_base_2  CGAL_Trfb
-   #define CGAL_Triangulation_euclidean_traits_2 CGAL_Et2
-   #define CGAL_Triangulation_euclidean_traits_xy_3 GGAL_Etxy3
-   #define CGAL_Triangulation_euclidean_traits_xz_3 CGAL_Etxz3
-   #define CGAL_Triangulation_euclidean_traits_yz_3 CGAL_Etyz3
+   #define Constrained_triangulation_face_base_2  Ctrfb
+   #define Regular_triangulation_euclidean_traits_2 Rtet2
 
-   #define CGAL_Constrained_triangulation_face_base_2  CGAL_Ctrfb
-   #define CGAL_Regular_triangulation_euclidean_traits_2 CGAL_Rtet2
+   #define Triangulation_ds_vertex_2 Tdsv
+   #define Triangulation_ds_face_2  Tdsf
+   #define Triangulation_vertex_2 Trv
+   #define Triangulation_face_2 Trf
+   #define Triangulation_vertex_handle_2 Trvh
+   #define Triangulation_face_handle_2 Trfh
+   #define Triangulation_vertex_iterator_2 Trvi
+   #define Triangulation_face_iterator_2 Trfi
+   #define Triangulation_edge_iterator_2 Trei
+   #define Triangulation_vertex_circulator_2 Trvc
+   #define Triangulation_face_circulator_2 Trfc
+   #define Triangulation_edge_circulator_2 Trec
 
-   #define CGAL_Triangulation_vertex_2 CGAL_Trv
-   #define CGAL_Triangulation_face_2 CGAL_Trf
-   #define CGAL_Triangulation_vertex_handle_2 CGAL_Trvh
-   #define CGAL_Triangulation_face_handle_2 CGAL_Trfh
-   #define CGAL_Triangulation_vertex_iterator_2 CGAL_Trvi
-   #define CGAL_Triangulation_face_iterator_2 CGAL_Trfi
-   #define CGAL_Triangulation_edge_iterator_2 CGAL_Trei
-   #define CGAL_Triangulation_vertex_circulator_2 CGAL_Trvc
-   #define CGAL_Triangulation_face_circulator_2 CGAL_Trfc
-   #define CGAL_Triangulation_edge_circulator_2 CGAL_Trec
+   #define Regular_triangulation_face_base_2  Rtrfb
+
 
 
 #endif //CGAL_TRIANGULATION_SHORT_NAMES_2_H

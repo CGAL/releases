@@ -14,6 +14,7 @@ include $(CGAL_MAKEFILE)
 
 CXXFLAGS = \
            $(TESTSUITE_CXXFLAGS) \
+           $(LONG_NAME_PROBLEM_CXXFLAGS) \
            $(CGAL_CXXFLAGS) \
            -g
 
@@ -23,6 +24,7 @@ CXXFLAGS = \
 
 LDFLAGS = \
           $(TESTSUITE_LDFLAGS) \
+          $(LONG_NAME_PROBLEM_LDFLAGS) \
           $(CGAL_LDFLAGS)
 
 #---------------------------------------------------------------------#

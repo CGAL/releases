@@ -1,6 +1,6 @@
 // ======================================================================
 //
-// Copyright (c) 1997 The CGAL Consortium
+// Copyright (c) 1999 The GALIA Consortium
 //
 // This software and related documentation is part of the
 // Computational Geometry Algorithms Library (CGAL).
@@ -16,35 +16,34 @@
 // - Development licenses grant access to the source code of the library 
 //   to develop programs. These programs may be sold to other parties as 
 //   executable code. To obtain a development license, please contact
-//   the CGAL Consortium (at cgal@cs.uu.nl).
+//   the GALIA Consortium (at cgal@cs.uu.nl).
 // - Commercialization licenses grant access to the source code and the
 //   right to sell development licenses. To obtain a commercialization 
-//   license, please contact the CGAL Consortium (at cgal@cs.uu.nl).
+//   license, please contact the GALIA Consortium (at cgal@cs.uu.nl).
 //
 // This software and documentation is provided "as-is" and without
 // warranty of any kind. In no event shall the CGAL Consortium be
 // liable for any damage of any kind.
 //
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// The GALIA Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany) Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+// (Germany), Max-Planck-Institute Saarbrucken (Germany),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-1.2
-// release_date  : 1999, January 18
+// release       : CGAL-2.0
+// release_date  : 1999, June 03
 //
 // file          : include/CGAL/Regular_triangulation_2.h
-// package       : Triangulation (2.10)
+// package       : Triangulation (3.17)
 // source        : $RCSfile: Regular_triangulation_2.h,v $
-// revision      : $Revision: 1.3.1.8 $
-// revision_date : $Date: 1999/01/14 10:53:03 $
+// revision      : $Revision: 1.3.1.9 $
+// revision_date : $Date: 1999/02/26 16:02:46 $
 // author(s)     : Frederic Fichel, Mariette Yvinec
 //
 // coordinator   : Mariette Yvinec
-//
 //
 // email         : cgal@cs.uu.nl
 //
@@ -53,11 +52,12 @@
 #ifndef CGAL_REGULAR_TRIANGULATION_2_H
 #define CGAL_REGULAR_TRIANGULATION_2_H
 
-#include <pair.h>
-#include <list.h>
-#include <map.h>
-#include <assert.h>
-#include <stack.h>
+#include <utility>
+#include <iostream>
+#include <list>
+#include <vector>
+#include <cassert>
+#include <stack>
 
 #include <CGAL/Triangulation_short_names_2.h>
 #include <CGAL/triangulation_assertions.h>
@@ -66,38 +66,38 @@
 #include <CGAL/Regular_triangulation_face_base_2.h>
 
 
-
+CGAL_BEGIN_NAMESPACE 
 
 template < class Gt, class Tds >
-class CGAL_Regular_triangulation_2 
-  : public CGAL_Triangulation_2<Gt,Tds>
+class Regular_triangulation_2 
+  : public Triangulation_2<Gt,Tds>
 {
 
 public:
-  typedef CGAL_Triangulation_2<Gt,Tds> Triangulation;
+  typedef Triangulation_2<Gt,Tds> Triangulation;
 
   typedef typename Gt::Bare_point  Point;
   typedef typename Gt::Weighted_point Weighted_point;
   typedef typename Gt::Weight      Weight;
   
   // a list to memorise temporary the faces around a point
-  typedef list<Face_handle > Faces_around_stack; 
+  typedef std::list<Face_handle > Faces_around_stack; 
 
   // point list
-  typedef list<Weighted_point> Weighted_point_list;
+  typedef std::list<Weighted_point> Weighted_point_list;
 
 public:
-  CGAL_Regular_triangulation_2()
+  Regular_triangulation_2()
     : Triangulation( )
   {}
 
-  CGAL_Regular_triangulation_2(const Gt& gt) : Triangulation(gt) { }
+  Regular_triangulation_2(const Gt& gt) : Triangulation(gt) { }
 
-  CGAL_Regular_triangulation_2(const CGAL_Regular_triangulation_2 &rt )
+  Regular_triangulation_2(const Regular_triangulation_2 &rt )
     : Triangulation( rt )
   {   CGAL_triangulation_postcondition( is_valid() );  }
 
-  CGAL_Regular_triangulation_2(const Vertex_handle&  v, const Gt& gt) 
+  Regular_triangulation_2(const Vertex_handle&  v, const Gt& gt) 
     : Triangulation(v,gt) 
   {   CGAL_triangulation_postcondition( is_valid() );  }
 
@@ -124,8 +124,8 @@ public:
 	#else
 	#if defined(LIST_H) || defined(__SGI_STL_LIST_H)
 	int
-	insert(list<Weighted_point>::const_iterator first,
-		list<Weighted_point>::const_iterator last)
+	insert(std::list<Weighted_point>::const_iterator first,
+		std::list<Weighted_point>::const_iterator last)
 	{	int n = number_of_vertices();
 		while(first != last)
 		{	insert(*first);
@@ -136,8 +136,8 @@ public:
 	#endif // LIST_H
 	#if defined(VECTOR_H) || defined(__SGI_STL_VECTOR_H)
 	int
-	insert(vector<Weighted_point>::const_iterator first,
-		vector<Weighted_point>::const_iterator last)
+	insert(std::vector<Weighted_point>::const_iterator first,
+		std::vector<Weighted_point>::const_iterator last)
 	{	int n = number_of_vertices();
 		while(first != last)
 		{	insert(*first);
@@ -148,8 +148,8 @@ public:
 	#endif // VECTOR_H
 	#ifdef ITERATOR_H
 	int
-	insert(istream_iterator<Weighted_point, ptrdiff_t> first,
-		istream_iterator<Weighted_point, ptrdiff_t> last)
+	insert(std::istream_iterator<Weighted_point, ptrdiff_t> first,
+	       std::istream_iterator<Weighted_point, ptrdiff_t> last)
 	{	int n = number_of_vertices();
 		while(first != last)
 		{	insert(*first);
@@ -168,10 +168,10 @@ public:
 		}
 		return number_of_vertices() - n;
 	}
-	#endif // CGAL_TEMPLATE_MEMBER_FUNCTIONS
+	#endif // TEMPLATE_MEMBER_FUNCTIONS
 
 public:
-  CGAL_Oriented_side
+  Oriented_side
   power_test(const Face_handle& f, const Weighted_point & p) const;
   
 
@@ -272,7 +272,7 @@ public:
    // INSERTION / DELETION
    Vertex_handle
    insert(const Weighted_point  &p,
-	  CGAL_Triangulation_2<Gt,Tds>::Locate_type& lt,
+	  Triangulation_2<Gt,Tds>::Locate_type& lt,
 	  Face_handle f = Face_handle() ) ;
  
     
@@ -287,7 +287,7 @@ public:
 
 void insert_in_face(Vertex_handle v, Face_handle f)
 {
-  CGAL_Triangulation_2<Gt,Tds>::insert_in_face(v,f);
+  Triangulation_2<Gt,Tds>::insert_in_face(v,f);
   update_hidden_points_1_3(f, f->neighbor(ccw(f->index(v))), 
 			   f->neighbor(cw(f->index(v))) );
   return;
@@ -295,7 +295,7 @@ void insert_in_face(Vertex_handle v, Face_handle f)
 
 void insert_in_edge(Vertex_handle v, Face_handle f, int i)
 {
-  CGAL_Triangulation_2<Gt,Tds>::insert_in_edge(v,f,i);
+  Triangulation_2<Gt,Tds>::insert_in_edge(v,f,i);
   Face_handle g = 
 	(v==f->vertex(cw(i)) ? f->neighbor(ccw(i)) : f->neighbor(cw(i)) );
   update_hidden_points_2_2(f,g);
@@ -306,7 +306,7 @@ void insert_in_edge(Vertex_handle v, Face_handle f, int i)
 void flip(Face_handle f,int i)
 {
   Face_handle n = f->neighbor(i);
-  CGAL_Triangulation_2<Gt,Tds>::flip(f,i);
+  Triangulation_2<Gt,Tds>::flip(f,i);
   update_hidden_points_2_2(f,n);
   return;
 }
@@ -317,7 +317,7 @@ void remove_degree_3(Vertex_handle v,Face_handle f = Face_handle())
   if (f == Face_handle()) f=v->face();
   update_hidden_points_3_1(f, f->neighbor(cw(f->index(v))),
 			   f->neighbor(ccw(f->index(v))));
-  CGAL_Triangulation_2<Gt,Tds>::remove_degree_3(v,f);
+  Triangulation_2<Gt,Tds>::remove_degree_3(v,f);
 }
 
 
@@ -336,12 +336,12 @@ void affiche_tout();
 
 
 template < class Gt, class Tds >
-CGAL_Oriented_side
-CGAL_Regular_triangulation_2<Gt,Tds>::
+Oriented_side
+Regular_triangulation_2<Gt,Tds>::
 power_test(const Face_handle& f, const Weighted_point & p) const
 {
     //p is assume to be a finite point
-    CGAL_Orientation o;
+    Orientation o;
     if ( ! is_infinite(f) )
       {
 	return geom_traits().power_test(f->vertex(0)->point(),
@@ -352,7 +352,7 @@ power_test(const Face_handle& f, const Weighted_point & p) const
     else if ( f->vertex(0) == infinite_vertex() )
       {	o = geom_traits().orientation(f->vertex(1)->point(),
 				 f->vertex(2)->point(),p);
-      if (o==CGAL_COLLINEAR)
+      if (o==COLLINEAR)
 	{	return geom_traits().power_test(f->vertex(1)->point(),
 			                         f->vertex(2)->point(),p);
 	}
@@ -361,7 +361,7 @@ power_test(const Face_handle& f, const Weighted_point & p) const
     else if ( f->vertex(1) == infinite_vertex() )
 	{	o = geom_traits().orientation(f->vertex(2)->point(),
 					 f->vertex(0)->point(),p);
-	if (o==CGAL_COLLINEAR)
+	if (o==COLLINEAR)
 	  {	return geom_traits().power_test(f->vertex(2)->point(),
 					   f->vertex(0)->point(),p);
 	  }
@@ -370,21 +370,21 @@ power_test(const Face_handle& f, const Weighted_point & p) const
     else if ( f->vertex(2) == infinite_vertex() )
       {	o = geom_traits().orientation(f->vertex(0)->point(),
 			                         f->vertex(1)->point(),p);
-      if (o==CGAL_COLLINEAR)
+      if (o==COLLINEAR)
 	{	
 	  return geom_traits().power_test(f->vertex(0)->point(),
 					  f->vertex(1)->point(),p);
 	}
       }
 
-    return (o == CGAL_NEGATIVE) ? CGAL_ON_NEGATIVE_SIDE :
-      (o == CGAL_POSITIVE) ? CGAL_ON_POSITIVE_SIDE : CGAL_ON_ORIENTED_BOUNDARY;
+    return (o == NEGATIVE) ? ON_NEGATIVE_SIDE :
+      (o == POSITIVE) ? ON_POSITIVE_SIDE : ON_ORIENTED_BOUNDARY;
   }
 
 
 template < class Gt, class Tds >
 void
-CGAL_Regular_triangulation_2<Gt,Tds>::
+Regular_triangulation_2<Gt,Tds>::
 update_hidden_points_2_2(const Face_handle& f1, const Face_handle& f2)
 {	
     CGAL_triangulation_assertion(f1->has_neighbor(f2));
@@ -445,8 +445,8 @@ update_hidden_points_2_2(const Face_handle& f1, const Face_handle& f2)
     CGAL_triangulation_assertion((!is_infinite(v0)) && (!is_infinite(v1))); 
 
     while ( ! p_list.empty() ){
-      if (CGAL_orientation(v0->point(), v1->point(), p_list.front()) ==
-			     CGAL_COUNTERCLOCKWISE) {
+      if (orientation(v0->point(), v1->point(), p_list.front()) ==
+			     COUNTERCLOCKWISE) {
 	  (f1->point_list()).push_back(p_list.front());
       }
       else{(f2->point_list()).push_back(p_list.front()) ;}
@@ -456,7 +456,7 @@ update_hidden_points_2_2(const Face_handle& f1, const Face_handle& f2)
 	  
 template < class Gt, class Tds >
 void
-CGAL_Regular_triangulation_2<Gt,Tds>::
+Regular_triangulation_2<Gt,Tds>::
 update_hidden_points_1_3(const Face_handle& f1, const Face_handle& f2, 
 				const Face_handle& f3)
 {
@@ -506,11 +506,11 @@ update_hidden_points_1_3(const Face_handle& f1, const Face_handle& f2,
     
     // if here, v1,v2,v3 and v0 are finite vertices
     while(! p_list.empty()) {
-      if(CGAL_orientation(v2->point(),v0->point(),p_list.front()) !=
-	 CGAL_orientation(v2->point(),v0->point(),v3->point()) )
+      if(orientation(v2->point(),v0->point(),p_list.front()) !=
+	 orientation(v2->point(),v0->point(),v3->point()) )
 	{ // not in f1
-	if (CGAL_orientation(v1->point(), v0->point(), p_list.front() ) !=
-	    CGAL_orientation(v1->point(), v0->point(), v3->point() ) )
+	if (orientation(v1->point(), v0->point(), p_list.front() ) !=
+	    orientation(v1->point(), v0->point(), v3->point() ) )
 	  {// not in f2
 	    f3->point_list().push_back(p_list.front());
 	  }
@@ -527,7 +527,7 @@ update_hidden_points_1_3(const Face_handle& f1, const Face_handle& f2,
 
 template < class Gt, class Tds >
 void
-CGAL_Regular_triangulation_2<Gt,Tds>::
+Regular_triangulation_2<Gt,Tds>::
 regularize(Vertex_handle v)
  {
     CGAL_triangulation_precondition( v != infinite_vertex());
@@ -547,7 +547,7 @@ regularize(Vertex_handle v)
 
 template < class Gt, class Tds >
 void
-CGAL_Regular_triangulation_2<Gt,Tds>::
+Regular_triangulation_2<Gt,Tds>::
 stack_flip(Vertex_handle v, Faces_around_stack &faces_around)
   {
     Face_handle f=faces_around.front();
@@ -556,7 +556,7 @@ stack_flip(Vertex_handle v, Faces_around_stack &faces_around)
 
     //test the regularity of edge (f,i)
     Face_handle n = f->neighbor(i);
-    if( power_test(n, v->point()) == CGAL_ON_NEGATIVE_SIDE){
+    if( power_test(n, v->point()) == ON_NEGATIVE_SIDE){
       return;
     }
     
@@ -570,30 +570,30 @@ stack_flip(Vertex_handle v, Faces_around_stack &faces_around)
 
     // now f and n are both finite faces
     int ni= n->index(f);
-    CGAL_Orientation occw = geom_traits().orientation(f->vertex(i)->point(),
+    Orientation occw = geom_traits().orientation(f->vertex(i)->point(),
 						  f->vertex(ccw(i))->point(),
 						  n->vertex(ni)->point());
-    CGAL_Orientation ocw = geom_traits().orientation(f->vertex(i)->point(),
+    Orientation ocw = geom_traits().orientation(f->vertex(i)->point(),
 						  f->vertex(cw(i))->point(),
 						  n->vertex(ni)->point());
-    if(occw == CGAL_LEFTTURN && ocw  ==  CGAL_RIGHTTURN){
+    if(occw == LEFTTURN && ocw  ==  RIGHTTURN){
       // quadrilater (f,n) is convex
       stack_flip_2_2(f,i, faces_around);
       return;
     }
-    else if (occw == CGAL_RIGHTTURN && is_degree(f->vertex(ccw(i)), 3) ){
+    else if (occw == RIGHTTURN && is_degree(f->vertex(ccw(i)), 3) ){
       stack_flip_3_1(f,i,ccw(i),faces_around);
       return;
     }
-    else if (ocw == CGAL_LEFTTURN && is_degree(f->vertex(cw(i)), 3) ){
+    else if (ocw == LEFTTURN && is_degree(f->vertex(cw(i)), 3) ){
       stack_flip_3_1(f,i,cw(i),faces_around);
       return;
     }
-    else if (occw == CGAL_COLLINEAR && is_degree(f->vertex(ccw(i)), 4) ){
+    else if (occw == COLLINEAR && is_degree(f->vertex(ccw(i)), 4) ){
       stack_flip_4_2(f,i,ccw(i),faces_around);
       return;
     }
-    else if (ocw == CGAL_COLLINEAR && is_degree(f->vertex(cw(i)), 4) ){ 
+    else if (ocw == COLLINEAR && is_degree(f->vertex(cw(i)), 4) ){ 
       stack_flip_4_2(f,i,cw(i),faces_around);
       return;
     }
@@ -603,7 +603,7 @@ stack_flip(Vertex_handle v, Faces_around_stack &faces_around)
 
 template < class Gt, class Tds >
 void
-CGAL_Regular_triangulation_2<Gt,Tds>::
+Regular_triangulation_2<Gt,Tds>::
 stack_flip_4_2(Face_handle f, int i, int j, 
 		    Faces_around_stack & faces_around)
   {
@@ -632,7 +632,7 @@ stack_flip_4_2(Face_handle f, int i, int j,
 
 template < class Gt, class Tds >
 void
-CGAL_Regular_triangulation_2<Gt,Tds>::
+Regular_triangulation_2<Gt,Tds>::
 stack_flip_3_1(Face_handle f, int i, int j,
 		    Faces_around_stack & faces_around)
 {
@@ -652,7 +652,7 @@ stack_flip_3_1(Face_handle f, int i, int j,
 
 template < class Gt, class Tds >
 void
-CGAL_Regular_triangulation_2<Gt,Tds>::
+Regular_triangulation_2<Gt,Tds>::
 stack_flip_2_2(Face_handle f, int i, Faces_around_stack &
 	       faces_around)
   {
@@ -671,10 +671,10 @@ stack_flip_2_2(Face_handle f, int i, Faces_around_stack &
 
 
 template < class Gt, class Tds >
-CGAL_Regular_triangulation_2<Gt,Tds>::Vertex_handle
-CGAL_Regular_triangulation_2<Gt,Tds>::
+Regular_triangulation_2<Gt,Tds>::Vertex_handle
+Regular_triangulation_2<Gt,Tds>::
 insert(const Weighted_point  &p,
-	  CGAL_Triangulation_2<Gt,Tds>::Locate_type& lt,
+	  Triangulation_2<Gt,Tds>::Locate_type& lt,
 	  Face_handle f ) 
  {
     Vertex_handle v;
@@ -715,7 +715,7 @@ insert(const Weighted_point  &p,
       break;
 	
     case FACE:
-      if (power_test( loc ,p)==CGAL_ON_NEGATIVE_SIDE) {
+      if (power_test( loc ,p)==ON_NEGATIVE_SIDE) {
 	hide_vertex(loc, p );
 	return v;
       }
@@ -724,7 +724,7 @@ insert(const Weighted_point  &p,
       break;
 	
     case EDGE:
-      if (power_test( loc ,p)==CGAL_ON_NEGATIVE_SIDE){
+      if (power_test( loc ,p)==ON_NEGATIVE_SIDE){
 	hide_vertex(loc, p);
 	return v;
       }
@@ -751,7 +751,7 @@ insert(const Weighted_point  &p,
 
 template < class Gt, class Tds >
 void
-CGAL_Regular_triangulation_2<Gt,Tds>::
+Regular_triangulation_2<Gt,Tds>::
 remove_2D(Vertex_handle v)
       {
 	// General case
@@ -763,14 +763,14 @@ remove_2D(Vertex_handle v)
 	// should be face_handle instead of void*
 	// but it doesn't link (maybe because of too long names
 	// generated by template classes imbrication)
-	typedef pair<void* , int>  Hole_neighbor;
+	typedef std::pair<void* , int>  Hole_neighbor;
 
-	typedef list<Hole_neighbor> Hole;
-	typedef list<Hole> Hole_list;
+	typedef std::list<Hole_neighbor> Hole;
+	typedef std::list<Hole> Hole_list;
   
 	Hole hole;
 	Hole_list hole_list;
-	list<Face_handle> to_delete;
+	std::list<Face_handle> to_delete;
 
 	Face_handle  f, ff, fn;
 	int i =0,ii =0, in =0;
@@ -884,14 +884,14 @@ remove_2D(Vertex_handle v)
 				  p = vv->point();
 				  if (
 				      geom_traits().orientation(p0,p1,p) == 
-					          CGAL_COUNTERCLOCKWISE) {
+					          COUNTERCLOCKWISE) {
 				    if(is_infinite(v2)){	
 				      v2=vv; p2=p;
 				      cut_after=hit;
 				    }
 				    else {	
 				      if( geom_traits().power_test (p0,p1,p2,p) == 
-					  CGAL_ON_POSITIVE_SIDE){	
+					  ON_POSITIVE_SIDE){	
 					v2=vv; p2=p; cut_after=hit;
 				      }
 				    }
@@ -956,7 +956,7 @@ remove_2D(Vertex_handle v)
 
 template < class Gt, class Tds >
 void
-CGAL_Regular_triangulation_2<Gt,Tds>::
+Regular_triangulation_2<Gt,Tds>::
 remove(Vertex_handle v )
 {
 	  CGAL_triangulation_precondition(! v.is_null());
@@ -1017,21 +1017,21 @@ remove(Vertex_handle v )
 
 template < class Gt, class Tds >
 bool
-CGAL_Regular_triangulation_2<Gt,Tds>::
+Regular_triangulation_2<Gt,Tds>::
 is_valid(bool verbose = false, int level = 0) const
 {
 	  if(number_of_vertices() <= 1) {
 	    return true;
 	  }
   
-	  bool result = CGAL_Triangulation_2<Gt,Tds>::is_valid();
+	  bool result = Triangulation_2<Gt,Tds>::is_valid();
   		
 	  for( Face_iterator it = faces_begin(); it != faces_end() ; it++) {
 
 	    for(int i=0; i<3; i++) {
 	    if 	( ! is_infinite( it->vertex(i))) {
 	      result = result &&
-	       CGAL_ON_POSITIVE_SIDE != 
+	       ON_POSITIVE_SIDE != 
 		power_test( it->neighbor(i), it->vertex(i)->point());
 	    }
 	    if ( !result) {
@@ -1051,7 +1051,7 @@ is_valid(bool verbose = false, int level = 0) const
 	      pldone= it->point_list().end();
 	    for( ; plit != pldone ; plit++) {
 	      result = result &&
-		power_test( it, *plit) == CGAL_ON_NEGATIVE_SIDE ;
+		power_test( it, *plit) == ON_NEGATIVE_SIDE ;
 	    	
 	      if ( !result) {
 		cerr << "face : " << (void*)&(*it)<< "  " 
@@ -1070,7 +1070,7 @@ is_valid(bool verbose = false, int level = 0) const
 
 template < class Gt, class Tds >
 void
-CGAL_Regular_triangulation_2<Gt,Tds>::
+Regular_triangulation_2<Gt,Tds>::
 affiche_tout()
 {
   cerr<< "AFFICHE TOUTE LA TRIANGULATION :"<<endl;
@@ -1149,5 +1149,6 @@ Face_circulator fc = infinite_vertex()->incident_faces(),fcdone(fc);
 
 }
 
+CGAL_END_NAMESPACE 
 
 #endif

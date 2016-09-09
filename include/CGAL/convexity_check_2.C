@@ -1,6 +1,6 @@
 // ======================================================================
 //
-// Copyright (c) 1998 The CGAL Consortium
+// Copyright (c) 1999 The GALIA Consortium
 //
 // This software and related documentation is part of the
 // Computational Geometry Algorithms Library (CGAL).
@@ -16,34 +16,33 @@
 // - Development licenses grant access to the source code of the library 
 //   to develop programs. These programs may be sold to other parties as 
 //   executable code. To obtain a development license, please contact
-//   the CGAL Consortium (at cgal@cs.uu.nl).
+//   the GALIA Consortium (at cgal@cs.uu.nl).
 // - Commercialization licenses grant access to the source code and the
 //   right to sell development licenses. To obtain a commercialization 
-//   license, please contact the CGAL Consortium (at cgal@cs.uu.nl).
+//   license, please contact the GALIA Consortium (at cgal@cs.uu.nl).
 //
 // This software and documentation is provided "as-is" and without
 // warranty of any kind. In no event shall the CGAL Consortium be
 // liable for any damage of any kind.
 //
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// The GALIA Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany) Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+// (Germany), Max-Planck-Institute Saarbrucken (Germany),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
-// release       : CGAL-1.2
-// release_date  : 1999, January 18
+// release       : CGAL-2.0
+// release_date  : 1999, June 03
 //
 // file          : include/CGAL/convexity_check_2.C
-// package       : Convex_hull (1.3.2)
+// package       : Convex_hull (2.0.8)
 // source        : convex_hull_2.lw
-// revision      : 1.3.2
-// revision_date : 09 Dec 1998
+// revision      : 2.0.8
+// revision_date : 06 May 1999
 // author(s)     : Stefan Schirra
 //
 // coordinator   : MPI, Saarbruecken
-//
 // email         : cgal@cs.uu.nl
 //
 // ======================================================================
@@ -55,10 +54,12 @@
 #ifndef CGAL_CONVEXITY_CHECK_2_H
 #include <CGAL/convexity_check_2.h>
 #endif // CGAL_CONVEXITY_CHECK_2_H
+
+CGAL_BEGIN_NAMESPACE
 template <class ForwardIterator, class Traits>
 bool
-CGAL_is_ccw_strongly_convex_2( ForwardIterator first, ForwardIterator last, 
-                               const Traits& ch_traits)
+is_ccw_strongly_convex_2( ForwardIterator first, ForwardIterator last, 
+                          const Traits& ch_traits)
 {
   typedef  typename Traits::Less_xy      Less_xy;
   typedef  typename Traits::Leftturn     Leftturn;
@@ -111,7 +112,7 @@ CGAL_is_ccw_strongly_convex_2( ForwardIterator first, ForwardIterator last,
 
 template <class ForwardIterator, class Traits>
 bool
-CGAL_is_cw_strongly_convex_2( ForwardIterator first, ForwardIterator last, 
+is_cw_strongly_convex_2( ForwardIterator first, ForwardIterator last, 
                               const Traits& ch_traits)
 {
   typedef  typename Traits::Less_xy      Less_xy;
@@ -165,7 +166,7 @@ CGAL_is_cw_strongly_convex_2( ForwardIterator first, ForwardIterator last,
 
 template <class ForwardIterator1, class ForwardIterator2, class Traits>
 bool
-CGAL_ch_brute_force_check_2(ForwardIterator1 first1, ForwardIterator1 last1,
+ch_brute_force_check_2(ForwardIterator1 first1, ForwardIterator1 last1,
                             ForwardIterator2 first2, ForwardIterator2 last2,
                             const Traits&  ch_traits)
 {
@@ -178,7 +179,7 @@ CGAL_ch_brute_force_check_2(ForwardIterator1 first1, ForwardIterator1 last1,
 
   if ( first2 == last2) return false;
 
-  if ( CGAL_successor(first2) == last2 )
+  if ( successor(first2) == last2 )
   {
       while (first1 != last1)
       {
@@ -188,25 +189,25 @@ CGAL_ch_brute_force_check_2(ForwardIterator1 first1, ForwardIterator1 last1,
   }
 
   Right_of_line  
-      rol = ch_traits.get_right_of_line_object(*first2, *CGAL_successor(first2) );
+      rol = ch_traits.get_right_of_line_object(*first2, *successor(first2) );
   iter22 = first2;
   iter21 = iter22++;
   while (iter22 != last2)
   {
       rol = ch_traits.get_right_of_line_object( *iter21++, *iter22++ );
-      iter11 = find_if( first1, last1, rol );
+      iter11 = std::find_if( first1, last1, rol );
       if (iter11 != last1 ) return false;
   }
 
   rol = ch_traits.get_right_of_line_object( *iter21, *first2 );   
-  iter11 = find_if( first1, last1, rol );
+  iter11 = std::find_if( first1, last1, rol );
   if (iter11 != last1 ) return false;
   return true;
 }
 
 template <class ForwardIterator1, class ForwardIterator2, class Traits>
 bool
-CGAL_ch_brute_force_chain_check_2(ForwardIterator1 first1, 
+ch_brute_force_chain_check_2(ForwardIterator1 first1, 
                                   ForwardIterator1 last1,
                                   ForwardIterator2 first2, 
                                   ForwardIterator2 last2,
@@ -221,16 +222,16 @@ CGAL_ch_brute_force_chain_check_2(ForwardIterator1 first1,
 
   if ( first2 == last2) return false;
 
-  if ( CGAL_successor(first2) == last2 ) return true;
+  if ( successor(first2) == last2 ) return true;
 
   Right_of_line  
-      rol = ch_traits.get_right_of_line_object(*first2, *CGAL_successor(first2) );
+      rol = ch_traits.get_right_of_line_object(*first2, *successor(first2) );
   iter22 = first2;
   iter21 = iter22++;
   while (iter22 != last2)
   {
       rol = ch_traits.get_right_of_line_object( *iter21++, *iter22++ );
-      iter11 = find_if( first1, last1, rol );
+      iter11 = std::find_if( first1, last1, rol );
       if (iter11 != last1 ) return false;
   }
 
@@ -238,5 +239,6 @@ CGAL_ch_brute_force_chain_check_2(ForwardIterator1 first1,
 }
 
 
+CGAL_END_NAMESPACE
 
 #endif // CGAL_CONVEXITY_CHECK_2_C

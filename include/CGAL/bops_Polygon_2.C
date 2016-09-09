@@ -1,7 +1,6 @@
-//  -*- Mode: c++ -*-
 // ======================================================================
 //
-// Copyright (c) 1997 The CGAL Consortium
+// Copyright (c) 1999 The GALIA Consortium
 //
 // This software and related documentation is part of the
 // Computational Geometry Algorithms Library (CGAL).
@@ -17,38 +16,37 @@
 // - Development licenses grant access to the source code of the library 
 //   to develop programs. These programs may be sold to other parties as 
 //   executable code. To obtain a development license, please contact
-//   the CGAL Consortium (at cgal@cs.uu.nl).
+//   the GALIA Consortium (at cgal@cs.uu.nl).
 // - Commercialization licenses grant access to the source code and the
 //   right to sell development licenses. To obtain a commercialization 
-//   license, please contact the CGAL Consortium (at cgal@cs.uu.nl).
+//   license, please contact the GALIA Consortium (at cgal@cs.uu.nl).
 //
 // This software and documentation is provided "as-is" and without
 // warranty of any kind. In no event shall the CGAL Consortium be
 // liable for any damage of any kind.
 //
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// The GALIA Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany) Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+// (Germany), Max-Planck-Institute Saarbrucken (Germany),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-1.2
-// release_date  : 1999, January 18
+// release       : CGAL-2.0
+// release_date  : 1999, June 03
 //
 // file          : include/CGAL/bops_Polygon_2.C
-// package       : bops (1.1.2)
+// package       : bops (2.1.5)
 // source        : include/CGAL/bops_Polygon_2.C
-// revision      : $Revision: 1.1.2 $
+// revision      : $Revision: WIP $
 // revision_date : $Date: Wed Dec  9 13:28:47 MET 1998  $
-// author(s)     :             Wolfgang Freiseisen
+// author(s)     : Wolfgang Freiseisen
 //
 // coordinator   : RISC Linz
 //  (Wolfgang Freiseisen)
 //
 // 
-//
 // email         : cgal@cs.uu.nl
 //
 // ======================================================================
@@ -61,11 +59,12 @@
 #include <CGAL/bops_assertions.h>
 #include <CGAL/bops_Convex_Polygon_2.h>
 
+CGAL_BEGIN_NAMESPACE
 
 template < class R, class Container >
-bool CGAL_do_intersect(
-     const CGAL_Polygon_2<CGAL_Polygon_traits_2<R>, Container>& A,
-     const CGAL_Polygon_2<CGAL_Polygon_traits_2<R>, Container>& B)
+bool do_intersect(
+     const Polygon_2<Polygon_traits_2<R>, Container>& A,
+     const Polygon_2<Polygon_traits_2<R>, Container>& B)
 {
   CGAL_bops_precondition_msg(A.is_simple(),
                              "Polygon_2<R> A is not simple");
@@ -77,7 +76,7 @@ bool CGAL_do_intersect(
                              "Polygon_2<R> B is not counterclockwise oriented");
 
   Bops_default_I<R> default_traits;
-  return CGAL_do_intersect(
+  return do_intersect(
          A.vertices_begin(), A.vertices_end(),
          B.vertices_begin(), B.vertices_end(),
 	 default_traits );
@@ -85,9 +84,9 @@ bool CGAL_do_intersect(
 
  
 template < class R, class Container, class OutputIterator >
-OutputIterator CGAL_intersection(
-       const CGAL_Polygon_2<CGAL_Polygon_traits_2<R>, Container>& A,
-       const CGAL_Polygon_2<CGAL_Polygon_traits_2<R>, Container>& B,
+OutputIterator intersection(
+       const Polygon_2<Polygon_traits_2<R>, Container>& A,
+       const Polygon_2<Polygon_traits_2<R>, Container>& B,
        OutputIterator result)
 {
   CGAL_bops_precondition_msg(A.is_simple(),
@@ -101,14 +100,14 @@ OutputIterator CGAL_intersection(
 
 
   if( A.is_convex() && B.is_convex() ) {
-     CGAL_Polygon_2<CGAL_Polygon_traits_2<R>, Container> C, AA(A), BB(B);
-     C= CGAL_Convex_Intersection(AA, BB);
-     result++ = CGAL_make_object(C);
+     Polygon_2<Polygon_traits_2<R>, Container> C, AA(A), BB(B);
+     C= Convex_Intersection(AA, BB);
+     result++ = make_object(C);
      return result;
   }
 
   Bops_default_I<R> default_traits;
-  return CGAL_intersection(
+  return intersection(
          A.vertices_begin(), A.vertices_end(),
          B.vertices_begin(), B.vertices_end(),
 	 default_traits, result );
@@ -116,9 +115,9 @@ OutputIterator CGAL_intersection(
 
 
 template < class R, class Container, class OutputIterator >
-OutputIterator CGAL_union(
-      const CGAL_Polygon_2<CGAL_Polygon_traits_2<R>, Container>& A,
-      const CGAL_Polygon_2<CGAL_Polygon_traits_2<R>, Container>& B,
+OutputIterator Union(
+      const Polygon_2<Polygon_traits_2<R>, Container>& A,
+      const Polygon_2<Polygon_traits_2<R>, Container>& B,
       OutputIterator result)
 {
   CGAL_bops_precondition_msg(A.is_simple(),
@@ -131,16 +130,16 @@ OutputIterator CGAL_union(
                              "Polygon_2<R> B is not counterclockwise oriented");
 
   Bops_default_I<R> default_traits;
-  return CGAL_union(
+  return Union(
          A.vertices_begin(), A.vertices_end(),
          B.vertices_begin(), B.vertices_end(),
 	 default_traits, result );
 }
  
 template < class R, class Container, class OutputIterator >
-OutputIterator CGAL_difference(
-	       const CGAL_Polygon_2<CGAL_Polygon_traits_2<R>, Container>& A,
-	       const CGAL_Polygon_2<CGAL_Polygon_traits_2<R>, Container>& B,
+OutputIterator difference(
+	       const Polygon_2<Polygon_traits_2<R>, Container>& A,
+	       const Polygon_2<Polygon_traits_2<R>, Container>& B,
 	       OutputIterator result)
 {
   CGAL_bops_precondition_msg(A.is_simple(),
@@ -153,10 +152,12 @@ OutputIterator CGAL_difference(
                              "Polygon_2<R> B is not counterclockwise oriented");
 
   Bops_default_I<R> default_traits;
-  return CGAL_difference(
+  return difference(
          A.vertices_begin(), A.vertices_end(),
          B.vertices_begin(), B.vertices_end(),
 	 default_traits, result );
 } 
+
+CGAL_END_NAMESPACE
 
 #endif // CGAL_BOPS_POLYGON_2_C

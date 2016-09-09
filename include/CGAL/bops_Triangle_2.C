@@ -1,7 +1,6 @@
-//  -*- Mode: c++ -*-
 // ======================================================================
 //
-// Copyright (c) 1997 The CGAL Consortium
+// Copyright (c) 1999 The GALIA Consortium
 //
 // This software and related documentation is part of the
 // Computational Geometry Algorithms Library (CGAL).
@@ -17,38 +16,37 @@
 // - Development licenses grant access to the source code of the library 
 //   to develop programs. These programs may be sold to other parties as 
 //   executable code. To obtain a development license, please contact
-//   the CGAL Consortium (at cgal@cs.uu.nl).
+//   the GALIA Consortium (at cgal@cs.uu.nl).
 // - Commercialization licenses grant access to the source code and the
 //   right to sell development licenses. To obtain a commercialization 
-//   license, please contact the CGAL Consortium (at cgal@cs.uu.nl).
+//   license, please contact the GALIA Consortium (at cgal@cs.uu.nl).
 //
 // This software and documentation is provided "as-is" and without
 // warranty of any kind. In no event shall the CGAL Consortium be
 // liable for any damage of any kind.
 //
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// The GALIA Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany) Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+// (Germany), Max-Planck-Institute Saarbrucken (Germany),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-1.2
-// release_date  : 1999, January 18
+// release       : CGAL-2.0
+// release_date  : 1999, June 03
 //
 // file          : include/CGAL/bops_Triangle_2.C
-// package       : bops (1.1.2)
+// package       : bops (2.1.5)
 // source        : include/CGAL/bops_Triangle_2.C
-// revision      : $Revision: 1.1.2 $
+// revision      : $Revision: WIP $
 // revision_date : $Date: Wed Dec  9 13:28:47 MET 1998  $
-// author(s)     :             Wolfgang Freiseisen
+// author(s)     : Wolfgang Freiseisen
 //
 // coordinator   : RISC Linz
 //  (Wolfgang Freiseisen)
 //
 // 
-//
 // email         : cgal@cs.uu.nl
 //
 // ======================================================================
@@ -67,19 +65,21 @@
 #include<CGAL/bops_Triangle_2.h>
 #include <CGAL/bops_assertions.h>
 
+CGAL_BEGIN_NAMESPACE 
+
 /*
 #include <CGAL/Triangle_2_Triangle_2_intersection.h>
-bool CGAL_do_intersect( const CGAL_Triangle_2<R>& A,
-                        const CGAL_Triangle_2<R>& B);
-CGAL_Object CGAL_intersection( const CGAL_Triangle_2<R>& A,
-                        const CGAL_Triangle_2<R>& B)
+bool do_intersect( const Triangle_2<R>& A,
+                        const Triangle_2<R>& B);
+Object intersection( const Triangle_2<R>& A,
+                        const Triangle_2<R>& B)
 see 'CGAL/Triangle_2_Triangle_2_intersection.h'
 */
  
 
 template < class R, class OutputIterator >
-OutputIterator CGAL_union( const CGAL_Triangle_2<R>& A,
-                           const CGAL_Triangle_2<R>& B,
+OutputIterator Union( const Triangle_2<R>& A,
+                           const Triangle_2<R>& B,
 		           OutputIterator result)
 {
   CGAL_bops_precondition_msg( !A.is_degenerate(),
@@ -93,14 +93,14 @@ OutputIterator CGAL_union( const CGAL_Triangle_2<R>& A,
   back_insert_iterator<input> inA(cA), inB(cB);
   for(int i= 0; i<3; i++) { *inA++ = A[i]; *inB++ = B[i]; }
 
-  return CGAL_union( cA.begin(), cA.end(), cB.begin(), cB.end(),
+  return Union( cA.begin(), cA.end(), cB.begin(), cB.end(),
 	 default_traits, result );
 }
  
  
 template < class R, class OutputIterator >
-OutputIterator CGAL_difference( const CGAL_Triangle_2<R>& A,
-		                const CGAL_Triangle_2<R>& B,
+OutputIterator difference( const Triangle_2<R>& A,
+		                const Triangle_2<R>& B,
 		                OutputIterator result)
 {
   CGAL_bops_precondition_msg( !A.is_degenerate(),
@@ -114,9 +114,10 @@ OutputIterator CGAL_difference( const CGAL_Triangle_2<R>& A,
   back_insert_iterator<input> inA(cA), inB(cB);
   for(int i= 0; i<3; i++) { *inA++= A[i]; *inB++= B[i]; }
 
-  return CGAL_difference( cA.begin(), cA.end(), cB.begin(), cB.end(),
+  return difference( cA.begin(), cA.end(), cB.begin(), cB.end(),
 	 default_traits, result );
 } 
  
+CGAL_END_NAMESPACE
 
 #endif // CGAL_BOPS_TRIANGLE_2_C

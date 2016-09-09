@@ -1,6 +1,6 @@
 // ======================================================================
 //
-// Copyright (c) 1998 The CGAL Consortium
+// Copyright (c) 1999 The GALIA Consortium
 //
 // This software and related documentation is part of the
 // Computational Geometry Algorithms Library (CGAL).
@@ -16,35 +16,34 @@
 // - Development licenses grant access to the source code of the library 
 //   to develop programs. These programs may be sold to other parties as 
 //   executable code. To obtain a development license, please contact
-//   the CGAL Consortium (at cgal@cs.uu.nl).
+//   the GALIA Consortium (at cgal@cs.uu.nl).
 // - Commercialization licenses grant access to the source code and the
 //   right to sell development licenses. To obtain a commercialization 
-//   license, please contact the CGAL Consortium (at cgal@cs.uu.nl).
+//   license, please contact the GALIA Consortium (at cgal@cs.uu.nl).
 //
 // This software and documentation is provided "as-is" and without
 // warranty of any kind. In no event shall the CGAL Consortium be
 // liable for any damage of any kind.
 //
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// The GALIA Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany) Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+// (Germany), Max-Planck-Institute Saarbrucken (Germany),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 // 
-// release       : CGAL-1.2
-// release_date  : 1999, January 18
+// release       : CGAL-2.0
+// release_date  : 1999, June 03
 // 
 // source        : Bbox_2.fw
 // file          : include/CGAL/Bbox_2.h
-// package       : _2 (1.3)
-// revision      : 1.3
-// revision_date : 15 Dec 1998 
+// package       : _2 (2.1.2)
+// revision      : 2.1.2
+// revision_date : 09 May 1999 
 // author(s)     : Andreas Fabri
 //
 // coordinator   : MPI, Saarbruecken  (<Stefan.Schirra>)
-//
 // email         : cgal@cs.uu.nl
 //
 // ======================================================================
@@ -59,21 +58,23 @@
 #ifndef CGAL_CARTESIAN_CLASSES_H
 #include <CGAL/cartesian_classes.h>
 #endif // CGAL_CARTESIAN_CLASSES_H
-#ifndef CGAL_FOURTUPLE_H
+#ifndef FOURTUPLE_H
 #include <CGAL/Fourtuple.h>
-#endif // CGAL_FOURTUPLE_H
+#endif // FOURTUPLE_H
 
-class CGAL_Bbox_2 : public CGAL_Handle
+CGAL_BEGIN_NAMESPACE
+
+class Bbox_2 : public Handle
 {
 public:
-                         CGAL_Bbox_2();
-                         CGAL_Bbox_2(const CGAL_Bbox_2 &);
-                         CGAL_Bbox_2(double x_min, double y_min,
-                                   double x_max, double y_max);
-                         ~CGAL_Bbox_2();
-  CGAL_Bbox_2            &operator=(const CGAL_Bbox_2 &b);
-  bool                   operator==(const CGAL_Bbox_2 &b) const;
-  bool                   operator!=(const CGAL_Bbox_2 &b) const;
+                         Bbox_2();
+                         Bbox_2(const Bbox_2 &);
+                         Bbox_2(double x_min, double y_min,
+                                double x_max, double y_max);
+                         ~Bbox_2();
+  Bbox_2 &               operator=(const Bbox_2 &b);
+  bool                   operator==(const Bbox_2 &b) const;
+  bool                   operator!=(const Bbox_2 &b) const;
 
   int                    dimension() const;
   double                 xmin() const;
@@ -84,44 +85,44 @@ public:
   double                 max(int i) const;
   double                 min(int i) const;
 
-  CGAL_Bbox_2              operator+(const CGAL_Bbox_2 &b) const;
+  Bbox_2              operator+(const Bbox_2 &b) const;
 
 private:
-  CGAL__Fourtuple<double>*   ptr() const;
+  _Fourtuple<double>*   ptr() const;
 };
 
 
-inline CGAL__Fourtuple<double>* CGAL_Bbox_2::ptr() const
+inline _Fourtuple<double>* Bbox_2::ptr() const
 {
-  return (CGAL__Fourtuple<double>*)PTR;
+  return (_Fourtuple<double>*)PTR;
 }
 
-inline int CGAL_Bbox_2::dimension() const
+inline int Bbox_2::dimension() const
 {
   return 2;
 }
 
-inline double CGAL_Bbox_2::xmin() const
+inline double Bbox_2::xmin() const
 {
   return ptr()->e0;
 }
 
-inline double CGAL_Bbox_2::ymin() const
+inline double Bbox_2::ymin() const
 {
   return ptr()->e1;
 }
 
-inline double CGAL_Bbox_2::xmax() const
+inline double Bbox_2::xmax() const
 {
   return ptr()->e2;
 }
 
-inline double CGAL_Bbox_2::ymax() const
+inline double Bbox_2::ymax() const
 {
   return ptr()->e3;
 }
 
-inline double CGAL_Bbox_2::min(int i) const
+inline double Bbox_2::min(int i) const
 {
   CGAL_kernel_precondition( (i == 0 ) || ( i == 1 ) );
   if(i == 0) {
@@ -130,7 +131,7 @@ inline double CGAL_Bbox_2::min(int i) const
   return ymin();
 }
 
-inline double CGAL_Bbox_2::max(int i) const
+inline double Bbox_2::max(int i) const
 {
   CGAL_kernel_precondition( (i == 0 ) || ( i == 1 ) );
   if(i == 0) {
@@ -138,14 +139,14 @@ inline double CGAL_Bbox_2::max(int i) const
   }
   return ymax();
 }
-inline CGAL_Bbox_2 CGAL_Bbox_2::operator+(const CGAL_Bbox_2 &b) const
+inline Bbox_2 Bbox_2::operator+(const Bbox_2 &b) const
 {
-  return CGAL_Bbox_2(CGAL_min(xmin(), b.xmin()),
-                     CGAL_min(ymin(), b.ymin()),
-                     CGAL_max(xmax(), b.xmax()),
-                     CGAL_max(ymax(), b.ymax()));
+  return Bbox_2(std::min(xmin(), b.xmin()),
+                std::min(ymin(), b.ymin()),
+                std::max(xmax(), b.xmax()),
+                std::max(ymax(), b.ymax()));
 }
-inline bool CGAL_do_overlap(const CGAL_Bbox_2 &bb1, const CGAL_Bbox_2 &bb2)
+inline bool do_overlap(const Bbox_2 &bb1, const Bbox_2 &bb2)
 {
     // check for emptiness ??
     if (bb1.xmax() < bb2.xmin() || bb2.xmax() < bb1.xmin())
@@ -155,21 +156,21 @@ inline bool CGAL_do_overlap(const CGAL_Bbox_2 &bb1, const CGAL_Bbox_2 &bb2)
     return true;
 }
 
-#ifndef CGAL_NO_OSTREAM_INSERT_BBOX_2
+#ifndef NO_OSTREAM_INSERT_BBOX_2
 inline
-ostream&
-operator<<(ostream &os, const CGAL_Bbox_2 &b)
+std::ostream&
+operator<<(std::ostream &os, const Bbox_2 &b)
 {
-    switch(os.iword(CGAL_IO::mode)) {
-    case CGAL_IO::ASCII :
+    switch(os.iword(IO::mode)) {
+    case IO::ASCII :
         os << b.xmin() << ' ' << b.ymin() << ' '
            << b.xmax() << ' ' << b.ymax();
         break;
-    case CGAL_IO::BINARY :
-        CGAL_write(os, b.xmin());
-        CGAL_write(os, b.ymin());
-        CGAL_write(os, b.xmax());
-        CGAL_write(os, b.ymax());
+    case IO::BINARY :
+        write(os, b.xmin());
+        write(os, b.ymin());
+        write(os, b.xmax());
+        write(os, b.ymax());
         break;
     default:
         os << "Bbox_2(" << b.xmin() << ", " << b.ymin() << ", "
@@ -178,33 +179,35 @@ operator<<(ostream &os, const CGAL_Bbox_2 &b)
     }
     return os;
 }
-#endif // CGAL_NO_OSTREAM_INSERT_BBOX_2
+#endif // NO_OSTREAM_INSERT_BBOX_2
 
 
 
-#ifndef CGAL_NO_ISTREAM_EXTRACT_BBOX_2
+#ifndef NO_ISTREAM_EXTRACT_BBOX_2
 inline
-istream&
-operator>>(istream &is, CGAL_Bbox_2 &b)
+std::istream&
+operator>>(std::istream &is, Bbox_2 &b)
 {
     double xmin, ymin, xmax, ymax;
 
-    switch(is.iword(CGAL_IO::mode)) {
-    case CGAL_IO::ASCII :
+    switch(is.iword(IO::mode)) {
+    case IO::ASCII :
         is >> xmin >> ymin >> xmax >> ymax;
         break;
-    case CGAL_IO::BINARY :
-        CGAL_read(is, xmin);
-        CGAL_read(is, ymin);
-        CGAL_read(is, xmax);
-        CGAL_read(is, ymax);
+    case IO::BINARY :
+        read(is, xmin);
+        read(is, ymin);
+        read(is, xmax);
+        read(is, ymax);
         break;
     }
-    b = CGAL_Bbox_2(xmin, ymin, xmax, ymax);
+    b = Bbox_2(xmin, ymin, xmax, ymax);
     return is;
 }
-#endif // CGAL_NO_ISTREAM_EXTRACT_BBOX_2
+#endif // NO_ISTREAM_EXTRACT_BBOX_2
 
+
+CGAL_END_NAMESPACE
 
 
 #endif // CGAL_BBOX_2_H

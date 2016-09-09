@@ -1,6 +1,6 @@
 // ======================================================================
 //
-// Copyright (c) 1997 The CGAL Consortium
+// Copyright (c) 1999 The GALIA Consortium
 //
 // This software and related documentation is part of the
 // Computational Geometry Algorithms Library (CGAL).
@@ -16,38 +16,37 @@
 // - Development licenses grant access to the source code of the library 
 //   to develop programs. These programs may be sold to other parties as 
 //   executable code. To obtain a development license, please contact
-//   the CGAL Consortium (at cgal@cs.uu.nl).
+//   the GALIA Consortium (at cgal@cs.uu.nl).
 // - Commercialization licenses grant access to the source code and the
 //   right to sell development licenses. To obtain a commercialization 
-//   license, please contact the CGAL Consortium (at cgal@cs.uu.nl).
+//   license, please contact the GALIA Consortium (at cgal@cs.uu.nl).
 //
 // This software and documentation is provided "as-is" and without
 // warranty of any kind. In no event shall the CGAL Consortium be
 // liable for any damage of any kind.
 //
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// The GALIA Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany) Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+// (Germany), Max-Planck-Institute Saarbrucken (Germany),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-1.2
-// release_date  : 1999, January 18
+// release       : CGAL-2.0
+// release_date  : 1999, June 03
 //
 // file          : include/CGAL/circulator.h
-// package       : Circulator (1.15)
+// package       : Circulator (2.6)
 // chapter       : $CGAL_Chapter: Circulators $
 // source        : circulator.fw
-// revision      : $Revision: 1.19 $
-// revision_date : $Date: 1998/03/24 14:04:32 $
+// revision      : $Revision: 1.6 $
+// revision_date : $Date: 1999/04/28 23:22:58 $
 // author(s)     : Lutz Kettner
 //
 // coordinator   : INRIA, Sophia Antipolis
 //
 // Circulator support and Adaptors between circulators and iterators.
-//
 // email         : cgal@cs.uu.nl
 //
 // ======================================================================
@@ -58,18 +57,18 @@
 #ifndef CGAL_BASIC_H
 #include <CGAL/basic.h>
 #endif
-#ifndef CGAL_PROTECT_STDDEF_H
-#include <stddef.h>
-#define CGAL_PROTECT_STDDEF_H
-#endif // CGAL_PROTECT_STDDEF_H
-#ifndef CGAL_PROTECT_FUNCTION_H
-#include <function.h>
-#define CGAL_PROTECT_FUNCTION_H
-#endif // CGAL_PROTECT_FUNCTION_H
-#ifndef CGAL_PROTECT_ITERATOR_H
-#include <iterator.h>
-#define CGAL_PROTECT_ITERATOR_H
-#endif // CGAL_PROTECT_ITERATOR_H
+#ifndef CGAL_PROTECT_CSTDDEF
+#include <cstddef>
+#define CGAL_PROTECT_CSTDDEF
+#endif
+#ifndef CGAL_PROTECT_FUNCTIONAL
+#include <functional>
+#define CGAL_PROTECT_FUNCTIONAL
+#endif
+#ifndef CGAL_PROTECT_ITERATOR
+#include <iterator>
+#define CGAL_PROTECT_ITERATOR
+#endif
 #ifndef CGAL_CIRCULATOR_BASES_H
 #include <CGAL/circulator_bases.h>
 #endif
@@ -77,38 +76,9 @@
 // CGAL defined Tags.
 #ifndef CGAL_CFG_NO_ITERATOR_TRAITS
 #define CGAL__CIRC_STL_ITERATOR_TRAITS
-#else
-#  ifdef CGAL_STL_HP
-#  define CGAL__CIRC_STL_HP
-#  endif
-#  ifdef CGAL_STL_SGI_3_0
-#  define CGAL__CIRC_STL_SGI_3_0
-#  endif
-#  ifdef CGAL_STL_SGI_WWW
-#  define CGAL__CIRC_STL_SGI_JUNE_1997
-#  endif
-#  ifdef CGAL_STL_SGI_WWW_OLD
-#  define CGAL__CIRC_STL_SGI_WWW_1996
-#  endif
-#  ifdef CGAL_STL_SGI_CC
-#  define CGAL__CIRC_STL_SGI_CC_1996
-#  endif
-#  ifdef CGAL_STL_GCC
-#  define CGAL__CIRC_STL_GCC
-#  endif
-#  ifdef CGAL_STL_UNKNOWN
-   // No idea what to do. No explicit tag support.
-#  endif
 #endif // CGAL_CFG_NO_ITERATOR_TRAITS //
 
-#ifndef CGAL__CIRC_STL_HP
-#ifndef CGAL__CIRC_STL_SGI_3_0
-#ifndef CGAL__CIRC_STL_SGI_JUNE_1997
-#ifndef CGAL__CIRC_STL_SGI_WWW_1996
-#ifndef CGAL__CIRC_STL_SGI_CC_1996
-#ifndef CGAL__CIRC_STL_GCC
 #ifndef CGAL__CIRC_STL_ITERATOR_TRAITS
-#ifndef CGAL_STL_UNKNOWN
 
    // Try to figure out what STL is used.
 #  ifdef __GNUG__
@@ -121,10 +91,10 @@
 #  else // __GNUG__ //
         // Try to distinguish between HP and newest SGI STL (June 1997).
         // CGAL standard multiple inclusion protection does not harm here.
-#ifndef CGAL_PROTECT_LIST_H
-#include <list.h>
-#define CGAL_PROTECT_LIST_H
-#endif // CGAL_PROTECT_LIST_H
+#ifndef CGAL_PROTECT_LIST
+#include <list>
+#define CGAL_PROTECT_LIST
+#endif
 #      ifdef LIST_H
 #          ifdef  __sgi
                // Assume that SGI don't use HP STL any more. Then LIST_H
@@ -155,116 +125,103 @@
 #  endif // __GNUG__ //
 
 #endif
-#endif
-#endif
-#endif
-#endif
-#endif
-#endif
-#endif
-
-// Automatic checking for NO_SCOPE_MEMBER_FUNCTION_PARAMETERS
-// if not set anyway. This allows to use circulator.h without
-// including any CGAL header file in several cases.
-#ifdef CGAL_CFG_NO_SCOPE_MEMBER_FUNCTION_PARAMETERS
-#    define CGAL__CIRC_NO_SCOPE_MEMBER_FUNCTION_PARAMETERS 1
-#else
-#    ifdef __GNUG__
-#        if __GNUC__ == 2 && __GNUC_MINOR__ == 7
-#            define CGAL__CIRC_NO_SCOPE_MEMBER_FUNCTION_PARAMETERS 1
-#        endif
-#    else // __GNUG__ //
-#        ifdef __SUNPRO_CC
-#            if ( __SUNPRO_CC <= 0x420)
-#                define CGAL__CIRC_NO_SCOPE_MEMBER_FUNCTION_PARAMETERS 1
-#            endif
-#        endif // __SUNPRO_CC //
-#    endif // __GNUG__ //
-#endif // CGAL_CFG_NO_SCOPE_MEMBER_FUNCTION_PARAMETERS //
 
 #ifndef CGAL_NULL_TYPE
-#if defined( __GNUG__ ) && \
-    (__GNUC__ < 3 || (__GNUC__ == 2 && __GNUC_MINOR__ < 91))
+#if defined( __GNUG__ )
+    // (__GNUC__ < 2 || (__GNUC__ == 2 && __GNUC_MINOR__ < 91))
 #define CGAL_NULL_TYPE const void*
+#define CGAL_CIRC_NULL 0
 #else // __GNUG__ //
 #define CGAL_NULL_TYPE int
+#define CGAL_CIRC_NULL NULL
 #endif // __GNUG__ //
 #endif // CGAL_NULL_TYPE //
 
+CGAL_BEGIN_NAMESPACE
+
 template <class C>
-struct CGAL__Circulator_traits {
-    typedef  CGAL_Iterator_tag  category;
+struct _Circulator_traits {
+    typedef  Iterator_tag  category;
 };
-struct CGAL__Circulator_traits<CGAL_Forward_circulator_tag> {
-    typedef  CGAL_Circulator_tag  category;
+CGAL_TEMPLATE_NULL
+struct _Circulator_traits<Forward_circulator_tag> {
+    typedef  Circulator_tag  category;
 };
-struct CGAL__Circulator_traits<CGAL_Bidirectional_circulator_tag> {
-    typedef  CGAL_Circulator_tag  category;
+CGAL_TEMPLATE_NULL
+struct _Circulator_traits<Bidirectional_circulator_tag> {
+    typedef  Circulator_tag  category;
 };
-struct CGAL__Circulator_traits<CGAL_Random_access_circulator_tag> {
-    typedef  CGAL_Circulator_tag  category;
+CGAL_TEMPLATE_NULL
+struct _Circulator_traits<Random_access_circulator_tag> {
+    typedef  Circulator_tag  category;
 };
 
 template <class Tag, class IC>
-struct CGAL__Circulator_size_traits {
-    typedef  size_t  size_type;
+struct _Circulator_size_traits {
+    typedef  std::size_t  size_type;
 };
 #ifndef CGAL_CFG_NO_ITERATOR_TRAITS
 template <class C>
-struct CGAL__Circulator_size_traits<CGAL_Forward_circulator_tag,C> {
+struct _Circulator_size_traits<Forward_circulator_tag,C> {
     typedef  typename  C::size_type  size_type;
 };
 template <class C>
-struct CGAL__Circulator_size_traits<CGAL_Bidirectional_circulator_tag,C> {
+struct _Circulator_size_traits<Bidirectional_circulator_tag,C> {
     typedef  typename  C::size_type  size_type;
 };
 template <class C>
-struct CGAL__Circulator_size_traits<CGAL_Random_access_circulator_tag,C> {
+struct _Circulator_size_traits<Random_access_circulator_tag,C> {
     typedef  typename  C::size_type  size_type;
 };
 #endif // CGAL_CFG_NO_ITERATOR_TRAITS //
 #ifdef CGAL__CIRC_STL_ITERATOR_TRAITS
 template <class C>
-struct CGAL_Circulator_traits {
-    typedef iterator_traits<C> traits;
-    typedef typename traits::iterator_category iterator_category;
-    typedef CGAL__Circulator_traits< iterator_category> C_traits;
-    typedef typename C_traits::category category;
+struct Circulator_traits {
+    typedef std::iterator_traits<C>                 traits;
+    typedef typename traits::iterator_category      iterator_category;
+    typedef _Circulator_traits< iterator_category>  C_traits;
+    typedef typename C_traits::category             category;
 };
 
 template <class C>
-typename CGAL_Circulator_traits<C>::category
-CGAL_query_circulator_or_iterator( const C&) {
-    typedef typename CGAL_Circulator_traits<C>::category category;
+typename Circulator_traits<C>::category
+query_circulator_or_iterator( const C&) {
+    typedef typename Circulator_traits<C>::category category;
     return category();
 }
 
 template <class C>
-struct CGAL__Iterator_from_circulator_traits {
+struct _Iterator_from_circulator_traits {};
+
+CGAL_TEMPLATE_NULL
+struct _Iterator_from_circulator_traits< Forward_circulator_tag> {
+    typedef  std::forward_iterator_tag        iterator_category;
 };
-struct CGAL__Iterator_from_circulator_traits< CGAL_Forward_circulator_tag> {
-    typedef  forward_iterator_tag  iterator_category;
+CGAL_TEMPLATE_NULL
+struct _Iterator_from_circulator_traits<
+    Bidirectional_circulator_tag> {
+    typedef  std::bidirectional_iterator_tag  iterator_category;
 };
-struct CGAL__Iterator_from_circulator_traits<
-    CGAL_Bidirectional_circulator_tag> {
-    typedef  bidirectional_iterator_tag  iterator_category;
-};
-struct CGAL__Iterator_from_circulator_traits<
-    CGAL_Random_access_circulator_tag> {
-    typedef  random_access_iterator_tag  iterator_category;
+CGAL_TEMPLATE_NULL
+struct _Iterator_from_circulator_traits<
+    Random_access_circulator_tag> {
+    typedef  std::random_access_iterator_tag  iterator_category;
 };
 
 template <class C>
-struct CGAL__Circulator_from_iterator_traits {
+struct _Circulator_from_iterator_traits {
 };
-struct CGAL__Circulator_from_iterator_traits< forward_iterator_tag> {
-    typedef  CGAL_Forward_circulator_tag  iterator_category;
+CGAL_TEMPLATE_NULL
+struct _Circulator_from_iterator_traits< std::forward_iterator_tag> {
+    typedef  Forward_circulator_tag        iterator_category;
 };
-struct CGAL__Circulator_from_iterator_traits< bidirectional_iterator_tag> {
-    typedef  CGAL_Bidirectional_circulator_tag  iterator_category;
+CGAL_TEMPLATE_NULL
+struct _Circulator_from_iterator_traits< std::bidirectional_iterator_tag> {
+    typedef  Bidirectional_circulator_tag  iterator_category;
 };
-struct CGAL__Circulator_from_iterator_traits< random_access_iterator_tag> {
-    typedef  CGAL_Random_access_circulator_tag  iterator_category;
+CGAL_TEMPLATE_NULL
+struct _Circulator_from_iterator_traits< std::random_access_iterator_tag> {
+    typedef  Random_access_circulator_tag  iterator_category;
 };    
 #else  // CGAL__CIRC_STL_ITERATOR_TRAITS //
 // No iterator traits.
@@ -272,76 +229,81 @@ struct CGAL__Circulator_from_iterator_traits< random_access_iterator_tag> {
 // Iterators
 // ---------
 template< class T, class D> inline
-CGAL_Iterator_tag
-CGAL_query_circulator_or_iterator( const input_iterator<T,D>&){
-    return CGAL_Iterator_tag();
+Iterator_tag
+query_circulator_or_iterator( const std::input_iterator<T,D>&){
+    return Iterator_tag();
 }
 inline
-CGAL_Iterator_tag
-CGAL_query_circulator_or_iterator(  const output_iterator&){
-    return CGAL_Iterator_tag();
+Iterator_tag
+query_circulator_or_iterator(  const std::output_iterator&){
+    return Iterator_tag();
 }
 template< class T, class D>   inline
-CGAL_Iterator_tag
-CGAL_query_circulator_or_iterator(  const forward_iterator<T,D>&){
-    return CGAL_Iterator_tag();
+Iterator_tag
+query_circulator_or_iterator(  const std::forward_iterator<T,D>&){
+    return Iterator_tag();
 }
 template< class T, class D>   inline
-CGAL_Iterator_tag
-CGAL_query_circulator_or_iterator(  const bidirectional_iterator<T,D>&){
-    return CGAL_Iterator_tag();
+Iterator_tag
+query_circulator_or_iterator(  const std::bidirectional_iterator<T,D>&){
+    return Iterator_tag();
 }
 template< class T, class D>   inline
-CGAL_Iterator_tag
-CGAL_query_circulator_or_iterator(  const random_access_iterator<T,D>&){
-    return CGAL_Iterator_tag();
+Iterator_tag
+query_circulator_or_iterator(  const std::random_access_iterator<T,D>&){
+    return Iterator_tag();
 }
 template< class T>   inline
-CGAL_Iterator_tag
-CGAL_query_circulator_or_iterator( const T*){
-    return CGAL_Iterator_tag();
+Iterator_tag
+query_circulator_or_iterator( T*){
+    return Iterator_tag();
+}
+template< class T>   inline
+Iterator_tag
+query_circulator_or_iterator( const T*){
+    return Iterator_tag();
 }
 
 // Circulators
 // -----------
 template< class T, class D, class S> inline
-CGAL_Circulator_tag
-CGAL_query_circulator_or_iterator(
-        const CGAL_Forward_circulator_base<T,D,S>&){
-    return CGAL_Circulator_tag();
+Circulator_tag
+query_circulator_or_iterator(
+        const Forward_circulator_base<T,D,S>&){
+    return Circulator_tag();
 }
 template< class T, class D, class S> inline
-CGAL_Circulator_tag
-CGAL_query_circulator_or_iterator(
-        const CGAL_Bidirectional_circulator_base<T,D,S>&){
-    return CGAL_Circulator_tag();
+Circulator_tag
+query_circulator_or_iterator(
+        const Bidirectional_circulator_base<T,D,S>&){
+    return Circulator_tag();
 }
 template< class T, class D, class S> inline
-CGAL_Circulator_tag
-CGAL_query_circulator_or_iterator(
-        const CGAL_Random_access_circulator_base<T,D,S>&){
-    return CGAL_Circulator_tag();
+Circulator_tag
+query_circulator_or_iterator(
+        const Random_access_circulator_base<T,D,S>&){
+    return Circulator_tag();
 }
 
 // variant base classes
 // --------------------
 template< class T, class D, class S> inline
-CGAL_Circulator_tag
-CGAL_query_circulator_or_iterator(
-        const CGAL_Forward_circulator_ptrbase<T,D,S>&){
-    return CGAL_Circulator_tag();
+Circulator_tag
+query_circulator_or_iterator(
+        const Forward_circulator_ptrbase<T,D,S>&){
+    return Circulator_tag();
 }
 template< class T, class D, class S> inline
-CGAL_Circulator_tag
-CGAL_query_circulator_or_iterator(
-       const CGAL_Bidirectional_circulator_ptrbase<T,D,S>&){
-    return CGAL_Circulator_tag();
+Circulator_tag
+query_circulator_or_iterator(
+       const Bidirectional_circulator_ptrbase<T,D,S>&){
+    return Circulator_tag();
 }
 template< class T, class D, class S> inline
-CGAL_Circulator_tag
-CGAL_query_circulator_or_iterator(
-        const CGAL_Random_access_circulator_ptrbase<T,D,S>&){
-    return CGAL_Circulator_tag();
+Circulator_tag
+query_circulator_or_iterator(
+        const Random_access_circulator_ptrbase<T,D,S>&){
+    return Circulator_tag();
 }
 // No iterator traits.
 // ===================
@@ -350,106 +312,106 @@ CGAL_query_circulator_or_iterator(
 // The normal base classes could be handled automatically through inheritance.
 
 template< class T, class D, class S> inline
-CGAL_Forward_circulator_tag
-iterator_category(  const CGAL_Forward_circulator_ptrbase<T,D,S>&){
-    return CGAL_Forward_circulator_tag();
+Forward_circulator_tag
+std::iterator_category(  const Forward_circulator_ptrbase<T,D,S>&){
+    return Forward_circulator_tag();
 }
 template< class T, class D, class S> inline
-CGAL_Bidirectional_circulator_tag
-iterator_category(  const CGAL_Bidirectional_circulator_ptrbase<T,D,S>&){
-    return CGAL_Bidirectional_circulator_tag();
+Bidirectional_circulator_tag
+std::iterator_category(  const Bidirectional_circulator_ptrbase<T,D,S>&){
+    return Bidirectional_circulator_tag();
 }
 template< class T, class D, class S> inline
-CGAL_Random_access_circulator_tag
-iterator_category(  const CGAL_Random_access_circulator_ptrbase<T,D,S>&){
-    return CGAL_Random_access_circulator_tag();
+Random_access_circulator_tag
+std::iterator_category(  const Random_access_circulator_ptrbase<T,D,S>&){
+    return Random_access_circulator_tag();
 }
 
 template< class T, class D, class S> inline
-CGAL_Forward_circulator_tag
-iterator_category( const CGAL_Forward_circulator_base<T,D,S>&){
-    return CGAL_Forward_circulator_tag();
+Forward_circulator_tag
+std::iterator_category( const Forward_circulator_base<T,D,S>&){
+    return Forward_circulator_tag();
 }
 template< class T, class D, class S> inline
-CGAL_Bidirectional_circulator_tag
-iterator_category( const CGAL_Bidirectional_circulator_base<T,D,S>&){
-    return CGAL_Bidirectional_circulator_tag();
+Bidirectional_circulator_tag
+std::iterator_category( const Bidirectional_circulator_base<T,D,S>&){
+    return Bidirectional_circulator_tag();
 }
 template< class T, class D, class S> inline
-CGAL_Random_access_circulator_tag
-iterator_category( const CGAL_Random_access_circulator_base<T,D,S>&){
-    return CGAL_Random_access_circulator_tag();
+Random_access_circulator_tag
+std::iterator_category( const Random_access_circulator_base<T,D,S>&){
+    return Random_access_circulator_tag();
 }
 template <class T, class Dist, class Size> inline
-T* value_type( const CGAL_Forward_circulator_ptrbase<T,Dist,Size>&) {
+T* std::value_type( const Forward_circulator_ptrbase<T,Dist,Size>&) {
     return (T*)(0);
 }
 template <class T, class Dist, class Size> inline
-T* value_type( const CGAL_Bidirectional_circulator_ptrbase<T,Dist,Size>&) {
+T* std::value_type( const Bidirectional_circulator_ptrbase<T,Dist,Size>&) {
     return (T*)(0);
 }
 template <class T, class Dist, class Size> inline
-T* value_type( const CGAL_Random_access_circulator_ptrbase<T,Dist,Size>&) {
+T* std::value_type( const Random_access_circulator_ptrbase<T,Dist,Size>&) {
     return (T*)(0);
 }
 template <class T, class Dist, class Size> inline
-Dist* distance_type( const CGAL_Forward_circulator_ptrbase<T,Dist,Size>&) {
+Dist* std::distance_type( const Forward_circulator_ptrbase<T,Dist,Size>&) {
     return (Dist*)(0);
 }
 template <class T, class Dist, class Size> inline
-Dist* distance_type(
-    const CGAL_Bidirectional_circulator_ptrbase<T,Dist,Size>&) {
+Dist* std::distance_type(
+    const Bidirectional_circulator_ptrbase<T,Dist,Size>&) {
     return (Dist*)(0);
 }
 template <class T, class Dist, class Size> inline
-Dist* distance_type(
-    const CGAL_Random_access_circulator_ptrbase<T,Dist,Size>&) {
+Dist* std::distance_type(
+    const Random_access_circulator_ptrbase<T,Dist,Size>&) {
     return (Dist*)(0);
 }
 
 template <class T, class Dist, class Size> inline
-T* value_type( const CGAL_Forward_circulator_base<T,Dist,Size>&) {
+T* std::value_type( const Forward_circulator_base<T,Dist,Size>&) {
     return (T*)(0);
 }
 template <class T, class Dist, class Size> inline
-T* value_type( const CGAL_Bidirectional_circulator_base<T,Dist,Size>&) {
+T* std::value_type( const Bidirectional_circulator_base<T,Dist,Size>&) {
     return (T*)(0);
 }
 template <class T, class Dist, class Size> inline
-T* value_type( const CGAL_Random_access_circulator_base<T,Dist,Size>&) {
+T* std::value_type( const Random_access_circulator_base<T,Dist,Size>&) {
     return (T*)(0);
 }
 template <class T, class Dist, class Size> inline
-Dist* distance_type( const CGAL_Forward_circulator_base<T,Dist,Size>&) {
+Dist* std::distance_type( const Forward_circulator_base<T,Dist,Size>&) {
     return (Dist*)(0);
 }
 template <class T, class Dist, class Size> inline
-Dist* distance_type( const CGAL_Bidirectional_circulator_base<T,Dist,Size>&) {
+Dist* std::distance_type( const Bidirectional_circulator_base<T,Dist,Size>&) {
     return (Dist*)(0);
 }
 template <class T, class Dist, class Size> inline
-Dist* distance_type( const CGAL_Random_access_circulator_base<T,Dist,Size>&) {
+Dist* std::distance_type( const Random_access_circulator_base<T,Dist,Size>&) {
     return (Dist*)(0);
 }
 #endif // CGAL__CIRC_STL_ITERATOR_TRAITS //
 #  ifndef CGAL__CIRC_STL_ITERATOR_TRAITS
 #      ifdef CGAL__CIRC_STL_SGI_3_0
 #ifndef __STL_NON_TYPE_TMPL_PARAM_BUG
-template <class T, class Ref, class Ptr, size_t BufSiz>
+template <class T, class Ref, class Ptr, std::size_t BufSiz>
 struct __deque_iterator;
-template <class T, class Ref, class Ptr, size_t BufSiz> inline
-CGAL_Iterator_tag
-CGAL_query_circulator_or_iterator( const __deque_iterator<T, Ref, Ptr,
+template <class T, class Ref, class Ptr, std::size_t BufSiz> inline
+Iterator_tag
+query_circulator_or_iterator( const __deque_iterator<T, Ref, Ptr,
                                                          BufSiz>&){
-    return CGAL_Iterator_tag();
+    return Iterator_tag();
 }
 #else /* __STL_NON_TYPE_TMPL_PARAM_BUG */
 template <class T, class Ref, class Ptr>
 struct __deque_iterator;
 template <class T, class Ref, class Ptr> inline
-CGAL_Iterator_tag
-CGAL_query_circulator_or_iterator( const __deque_iterator<T, Ref, Ptr>&){
-    return CGAL_Iterator_tag();
+Iterator_tag
+query_circulator_or_iterator( const __deque_iterator<T, Ref, Ptr>&){
+    return Iterator_tag();
 }
 #endif /* __STL_NON_TYPE_TMPL_PARAM_BUG */
 
@@ -458,75 +420,75 @@ template <class Value, class Key, class HashFcn,
 struct __hashtable_iterator;
 template< class V, class K, class HF, class ExK, class EqK, class All>
 inline
-CGAL_Iterator_tag
-CGAL_query_circulator_or_iterator(
+Iterator_tag
+query_circulator_or_iterator(
         const __hashtable_iterator<V, K, HF, ExK, EqK, All>&){
-    return CGAL_Iterator_tag();
+    return Iterator_tag();
 }
 template <class Value, class Key, class HashFcn,
           class ExtractKey, class EqualKey, class Alloc>
 struct __hashtable_const_iterator;
 template< class V, class K, class HF, class ExK, class EqK, class All>
 inline
-CGAL_Iterator_tag
-CGAL_query_circulator_or_iterator(
+Iterator_tag
+query_circulator_or_iterator(
         const __hashtable_const_iterator<V, K, HF, ExK, EqK, All>&){
-    return CGAL_Iterator_tag();
+    return Iterator_tag();
 }
 
 template<class T, class Ref, class Ptr>
 struct __list_iterator;
 template< class T, class Ref, class Ptr> inline
-CGAL_Iterator_tag
-CGAL_query_circulator_or_iterator( const __list_iterator<T,Ref,Ptr>&){
-    return CGAL_Iterator_tag();
+Iterator_tag
+query_circulator_or_iterator( const __list_iterator<T,Ref,Ptr>&){
+    return Iterator_tag();
 }
 
 template<class CharT, class Alloc> class __rope_iterator;
 template< class T, class Alloc> inline
-CGAL_Iterator_tag
-CGAL_query_circulator_or_iterator( const __rope_iterator<T,Alloc>&){
-    return CGAL_Iterator_tag();
+Iterator_tag
+query_circulator_or_iterator( const __rope_iterator<T,Alloc>&){
+    return Iterator_tag();
 }
 template<class CharT, class Alloc> class __rope_const_iterator;
 template< class T, class Alloc> inline
-CGAL_Iterator_tag
-CGAL_query_circulator_or_iterator( const __rope_const_iterator<T,Alloc>&){
-    return CGAL_Iterator_tag();
+Iterator_tag
+query_circulator_or_iterator( const __rope_const_iterator<T,Alloc>&){
+    return Iterator_tag();
 }
 
 template <class T, class Ref, class Ptr>
 struct __slist_iterator;
 template< class T, class Ref, class Ptr> inline
-CGAL_Iterator_tag
-CGAL_query_circulator_or_iterator( const __slist_iterator<T,Ref,Ptr>&){
-    return CGAL_Iterator_tag();
+Iterator_tag
+query_circulator_or_iterator( const __slist_iterator<T,Ref,Ptr>&){
+    return Iterator_tag();
 }
 
 template <class Value, class Ref, class Ptr>
 struct __rb_tree_iterator;
 template< class V, class Ref, class Ptr> inline
-CGAL_Iterator_tag
-CGAL_query_circulator_or_iterator( const __rb_tree_iterator<V,Ref,Ptr>&) {
-    return CGAL_Iterator_tag();
+Iterator_tag
+query_circulator_or_iterator( const __rb_tree_iterator<V,Ref,Ptr>&) {
+    return Iterator_tag();
 }
 #      endif // CGAL__CIRC_STL_SGI_3_0 //
 #      ifdef CGAL__CIRC_STL_SGI_JUNE_1997
 #ifndef __STL_NON_TYPE_TMPL_PARAM_BUG
-template <class T, class Ref, size_t BufSiz>
+template <class T, class Ref, std::size_t BufSiz>
 struct __deque_iterator;
-template <class T, class Ref, size_t BufSiz> inline
-CGAL_Iterator_tag
-CGAL_query_circulator_or_iterator( const __deque_iterator<T, Ref, BufSiz>&){
-    return CGAL_Iterator_tag();
+template <class T, class Ref, std::size_t BufSiz> inline
+Iterator_tag
+query_circulator_or_iterator( const __deque_iterator<T, Ref, BufSiz>&){
+    return Iterator_tag();
 }
 #else /* __STL_NON_TYPE_TMPL_PARAM_BUG */
 template <class T, class Ref>
 struct __deque_iterator;
 template <class T, class Ref> inline
-CGAL_Iterator_tag
-CGAL_query_circulator_or_iterator( const __deque_iterator<T, Ref>&){
-    return CGAL_Iterator_tag();
+Iterator_tag
+query_circulator_or_iterator( const __deque_iterator<T, Ref>&){
+    return Iterator_tag();
 }
 #endif /* __STL_NON_TYPE_TMPL_PARAM_BUG */
 
@@ -535,73 +497,73 @@ template <class Value, class Key, class HashFcn,
 struct __hashtable_iterator;
 template< class V, class K, class HF, class ExK, class EqK, class All>
 inline
-CGAL_Iterator_tag
-CGAL_query_circulator_or_iterator(
+Iterator_tag
+query_circulator_or_iterator(
         const __hashtable_iterator<V, K, HF, ExK, EqK, All>&){
-    return CGAL_Iterator_tag();
+    return Iterator_tag();
 }
 template <class Value, class Key, class HashFcn,
           class ExtractKey, class EqualKey, class Alloc>
 struct __hashtable_const_iterator;
 template< class V, class K, class HF, class ExK, class EqK, class All>
 inline
-CGAL_Iterator_tag
-CGAL_query_circulator_or_iterator(
+Iterator_tag
+query_circulator_or_iterator(
         const __hashtable_const_iterator<V, K, HF, ExK, EqK, All>&){
-    return CGAL_Iterator_tag();
+    return Iterator_tag();
 }
 
 template<class T, class Ref>
 struct __list_iterator;
 template< class T, class Ref> inline
-CGAL_Iterator_tag
-CGAL_query_circulator_or_iterator( const __list_iterator<T,Ref>&){
-    return CGAL_Iterator_tag();
+Iterator_tag
+query_circulator_or_iterator( const __list_iterator<T,Ref>&){
+    return Iterator_tag();
 }
 
 template<class CharT, class Alloc> class __rope_iterator;
 template< class T, class Alloc> inline
-CGAL_Iterator_tag
-CGAL_query_circulator_or_iterator( const __rope_iterator<T,Alloc>&){
-    return CGAL_Iterator_tag();
+Iterator_tag
+query_circulator_or_iterator( const __rope_iterator<T,Alloc>&){
+    return Iterator_tag();
 }
 template<class CharT, class Alloc> class __rope_const_iterator;
 template< class T, class Alloc> inline
-CGAL_Iterator_tag
-CGAL_query_circulator_or_iterator( const __rope_const_iterator<T,Alloc>&){
-    return CGAL_Iterator_tag();
+Iterator_tag
+query_circulator_or_iterator( const __rope_const_iterator<T,Alloc>&){
+    return Iterator_tag();
 }
 
 template <class T, class Ref>
 struct __slist_iterator;
 template< class T, class Ref> inline
-CGAL_Iterator_tag
-CGAL_query_circulator_or_iterator( const __slist_iterator<T,Ref>&){
-    return CGAL_Iterator_tag();
+Iterator_tag
+query_circulator_or_iterator( const __slist_iterator<T,Ref>&){
+    return Iterator_tag();
 }
 
 template <class Value, class Ref>
 struct __rb_tree_iterator;
 template< class V, class Ref> inline
-CGAL_Iterator_tag
-CGAL_query_circulator_or_iterator( const __rb_tree_iterator<V,Ref>&) {
-    return CGAL_Iterator_tag();
+Iterator_tag
+query_circulator_or_iterator( const __rb_tree_iterator<V,Ref>&) {
+    return Iterator_tag();
 }
 #      endif // CGAL__CIRC_STL_SGI_JUNE_1997 //
 #      ifdef CGAL__CIRC_STL_SGI_WWW_1996
 template <class T>
 struct __deque_iterator;
 template <class T> inline
-CGAL_Iterator_tag
-CGAL_query_circulator_or_iterator( const __deque_iterator<T>&){
-    return CGAL_Iterator_tag();
+Iterator_tag
+query_circulator_or_iterator( const __deque_iterator<T>&){
+    return Iterator_tag();
 }
 template <class T>
 struct __deque_const_iterator;
 template <class T> inline
-CGAL_Iterator_tag
-CGAL_query_circulator_or_iterator( const __deque_const_iterator<T>&){
-    return CGAL_Iterator_tag();
+Iterator_tag
+query_circulator_or_iterator( const __deque_const_iterator<T>&){
+    return Iterator_tag();
 }
 
 template <class Value, class Key, class HashFcn,
@@ -609,110 +571,110 @@ template <class Value, class Key, class HashFcn,
 struct __hashtable_iterator;
 template< class V, class K, class HF, class ExK, class EqK, class All>
 inline
-CGAL_Iterator_tag
-CGAL_query_circulator_or_iterator(
+Iterator_tag
+query_circulator_or_iterator(
         const __hashtable_iterator<V, K, HF, ExK, EqK, All>&){
-    return CGAL_Iterator_tag();
+    return Iterator_tag();
 }
 template <class Value, class Key, class HashFcn,
           class ExtractKey, class EqualKey, class Alloc>
 struct __hashtable_const_iterator;
 template< class V, class K, class HF, class ExK, class EqK, class All>
 inline
-CGAL_Iterator_tag
-CGAL_query_circulator_or_iterator(
+Iterator_tag
+query_circulator_or_iterator(
         const __hashtable_const_iterator<V, K, HF, ExK, EqK, All>&){
-    return CGAL_Iterator_tag();
+    return Iterator_tag();
 }
 
 template<class T>
 struct __list_iterator;
 template< class T> inline
-CGAL_Iterator_tag
-CGAL_query_circulator_or_iterator( const __list_iterator<T>&){
-    return CGAL_Iterator_tag();
+Iterator_tag
+query_circulator_or_iterator( const __list_iterator<T>&){
+    return Iterator_tag();
 }
 template<class T>
 struct __list_const_iterator;
 template< class T> inline
-CGAL_Iterator_tag
-CGAL_query_circulator_or_iterator( const __list_const_iterator<T>&){
-    return CGAL_Iterator_tag();
+Iterator_tag
+query_circulator_or_iterator( const __list_const_iterator<T>&){
+    return Iterator_tag();
 }
 
 template <class Value>
 struct __rb_tree_iterator;
 template< class V> inline
-CGAL_Iterator_tag
-CGAL_query_circulator_or_iterator( const __rb_tree_iterator<V>&) {
-    return CGAL_Iterator_tag();
+Iterator_tag
+query_circulator_or_iterator( const __rb_tree_iterator<V>&) {
+    return Iterator_tag();
 }
 template <class Value>
 struct __rb_tree_const_iterator;
 template< class V> inline
-CGAL_Iterator_tag
-CGAL_query_circulator_or_iterator( const __rb_tree_const_iterator<V>&) {
-    return CGAL_Iterator_tag();
+Iterator_tag
+query_circulator_or_iterator( const __rb_tree_const_iterator<V>&) {
+    return Iterator_tag();
 }
 #      endif // CGAL__CIRC_STL_SGI_WWW_1996 //
 #      ifdef CGAL__CIRC_STL_SGI_CC_1996
 #ifdef DEQUE_H
 template< class T, class Alloc> inline
-CGAL_Iterator_tag
-CGAL_query_circulator_or_iterator(const typename deque<T,Alloc>::iterator&){
-    return CGAL_Iterator_tag();
+Iterator_tag
+query_circulator_or_iterator(const typename deque<T,Alloc>::iterator&){
+    return Iterator_tag();
 }
 template< class T, class Alloc> inline
-CGAL_Iterator_tag
-CGAL_query_circulator_or_iterator(
+Iterator_tag
+query_circulator_or_iterator(
     const typename deque<T,Alloc>::const_iterator&){
-    return CGAL_Iterator_tag();
+    return Iterator_tag();
 }
 #endif // DEQUE_H //
 
 #if defined(SGI_STL_HASHTABLE_H)
 template< class V, class K, class HF, class ExK, class EqK, class All>
 inline
-CGAL_Iterator_tag
-CGAL_query_circulator_or_iterator(
+Iterator_tag
+query_circulator_or_iterator(
         const typename hashtable<V, K, HF, ExK, EqK, All>::iterator&){
-    return CGAL_Iterator_tag();
+    return Iterator_tag();
 }
 template< class V, class K, class HF, class ExK, class EqK, class All>
 inline
-CGAL_Iterator_tag
-CGAL_query_circulator_or_iterator(
+Iterator_tag
+query_circulator_or_iterator(
        const typename hashtable<V, K, HF, ExK, EqK, All>::const_iterator&){
-    return CGAL_Iterator_tag();
+    return Iterator_tag();
 }
 #endif // SGI_STL_HASHTABLE_H //
 
 #ifdef LIST_H
 template< class T, class Alloc> inline
-CGAL_Iterator_tag
-CGAL_query_circulator_or_iterator( const typename list<T,Alloc>::iterator&){
-    return CGAL_Iterator_tag();
+Iterator_tag
+query_circulator_or_iterator(const typename std::list<T,Alloc>::iterator&){
+    return Iterator_tag();
 }
 template< class T, class Alloc> inline
-CGAL_Iterator_tag
-CGAL_query_circulator_or_iterator(
-    const typename list<T,Alloc>::const_iterator&){
-    return CGAL_Iterator_tag();
+Iterator_tag
+query_circulator_or_iterator(
+    const typename std::list<T,Alloc>::const_iterator&){
+    return Iterator_tag();
 }
 #endif // LIST_H //
 
 #if defined(TREE_H)
 template< class K, class V, class KoV, class Cmp, class Alloc> inline
-CGAL_Iterator_tag
-CGAL_query_circulator_or_iterator(
+Iterator_tag
+query_circulator_or_iterator(
         const typename rb_tree<K,V,KoV,Cmp,Alloc>::iterator&){
-    return CGAL_Iterator_tag();
+    return Iterator_tag();
 }
 template< class K, class V, class KoV, class Cmp, class Alloc> inline
-CGAL_Iterator_tag
-CGAL_query_circulator_or_iterator(
+Iterator_tag
+query_circulator_or_iterator(
         const typename rb_tree<K,V,KoV,Cmp,Alloc>::const_iterator&){
-    return CGAL_Iterator_tag();
+    return Iterator_tag();
 }
 #endif // TREE_H //
 #      endif // CGAL__CIRC_STL_SGI_CC_1996 //
@@ -723,175 +685,174 @@ CGAL_query_circulator_or_iterator(
 #ifndef CGAL_ASSERT_COMPILE_TIME_TAG
 #define CGAL_ASSERT_COMPILE_TIME_TAG 1
 template <class Base>
-struct CGAL__Assert_tag_class {
+struct _Assert_tag_class {
     void match_compile_time_tag( const Base&) const {}
 };
 template< class Tag, class Derived>
-inline void CGAL_Assert_compile_time_tag( const Tag&, const Derived& b) {
-    CGAL__Assert_tag_class<Tag> x;
+inline void Assert_compile_time_tag( const Tag&, const Derived& b) {
+    _Assert_tag_class<Tag> x;
     x.match_compile_time_tag(b);
 }
 #endif
 
 template <class C> inline
-void CGAL_Assert_circulator( const C &c) {
-    CGAL_Assert_compile_time_tag( CGAL_Circulator_tag(),
-                                CGAL_query_circulator_or_iterator( c));
+void Assert_circulator( const C &c) {
+    Assert_compile_time_tag(Circulator_tag(), query_circulator_or_iterator(c));
 }
 template <class I> inline
-void CGAL_Assert_iterator( const I &i) {
-    CGAL_Assert_compile_time_tag( CGAL_Iterator_tag(),
-                                CGAL_query_circulator_or_iterator( i));
+void Assert_iterator( const I &i) {
+    Assert_compile_time_tag( Iterator_tag(), query_circulator_or_iterator(i));
 }
 template <class I> inline
-void CGAL_Assert_input_category( const I &i) {
-    CGAL_Assert_compile_time_tag( input_iterator_tag(),
-                                iterator_category( i));
+void Assert_input_category( const I &i) {
+    Assert_compile_time_tag( std::input_iterator_tag(),
+                             std::iterator_category(i));
 }
 template <class I> inline
-void CGAL_Assert_output_category( const I &i) {
-    CGAL_Assert_compile_time_tag( output_iterator_tag(),
-                                iterator_category( i));
+void Assert_output_category( const I &i) {
+    Assert_compile_time_tag( std::output_iterator_tag(),
+                             std::iterator_category(i));
 }
 template <class IC> inline
-void CGAL_Assert_forward_category( const IC &ic) {
-    CGAL_Assert_compile_time_tag( forward_iterator_tag(),
-                                iterator_category( ic));
+void Assert_forward_category( const IC &ic) {
+    Assert_compile_time_tag( std::forward_iterator_tag(),
+                             std::iterator_category(ic));
 }
 template <class IC> inline
-void CGAL_Assert_bidirectional_category( const IC &ic) {
-    CGAL_Assert_compile_time_tag( bidirectional_iterator_tag(),
-                                iterator_category( ic));
+void Assert_bidirectional_category( const IC &ic) {
+    Assert_compile_time_tag( std::bidirectional_iterator_tag(),
+                             std::iterator_category(ic));
 }
 template <class IC> inline
-void CGAL_Assert_random_access_category( const IC &ic) {
-    CGAL_Assert_compile_time_tag( random_access_iterator_tag(),
-                                iterator_category( ic));
+void Assert_random_access_category( const IC &ic) {
+    Assert_compile_time_tag( std::random_access_iterator_tag(),
+                             std::iterator_category(ic));
 }
 
 // The assert at-least-category functions use the following
 // functions to resolve properly. Note the proper order of the
 // arguments: 1st is the to be type, 2nd is the actual type.
-inline void CGAL__Has_to_be_at_least(input_iterator_tag,input_iterator_tag){}
-inline void CGAL__Has_to_be_at_least(input_iterator_tag,
-                                    forward_iterator_tag){}
-inline void CGAL__Has_to_be_at_least(input_iterator_tag,
-                                        bidirectional_iterator_tag){}
-inline void CGAL__Has_to_be_at_least(input_iterator_tag,
-                                        random_access_iterator_tag){}
+inline void _Has_to_be_at_least( std::input_iterator_tag,
+                                 std::input_iterator_tag){}
+inline void _Has_to_be_at_least( std::input_iterator_tag,
+                                 std::forward_iterator_tag){}
+inline void _Has_to_be_at_least( std::input_iterator_tag,
+                                 std::bidirectional_iterator_tag){}
+inline void _Has_to_be_at_least( std::input_iterator_tag,
+                                 std::random_access_iterator_tag){}
 
-inline void CGAL__Has_to_be_at_least(output_iterator_tag,
-                                    output_iterator_tag){}
-inline void CGAL__Has_to_be_at_least(output_iterator_tag,
-                                    forward_iterator_tag){}
-inline void CGAL__Has_to_be_at_least(output_iterator_tag,
-                                        bidirectional_iterator_tag){}
-inline void CGAL__Has_to_be_at_least(output_iterator_tag,
-                                        random_access_iterator_tag){}
+inline void _Has_to_be_at_least( std::output_iterator_tag,
+                                 std::output_iterator_tag){}
+inline void _Has_to_be_at_least( std::output_iterator_tag,
+                                 std::forward_iterator_tag){}
+inline void _Has_to_be_at_least( std::output_iterator_tag,
+                                 std::bidirectional_iterator_tag){}
+inline void _Has_to_be_at_least( std::output_iterator_tag,
+                                 std::random_access_iterator_tag){}
 
-inline void CGAL__Has_to_be_at_least(forward_iterator_tag,
-                                        forward_iterator_tag){}
-inline void CGAL__Has_to_be_at_least(forward_iterator_tag,
-                                        bidirectional_iterator_tag){}
-inline void CGAL__Has_to_be_at_least(forward_iterator_tag,
-                                        random_access_iterator_tag){}
+inline void _Has_to_be_at_least( std::forward_iterator_tag,
+                                 std::forward_iterator_tag){}
+inline void _Has_to_be_at_least( std::forward_iterator_tag,
+                                 std::bidirectional_iterator_tag){}
+inline void _Has_to_be_at_least( std::forward_iterator_tag,
+                                 std::random_access_iterator_tag){}
 
-inline void CGAL__Has_to_be_at_least(bidirectional_iterator_tag,
-                                        bidirectional_iterator_tag){}
-inline void CGAL__Has_to_be_at_least(bidirectional_iterator_tag,
-                                        random_access_iterator_tag){}
+inline void _Has_to_be_at_least( std::bidirectional_iterator_tag,
+                                 std::bidirectional_iterator_tag){}
+inline void _Has_to_be_at_least( std::bidirectional_iterator_tag,
+                                 std::random_access_iterator_tag){}
 
-inline void CGAL__Has_to_be_at_least(random_access_iterator_tag,
-                                        random_access_iterator_tag){}
+inline void _Has_to_be_at_least( std::random_access_iterator_tag,
+                                 std::random_access_iterator_tag){}
 
 // The is-at-least assertions.
 template <class I> inline
-void CGAL_Assert_is_at_least_input_category( const I& i) {
-     CGAL__Has_to_be_at_least(input_iterator_tag(), iterator_category(i));
+void Assert_is_at_least_input_category( const I& i) {
+    _Has_to_be_at_least(std::input_iterator_tag(), std::iterator_category(i));
 }
 template <class I> inline
-void CGAL_Assert_is_at_least_output_category( const I& i) {
-     CGAL__Has_to_be_at_least(output_iterator_tag(), iterator_category(i));
+void Assert_is_at_least_output_category( const I& i) {
+    _Has_to_be_at_least(std::output_iterator_tag(),
+                        std::iterator_category(i));
 }
 template <class IC> inline
-void CGAL_Assert_is_at_least_forward_category( const IC& ic) {
-     CGAL__Has_to_be_at_least(forward_iterator_tag(), iterator_category(ic));
+void Assert_is_at_least_forward_category( const IC& ic) {
+    _Has_to_be_at_least(std::forward_iterator_tag(),
+                        std::iterator_category(ic));
 }
 template <class IC> inline
-void CGAL_Assert_is_at_least_bidirectional_category( const IC& ic) {
-     CGAL__Has_to_be_at_least(bidirectional_iterator_tag(),
-                             iterator_category(ic)) ;
+void Assert_is_at_least_bidirectional_category( const IC& ic) {
+    _Has_to_be_at_least(std::bidirectional_iterator_tag(),
+                        std::iterator_category(ic)) ;
 }
 template <class IC> inline
-void CGAL_Assert_is_at_least_random_access_category( const IC& ic) {
-     CGAL__Has_to_be_at_least(random_access_iterator_tag(),
-                             iterator_category(ic));
+void Assert_is_at_least_random_access_category( const IC& ic) {
+    _Has_to_be_at_least(std::random_access_iterator_tag(),
+                        std::iterator_category(ic));
 }
 
 template< class C> inline
-bool CGAL__is_empty_range( const C& c1, const C&, CGAL_Circulator_tag){
-    return c1 == NULL;
+bool _is_empty_range( const C& c1, const C&, Circulator_tag){
+    return c1 == CGAL_CIRC_NULL;
 }
 
 template< class I> inline
-bool CGAL__is_empty_range( const I& i1, const I& i2, CGAL_Iterator_tag){
+bool _is_empty_range( const I& i1, const I& i2, Iterator_tag){
     return i1 == i2;
 }
 
 template< class IC> inline
-bool CGAL_is_empty_range( const IC& ic1, const IC& ic2){
+bool is_empty_range( const IC& ic1, const IC& ic2){
     // is `true' if the range [`ic1, ic2') is empty, `false' otherwise.
     // Precondition: `T' is either a circulator or an iterator type. The
     // range [`ic1, ic2') is valid.
-    return CGAL__is_empty_range( ic1,
-                                ic2,
-                                CGAL_query_circulator_or_iterator( ic1));
+    return _is_empty_range( ic1, ic2, query_circulator_or_iterator( ic1));
 }
 
-struct CGAL_Circulator_or_iterator_tag {};  // any circulator or iterator.
+struct Circulator_or_iterator_tag {};  // any circulator or iterator.
 
 inline
-CGAL_Circulator_or_iterator_tag
-CGAL_check_circulator_or_iterator( CGAL_Circulator_tag ){
-    return CGAL_Circulator_or_iterator_tag();
+Circulator_or_iterator_tag
+check_circulator_or_iterator( Circulator_tag ){
+    return Circulator_or_iterator_tag();
 }
 inline
-CGAL_Circulator_or_iterator_tag
-CGAL_check_circulator_or_iterator( CGAL_Iterator_tag ){
-    return CGAL_Circulator_or_iterator_tag();
+Circulator_or_iterator_tag
+check_circulator_or_iterator( Iterator_tag ){
+    return Circulator_or_iterator_tag();
 }
 
 template< class IC> inline
-void CGAL_Assert_circulator_or_iterator( const IC &ic){
-    CGAL_Assert_compile_time_tag(
-        CGAL_Circulator_or_iterator_tag(),
-        CGAL_check_circulator_or_iterator(
-            CGAL_query_circulator_or_iterator( ic)
+void Assert_circulator_or_iterator( const IC &ic){
+    Assert_compile_time_tag(
+        Circulator_or_iterator_tag(),
+        check_circulator_or_iterator(
+            query_circulator_or_iterator( ic)
         )
     );
 }
 
 #define CGAL_For_all( ic1, ic2) \
-    for ( bool CGAL__circ_loop_flag = ! CGAL_is_empty_range( ic1, ic2); \
-          CGAL__circ_loop_flag; \
-          CGAL__circ_loop_flag = ((++ic1) != (ic2)) )
+    for ( bool _circ_loop_flag = ! ::CGAL::is_empty_range( ic1, ic2); \
+          _circ_loop_flag; \
+          _circ_loop_flag = ((++ic1) != (ic2)) )
 
 #define CGAL_For_all_backwards( ic1, ic2) \
-    for ( bool CGAL__circ_loop_flag = ! CGAL_is_empty_range( ic1, ic2); \
-          CGAL__circ_loop_flag; \
-          CGAL__circ_loop_flag = ((ic1) != (--ic2)) )
+    for ( bool _circ_loop_flag = ! ::CGAL::is_empty_range( ic1, ic2); \
+          _circ_loop_flag; \
+          _circ_loop_flag = ((ic1) != (--ic2)) )
 
 // Note: these macros are superfluous now. See the more natural macros above.
 // (Note that the macros below avoids problems with dangling else's.)
 #define CGAL__For_all_old( ic1, ic2, body) \
-    if ( CGAL_is_empty_range( ic1, ic2)); \
+    if ( ::CGAL::is_empty_range( ic1, ic2)); \
     else { \
         do \
             body \
         while ((++ic1) != (ic2)); \
     }
 #define CGAL__For_all_backwards_old( ic1, ic2, body) \
-    if ( CGAL_is_empty_range( ic1, ic2)); \
+    if ( ::CGAL::is_empty_range( ic1, ic2)); \
     else { \
         do \
             body \
@@ -899,22 +860,22 @@ void CGAL_Assert_circulator_or_iterator( const IC &ic){
     }
 
 template <class T>
-class CGAL_Size_type_return_value_proxy {
+class Size_type_return_value_proxy {
 public:
     typedef typename T::size_type  size_type;
     size_type x;
-    CGAL_Size_type_return_value_proxy( size_type _x) : x(_x) {}
+    Size_type_return_value_proxy( size_type _x) : x(_x) {}
     operator size_type() const { return x; }
 };
 
 template <class C> inline
-CGAL_Size_type_return_value_proxy<C>
-CGAL__min_circulator_size( const C& c) {
-    CGAL_Assert_circulator(c);
-    CGAL_Assert_random_access_category(c);
+Size_type_return_value_proxy<C>
+_min_circulator_size( const C& c) {
+    Assert_circulator(c);
+    Assert_random_access_category(c);
     typedef typename C::size_type  size_type;
     size_type n = 0;
-    if ( c != NULL) {
+    if ( c != CGAL_CIRC_NULL) {
         n = (c-1) - c + 1;
         CGAL_assertion(n > 0);
     }
@@ -922,10 +883,10 @@ CGAL__min_circulator_size( const C& c) {
 }
 
 template <class C>
-CGAL_Size_type_return_value_proxy<C>
-CGAL__circulator_size( const C& c, CGAL_Forward_circulator_tag) {
+Size_type_return_value_proxy<C>
+_circulator_size( const C& c, Forward_circulator_tag) {
     // Simply count.
-    if ( c == NULL)
+    if ( c == CGAL_CIRC_NULL)
         return 0;
     typedef typename C::size_type  size_type;
     size_type n = 0;
@@ -937,35 +898,35 @@ CGAL__circulator_size( const C& c, CGAL_Forward_circulator_tag) {
     return n;
 }
 template <class C> inline
-CGAL_Size_type_return_value_proxy<C>
-CGAL__circulator_size(const C& c, CGAL_Bidirectional_circulator_tag) {
-    return CGAL__circulator_size( c, CGAL_Forward_circulator_tag());
+Size_type_return_value_proxy<C>
+_circulator_size(const C& c, Bidirectional_circulator_tag) {
+    return _circulator_size( c, Forward_circulator_tag());
 }
 template <class C> inline
-CGAL_Size_type_return_value_proxy<C>
-CGAL__circulator_size(const C& c, CGAL_Random_access_circulator_tag) {
-    return CGAL__min_circulator_size( c.min_circulator());
+Size_type_return_value_proxy<C>
+_circulator_size(const C& c, Random_access_circulator_tag) {
+    return _min_circulator_size( c.min_circulator());
 }
 
 template <class C> inline
-CGAL_Size_type_return_value_proxy<C>
-CGAL_circulator_size(const C& c) {
-    return CGAL__circulator_size( c, iterator_category(c));
+Size_type_return_value_proxy<C>
+circulator_size(const C& c) {
+    return _circulator_size( c, std::iterator_category(c));
 }
 template <class T>
-class CGAL_Difference_type_return_value_proxy {
+class Difference_type_return_value_proxy {
 public:
     typedef typename T::difference_type  difference_type;
     difference_type x;
-    CGAL_Difference_type_return_value_proxy( difference_type _x) : x(_x) {}
+    Difference_type_return_value_proxy( difference_type _x) : x(_x) {}
     operator difference_type() const { return x; }
 };
 
 template <class C>
-CGAL_Difference_type_return_value_proxy<C>
-CGAL__circulator_distance( C c, const C& d, CGAL_Forward_circulator_tag) {
+Difference_type_return_value_proxy<C>
+_circulator_distance( C c, const C& d, Forward_circulator_tag) {
     // Simply count.
-    if ( c == NULL)
+    if ( c == CGAL_CIRC_NULL)
         return 0;
     typedef typename C::difference_type  difference_type;
     difference_type n = 0;
@@ -975,86 +936,76 @@ CGAL__circulator_distance( C c, const C& d, CGAL_Forward_circulator_tag) {
     return n;
 }
 template <class C> inline
-CGAL_Difference_type_return_value_proxy<C>
-CGAL__circulator_distance(const C& c, const C& d,
-                         CGAL_Bidirectional_circulator_tag) {
-    return CGAL__circulator_distance( c, d, CGAL_Forward_circulator_tag());
+Difference_type_return_value_proxy<C>
+_circulator_distance(const C& c, const C& d, Bidirectional_circulator_tag){
+    return _circulator_distance( c, d, Forward_circulator_tag());
 }
 template <class C> inline
-CGAL_Difference_type_return_value_proxy<C>
-CGAL__circulator_distance(const C& c, const C& d,
-                         CGAL_Random_access_circulator_tag) {
+Difference_type_return_value_proxy<C>
+_circulator_distance(const C& c, const C& d, Random_access_circulator_tag){
     typedef typename C::difference_type  difference_type;
     typedef typename C::size_type        size_type;
     if ( d - c > 0)
         return (d - c);
-    return difference_type(size_type(CGAL__min_circulator_size(
+    return difference_type(size_type(_min_circulator_size(
                c.min_circulator()))) - (c-d);
 }
 
 template <class C> inline
-CGAL_Difference_type_return_value_proxy<C>
-CGAL_circulator_distance(const C& c, const C& d) {
-    return CGAL__circulator_distance( c, d, iterator_category(c));
+Difference_type_return_value_proxy<C>
+circulator_distance(const C& c, const C& d) {
+    return _circulator_distance( c, d, std::iterator_category(c));
 }
 template <class C> inline
 #ifdef CGAL_CFG_NO_ITERATOR_TRAITS
-ptrdiff_t
+std::ptrdiff_t
 #else  // CGAL_CFG_NO_ITERATOR_TRAITS //
-typename iterator_traits<C>::difference_type
+typename std::iterator_traits<C>::difference_type
 #endif // CGAL_CFG_NO_ITERATOR_TRAITS //
-CGAL__iterator_distance(const C& c1, const C& c2, CGAL_Circulator_tag) {
-    return CGAL_circulator_distance( c1, c2);
+_iterator_distance(const C& c1, const C& c2, Circulator_tag) {
+    return circulator_distance( c1, c2);
 }
 
 template <class I> inline
 #ifdef CGAL_CFG_NO_ITERATOR_TRAITS
-ptrdiff_t
+std::ptrdiff_t
 #else  // CGAL_CFG_NO_ITERATOR_TRAITS //
-typename iterator_traits<I>::difference_type
+typename std::iterator_traits<I>::difference_type
 #endif // CGAL_CFG_NO_ITERATOR_TRAITS //
-CGAL__iterator_distance(const I& i1, const I& i2, CGAL_Iterator_tag) {
+_iterator_distance(const I& i1, const I& i2, Iterator_tag) {
     #ifdef CGAL_CFG_NO_ITERATOR_TRAITS
-    ptrdiff_t dist = 0;
-    distance( i1, i2, dist);
+    std::ptrdiff_t dist = 0;
+    std::distance( i1, i2, dist);
     return dist;
     #else
-    return distance( i1, i2);
+    return std::distance( i1, i2);
     #endif // CGAL_CFG_NO_ITERATOR_TRAITS //
 }
 
 template <class IC> inline
 #ifdef CGAL_CFG_NO_ITERATOR_TRAITS
-ptrdiff_t
+std::ptrdiff_t
 #else  // CGAL_CFG_NO_ITERATOR_TRAITS //
-typename iterator_traits<IC>::difference_type
+typename std::iterator_traits<IC>::difference_type
 #endif // CGAL_CFG_NO_ITERATOR_TRAITS //
-CGAL_iterator_distance(const IC& ic1, const IC& ic2) {
-    return CGAL__iterator_distance( ic1, ic2,
-                                   CGAL_query_circulator_or_iterator(ic1));
+iterator_distance(const IC& ic1, const IC& ic2) {
+    return _iterator_distance( ic1, ic2,
+                               query_circulator_or_iterator(ic1));
 }
 template <class C> inline
-C
-CGAL__get_min_circulator( C c, CGAL_Forward_circulator_tag) {
-    return c;
-}
+C _get_min_circulator( C c, Forward_circulator_tag) { return c; }
 template <class C> inline
-C
-CGAL__get_min_circulator( C c, CGAL_Bidirectional_circulator_tag) {
-    return c;
-}
+C _get_min_circulator( C c, Bidirectional_circulator_tag) { return c; }
 template <class C> inline
-C
-CGAL__get_min_circulator( C c, CGAL_Random_access_circulator_tag) {
+C _get_min_circulator( C c, Random_access_circulator_tag) {
     return c.min_circulator();
 }
 template <class C> inline
-C
-CGAL_get_min_circulator( C c) {
-    return CGAL__get_min_circulator( c, iterator_category(c));
+C get_min_circulator( C c) {
+    return _get_min_circulator( c, std::iterator_category(c));
 }
 template<class I, class U> inline
-I CGAL_non_negative_mod(I n, U m) {
+I non_negative_mod(I n, U m) {
     CGAL_assertion( m > 0);
     #if (-1 % 3) > 0
         n = n % m;
@@ -1069,9 +1020,7 @@ I CGAL_non_negative_mod(I n, U m) {
 }
 
 template < class C, class Ref, class Ptr>
-class CGAL_Forward_iterator_from_circulator
-    : public forward_iterator< typename C::value_type,
-                               typename C::difference_type> {
+class Forward_iterator_from_circulator {
 private:
     const C*  anchor;
     C         current;
@@ -1080,15 +1029,20 @@ public:
 //
 // TYPES
 
-    typedef  C  Circulator;
-    typedef  CGAL_Forward_iterator_from_circulator<C,Ref,Ptr> Self;
+    typedef  C                                           Circulator;
+    typedef  Forward_iterator_from_circulator<C,Ref,Ptr> Self;
+    typedef  std::forward_iterator_tag                   iterator_category;
+    typedef  typename C::value_type                      value_type;
+    typedef  typename C::difference_type                 difference_type;
+    typedef  Ref                                         reference;
+    typedef  Ptr                                         pointer;
 
 //
 // CREATION
 
-    CGAL_Forward_iterator_from_circulator() : anchor(0), winding(0) {}
+    Forward_iterator_from_circulator() : anchor(0), winding(0) {}
 
-    CGAL_Forward_iterator_from_circulator( const C* circ, int n)
+    Forward_iterator_from_circulator( const C* circ, int n)
         : anchor( circ), current( *circ), winding(n) {}
 
 //
@@ -1102,20 +1056,18 @@ public:
         return !(*this == i);
     }
     Ref  operator*() const {
-        CGAL_assertion( anchor  != NULL);
-        CGAL_assertion( current != NULL);
-        return *current;
+        CGAL_assertion( anchor  != CGAL_CIRC_NULL);
+        CGAL_assertion( current != CGAL_CIRC_NULL);
+        return Ref(*current);
     }
-    #ifndef CGAL_CFG_NO_ARROW_OPERATOR
     Ptr  operator->() const {
-        CGAL_assertion( anchor  != NULL);
-        CGAL_assertion( current != NULL);
-        return current.operator->();
+        CGAL_assertion( anchor  != CGAL_CIRC_NULL);
+        CGAL_assertion( current != CGAL_CIRC_NULL);
+        return Ptr(current.operator->());
     }
-    #endif
     Self& operator++() {
-        CGAL_assertion( anchor  != NULL);
-        CGAL_assertion( current != NULL);
+        CGAL_assertion( anchor  != CGAL_CIRC_NULL);
+        CGAL_assertion( current != CGAL_CIRC_NULL);
         if ( current == *anchor)
             ++winding;
         ++current;
@@ -1130,9 +1082,7 @@ public:
 };
 
 template < class C, class Ref, class Ptr>
-class CGAL_Bidirectional_iterator_from_circulator
-    : public bidirectional_iterator< typename C::value_type,
-                                     typename C::difference_type> {
+class Bidirectional_iterator_from_circulator {
 private:
     const C*  anchor;
     C         current;
@@ -1141,15 +1091,20 @@ public:
 //
 // TYPES
 
-    typedef  C  Circulator;
-    typedef  CGAL_Bidirectional_iterator_from_circulator<C,Ref,Ptr> Self;
+    typedef  C                                      Circulator;
+    typedef  Bidirectional_iterator_from_circulator<C,Ref,Ptr> Self;
+    typedef  std::bidirectional_iterator_tag        iterator_category;
+    typedef  typename C::value_type                 value_type;
+    typedef  typename C::difference_type            difference_type;
+    typedef  Ref                                    reference;
+    typedef  Ptr                                    pointer;
 
 //
 // CREATION
 
-    CGAL_Bidirectional_iterator_from_circulator() : anchor(0), winding(0) {}
+    Bidirectional_iterator_from_circulator() : anchor(0), winding(0) {}
 
-    CGAL_Bidirectional_iterator_from_circulator( const C* circ, int n)
+    Bidirectional_iterator_from_circulator( const C* circ, int n)
         : anchor( circ), current( *circ), winding(n) {}
 
 //
@@ -1163,20 +1118,18 @@ public:
         return !(*this == i);
     }
     Ref operator*() const {
-        CGAL_assertion( anchor  != NULL);
-        CGAL_assertion( current != NULL);
-        return *current;
+        CGAL_assertion( anchor  != CGAL_CIRC_NULL);
+        CGAL_assertion( current != CGAL_CIRC_NULL);
+        return Ref(*current);
     }
-    #ifndef CGAL_CFG_NO_ARROW_OPERATOR
     Ptr  operator->() const {
-        CGAL_assertion( anchor  != NULL);
-        CGAL_assertion( current != NULL);
-        return current.operator->();
+        CGAL_assertion( anchor  != CGAL_CIRC_NULL);
+        CGAL_assertion( current != CGAL_CIRC_NULL);
+        return Ptr(current.operator->());
     }
-    #endif
     Self& operator++() {
-        CGAL_assertion( anchor  != NULL);
-        CGAL_assertion( current != NULL);
+        CGAL_assertion( anchor  != CGAL_CIRC_NULL);
+        CGAL_assertion( current != CGAL_CIRC_NULL);
         if ( current == *anchor)
             ++winding;
         ++current;
@@ -1189,8 +1142,8 @@ public:
     }
 
     Self& operator--() {
-        CGAL_assertion( anchor != NULL);
-        CGAL_assertion( current != NULL);
+        CGAL_assertion( anchor != CGAL_CIRC_NULL);
+        CGAL_assertion( current != CGAL_CIRC_NULL);
         --current;
         if ( current == *anchor)
             --winding;
@@ -1205,9 +1158,7 @@ public:
 };
 
 template < class C, class Ref, class Ptr>
-class CGAL_Random_access_iterator_from_circulator
-    : public random_access_iterator< typename C::value_type,
-                                     typename C::difference_type> {
+class Random_access_iterator_from_circulator {
 private:
     // The anchor is normalized to be a minimal circulator.
     const C*  anchor;
@@ -1217,15 +1168,20 @@ public:
 //
 // TYPES
 
-    typedef  C  Circulator;
-    typedef  CGAL_Random_access_iterator_from_circulator<C,Ref,Ptr> Self;
+    typedef  C                                      Circulator;
+    typedef  Random_access_iterator_from_circulator<C,Ref,Ptr> Self;
+    typedef  std::random_access_iterator_tag        iterator_category;
+    typedef  typename C::value_type                 value_type;
+    typedef  typename C::difference_type            difference_type;
+    typedef  Ref                                    reference;
+    typedef  Ptr                                    pointer;
 
 //
 // CREATION
 
-    CGAL_Random_access_iterator_from_circulator() : anchor(0), winding(0) {}
+    Random_access_iterator_from_circulator() : anchor(0), winding(0) {}
 
-    CGAL_Random_access_iterator_from_circulator( const C* circ, int n)
+    Random_access_iterator_from_circulator( const C* circ, int n)
         : anchor( circ), current( *circ), winding(n) {}
 
 //
@@ -1239,20 +1195,18 @@ public:
         return !(*this == i);
     }
     Ref operator*() const {
-        CGAL_assertion( anchor  != NULL);
-        CGAL_assertion( current != NULL);
-        return *current;
+        CGAL_assertion( anchor  != CGAL_CIRC_NULL);
+        CGAL_assertion( current != CGAL_CIRC_NULL);
+        return Ref(*current);
     }
-    #ifndef CGAL_CFG_NO_ARROW_OPERATOR
     Ptr  operator->() const {
-        CGAL_assertion( anchor  != NULL);
-        CGAL_assertion( current != NULL);
-        return current.operator->();
+        CGAL_assertion( anchor  != CGAL_CIRC_NULL);
+        CGAL_assertion( current != CGAL_CIRC_NULL);
+        return Ptr(current.operator->());
     }
-    #endif
     Self& operator++() {
-        CGAL_assertion( anchor  != NULL);
-        CGAL_assertion( current != NULL);
+        CGAL_assertion( anchor  != CGAL_CIRC_NULL);
+        CGAL_assertion( current != CGAL_CIRC_NULL);
         ++current;
         if ( current == *anchor)
             ++winding;
@@ -1265,8 +1219,8 @@ public:
     }
 
     Self& operator--() {
-        CGAL_assertion( anchor != NULL);
-        CGAL_assertion( current != NULL);
+        CGAL_assertion( anchor != CGAL_CIRC_NULL);
+        CGAL_assertion( current != CGAL_CIRC_NULL);
         if ( current == *anchor)
             --winding;
         --current;
@@ -1279,8 +1233,8 @@ public:
     }
 
     Self& operator+=( typename C::difference_type n) {
-        CGAL_assertion( anchor != NULL);
-        CGAL_assertion( current != NULL);
+        CGAL_assertion( anchor != CGAL_CIRC_NULL);
+        CGAL_assertion( current != CGAL_CIRC_NULL);
         if ( n < 0 && current == *anchor)  // We are leaving the anchor.
             --winding;
         current += n;
@@ -1299,22 +1253,7 @@ public:
         Self tmp = *this;
         return tmp += -n;
     }
-    #ifndef CGAL__CIRC_NO_SCOPE_MEMBER_FUNCTION_PARAMETERS
     typename C::difference_type  operator-( const Self& i) const;
-    #else
-    typename C::difference_type  operator-( const Self& i) const {
-        CGAL_assertion( anchor  != NULL);
-        CGAL_assertion( current != NULL);
-        CGAL_assertion( anchor  == i.anchor);
-        if ( winding != i.winding) {
-            typename C::difference_type s =
-                CGAL__min_circulator_size( *anchor);
-            return   (current - *anchor) - (i.current - *anchor)
-                   + s * (winding - i.winding);
-        }
-        return (current - *anchor) - (i.current - *anchor);
-    }
-    #endif // CGAL__CIRC_NO_SCOPE_MEMBER_FUNCTION_PARAMETERS //
 
     Ref  operator[](typename C::difference_type n) const {
         Self tmp = *this;
@@ -1322,8 +1261,8 @@ public:
         return tmp.operator*();
     }
     bool operator<( const Self& i) const {
-        CGAL_assertion( anchor  != NULL);
-        CGAL_assertion( current != NULL);
+        CGAL_assertion( anchor  != CGAL_CIRC_NULL);
+        CGAL_assertion( current != CGAL_CIRC_NULL);
         CGAL_assertion( anchor  == i.anchor);
         return (     (winding < i.winding)
                  || (    (winding == i.winding)
@@ -1344,43 +1283,40 @@ public:
 };
 
 template < class Dist, class  C, class Ref, class Ptr>
-CGAL_Random_access_iterator_from_circulator<C,Ref,Ptr>
+Random_access_iterator_from_circulator<C,Ref,Ptr>
 operator+( Dist n,
-           const CGAL_Random_access_iterator_from_circulator<C,Ref,Ptr>&
+           const Random_access_iterator_from_circulator<C,Ref,Ptr>&
                circ) {
-    CGAL_Random_access_iterator_from_circulator<C,Ref,Ptr> tmp = circ;
+    Random_access_iterator_from_circulator<C,Ref,Ptr> tmp = circ;
     return tmp += n;
 }
 
-#ifndef CGAL__CIRC_NO_SCOPE_MEMBER_FUNCTION_PARAMETERS
 template < class  C, class Ref, class Ptr>
 typename C::difference_type
-CGAL_Random_access_iterator_from_circulator<C,Ref,Ptr>::
-operator-( const CGAL_Random_access_iterator_from_circulator<C,Ref,Ptr>&
+Random_access_iterator_from_circulator<C,Ref,Ptr>::
+operator-( const Random_access_iterator_from_circulator<C,Ref,Ptr>&
            i) const {
-    CGAL_assertion( anchor  != NULL);
-    CGAL_assertion( current != NULL);
+    CGAL_assertion( anchor  != CGAL_CIRC_NULL);
+    CGAL_assertion( current != CGAL_CIRC_NULL);
     CGAL_assertion( anchor  == i.anchor);
     if ( winding != i.winding) {
-        typename C::difference_type s = CGAL__min_circulator_size( *anchor);
+        typename C::difference_type s = _min_circulator_size( *anchor);
         return   (current - *anchor) - (i.current - *anchor)
                + s * (winding - i.winding);
     }
     return (current - *anchor) - (i.current - *anchor);
 }
-#endif // CGAL__CIRC_NO_SCOPE_MEMBER_FUNCTION_PARAMETERS //
-
 
 
 template < class  C >
-class CGAL_Forward_container_from_circulator {
+class Forward_container_from_circulator {
 private:
     C anchor;
 public:
 
 // DEFINITION
 //
-// The adaptor CGAL_Forward_container_from_circulator<C> is a class that
+// The adaptor Forward_container_from_circulator<C> is a class that
 // converts any circulator type `C' to a kind of containerclass, i.e. a
 // class that provides an iterator and a const iterator type and two
 // member functions -- begin() and end() -- that return the appropriate
@@ -1388,11 +1324,11 @@ public:
 // functions return a const iterator in the case that the container itself
 // is constant and a mutable iterator otherwise.
 //
-// For CGAL_Forward_container_from_circulator<C> the circulator has to
+// For Forward_container_from_circulator<C> the circulator has to
 // fulfill at least the requirements for a forward circulator. The similar
-// adaptor `CGAL_Bidirectional_container_from_circulator<C>' requires a
+// adaptor `Bidirectional_container_from_circulator<C>' requires a
 // bidirectional circulator to provide bidirectional iterators and the
-// adaptor `CGAL_Random_access_container_from_circulator<C>' requires a
+// adaptor `Random_access_container_from_circulator<C>' requires a
 // random access circulator to provide random access iterators. In this
 // case the adaptor implements a total ordering relation that is currently
 // not required for random access circulators. The total order is based on
@@ -1408,10 +1344,10 @@ public:
 //
 // New creation variable is: `adaptor'
 
-    CGAL_Forward_container_from_circulator() {}
+    Forward_container_from_circulator() {}
         // the resulting iterators will have a singular value.
 
-    CGAL_Forward_container_from_circulator(const C& c) : anchor(c) {}
+    Forward_container_from_circulator(const C& c) : anchor(c) {}
         // the resulting iterators will have a singular value if the
         // circulator `c' is singular.
 
@@ -1423,14 +1359,14 @@ typedef  C                   Circulator;
 typedef  typename C::value_type       value_type;
 typedef  typename C::difference_type  difference_type;
 typedef  typename C::size_type        size_type;
-typedef  typename C::reference        reference;
-typedef  typename C::const_reference  const_reference;
-typedef  typename C::pointer          pointer;
-typedef  typename C::const_pointer    const_pointer;
+typedef  value_type&                  reference;
+typedef  const value_type&            const_reference;
+typedef  value_type*                  pointer;
+typedef  const value_type*            const_pointer;
 
-typedef  CGAL_Forward_iterator_from_circulator<C,reference,pointer>
+typedef  Forward_iterator_from_circulator<C,reference,pointer>
                              iterator;
-typedef  CGAL_Forward_iterator_from_circulator<C,const_reference,
+typedef  Forward_iterator_from_circulator<C,const_reference,
          const_pointer>      const_iterator;
 
 //
@@ -1448,13 +1384,13 @@ typedef  CGAL_Forward_iterator_from_circulator<C,const_reference,
 
     iterator end() {
         // the past-the-end iterator.
-        return anchor == NULL ?  iterator( &anchor, 0)
-                              :  iterator( &anchor, 1);
+        return anchor == CGAL_CIRC_NULL ?  iterator( &anchor, 0)
+                                       :  iterator( &anchor, 1);
     }
     const_iterator end() const {
         // the past-the-end const iterator.
-        return anchor == NULL ?  const_iterator( &anchor, 0)
-                              :  const_iterator( &anchor, 1);
+        return anchor == CGAL_CIRC_NULL ?  const_iterator( &anchor, 0)
+                                       :  const_iterator( &anchor, 1);
     }
     #if defined( __GNUG__ ) && defined( CGAL__CIRC_STL_GCC )
     friend inline difference_type* distance_type(const iterator&) {
@@ -1491,17 +1427,17 @@ typedef  CGAL_Forward_iterator_from_circulator<C,const_reference,
 
 
 template < class  C >
-class CGAL_Bidirectional_container_from_circulator {
+class Bidirectional_container_from_circulator {
 private:
     C anchor;
 public:
 //
 // CREATION
 
-    CGAL_Bidirectional_container_from_circulator() {}
+    Bidirectional_container_from_circulator() {}
         // the resulting iterators will have a singular value.
 
-    CGAL_Bidirectional_container_from_circulator(const C& c) : anchor(c) {}
+    Bidirectional_container_from_circulator(const C& c) : anchor(c) {}
         // the resulting iterators will have a singular value if the
         // circulator `c' is singular.
 
@@ -1513,14 +1449,14 @@ typedef C  Circulator;
 typedef  typename C::value_type       value_type;
 typedef  typename C::difference_type  difference_type;
 typedef  typename C::size_type        size_type;
-typedef  typename C::reference        reference;
-typedef  typename C::const_reference  const_reference;
-typedef  typename C::pointer          pointer;
-typedef  typename C::const_pointer    const_pointer;
+typedef  value_type&                  reference;
+typedef  const value_type&            const_reference;
+typedef  value_type*                  pointer;
+typedef  const value_type*            const_pointer;
 
-typedef  CGAL_Bidirectional_iterator_from_circulator<C,reference,pointer>
+typedef  Bidirectional_iterator_from_circulator<C,reference,pointer>
                              iterator;
-typedef  CGAL_Bidirectional_iterator_from_circulator<C,const_reference,
+typedef  Bidirectional_iterator_from_circulator<C,const_reference,
          const_pointer>      const_iterator;
 
 //
@@ -1538,13 +1474,13 @@ typedef  CGAL_Bidirectional_iterator_from_circulator<C,const_reference,
 
     iterator end() {
         // the past-the-end iterator.
-        return anchor == NULL ?  iterator( &anchor, 0)
-                              :  iterator( &anchor, 1);
+        return anchor == CGAL_CIRC_NULL ?  iterator( &anchor, 0)
+                                       :  iterator( &anchor, 1);
     }
     const_iterator end() const {
         // the past-the-end const iterator.
-        return anchor == NULL ?  const_iterator( &anchor, 0)
-                              :  const_iterator( &anchor, 1);
+        return anchor == CGAL_CIRC_NULL ?  const_iterator( &anchor, 0)
+                                       :  const_iterator( &anchor, 1);
     }
     #if defined( __GNUG__ ) && defined( CGAL__CIRC_STL_GCC )
     friend inline difference_type* distance_type(const iterator&) {
@@ -1581,17 +1517,17 @@ typedef  CGAL_Bidirectional_iterator_from_circulator<C,const_reference,
 
 
 template < class  C >
-class CGAL_Random_access_container_from_circulator {
+class Random_access_container_from_circulator {
 private:
     C anchor;
 public:
 //
 // CREATION
 
-    CGAL_Random_access_container_from_circulator() {}
+    Random_access_container_from_circulator() {}
         // the resulting iterators will have a singular value.
 
-    CGAL_Random_access_container_from_circulator(const C& c)
+    Random_access_container_from_circulator(const C& c)
         // The anchor is normalized to be a minimal circulator.
         : anchor(c.min_circulator()) {}
         // the resulting iterators will have a singular value if the
@@ -1605,14 +1541,14 @@ typedef C  Circulator;
 typedef  typename C::value_type       value_type;
 typedef  typename C::difference_type  difference_type;
 typedef  typename C::size_type        size_type;
-typedef  typename C::reference        reference;
-typedef  typename C::const_reference  const_reference;
-typedef  typename C::pointer          pointer;
-typedef  typename C::const_pointer    const_pointer;
+typedef  value_type&                  reference;
+typedef  const value_type&            const_reference;
+typedef  value_type*                  pointer;
+typedef  const value_type*            const_pointer;
 
-typedef  CGAL_Random_access_iterator_from_circulator<C,reference,pointer>
+typedef  Random_access_iterator_from_circulator<C,reference,pointer>
                              iterator;
-typedef  CGAL_Random_access_iterator_from_circulator<C,const_reference,
+typedef  Random_access_iterator_from_circulator<C,const_reference,
          const_pointer>      const_iterator;
 
 //
@@ -1630,13 +1566,13 @@ typedef  CGAL_Random_access_iterator_from_circulator<C,const_reference,
 
     iterator end() {
         // the past-the-end iterator.
-        return anchor == NULL ?  iterator( &anchor, 0)
-                              :  iterator( &anchor, 1);
+        return anchor == CGAL_CIRC_NULL ?  iterator( &anchor, 0)
+                                       :  iterator( &anchor, 1);
     }
     const_iterator end() const {
         // the past-the-end const iterator.
-        return anchor == NULL ?  const_iterator( &anchor, 0)
-                              :  const_iterator( &anchor, 1);
+        return anchor == CGAL_CIRC_NULL ?  const_iterator( &anchor, 0)
+                                       :  const_iterator( &anchor, 1);
     }
     #if defined( __GNUG__ ) && defined( CGAL__CIRC_STL_GCC )
     friend inline difference_type* distance_type(const iterator&) {
@@ -1674,40 +1610,38 @@ typedef  CGAL_Random_access_iterator_from_circulator<C,const_reference,
 #ifdef CGAL__CIRC_STL_ITERATOR_TRAITS
 
 template < class  C, class Ref, class Ptr>
-class CGAL_Iterator_from_circulator {
+class Iterator_from_circulator {
 private:
     // The anchor is normalized to be a minimal circulator.
     const C*  anchor;
     C         current;
     int       winding;
 
-    typedef  iterator_traits<C>                               _traits;
-    typedef  typename  _traits::iterator_category             _Iter_cat;
-    typedef  CGAL__Iterator_from_circulator_traits<_Iter_cat>  __traits;
+    typedef  std::iterator_traits<C>                      Itraits;
+    typedef  typename  Itraits::iterator_category         Iter_cat;
+    typedef  _Iterator_from_circulator_traits<Iter_cat>   ICtraits;
 
 public:
 //
 // TYPES
 
     typedef C  Circulator;
-    typedef CGAL_Iterator_from_circulator<C,Ref,Ptr> Self;
+    typedef Iterator_from_circulator<C,Ref,Ptr> Self;
 
-    typedef typename __traits::iterator_category iterator_category;
+    typedef typename ICtraits::iterator_category iterator_category;
 
     typedef typename C::value_type       value_type;
     typedef typename C::difference_type  difference_type;
     typedef typename C::size_type        size_type;
     typedef typename C::reference        reference;
-    typedef typename C::const_reference  const_reference;
     typedef typename C::pointer          pointer;
-    typedef typename C::const_pointer    const_pointer;
 
 //
 // CREATION
 
-    CGAL_Iterator_from_circulator() : anchor(0), winding(0) {}
+    Iterator_from_circulator() : anchor(0), winding(0) {}
 
-    CGAL_Iterator_from_circulator( const C* circ, int n)
+    Iterator_from_circulator( const C* circ, int n)
         : anchor( circ), current( *circ), winding(n) {}
 
 //
@@ -1721,20 +1655,18 @@ public:
         return !(*this == i);
     }
     Ref  operator*() const {
-        CGAL_assertion( anchor  != NULL);
-        CGAL_assertion( current != NULL);
-        return *current;
+        CGAL_assertion( anchor  != CGAL_CIRC_NULL);
+        CGAL_assertion( current != CGAL_CIRC_NULL);
+        return Ref(*current);
     }
-    #ifndef CGAL_CFG_NO_ARROW_OPERATOR
     Ptr  operator->() const {
-        CGAL_assertion( anchor  != NULL);
-        CGAL_assertion( current != NULL);
-        return current.operator->();
+        CGAL_assertion( anchor  != CGAL_CIRC_NULL);
+        CGAL_assertion( current != CGAL_CIRC_NULL);
+        return Ptr(current.operator->());
     }
-    #endif
     Self& operator++() {
-        CGAL_assertion( anchor  != NULL);
-        CGAL_assertion( current != NULL);
+        CGAL_assertion( anchor  != CGAL_CIRC_NULL);
+        CGAL_assertion( current != CGAL_CIRC_NULL);
         ++current;
         if ( current == *anchor)
             ++winding;
@@ -1746,8 +1678,8 @@ public:
         return tmp;
     }
     Self& operator--() {
-        CGAL_assertion( anchor != NULL);
-        CGAL_assertion( current != NULL);
+        CGAL_assertion( anchor != CGAL_CIRC_NULL);
+        CGAL_assertion( current != CGAL_CIRC_NULL);
         if ( current == *anchor)
             --winding;
         --current;
@@ -1759,8 +1691,8 @@ public:
         return tmp;
     }
     Self& operator+=( difference_type n) {
-        CGAL_assertion( anchor != NULL);
-        CGAL_assertion( current != NULL);
+        CGAL_assertion( anchor != CGAL_CIRC_NULL);
+        CGAL_assertion( current != CGAL_CIRC_NULL);
         if ( n < 0 && current == *anchor)  // We are leaving the anchor.
             --winding;
         current += n;
@@ -1779,21 +1711,7 @@ public:
         Self tmp = *this;
         return tmp += -n;
     }
-    #ifndef CGAL__CIRC_NO_SCOPE_MEMBER_FUNCTION_PARAMETERS
     difference_type  operator-( const Self& i) const;
-    #else
-    difference_type  operator-( const Self& i) const {
-        CGAL_assertion( anchor  != NULL);
-        CGAL_assertion( current != NULL);
-        CGAL_assertion( anchor  == i.anchor);
-        if ( winding != i.winding) {
-            difference_type s = CGAL__min_circulator_size( *anchor);
-            return   (current - *anchor) - (i.current - *anchor)
-                   + s * (winding - i.winding);
-        }
-        return (current - *anchor) - (i.current - *anchor);
-    }
-    #endif // CGAL__CIRC_NO_SCOPE_MEMBER_FUNCTION_PARAMETERS //
 
     Ref  operator[](difference_type n) const {
         Self tmp = *this;
@@ -1801,8 +1719,8 @@ public:
         return tmp.operator*();
     }
     bool operator<( const Self& i) const {
-        CGAL_assertion( anchor  != NULL);
-        CGAL_assertion( current != NULL);
+        CGAL_assertion( anchor  != CGAL_CIRC_NULL);
+        CGAL_assertion( current != CGAL_CIRC_NULL);
         CGAL_assertion( anchor  == i.anchor);
         return (     (winding < i.winding)
                  || (    (winding == i.winding)
@@ -1823,45 +1741,43 @@ public:
 };
 
 template < class Dist, class  C, class Ref, class Ptr>
-CGAL_Iterator_from_circulator<C,Ref,Ptr>
+Iterator_from_circulator<C,Ref,Ptr>
 operator+( Dist n,
-           const CGAL_Iterator_from_circulator<C,Ref,Ptr>& circ) {
-    CGAL_Iterator_from_circulator<C,Ref,Ptr> tmp = circ;
+           const Iterator_from_circulator<C,Ref,Ptr>& circ) {
+    Iterator_from_circulator<C,Ref,Ptr> tmp = circ;
     return tmp += n;
 }
 
-#ifndef CGAL__CIRC_NO_SCOPE_MEMBER_FUNCTION_PARAMETERS
 template < class  C, class Ref, class Ptr>
 typename C::difference_type
-CGAL_Iterator_from_circulator<C,Ref,Ptr>::
-operator-( const CGAL_Iterator_from_circulator<C,Ref,Ptr>& i) const {
-    CGAL_assertion( anchor  != NULL);
-    CGAL_assertion( current != NULL);
+Iterator_from_circulator<C,Ref,Ptr>::
+operator-( const Iterator_from_circulator<C,Ref,Ptr>& i) const {
+    CGAL_assertion( anchor  != CGAL_CIRC_NULL);
+    CGAL_assertion( current != CGAL_CIRC_NULL);
     CGAL_assertion( anchor  == i.anchor);
     if ( winding != i.winding) {
-        difference_type s = CGAL__min_circulator_size( *anchor);
+        difference_type s = _min_circulator_size( *anchor);
         return   (current - *anchor) - (i.current - *anchor)
                + s * (winding - i.winding);
     }
     return (current - *anchor) - (i.current - *anchor);
 }
-#endif // CGAL__CIRC_NO_SCOPE_MEMBER_FUNCTION_PARAMETERS //
 
 
 template < class  C >
-class CGAL_Container_from_circulator {
+class Container_from_circulator {
 private:
     C anchor;
 public:
 //
 // CREATION
 
-    CGAL_Container_from_circulator() {}
+    Container_from_circulator() {}
         // the resulting iterators will have a singular value.
 
-    CGAL_Container_from_circulator(const C& c)
+    Container_from_circulator(const C& c)
         // The anchor is normalized to be a minimal circulator.
-        : anchor(CGAL_get_min_circulator(c)) {}
+        : anchor(get_min_circulator(c)) {}
         // the resulting iterators will have a singular value if the
         // circulator `c' is singular.
 
@@ -1871,16 +1787,16 @@ public:
 typedef C  Circulator;
 
 typedef typename C::value_type       value_type;
-typedef typename C::reference        reference;
-typedef typename C::const_reference  const_reference;
-typedef typename C::pointer          pointer;
-typedef typename C::const_pointer    const_pointer;
+typedef value_type&                  reference;
+typedef const value_type&            const_reference;
+typedef value_type*                  pointer;
+typedef const value_type*            const_pointer;
 typedef typename C::size_type        size_type;
 typedef typename C::difference_type  difference_type;
 
-typedef CGAL_Iterator_from_circulator< C, reference, pointer>
+typedef Iterator_from_circulator< C, reference, pointer>
     iterator;
-typedef CGAL_Iterator_from_circulator< C, const_reference, const_pointer>
+typedef Iterator_from_circulator< C, const_reference, const_pointer>
     const_iterator;
 //
 // OPERATIONS
@@ -1897,19 +1813,19 @@ typedef CGAL_Iterator_from_circulator< C, const_reference, const_pointer>
 
     iterator end() {
         // the past-the-end iterator.
-        return anchor == NULL ?  iterator( &anchor, 0)
-                              :  iterator( &anchor, 1);
+        return anchor == CGAL_CIRC_NULL ?  iterator( &anchor, 0)
+                                       :  iterator( &anchor, 1);
     }
     const_iterator end() const {
         // the past-the-end const iterator.
-        return anchor == NULL ?  const_iterator( &anchor, 0)
-                              :  const_iterator( &anchor, 1);
+        return anchor == CGAL_CIRC_NULL ?  const_iterator( &anchor, 0)
+                                       :  const_iterator( &anchor, 1);
     }
 };
 #endif // CGAL__CIRC_STL_ITERATOR_TRAITS //
 template < class  C>
-class CGAL_Forward_circulator_from_container
-    : public  CGAL_Forward_circulator_ptrbase<
+class Forward_circulator_from_container
+    : public  Forward_circulator_ptrbase<
             typename C::value_type, typename C::difference_type,
             typename C::size_type> {
 private:
@@ -1918,12 +1834,12 @@ public:
 
 // DEFINITION
 //
-// The adaptor CGAL_Forward_circulator_from_container<C> is a class that
+// The adaptor Forward_circulator_from_container<C> is a class that
 // provides a forward circulator for a container C as specified by the
 // STL. The iterators belonging to the container C are supposed to be at
 // least forward iterators. The adaptor for bidirectional circulators is
-// `CGAL_Bidirectional_circulator_from_container<C>' and
-// `CGAL_Random_access_circulator_from_container<C>' for random access
+// `Bidirectional_circulator_from_container<C>' and
+// `Random_access_circulator_from_container<C>' for random access
 // circulators. Appropriate const circulators are also available.
 //
 // PARAMETERS
@@ -1935,16 +1851,16 @@ public:
 //
 // CREATION
 
-    CGAL_Forward_circulator_from_container() {}
+    Forward_circulator_from_container() {}
 
-    CGAL_Forward_circulator_from_container( C* c)
-        :  CGAL_Forward_circulator_ptrbase<
+    Forward_circulator_from_container( C* c)
+        :  Forward_circulator_ptrbase<
                 typename C::value_type, typename C::difference_type,
                 typename C::size_type>(c),
            i(c->begin()) {}
 
-    CGAL_Forward_circulator_from_container( C* c, typename C::iterator _i)
-        :  CGAL_Forward_circulator_ptrbase<
+    Forward_circulator_from_container( C* c, typename C::iterator _i)
+        :  Forward_circulator_ptrbase<
                 typename C::value_type, typename C::difference_type,
                 typename C::size_type>(c),
            i(_i) {}
@@ -1957,9 +1873,7 @@ public:
     typedef typename C::const_iterator     const_iterator;
     typedef typename C::value_type         value_type;
     typedef typename C::reference          reference;
-    typedef typename C::const_reference    const_reference;
     typedef value_type*                    pointer;
-    typedef const value_type*              const_pointer;
     typedef typename C::size_type          size_type;
     typedef typename C::difference_type    difference_type;
 
@@ -1967,18 +1881,18 @@ public:
 // OPERATIONS
 
     bool operator==( CGAL_NULL_TYPE p) const {
-        CGAL_assertion( p == NULL);
+        CGAL_assertion( p == CGAL_CIRC_NULL);
         return    (_ptr == NULL)
                || (((C*)_ptr)->begin()==((C*)_ptr)->end());
     }
     bool operator!=( CGAL_NULL_TYPE p) const {
         return !(*this == p);
     }
-    bool operator==( const CGAL_Forward_circulator_from_container
+    bool operator==( const Forward_circulator_from_container
                            <C>& c) const {
         return i == c.i;
     }
-    bool operator!=( const CGAL_Forward_circulator_from_container
+    bool operator!=( const Forward_circulator_from_container
                            <C>& c) const {
         return !(*this == c);
     }
@@ -1987,14 +1901,12 @@ public:
         CGAL_assertion( i != ((C*)_ptr)->end());
         return *i;
     }
-    #ifndef CGAL_CFG_NO_ARROW_OPERATOR
     pointer  operator->() const {
         CGAL_assertion( _ptr != NULL);
         CGAL_assertion( i != ((C*)_ptr)->end());
         return &(*i);
     }
-    #endif
-    CGAL_Forward_circulator_from_container<C>&
+    Forward_circulator_from_container<C>&
     operator++() {
         CGAL_assertion( _ptr != NULL);
         CGAL_assertion( i != ((C*)_ptr)->end());
@@ -2003,9 +1915,9 @@ public:
             i = ((C*)_ptr)->begin();
         return *this;
     }
-    CGAL_Forward_circulator_from_container<C>
+    Forward_circulator_from_container<C>
     operator++(int) {
-        CGAL_Forward_circulator_from_container<C> tmp= *this;
+        Forward_circulator_from_container<C> tmp= *this;
         ++*this;
         return tmp;
     }
@@ -2013,28 +1925,28 @@ public:
     #if defined( __GNUG__ ) && defined( CGAL__CIRC_STL_GCC )
     friend inline typename C::difference_type* distance_type(
         const
-    CGAL_Forward_circulator_from_container<C>&) {
+    Forward_circulator_from_container<C>&) {
         return (typename C::difference_type*)(0);
     }
     friend inline typename C::value_type* value_type(
         const
-    CGAL_Forward_circulator_from_container<C>&) {
+    Forward_circulator_from_container<C>&) {
         return (typename C::value_type*)(0);
     }
-    friend inline CGAL_Forward_circulator_tag iterator_category(
-    CGAL_Forward_circulator_from_container<C>) {
-        return CGAL_Forward_circulator_tag();
+    friend inline Forward_circulator_tag iterator_category(
+    Forward_circulator_from_container<C>) {
+        return Forward_circulator_tag();
     }
     friend inline CGAL_Circulator_tag CGAL_query_circulator_or_iterator(
-    CGAL_Forward_circulator_from_container<C>) {
+    Forward_circulator_from_container<C>) {
         return CGAL_Circulator_tag();
     }
     #endif
 };
 
 template < class  C>
-class CGAL_Forward_const_circulator_from_container
-    : public  CGAL_Forward_circulator_ptrbase<
+class Forward_const_circulator_from_container
+    : public  Forward_circulator_ptrbase<
             typename C::value_type, typename C::difference_type,
             typename C::size_type> {
 private:
@@ -2043,16 +1955,16 @@ public:
 //
 // CREATION
 
-    CGAL_Forward_const_circulator_from_container() {}
+    Forward_const_circulator_from_container() {}
 
-    CGAL_Forward_const_circulator_from_container( const C* c)
-        :  CGAL_Forward_circulator_ptrbase<
+    Forward_const_circulator_from_container( const C* c)
+        :  Forward_circulator_ptrbase<
             typename C::value_type, typename C::difference_type,
             typename C::size_type>((void*)c), i(c->begin()) {}
 
-    CGAL_Forward_const_circulator_from_container( const C* c,
+    Forward_const_circulator_from_container( const C* c,
                                              typename C::const_iterator _i)
-        :  CGAL_Forward_circulator_ptrbase<
+        :  Forward_circulator_ptrbase<
                 typename C::value_type, typename C::difference_type,
                 typename C::size_type>((void*)c),
            i(_i) {}
@@ -2064,10 +1976,8 @@ public:
     typedef typename C::iterator           iterator;
     typedef typename C::const_iterator     const_iterator;
     typedef typename C::value_type         value_type;
-    typedef typename C::reference          reference;
-    typedef typename C::const_reference    const_reference;
-    typedef value_type*                    pointer;
-    typedef const value_type*              const_pointer;
+    typedef typename C::const_reference    reference;
+    typedef const value_type*              pointer;
     typedef typename C::size_type          size_type;
     typedef typename C::difference_type    difference_type;
 
@@ -2075,7 +1985,7 @@ public:
 // OPERATIONS
 
     bool operator==( CGAL_NULL_TYPE p) const {
-        CGAL_assertion( p == NULL);
+        CGAL_assertion( p == CGAL_CIRC_NULL);
         return    (_ptr == NULL)
                || (((const C*)_ptr)->begin()
                  ==((const C*)_ptr)->end());
@@ -2084,27 +1994,25 @@ public:
         return !(*this == p);
     }
     bool operator==(
-        const CGAL_Forward_const_circulator_from_container
+        const Forward_const_circulator_from_container
                            <C>& c) const {
         return i == c.i;
     }
-    bool operator!=( const CGAL_Forward_const_circulator_from_container
+    bool operator!=( const Forward_const_circulator_from_container
                            <C>& c) const {
         return !(*this == c);
     }
-    const_reference  operator*() const {
+    reference  operator*() const {
         CGAL_assertion( _ptr != NULL);
         CGAL_assertion( i != ((const C*)_ptr)->end());
         return *i;
     }
-    #ifndef CGAL_CFG_NO_ARROW_OPERATOR
-    const_pointer  operator->() const {
+    pointer  operator->() const {
         CGAL_assertion( _ptr != NULL);
         CGAL_assertion( i != ((const C*)_ptr)->end());
         return &(*i);
     }
-    #endif
-    CGAL_Forward_const_circulator_from_container<C>&
+    Forward_const_circulator_from_container<C>&
     operator++() {
         CGAL_assertion( _ptr != NULL);
         CGAL_assertion( i != ((const C*)_ptr)->end());
@@ -2113,9 +2021,9 @@ public:
             i = ((const C*)_ptr)->begin();
         return *this;
     }
-    CGAL_Forward_const_circulator_from_container<C>
+    Forward_const_circulator_from_container<C>
     operator++(int) {
-        CGAL_Forward_const_circulator_from_container<C>
+        Forward_const_circulator_from_container<C>
             tmp= *this;
         ++*this;
         return tmp;
@@ -2124,20 +2032,20 @@ public:
     #if defined( __GNUG__ ) && defined( CGAL__CIRC_STL_GCC )
     friend inline typename C::difference_type* distance_type(
         const
-    CGAL_Forward_const_circulator_from_container<C>&) {
+    Forward_const_circulator_from_container<C>&) {
         return (typename C::difference_type*)(0);
     }
     friend inline typename C::value_type* value_type(
         const
-    CGAL_Forward_const_circulator_from_container<C>&) {
+    Forward_const_circulator_from_container<C>&) {
         return (typename C::value_type*)(0);
     }
-    friend inline CGAL_Forward_circulator_tag iterator_category(
-    CGAL_Forward_const_circulator_from_container<C>) {
-        return CGAL_Forward_circulator_tag();
+    friend inline Forward_circulator_tag iterator_category(
+    Forward_const_circulator_from_container<C>) {
+        return Forward_circulator_tag();
     }
     friend inline CGAL_Circulator_tag CGAL_query_circulator_or_iterator(
-    CGAL_Forward_const_circulator_from_container<C>) {
+    Forward_const_circulator_from_container<C>) {
         return CGAL_Circulator_tag();
     }
     #endif
@@ -2145,8 +2053,8 @@ public:
 
 
 template < class  C>
-class CGAL_Bidirectional_circulator_from_container
-    : public  CGAL_Bidirectional_circulator_ptrbase<
+class Bidirectional_circulator_from_container
+    : public  Bidirectional_circulator_ptrbase<
             typename C::value_type, typename C::difference_type,
             typename C::size_type> {
 private:
@@ -2155,17 +2063,17 @@ public:
 //
 // CREATION
 
-    CGAL_Bidirectional_circulator_from_container() {}
+    Bidirectional_circulator_from_container() {}
 
-    CGAL_Bidirectional_circulator_from_container( C* c)
-        :  CGAL_Bidirectional_circulator_ptrbase<
+    Bidirectional_circulator_from_container( C* c)
+        :  Bidirectional_circulator_ptrbase<
                 typename C::value_type, typename C::difference_type,
                 typename C::size_type>(c),
            i(c->begin()) {}
 
-    CGAL_Bidirectional_circulator_from_container( C* c,
+    Bidirectional_circulator_from_container( C* c,
                                                  typename C::iterator _i)
-        :  CGAL_Bidirectional_circulator_ptrbase<
+        :  Bidirectional_circulator_ptrbase<
                 typename C::value_type, typename C::difference_type,
                 typename C::size_type>(c),
            i(_i) {}
@@ -2178,9 +2086,7 @@ public:
     typedef typename C::const_iterator     const_iterator;
     typedef typename C::value_type         value_type;
     typedef typename C::reference          reference;
-    typedef typename C::const_reference    const_reference;
     typedef value_type*                    pointer;
-    typedef const value_type*              const_pointer;
     typedef typename C::size_type          size_type;
     typedef typename C::difference_type    difference_type;
 
@@ -2188,18 +2094,18 @@ public:
 // OPERATIONS
 
     bool operator==( CGAL_NULL_TYPE p) const {
-        CGAL_assertion( p == NULL);
+        CGAL_assertion( p == CGAL_CIRC_NULL);
         return    (_ptr == NULL)
                || (((C*)_ptr)->begin()==((C*)_ptr)->end());
     }
     bool operator!=( CGAL_NULL_TYPE p) const {
         return !(*this == p);
     }
-    bool operator==( const CGAL_Bidirectional_circulator_from_container
+    bool operator==( const Bidirectional_circulator_from_container
                            <C>& c) const {
         return i == c.i;
     }
-    bool operator!=( const CGAL_Bidirectional_circulator_from_container
+    bool operator!=( const Bidirectional_circulator_from_container
                            <C>& c) const {
         return !(*this == c);
     }
@@ -2208,14 +2114,12 @@ public:
         CGAL_assertion( i != ((C*)_ptr)->end());
         return *i;
     }
-    #ifndef CGAL_CFG_NO_ARROW_OPERATOR
     pointer  operator->() const {
         CGAL_assertion( _ptr != NULL);
         CGAL_assertion( i != ((C*)_ptr)->end());
         return &(*i);
     }
-    #endif
-    CGAL_Bidirectional_circulator_from_container<C>&
+    Bidirectional_circulator_from_container<C>&
     operator++() {
         CGAL_assertion( _ptr != NULL);
         CGAL_assertion( i != ((C*)_ptr)->end());
@@ -2224,13 +2128,13 @@ public:
             i = ((C*)_ptr)->begin();
         return *this;
     }
-    CGAL_Bidirectional_circulator_from_container<C>
+    Bidirectional_circulator_from_container<C>
     operator++(int) {
-        CGAL_Bidirectional_circulator_from_container<C> tmp= *this;
+        Bidirectional_circulator_from_container<C> tmp= *this;
         ++*this;
         return tmp;
     }
-    CGAL_Bidirectional_circulator_from_container<C>&
+    Bidirectional_circulator_from_container<C>&
     operator--() {
         CGAL_assertion( _ptr != NULL);
         CGAL_assertion( i != ((C*)_ptr)->end());
@@ -2239,9 +2143,9 @@ public:
         --i;
         return *this;
     }
-    CGAL_Bidirectional_circulator_from_container<C>
+    Bidirectional_circulator_from_container<C>
     operator--(int) {
-        CGAL_Bidirectional_circulator_from_container<C> tmp = *this;
+        Bidirectional_circulator_from_container<C> tmp = *this;
         --*this;
         return tmp;
     }
@@ -2249,28 +2153,28 @@ public:
     #if defined( __GNUG__ ) && defined( CGAL__CIRC_STL_GCC )
     friend inline typename C::difference_type* distance_type(
         const
-    CGAL_Bidirectional_circulator_from_container<C>&) {
+    Bidirectional_circulator_from_container<C>&) {
         return (typename C::difference_type*)(0);
     }
     friend inline typename C::value_type* value_type(
         const
-    CGAL_Bidirectional_circulator_from_container<C>&) {
+    Bidirectional_circulator_from_container<C>&) {
         return (typename C::value_type*)(0);
     }
-    friend inline CGAL_Bidirectional_circulator_tag iterator_category(
-    CGAL_Bidirectional_circulator_from_container<C>) {
-        return CGAL_Bidirectional_circulator_tag();
+    friend inline Bidirectional_circulator_tag iterator_category(
+    Bidirectional_circulator_from_container<C>) {
+        return Bidirectional_circulator_tag();
     }
     friend inline CGAL_Circulator_tag CGAL_query_circulator_or_iterator(
-    CGAL_Bidirectional_circulator_from_container<C>) {
+    Bidirectional_circulator_from_container<C>) {
         return CGAL_Circulator_tag();
     }
     #endif
 };
 
 template < class  C>
-class CGAL_Bidirectional_const_circulator_from_container
-    : public  CGAL_Bidirectional_circulator_ptrbase<
+class Bidirectional_const_circulator_from_container
+    : public  Bidirectional_circulator_ptrbase<
             typename C::value_type, typename C::difference_type,
             typename C::size_type> {
 private:
@@ -2279,16 +2183,16 @@ public:
 //
 // CREATION
 
-    CGAL_Bidirectional_const_circulator_from_container() {}
+    Bidirectional_const_circulator_from_container() {}
 
-    CGAL_Bidirectional_const_circulator_from_container( const C* c)
-        :  CGAL_Bidirectional_circulator_ptrbase<
+    Bidirectional_const_circulator_from_container( const C* c)
+        :  Bidirectional_circulator_ptrbase<
                 typename C::value_type, typename C::difference_type,
                 typename C::size_type>((void*)c), i(c->begin()) {}
 
-    CGAL_Bidirectional_const_circulator_from_container( const C* c,
+    Bidirectional_const_circulator_from_container( const C* c,
                                              typename C::const_iterator _i)
-        :  CGAL_Bidirectional_circulator_ptrbase<
+        :  Bidirectional_circulator_ptrbase<
                 typename C::value_type, typename C::difference_type,
                 typename C::size_type>((void*)c),
            i(_i) {}
@@ -2300,10 +2204,8 @@ public:
     typedef typename C::iterator           iterator;
     typedef typename C::const_iterator     const_iterator;
     typedef typename C::value_type         value_type;
-    typedef typename C::reference          reference;
-    typedef typename C::const_reference    const_reference;
-    typedef value_type*                    pointer;
-    typedef const value_type*              const_pointer;
+    typedef typename C::const_reference    reference;
+    typedef const value_type*              pointer;
     typedef typename C::size_type          size_type;
     typedef typename C::difference_type    difference_type;
 
@@ -2311,7 +2213,7 @@ public:
 // OPERATIONS
 
     bool operator==( CGAL_NULL_TYPE p) const {
-        CGAL_assertion( p == NULL);
+        CGAL_assertion( p == CGAL_CIRC_NULL);
         return    (_ptr == NULL)
                || (((const C*)_ptr)->begin()
                  ==((const C*)_ptr)->end());
@@ -2320,27 +2222,25 @@ public:
         return !(*this == p);
     }
     bool operator==(
-        const CGAL_Bidirectional_const_circulator_from_container
+        const Bidirectional_const_circulator_from_container
                            <C>& c) const {
         return i == c.i;
     }
-    bool operator!=(const CGAL_Bidirectional_const_circulator_from_container
+    bool operator!=(const Bidirectional_const_circulator_from_container
                            <C>& c) const {
         return !(*this == c);
     }
-    const_reference  operator*() const {
+    reference  operator*() const {
         CGAL_assertion( _ptr != NULL);
         CGAL_assertion( i != ((const C*)_ptr)->end());
         return *i;
     }
-    #ifndef CGAL_CFG_NO_ARROW_OPERATOR
-    const_pointer  operator->() const {
+    pointer  operator->() const {
         CGAL_assertion( _ptr != NULL);
         CGAL_assertion( i != ((const C*)_ptr)->end());
         return &(*i);
     }
-    #endif
-    CGAL_Bidirectional_const_circulator_from_container<C>&
+    Bidirectional_const_circulator_from_container<C>&
     operator++() {
         CGAL_assertion( _ptr != NULL);
         CGAL_assertion( i != ((const C*)_ptr)->end());
@@ -2349,14 +2249,14 @@ public:
             i = ((const C*)_ptr)->begin();
         return *this;
     }
-    CGAL_Bidirectional_const_circulator_from_container<C>
+    Bidirectional_const_circulator_from_container<C>
     operator++(int) {
-        CGAL_Bidirectional_const_circulator_from_container<C>
+        Bidirectional_const_circulator_from_container<C>
             tmp= *this;
         ++*this;
         return tmp;
     }
-    CGAL_Bidirectional_const_circulator_from_container<C>&
+    Bidirectional_const_circulator_from_container<C>&
     operator--() {
         CGAL_assertion( _ptr != NULL);
         CGAL_assertion( i != ((const C*)_ptr)->end());
@@ -2365,9 +2265,9 @@ public:
         --i;
         return *this;
     }
-    CGAL_Bidirectional_const_circulator_from_container<C>
+    Bidirectional_const_circulator_from_container<C>
     operator--(int) {
-        CGAL_Bidirectional_const_circulator_from_container<C>
+        Bidirectional_const_circulator_from_container<C>
             tmp = *this;
         --*this;
         return tmp;
@@ -2376,20 +2276,20 @@ public:
     #if defined( __GNUG__ ) && defined( CGAL__CIRC_STL_GCC )
     friend inline typename C::difference_type* distance_type(
         const
-    CGAL_Bidirectional_const_circulator_from_container<C>&) {
+    Bidirectional_const_circulator_from_container<C>&) {
         return (typename C::difference_type*)(0);
     }
     friend inline typename C::value_type* value_type(
         const
-    CGAL_Bidirectional_const_circulator_from_container<C>&) {
+    Bidirectional_const_circulator_from_container<C>&) {
         return (typename C::value_type*)(0);
     }
-    friend inline CGAL_Bidirectional_circulator_tag iterator_category(
-    CGAL_Bidirectional_const_circulator_from_container<C>) {
-        return CGAL_Bidirectional_circulator_tag();
+    friend inline Bidirectional_circulator_tag iterator_category(
+    Bidirectional_const_circulator_from_container<C>) {
+        return Bidirectional_circulator_tag();
     }
     friend inline CGAL_Circulator_tag CGAL_query_circulator_or_iterator(
-    CGAL_Bidirectional_const_circulator_from_container<C>) {
+    Bidirectional_const_circulator_from_container<C>) {
         return CGAL_Circulator_tag();
     }
     #endif
@@ -2397,8 +2297,8 @@ public:
 
 
 template < class  C>
-class CGAL_Random_access_circulator_from_container
-    : public  CGAL_Random_access_circulator_ptrbase<
+class Random_access_circulator_from_container
+    : public  Random_access_circulator_ptrbase<
             typename C::value_type, typename C::difference_type,
             typename C::size_type> {
 private:
@@ -2407,17 +2307,17 @@ public:
 //
 // CREATION
 
-    CGAL_Random_access_circulator_from_container() {}
+    Random_access_circulator_from_container() {}
 
-    CGAL_Random_access_circulator_from_container( C* c)
-        :  CGAL_Random_access_circulator_ptrbase<
+    Random_access_circulator_from_container( C* c)
+        :  Random_access_circulator_ptrbase<
                 typename C::value_type, typename C::difference_type,
                 typename C::size_type>(c),
            i(c->begin()) {}
 
-    CGAL_Random_access_circulator_from_container( C* c,
+    Random_access_circulator_from_container( C* c,
                                                  typename C::iterator _i)
-        :  CGAL_Random_access_circulator_ptrbase<
+        :  Random_access_circulator_ptrbase<
                 typename C::value_type, typename C::difference_type,
                 typename C::size_type>(c),
            i(_i) {}
@@ -2430,9 +2330,7 @@ public:
     typedef typename C::const_iterator     const_iterator;
     typedef typename C::value_type         value_type;
     typedef typename C::reference          reference;
-    typedef typename C::const_reference    const_reference;
     typedef value_type*                    pointer;
-    typedef const value_type*              const_pointer;
     typedef typename C::size_type          size_type;
     typedef typename C::difference_type    difference_type;
 
@@ -2440,18 +2338,18 @@ public:
 // OPERATIONS
 
     bool operator==( CGAL_NULL_TYPE p) const {
-        CGAL_assertion( p == NULL);
+        CGAL_assertion( p == CGAL_CIRC_NULL);
         return    (_ptr == NULL)
                || (((C*)_ptr)->begin()==((C*)_ptr)->end());
     }
     bool operator!=( CGAL_NULL_TYPE p) const {
         return !(*this == p);
     }
-    bool operator==( const CGAL_Random_access_circulator_from_container
+    bool operator==( const Random_access_circulator_from_container
                            <C>& c) const {
         return i == c.i;
     }
-    bool operator!=( const CGAL_Random_access_circulator_from_container
+    bool operator!=( const Random_access_circulator_from_container
                            <C>& c) const {
         return !(*this == c);
     }
@@ -2460,14 +2358,12 @@ public:
         CGAL_assertion( i != ((C*)_ptr)->end());
         return *i;
     }
-    #ifndef CGAL_CFG_NO_ARROW_OPERATOR
     pointer  operator->() const {
         CGAL_assertion( _ptr != NULL);
         CGAL_assertion( i != ((C*)_ptr)->end());
         return &(*i);
     }
-    #endif
-    CGAL_Random_access_circulator_from_container<C>&
+    Random_access_circulator_from_container<C>&
     operator++() {
         CGAL_assertion( _ptr != NULL);
         CGAL_assertion( i != ((C*)_ptr)->end());
@@ -2476,14 +2372,14 @@ public:
             i = ((C*)_ptr)->begin();
         return *this;
     }
-    CGAL_Random_access_circulator_from_container<C>
+    Random_access_circulator_from_container<C>
     operator++(int) {
-        CGAL_Random_access_circulator_from_container<C> tmp= *this;
+        Random_access_circulator_from_container<C> tmp= *this;
         ++*this;
         return tmp;
     }
 
-    CGAL_Random_access_circulator_from_container<C>&
+    Random_access_circulator_from_container<C>&
     operator--() {
         CGAL_assertion( _ptr != NULL);
         CGAL_assertion( i != ((C*)_ptr)->end());
@@ -2492,100 +2388,81 @@ public:
         --i;
         return *this;
     }
-    CGAL_Random_access_circulator_from_container<C>
+    Random_access_circulator_from_container<C>
     operator--(int) {
-        CGAL_Random_access_circulator_from_container<C> tmp = *this;
+        Random_access_circulator_from_container<C> tmp = *this;
         --*this;
         return tmp;
     }
 
-    #ifndef CGAL__CIRC_NO_SCOPE_MEMBER_FUNCTION_PARAMETERS
-    CGAL_Random_access_circulator_from_container<C>&
+    Random_access_circulator_from_container<C>&
     operator+=( difference_type n);
-    #else
-    CGAL_Random_access_circulator_from_container<C>&
-    operator+=( difference_type n) {
-        CGAL_assertion( _ptr != NULL);
-        CGAL_assertion( i != ((C*)_ptr)->end());
 
-        typename C::difference_type j    = i - ((C*)_ptr)->begin();
-        typename C::difference_type size = ((C*)_ptr)->size();
-        CGAL_assertion( j    >= 0);
-        CGAL_assertion( size >= 0);
-        j = CGAL_non_negative_mod( j + n, size);
-        CGAL_assertion( j >= 0);
-        CGAL_assertion( j < size);
-        i = ((C*)_ptr)->begin() + j;
-        return *this;
-    }
-    #endif // CGAL__CIRC_NO_SCOPE_MEMBER_FUNCTION_PARAMETERS //
-
-    CGAL_Random_access_circulator_from_container<C>
+    Random_access_circulator_from_container<C>
     operator+( difference_type n) const {
-        CGAL_Random_access_circulator_from_container<C> tmp = *this;
+        Random_access_circulator_from_container<C> tmp = *this;
         return tmp += n;
     }
-    CGAL_Random_access_circulator_from_container<C>&
+    Random_access_circulator_from_container<C>&
     operator-=( difference_type n) {
         return operator+=( -n);
     }
-    CGAL_Random_access_circulator_from_container<C>
+    Random_access_circulator_from_container<C>
     operator-( difference_type n) const {
-        CGAL_Random_access_circulator_from_container<C> tmp = *this;
+        Random_access_circulator_from_container<C> tmp = *this;
         return tmp += -n;
     }
     difference_type
-    operator-( const CGAL_Random_access_circulator_from_container<
+    operator-( const Random_access_circulator_from_container<
                    C>& c) const {
         CGAL_assertion( _ptr != NULL);
         CGAL_assertion( c._ptr != NULL);
         return i - c.i;
     }
     reference  operator[](difference_type n) const {
-        CGAL_Random_access_circulator_from_container<C> tmp = *this;
+        Random_access_circulator_from_container<C> tmp = *this;
         tmp += n;
         return tmp.operator*();
     }
 
     friend inline
-    CGAL_Random_access_circulator_from_container<C>
+    Random_access_circulator_from_container<C>
     operator+( difference_type n, const
-               CGAL_Random_access_circulator_from_container<C>& c) {
-        CGAL_Random_access_circulator_from_container<C> tmp = c;
+               Random_access_circulator_from_container<C>& c) {
+        Random_access_circulator_from_container<C> tmp = c;
         return tmp += n;
     }
     iterator  current_iterator() const { return i;}
 
-    CGAL_Random_access_circulator_from_container<C>
+    Random_access_circulator_from_container<C>
     min_circulator() const {
-        return CGAL_Random_access_circulator_from_container<C>((C*)_ptr);
+        return Random_access_circulator_from_container<C>((C*)_ptr);
     }
     #if defined( __GNUG__ ) && defined( CGAL__CIRC_STL_GCC )
     friend inline typename C::difference_type* distance_type(
         const
-    CGAL_Random_access_circulator_from_container<C>&) {
+    Random_access_circulator_from_container<C>&) {
         return (typename C::difference_type*)(0);
     }
     friend inline typename C::value_type* value_type(
         const
-    CGAL_Random_access_circulator_from_container<C>&) {
+    Random_access_circulator_from_container<C>&) {
         return (typename C::value_type*)(0);
     }
-    friend inline CGAL_Random_access_circulator_tag iterator_category(
-    CGAL_Random_access_circulator_from_container<C>) {
-        return CGAL_Random_access_circulator_tag();
+    friend inline Random_access_circulator_tag iterator_category(
+    Random_access_circulator_from_container<C>) {
+        return Random_access_circulator_tag();
     }
     friend inline CGAL_Circulator_tag CGAL_query_circulator_or_iterator(
-    CGAL_Random_access_circulator_from_container<C>) {
+    Random_access_circulator_from_container<C>) {
         return CGAL_Circulator_tag();
     }
     #endif
 };
 
-#ifndef CGAL__CIRC_NO_SCOPE_MEMBER_FUNCTION_PARAMETERS
 template < class C>
-CGAL_Random_access_circulator_from_container<C>&
-CGAL_Random_access_circulator_from_container<C>::
+Random_access_circulator_from_container<C>&
+Random_access_circulator_from_container<C>::
 operator+=( typename C::difference_type n) {
     CGAL_assertion( _ptr != NULL);
     CGAL_assertion( i != ((C*)_ptr)->end());
@@ -2594,18 +2471,17 @@ operator+=( typename C::difference_type n) {
     typename C::difference_type size = ((C*)_ptr)->size();
     CGAL_assertion( j    >= 0);
     CGAL_assertion( size >= 0);
-    j = CGAL_non_negative_mod( j + n, size);
+    j = non_negative_mod( j + n, size);
     CGAL_assertion( j >= 0);
     CGAL_assertion( j < size);
     i = ((C*)_ptr)->begin() + j;
     return *this;
 }
-#endif // CGAL__CIRC_NO_SCOPE_MEMBER_FUNCTION_PARAMETERS //
 
 
 template < class  C>
-class CGAL_Random_access_const_circulator_from_container
-    : public  CGAL_Random_access_circulator_ptrbase<
+class Random_access_const_circulator_from_container
+    : public  Random_access_circulator_ptrbase<
             typename C::value_type, typename C::difference_type,
             typename C::size_type> {
 private:
@@ -2614,16 +2490,16 @@ public:
 //
 // CREATION
 
-    CGAL_Random_access_const_circulator_from_container() {}
+    Random_access_const_circulator_from_container() {}
 
-    CGAL_Random_access_const_circulator_from_container( const C* c)
-        :  CGAL_Random_access_circulator_ptrbase<
+    Random_access_const_circulator_from_container( const C* c)
+        :  Random_access_circulator_ptrbase<
                 typename C::value_type, typename C::difference_type,
                 typename C::size_type>((void*)c), i(c->begin()) {}
 
-    CGAL_Random_access_const_circulator_from_container( const C* c,
+    Random_access_const_circulator_from_container( const C* c,
                                              typename C::const_iterator _i)
-        :  CGAL_Random_access_circulator_ptrbase<
+        :  Random_access_circulator_ptrbase<
                 typename C::value_type, typename C::difference_type,
                 typename C::size_type>((void*)c), i(_i) {}
 
@@ -2634,10 +2510,8 @@ public:
     typedef typename C::iterator           iterator;
     typedef typename C::const_iterator     const_iterator;
     typedef typename C::value_type         value_type;
-    typedef typename C::reference          reference;
-    typedef typename C::const_reference    const_reference;
-    typedef value_type*                    pointer;
-    typedef const value_type*              const_pointer;
+    typedef typename C::const_reference    reference;
+    typedef const value_type*              pointer;
     typedef typename C::size_type          size_type;
     typedef typename C::difference_type    difference_type;
 
@@ -2645,7 +2519,7 @@ public:
 // OPERATIONS
 
     bool operator==( CGAL_NULL_TYPE p) const {
-        CGAL_assertion( p == NULL);
+        CGAL_assertion( p == CGAL_CIRC_NULL);
         return    (_ptr == NULL)
                || (((const C*)_ptr)->begin()
                  ==((const C*)_ptr)->end());
@@ -2654,27 +2528,25 @@ public:
         return !(*this == p);
     }
     bool operator==(
-        const CGAL_Random_access_const_circulator_from_container
+        const Random_access_const_circulator_from_container
                            <C>& c) const {
         return i == c.i;
     }
-    bool operator!=(const CGAL_Random_access_const_circulator_from_container
+    bool operator!=(const Random_access_const_circulator_from_container
                            <C>& c) const {
         return !(*this == c);
     }
-    const_reference  operator*() const {
+    reference  operator*() const {
         CGAL_assertion( _ptr != NULL);
         CGAL_assertion( i != ((const C*)_ptr)->end());
         return *i;
     }
-    #ifndef CGAL_CFG_NO_ARROW_OPERATOR
-    const_pointer  operator->() const {
+    pointer  operator->() const {
         CGAL_assertion( _ptr != NULL);
         CGAL_assertion( i != ((const C*)_ptr)->end());
         return &(*i);
     }
-    #endif
-    CGAL_Random_access_const_circulator_from_container<C>&
+    Random_access_const_circulator_from_container<C>&
     operator++() {
         CGAL_assertion( _ptr != NULL);
         CGAL_assertion( i != ((const C*)_ptr)->end());
@@ -2683,15 +2555,15 @@ public:
             i = ((const C*)_ptr)->begin();
         return *this;
     }
-    CGAL_Random_access_const_circulator_from_container<C>
+    Random_access_const_circulator_from_container<C>
     operator++(int) {
-        CGAL_Random_access_const_circulator_from_container<C>
+        Random_access_const_circulator_from_container<C>
             tmp= *this;
         ++*this;
         return tmp;
     }
 
-    CGAL_Random_access_const_circulator_from_container<C>&
+    Random_access_const_circulator_from_container<C>&
     operator--() {
         CGAL_assertion( _ptr != NULL);
         CGAL_assertion( i != ((const C*)_ptr)->end());
@@ -2700,108 +2572,88 @@ public:
         --i;
         return *this;
     }
-    CGAL_Random_access_const_circulator_from_container<C>
+    Random_access_const_circulator_from_container<C>
     operator--(int) {
-        CGAL_Random_access_const_circulator_from_container<C>
+        Random_access_const_circulator_from_container<C>
             tmp = *this;
         --*this;
         return tmp;
     }
 
-    #ifndef CGAL__CIRC_NO_SCOPE_MEMBER_FUNCTION_PARAMETERS
-    CGAL_Random_access_const_circulator_from_container<C>&
+    Random_access_const_circulator_from_container<C>&
     operator+=( difference_type n);
-    #else
-    CGAL_Random_access_const_circulator_from_container<C>&
-    operator+=( difference_type n) {
-        CGAL_assertion( _ptr != NULL);
-        CGAL_assertion( i != ((const C*)_ptr)->end());
 
-        typename C::difference_type j    = i - ((const C*)_ptr)
-                                                ->begin();
-        typename C::difference_type size = ((const C*)_ptr)->size();
-        CGAL_assertion( j    >= 0);
-        CGAL_assertion( size >= 0);
-        j = CGAL_non_negative_mod( j + n, size);
-        CGAL_assertion( j >= 0);
-        CGAL_assertion( j < size);
-        i = ((const C*)_ptr)->begin() + j;
-        return *this;
-    }
-    #endif // CGAL__CIRC_NO_SCOPE_MEMBER_FUNCTION_PARAMETERS //
-
-    CGAL_Random_access_const_circulator_from_container<C>
+    Random_access_const_circulator_from_container<C>
     operator+( difference_type n) const {
-        CGAL_Random_access_const_circulator_from_container<C>
+        Random_access_const_circulator_from_container<C>
             tmp = *this;
         return tmp += n;
     }
-    CGAL_Random_access_const_circulator_from_container<C>&
+    Random_access_const_circulator_from_container<C>&
     operator-=( difference_type n) {
         return operator+=( -n);
     }
-    CGAL_Random_access_const_circulator_from_container<C>
+    Random_access_const_circulator_from_container<C>
     operator-( difference_type n) const {
-        CGAL_Random_access_const_circulator_from_container<C>
+        Random_access_const_circulator_from_container<C>
             tmp = *this;
         return tmp += -n;
     }
     difference_type
-    operator-( const CGAL_Random_access_const_circulator_from_container<
+    operator-( const Random_access_const_circulator_from_container<
                    C>& c) const {
         CGAL_assertion( _ptr != NULL);
         CGAL_assertion( c._ptr != NULL);
         return i - c.i;
     }
-    const_reference  operator[](difference_type n) const {
-        CGAL_Random_access_const_circulator_from_container<C>
+    reference  operator[](difference_type n) const {
+        Random_access_const_circulator_from_container<C>
             tmp = *this;
         tmp += n;
         return tmp.operator*();
     }
 
     friend inline
-    CGAL_Random_access_const_circulator_from_container<C>
+    Random_access_const_circulator_from_container<C>
     operator+( difference_type n, const
-               CGAL_Random_access_const_circulator_from_container<
+               Random_access_const_circulator_from_container<
                    C>& c) {
-        CGAL_Random_access_const_circulator_from_container<C>
+        Random_access_const_circulator_from_container<C>
             tmp = c;
         return tmp += n;
     }
     const_iterator  current_iterator() const { return i;}
 
-    CGAL_Random_access_const_circulator_from_container<C>
+    Random_access_const_circulator_from_container<C>
     min_circulator() const {
-        return CGAL_Random_access_const_circulator_from_container<C>
+        return Random_access_const_circulator_from_container<C>
                    ((const C*)_ptr);
     }
     #if defined( __GNUG__ ) && defined( CGAL__CIRC_STL_GCC )
     friend inline typename C::difference_type* distance_type(
         const
-    CGAL_Random_access_const_circulator_from_container<C>&) {
+    Random_access_const_circulator_from_container<C>&) {
         return (typename C::difference_type*)(0);
     }
     friend inline typename C::value_type* value_type(
         const
-    CGAL_Random_access_const_circulator_from_container<C>&) {
+    Random_access_const_circulator_from_container<C>&) {
         return (typename C::value_type*)(0);
     }
-    friend inline CGAL_Random_access_circulator_tag iterator_category(
-    CGAL_Random_access_const_circulator_from_container<C>) {
-        return CGAL_Random_access_circulator_tag();
+    friend inline Random_access_circulator_tag iterator_category(
+    Random_access_const_circulator_from_container<C>) {
+        return Random_access_circulator_tag();
     }
     friend inline CGAL_Circulator_tag CGAL_query_circulator_or_iterator(
-    CGAL_Random_access_const_circulator_from_container<C>) {
+    Random_access_const_circulator_from_container<C>) {
         return CGAL_Circulator_tag();
     }
     #endif
 };
 
-#ifndef CGAL__CIRC_NO_SCOPE_MEMBER_FUNCTION_PARAMETERS
 template < class C>
-CGAL_Random_access_const_circulator_from_container<C>&
-CGAL_Random_access_const_circulator_from_container<C>::
+Random_access_const_circulator_from_container<C>&
+Random_access_const_circulator_from_container<C>::
 operator+=( typename C::difference_type n) {
     CGAL_assertion( _ptr != NULL);
     CGAL_assertion( i != ((const C*)_ptr)->end());
@@ -2811,16 +2663,15 @@ operator+=( typename C::difference_type n) {
     typename C::difference_type size = ((const C*)_ptr)->size();
     CGAL_assertion( j    >= 0);
     CGAL_assertion( size >= 0);
-    j = CGAL_non_negative_mod( j + n, size);
+    j = non_negative_mod( j + n, size);
     CGAL_assertion( j >= 0);
     CGAL_assertion( j < size);
     i = ((const C*)_ptr)->begin() + j;
     return *this;
 }
-#endif // CGAL__CIRC_NO_SCOPE_MEMBER_FUNCTION_PARAMETERS //
 template < class I, class T, class Size, class Dist>
-class CGAL_Forward_circulator_from_iterator
-    : public CGAL_Forward_circulator_base<T,Dist,Size> {
+class Forward_circulator_from_iterator
+    : public Forward_circulator_base<T,Dist,Size> {
 private:
     I _begin;
     I _end;
@@ -2829,13 +2680,13 @@ public:
 
 // DEFINITION
 //
-// The adaptor CGAL_Forward_circulator_from_iterator< I, T,  Size, Dist>
+// The adaptor Forward_circulator_from_iterator< I, T,  Size, Dist>
 // is a class that converts two iterators, a begin and a past-the-end
 // value, to a forward circulator. The iterators are supposed to be at
 // least forward iterators. The adaptor for bidirectional circulators is
-// `CGAL_Bidirectional_circulator_from_iterator< I, T, Size, Dist>' and
+// `Bidirectional_circulator_from_iterator< I, T, Size, Dist>' and
 // for random access circulators it is
-// `CGAL_Random_access_circulator_from_iterator< I, T, Size, Dist>'.
+// `Random_access_circulator_from_iterator< I, T, Size, Dist>'.
 // Appropriate const circulators are also available.
 //
 // PARAMETERS
@@ -2851,39 +2702,37 @@ public:
     typedef I         iterator;
     typedef T         value_type;
     typedef T&        reference;
-    typedef const T&  const_reference;
     typedef T*        pointer;
-    typedef const T*  const_pointer;
     typedef Size      size_type;
     typedef Dist      difference_type;
 
-    typedef CGAL_Forward_circulator_from_iterator<I,T,Size,Dist> Self;
+    typedef Forward_circulator_from_iterator<I,T,Size,Dist> Self;
 
 // CREATION
 //
 // New creation variable is: `adaptor'
 
-    CGAL_Forward_circulator_from_iterator()
+    Forward_circulator_from_iterator()
         : _begin(I()), _end(I()), current(I()) {}
         // a circulator `adaptor' with a singular value.
 
-    CGAL_Forward_circulator_from_iterator( const I& begin, const I& end)
+    Forward_circulator_from_iterator( const I& begin, const I& end)
         : _begin( begin), _end( end), current( begin) {}
         // a circulator `adaptor' initialized to refer to the element
         // `*begin' in a range [`begin' ,`end' ). The circulator `adaptor'
         // contains a singular value if `begin==end'.
 
-    CGAL_Forward_circulator_from_iterator( const I& begin, const I& end,
+    Forward_circulator_from_iterator( const I& begin, const I& end,
                                           const I& cur)
         : _begin( begin), _end( end), current( cur) {}
 
-    CGAL_Forward_circulator_from_iterator( const Self& c, const I& cur)
+    Forward_circulator_from_iterator( const Self& c, const I& cur)
         : _begin( c._begin), _end( c._end), current( cur) {}
 //
 // OPERATIONS
 
     bool operator==( CGAL_NULL_TYPE p) const {
-        CGAL_assertion( p == NULL);
+        CGAL_assertion( p == CGAL_CIRC_NULL);
         CGAL_assertion((_end == _begin) || (current != _end));
         return _end == _begin;
     }
@@ -2901,12 +2750,10 @@ public:
         CGAL_assertion( current != _end);
         return *current;
     }
-    #ifndef CGAL_CFG_NO_ARROW_OPERATOR
     pointer  operator->() const {
         CGAL_assertion( current != _end);
         return &(*current);
     }
-    #endif
     Self&  operator++() {
         CGAL_assertion( current != _end);
         ++current;
@@ -2923,20 +2770,20 @@ public:
     #if defined( __GNUG__ ) && defined( CGAL__CIRC_STL_GCC )
     friend inline  Dist* distance_type(
         const
-    CGAL_Forward_circulator_from_iterator<I, T, Size, Dist>&) {
+    Forward_circulator_from_iterator<I, T, Size, Dist>&) {
         return ( Dist*)(0);
     }
     friend inline T* value_type(
         const
-    CGAL_Forward_circulator_from_iterator<I, T, Size, Dist>&) {
+    Forward_circulator_from_iterator<I, T, Size, Dist>&) {
         return (T*)(0);
     }
-    friend inline CGAL_Forward_circulator_tag iterator_category(
-    CGAL_Forward_circulator_from_iterator<I, T, Size, Dist>) {
-        return CGAL_Forward_circulator_tag();
+    friend inline Forward_circulator_tag iterator_category(
+    Forward_circulator_from_iterator<I, T, Size, Dist>) {
+        return Forward_circulator_tag();
     }
     friend inline CGAL_Circulator_tag CGAL_query_circulator_or_iterator(
-    CGAL_Forward_circulator_from_iterator<I, T, Size, Dist>) {
+    Forward_circulator_from_iterator<I, T, Size, Dist>) {
         return CGAL_Circulator_tag();
     }
     #endif
@@ -2944,8 +2791,8 @@ public:
 
 
 template < class  I, class  T, class   Size, class  Dist >
-class CGAL_Forward_const_circulator_from_iterator
-    : public CGAL_Forward_circulator_base<T,Dist,Size> {
+class Forward_const_circulator_from_iterator
+    : public Forward_circulator_base<T,Dist,Size> {
 private:
     I _begin;
     I _end;
@@ -2956,31 +2803,29 @@ public:
 
     typedef I         iterator;
     typedef T         value_type;
-    typedef T&        reference;
-    typedef const T&  const_reference;
-    typedef T*        pointer;
-    typedef const T*  const_pointer;
+    typedef const T&  reference;
+    typedef const T*  pointer;
     typedef Size      size_type;
     typedef Dist      difference_type;
 
-    typedef CGAL_Forward_const_circulator_from_iterator<I,T,Size,Dist> Self;
+    typedef Forward_const_circulator_from_iterator<I,T,Size,Dist> Self;
 
 //
 // CREATION
 
-    CGAL_Forward_const_circulator_from_iterator()
+    Forward_const_circulator_from_iterator()
         : _begin(I()), _end(I()), current(I()) {}
 
-    CGAL_Forward_const_circulator_from_iterator( const I& begin,
+    Forward_const_circulator_from_iterator( const I& begin,
                                                 const I& end)
         : _begin( begin), _end( end), current( begin) {}
 
-    CGAL_Forward_const_circulator_from_iterator( const I& begin,
+    Forward_const_circulator_from_iterator( const I& begin,
                                                 const I& end,
                                                 const I& cur)
         : _begin( begin), _end( end), current( cur) {}
 
-    CGAL_Forward_const_circulator_from_iterator( const Self& c,
+    Forward_const_circulator_from_iterator( const Self& c,
                                                 const I& cur)
         : _begin( c._begin), _end( c._end), current( cur) {}
 
@@ -2988,110 +2833,7 @@ public:
 // OPERATIONS
 
     bool operator==( CGAL_NULL_TYPE p) const {
-        CGAL_assertion( p == NULL);
-        CGAL_assertion((_end == _begin) || (current != _end));
-        return _end == _begin;
-    }
-    bool operator!=( CGAL_NULL_TYPE p) const {
-        return !(*this == p);
-    }
-    bool operator==( const Self& c) const {
-        // CGAL_assertion((_begin == c._begin) && (_end == c._end));
-        return current == c.current;
-    }
-    bool operator!=( const Self& c) const {
-        return !(*this == c);
-    }
-    const_reference  operator*() const {
-        CGAL_assertion( current != _end);
-        return *current;
-    }
-    #ifndef CGAL_CFG_NO_ARROW_OPERATOR
-    const_pointer  operator->() const {
-        CGAL_assertion( current != _end);
-        return &(*current);
-    }
-    #endif
-    Self& operator++() {
-        CGAL_assertion( current != _end);
-        ++current;
-        if ( current == _end)
-            current = _begin;
-        return *this;
-    }
-    Self  operator++(int) {
-        Self tmp= *this;
-        ++*this;
-        return tmp;
-    }
-    iterator  current_iterator() const { return current;}
-    #if defined( __GNUG__ ) && defined( CGAL__CIRC_STL_GCC )
-    friend inline  Dist* distance_type(
-        const
-    CGAL_Forward_const_circulator_from_iterator<I, T, Size, Dist>&) {
-        return ( Dist*)(0);
-    }
-    friend inline T* value_type(
-        const
-    CGAL_Forward_const_circulator_from_iterator<I, T, Size, Dist>&) {
-        return (T*)(0);
-    }
-    friend inline CGAL_Forward_circulator_tag iterator_category(
-    CGAL_Forward_const_circulator_from_iterator<I, T, Size, Dist>) {
-        return CGAL_Forward_circulator_tag();
-    }
-    friend inline CGAL_Circulator_tag CGAL_query_circulator_or_iterator(
-    CGAL_Forward_const_circulator_from_iterator<I, T, Size, Dist>) {
-        return CGAL_Circulator_tag();
-    }
-    #endif
-};
-
-
-template < class  I, class  T, class   Size, class  Dist >
-class CGAL_Bidirectional_circulator_from_iterator
-    : public CGAL_Bidirectional_circulator_base<T,Dist,Size> {
-private:
-    I _begin;
-    I _end;
-    I current;
-public:
-//
-// TYPES
-
-    typedef I         iterator;
-    typedef T         value_type;
-    typedef T&        reference;
-    typedef const T&  const_reference;
-    typedef T*        pointer;
-    typedef const T*  const_pointer;
-    typedef Size      size_type;
-    typedef Dist      difference_type;
-
-    typedef CGAL_Bidirectional_circulator_from_iterator<I,T,Size,Dist> Self;
-//
-// CREATION
-
-    CGAL_Bidirectional_circulator_from_iterator()
-        : _begin(I()), _end(I()), current(I()) {}
-
-    CGAL_Bidirectional_circulator_from_iterator( const I& begin,
-                                                const I& end)
-        : _begin( begin), _end( end), current( begin) {}
-
-    CGAL_Bidirectional_circulator_from_iterator( const I& begin,
-                                                const I& end,
-                                                const I& cur)
-        : _begin( begin), _end( end), current( cur) {}
-
-    CGAL_Bidirectional_circulator_from_iterator( const Self& c,
-                                                const I& cur)
-        : _begin( c._begin), _end( c._end), current( cur) {}
-//
-// OPERATIONS
-
-    bool operator==( CGAL_NULL_TYPE p) const {
-        CGAL_assertion( p == NULL);
+        CGAL_assertion( p == CGAL_CIRC_NULL);
         CGAL_assertion((_end == _begin) || (current != _end));
         return _end == _begin;
     }
@@ -3109,12 +2851,109 @@ public:
         CGAL_assertion( current != _end);
         return *current;
     }
-    #ifndef CGAL_CFG_NO_ARROW_OPERATOR
     pointer  operator->() const {
         CGAL_assertion( current != _end);
         return &(*current);
     }
+    Self& operator++() {
+        CGAL_assertion( current != _end);
+        ++current;
+        if ( current == _end)
+            current = _begin;
+        return *this;
+    }
+    Self  operator++(int) {
+        Self tmp= *this;
+        ++*this;
+        return tmp;
+    }
+    iterator  current_iterator() const { return current;}
+    #if defined( __GNUG__ ) && defined( CGAL__CIRC_STL_GCC )
+    friend inline  Dist* distance_type(
+        const
+    Forward_const_circulator_from_iterator<I, T, Size, Dist>&) {
+        return ( Dist*)(0);
+    }
+    friend inline T* value_type(
+        const
+    Forward_const_circulator_from_iterator<I, T, Size, Dist>&) {
+        return (T*)(0);
+    }
+    friend inline Forward_circulator_tag iterator_category(
+    Forward_const_circulator_from_iterator<I, T, Size, Dist>) {
+        return Forward_circulator_tag();
+    }
+    friend inline CGAL_Circulator_tag CGAL_query_circulator_or_iterator(
+    Forward_const_circulator_from_iterator<I, T, Size, Dist>) {
+        return CGAL_Circulator_tag();
+    }
     #endif
+};
+
+
+template < class  I, class  T, class   Size, class  Dist >
+class Bidirectional_circulator_from_iterator
+    : public Bidirectional_circulator_base<T,Dist,Size> {
+private:
+    I _begin;
+    I _end;
+    I current;
+public:
+//
+// TYPES
+
+    typedef I         iterator;
+    typedef T         value_type;
+    typedef T&        reference;
+    typedef T*        pointer;
+    typedef Size      size_type;
+    typedef Dist      difference_type;
+
+    typedef Bidirectional_circulator_from_iterator<I,T,Size,Dist> Self;
+//
+// CREATION
+
+    Bidirectional_circulator_from_iterator()
+        : _begin(I()), _end(I()), current(I()) {}
+
+    Bidirectional_circulator_from_iterator( const I& begin,
+                                                const I& end)
+        : _begin( begin), _end( end), current( begin) {}
+
+    Bidirectional_circulator_from_iterator( const I& begin,
+                                                const I& end,
+                                                const I& cur)
+        : _begin( begin), _end( end), current( cur) {}
+
+    Bidirectional_circulator_from_iterator( const Self& c,
+                                                const I& cur)
+        : _begin( c._begin), _end( c._end), current( cur) {}
+//
+// OPERATIONS
+
+    bool operator==( CGAL_NULL_TYPE p) const {
+        CGAL_assertion( p == CGAL_CIRC_NULL);
+        CGAL_assertion((_end == _begin) || (current != _end));
+        return _end == _begin;
+    }
+    bool operator!=( CGAL_NULL_TYPE p) const {
+        return !(*this == p);
+    }
+    bool operator==( const Self& c) const {
+        // CGAL_assertion((_begin == c._begin) && (_end == c._end));
+        return current == c.current;
+    }
+    bool operator!=( const Self& c) const {
+        return !(*this == c);
+    }
+    reference  operator*() const {
+        CGAL_assertion( current != _end);
+        return *current;
+    }
+    pointer  operator->() const {
+        CGAL_assertion( current != _end);
+        return &(*current);
+    }
     Self& operator++() {
         CGAL_assertion( current != _end);
         ++current;
@@ -3143,28 +2982,28 @@ public:
     #if defined( __GNUG__ ) && defined( CGAL__CIRC_STL_GCC )
     friend inline  Dist* distance_type(
         const
-    CGAL_Bidirectional_circulator_from_iterator<I, T, Size, Dist>&) {
+    Bidirectional_circulator_from_iterator<I, T, Size, Dist>&) {
         return ( Dist*)(0);
     }
     friend inline T* value_type(
         const
-    CGAL_Bidirectional_circulator_from_iterator<I, T, Size, Dist>&) {
+    Bidirectional_circulator_from_iterator<I, T, Size, Dist>&) {
         return (T*)(0);
     }
-    friend inline CGAL_Bidirectional_circulator_tag iterator_category(
-    CGAL_Bidirectional_circulator_from_iterator<I, T, Size, Dist>) {
-        return CGAL_Bidirectional_circulator_tag();
+    friend inline Bidirectional_circulator_tag iterator_category(
+    Bidirectional_circulator_from_iterator<I, T, Size, Dist>) {
+        return Bidirectional_circulator_tag();
     }
     friend inline CGAL_Circulator_tag CGAL_query_circulator_or_iterator(
-    CGAL_Bidirectional_circulator_from_iterator<I, T, Size, Dist>) {
+    Bidirectional_circulator_from_iterator<I, T, Size, Dist>) {
         return CGAL_Circulator_tag();
     }
     #endif
 };
 
 template < class  I, class  T, class   Size, class  Dist >
-class CGAL_Bidirectional_const_circulator_from_iterator
-    : public CGAL_Bidirectional_circulator_base<T,Dist,Size> {
+class Bidirectional_const_circulator_from_iterator
+    : public Bidirectional_circulator_base<T,Dist,Size> {
 private:
     I _begin;
     I _end;
@@ -3175,38 +3014,36 @@ public:
 
     typedef I         iterator;
     typedef T         value_type;
-    typedef T&        reference;
-    typedef const T&  const_reference;
-    typedef T*        pointer;
-    typedef const T*  const_pointer;
+    typedef const T&  reference;
+    typedef const T*  pointer;
     typedef Size      size_type;
     typedef Dist      difference_type;
 
-    typedef CGAL_Bidirectional_const_circulator_from_iterator<I,T,Size,Dist>
+    typedef Bidirectional_const_circulator_from_iterator<I,T,Size,Dist>
             Self;
 //
 // CREATION
 
-    CGAL_Bidirectional_const_circulator_from_iterator()
+    Bidirectional_const_circulator_from_iterator()
         : _begin(I()), _end(I()), current(I()) {}
 
-    CGAL_Bidirectional_const_circulator_from_iterator( const I& begin,
+    Bidirectional_const_circulator_from_iterator( const I& begin,
                                                       const I& end)
         : _begin( begin), _end( end), current( begin) {}
 
-    CGAL_Bidirectional_const_circulator_from_iterator( const I& begin,
+    Bidirectional_const_circulator_from_iterator( const I& begin,
                                                       const I& end,
                                                       const I& cur)
         : _begin( begin), _end( end), current( cur) {}
 
-    CGAL_Bidirectional_const_circulator_from_iterator( const Self& c,
+    Bidirectional_const_circulator_from_iterator( const Self& c,
                                                       const I& cur)
         : _begin( c._begin), _end( c._end), current( cur) {}
 //
 // OPERATIONS
 
     bool operator==( CGAL_NULL_TYPE p) const {
-        CGAL_assertion( p == NULL);
+        CGAL_assertion( p == CGAL_CIRC_NULL);
         CGAL_assertion((_end == _begin) || (current != _end));
         return _end == _begin;
     }
@@ -3220,16 +3057,14 @@ public:
     bool operator!=( const Self& c) const {
         return !(*this == c);
     }
-    const_reference  operator*() const {
+    reference  operator*() const {
         CGAL_assertion( current != _end);
         return *current;
     }
-    #ifndef CGAL_CFG_NO_ARROW_OPERATOR
-    const_pointer  operator->() const {
+    pointer  operator->() const {
         CGAL_assertion( current != _end);
         return &(*current);
     }
-    #endif
     Self& operator++() {
         CGAL_assertion( current != _end);
         ++current;
@@ -3258,28 +3093,28 @@ public:
     #if defined( __GNUG__ ) && defined( CGAL__CIRC_STL_GCC )
     friend inline  Dist* distance_type(
         const
-    CGAL_Bidirectional_const_circulator_from_iterator<I, T, Size, Dist>&) {
+    Bidirectional_const_circulator_from_iterator<I, T, Size, Dist>&) {
         return ( Dist*)(0);
     }
     friend inline T* value_type(
         const
-    CGAL_Bidirectional_const_circulator_from_iterator<I, T, Size, Dist>&) {
+    Bidirectional_const_circulator_from_iterator<I, T, Size, Dist>&) {
         return (T*)(0);
     }
-    friend inline CGAL_Bidirectional_circulator_tag iterator_category(
-    CGAL_Bidirectional_const_circulator_from_iterator<I, T, Size, Dist>) {
-        return CGAL_Bidirectional_circulator_tag();
+    friend inline Bidirectional_circulator_tag iterator_category(
+    Bidirectional_const_circulator_from_iterator<I, T, Size, Dist>) {
+        return Bidirectional_circulator_tag();
     }
     friend inline CGAL_Circulator_tag CGAL_query_circulator_or_iterator(
-    CGAL_Bidirectional_const_circulator_from_iterator<I, T, Size, Dist>) {
+    Bidirectional_const_circulator_from_iterator<I, T, Size, Dist>) {
         return CGAL_Circulator_tag();
     }
     #endif
 };
 
 template < class  I, class  T, class   Size, class  Dist >
-class CGAL_Random_access_circulator_from_iterator
-    : public CGAL_Random_access_circulator_base<T,Dist,Size> {
+class Random_access_circulator_from_iterator
+    : public Random_access_circulator_base<T,Dist,Size> {
 private:
     I _begin;
     I _end;
@@ -3291,29 +3126,27 @@ public:
     typedef I         iterator;
     typedef T         value_type;
     typedef T&        reference;
-    typedef const T&  const_reference;
     typedef T*        pointer;
-    typedef const T*  const_pointer;
     typedef Size      size_type;
     typedef Dist      difference_type;
 
-    typedef CGAL_Random_access_circulator_from_iterator<I,T,Size,Dist> Self;
+    typedef Random_access_circulator_from_iterator<I,T,Size,Dist> Self;
 //
 // CREATION
 
-    CGAL_Random_access_circulator_from_iterator()
+    Random_access_circulator_from_iterator()
         : _begin(I()), _end(I()), current(I()) {}
 
-    CGAL_Random_access_circulator_from_iterator( const I& begin,
+    Random_access_circulator_from_iterator( const I& begin,
                                                 const I& end)
         : _begin( begin), _end( end), current( begin) {}
 
-    CGAL_Random_access_circulator_from_iterator( const I& begin,
+    Random_access_circulator_from_iterator( const I& begin,
                                                 const I& end,
                                                 const I& cur)
         : _begin( begin), _end( end), current( cur) {}
 
-    CGAL_Random_access_circulator_from_iterator( const Self& c,
+    Random_access_circulator_from_iterator( const Self& c,
                                                 const I& cur)
         : _begin( c._begin), _end( c._end), current( cur) {}
 
@@ -3321,7 +3154,7 @@ public:
 // OPERATIONS
 
     bool operator==( CGAL_NULL_TYPE p) const {
-        CGAL_assertion( p == NULL);
+        CGAL_assertion( p == CGAL_CIRC_NULL);
         CGAL_assertion((_end == _begin) || (current != _end));
         return _end == _begin;
     }
@@ -3339,12 +3172,10 @@ public:
         CGAL_assertion( current != _end);
         return *current;
     }
-    #ifndef CGAL_CFG_NO_ARROW_OPERATOR
     pointer  operator->() const {
         CGAL_assertion( current != _end);
         return &(*current);
     }
-    #endif
     Self& operator++() {
         CGAL_assertion( current != _end);
         ++current;
@@ -3399,37 +3230,37 @@ public:
     #if defined( __GNUG__ ) && defined( CGAL__CIRC_STL_GCC )
     friend inline  Dist* distance_type(
         const
-    CGAL_Random_access_circulator_from_iterator<I, T, Size, Dist>&) {
+    Random_access_circulator_from_iterator<I, T, Size, Dist>&) {
         return ( Dist*)(0);
     }
     friend inline T* value_type(
         const
-    CGAL_Random_access_circulator_from_iterator<I, T, Size, Dist>&) {
+    Random_access_circulator_from_iterator<I, T, Size, Dist>&) {
         return (T*)(0);
     }
-    friend inline CGAL_Random_access_circulator_tag iterator_category(
-    CGAL_Random_access_circulator_from_iterator<I, T, Size, Dist>) {
-        return CGAL_Random_access_circulator_tag();
+    friend inline Random_access_circulator_tag iterator_category(
+    Random_access_circulator_from_iterator<I, T, Size, Dist>) {
+        return Random_access_circulator_tag();
     }
     friend inline CGAL_Circulator_tag CGAL_query_circulator_or_iterator(
-    CGAL_Random_access_circulator_from_iterator<I, T, Size, Dist>) {
+    Random_access_circulator_from_iterator<I, T, Size, Dist>) {
         return CGAL_Circulator_tag();
     }
     #endif
 };
 
 template < class D, class I, class  T, class Size, class Dist> inline
-CGAL_Random_access_circulator_from_iterator< I, T, Size, Dist>
+Random_access_circulator_from_iterator< I, T, Size, Dist>
 operator+( D n, const
-    CGAL_Random_access_circulator_from_iterator< I, T, Size, Dist>& circ) {
-    CGAL_Random_access_circulator_from_iterator< I, T, Size, Dist>
+    Random_access_circulator_from_iterator< I, T, Size, Dist>& circ) {
+    Random_access_circulator_from_iterator< I, T, Size, Dist>
         tmp = circ;
     return tmp += Dist(n);
 }
 
 template < class I, class  T, class Size, class Dist>
-CGAL_Random_access_circulator_from_iterator< I, T, Size, Dist>&
-CGAL_Random_access_circulator_from_iterator< I, T, Size, Dist>::
+Random_access_circulator_from_iterator< I, T, Size, Dist>&
+Random_access_circulator_from_iterator< I, T, Size, Dist>::
 operator+=( Dist n) {
     CGAL_assertion( current != _end);
 
@@ -3437,7 +3268,7 @@ operator+=( Dist n) {
     Dist size = _end    - _begin;
     CGAL_assertion( i    >= 0);
     CGAL_assertion( size >= 0);
-    i = CGAL_non_negative_mod( i + n, size);
+    i = non_negative_mod( i + n, size);
     CGAL_assertion( i >= 0);
     CGAL_assertion( i < size);
     current = _begin + i;
@@ -3446,8 +3277,8 @@ operator+=( Dist n) {
 
 
 template < class  I, class  T, class   Size, class  Dist >
-class CGAL_Random_access_const_circulator_from_iterator
-    : public CGAL_Random_access_circulator_base<T,Dist,Size> {
+class Random_access_const_circulator_from_iterator
+    : public Random_access_circulator_base<T,Dist,Size> {
 private:
     I _begin;
     I _end;
@@ -3458,31 +3289,29 @@ public:
 
     typedef I         iterator;
     typedef T         value_type;
-    typedef T&        reference;
-    typedef const T&  const_reference;
-    typedef T*        pointer;
-    typedef const T*  const_pointer;
+    typedef const T&  reference;
+    typedef const T*  pointer;
     typedef Size      size_type;
     typedef Dist      difference_type;
 
-    typedef CGAL_Random_access_const_circulator_from_iterator<I,T,Size,Dist>
+    typedef Random_access_const_circulator_from_iterator<I,T,Size,Dist>
             Self;
 //
 // CREATION
 
-    CGAL_Random_access_const_circulator_from_iterator()
+    Random_access_const_circulator_from_iterator()
         : _begin(I()), _end(I()), current(I()) {}
 
-    CGAL_Random_access_const_circulator_from_iterator( const I& begin,
+    Random_access_const_circulator_from_iterator( const I& begin,
                                                       const I& end)
         : _begin( begin), _end( end), current( begin) {}
 
-    CGAL_Random_access_const_circulator_from_iterator( const I& begin,
+    Random_access_const_circulator_from_iterator( const I& begin,
                                                       const I& end,
                                                       const I& cur)
         : _begin( begin), _end( end), current( cur) {}
 
-    CGAL_Random_access_const_circulator_from_iterator( const Self& c,
+    Random_access_const_circulator_from_iterator( const Self& c,
                                                       const I& cur)
         : _begin( c._begin), _end( c._end), current( cur) {}
 
@@ -3490,7 +3319,7 @@ public:
 // OPERATIONS
 
     bool operator==( CGAL_NULL_TYPE p) const {
-        CGAL_assertion( p == NULL);
+        CGAL_assertion( p == CGAL_CIRC_NULL);
         CGAL_assertion((_end == _begin) || (current != _end));
         return _end == _begin;
     }
@@ -3504,16 +3333,14 @@ public:
     bool operator!=( const Self& c) const {
         return !(*this == c);
     }
-    const_reference  operator*() const {
+    reference  operator*() const {
         CGAL_assertion( current != _end);
         return *current;
     }
-    #ifndef CGAL_CFG_NO_ARROW_OPERATOR
-    const_pointer  operator->() const {
+    pointer  operator->() const {
         CGAL_assertion( current != _end);
         return &(*current);
     }
-    #endif
     Self& operator++() {
         CGAL_assertion( current != _end);
         ++current;
@@ -3557,7 +3384,7 @@ public:
         CGAL_assertion((_begin == i._begin) && (_end == i._end));
         return current - i.current;
     }
-    const_reference  operator[](Dist n) const {
+    reference  operator[](Dist n) const {
         Self tmp = *this;
         tmp += n;
         return tmp.operator*();
@@ -3570,38 +3397,38 @@ public:
     #if defined( __GNUG__ ) && defined( CGAL__CIRC_STL_GCC )
     friend inline  Dist* distance_type(
         const
-    CGAL_Random_access_const_circulator_from_iterator<I, T, Size, Dist>&) {
+    Random_access_const_circulator_from_iterator<I, T, Size, Dist>&) {
         return ( Dist*)(0);
     }
     friend inline T* value_type(
         const
-    CGAL_Random_access_const_circulator_from_iterator<I, T, Size, Dist>&) {
+    Random_access_const_circulator_from_iterator<I, T, Size, Dist>&) {
         return (T*)(0);
     }
-    friend inline CGAL_Random_access_circulator_tag iterator_category(
-    CGAL_Random_access_const_circulator_from_iterator<I, T, Size, Dist>) {
-        return CGAL_Random_access_circulator_tag();
+    friend inline Random_access_circulator_tag iterator_category(
+    Random_access_const_circulator_from_iterator<I, T, Size, Dist>) {
+        return Random_access_circulator_tag();
     }
     friend inline CGAL_Circulator_tag CGAL_query_circulator_or_iterator(
-    CGAL_Random_access_const_circulator_from_iterator<I, T, Size, Dist>) {
+    Random_access_const_circulator_from_iterator<I, T, Size, Dist>) {
         return CGAL_Circulator_tag();
     }
     #endif
 };
 
 template < class D, class I, class  T, class Size, class Dist> inline
-CGAL_Random_access_const_circulator_from_iterator< I, T, Size, Dist>
+Random_access_const_circulator_from_iterator< I, T, Size, Dist>
 operator+( D n, const
-    CGAL_Random_access_const_circulator_from_iterator< I, T, Size, Dist>&
+    Random_access_const_circulator_from_iterator< I, T, Size, Dist>&
     circ) {
-    CGAL_Random_access_const_circulator_from_iterator< I, T, Size, Dist>
+    Random_access_const_circulator_from_iterator< I, T, Size, Dist>
         tmp = circ;
     return tmp += Dist(n);
 }
 
 template < class I, class  T, class Size, class Dist>
-CGAL_Random_access_const_circulator_from_iterator< I, T, Size, Dist>&
-CGAL_Random_access_const_circulator_from_iterator< I, T, Size, Dist>::
+Random_access_const_circulator_from_iterator< I, T, Size, Dist>&
+Random_access_const_circulator_from_iterator< I, T, Size, Dist>::
 operator+=( Dist n) {
     CGAL_assertion( current != _end);
 
@@ -3609,12 +3436,14 @@ operator+=( Dist n) {
     Dist size = _end    - _begin;
     CGAL_assertion( i    >= 0);
     CGAL_assertion( size >= 0);
-    i = CGAL_non_negative_mod( i + n, size);
+    i = non_negative_mod( i + n, size);
     CGAL_assertion( i >= 0);
     CGAL_assertion( i < size);
     current = _begin + i;
     return *this;
 }
+
+CGAL_END_NAMESPACE
 
 #endif // CGAL_CIRCULATOR_H //
 // EOF //

@@ -1,6 +1,6 @@
 // ======================================================================
 //
-// Copyright (c) 1998 The CGAL Consortium
+// Copyright (c) 1999 The GALIA Consortium
 //
 // This software and related documentation is part of the
 // Computational Geometry Algorithms Library (CGAL).
@@ -16,35 +16,34 @@
 // - Development licenses grant access to the source code of the library 
 //   to develop programs. These programs may be sold to other parties as 
 //   executable code. To obtain a development license, please contact
-//   the CGAL Consortium (at cgal@cs.uu.nl).
+//   the GALIA Consortium (at cgal@cs.uu.nl).
 // - Commercialization licenses grant access to the source code and the
 //   right to sell development licenses. To obtain a commercialization 
-//   license, please contact the CGAL Consortium (at cgal@cs.uu.nl).
+//   license, please contact the GALIA Consortium (at cgal@cs.uu.nl).
 //
 // This software and documentation is provided "as-is" and without
 // warranty of any kind. In no event shall the CGAL Consortium be
 // liable for any damage of any kind.
 //
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// The GALIA Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany) Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+// (Germany), Max-Planck-Institute Saarbrucken (Germany),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 // 
-// release       : CGAL-1.2
-// release_date  : 1999, January 18
+// release       : CGAL-2.0
+// release_date  : 1999, June 03
 // 
 // source        : Bigfloat.fw
 // file          : include/CGAL/leda_bigfloat.h
-// package       : Number_types (1.6)
-// revision      : 1.6
-// revision_date : 13 Jan 1999 
+// package       : Number_types (2.1.5)
+// revision      : 2.1.5
+// revision_date : 09 May 1999 
 // author(s)     : Stefan Schirra
 //
 // coordinator   : MPI, Saarbruecken
-//
 // email         : cgal@cs.uu.nl
 //
 // ======================================================================
@@ -53,9 +52,9 @@
 #ifndef CGAL_BIGFLOAT_H
 #define CGAL_BIGFLOAT_H
 
-#ifndef CGAL_IO_IO_TAGS_H
+#ifndef IO_IO_TAGS_H
 #include <CGAL/IO/io_tags.h>
-#endif // CGAL_IO_IO_TAGS_H
+#endif // IO_IO_TAGS_H
 #ifndef CGAL_NUMBER_TYPE_TAGS_H
 #include <CGAL/number_type_tags.h>
 #endif // CGAL_NUMBER_TYPE_TAGS_H
@@ -65,30 +64,38 @@
 #define CGAL_PROTECT_LEDA_BIGFLOAT_H
 #endif // CGAL_PROTECT_LEDA_BIGFLOAT_H
 
+CGAL_BEGIN_NAMESPACE
+
+
+#ifndef CGAL_CFG_NO_NAMESPACE
 inline
 double
-CGAL_to_double(const leda_bigfloat & b)
+to_double(const leda_bigfloat & b)
 { return to_double(b); }
+#endif // CGAL_CFG_NO_NAMESPACE
 
 inline
-CGAL_Number_tag
-CGAL_number_type_tag(const leda_bigfloat& )
-{ return CGAL_Number_tag(); }
+Number_tag
+number_type_tag(const leda_bigfloat& )
+{ return Number_tag(); }
 
 inline
 bool
-CGAL_is_finite(const leda_bigfloat & b)
+is_finite(const leda_bigfloat & b)
 { return !( isInf(b) || isNaN(b) ); }
 
 inline
 bool
-CGAL_is_valid(const leda_bigfloat & b)
+is_valid(const leda_bigfloat & b)
 { return !( isNaN(b) ); }
 
 inline
-CGAL_io_Operator
-CGAL_io_tag(const leda_bigfloat &)
-{ return CGAL_io_Operator(); }
+io_Operator
+io_tag(const leda_bigfloat &)
+{ return io_Operator(); }
+
+CGAL_END_NAMESPACE
+
 
 #ifdef CGAL_INTERVAL_ARITHMETIC_H
 #include <CGAL/Interval_arithmetic/IA_leda_bigfloat.h>

@@ -3,7 +3,7 @@
 #include <fstream.h>
 #include <assert.h>
 
-typedef Polygon_2::Vertex_circulator Vertex_circulator;
+typedef Polygon::Vertex_circulator Vertex_circulator;
 
 /* centroid
    Compute the centroid of a simple polygon with formula
@@ -18,7 +18,7 @@ typedef Polygon_2::Vertex_circulator Vertex_circulator;
 
    Precondition: polygon has at least three vertices
 */
-Point_2 centroid (Polygon_2 &polyg)
+Point centroid (Polygon &polyg)
 {
   // check if the polygon has at least three vertices
   assert (polyg.size() >= 3);
@@ -28,31 +28,31 @@ Point_2 centroid (Polygon_2 &polyg)
   Vertex_circulator next = cur;
   ++next;
 
-  Vector_2 centre(0,0);
+  Vector centre(0,0);
   double a=0.0, atot=0.0;
   do {
     a = ((*cur).x()) * ((*next).y()) - ((*next).x()) * ((*cur).y());
     atot = atot + a;
-    centre = centre + ((*cur - CGAL_ORIGIN) + (*next - CGAL_ORIGIN)) * a;
+    centre = centre + ((*cur - CGAL::ORIGIN) + (*next - CGAL::ORIGIN)) * a;
     cur = next;
     ++next;
   } while (cur != start);
   atot = 3*atot;
   centre = centre/atot;
-  return CGAL_ORIGIN + centre;
+  return CGAL::ORIGIN + centre;
 }
 
 
-void main()
+main()
 {
-  Polygon_2 polygon;
+  Polygon polygon;
 
   ifstream from("polygon.dat");
-  CGAL_set_ascii_mode(from);
+  CGAL::set_ascii_mode(from);
   from >> polygon;
 
-  Point_2 centre = centroid(polygon);
+  Point centre = centroid(polygon);
   cout << "The centroid " << centre << " lies ";
-  if (polygon.bounded_side(centre) != CGAL_ON_BOUNDED_SIDE) cout << "not ";
+  if (polygon.bounded_side(centre) != CGAL::ON_BOUNDED_SIDE) cout << "not ";
   cout << "inside the polygon." << endl;
 }

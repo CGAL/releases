@@ -1,6 +1,6 @@
 // ======================================================================
 //
-// Copyright (c) 1997 The CGAL Consortium
+// Copyright (c) 1999 The GALIA Consortium
 //
 // This software and related documentation is part of the
 // Computational Geometry Algorithms Library (CGAL).
@@ -16,35 +16,34 @@
 // - Development licenses grant access to the source code of the library 
 //   to develop programs. These programs may be sold to other parties as 
 //   executable code. To obtain a development license, please contact
-//   the CGAL Consortium (at cgal@cs.uu.nl).
+//   the GALIA Consortium (at cgal@cs.uu.nl).
 // - Commercialization licenses grant access to the source code and the
 //   right to sell development licenses. To obtain a commercialization 
-//   license, please contact the CGAL Consortium (at cgal@cs.uu.nl).
+//   license, please contact the GALIA Consortium (at cgal@cs.uu.nl).
 //
 // This software and documentation is provided "as-is" and without
 // warranty of any kind. In no event shall the CGAL Consortium be
 // liable for any damage of any kind.
 //
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// The GALIA Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany) Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+// (Germany), Max-Planck-Institute Saarbrucken (Germany),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-1.2
-// release_date  : 1999, January 18
+// release       : CGAL-2.0
+// release_date  : 1999, June 03
 //
 // file          : include/CGAL/Triangulation_euclidean_traits_xz_3.h
-// package       : Triangulation (2.10)
-// source        : $Source: /u/alcor/0/prisme_util/CGAL/Local/cvsroot/Triangulation/include/CGAL/Triangulation_euclidean_traits_xz_3.h,v $
-// revision      : $Revision: 1.2.1.4 $
-// revision_date : $Date: 1998/12/18 10:22:59 $
+// package       : Triangulation (3.17)
+// source        : $RCSfile: Triangulation_euclidean_traits_xz_3.h,v $
+// revision      : $Revision: 1.2.1.10 $
+// revision_date : $Date: 1999/05/05 08:22:25 $
 // author(s)     : Mariette Yvinec
 //
 // coordinator   : Mariette Yvinec
-//
 //
 // email         : cgal@cs.uu.nl
 //
@@ -64,100 +63,96 @@
 #include <CGAL/Triangle_3.h>
 #include <CGAL/predicates_on_ftC2.h>
 
+CGAL_BEGIN_NAMESPACE
+
 template < class R >
-class CGAL_Triangulation_euclidean_traits_xz_3 {
+class Triangulation_euclidean_traits_xz_3 {
 public:
-    typedef CGAL_Triangulation_euclidean_traits_xz_3<R> Traits;
+    typedef Triangulation_euclidean_traits_xz_3<R> Traits;
     typedef R Rep;
-    typedef CGAL_Point_3<R>  Point;
-    typedef CGAL_Segment_3<R> Segment;
-    typedef CGAL_Triangle_3<R> Triangle;
-    typedef CGAL_Line_3<R>   Line;
-    typedef CGAL_Ray_3<R>    Ray;
-    typedef CGAL_Direction_3<R> Direction;
+    typedef Point_3<R>  Point;
+    typedef Segment_3<R> Segment;
+    typedef Triangle_3<R> Triangle;
+    typedef Line_3<R>   Line;
+    typedef Ray_3<R>    Ray;
+    typedef Direction_3<R> Direction;
     
+  Triangulation_euclidean_traits_xz_3(){}
+  Triangulation_euclidean_traits_xz_3(
+				const Triangulation_euclidean_traits_xz_3& et){}
+  Triangulation_euclidean_traits_xz_3 &operator=(
+		       const Triangulation_euclidean_traits_xz_3&  et){return *this;}
+
+  typename Rep::FT x(const Point &p) const { return p.x(); }
+  typename Rep::FT y(const Point &p) const { return p.z(); }
     
-protected:
-      typename Rep::FT x(const Point &p) const { return p.x(); }
-      typename Rep::FT y(const Point &p) const { return p.z(); }
-    
-public:
-    CGAL_Comparison_result compare_x(const Point &p, const Point &q) const
+    Comparison_result compare_x(const Point &p, const Point &q) const
       {
-        return CGAL_compare(x(p), x(q));
+        return CGAL::compare(x(p), x(q));
       }
-    CGAL_Comparison_result compare_y(const Point &p, const Point &q) const
+    Comparison_result compare_y(const Point &p, const Point &q) const
       {
-        return CGAL_compare(y(p), y(q));
+        return CGAL::compare(y(p), y(q));
       }
     bool compare(const Point &p, const Point &q) const
       {
-        return (x(p)==x(q)) &&  (y(p)==y(q));
+        return (compare_x(p, q)== EQUAL &&  
+		compare_y(p, q)== EQUAL);
       }
     
-    CGAL_Orientation orientation(const Point &p,
+    Orientation orientation(const Point &p,
                                  const Point &q,
                                  const Point &r) const
       {
-        return CGAL_orientationC2(x(p), y(p), x(q), y(q), x(r), y(r));
+        return orientationC2(x(p), y(p), x(q), y(q), x(r), y(r));
       }
     
-     CGAL_Orientation extremal(const Point &p,
-                              const Point &q,
-                              const Point &r) const
+     
+    
+    Oriented_side side_of_oriented_circle(const Point &p,
+					  const Point &q,
+					  const Point &r,
+					  const Point &s) const
       {
-        if (compare(p,q)) return CGAL_COLLINEAR;
-        if (compare(p,r)) return CGAL_COLLINEAR;
-        if (compare(r,q)) return CGAL_COLLINEAR;
-    
-        return CGAL_orientationC2(x(p), y(p), x(q), y(q), x(r), y(r));
-      }
-    
-    CGAL_Oriented_side side_of_oriented_circle(const Point &p,
-                                               const Point &q,
-                                               const Point &r,
-                                               const Point &s) const
-      {
-        if (compare(p,s)) return CGAL_ON_ORIENTED_BOUNDARY;
-        if (compare(q,s)) return CGAL_ON_ORIENTED_BOUNDARY;
-        if (compare(r,s)) return CGAL_ON_ORIENTED_BOUNDARY;
-    
-        return CGAL_side_of_oriented_circleC2(x(p), y(p),
+            
+        return side_of_oriented_circleC2(x(p), y(p),
                                               x(q), y(q),
                                               x(r), y(r),
                                               x(s), y(s));
       }
         
     
-    class Distance : public CGAL_Distance_2<Traits> {
+    class Distance : public Distance_2<Traits> {
     public:
         Distance(const Point& p0,
                  const Traits* traits = NULL)
-            : CGAL_Distance_2<Traits>(p0, traits) { }
+            : Distance_2<Traits>(p0, traits) { }
     
     
         Distance(const Point& p0,
                  const Point& p1,
                  const Traits* traits = NULL)
-            : CGAL_Distance_2<Traits>(p0,p1,traits) { }
+            : Distance_2<Traits>(p0,p1,traits) { }
     
         Distance(const Point& p0,
                  const Point& p1,
                  const Point& p2,
                  const Traits* traits = NULL)
-            : CGAL_Distance_2<Traits>(p0,p1,p2,traits) { }
+            : Distance_2<Traits>(p0,p1,p2,traits) { }
     
-        CGAL_Comparison_result
+        Comparison_result
         compare() const
         {
           Point p0 = get_point(0);
           Point p1 = get_point(1);
           Point p2 = get_point(2);
-          return CGAL_cmp_dist_to_pointC2(x(p0),y(p0),x(p1),y(p1),x(p2),y(p2));
+          return cmp_dist_to_pointC2(x(p0),y(p0),x(p1),y(p1),x(p2),y(p2));
         }
     };
     
 };
+
+CGAL_END_NAMESPACE
 
 
 #endif // CGAL_TRIANGULATION_EUCLIDEAN_TRAITS_XZ_3_H

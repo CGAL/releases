@@ -1,6 +1,6 @@
 // ======================================================================
 //
-// Copyright (c) 1998 The CGAL Consortium
+// Copyright (c) 1999 The GALIA Consortium
 //
 // This software and related documentation is part of the
 // Computational Geometry Algorithms Library (CGAL).
@@ -16,35 +16,34 @@
 // - Development licenses grant access to the source code of the library 
 //   to develop programs. These programs may be sold to other parties as 
 //   executable code. To obtain a development license, please contact
-//   the CGAL Consortium (at cgal@cs.uu.nl).
+//   the GALIA Consortium (at cgal@cs.uu.nl).
 // - Commercialization licenses grant access to the source code and the
 //   right to sell development licenses. To obtain a commercialization 
-//   license, please contact the CGAL Consortium (at cgal@cs.uu.nl).
+//   license, please contact the GALIA Consortium (at cgal@cs.uu.nl).
 //
 // This software and documentation is provided "as-is" and without
 // warranty of any kind. In no event shall the CGAL Consortium be
 // liable for any damage of any kind.
 //
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// The GALIA Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany) Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+// (Germany), Max-Planck-Institute Saarbrucken (Germany),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 // 
-// release       : CGAL-1.2
-// release_date  : 1999, January 18
+// release       : CGAL-2.0
+// release_date  : 1999, June 03
 // 
 // source        : Vector_2.fw
 // file          : include/CGAL/Vector_2.h
-// package       : _2 (1.3)
-// revision      : 1.3
-// revision_date : 15 Dec 1998 
+// package       : _2 (2.1.2)
+// revision      : 2.1.2
+// revision_date : 09 May 1999 
 // author(s)     : Andreas Fabri
 //
 // coordinator   : MPI, Saarbruecken  (<Stefan.Schirra>)
-//
 // email         : cgal@cs.uu.nl
 //
 // ======================================================================
@@ -64,92 +63,95 @@
 #include <CGAL/Direction_2.h>
 #endif // CGAL_DIRECTION_2_H
 
-#ifdef CGAL_VECTOR_WRAPPER
-#ifndef CGAL_VECTOR_2_RFT_WRAPPER_H
+#ifdef VECTOR_WRAPPER
+#ifndef VECTOR_2_RFT_WRAPPER_H
 #include <CGAL/Vector_2_rft_wrapper.h>
-#endif // CGAL_VECTOR_2_RFT_WRAPPER_H
-#endif // CGAL_VECTOR_WRAPPER
+#endif // VECTOR_2_RFT_WRAPPER_H
+#endif // VECTOR_WRAPPER
 
+CGAL_BEGIN_NAMESPACE
+
+template <class T> class Quotient;
 template <class _R>
-class CGAL_Vector_2 : public _R::Vector_2
+class Vector_2 : public _R::Vector_2
 {
 public:
   typedef  _R   R;
   typedef typename R::RT                    RT;
   typedef typename R::FT                    FT;
-  typedef typename R::Vector_2              Vector_2;
+  typedef typename R::Vector_2              RVector_2;
 
-friend CGAL_Vector_2<R>
-       inline
-       operator- CGAL_NULL_TMPL_ARGS (const CGAL_Point_2<R> &p,
-                                      const CGAL_Origin &o);
+friend inline
+       Vector_2<R>
+       operator- CGAL_NULL_TMPL_ARGS (const Point_2<R> &p,
+                                      const Origin &o);
 
-  CGAL_Vector_2()
+  Vector_2()
   {}
 
-  CGAL_Vector_2(const CGAL_Vector_2<R> &v)
-    : Vector_2((const Vector_2&)v)
+  Vector_2(const Vector_2<R> &v)
+    : RVector_2((const RVector_2&)v)
   {}
 
-  CGAL_Vector_2(const Vector_2 &v)
-    : Vector_2(v)
+  Vector_2(const RVector_2& v)
+    : RVector_2(v)
   {}
 
-  CGAL_Vector_2(const CGAL_Null_vector &v)
-    : Vector_2(v)
+  Vector_2(const Null_vector &v)
+    : RVector_2(v)
   {}
 
-  CGAL_Vector_2(const RT &x, const RT &y)
-    : Vector_2(x,y)
+  Vector_2(const RT &x, const RT &y)
+    : RVector_2(x,y)
   {}
 
-  CGAL_Vector_2(const RT &x, const RT &y, const RT &w)
-    : Vector_2(x,y,w)
+  Vector_2(const RT &x, const RT &y, const RT &w)
+    : RVector_2(x,y,w)
   {}
 
 
 
-  CGAL_Vector_2<R> &operator=(const CGAL_Vector_2<R> &v)
+  Vector_2<R> &operator=(const Vector_2<R> &v)
   {
-    Vector_2::operator=(v);
+    RVector_2::operator=(v);
     return *this;
   }
 
-#ifdef CGAL_VECTOR_WRAPPER
-  CGAL_Vector_2<R> &operator=(const CGAL__Vector_2_rft_wrapper<R> &wrapper)
+#ifdef VECTOR_WRAPPER
+  Vector_2<R> &operator=(const _Vector_2_rft_wrapper<R> &wrapper)
   {
-    Vector_2::operator=((const CGAL_Vector_2<R>&)wrapper);
+    RVector_2::operator=((const Vector_2<R>&)wrapper);
     return *this;
   }
 
-  bool operator==(const CGAL__Vector_2_rft_wrapper<R> &wrapper) const
+  bool operator==(const _Vector_2_rft_wrapper<R> &wrapper) const
   {
-    return Vector_2::operator==((const CGAL_Vector_2<R>&)wrapper);
+    return RVector_2::operator==((const Vector_2<R>&)wrapper);
   }
 
-  bool operator!=(const CGAL__Vector_2_rft_wrapper<R> &wrapper) const
+  bool operator!=(const _Vector_2_rft_wrapper<R> &wrapper) const
   {
-    return !(*this == (const CGAL_Vector_2<R>&)wrapper);
+    return !(*this == (const Vector_2<R>&)wrapper);
   }
 
-#endif // CGAL_VECTOR_WRAPPER
+#endif // VECTOR_WRAPPER
 
-  bool operator==(const CGAL_Vector_2<R> &v) const
+  bool operator==(const Vector_2<R> &v) const
   {
-    return Vector_2::operator==(v);
+    return RVector_2::operator==(v);
   }
 
-  bool operator!=(const CGAL_Vector_2<R> &v) const
+  bool operator!=(const Vector_2<R> &v) const
   {
     return !(*this == v);
   }
 
-  bool operator==(const CGAL_Null_vector &v) const
+  bool operator==(const Null_vector &v) const
   {
-    return Vector_2::operator==(v);
+    return RVector_2::operator==(v);
   }
 
-  bool operator!=(const CGAL_Null_vector &v) const
+  bool operator!=(const Null_vector &v) const
   {
     return !(*this == v);
   }
@@ -161,37 +163,37 @@ friend CGAL_Vector_2<R>
 
   RT hx() const
   {
-    return Vector_2::hx();
+    return RVector_2::hx();
   }
 
   RT hy() const
   {
-    return Vector_2::hy();
+    return RVector_2::hy();
   }
 
   RT hw() const
   {
-    return Vector_2::hw();
+    return RVector_2::hw();
   }
 
   FT x() const
   {
-    return Vector_2::x();
+    return RVector_2::x();
   }
 
   FT y() const
   {
-    return Vector_2::y();
+    return RVector_2::y();
   }
 
   RT homogeneous(int i) const
   {
-    return Vector_2::homogeneous(i);
+    return RVector_2::homogeneous(i);
   }
 
   FT cartesian(int i) const
   {
-    return Vector_2::cartesian(i);
+    return RVector_2::cartesian(i);
   }
 
   FT operator[](int i) const
@@ -206,138 +208,140 @@ friend CGAL_Vector_2<R>
   }
 
 
-  CGAL_Vector_2<R> operator+(const CGAL_Vector_2<R> &w) const
+  Vector_2<R> operator+(const Vector_2<R> &w) const
   {
-    return (const Vector_2&)(*this) + (const Vector_2&)(w);
+    return (const RVector_2&)(*this) + (const RVector_2&)(w);
   }
 
-  CGAL_Vector_2<R> operator-(const CGAL_Vector_2<R> &w) const
+  Vector_2<R> operator-(const Vector_2<R> &w) const
   {
-    return (const Vector_2&)(*this) - (const Vector_2&)(w);
+    return (const RVector_2&)(*this) - (const RVector_2&)(w);
   }
 
-  CGAL_Vector_2<R> operator-() const
+  Vector_2<R> operator-() const
   {
-    return Vector_2::operator-();
+    return RVector_2::operator-();
   }
 
-  FT operator*(const CGAL_Vector_2<R> &w) const
+  FT operator*(const Vector_2<R> &w) const
   {
-    return (const Vector_2&)(*this) * (const Vector_2&)(w);
+    return (const RVector_2&)(*this) * (const RVector_2&)(w);
   }
 
-#ifndef CGAL_VECTOR_WRAPPER
-  CGAL_Vector_2<R> operator*(const RT &c) const
+#ifndef VECTOR_WRAPPER
+  Vector_2<R> operator*(const RT &c) const
   {
-    return c * (const Vector_2&)(*this);
+    return c * (const RVector_2&)(*this);
   }
 
 
-  CGAL_Vector_2<R> operator*(const CGAL_Quotient<RT> &q) const
+  Vector_2<R> operator*(const Quotient<RT> &q) const
   {
-    return (q.numerator() * (const Vector_2&)(*this)) /
+    return (q.numerator() * (const RVector_2&)(*this)) /
            q.denominator();
   }
 
-  CGAL_Vector_2<R> operator/(const CGAL_Quotient<RT> &q) const
+  Vector_2<R> operator/(const Quotient<RT> &q) const
   {
-    return (q.denominator() * (const Vector_2&)(*this)) /
+    return (q.denominator() * (const RVector_2&)(*this)) /
            q.numerator();
   }
-#endif // CGAL_VECTOR_WRAPPER
+#endif // VECTOR_WRAPPER
 
-  CGAL_Vector_2<R> operator/(const RT &c) const
+  Vector_2<R> operator/(const RT &c) const
   {
-    return (const Vector_2&)(*this) / c;
+    return (const RVector_2&)(*this) / c;
   }
 
-  CGAL_Direction_2<R> direction() const
+  Direction_2<R> direction() const
   {
-    return Vector_2::direction();
+    return RVector_2::direction();
   }
 
-  CGAL_Vector_2<R> perpendicular(const CGAL_Orientation &o) const
+  Vector_2<R> perpendicular(const Orientation &o) const
   {
-    return Vector_2::perpendicular(o);
+    return RVector_2::perpendicular(o);
   }
 
-  CGAL_Vector_2<R> transform(const CGAL_Aff_transformation_2<R> &t) const
+  Vector_2<R> transform(const Aff_transformation_2<R> &t) const
   {
-    return Vector_2::transform(t);
+    return RVector_2::transform(t);
   }
 
 private:
-  CGAL_Vector_2(const CGAL_Point_2<R> &p)
-    : Vector_2(p)
+  Vector_2(const Point_2<R> &p)
+    : RVector_2(p)
   {}
 
-  CGAL_Vector_2(const CGAL_Direction_2<R> &d)
-    : Vector_2(d)
+  Vector_2(const Direction_2<R> &d)
+    : RVector_2(d)
   {}
 };
 
 template < class R >
-CGAL_No_number_tag
-CGAL_number_type_tag(const CGAL_Vector_2<R> &)
-{ return CGAL_No_number_tag(); }
-#ifdef CGAL_VECTOR_WRAPPER
+No_number_tag
+number_type_tag(const Vector_2<R> &)
+{ return No_number_tag(); }
+#ifdef VECTOR_WRAPPER
 template <class T, class R>
-CGAL__Vector_2_rft_wrapper<R>
-CGAL_multiply(const CGAL_Quotient<T> &q,
-              const CGAL_Vector_2<R> &w,
-              const CGAL_Quotient_tag&)
+_Vector_2_rft_wrapper<R>
+multiply(const Quotient<T> &q,
+              const Vector_2<R> &w,
+              const Quotient_tag&)
 {
-  return CGAL__Vector_2_rft_wrapper<R>(
-                 CGAL_Vector_2<R>((q.numerator() * (const R::Vector_2&)(w))
+  return _Vector_2_rft_wrapper<R>(
+                 Vector_2<R>((q.numerator() * (const R::(RVector_2&))(w))
                                   / q.denominator()));
 }
 
 template < class R >
-CGAL__Vector_2_rft_wrapper<R>
-CGAL_multiply(const CGAL_Vector_2<R> &v,
-              const CGAL_Vector_2<R> &w,
-              const CGAL_No_number_tag&)
+_Vector_2_rft_wrapper<R>
+multiply(const Vector_2<R> &v,
+              const Vector_2<R> &w,
+              const No_number_tag&)
 {
-  return CGAL__Vector_2_rft_wrapper<R>((const R::Vector_2&)(v)
-                                     * (const R::Vector_2&)(w));
+  return _Vector_2_rft_wrapper<R>((const R::(RVector_2&))(v)
+                                     * (const R::(RVector_2&))(w));
 }
 
 template < class T, class R >
-CGAL__Vector_2_rft_wrapper<R>
-CGAL_multiply(const T &n,
-              const CGAL_Vector_2<R> &w,
-              const CGAL_Number_tag&)
+_Vector_2_rft_wrapper<R>
+multiply(const T &n,
+              const Vector_2<R> &w,
+              const Number_tag&)
 {
-  return CGAL__Vector_2_rft_wrapper<R>(
-                 CGAL_Vector_2<R>(R::RT(n) * (const R::Vector_2&)(w)));
+  return _Vector_2_rft_wrapper<R>(
+                 Vector_2<R>(R::RT(n) * (const R::(RVector_2&))(w)));
 }
 
 template <class T, class R>
-CGAL__Vector_2_rft_wrapper<R>
-operator*(const T &t, const CGAL_Vector_2<R> &w)
+_Vector_2_rft_wrapper<R>
+operator*(const T &t, const Vector_2<R> &w)
 {
-  return CGAL_multiply(t, w, CGAL_number_type_tag(t));
+  return multiply(t, w, number_type_tag(t));
 }
-#endif // CGAL_VECTOR_WRAPPER
-#ifndef CGAL_NO_OSTREAM_INSERT_VECTOR_2
+#endif // VECTOR_WRAPPER
+#ifndef NO_OSTREAM_INSERT_VECTOR_2
 template < class R >
-ostream &
-operator<<(ostream &os, const CGAL_Vector_2<R> &v)
+std::ostream &
+operator<<(std::ostream &os, const Vector_2<R> &v)
 {
-  typedef typename  R::Vector_2       Vector_2;
-  return os << (const Vector_2&)v;
+  typedef typename  R::Vector_2       RVector_2;
+  return os << (const RVector_2&)v;
 }
-#endif // CGAL_NO_OSTREAM_INSERT_VECTOR_2
+#endif // NO_OSTREAM_INSERT_VECTOR_2
 
-#ifndef CGAL_NO_ISTREAM_EXTRACT_VECTOR_2
+#ifndef NO_ISTREAM_EXTRACT_VECTOR_2
 template < class R >
-istream &
-operator>>(istream &is, CGAL_Vector_2<R> &p)
+std::istream &
+operator>>(std::istream &is, Vector_2<R> &p)
 {
-  typedef typename  R::Vector_2       Vector_2;
-  return is >> (Vector_2&)p;
+  typedef typename  R::Vector_2       RVector_2;
+  return is >> (RVector_2&)p;
 }
-#endif // CGAL_NO_ISTREAM_EXTRACT_VECTOR_2
+#endif // NO_ISTREAM_EXTRACT_VECTOR_2
+
+CGAL_END_NAMESPACE
 
 
-#endif
+#endif // CGAL_VECTOR_2_H

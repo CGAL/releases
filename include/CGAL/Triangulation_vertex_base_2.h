@@ -1,6 +1,6 @@
 // ======================================================================
 //
-// Copyright (c) 1997 The CGAL Consortium
+// Copyright (c) 1999 The GALIA Consortium
 //
 // This software and related documentation is part of the
 // Computational Geometry Algorithms Library (CGAL).
@@ -16,35 +16,34 @@
 // - Development licenses grant access to the source code of the library 
 //   to develop programs. These programs may be sold to other parties as 
 //   executable code. To obtain a development license, please contact
-//   the CGAL Consortium (at cgal@cs.uu.nl).
+//   the GALIA Consortium (at cgal@cs.uu.nl).
 // - Commercialization licenses grant access to the source code and the
 //   right to sell development licenses. To obtain a commercialization 
-//   license, please contact the CGAL Consortium (at cgal@cs.uu.nl).
+//   license, please contact the GALIA Consortium (at cgal@cs.uu.nl).
 //
 // This software and documentation is provided "as-is" and without
 // warranty of any kind. In no event shall the CGAL Consortium be
 // liable for any damage of any kind.
 //
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// The GALIA Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany) Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+// (Germany), Max-Planck-Institute Saarbrucken (Germany),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-1.2
-// release_date  : 1999, January 18
+// release       : CGAL-2.0
+// release_date  : 1999, June 03
 //
 // file          : include/CGAL/Triangulation_vertex_base_2.h
-// package       : Triangulation (2.10)
+// package       : Triangulation (3.17)
 // source        : $Source: /u/alcor/0/prisme_util/CGAL/Local/cvsroot/Triangulation/include/CGAL/Triangulation_vertex_base_2.h,v $
-// revision      : $Revision: 1.3.1.4 $
-// revision_date : $Date: 1998/12/03 17:15:36 $
+// revision      : $Revision: 1.3.1.5 $
+// revision_date : $Date: 1999/02/26 16:02:59 $
 // author(s)     : Mariette Yvinec
 //
 // coordinator   : Mariette Yvinec
-//
 //
 // email         : cgal@cs.uu.nl
 //
@@ -56,22 +55,25 @@
 
 #include <CGAL/Triangulation_short_names_2.h>
 
+CGAL_BEGIN_NAMESPACE
+
+
 template < class GT >
-class CGAL_Triangulation_vertex_base_2 {
+class Triangulation_vertex_base_2 {
 
 public:
     typedef typename GT::Point Point;
 
 
-  CGAL_Triangulation_vertex_base_2 ()
+  Triangulation_vertex_base_2 ()
         : _f(NULL)
     {}
     
-    CGAL_Triangulation_vertex_base_2(const Point & p)
+    Triangulation_vertex_base_2(const Point & p)
         :  _p(p), _f(NULL)
     {}
     
-    CGAL_Triangulation_vertex_base_2(const Point & p, void* f)
+    Triangulation_vertex_base_2(const Point & p, void* f)
         :  _p(p), _f(f)
     {}
 
@@ -108,5 +110,7 @@ private:
         void * _f;
 
 };
+
+CGAL_END_NAMESPACE
 
 #endif //CGAL_TRIANGULATION_VERTEX_BASE_2_H

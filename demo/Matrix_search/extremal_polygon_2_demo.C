@@ -1,6 +1,6 @@
 // ============================================================================
 //
-// Copyright (c) 1998 The CGAL Consortium
+// Copyright (c) 1999 The GALIA Consortium
 //
 // This software and related documentation is part of the
 // Computational Geometry Algorithms Library (CGAL).
@@ -16,50 +16,41 @@
 // - Development licenses grant access to the source code of the library 
 //   to develop programs. These programs may be sold to other parties as 
 //   executable code. To obtain a development license, please contact
-//   the CGAL Consortium (at cgal@cs.uu.nl).
+//   the GALIA Consortium (at cgal@cs.uu.nl).
 // - Commercialization licenses grant access to the source code and the
 //   right to sell development licenses. To obtain a commercialization 
-//   license, please contact the CGAL Consortium (at cgal@cs.uu.nl).
+//   license, please contact the GALIA Consortium (at cgal@cs.uu.nl).
 //
 // This software and documentation is provided "as-is" and without
 // warranty of any kind. In no event shall the CGAL Consortium be
 // liable for any damage of any kind.
 //
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// The GALIA Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany) Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+// (Germany), Max-Planck-Institute Saarbrucken (Germany),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-1.2
-// release_date  : 1999, January 18
+// release       : CGAL-2.0
+// release_date  : 1999, June 03
 //
 // file          : extremal_polygon_2_demo.C
 // chapter       : $CGAL_Chapter: Geometric Optimisation $
 // package       : $CGAL_Package: Matrix_search $
 // source        : mon_search.aw
-// revision      : $Revision: 1.10 $
-// revision_date : $Date: 1998/11/26 16:24:48 $
+// revision      : $Revision: 1.17 $
+// revision_date : $Date: 1999/06/01 14:06:59 $
 // author(s)     : Michael Hoffmann
 //
 // coordinator   : ETH Zurich (Bernd Gaertner)
 //
 // Demo program: Compute extremal polygons of a convex polygon
-//
 // email         : cgal@cs.uu.nl
 //
 // ======================================================================
 
-#ifndef CGAL_PROTECT_STDLIB_H
-#include <stdlib.h>
-#define CGAL_PROTECT_STDLIB_H
-#endif // CGAL_PROTECT_STDLIB_H
-#ifndef CGAL_PROTECT_STDIO_H
-#include <stdio.h>
-#define CGAL_PROTECT_STDIO_H
-#endif // CGAL_PROTECT_STDIO_H
 #ifndef CGAL_CARTESIAN_H
 #include <CGAL/Cartesian.h>
 #endif // CGAL_CARTESIAN_H
@@ -72,62 +63,72 @@
 #ifndef CGAL_SQUARED_DISTANCE_2_H
 #include <CGAL/squared_distance_2.h>
 #endif // CGAL_SQUARED_DISTANCE_2_H
+#ifndef CGAL_DISTANCE_PREDICATES_2_H
+#include <CGAL/distance_predicates_2.h>
+#endif // CGAL_DISTANCE_PREDICATES_2_H
 #ifndef CGAL_CONVEX_HULL_2_H
 #include <CGAL/convex_hull_2.h>
 #endif // CGAL_CONVEX_HULL_2_H
 #ifndef CGAL_CIRCULATOR_H
 #include <CGAL/circulator.h>
 #endif // CGAL_CIRCULATOR_H
-#ifndef CGAL_COPY_N_H
-#include <CGAL/copy_n.h>
-#endif // CGAL_COPY_N_H
+#ifndef CGAL_EXTREMAL_POLYGON_2_H
+#include <CGAL/extremal_polygon_2.h>
+#endif // CGAL_EXTREMAL_POLYGON_2_H
 #ifndef CGAL_POINT_GENERATORS_2_H
 #include <CGAL/point_generators_2.h>
 #endif // CGAL_POINT_GENERATORS_2_H
 #ifndef CGAL_RANDOM_CONVEX_SET_2_H
 #include <CGAL/random_convex_set_2.h>
 #endif // CGAL_RANDOM_CONVEX_SET_2_H
-#ifndef CGAL_EXTREMAL_POLYGON_2_H
-#include <CGAL/extremal_polygon_2.h>
-#endif // CGAL_EXTREMAL_POLYGON_2_H
 #ifndef CGAL_IO_LEDA_WINDOW_H
 #include <CGAL/IO/leda_window.h>
 #endif // CGAL_IO_LEDA_WINDOW_H
-#ifndef CGAL_PROTECT_LEDA_POINT_SET_H
-#include <LEDA/point_set.h>
-#define CGAL_PROTECT_LEDA_POINT_SET_H
-#endif // CGAL_PROTECT_LEDA_POINT_SET_H
-#ifndef CGAL_PROTECT_IOSTREAM_H
-#include <iostream.h>
-#define CGAL_PROTECT_IOSTREAM_H
-#endif // CGAL_PROTECT_IOSTREAM_H
+#include <iostream>
+#include <cstdlib>
+#include <cstdio>
+#include <algorithm>
+
+using CGAL::cgalize;
+using CGAL::has_smaller_dist_to_point;
+using CGAL::RED;
+using std::back_inserter;
+using std::copy;
+using std::max;
+
+using std::vector;
+using CGAL::Cartesian;
+using CGAL::Random_access_circulator_from_container;
+using CGAL::convex_hull_points_2;
+using CGAL::squared_distance;
+using CGAL::maximum_area_inscribed_k_gon;
+using CGAL::maximum_perimeter_inscribed_k_gon;
+using CGAL::Random_points_in_square_2;
+using CGAL::Creator_uniform_2;
+using CGAL::random_convex_set_2;
 
 typedef double                                    FT;
-typedef CGAL_Cartesian< FT >                      RepClass;
-typedef CGAL_Point_2< RepClass >                  Point_2;
-typedef CGAL_Segment_2< RepClass >                Segment;
-typedef vector< Point_2 >                         PointCont;
+typedef Cartesian< FT >                           RepClass;
+typedef CGAL::Point_2< RepClass >                 Point;
+typedef CGAL::Segment_2< RepClass >               Segment;
+typedef vector< Point >                           PointCont;
 typedef PointCont::iterator                       PointIter;
 typedef vector< PointIter >                       PointIterCont;
 typedef vector< PointIter >::iterator             PointIterIter;
 typedef RepClass::FT                              FT;
 typedef PointCont                                 Polygon;
 typedef PointCont::iterator                       Vertex_iterator;
-typedef CGAL_Random_access_circulator_from_container<
-  Polygon >                                       Vertex_circulator;
+typedef Random_access_circulator_from_container< Polygon >
+  Vertex_circulator;
 typedef PointCont::const_iterator                 Vertex_const_iterator;
 typedef vector< Vertex_iterator >                 Vertex_iteratorCont;
 typedef Vertex_iteratorCont::iterator             Vertex_iteratorIter;
-#include <LEDA/REDEFINE_NAMES.h>
-typedef point                                     LEDA_Point;
-typedef point_set< PointIter >                    LEDA_Point_set_PointIter;
-#include <LEDA/UNDEFINE_NAMES.h>
 
-#ifdef CGAL_EXTREMAL_POLYGON_MEASURE
-#ifndef CGAL_PROTECT_TIME_H
-#include <time.h>
-#define CGAL_PROTECT_TIME_H
-#endif // CGAL_PROTECT_TIME_H
+#ifdef EXTREMAL_POLYGON_MEASURE
+#ifndef CGAL_PROTECT_CTIME
+#include <ctime>
+#define CGAL_PROTECT_CTIME
+#endif
 static time_t Measure;
 static long long int measure;
 #define MEASURE(comm) \
@@ -177,39 +178,29 @@ main()
   int quit_button(
     W.button( "End",
               "Quit Program"));
+  cgalize( W);
   W.display();
   W.init( -1.5, 1.5, -1.5);
 
   PointCont points;
   Polygon p;
   bool polygon_changed( false);
-  LEDA_Point_set_PointIter point_location;
 
   for (;;) {
-    if ( polygon_changed) {
+    if (polygon_changed) {
       // compute convex hull:
       PointCont ch_points;
-      CGAL_convex_hull_points_2( points.begin(),
-                                 points.end(),
-                                 back_inserter( ch_points));
+      convex_hull_points_2(points.begin(),
+                           points.end(),
+                           back_inserter(ch_points));
     
       // replace points by ch_points:
-      points.erase( points.begin(), points.end());
-      points.insert( points.begin(),
-                     ch_points.begin(),
-                     ch_points.end());
+      points.erase(points.begin(), points.end());
+      points.insert(points.begin(), ch_points.begin(), ch_points.end());
     
       // construct polygon and data structure for point location:
-      p.erase( p.begin(), p.end());
-      point_location.clear();
-      for ( PointIter p1( points.begin());
-            p1 != points.end();
-            ++p1) {
-        p.push_back( *p1);
-        point_location.insert(
-          LEDA_Point( (*p1).x(), (*p1).y()),
-          p1);
-      }
+      p.erase(p.begin(), p.end());
+      copy(points.begin(), points.end(), back_inserter(p));
     
       polygon_changed = false;
     } // if ( polygon_changed)
@@ -219,7 +210,7 @@ main()
     if ( !p.empty()) {
       Vertex_const_iterator i( p.begin());
       for (;;) {
-        W << CGAL_RED << *i;
+        W << RED << *i;
         W.set_fg_color( leda_blue);
         if ( (i+1) == p.end()) {
           W << Segment( *i, *(p.begin()));
@@ -246,7 +237,7 @@ main()
       k = max( 3, k);
       PointCont k_gon;
       if ( p.size() >= 3) {
-        MEASURE(CGAL_maximum_area_inscribed_k_gon(
+        MEASURE(maximum_area_inscribed_k_gon(
           p.begin(),
           p.end(),
           k,
@@ -264,13 +255,13 @@ main()
       // compute maximum perimeter inscribed k-gon:
       PointCont k_gon;
 #ifndef CGAL_CFG_NO_MEMBER_TEMPLATES
-      MEASURE(CGAL_maximum_perimeter_inscribed_k_gon(
+      MEASURE(maximum_perimeter_inscribed_k_gon(
         Vertex_circulator( &p),
         Vertex_circulator( &p),
         k,
         back_inserter( k_gon));)
 #else
-      MEASURE(CGAL_maximum_perimeter_inscribed_k_gon(
+      MEASURE(maximum_perimeter_inscribed_k_gon(
         p.begin(),
         p.end(),
         k,
@@ -292,19 +283,17 @@ main()
       input = W.get_mouse( x, y);
       if ( input == MOUSE_BUTTON( 2)) {
         // move point
-        PointIter nearest(
-          point_location.inf(
-            point_location.nearest_neighbor(
-              LEDA_Point( x, y))));
+        
+        // find nearest vertex
+        Point sp(x, y);
+        PointIter nearest = points.begin();
+        PointIter k = nearest;
+        while (++k != points.end())
+          if (has_smaller_dist_to_point(sp, *k, *nearest))
+            nearest = k;
+        
         // test for snapping:
-        /*
-        #ifdef __GNUG__
-        FT di( CGAL_squared_distance( *nearest, Point_2( x, y)));
-        if ( di < FT( 0.05)) {
-        #else
-        */
-        if ( CGAL_squared_distance( *nearest, Point_2( x, y)) < FT( 0.05)) {
-        // #endif
+        if ( squared_distance( *nearest, Point( x, y)) < FT( 0.05)) {
           int v( 0);
           drawing_mode old_drawing_mode( W.set_mode( leda_xor_mode));
           leda_color old_color( W.set_color( leda_grey1));
@@ -357,7 +346,7 @@ main()
             }
         
             // set new point:
-            *nearest = Point_2( x, y);
+            *nearest = Point( x, y);
         
           } while ( W.read_event( v, x, y) != button_release_event);
         
@@ -372,20 +361,18 @@ main()
       }
       else if ( input == MOUSE_BUTTON( 3)) {
         // delete point
-        PointIter nearest(
-          point_location.inf(
-            point_location.nearest_neighbor(
-              LEDA_Point( x, y))));
+        
+        // find nearest vertex
+        Point sp(x, y);
+        PointIter nearest = points.begin();
+        PointIter k = nearest;
+        while (++k != points.end())
+          if (has_smaller_dist_to_point(sp, *k, *nearest))
+            nearest = k;
+        
         // test for snapping:
-        /*
-        #ifdef __GNUG__
-        FT di( CGAL_squared_distance( *nearest, Point_2( x, y)));
-        if ( di < FT( 0.05)) {
-        #else
-        */
-        if ( CGAL_squared_distance( *nearest, Point_2( x, y)) < FT( 0.05)) {
-        //#endif
-          points.erase( nearest);
+        if (squared_distance(*nearest, Point(x, y)) < FT(0.05)) {
+          points.erase(nearest);
           polygon_changed = true;
           break;
         }    
@@ -411,17 +398,15 @@ main()
         return 0;
       else if ( input == generate_button) {
         // generate random convex polygon with n vertices
-        typedef CGAL_Random_points_in_square_2<
-          Point_2,
-          CGAL_Creator_uniform_2< FT, Point_2 >
+        typedef Random_points_in_square_2<
+          Point,
+          Creator_uniform_2< FT, Point >
         >
         Point_generator;
         
         points.erase( points.begin(), points.end());
         n = max( n, 3);
-        CGAL_random_convex_set_2( n,
-                                  back_inserter( points),
-                                  Point_generator( 1));
+        random_convex_set_2( n, back_inserter( points), Point_generator( 1));
         
         polygon_changed = true;
         break;
@@ -431,13 +416,12 @@ main()
         break;
       else if ( input == MOUSE_BUTTON( 1)) {
         // insert point:
-        points.push_back( Point_2( x, y));
+        points.push_back( Point( x, y));
         polygon_changed = true;
         break;
       }
     } // for (;;)
   } // for (;;)
-
 } // int main()
 
 

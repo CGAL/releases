@@ -1,6 +1,6 @@
 // ======================================================================
 //
-// Copyright (c) 1998 The CGAL Consortium
+// Copyright (c) 1999 The GALIA Consortium
 //
 // This software and related documentation is part of the
 // Computational Geometry Algorithms Library (CGAL).
@@ -16,44 +16,43 @@
 // - Development licenses grant access to the source code of the library 
 //   to develop programs. These programs may be sold to other parties as 
 //   executable code. To obtain a development license, please contact
-//   the CGAL Consortium (at cgal@cs.uu.nl).
+//   the GALIA Consortium (at cgal@cs.uu.nl).
 // - Commercialization licenses grant access to the source code and the
 //   right to sell development licenses. To obtain a commercialization 
-//   license, please contact the CGAL Consortium (at cgal@cs.uu.nl).
+//   license, please contact the GALIA Consortium (at cgal@cs.uu.nl).
 //
 // This software and documentation is provided "as-is" and without
 // warranty of any kind. In no event shall the CGAL Consortium be
 // liable for any damage of any kind.
 //
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// The GALIA Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany) Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+// (Germany), Max-Planck-Institute Saarbrucken (Germany),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-1.2
-// release_date  : 1999, January 18
+// release       : CGAL-2.0
+// release_date  : 1999, June 03
 //
 // file          : include/CGAL/all_furthest_neighbors_2.h
-// package       : Matrix_search (1.10)
+// package       : Matrix_search (1.17)
 // chapter       : $CGAL_Chapter: Geometric Optimisation $
 // source        : mon_search.aw
-// revision      : $Revision: 1.10 $
-// revision_date : $Date: 1998/11/26 16:25:35 $
+// revision      : $Revision: 1.17 $
+// revision_date : $Date: 1999/06/01 14:08:11 $
 // author(s)     : Michael Hoffmann
 //
 // coordinator   : ETH Zurich (Bernd Gaertner)
 //
 // Compute all furthest neighbors for the vertices of a convex polygon
-//
 // email         : cgal@cs.uu.nl
 //
 // ======================================================================
 
-#if ! (CGAL_ALL_FURTHEST_NEIGHBORS_2_H)
-#define CGAL_ALL_FURTHEST_NEIGHBORS_2_H 1
+#if ! (ALL_FURTHEST_NEIGHBORS_2_H)
+#define ALL_FURTHEST_NEIGHBORS_2_H 1
 
 #ifndef CGAL_OPTIMISATION_ASSERTIONS_H
 #include <CGAL/optimisation_assertions.h>
@@ -74,30 +73,29 @@
 #ifndef CGAL_MONOTONE_MATRIX_SEARCH_H
 #include <CGAL/monotone_matrix_search.h>
 #endif // CGAL_MONOTONE_MATRIX_SEARCH_H
-#ifndef CGAL_PROTECT_FUNCTION_H
-#include <function.h>
-#define CGAL_PROTECT_FUNCTION_H
-#endif // CGAL_PROTECT_FUNCTION_H
-#ifndef CGAL_PROTECT_ALGO_H
-#include <algo.h>
-#define CGAL_PROTECT_ALGO_H
-#endif // CGAL_PROTECT_ALGO_H
+#ifndef CGAL_PROTECT_FUNCTIONAL
+#include <functional>
+#define CGAL_PROTECT_FUNCTIONAL
+#endif
+#ifndef CGAL_PROTECT_ALGORITHM
+#include <algorithm>
+#define CGAL_PROTECT_ALGORITHM
+#endif
 
+CGAL_BEGIN_NAMESPACE
 template < class Operation, class RandomAccessIC >
-class CGAL__All_furthest_neighbor_matrix
-: public CGAL_Cartesian_matrix< Operation,
-                                RandomAccessIC,
-                                RandomAccessIC >
+class All_furthest_neighbor_matrix
+: public Cartesian_matrix< Operation, RandomAccessIC, RandomAccessIC >
 // represents the matrix used for computing
 // all furthest neighbors of a convex polygon
 {
 public:
   typedef
-    CGAL_Cartesian_matrix< Operation, RandomAccessIC, RandomAccessIC >
+    Cartesian_matrix< Operation, RandomAccessIC, RandomAccessIC >
   BaseClass;
 
-  CGAL__All_furthest_neighbor_matrix( RandomAccessIC f,
-                                      RandomAccessIC l)
+  All_furthest_neighbor_matrix( RandomAccessIC f,
+                                RandomAccessIC l)
   : BaseClass( f, l, f, l)
   {}
 
@@ -124,39 +122,41 @@ public:
 #if !defined(CGAL_CFG_NO_ITERATOR_TRAITS) && \
 !defined(CGAL_CFG_MATCHING_BUG_2)
 
-#ifndef CGAL_PROTECT_ITERATOR_H
-#include <iterator.h>
-#define CGAL_PROTECT_ITERATOR_H
-#endif // CGAL_PROTECT_ITERATOR_H
+CGAL_END_NAMESPACE
+#ifndef CGAL_PROTECT_ITERATOR
+#include <iterator>
+#define CGAL_PROTECT_ITERATOR
+#endif
+CGAL_BEGIN_NAMESPACE
 
 template < class RandomAccessIC, class OutputIterator, class Traits >
 inline
 OutputIterator
-CGAL_all_furthest_neighbors( RandomAccessIC points_begin,
-                             RandomAccessIC points_end,
-                             OutputIterator o,
-                             const Traits& t)
+all_furthest_neighbors( RandomAccessIC points_begin,
+                        RandomAccessIC points_end,
+                        OutputIterator o,
+                        const Traits& t)
 {
   return
-  CGAL_all_furthest_neighbors(
+  all_furthest_neighbors(
     points_begin,
     points_end,
     o,
     t,
-    iterator_traits< OutputIterator >::iterator_category());
-} // CGAL_all_furthest_neighbors( ... )
+    std::iterator_traits< OutputIterator >::iterator_category());
+} // all_furthest_neighbors( ... )
 
 template < class RandomAccessIC,
            class OutputIterator,
            class Traits >
 OutputIterator
-CGAL_all_furthest_neighbors( RandomAccessIC points_begin,
-                             RandomAccessIC points_end,
-                             OutputIterator o,
-                             const Traits& t,
-                             random_access_iterator_tag)
+all_furthest_neighbors( RandomAccessIC points_begin,
+                        RandomAccessIC points_end,
+                        OutputIterator o,
+                        const Traits& t,
+                        std::random_access_iterator_tag)
 {
-  typedef CGAL__All_furthest_neighbor_matrix<
+  typedef All_furthest_neighbor_matrix<
     typename Traits::Distance,
     RandomAccessIC
     >
@@ -164,42 +164,49 @@ CGAL_all_furthest_neighbors( RandomAccessIC points_begin,
 
   // check preconditions:
   int number_of_points(
-    CGAL_iterator_distance( points_begin, points_end));
+    iterator_distance( points_begin, points_end));
   CGAL_optimisation_precondition( number_of_points > 0);
   CGAL_optimisation_expensive_precondition(
     t.is_convex( points_begin, points_end));
 
   // compute maxima:
-  CGAL_monotone_matrix_search(
-    CGAL_dynamic_matrix(
+  monotone_matrix_search(
+    dynamic_matrix(
       Afn_matrix( points_begin, points_end)),
     o);
 
   return o + number_of_points;
-} // CGAL_all_furthest_neighbors( ... )
+} // all_furthest_neighbors( ... )
 
 template < class RandomAccessIC,
            class OutputIterator,
            class Traits,
            class IteratorCategory >
 OutputIterator
-CGAL_all_furthest_neighbors( RandomAccessIC points_begin,
-                             RandomAccessIC points_end,
-                             OutputIterator o,
-                             const Traits& t,
-                             IteratorCategory)
+all_furthest_neighbors( RandomAccessIC points_begin,
+                        RandomAccessIC points_end,
+                        OutputIterator o,
+                        const Traits& t,
+                        IteratorCategory)
 #else
 template < class RandomAccessIC,
            class OutputIterator,
            class Traits >
 OutputIterator
-CGAL_all_furthest_neighbors( RandomAccessIC points_begin,
-                             RandomAccessIC points_end,
-                             OutputIterator o,
-                             const Traits& t)
+all_furthest_neighbors( RandomAccessIC points_begin,
+                        RandomAccessIC points_end,
+                        OutputIterator o,
+                        const Traits& t)
 #endif
 {
-  typedef CGAL__All_furthest_neighbor_matrix<
+#ifndef CGAL_CFG_NO_NAMESPACE
+  using std::vector;
+  using std::transform;
+  using std::bind2nd;
+  using std::modulus;
+#endif
+
+  typedef All_furthest_neighbor_matrix<
     typename Traits::Distance,
     RandomAccessIC
     >
@@ -207,17 +214,21 @@ CGAL_all_furthest_neighbors( RandomAccessIC points_begin,
 
  // check preconditions:
   int number_of_points(
-    CGAL_iterator_distance( points_begin, points_end));
+    iterator_distance( points_begin, points_end));
   CGAL_optimisation_precondition( number_of_points > 0);
   CGAL_optimisation_expensive_precondition(
     t.is_convex( points_begin, points_end));
 
   // prepare random access container:
-  vector< int > v( number_of_points);
+  //vector< int > v( number_of_points, 0);
+  vector< int > v;
+  v.reserve( number_of_points);
+  for (int i = 0; i < number_of_points; ++i)
+    v.push_back( 0);
 
   // compute maxima:
-  CGAL_monotone_matrix_search(
-    CGAL_dynamic_matrix(
+  monotone_matrix_search(
+    dynamic_matrix(
       Afn_matrix( points_begin, points_end)),
     v.begin());
 
@@ -226,9 +237,11 @@ CGAL_all_furthest_neighbors( RandomAccessIC points_begin,
                     v.end(),
                     o,
                     bind2nd( modulus< int >(), number_of_points));
-} // CGAL_all_furthest_neighbors( ... )
+} // all_furthest_neighbors( ... )
 
-#endif // ! (CGAL_ALL_FURTHEST_NEIGHBORS_2_H)
+CGAL_END_NAMESPACE
+
+#endif // ! (ALL_FURTHEST_NEIGHBORS_2_H)
 
 // ----------------------------------------------------------------------------
 // ** EOF

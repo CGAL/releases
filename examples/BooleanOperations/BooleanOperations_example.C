@@ -1,7 +1,7 @@
 //  -*- Mode: c++ -*-
 // ============================================================================
 //
-// Copyright (c) 1997 The CGAL Consortium
+// Copyright (c) 1999 The GALIA Consortium
 //
 // This software and related documentation is part of the
 // Computational Geometry Algorithms Library (CGAL).
@@ -17,25 +17,25 @@
 // - Development licenses grant access to the source code of the library 
 //   to develop programs. These programs may be sold to other parties as 
 //   executable code. To obtain a development license, please contact
-//   the CGAL Consortium (at cgal@cs.uu.nl).
+//   the GALIA Consortium (at cgal@cs.uu.nl).
 // - Commercialization licenses grant access to the source code and the
 //   right to sell development licenses. To obtain a commercialization 
-//   license, please contact the CGAL Consortium (at cgal@cs.uu.nl).
+//   license, please contact the GALIA Consortium (at cgal@cs.uu.nl).
 //
 // This software and documentation is provided "as-is" and without
 // warranty of any kind. In no event shall the CGAL Consortium be
 // liable for any damage of any kind.
 //
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// The GALIA Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany) Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+// (Germany), Max-Planck-Institute Saarbrucken (Germany),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-1.2
-// release_date  : 1999, January 18
+// release       : CGAL-2.0
+// release_date  : 1999, June 03
 //
 // file          : examples/BooleanOperations/BooleanOperations_example.C
 // source        : examples/BooleanOperations/BooleanOperations_example.C
@@ -47,25 +47,19 @@
 //  (Wolfgang Freiseisen)
 //
 // 
-//
 // email         : cgal@cs.uu.nl
 //
 // ======================================================================
 
 /*
-  This is an example program for the usage of boolean opertations:
+  This is an example program for the usage of boolean operations:
   
 
-  The number type it uses is a non-exact one:    CGAL_Quotient<int>
-                               ---------
+  The number type it uses is a unsafe one:    Quotient<int>
+                               ----------
   The coordinates are usually cartesian and if one wants to use
   homogeneous coordinates the compiler option -DCGAL_BOPS_HOMOGENEOUS
   has to be added.
-
-
-
-
-  
 
 */
 
@@ -73,38 +67,46 @@
 #include <CGAL/Homogeneous.h>
 #include <CGAL/basic.h>
 #include <CGAL/boolean_operations_2.h>
+#include <vector>
+#include <list>
+#include <iterator>
 
-typedef CGAL_Quotient<long int>       TestNum;  // exact, but very finite
+using CGAL::Object;
+using CGAL::assign;
+using std::vector;
+using std::list;
+using std::back_inserter;
 
-#ifdef CGAL_BOPS_HOMOGENEOUS
-  typedef CGAL_Homogeneous<TestNum>   R_type;
+typedef CGAL::Quotient<long int>       TestNum;  // exact, but very finite
+
+#ifdef BOPS_HOMOGENEOUS
+  typedef CGAL::Homogeneous<TestNum>   R_type;
 #else
-  typedef CGAL_Cartesian<TestNum>     R_type;
+  typedef CGAL::Cartesian<TestNum>     R_type;
 #endif
 
-typedef CGAL_Point_2<R_type>          Point_2;
-typedef CGAL_Segment_2<R_type>        Segment_2;
-                                    // Polygon_2
-typedef list< Point_2 >               Container;
-typedef CGAL_Polygon_traits_2<R_type> Polygon_traits_2;
-typedef CGAL_Polygon_2< Polygon_traits_2, Container >  Polygon_2;
+typedef CGAL::Point_2<R_type>          Point;
+typedef CGAL::Segment_2<R_type>        Segment;
+typedef list< Point >                Container;
+typedef CGAL::Polygon_traits_2<R_type> Polygon_traits;
+typedef CGAL::Polygon_2< Polygon_traits, Container >  Polygon;
 
 
 /*--------------------------------------------------------------*/
 /* test data are inserted:                                      */
 /* Polygon 1: (2,4) (0,3) (1,1) (2,3) (3,1) (4,3)               */
 /* Polygon 2: (0,2) (0,0) (5,0) (5,2)                           */
-void test_input(vector<Point_2>& vA, vector<Point_2>& vB) {
-  vA[0]= Point_2(2,4);
-  vA[1]= Point_2(0,3);
-  vA[2]= Point_2(1,1);
-  vA[3]= Point_2(2,3);
-  vA[4]= Point_2(3,1);
-  vA[5]= Point_2(4,3);
-  vB[0]= Point_2(0,2);
-  vB[1]= Point_2(0,0);
-  vB[2]= Point_2(5,0);
-  vB[3]= Point_2(5,2);
+void test_input(vector<Point>& vA, vector<Point>& vB) {
+  vA[0]= Point(2,4);
+  vA[1]= Point(0,3);
+  vA[2]= Point(1,1);
+  vA[3]= Point(2,3);
+  vA[4]= Point(3,1);
+  vA[5]= Point(4,3);
+  vB[0]= Point(0,2);
+  vB[1]= Point(0,0);
+  vB[2]= Point(5,0);
+  vB[3]= Point(5,2);
 }
 /*--------------------------------------------------------------*/
 
@@ -113,18 +115,18 @@ void test_input(vector<Point_2>& vA, vector<Point_2>& vB) {
 /* do something with the test result                            */
 template< class ForwardIterator >
 int test_result_output( ForwardIterator first, ForwardIterator last ) {
-  Point_2 point;
-  Segment_2 segment;
-  Polygon_2 polygon;
+  Point point;
+  Segment segment;
+  Polygon polygon;
 
   for( ForwardIterator it= first; it != last; it++) {
-    if( CGAL_assign( polygon, *it) ) {
+    if( assign( polygon, *it) ) {
        /* do something with the polygon */
     }
-    else if( CGAL_assign( segment, *it) ) {
+    else if( assign( segment, *it) ) {
        /* do something with the segment */
     }
-    else if( CGAL_assign( point, *it) )  {
+    else if( assign( point, *it) )  {
        /* do something with the point */
     }
     else {
@@ -141,12 +143,12 @@ int test_result_output( ForwardIterator first, ForwardIterator last ) {
 /* ----------------------------------------                     */
 /* result:                                                      */
 int test_intersection(void) {
-  vector<Point_2> vA(6), vB(4);
+  vector<Point> vA(6), vB(4);
   test_input( vA, vB);
-  Polygon_2 A(vA.begin(), vA.end()), B(vB.begin(),vB.end());
+  Polygon A(vA.begin(), vA.end()), B(vB.begin(),vB.end());
 
-  list<CGAL_Object> result;
-  CGAL_intersection(A,B, back_inserter(result));
+  list<Object> result;
+  CGAL::intersection(A,B, back_inserter(result));
   test_result_output( result.begin(), result.end() );
   
   return 0;
@@ -160,12 +162,12 @@ int test_intersection(void) {
 /* --------------------------------------                       */
 /* result:                                                      */
 int test_difference(void) {
-  vector<Point_2> vA(6), vB(4);
+  vector<Point> vA(6), vB(4);
   test_input( vA, vB);
-  Polygon_2 A(vA.begin(), vA.end()), B(vB.begin(),vB.end());
+  Polygon A(vA.begin(), vA.end()), B(vB.begin(),vB.end());
 
-  list<CGAL_Object> result;
-  CGAL_difference(A,B, back_inserter(result) );
+  list<Object> result;
+  CGAL::difference(A,B, back_inserter(result) );
 
   return 0;
 }
@@ -178,12 +180,12 @@ int test_difference(void) {
 /* ---------------------------------                            */
 /* result:                                                      */
 int test_union(void) {
-  vector<Point_2> vA(6), vB(4);
+  vector<Point> vA(6), vB(4);
   test_input( vA, vB);
-  Polygon_2 A(vA.begin(), vA.end()), B(vB.begin(),vB.end());
+  Polygon A(vA.begin(), vA.end()), B(vB.begin(),vB.end());
 
-  list<CGAL_Object> result;
-  CGAL_union(A,B, back_inserter(result) );
+  list<Object> result;
+  CGAL::Union(A,B, back_inserter(result) );
 
   return 0;
 }

@@ -15,19 +15,19 @@
 #include <CGAL/Pm_default_dcel.h>
 #include <CGAL/Planar_map_2.h>
 
-typedef CGAL_Homogeneous<long>                 coord_t;  //change from example1
-typedef CGAL_Pm_segment_exact_traits<coord_t>  pmtraits; //change from example1
+typedef CGAL::Homogeneous<long>                 coord_t;  //change from example1
+typedef CGAL::Pm_segment_exact_traits<coord_t>  pmtraits; //change from example1
 
 typedef pmtraits::Point                                  point;
 typedef pmtraits::X_curve                                curve;
-typedef CGAL_Pm_default_dcel<pmtraits>                   pmdcel;
+typedef CGAL::Pm_default_dcel<pmtraits>                   pmdcel;
 
 int main()
 {
-  // creating an instance of CGAL_Planar_map_2<pmdcel,pmtraits>
-  //CGAL_Pm_naive_point_location_strategy<pmdcel,pmtraits> pl_strategy;  
-  //CGAL_Planar_map_2<pmdcel,pmtraits> pm(&pl_strategy);
-    CGAL_Planar_map_2<pmdcel,pmtraits> pm;
+  // creating an instance of CGAL::Planar_map_2<pmdcel,pmtraits>
+  //CGAL::Pm_naive_point_location_strategy<pmdcel,pmtraits> pl_strategy;  
+  //CGAL::Planar_map_2<pmdcel,pmtraits> pm(&pl_strategy);
+    CGAL::Planar_map_2<pmdcel,pmtraits> pm;
 
   curve cv[5];
   int i;
@@ -41,49 +41,49 @@ int main()
   cv[3] = curve(a2, a4);
   cv[4] = curve(a3, a4);
   
-  cout << "the curves of the map :" << endl; 
+  std::cout << "the curves of the map :" << std::endl; 
   for (i = 0; i < 5; i++)
-    cout << cv[i] << endl;
+    std::cout << cv[i] << std::endl;
 
-  cout << endl;
+  std::cout << std::endl;
 
   // insert the five curves to the map
-  cout << "inserting the curves to the map..." << endl;
+  std::cout << "inserting the curves to the map..." << std::endl;
   for (i = 0; i < 5; i++)
   {
-    cout << "inserting curve" << i << endl;
+    std::cout << "inserting curve" << i << std::endl;
     pm.insert(cv[i]);
   }
   
   // check the validity of the map
-  cout << "check map validity... ";
+  std::cout << "check map validity... ";
   if (pm.is_valid())
-    cout << "map valid!" << endl;
+    std::cout << "map valid!" << std::endl;
   else
-    cout << "map invalid!" << endl;
-  cout << endl;
+    std::cout << "map invalid!" << std::endl;
+  std::cout << std::endl;
   
   // vertical ray shooting upward from p
   point p(95, 30);
-  CGAL_Planar_map_2<pmdcel,pmtraits>::Halfedge_handle e;  
-  CGAL_Planar_map_2<pmdcel,pmtraits>::Locate_type lt;
+  CGAL::Planar_map_2<pmdcel,pmtraits>::Halfedge_handle e;  
+  CGAL::Planar_map_2<pmdcel,pmtraits>::Locate_type lt;
 
-  cout << endl << "upward vertical ray shooting from " << p << endl; 
+  std::cout << std::endl << "upward vertical ray shooting from " << p << std::endl; 
   e=pm.vertical_ray_shoot(p, lt, true);
-  cout << "returned the curve :" << e->curve() << endl;
+  std::cout << "returned the curve :" << e->curve() << std::endl;
 
 
   //testing the removal function
 
-  cout << "\nremoving the edge ... " << endl;
+  std::cout << "\nremoving the edge ... " << std::endl;
 
   pm.remove_edge(e);
 
   if (pm.is_valid())
-    cout << "map valid!" << endl;
+    std::cout << "map valid!" << std::endl;
   else
-    cout << "map invalid!" << endl;
-  cout << endl;
+    std::cout << "map invalid!" << std::endl;
+  std::cout << std::endl;
 
 
   return 0;  

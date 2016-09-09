@@ -1,6 +1,6 @@
 // ======================================================================
 //
-// Copyright (c) 1998 The CGAL Consortium
+// Copyright (c) 1999 The GALIA Consortium
 //
 // This software and related documentation is part of the
 // Computational Geometry Algorithms Library (CGAL).
@@ -16,35 +16,34 @@
 // - Development licenses grant access to the source code of the library 
 //   to develop programs. These programs may be sold to other parties as 
 //   executable code. To obtain a development license, please contact
-//   the CGAL Consortium (at cgal@cs.uu.nl).
+//   the GALIA Consortium (at cgal@cs.uu.nl).
 // - Commercialization licenses grant access to the source code and the
 //   right to sell development licenses. To obtain a commercialization 
-//   license, please contact the CGAL Consortium (at cgal@cs.uu.nl).
+//   license, please contact the GALIA Consortium (at cgal@cs.uu.nl).
 //
 // This software and documentation is provided "as-is" and without
 // warranty of any kind. In no event shall the CGAL Consortium be
 // liable for any damage of any kind.
 //
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// The GALIA Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany) Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+// (Germany), Max-Planck-Institute Saarbrucken (Germany),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 // 
-// release       : CGAL-1.2
-// release_date  : 1999, January 18
+// release       : CGAL-2.0
+// release_date  : 1999, June 03
 // 
 // source        : predicates_on_linesH2.fw
 // file          : include/CGAL/predicates_on_linesH2.h
-// package       : H2 (1.3.1)
-// revision      : 1.3.1
-// revision_date : 02 Jan 1999 
+// package       : H2 (2.1.3)
+// revision      : 2.1.3
+// revision_date : 21 May 1999 
 // author(s)     : Stefan Schirra
 //
 // coordinator   : MPI, Saarbruecken
-//
 // email         : cgal@cs.uu.nl
 //
 // ======================================================================
@@ -66,100 +65,104 @@
 #include <CGAL/basic_constructionsH2.h>
 #endif // CGAL_BASIC_CONSTRUCTIONSH2_H
 
+CGAL_BEGIN_NAMESPACE
+
 
 template <class FT, class RT>
 CGAL_KERNEL_INLINE
-CGAL_Comparison_result
-CGAL_compare_x(const CGAL_PointH2<FT,RT> &p,
-               const CGAL_LineH2<FT,RT> &l1,
-               const CGAL_LineH2<FT,RT> &l2)
+Comparison_result
+compare_x(const PointH2<FT,RT> &p,
+               const LineH2<FT,RT> &l1,
+               const LineH2<FT,RT> &l2)
 {
-  CGAL_PointH2<FT,RT> ip = CGAL_gp_linear_intersection( l1, l2 );
-  return CGAL_compare_x( p, ip );
+  PointH2<FT,RT> ip = gp_linear_intersection( l1, l2 );
+  return compare_x( p, ip );
 }
 
 
 template <class FT, class RT>
 CGAL_KERNEL_INLINE
-CGAL_Comparison_result
-CGAL_compare_x(const CGAL_LineH2<FT,RT> &l1,
-               const CGAL_LineH2<FT,RT> &l2,
-               const CGAL_LineH2<FT,RT> &h1,
-               const CGAL_LineH2<FT,RT> &h2)
+Comparison_result
+compare_x(const LineH2<FT,RT> &l1,
+               const LineH2<FT,RT> &l2,
+               const LineH2<FT,RT> &h1,
+               const LineH2<FT,RT> &h2)
 {
-  CGAL_PointH2<FT,RT> lip = CGAL_gp_linear_intersection( l1, l2 );
-  CGAL_PointH2<FT,RT> hip = CGAL_gp_linear_intersection( h1, h2 );
-  return CGAL_compare_x( lip, hip );
+  PointH2<FT,RT> lip = gp_linear_intersection( l1, l2 );
+  PointH2<FT,RT> hip = gp_linear_intersection( h1, h2 );
+  return compare_x( lip, hip );
 }
 template <class FT, class RT>
 CGAL_KERNEL_INLINE
-CGAL_Comparison_result
-CGAL_compare_y(const CGAL_PointH2<FT,RT> &p,
-               const CGAL_LineH2<FT,RT> &l1,
-               const CGAL_LineH2<FT,RT> &l2)
+Comparison_result
+compare_y(const PointH2<FT,RT> &p,
+               const LineH2<FT,RT> &l1,
+               const LineH2<FT,RT> &l2)
 {
-  CGAL_PointH2<FT,RT> ip = CGAL_gp_linear_intersection( l1, l2 );
-  return CGAL_compare_y( p, ip );
+  PointH2<FT,RT> ip = gp_linear_intersection( l1, l2 );
+  return compare_y( p, ip );
 }
 
 
 template <class FT, class RT>
 CGAL_KERNEL_INLINE
-CGAL_Comparison_result
-CGAL_compare_y(const CGAL_LineH2<FT,RT> &l1,
-               const CGAL_LineH2<FT,RT> &l2,
-               const CGAL_LineH2<FT,RT> &h1,
-               const CGAL_LineH2<FT,RT> &h2)
+Comparison_result
+compare_y(const LineH2<FT,RT> &l1,
+               const LineH2<FT,RT> &l2,
+               const LineH2<FT,RT> &h1,
+               const LineH2<FT,RT> &h2)
 {
-  CGAL_PointH2<FT,RT> lip = CGAL_gp_linear_intersection( l1, l2 );
-  CGAL_PointH2<FT,RT> hip = CGAL_gp_linear_intersection( h1, h2 );
-  return CGAL_compare_y( lip, hip );
+  PointH2<FT,RT> lip = gp_linear_intersection( l1, l2 );
+  PointH2<FT,RT> hip = gp_linear_intersection( h1, h2 );
+  return compare_y( lip, hip );
 }
 template <class FT, class RT>
 CGAL_KERNEL_MEDIUM_INLINE
-CGAL_Comparison_result
-CGAL_compare_y_at_x(const CGAL_PointH2<FT,RT> &p,
-                    const CGAL_LineH2<FT,RT> &h)
+Comparison_result
+compare_y_at_x(const PointH2<FT,RT> &p,
+                    const LineH2<FT,RT> &h)
 {
   CGAL_kernel_precondition( ! h.is_vertical() );
-  CGAL_Oriented_side ors = h.oriented_side( p );
+  Oriented_side ors = h.oriented_side( p );
   if ( h.b() < RT(0) )
   {
-      ors = CGAL_opposite( ors );
+      ors = opposite( ors );
   }
-  if ( ors == CGAL_ON_POSITIVE_SIDE )
+  if ( ors == ON_POSITIVE_SIDE )
   {
-      return CGAL_LARGER;
+      return LARGER;
   }
-  return ( ors == CGAL_ON_NEGATIVE_SIDE ) ? CGAL_SMALLER : CGAL_EQUAL;
+  return ( ors == ON_NEGATIVE_SIDE ) ? SMALLER : EQUAL;
 }
 
 template <class FT, class RT>
 CGAL_KERNEL_INLINE
-CGAL_Comparison_result
-CGAL_compare_y_at_x(const CGAL_PointH2<FT,RT> &p,
-                    const CGAL_LineH2<FT,RT> &h1,
-                    const CGAL_LineH2<FT,RT> &h2)
-{ return CGAL_compare(h1.y_at_x( p.x() ), h2.y_at_x( p.x() )); }
+Comparison_result
+compare_y_at_x(const PointH2<FT,RT> &p,
+                    const LineH2<FT,RT> &h1,
+                    const LineH2<FT,RT> &h2)
+{ return CGAL::compare(h1.y_at_x( p.x() ), h2.y_at_x( p.x() )); }
 
 
 template <class FT, class RT>
 CGAL_KERNEL_INLINE
-CGAL_Comparison_result
-CGAL_compare_y_at_x(const CGAL_LineH2<FT,RT> &l1,
-                    const CGAL_LineH2<FT,RT> &l2,
-                    const CGAL_LineH2<FT,RT> &h)
-{ return CGAL_compare_y_at_x( CGAL_gp_linear_intersection( l1, l2 ), h); }
+Comparison_result
+compare_y_at_x(const LineH2<FT,RT> &l1,
+                    const LineH2<FT,RT> &l2,
+                    const LineH2<FT,RT> &h)
+{ return compare_y_at_x( gp_linear_intersection( l1, l2 ), h); }
 
 
 template <class FT, class RT>
 CGAL_KERNEL_INLINE
-CGAL_Comparison_result
-CGAL_compare_y_at_x(const CGAL_LineH2<FT,RT> &l1,
-                    const CGAL_LineH2<FT,RT> &l2,
-                    const CGAL_LineH2<FT,RT> &h1,
-                    const CGAL_LineH2<FT,RT> &h2)
-{ return CGAL_compare_y_at_x( CGAL_gp_linear_intersection( l1, l2 ), h1, h2 ); }
+Comparison_result
+compare_y_at_x(const LineH2<FT,RT> &l1,
+                    const LineH2<FT,RT> &l2,
+                    const LineH2<FT,RT> &h1,
+                    const LineH2<FT,RT> &h2)
+{ return compare_y_at_x( gp_linear_intersection( l1, l2 ), h1, h2 ); }
+
+CGAL_END_NAMESPACE
 
 
 #endif  // CGAL_PREDICATES_ON_LINESH2_H

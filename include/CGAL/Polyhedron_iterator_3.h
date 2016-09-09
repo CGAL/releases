@@ -1,6 +1,6 @@
 // ======================================================================
 //
-// Copyright (c) 1997 The CGAL Consortium
+// Copyright (c) 1999 The GALIA Consortium
 //
 // This software and related documentation is part of the
 // Computational Geometry Algorithms Library (CGAL).
@@ -16,38 +16,37 @@
 // - Development licenses grant access to the source code of the library 
 //   to develop programs. These programs may be sold to other parties as 
 //   executable code. To obtain a development license, please contact
-//   the CGAL Consortium (at cgal@cs.uu.nl).
+//   the GALIA Consortium (at cgal@cs.uu.nl).
 // - Commercialization licenses grant access to the source code and the
 //   right to sell development licenses. To obtain a commercialization 
-//   license, please contact the CGAL Consortium (at cgal@cs.uu.nl).
+//   license, please contact the GALIA Consortium (at cgal@cs.uu.nl).
 //
 // This software and documentation is provided "as-is" and without
 // warranty of any kind. In no event shall the CGAL Consortium be
 // liable for any damage of any kind.
 //
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// The GALIA Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany) Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+// (Germany), Max-Planck-Institute Saarbrucken (Germany),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-1.2
-// release_date  : 1999, January 18
+// release       : CGAL-2.0
+// release_date  : 1999, June 03
 //
 // file          : include/CGAL/Polyhedron_iterator_3.h
-// package       : Polyhedron (1.14)
+// package       : Polyhedron (2.5)
 // chapter       : $CGAL_Chapter: 3D-Polyhedral Surfaces $
 // source        : polyhedron.fw
-// revision      : $Revision: 1.11 $
-// revision_date : $Date: 1998/10/09 13:32:07 $
+// revision      : $Revision: 1.3 $
+// revision_date : $Date: 1999/04/20 15:47:15 $
 // author(s)     : Lutz Kettner
 //
 // coordinator   : MPI Saarbruecken (Stefan Schirra)
 //
 // Iterator and Circulator for Polyhedral Surfaces.
-//
 // email         : cgal@cs.uu.nl
 //
 // ======================================================================
@@ -59,66 +58,53 @@
 #endif
 
 // Define shorter names to please linker (g++/egcs)
-#define CGAL__Polyhedron_iterator                CGAL__PhI
-#define CGAL__Polyhedron_const_iterator          CGAL__PhCI
-#define CGAL__Polyhedron_edge_iterator           CGAL__PhEI
-#define CGAL__Polyhedron_halfedge_const_iterator CGAL__PhHCI
-#define CGAL__Polyhedron_facet_circ              CGAL__PhFC
-#define CGAL__Polyhedron_facet_const_circ        CGAL__PhFCC
-#define CGAL__Polyhedron_vertex_circ             CGAL__PhVC
-#define CGAL__Polyhedron_vertex_const_circ       CGAL__PhVCC
+#define _Polyhedron_iterator                _PhI
+#define _Polyhedron_const_iterator          _PhCI
+#define _Polyhedron_edge_iterator           _PhEI
+#define _Polyhedron_edge_const_iterator     _PhECI
+#define _Polyhedron_facet_circ              _PhFC
+#define _Polyhedron_facet_const_circ        _PhFCC
+#define _Polyhedron_vertex_circ             _PhVC
+#define _Polyhedron_vertex_const_circ       _PhVCC
 
-// The following two iterators are similar to CGAL_Iterator_project
-// and CGAL_Iterator_const_project, but they implement the arrow
+CGAL_BEGIN_NAMESPACE
+
+// The following two iterators are similar to Iterator_project
+// and Iterator_const_project, but they implement the arrow
 // operator -> in any case. This is here possible since the elements
 // a polyhedron consists of are always classes with members.
 
 template < class I, class Val, class Dist, class Ctg>
-class CGAL__Polyhedron_iterator {
+class _Polyhedron_iterator {
 protected:
     I        nt;    // The internal iterator.
 public:
     typedef  I  Iterator;
-    typedef  CGAL__Polyhedron_iterator<I,Val,Dist,Ctg> Self;
+    typedef  _Polyhedron_iterator<I,Val,Dist,Ctg> Self;
 
     typedef  Ctg                          iterator_category;
     typedef  Val                          value_type;
-    typedef  Val&                         Ref;
-    typedef  Val*                         Ptr;
     typedef  value_type&                  reference;
-    typedef  const value_type&            const_reference;
     typedef  value_type*                  pointer;
-    typedef  const value_type*            const_pointer;
     typedef  Dist                         difference_type;
-
 
 // CREATION
 // --------
 
-    CGAL__Polyhedron_iterator() {}
-    CGAL__Polyhedron_iterator( I j) : nt(j) {}
-    // CGAL__Polyhedron_iterator( Ptr p) : nt(p) {}
+    _Polyhedron_iterator() {}
+    _Polyhedron_iterator( I j) : nt(j) {}
+    // _Polyhedron_iterator( Ptr p) : nt(p) {}
 
 // OPERATIONS Forward Category
 // ---------------------------
 
     Iterator  current_iterator() const { return nt;}
-    Ptr       ptr() const {
-        return (Ptr)(&(*nt));
-    }
+    pointer   ptr() const { return (pointer)(&(*nt)); }
 
-    bool operator==( const Self& i) const {
-        return ( nt == i.nt);
-    }
-    bool operator!=( const Self& i) const {
-        return !(*this == i);
-    }
-    Ref  operator*() const {
-        return (Ref)(*nt);
-    }
-    Ptr  operator->() const {
-        return (Ptr)(&(*nt));
-    }
+    bool  operator==( const Self& i) const { return ( nt == i.nt); }
+    bool  operator!=( const Self& i) const { return !(*this == i); }
+    reference   operator*() const  { return *ptr(); }
+    pointer     operator->() const { return  ptr(); }
     Self& operator++() {
         ++nt;
         return *this;
@@ -145,9 +131,6 @@ public:
 // OPERATIONS Random Access Category
 // ---------------------------------
 
-// Make this adaptor bidirectional by default
-// if implicit instantiation is buggy.
-#ifndef CGAL_CFG_NO_LAZY_INSTANTIATION
     Self& operator+=( difference_type n) {
         nt += n;
         return *this;
@@ -156,118 +139,89 @@ public:
         Self tmp = *this;
         return tmp += n;
     }
-    Self& operator-=( difference_type n) {
-        return operator+=( -n);
-    }
+    Self& operator-=( difference_type n) { return operator+=( -n); }
     Self  operator-( difference_type n) const {
         Self tmp = *this;
         return tmp += -n;
     }
-    difference_type  operator-( const Self& i) const {
-        return nt - i.nt;
-    }
-    Ref  operator[]( difference_type n) const {
+    difference_type  operator-( const Self& i) const { return nt - i.nt; }
+    reference  operator[]( difference_type n) const {
         Self tmp = *this;
         tmp += n;
         return tmp.operator*();
     }
-    bool operator<( const Self& i) const {
-        return ( nt < i.nt);
-    }
-    bool operator>( const Self& i) const {
-        return i < *this;
-    }
-    bool operator<=( const Self& i) const {
-        return !(i < *this);
-    }
-    bool operator>=( const Self& i) const {
-        return !(*this < i);
-    }
-#endif // CGAL_CFG_NO_LAZY_INSTANTIATION //
+    bool operator< ( const Self& i) const { return ( nt < i.nt); }
+    bool operator> ( const Self& i) const { return i < *this;    }
+    bool operator<=( const Self& i) const { return !(i < *this); }
+    bool operator>=( const Self& i) const { return !(*this < i); }
 };
 
 template < class D, class I, class Val, class Dist, class Ctg>
 inline
-CGAL__Polyhedron_iterator<I,Val,Dist,Ctg>
-operator+( D n, CGAL__Polyhedron_iterator<I,Val,Dist,Ctg> i) {
+_Polyhedron_iterator<I,Val,Dist,Ctg>
+operator+( D n, _Polyhedron_iterator<I,Val,Dist,Ctg> i) {
     return i += Dist(n);
 }
 
 #ifdef CGAL_CFG_NO_ITERATOR_TRAITS
 template < class I, class Val, class Dist, class Ctg>
 inline  Ctg
-iterator_category( const CGAL__Polyhedron_iterator<I,Val,Dist,Ctg>&){
+iterator_category( const _Polyhedron_iterator<I,Val,Dist,Ctg>&){
     return Ctg();
 }
 template < class I, class Val, class Dist, class Ctg>
 inline  Val*
-value_type( const CGAL__Polyhedron_iterator<I,Val,Dist,Ctg>&) {
+value_type( const _Polyhedron_iterator<I,Val,Dist,Ctg>&) {
     return (Val*)(0);
 }
 template < class I, class Val, class Dist, class Ctg>
 inline  Dist*
-distance_type( const CGAL__Polyhedron_iterator<I,Val,Dist,Ctg>&) {
+distance_type( const _Polyhedron_iterator<I,Val,Dist,Ctg>&) {
     return (Dist*)(0);
 }
 template < class I, class Val, class Dist, class Ctg>
-inline  CGAL_Iterator_tag
-CGAL_query_circulator_or_iterator(
-    const CGAL__Polyhedron_iterator<I,Val,Dist,Ctg>&)
+inline  Iterator_tag
+query_circulator_or_iterator(
+    const _Polyhedron_iterator<I,Val,Dist,Ctg>&)
 {
-    return CGAL_Iterator_tag();
+    return Iterator_tag();
 }
 #endif // CGAL_CFG_NO_ITERATOR_TRAITS //
 
 
 template < class I, class II, class Val, class Dist, class Ctg>
-class CGAL__Polyhedron_const_iterator {
+class _Polyhedron_const_iterator {
 protected:
     I        nt;    // The internal iterator.
 public:
     typedef  I  Iterator;
-    typedef  CGAL__Polyhedron_const_iterator<I,II,Val,Dist,Ctg> Self;
+    typedef  _Polyhedron_const_iterator<I,II,Val,Dist,Ctg> Self;
 
     typedef  Ctg                          iterator_category;
     typedef  Val                          value_type;
-    typedef  value_type&                  reference;
-    typedef  const value_type&            const_reference;
-    typedef  value_type*                  pointer;
-    typedef  const value_type*            const_pointer;
+    typedef  const value_type&            reference;
+    typedef  const value_type*            pointer;
     typedef  Dist                         difference_type;
 
-    typedef  const_reference              Ref;
-    typedef  const_pointer                Ptr;
-
-    typedef  CGAL__Polyhedron_iterator<II,Val,Dist,Ctg>  mutable_iterator;
+    typedef  _Polyhedron_iterator<II,Val,Dist,Ctg>  mutable_iterator;
 
 // CREATION
 // --------
 
-    CGAL__Polyhedron_const_iterator() {}
-    CGAL__Polyhedron_const_iterator( Iterator j) : nt(j) {}
-    // CGAL__Polyhedron_const_iterator( Ptr p) : nt(p) {}
-    CGAL__Polyhedron_const_iterator( mutable_iterator j) : nt( &*j) {}
+    _Polyhedron_const_iterator() {}
+    _Polyhedron_const_iterator( Iterator j) : nt(j) {}
+    // _Polyhedron_const_iterator( Ptr p) : nt(p) {}
+    _Polyhedron_const_iterator( mutable_iterator j) : nt( &*j) {}
 
 // OPERATIONS Forward Category
 // ---------------------------
 
     Iterator  current_iterator() const { return nt;}
-    Ptr       ptr() const {
-        return (Ptr)(&(*nt));
-    }
-
-    bool operator==( const Self& i) const {
-        return ( nt == i.nt);
-    }
-    bool operator!=( const Self& i) const {
-        return !(*this == i);
-    }
-    Ref  operator*() const {
-        return (Ref)(*nt);
-    }
-    Ptr  operator->() const {
-        return (Ptr)(&(*nt));
-    }
+    pointer   ptr() const { return (pointer)(&(*nt)); }
+    bool operator==( const Self& i) const { return ( nt == i.nt); }
+    bool operator!=( const Self& i) const { return !(*this == i); }
+    reference  operator*()  const { return *ptr(); }
+    pointer    operator->() const { return ptr();  }
     Self& operator++() {
         ++nt;
         return *this;
@@ -294,9 +248,6 @@ public:
 // OPERATIONS Random Access Category
 // ---------------------------------
 
-// Make this adaptor bidirectional by default
-// if implicit instantiation is buggy.
-#ifndef CGAL_CFG_NO_LAZY_INSTANTIATION
     Self& operator+=( difference_type n) {
         nt += n;
         return *this;
@@ -305,34 +256,21 @@ public:
         Self tmp = *this;
         return tmp += n;
     }
-    Self& operator-=( difference_type n) {
-        return operator+=( -n);
-    }
+    Self& operator-=( difference_type n) { return operator+=( -n); }
     Self  operator-( difference_type n) const {
         Self tmp = *this;
         return tmp += -n;
     }
-    difference_type  operator-( const Self& i) const {
-        return nt - i.nt;
-    }
-    Ref  operator[]( difference_type n) const {
+    difference_type  operator-( const Self& i) const { return nt - i.nt; }
+    reference  operator[]( difference_type n) const {
         Self tmp = *this;
         tmp += n;
         return tmp.operator*();
     }
-    bool operator<( const Self& i) const {
-        return ( nt < i.nt);
-    }
-    bool operator>( const Self& i) const {
-        return i < *this;
-    }
-    bool operator<=( const Self& i) const {
-        return !(i < *this);
-    }
-    bool operator>=( const Self& i) const {
-        return !(*this < i);
-    }
-#endif // CGAL_CFG_NO_LAZY_INSTANTIATION //
+    bool operator< ( const Self& i) const { return ( nt < i.nt); }
+    bool operator> ( const Self& i) const { return i < *this;    }
+    bool operator<=( const Self& i) const { return !(i < *this); }
+    bool operator>=( const Self& i) const { return !(*this < i); }
 #ifdef CGAL_CFG_NO_ITERATOR_TRAITS
     friend inline  value_type*
     value_type( const Self&) {
@@ -346,17 +284,17 @@ public:
     distance_type( const Self&) {
         return (Dist*)(0);
     }
-    friend inline  CGAL_Iterator_tag
-    CGAL_query_circulator_or_iterator( const Self&) {
-        return CGAL_Iterator_tag();
+    friend inline  Iterator_tag
+    query_circulator_or_iterator( const Self&) {
+        return Iterator_tag();
     }
 #endif // CGAL_CFG_NO_ITERATOR_TRAITS //
 };
 
 template < class D, class I, class II, class Val, class Dist, class Ctg>
 inline
-CGAL__Polyhedron_const_iterator<I,II,Val,Dist,Ctg>
-operator+( D n, CGAL__Polyhedron_const_iterator<I,II,Val,Dist,Ctg> i) {
+_Polyhedron_const_iterator<I,II,Val,Dist,Ctg>
+operator+( D n, _Polyhedron_const_iterator<I,II,Val,Dist,Ctg> i) {
     return i += Dist(n);
 }
 
@@ -364,49 +302,47 @@ operator+( D n, CGAL__Polyhedron_const_iterator<I,II,Val,Dist,Ctg> i) {
 template < class I, class II, class Val, class Dist, class Ctg>
 inline  Ctg
 iterator_category(
-    const CGAL__Polyhedron_const_iterator<I,II,Val,Dist,Ctg>&){
+    const _Polyhedron_const_iterator<I,II,Val,Dist,Ctg>&){
     return Ctg();
 }
 template < class I, class II, class Val, class Dist, class Ctg>
 inline  Val*
-value_type( const CGAL__Polyhedron_const_iterator<I,II,Val,Dist,Ctg>&) {
+value_type( const _Polyhedron_const_iterator<I,II,Val,Dist,Ctg>&) {
     return (Val*)(0);
 }
 template < class I, class II, class Val, class Dist, class Ctg>
 inline  Dist*
-distance_type( const CGAL__Polyhedron_const_iterator<I,II,Val,Dist,Ctg>&) {
+distance_type( const _Polyhedron_const_iterator<I,II,Val,Dist,Ctg>&) {
     return (Dist*)(0);
 }
 template < class I, class II, class Val, class Dist, class Ctg>
-inline  CGAL_Iterator_tag
-CGAL_query_circulator_or_iterator(
-    const CGAL__Polyhedron_const_iterator<I,II,Val,Dist,Ctg>&)
+inline  Iterator_tag
+query_circulator_or_iterator(
+    const _Polyhedron_const_iterator<I,II,Val,Dist,Ctg>&)
 {
-    return CGAL_Iterator_tag();
+    return Iterator_tag();
 }
 #endif // CGAL_CFG_NO_ITERATOR_TRAITS //
 template < class It, class Val, class Dist, class Ctg>
-class CGAL__Polyhedron_edge_iterator : public It {
+class _Polyhedron_edge_iterator : public It {
 protected:
     //It        nt;    // The internal iterator, inherited from It..
 public:
     typedef  It  Base;
-    typedef  CGAL__Polyhedron_edge_iterator<It,Val,Dist,Ctg> Self;
+    typedef  _Polyhedron_edge_iterator<It,Val,Dist,Ctg> Self;
 
-    typedef  Ctg                                     iterator_category;
-    typedef  Val                                     value_type;
-    typedef  Dist                                    difference_type;
+    typedef  Ctg                  iterator_category;
+    typedef  Val                  value_type;
+    typedef  Dist                 difference_type;
 
-    typedef  value_type&                             reference;
-    typedef  value_type*                             pointer;
-    typedef  const value_type&                       const_reference;
-    typedef  const value_type*                       const_pointer;
+    typedef  value_type&          reference;
+    typedef  value_type*          pointer;
 
 // CREATION
 // --------
 
-    CGAL__Polyhedron_edge_iterator() {}
-    CGAL__Polyhedron_edge_iterator( It j) : It(j) {}
+    _Polyhedron_edge_iterator() {}
+    _Polyhedron_edge_iterator( It j) : It(j) {}
 
 // OPERATIONS Forward Category
 // ---------------------------
@@ -441,9 +377,6 @@ public:
 // OPERATIONS Random Access Category
 // ---------------------------------
 
-// Make this adaptor bidirectional by default
-// if implicit instantiation is buggy.
-#ifndef CGAL_CFG_NO_LAZY_INSTANTIATION
     Self& operator+=( difference_type n) {
         It::operator+=( n << 1);
         return *this;
@@ -452,9 +385,7 @@ public:
         Self tmp = *this;
         return tmp += n;
     }
-    Self& operator-=( difference_type n) {
-        return operator+=( -n);
-    }
+    Self& operator-=( difference_type n) { return operator+=( -n); }
     Self  operator-( difference_type n) const {
         Self tmp = *this;
         return tmp += -n;
@@ -462,91 +393,59 @@ public:
     difference_type  operator-( const Self& i) const {
         return (It::operator-(i)) >> 1;
     }
-#endif // CGAL_CFG_NO_LAZY_INSTANTIATION //
 #ifdef CGAL_CFG_NO_ITERATOR_TRAITS
     friend inline  iterator_category
-    iterator_category( const Self&) {
-        return iterator_category();
-    }
+    iterator_category( const Self&) { return iterator_category(); }
     friend inline  value_type*
-    value_type( const Self&) {
-        return (value_type*)(0);
-    }
+    value_type( const Self&) { return (value_type*)(0); }
     friend inline  difference_type*
-    distance_type( const Self&) {
-        return (difference_type*)(0);
-    }
-    friend inline CGAL_Iterator_tag
-    CGAL_query_circulator_or_iterator( const Self&) {
-        return CGAL_Iterator_tag();
+    distance_type( const Self&) { return (difference_type*)(0); }
+    friend inline Iterator_tag
+    query_circulator_or_iterator( const Self&) {
+        return Iterator_tag();
     }
 #endif // CGAL_CFG_NO_ITERATOR_TRAITS //
 };
 template < class D, class It, class Val, class Dist, class Ctg>
 inline
-CGAL__Polyhedron_edge_iterator<It,Val,Dist,Ctg>
-operator+( D n, CGAL__Polyhedron_edge_iterator<It,Val,Dist,Ctg> i) {
+_Polyhedron_edge_iterator<It,Val,Dist,Ctg>
+operator+( D n, _Polyhedron_edge_iterator<It,Val,Dist,Ctg> i) {
     return i += Dist(n);
 }
-// This one is special for SunPro:
-#ifdef __SUNPRO_CC
-template < class I, class II, class C1, class C2, class Val,
-           class Dist, class Ctg>
-class CGAL__Polyhedron_halfedge_const_iterator {
+
+
+template < class It, class It2, class Val, class Dist, class Ctg>
+class _Polyhedron_edge_const_iterator : public It {
 protected:
-    I        nt;    // The internal iterator.
+    //It        nt;    // The internal iterator, inherited from It..
 public:
-    typedef  I  Iterator;
-    typedef  CGAL__Polyhedron_halfedge_const_iterator<I,II,C1,C2,
-             Val,Dist,Ctg>                Self;
+    typedef  It  Base;
+    typedef  _Polyhedron_edge_const_iterator<It,It2,Val,Dist,Ctg> Self;
 
-    typedef  Ctg                          iterator_category;
-    typedef  Val                          value_type;
-    typedef  value_type&                  reference;
-    typedef  const value_type&            const_reference;
-    typedef  value_type*                  pointer;
-    typedef  const value_type*            const_pointer;
-    typedef  Dist                         difference_type;
+    typedef  Ctg                  iterator_category;
+    typedef  Val                  value_type;
+    typedef  Dist                 difference_type;
 
-    typedef  const_reference              Ref;
-    typedef  const_pointer                Ptr;
-
-    typedef  CGAL__Polyhedron_iterator<II,Val,Dist,Ctg>  mutable_iterator;
+    typedef  const value_type&    reference;
+    typedef  const value_type*    pointer;
+    typedef  _Polyhedron_edge_iterator<It2,Val,Dist,Ctg> Mutable;
 
 // CREATION
 // --------
 
-    CGAL__Polyhedron_halfedge_const_iterator() {}
-    CGAL__Polyhedron_halfedge_const_iterator( Iterator j) : nt(j) {}
-    // CGAL__Polyhedron_halfedge_const_iterator( Ptr p) : nt(p) {}
-    CGAL__Polyhedron_halfedge_const_iterator( mutable_iterator j)
-        : nt( &*j) {}
-    CGAL__Polyhedron_halfedge_const_iterator( C1 c1) : nt( &*c1) {}
-    CGAL__Polyhedron_halfedge_const_iterator( C2 c2) : nt( &*c2) {}
-
+    _Polyhedron_edge_const_iterator() {}
+    _Polyhedron_edge_const_iterator( It j) : It(j) {}
+    _Polyhedron_edge_const_iterator( Mutable j)
+        : It( j.current_iterator()) {}
 
 // OPERATIONS Forward Category
 // ---------------------------
 
-    Iterator  current_iterator() const { return nt;}
-    Ptr       ptr() const {
-        return (Ptr)(&(*nt));
-    }
+    It  current_iterator() const { return It(*this);}
 
-    bool operator==( const Self& i) const {
-        return ( nt == i.nt);
-    }
-    bool operator!=( const Self& i) const {
-        return !(*this == i);
-    }
-    Ref  operator*() const {
-        return (Ref)(*nt);
-    }
-    Ptr  operator->() const {
-        return (Ptr)(&(*nt));
-    }
     Self& operator++() {
-        ++nt;
+        It::operator++();
+        It::operator++();
         return *this;
     }
     Self  operator++(int) {
@@ -559,7 +458,8 @@ public:
 // ---------------------------------
 
     Self& operator--() {
-        --nt;
+        It::operator--();
+        It::operator--();
         return *this;
     }
     Self  operator--(int) {
@@ -571,97 +471,63 @@ public:
 // OPERATIONS Random Access Category
 // ---------------------------------
 
-// Make this adaptor bidirectional by default
-// if implicit instantiation is buggy.
-#ifndef CGAL_CFG_NO_LAZY_INSTANTIATION
     Self& operator+=( difference_type n) {
-        nt += n;
+        It::operator+=( n << 1);
         return *this;
     }
     Self  operator+( difference_type n) const {
         Self tmp = *this;
         return tmp += n;
     }
-    Self& operator-=( difference_type n) {
-        return operator+=( -n);
-    }
+    Self& operator-=( difference_type n) { return operator+=( -n); }
     Self  operator-( difference_type n) const {
         Self tmp = *this;
         return tmp += -n;
     }
     difference_type  operator-( const Self& i) const {
-        return nt - i.nt;
+        return (It::operator-(i)) >> 1;
     }
-    Ref  operator[]( difference_type n) const {
-        Self tmp = *this;
-        tmp += n;
-        return tmp.operator*();
-    }
-    bool operator<( const Self& i) const {
-        return ( nt < i.nt);
-    }
-    bool operator>( const Self& i) const {
-        return i < *this;
-    }
-    bool operator<=( const Self& i) const {
-        return !(i < *this);
-    }
-    bool operator>=( const Self& i) const {
-        return !(*this < i);
-    }
-#endif // CGAL_CFG_NO_LAZY_INSTANTIATION //
 #ifdef CGAL_CFG_NO_ITERATOR_TRAITS
+    friend inline  iterator_category
+    iterator_category( const Self&) { return iterator_category(); }
     friend inline  value_type*
-    value_type( const Self&) {
-        return (value_type*)(0);
-    }
-    friend inline  Ctg
-    iterator_category( const Self&){
-        return Ctg();
-    }
-    friend inline  Dist*
-    distance_type( const Self&) {
-        return (Dist*)(0);
-    }
-    friend inline  CGAL_Iterator_tag
-    CGAL_query_circulator_or_iterator( const Self&) {
-        return CGAL_Iterator_tag();
+    value_type( const Self&) { return (value_type*)(0); }
+    friend inline  difference_type*
+    distance_type( const Self&) { return (difference_type*)(0); }
+    friend inline Iterator_tag
+    query_circulator_or_iterator( const Self&) {
+        return Iterator_tag();
     }
 #endif // CGAL_CFG_NO_ITERATOR_TRAITS //
 };
-
-template < class D, class Val, class I, class II, class C1, class C2,
-           class Dist, class Ctg>
+template < class D, class It, class It2, class Val, class Dist, class Ctg>
 inline
-CGAL__Polyhedron_halfedge_const_iterator<I,II,C1,C2,Val,Dist,Ctg>
-operator+( D n, CGAL__Polyhedron_halfedge_const_iterator<
-           I,II,C1,C2,Val,Dist,Ctg> i) {
+_Polyhedron_edge_const_iterator<It,It2,Val,Dist,Ctg>
+operator+( D n,
+           _Polyhedron_edge_const_iterator<It,It2,Val,Dist,Ctg> i) {
     return i += Dist(n);
 }
-#endif // __SUNPRO_CC //
 template < class Node, class It, class Ctg>
-class CGAL__Polyhedron_facet_circ : public It {
+class _Polyhedron_facet_circ : public It {
     // Ptr      nt;    // The internal node ptr inherited from It.
 public:
     typedef  It  Base;
-    typedef  CGAL__Polyhedron_facet_circ<Node,It,Ctg> Self;
+    typedef  _Polyhedron_facet_circ<Node,It,Ctg> Self;
 
     typedef  Ctg                iterator_category;
     typedef  Node               value_type;
-    typedef  ptrdiff_t          difference_type;
-    typedef  size_t             size_type;
+    typedef  std::ptrdiff_t     difference_type;
+    typedef  std::size_t        size_type;
     typedef  value_type&        reference;
-    typedef  const value_type&  const_reference;
     typedef  value_type*        pointer;
-    typedef  const value_type*  const_pointer;
 
 
 // CREATION
 // --------
 
-    CGAL__Polyhedron_facet_circ() : It(0) {}
-    //CGAL__Polyhedron_facet_circ( pointer p) : It(p) {}
-    CGAL__Polyhedron_facet_circ( It i) : It(i) {}
+    _Polyhedron_facet_circ() : It(0) {}
+    //_Polyhedron_facet_circ( pointer p) : It(p) {}
+    _Polyhedron_facet_circ( It i) : It(i) {}
 
 // OPERATIONS Forward Category
 // ---------------------------
@@ -669,18 +535,12 @@ public:
     pointer  ptr() const { return & It::operator*();}
 
     bool operator==( CGAL_NULL_TYPE p) const {
-        CGAL_assertion( p == NULL);
+        CGAL_assertion( p == CGAL_CIRC_NULL);
         return It::operator==( It(NULL));
     }
-    bool operator!=( CGAL_NULL_TYPE p) const {
-        return !(*this == p);
-    }
-    bool operator==( const Self& i) const {
-        return  It::operator==(i);
-    }
-    bool operator!=( const Self& i) const {
-        return !(*this == i);
-    }
+    bool operator!=( CGAL_NULL_TYPE p) const { return !(*this == p); }
+    bool operator==( const Self& i) const { return  It::operator==(i); }
+    bool operator!=( const Self& i) const { return !(*this == i); }
 
     Self& operator++() {
         nt = (*nt).next();
@@ -707,66 +567,52 @@ public:
 
 #ifdef CGAL_CFG_NO_ITERATOR_TRAITS
     friend inline  iterator_category
-    iterator_category( const Self&) {
-        return iterator_category();
-    }
+    iterator_category( const Self&) { return iterator_category(); }
     friend inline  value_type*
-    value_type( const Self&) {
-        return (value_type*)(0);
-    }
+    value_type( const Self&) { return (value_type*)(0); }
     friend inline  difference_type*
-    distance_type( const Self&) {
-        return (difference_type*)(0);
-    }
-    friend inline  CGAL_Circulator_tag
-    CGAL_query_circulator_or_iterator( const Self&) {
-        return CGAL_Circulator_tag();
+    distance_type( const Self&) { return (difference_type*)(0); }
+    friend inline  Circulator_tag
+    query_circulator_or_iterator( const Self&) {
+        return Circulator_tag();
     }
 #endif // CGAL_CFG_NO_ITERATOR_TRAITS //
 };
 
 
 template < class Node, class It, class Ctg>
-class CGAL__Polyhedron_facet_const_circ : public It {
+class _Polyhedron_facet_const_circ : public It {
     // Ptr      nt;    // The internal node ptr inherited from It.
 public:
     typedef  It  Base;
-    typedef  CGAL__Polyhedron_facet_const_circ<Node,It,Ctg> Self;
+    typedef  _Polyhedron_facet_const_circ<Node,It,Ctg> Self;
 
     typedef  Ctg                iterator_category;
     typedef  Node               value_type;
-    typedef  ptrdiff_t          difference_type;
-    typedef  size_t             size_type;
-    typedef  value_type&        reference;
-    typedef  const value_type&  const_reference;
-    typedef  value_type*        pointer;
-    typedef  const value_type*  const_pointer;
+    typedef  std::ptrdiff_t     difference_type;
+    typedef  std::size_t        size_type;
+    typedef  const value_type&  reference;
+    typedef  const value_type*  pointer;
 
 // CREATION
 // --------
 
-    CGAL__Polyhedron_facet_const_circ() : It(0) {}
-    CGAL__Polyhedron_facet_const_circ( const_pointer p) : It(p) {}
-    CGAL__Polyhedron_facet_const_circ( It i) : It(i) {}
+    _Polyhedron_facet_const_circ() : It(0) {}
+    _Polyhedron_facet_const_circ( pointer p) : It(p) {}
+    _Polyhedron_facet_const_circ( It i) : It(i) {}
 
 // OPERATIONS Forward Category
 // ---------------------------
 
-    const_pointer  ptr() const { return & It::operator*();}
+    pointer  ptr() const { return & It::operator*();}
 
     bool operator==( CGAL_NULL_TYPE p) const {
-        CGAL_assertion( p == NULL);
+        CGAL_assertion( p == CGAL_CIRC_NULL);
         return It::operator==( It(NULL));
     }
-    bool operator!=( CGAL_NULL_TYPE p) const {
-        return !(*this == p);
-    }
-    bool operator==( const Self& i) const {
-        return  It::operator==(i);
-    }
-    bool operator!=( const Self& i) const {
-        return !(*this == i);
-    }
+    bool operator!=( CGAL_NULL_TYPE p) const { return !(*this == p); }
+    bool operator==( const Self& i) const { return  It::operator==(i); }
+    bool operator!=( const Self& i) const { return !(*this == i); }
 
     Self& operator++() {
         nt = (*nt).next();
@@ -793,45 +639,37 @@ public:
 
 #ifdef CGAL_CFG_NO_ITERATOR_TRAITS
     friend inline  iterator_category
-    iterator_category( const Self&) {
-        return iterator_category();
-    }
+    iterator_category( const Self&) { return iterator_category(); }
     friend inline  value_type*
-    value_type( const Self&) {
-        return (value_type*)(0);
-    }
+    value_type( const Self&) { return (value_type*)(0); }
     friend inline  difference_type*
-    distance_type( const Self&) {
-        return (difference_type*)(0);
-    }
-    friend inline  CGAL_Circulator_tag
-    CGAL_query_circulator_or_iterator( const Self&) {
-        return CGAL_Circulator_tag();
+    distance_type( const Self&) { return (difference_type*)(0); }
+    friend inline  Circulator_tag
+    query_circulator_or_iterator( const Self&) {
+        return Circulator_tag();
     }
 #endif // CGAL_CFG_NO_ITERATOR_TRAITS //
 };
 template < class Node, class It, class Ctg>
-class CGAL__Polyhedron_vertex_circ : public It {
+class _Polyhedron_vertex_circ : public It {
     // Ptr      nt;    // The internal node ptr inherited from It.
 public:
     typedef  It  Base;
-    typedef  CGAL__Polyhedron_vertex_circ<Node,It,Ctg> Self;
+    typedef  _Polyhedron_vertex_circ<Node,It,Ctg> Self;
 
     typedef  Ctg                iterator_category;
     typedef  Node               value_type;
-    typedef  ptrdiff_t          difference_type;
-    typedef  size_t             size_type;
+    typedef  std::ptrdiff_t     difference_type;
+    typedef  std::size_t        size_type;
     typedef  value_type&        reference;
-    typedef  const value_type&  const_reference;
     typedef  value_type*        pointer;
-    typedef  const value_type*  const_pointer;
 
 // CREATION
 // --------
 
-    CGAL__Polyhedron_vertex_circ() : It(0) {}
-    //CGAL__Polyhedron_vertex_circ( pointer p) : It(p) {}
-    CGAL__Polyhedron_vertex_circ( It i) : It(i) {}
+    _Polyhedron_vertex_circ() : It(0) {}
+    //_Polyhedron_vertex_circ( pointer p) : It(p) {}
+    _Polyhedron_vertex_circ( It i) : It(i) {}
 
 // OPERATIONS Forward Category
 // ---------------------------
@@ -839,18 +677,12 @@ public:
     pointer  ptr() const { return & It::operator*();}
 
     bool operator==( CGAL_NULL_TYPE p) const {
-        CGAL_assertion( p == NULL);
+        CGAL_assertion( p == CGAL_CIRC_NULL);
         return It::operator==( It(NULL));
     }
-    bool operator!=( CGAL_NULL_TYPE p) const {
-        return !(*this == p);
-    }
-    bool operator==( const Self& i) const {
-        return  It::operator==(i);
-    }
-    bool operator!=( const Self& i) const {
-        return !(*this == i);
-    }
+    bool operator!=( CGAL_NULL_TYPE p) const { return !(*this == p); }
+    bool operator==( const Self& i) const { return  It::operator==(i); }
+    bool operator!=( const Self& i) const { return !(*this == i); }
 
     Self& operator++() {
         nt = (*nt).next()->opposite();
@@ -877,66 +709,52 @@ public:
 
 #ifdef CGAL_CFG_NO_ITERATOR_TRAITS
     friend inline  iterator_category
-    iterator_category( const Self&) {
-        return iterator_category();
-    }
+    iterator_category( const Self&) { return iterator_category(); }
     friend inline  value_type*
-    value_type( const Self&) {
-        return (value_type*)(0);
-    }
+    value_type( const Self&) { return (value_type*)(0); }
     friend inline  difference_type*
-    distance_type( const Self&) {
-        return (difference_type*)(0);
-    }
-    friend inline  CGAL_Circulator_tag
-    CGAL_query_circulator_or_iterator( const Self&) {
-        return CGAL_Circulator_tag();
+    distance_type( const Self&) { return (difference_type*)(0); }
+    friend inline  Circulator_tag
+    query_circulator_or_iterator( const Self&) {
+        return Circulator_tag();
     }
 #endif // CGAL_CFG_NO_ITERATOR_TRAITS //
 };
 
 
 template < class Node, class It, class Ctg>
-class CGAL__Polyhedron_vertex_const_circ : public It {
+class _Polyhedron_vertex_const_circ : public It {
     // Ptr      nt;    // The internal node ptr inherited from It.
 public:
     typedef  It  Base;
-    typedef  CGAL__Polyhedron_vertex_const_circ<Node,It,Ctg> Self;
+    typedef  _Polyhedron_vertex_const_circ<Node,It,Ctg> Self;
 
     typedef  Ctg                iterator_category;
     typedef  Node               value_type;
-    typedef  ptrdiff_t          difference_type;
-    typedef  size_t             size_type;
-    typedef  value_type&        reference;
-    typedef  const value_type&  const_reference;
-    typedef  value_type*        pointer;
-    typedef  const value_type*  const_pointer;
+    typedef  std::ptrdiff_t     difference_type;
+    typedef  std::size_t        size_type;
+    typedef  const value_type&  reference;
+    typedef  const value_type*  pointer;
 
 // CREATION
 // --------
 
-    CGAL__Polyhedron_vertex_const_circ() : It(0) {}
-    CGAL__Polyhedron_vertex_const_circ( const_pointer p) : It(p) {}
-    CGAL__Polyhedron_vertex_const_circ( It i) : It(i) {}
+    _Polyhedron_vertex_const_circ() : It(0) {}
+    _Polyhedron_vertex_const_circ( pointer p) : It(p) {}
+    _Polyhedron_vertex_const_circ( It i) : It(i) {}
 
 // OPERATIONS Forward Category
 // ---------------------------
 
-    const_pointer  ptr() const { return & It::operator*();}
+    pointer  ptr() const { return & It::operator*();}
 
     bool operator==( CGAL_NULL_TYPE p) const {
-        CGAL_assertion( p == NULL);
+        CGAL_assertion( p == CGAL_CIRC_NULL);
         return It::operator==( It(NULL));
     }
-    bool operator!=( CGAL_NULL_TYPE p) const {
-        return !(*this == p);
-    }
-    bool operator==( const Self& i) const {
-        return  It::operator==(i);
-    }
-    bool operator!=( const Self& i) const {
-        return !(*this == i);
-    }
+    bool operator!=( CGAL_NULL_TYPE p) const { return !(*this == p); }
+    bool operator==( const Self& i) const { return  It::operator==(i); }
+    bool operator!=( const Self& i) const { return !(*this == i); }
 
     Self& operator++() {
         nt = (*nt).next()->opposite();
@@ -963,33 +781,29 @@ public:
 
 #ifdef CGAL_CFG_NO_ITERATOR_TRAITS
     friend inline  iterator_category
-    iterator_category( const Self&) {
-        return iterator_category();
-    }
+    iterator_category( const Self&) { return iterator_category(); }
     friend inline  value_type*
-    value_type( const Self&) {
-        return (value_type*)(0);
-    }
+    value_type( const Self&) { return (value_type*)(0); }
     friend inline  difference_type*
-    distance_type( const Self&) {
-        return (difference_type*)(0);
-    }
-    friend inline  CGAL_Circulator_tag
-    CGAL_query_circulator_or_iterator( const Self&) {
-        return CGAL_Circulator_tag();
+    distance_type( const Self&) { return (difference_type*)(0); }
+    friend inline  Circulator_tag
+    query_circulator_or_iterator( const Self&) {
+        return Circulator_tag();
     }
 #endif // CGAL_CFG_NO_ITERATOR_TRAITS //
 };
 
 template < class T>
-struct CGAL_Polyhedron_circulator_traits {};
+struct Polyhedron_circulator_traits {};
 
-struct CGAL_Polyhedron_circulator_traits<CGAL_Tag_true> {
-    typedef CGAL_Bidirectional_circulator_tag  iterator_category;
+struct Polyhedron_circulator_traits<Tag_true> {
+    typedef Bidirectional_circulator_tag  iterator_category;
 };
 
-struct CGAL_Polyhedron_circulator_traits<CGAL_Tag_false> {
-    typedef CGAL_Forward_circulator_tag  iterator_category;
-};    
+struct Polyhedron_circulator_traits<Tag_false> {
+    typedef Forward_circulator_tag  iterator_category;
+};
+
+CGAL_END_NAMESPACE
 #endif // CGAL_POLYHEDRON_ITERATOR_3_H //
 // EOF //

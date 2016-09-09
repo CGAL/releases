@@ -1,6 +1,6 @@
 // ======================================================================
 //
-// Copyright (c) 1998 The CGAL Consortium
+// Copyright (c) 1999 The GALIA Consortium
 //
 // This software and related documentation is part of the
 // Computational Geometry Algorithms Library (CGAL).
@@ -16,42 +16,41 @@
 // - Development licenses grant access to the source code of the library 
 //   to develop programs. These programs may be sold to other parties as 
 //   executable code. To obtain a development license, please contact
-//   the CGAL Consortium (at cgal@cs.uu.nl).
+//   the GALIA Consortium (at cgal@cs.uu.nl).
 // - Commercialization licenses grant access to the source code and the
 //   right to sell development licenses. To obtain a commercialization 
-//   license, please contact the CGAL Consortium (at cgal@cs.uu.nl).
+//   license, please contact the GALIA Consortium (at cgal@cs.uu.nl).
 //
 // This software and documentation is provided "as-is" and without
 // warranty of any kind. In no event shall the CGAL Consortium be
 // liable for any damage of any kind.
 //
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// The GALIA Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany) Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+// (Germany), Max-Planck-Institute Saarbrucken (Germany),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 // 
-// release       : CGAL-1.2
-// release_date  : 1999, January 18
+// release       : CGAL-2.0
+// release_date  : 1999, June 03
 // 
 // source        : Quotient.fw
 // file          : include/CGAL/Quotient.h
-// package       : Number_types (1.6)
-// revision      : 1.6
-// revision_date : 13 Jan 1999 
+// package       : Number_types (2.1.5)
+// revision      : 2.1.5
+// revision_date : 09 May 1999 
 //
 // author(s)     :
 //
-// The template class CGAL_Quotient<NT> is based on the LEDA class
+// The template class Quotient<NT> is based on the LEDA class
 // leda_rational written by Stefan Naeher and Christian Uhrig.
 // It is basically a templated version with restricted functionality
 // of the version of rational in LEDA release 3.3.
 // The modification was done by Stefan.Schirra
 //
 // coordinator   : MPI, Saarbruecken  (<Stefan.Schirra>)
-//
 // email         : cgal@cs.uu.nl
 //
 // ======================================================================
@@ -60,425 +59,432 @@
 #ifndef CGAL_QUOTIENT_H
 #define CGAL_QUOTIENT_H
 
+#ifndef CGAL_NO_STL_PROVIDED_REL_OPS
+#  if ((__GNUC__ == 2) && (__GNUC_MINOR__ <= 8))
+#    define CGAL_NO_STL_PROVIDED_REL_OPS
+#  endif // g++ 2.8
+#endif // CGAL_NO_STL_PROVIDED_REL_OPS
+
+
+
 #ifndef CGAL_BASIC_H
 #include <CGAL/basic.h>
 #endif // CGAL_BASIC_H
-#ifndef CGAL_PROTECT_CTYPE_H
-#include <ctype.h>
-#define CGAL_PROTECT_CTYPE_H
-#endif // CGAL_PROTECT_CTYPE_H
-#ifndef CGAL_IO_IO_TAGS_H
+#include <cctype>
+#ifndef IO_IO_TAGS_H
 #include <CGAL/IO/io_tags.h>
-#endif // CGAL_IO_IO_TAGS_H
+#endif // IO_IO_TAGS_H
 
-template <class NT> class CGAL_Quotient;
-CGAL_TEMPLATE_NULL class CGAL_Quotient<int>;
+CGAL_BEGIN_NAMESPACE
+
+template <class NT> class Quotient;
+CGAL_TEMPLATE_NULL class Quotient<int>;
 
 template <class NT>
 double
-CGAL_to_double(const CGAL_Quotient<NT>& q);
+to_double(const Quotient<NT>& q);
 
 template <class NT>
 CGAL_KERNEL_INLINE
 bool
-CGAL_is_valid(const CGAL_Quotient<NT>& q);
+is_valid(const Quotient<NT>& q);
 
 template <class NT>
 CGAL_KERNEL_INLINE
 bool
-CGAL_is_finite(const CGAL_Quotient<NT>& q);
+is_finite(const Quotient<NT>& q);
 
 template <class NT>
 CGAL_KERNEL_INLINE
 NT
-CGAL_numerator(const CGAL_Quotient<NT>& q);
+numerator(const Quotient<NT>& q);
 
 template <class NT>
 CGAL_KERNEL_INLINE
 NT
-CGAL_denominator(const CGAL_Quotient<NT>& q);
+denominator(const Quotient<NT>& q);
 
 template <class NT>
 inline
-CGAL_Quotient_tag
-CGAL_number_type_tag(const CGAL_Quotient<NT>& q);
+Quotient_tag
+number_type_tag(const Quotient<NT>& q);
 
 template < class NT >
 inline
-CGAL_io_Operator
-CGAL_io_tag(const CGAL_Quotient<NT>&);
+io_Operator
+io_tag(const Quotient<NT>&);
 
 template <class NT>
 CGAL_KERNEL_MEDIUM_INLINE
-CGAL_Comparison_result
-quotient_cmp(const CGAL_Quotient<NT>& q, const CGAL_Quotient<NT>& r);
+Comparison_result
+quotient_cmp(const Quotient<NT>& q, const Quotient<NT>& r);
 
 template <class NT>
 CGAL_KERNEL_INLINE
-CGAL_Quotient<NT>
-operator+ (const CGAL_Quotient<NT>& q, const CGAL_Quotient<NT>& r);
+Quotient<NT>
+operator+ (const Quotient<NT>& q, const Quotient<NT>& r);
 
 template <class NT>
 CGAL_KERNEL_INLINE
-CGAL_Quotient<NT>
-operator+ (const NT& q, const CGAL_Quotient<NT>& r);
+Quotient<NT>
+operator+ (const NT& q, const Quotient<NT>& r);
 
 template <class NT>
 CGAL_KERNEL_INLINE
-CGAL_Quotient<NT>
-operator+ (const CGAL_Quotient<NT>& q, const NT& r);
+Quotient<NT>
+operator+ (const Quotient<NT>& q, const NT& r);
 
 template <class NT>
 CGAL_KERNEL_INLINE
-CGAL_Quotient<NT>
-operator- (const CGAL_Quotient<NT>& q, const CGAL_Quotient<NT>& r);
+Quotient<NT>
+operator- (const Quotient<NT>& q, const Quotient<NT>& r);
 
 template <class NT>
 CGAL_KERNEL_INLINE
-CGAL_Quotient<NT>
-operator- (const NT& q, const CGAL_Quotient<NT>& r);
+Quotient<NT>
+operator- (const NT& q, const Quotient<NT>& r);
 
 template <class NT>
 CGAL_KERNEL_INLINE
-CGAL_Quotient<NT>
-operator- (const CGAL_Quotient<NT>& q, const NT& r);
+Quotient<NT>
+operator- (const Quotient<NT>& q, const NT& r);
 
 template <class NT>
 CGAL_KERNEL_INLINE
-CGAL_Quotient<NT>
-operator* (const CGAL_Quotient<NT>& q, const CGAL_Quotient<NT>& r);
+Quotient<NT>
+operator* (const Quotient<NT>& q, const Quotient<NT>& r);
 
 template <class NT>
 CGAL_KERNEL_INLINE
-CGAL_Quotient<NT>
-operator* (const NT& q, const CGAL_Quotient<NT>& r);
+Quotient<NT>
+operator* (const NT& q, const Quotient<NT>& r);
 
 template <class NT>
 CGAL_KERNEL_INLINE
-CGAL_Quotient<NT>
-operator* (const CGAL_Quotient<NT>& q, const NT& r);
+Quotient<NT>
+operator* (const Quotient<NT>& q, const NT& r);
 
 template <class NT>
 CGAL_KERNEL_INLINE
-CGAL_Quotient<NT>
-operator/ (const CGAL_Quotient<NT>& q, const CGAL_Quotient<NT>& r);
+Quotient<NT>
+operator/ (const Quotient<NT>& q, const Quotient<NT>& r);
 
 template <class NT>
 CGAL_KERNEL_INLINE
-CGAL_Quotient<NT>
-operator/ (const NT& q, const CGAL_Quotient<NT>& r);
+Quotient<NT>
+operator/ (const NT& q, const Quotient<NT>& r);
 
 template <class NT>
 CGAL_KERNEL_INLINE
-CGAL_Quotient<NT>
-operator/ (const CGAL_Quotient<NT>& q, const NT& r);
+Quotient<NT>
+operator/ (const Quotient<NT>& q, const NT& r);
 
 template <class NT>
 inline
-CGAL_Quotient<NT>
-operator- (const CGAL_Quotient<NT>&);
+Quotient<NT>
+operator- (const Quotient<NT>&);
 
 template <class NT>
 CGAL_KERNEL_INLINE
 bool
-operator==(const CGAL_Quotient<NT>& q, const CGAL_Quotient<NT>& r);
+operator==(const Quotient<NT>& q, const Quotient<NT>& r);
 
 template <class NT>
 CGAL_KERNEL_INLINE
 bool
-operator==(const CGAL_Quotient<NT>& q, const NT& a);
+operator==(const Quotient<NT>& q, const NT& a);
 
 template <class NT>
 CGAL_KERNEL_INLINE
 bool
-operator==(const NT& n, const CGAL_Quotient<NT>& q);
+operator==(const NT& n, const Quotient<NT>& q);
 
 template <class NT>
 CGAL_KERNEL_INLINE
 bool
-operator< (const CGAL_Quotient<NT>& q, const CGAL_Quotient<NT>& r);
+operator< (const Quotient<NT>& q, const Quotient<NT>& r);
 
 template <class NT>
 CGAL_KERNEL_INLINE
 bool
-operator< (const CGAL_Quotient<NT>& q, const NT& r);
+operator< (const Quotient<NT>& q, const NT& r);
 
 template <class NT>
 CGAL_KERNEL_INLINE
 bool
-operator< (const NT& q, const CGAL_Quotient<NT>& r);
+operator< (const NT& q, const Quotient<NT>& r);
 
-#ifdef CGAL_PROVIDE_STL_PROVIDED_REL_OPS
+#ifndef CGAL_NO_STL_PROVIDED_REL_OPS
 template <class NT>
 CGAL_KERNEL_INLINE
 bool
-operator!=(const CGAL_Quotient<NT>& q, const CGAL_Quotient<NT>& r);
-
-template <class NT>
-CGAL_KERNEL_INLINE
-bool
-operator<=(const CGAL_Quotient<NT>& q, const CGAL_Quotient<NT>& r);
+operator!=(const Quotient<NT>& q, const Quotient<NT>& r);
 
 template <class NT>
 CGAL_KERNEL_INLINE
 bool
-operator> (const CGAL_Quotient<NT>& q, const CGAL_Quotient<NT>& r);
+operator<=(const Quotient<NT>& q, const Quotient<NT>& r);
 
 template <class NT>
 CGAL_KERNEL_INLINE
 bool
-operator>=(const CGAL_Quotient<NT>& q, const CGAL_Quotient<NT>& r);
-#endif // CGAL_PROVIDE_STL_PROVIDED_REL_OPS
-
-#ifdef CGAL_PROVIDE_STL_PROVIDED_REL_OPS
-template <class NT>
-CGAL_KERNEL_INLINE
-bool
-operator!=(const CGAL_Quotient<NT>& q, const NT& a);
+operator> (const Quotient<NT>& q, const Quotient<NT>& r);
 
 template <class NT>
 CGAL_KERNEL_INLINE
 bool
-operator!=(const NT& n, const CGAL_Quotient<NT>& q);
+operator>=(const Quotient<NT>& q, const Quotient<NT>& r);
+#endif // CGAL_NO_STL_PROVIDED_REL_OPS
+
+#ifndef CGAL_NO_STL_PROVIDED_REL_OPS
+template <class NT>
+CGAL_KERNEL_INLINE
+bool
+operator!=(const Quotient<NT>& q, const NT& a);
 
 template <class NT>
 CGAL_KERNEL_INLINE
 bool
-operator<=(const CGAL_Quotient<NT>& q, const NT& r);
+operator!=(const NT& n, const Quotient<NT>& q);
 
 template <class NT>
 CGAL_KERNEL_INLINE
 bool
-operator<=(const NT& q, const CGAL_Quotient<NT>& r);
+operator<=(const Quotient<NT>& q, const NT& r);
 
 template <class NT>
 CGAL_KERNEL_INLINE
 bool
-operator> (const CGAL_Quotient<NT>& q, const NT& r);
+operator<=(const NT& q, const Quotient<NT>& r);
 
 template <class NT>
 CGAL_KERNEL_INLINE
 bool
-operator> (const NT& q, const CGAL_Quotient<NT>& r);
+operator> (const Quotient<NT>& q, const NT& r);
 
 template <class NT>
 CGAL_KERNEL_INLINE
 bool
-operator>=(const CGAL_Quotient<NT>& q, const NT& r);
+operator> (const NT& q, const Quotient<NT>& r);
 
 template <class NT>
 CGAL_KERNEL_INLINE
 bool
-operator>=(const NT& q, const CGAL_Quotient<NT>& r);
-#endif // CGAL_PROVIDE_STL_PROVIDED_REL_OPS
+operator>=(const Quotient<NT>& q, const NT& r);
 
 template <class NT>
-istream&
-operator>>(istream& in, CGAL_Quotient<NT>& q);
+CGAL_KERNEL_INLINE
+bool
+operator>=(const NT& q, const Quotient<NT>& r);
+#endif // CGAL_NO_STL_PROVIDED_REL_OPS
 
 template <class NT>
-ostream&
-operator<<(ostream& out, const CGAL_Quotient<NT>& q);
+std::istream&
+operator>>(std::istream& in, Quotient<NT>& q);
+
+template <class NT>
+std::ostream&
+operator<<(std::ostream& out, const Quotient<NT>& q);
 
 template <class NT>
 CGAL_KERNEL_INLINE
 NT
-CGAL_quotient_truncation(const CGAL_Quotient<NT>& r);
+quotient_truncation(const Quotient<NT>& r);
 
 template <class NT>
 NT
-CGAL_gcd(const NT& , const NT&);
+gcd(const NT& , const NT&);
 
 template <class NT>
-class CGAL_Quotient
+class Quotient
 {
 public:
-  CGAL_Quotient() : num( NT(0) ), den( NT(1) ) {}
-  CGAL_Quotient(const NT& n) : num(n), den( NT(1) ) {}
-  CGAL_Quotient(int i) : num(NT(i)), den( NT(1) ) {}
-  CGAL_Quotient(const NT& n, const NT& d) : num(n), den(d)
+  Quotient() : num( NT(0) ), den( NT(1) ) {}
+  Quotient(const NT& n) : num(n), den( NT(1) ) {}
+  Quotient(int i) : num(NT(i)), den( NT(1) ) {}
+  Quotient(const NT& n, const NT& d) : num(n), den(d)
   { CGAL_kernel_precondition( d!= NT(0) ); }
-  CGAL_Quotient(const CGAL_Quotient<NT>& r) : num(r.num), den(r.den) {}
+  Quotient(const Quotient<NT>& r) : num(r.num), den(r.den) {}
 
-  ~CGAL_Quotient() {}
+  ~Quotient() {}
 
   friend CGAL_KERNEL_MEDIUM_INLINE
-         CGAL_Comparison_result
-         quotient_cmp CGAL_NULL_TMPL_ARGS (const CGAL_Quotient<NT>& q,
-                                           const CGAL_Quotient<NT>& r);
+         Comparison_result
+         quotient_cmp CGAL_NULL_TMPL_ARGS (const Quotient<NT>& q,
+                                           const Quotient<NT>& r);
   friend double
-         CGAL_to_double CGAL_NULL_TMPL_ARGS (const CGAL_Quotient<NT>& q);
+         to_double CGAL_NULL_TMPL_ARGS (const Quotient<NT>& q);
 
   friend CGAL_KERNEL_INLINE
          bool
-         CGAL_is_valid CGAL_NULL_TMPL_ARGS (const CGAL_Quotient<NT>& q);
+         is_valid CGAL_NULL_TMPL_ARGS (const Quotient<NT>& q);
 
   friend CGAL_KERNEL_INLINE
          bool
-         CGAL_is_finite CGAL_NULL_TMPL_ARGS (const CGAL_Quotient<NT>& q);
-
-  friend NT
-         CGAL_KERNEL_INLINE
-         CGAL_numerator CGAL_NULL_TMPL_ARGS (const CGAL_Quotient<NT>& q);
+         is_finite CGAL_NULL_TMPL_ARGS (const Quotient<NT>& q);
 
   friend CGAL_KERNEL_INLINE
          NT
-         CGAL_denominator CGAL_NULL_TMPL_ARGS (const CGAL_Quotient<NT>& q);
+         numerator CGAL_NULL_TMPL_ARGS (const Quotient<NT>& q);
+
+  friend CGAL_KERNEL_INLINE
+         NT
+         denominator CGAL_NULL_TMPL_ARGS (const Quotient<NT>& q);
 
   friend CGAL_KERNEL_INLINE
   NT
-  CGAL_quotient_truncation CGAL_NULL_TMPL_ARGS (const CGAL_Quotient<NT>& r);
+  quotient_truncation CGAL_NULL_TMPL_ARGS (const Quotient<NT>& r);
 
 
   NT            numerator() const;
   NT            denominator() const;
 
 
-  CGAL_Quotient<NT>& operator+= (const CGAL_Quotient<NT>& r);
-  CGAL_Quotient<NT>& operator-= (const CGAL_Quotient<NT>& r);
-  CGAL_Quotient<NT>& operator*= (const CGAL_Quotient<NT>& r);
-  CGAL_Quotient<NT>& operator/= (const CGAL_Quotient<NT>& r);
-  CGAL_Quotient<NT>& operator+= (const NT& r);
-  CGAL_Quotient<NT>& operator-= (const NT& r);
-  CGAL_Quotient<NT>& operator*= (const NT& r);
-  CGAL_Quotient<NT>& operator/= (const NT& r);
+  Quotient<NT>& operator+= (const Quotient<NT>& r);
+  Quotient<NT>& operator-= (const Quotient<NT>& r);
+  Quotient<NT>& operator*= (const Quotient<NT>& r);
+  Quotient<NT>& operator/= (const Quotient<NT>& r);
+  Quotient<NT>& operator+= (const NT& r);
+  Quotient<NT>& operator-= (const NT& r);
+  Quotient<NT>& operator*= (const NT& r);
+  Quotient<NT>& operator/= (const NT& r);
 
 
   friend CGAL_KERNEL_INLINE
-         CGAL_Quotient<NT>
-         operator+ CGAL_NULL_TMPL_ARGS (const CGAL_Quotient<NT>& q,
-                                        const CGAL_Quotient<NT>& r);
+         Quotient<NT>
+         operator+ CGAL_NULL_TMPL_ARGS (const Quotient<NT>& q,
+                                        const Quotient<NT>& r);
   friend CGAL_KERNEL_INLINE
-         CGAL_Quotient<NT>
-         operator- CGAL_NULL_TMPL_ARGS (const CGAL_Quotient<NT>& q,
-                                        const CGAL_Quotient<NT>& r);
+         Quotient<NT>
+         operator- CGAL_NULL_TMPL_ARGS (const Quotient<NT>& q,
+                                        const Quotient<NT>& r);
   friend CGAL_KERNEL_INLINE
-         CGAL_Quotient<NT>
-         operator* CGAL_NULL_TMPL_ARGS (const CGAL_Quotient<NT>& q,
-                                        const CGAL_Quotient<NT>& r);
+         Quotient<NT>
+         operator* CGAL_NULL_TMPL_ARGS (const Quotient<NT>& q,
+                                        const Quotient<NT>& r);
   friend CGAL_KERNEL_INLINE
-         CGAL_Quotient<NT>
-         operator/ CGAL_NULL_TMPL_ARGS (const CGAL_Quotient<NT>& q,
-                                        const CGAL_Quotient<NT>& r);
+         Quotient<NT>
+         operator/ CGAL_NULL_TMPL_ARGS (const Quotient<NT>& q,
+                                        const Quotient<NT>& r);
   friend inline
-         CGAL_Quotient<NT>
-         operator- CGAL_NULL_TMPL_ARGS (const CGAL_Quotient<NT>&);
+         Quotient<NT>
+         operator- CGAL_NULL_TMPL_ARGS (const Quotient<NT>&);
 
   friend CGAL_KERNEL_INLINE
-         CGAL_Quotient<NT>
+         Quotient<NT>
          operator+ CGAL_NULL_TMPL_ARGS (const NT& q,
-                                        const CGAL_Quotient<NT>& r);
+                                        const Quotient<NT>& r);
   friend CGAL_KERNEL_INLINE
-         CGAL_Quotient<NT>
-         operator+ CGAL_NULL_TMPL_ARGS (const CGAL_Quotient<NT>& q,
+         Quotient<NT>
+         operator+ CGAL_NULL_TMPL_ARGS (const Quotient<NT>& q,
                                         const NT& r);
   friend CGAL_KERNEL_INLINE
-         CGAL_Quotient<NT>
+         Quotient<NT>
          operator- CGAL_NULL_TMPL_ARGS (const NT& q,
-                                        const CGAL_Quotient<NT>& r);
+                                        const Quotient<NT>& r);
   friend CGAL_KERNEL_INLINE
-         CGAL_Quotient<NT>
-         operator- CGAL_NULL_TMPL_ARGS (const CGAL_Quotient<NT>& q,
+         Quotient<NT>
+         operator- CGAL_NULL_TMPL_ARGS (const Quotient<NT>& q,
                                         const NT& r);
   friend CGAL_KERNEL_INLINE
-         CGAL_Quotient<NT>
+         Quotient<NT>
          operator* CGAL_NULL_TMPL_ARGS (const NT& q,
-                                        const CGAL_Quotient<NT>& r);
+                                        const Quotient<NT>& r);
   friend CGAL_KERNEL_INLINE
-         CGAL_Quotient<NT>
-         operator* CGAL_NULL_TMPL_ARGS (const CGAL_Quotient<NT>& q,
+         Quotient<NT>
+         operator* CGAL_NULL_TMPL_ARGS (const Quotient<NT>& q,
                                         const NT& r);
   friend CGAL_KERNEL_INLINE
-         CGAL_Quotient<NT>
+         Quotient<NT>
          operator/ CGAL_NULL_TMPL_ARGS (const NT& q,
-                                        const CGAL_Quotient<NT>& r);
+                                        const Quotient<NT>& r);
   friend CGAL_KERNEL_INLINE
-         CGAL_Quotient<NT>
-         operator/ CGAL_NULL_TMPL_ARGS (const CGAL_Quotient<NT>& q,
+         Quotient<NT>
+         operator/ CGAL_NULL_TMPL_ARGS (const Quotient<NT>& q,
                                         const NT& r);
 
   friend CGAL_KERNEL_INLINE
          bool
-         operator== CGAL_NULL_TMPL_ARGS (const CGAL_Quotient<NT>& q,
-                                         const CGAL_Quotient<NT>& r);
+         operator== CGAL_NULL_TMPL_ARGS (const Quotient<NT>& q,
+                                         const Quotient<NT>& r);
   friend CGAL_KERNEL_INLINE
          bool
-         operator<  CGAL_NULL_TMPL_ARGS (const CGAL_Quotient<NT>& q,
-                                         const CGAL_Quotient<NT>& r);
+         operator<  CGAL_NULL_TMPL_ARGS (const Quotient<NT>& q,
+                                         const Quotient<NT>& r);
   friend CGAL_KERNEL_INLINE
          bool
-         operator== CGAL_NULL_TMPL_ARGS (const CGAL_Quotient<NT>& q,
+         operator== CGAL_NULL_TMPL_ARGS (const Quotient<NT>& q,
                                          const NT& a);
   friend CGAL_KERNEL_INLINE
          bool
          operator== CGAL_NULL_TMPL_ARGS (const NT& n,
-                                         const CGAL_Quotient<NT>& q);
+                                         const Quotient<NT>& q);
   friend CGAL_KERNEL_INLINE
          bool
-         operator<  CGAL_NULL_TMPL_ARGS (const CGAL_Quotient<NT>& q,
+         operator<  CGAL_NULL_TMPL_ARGS (const Quotient<NT>& q,
                                          const NT& r);
   friend CGAL_KERNEL_INLINE
          bool
          operator<  CGAL_NULL_TMPL_ARGS (const NT& q,
-                                         const CGAL_Quotient<NT>& r);
-#ifdef CGAL_PROVIDE_STL_PROVIDED_REL_OPS
+                                         const Quotient<NT>& r);
+#ifndef CGAL_NO_STL_PROVIDED_REL_OPS
   friend CGAL_KERNEL_INLINE
          bool
-         operator!= CGAL_NULL_TMPL_ARGS (const CGAL_Quotient<NT>& q,
-                                         const CGAL_Quotient<NT>& r);
+         operator!= CGAL_NULL_TMPL_ARGS (const Quotient<NT>& q,
+                                         const Quotient<NT>& r);
   friend CGAL_KERNEL_INLINE
          bool
-         operator<= CGAL_NULL_TMPL_ARGS (const CGAL_Quotient<NT>& q,
-                                         const CGAL_Quotient<NT>& r);
+         operator<= CGAL_NULL_TMPL_ARGS (const Quotient<NT>& q,
+                                         const Quotient<NT>& r);
   friend CGAL_KERNEL_INLINE
          bool
-         operator>  CGAL_NULL_TMPL_ARGS (const CGAL_Quotient<NT>& q,
-                                         const CGAL_Quotient<NT>& r);
+         operator>  CGAL_NULL_TMPL_ARGS (const Quotient<NT>& q,
+                                         const Quotient<NT>& r);
   friend CGAL_KERNEL_INLINE
          bool
-         operator>= CGAL_NULL_TMPL_ARGS (const CGAL_Quotient<NT>& q,
-                                         const CGAL_Quotient<NT>& r);
-#endif // CGAL_PROVIDE_STL_PROVIDED_REL_OPS
-#ifdef CGAL_PROVIDE_STL_PROVIDED_REL_OPS
+         operator>= CGAL_NULL_TMPL_ARGS (const Quotient<NT>& q,
+                                         const Quotient<NT>& r);
+#endif // CGAL_NO_STL_PROVIDED_REL_OPS
+#ifndef CGAL_NO_STL_PROVIDED_REL_OPS
   friend CGAL_KERNEL_INLINE
          bool
-         operator!= CGAL_NULL_TMPL_ARGS (const CGAL_Quotient<NT>& q,
+         operator!= CGAL_NULL_TMPL_ARGS (const Quotient<NT>& q,
                                          const NT& a);
   friend CGAL_KERNEL_INLINE
          bool
          operator!= CGAL_NULL_TMPL_ARGS (const NT& n,
-                                         const CGAL_Quotient<NT>& q);
+                                         const Quotient<NT>& q);
   friend CGAL_KERNEL_INLINE
          bool
-         operator<= CGAL_NULL_TMPL_ARGS (const CGAL_Quotient<NT>& q,
+         operator<= CGAL_NULL_TMPL_ARGS (const Quotient<NT>& q,
                                          const NT& r);
   friend CGAL_KERNEL_INLINE
          bool
          operator<= CGAL_NULL_TMPL_ARGS (const NT& q,
-                                         const CGAL_Quotient<NT>& r);
+                                         const Quotient<NT>& r);
   friend CGAL_KERNEL_INLINE
          bool
-         operator>  CGAL_NULL_TMPL_ARGS (const CGAL_Quotient<NT>& q,
+         operator>  CGAL_NULL_TMPL_ARGS (const Quotient<NT>& q,
                                          const NT& r);
   friend CGAL_KERNEL_INLINE
          bool
          operator>  CGAL_NULL_TMPL_ARGS (const NT& q,
-                                         const CGAL_Quotient<NT>& r);
+                                         const Quotient<NT>& r);
   friend CGAL_KERNEL_INLINE
          bool
-         operator>= CGAL_NULL_TMPL_ARGS (const CGAL_Quotient<NT>& q,
+         operator>= CGAL_NULL_TMPL_ARGS (const Quotient<NT>& q,
                                          const NT& r);
   friend CGAL_KERNEL_INLINE
          bool
          operator>= CGAL_NULL_TMPL_ARGS (const NT& q,
-                                         const CGAL_Quotient<NT>& r);
-#endif // CGAL_PROVIDE_STL_PROVIDED_REL_OPS
+                                         const Quotient<NT>& r);
+#endif // CGAL_NO_STL_PROVIDED_REL_OPS
 /*
-  friend istream&
-         operator>> CGAL_NULL_TMPL_ARGS (istream& in, CGAL_Quotient<NT>& q);
+  friend std::istream&
+         operator>> CGAL_NULL_TMPL_ARGS (std::istream& in, Quotient<NT>& q);
 */
 
-  CGAL_Quotient<NT>&    normalize();
+  Quotient<NT>&    normalize();
 
 protected:
   NT   num;
@@ -486,58 +492,64 @@ protected:
 
 };
 
+CGAL_END_NAMESPACE
+
 
 #ifdef CGAL_CFG_NO_AUTOMATIC_TEMPLATE_INCLUSION
 #include <CGAL/Quotient.C>
 #endif // CGAL_CFG_NO_AUTOMATIC_TEMPLATE_INCLUSION
 
+CGAL_BEGIN_NAMESPACE
+
 CGAL_TEMPLATE_NULL
-class CGAL_Quotient<int>
+class Quotient<int>
 {
 public:
-  CGAL_Quotient() : num( 0 ), den( 1 ) {}
-  CGAL_Quotient(int i) : num( i ), den( 1 ) {}
-  CGAL_Quotient(const int& n, const int& d) : num(n), den(d)
+  Quotient() : num( 0 ), den( 1 ) {}
+  Quotient(int i) : num( i ), den( 1 ) {}
+  Quotient(const int& n, const int& d) : num(n), den(d)
   { CGAL_kernel_precondition( d!= 0 ); }
-  CGAL_Quotient(const CGAL_Quotient<int>& r) : num(r.num), den(r.den) {}
-  ~CGAL_Quotient() {}
+  Quotient(const Quotient<int>& r) : num(r.num), den(r.den) {}
+  ~Quotient() {}
 
+#ifndef CGAL_NO_QUOTIENT_INT_FRIENDS
 friend double
-       CGAL_to_double CGAL_NULL_TMPL_ARGS (const CGAL_Quotient<int>& q);
+       to_double CGAL_NULL_TMPL_ARGS (const Quotient<int>& q);
 friend CGAL_KERNEL_INLINE
        bool
-       CGAL_is_valid CGAL_NULL_TMPL_ARGS (const CGAL_Quotient<int>& q);
+       is_valid CGAL_NULL_TMPL_ARGS (const Quotient<int>& q);
 friend CGAL_KERNEL_INLINE
        bool
-       CGAL_is_finite CGAL_NULL_TMPL_ARGS (const CGAL_Quotient<int>& q);
+       is_finite CGAL_NULL_TMPL_ARGS (const Quotient<int>& q);
 friend CGAL_KERNEL_INLINE
        int
-       CGAL_numerator CGAL_NULL_TMPL_ARGS (const CGAL_Quotient<int>& q);
+       numerator CGAL_NULL_TMPL_ARGS (const Quotient<int>& q);
 friend CGAL_KERNEL_INLINE
        int
-       CGAL_denominator CGAL_NULL_TMPL_ARGS (const CGAL_Quotient<int>& q);
+       denominator CGAL_NULL_TMPL_ARGS (const Quotient<int>& q);
 
 friend CGAL_KERNEL_INLINE
        int
-       CGAL_quotient_truncation CGAL_NULL_TMPL_ARGS
-                                            (const CGAL_Quotient<int>& r);
+       quotient_truncation CGAL_NULL_TMPL_ARGS
+                                            (const Quotient<int>& r);
 
 /*
 friend
-ostream&
-operator<< CGAL_NULL_TMPL_ARGS (ostream& out, const CGAL_Quotient<int>& q);
+std::ostream&
+operator<< CGAL_NULL_TMPL_ARGS (std::ostream& out, const Quotient<int>& q);
 
 friend
-istream&
-operator>> CGAL_NULL_TMPL_ARGS (istream& in, CGAL_Quotient<int>& q);
+std::istream&
+operator>> CGAL_NULL_TMPL_ARGS (std::istream& in, Quotient<int>& q);
 */
 
+#endif // CGAL_NO_QUOTIENT_INT_FRIENDS
 
   int                 numerator() const
                       { return num; }
   int                 denominator() const
                       { return den; }
-  CGAL_Quotient<int>& normalize()
+  Quotient<int>& normalize()
                       {
                         if (num == den)
                         {
@@ -550,7 +562,7 @@ operator>> CGAL_NULL_TMPL_ARGS (istream& in, CGAL_Quotient<int>& q);
                             den =  1;
                             return (*this);
                         }
-                        int ggt = CGAL_gcd(num, den);
+                        int ggt = gcd(num, den);
                         if (ggt != 1 )
                         {
                             num /= ggt;
@@ -560,190 +572,202 @@ operator>> CGAL_NULL_TMPL_ARGS (istream& in, CGAL_Quotient<int>& q);
                       }
 
 
-  CGAL_Quotient<int>& operator+= (const CGAL_Quotient<int>& r)
+  Quotient<int>& operator+= (const Quotient<int>& r)
                       {
                         num = num * r.den + r.num * den;
                         den *= r.den;
                         return (*this);
                       }
-  CGAL_Quotient<int>& operator-= (const CGAL_Quotient<int>& r)
+  Quotient<int>& operator-= (const Quotient<int>& r)
                       {
                         num = num * r.den - r.num * den;
                         den *= r.den;
                         return (*this);
                       }
-  CGAL_Quotient<int>& operator*= (const CGAL_Quotient<int>& r)
+  Quotient<int>& operator*= (const Quotient<int>& r)
                       {
                         num *= r.num;
                         den *= r.den;
                         return (*this);
                       }
-  CGAL_Quotient<int>& operator/= (const CGAL_Quotient<int>& r)
+  Quotient<int>& operator/= (const Quotient<int>& r)
                       {
                         CGAL_kernel_precondition( r.num != 0 );
                         num *= r.den;
                         den *= r.num;
                         return (*this);
                       }
-  CGAL_Quotient<int>& operator+= (const int& r)
+  Quotient<int>& operator+= (const int& r)
                       {
                         num = num + r * den;
                         return (*this);
                       }
-  CGAL_Quotient<int>& operator-= (const int& r)
+  Quotient<int>& operator-= (const int& r)
                       {
                         num = num - r * den;
                         return (*this);
                       }
-  CGAL_Quotient<int>& operator*= (const int& r)
+  Quotient<int>& operator*= (const int& r)
                       {
                         num *= r ;
                         return (*this);
                       }
-  CGAL_Quotient<int>& operator/= (const int& r)
+  Quotient<int>& operator/= (const int& r)
                       {
                         CGAL_kernel_precondition( r != 0 );
                         den *= r ;
                         return (*this);
                       }
 
+#ifndef CGAL_NO_QUOTIENT_INT_FRIENDS
 friend CGAL_KERNEL_INLINE
-       CGAL_Quotient<int>
-       operator+ CGAL_NULL_TMPL_ARGS (const CGAL_Quotient<int>& q,
-                                      const CGAL_Quotient<int>& r);
+       Quotient<int>
+       operator+ CGAL_NULL_TMPL_ARGS (const Quotient<int>& q,
+                                      const Quotient<int>& r);
 friend CGAL_KERNEL_INLINE
-       CGAL_Quotient<int>
-       operator- CGAL_NULL_TMPL_ARGS (const CGAL_Quotient<int>& q,
-                                      const CGAL_Quotient<int>& r);
+       Quotient<int>
+       operator- CGAL_NULL_TMPL_ARGS (const Quotient<int>& q,
+                                      const Quotient<int>& r);
 friend CGAL_KERNEL_INLINE
-       CGAL_Quotient<int>
-       operator* CGAL_NULL_TMPL_ARGS (const CGAL_Quotient<int>& q,
-                                      const CGAL_Quotient<int>& r);
+       Quotient<int>
+       operator* CGAL_NULL_TMPL_ARGS (const Quotient<int>& q,
+                                      const Quotient<int>& r);
 friend CGAL_KERNEL_INLINE
-       CGAL_Quotient<int>
-       operator/ CGAL_NULL_TMPL_ARGS (const CGAL_Quotient<int>& q,
-                                      const CGAL_Quotient<int>& r);
+       Quotient<int>
+       operator/ CGAL_NULL_TMPL_ARGS (const Quotient<int>& q,
+                                      const Quotient<int>& r);
 friend inline
-       CGAL_Quotient<int>
-       operator- CGAL_NULL_TMPL_ARGS (const CGAL_Quotient<int>&);
+       Quotient<int>
+       operator- CGAL_NULL_TMPL_ARGS (const Quotient<int>&);
 friend CGAL_KERNEL_INLINE
-       CGAL_Quotient<int>
+       Quotient<int>
        operator+ CGAL_NULL_TMPL_ARGS (const int& q,
-                                      const CGAL_Quotient<int>& r);
+                                      const Quotient<int>& r);
 friend CGAL_KERNEL_INLINE
-       CGAL_Quotient<int>
-       operator+ CGAL_NULL_TMPL_ARGS (const CGAL_Quotient<int>& q,
+       Quotient<int>
+       operator+ CGAL_NULL_TMPL_ARGS (const Quotient<int>& q,
                                       const int& r);
 friend CGAL_KERNEL_INLINE
-       CGAL_Quotient<int>
+       Quotient<int>
        operator- CGAL_NULL_TMPL_ARGS (const int& q,
-                                      const CGAL_Quotient<int>& r);
+                                      const Quotient<int>& r);
 friend CGAL_KERNEL_INLINE
-       CGAL_Quotient<int>
-       operator- CGAL_NULL_TMPL_ARGS (const CGAL_Quotient<int>& q,
+       Quotient<int>
+       operator- CGAL_NULL_TMPL_ARGS (const Quotient<int>& q,
                                       const int& r);
 friend CGAL_KERNEL_INLINE
-       CGAL_Quotient<int>
+       Quotient<int>
        operator* CGAL_NULL_TMPL_ARGS (const int& q,
-                                      const CGAL_Quotient<int>& r);
+                                      const Quotient<int>& r);
 friend CGAL_KERNEL_INLINE
-       CGAL_Quotient<int>
-       operator* CGAL_NULL_TMPL_ARGS (const CGAL_Quotient<int>& q,
+       Quotient<int>
+       operator* CGAL_NULL_TMPL_ARGS (const Quotient<int>& q,
                                       const int& r);
 friend CGAL_KERNEL_INLINE
-       CGAL_Quotient<int>
+       Quotient<int>
        operator/ CGAL_NULL_TMPL_ARGS (const int& q,
-                                      const CGAL_Quotient<int>& r);
+                                      const Quotient<int>& r);
 friend CGAL_KERNEL_INLINE
-       CGAL_Quotient<int>
-       operator/ CGAL_NULL_TMPL_ARGS (const CGAL_Quotient<int>& q,
+       Quotient<int>
+       operator/ CGAL_NULL_TMPL_ARGS (const Quotient<int>& q,
                                       const int& r);
 friend CGAL_KERNEL_MEDIUM_INLINE
-       CGAL_Comparison_result
-       quotient_cmp CGAL_NULL_TMPL_ARGS (const CGAL_Quotient<int>& q,
-                                         const CGAL_Quotient<int>& r);
+       Comparison_result
+       quotient_cmp CGAL_NULL_TMPL_ARGS (const Quotient<int>& q,
+                                         const Quotient<int>& r);
 friend CGAL_KERNEL_INLINE
        bool
-       operator== CGAL_NULL_TMPL_ARGS (const CGAL_Quotient<int>& q,
-                                       const CGAL_Quotient<int>& r);
+       operator== CGAL_NULL_TMPL_ARGS (const Quotient<int>& q,
+                                       const Quotient<int>& r);
 friend CGAL_KERNEL_INLINE
        bool
-       operator<  CGAL_NULL_TMPL_ARGS (const CGAL_Quotient<int>& q,
-                                       const CGAL_Quotient<int>& r);
+       operator<  CGAL_NULL_TMPL_ARGS (const Quotient<int>& q,
+                                       const Quotient<int>& r);
 friend CGAL_KERNEL_INLINE
        bool
-       operator== CGAL_NULL_TMPL_ARGS (const CGAL_Quotient<int>& q,
+       operator== CGAL_NULL_TMPL_ARGS (const Quotient<int>& q,
                                        const int& a);
 friend CGAL_KERNEL_INLINE
        bool
        operator== CGAL_NULL_TMPL_ARGS (const int& n,
-                                       const CGAL_Quotient<int>& q);
+                                       const Quotient<int>& q);
 friend CGAL_KERNEL_INLINE
        bool
-       operator<  CGAL_NULL_TMPL_ARGS (const CGAL_Quotient<int>& q,
+       operator<  CGAL_NULL_TMPL_ARGS (const Quotient<int>& q,
                                        const int& r);
 friend CGAL_KERNEL_INLINE
        bool
        operator<  CGAL_NULL_TMPL_ARGS (const int& q,
-                                       const CGAL_Quotient<int>& r);
-#ifdef CGAL_PROVIDE_STL_PROVIDED_REL_OPS
+                                       const Quotient<int>& r);
+#ifndef CGAL_NO_STL_PROVIDED_REL_OPS
 friend CGAL_KERNEL_INLINE
        bool
-       operator!= CGAL_NULL_TMPL_ARGS (const CGAL_Quotient<int>& q,
-                                       const CGAL_Quotient<int>& r);
+       operator!= CGAL_NULL_TMPL_ARGS (const Quotient<int>& q,
+                                       const Quotient<int>& r);
 friend CGAL_KERNEL_INLINE
        bool
-       operator<= CGAL_NULL_TMPL_ARGS (const CGAL_Quotient<int>& q,
-                                       const CGAL_Quotient<int>& r);
+       operator<= CGAL_NULL_TMPL_ARGS (const Quotient<int>& q,
+                                       const Quotient<int>& r);
 friend CGAL_KERNEL_INLINE
        bool
-       operator>  CGAL_NULL_TMPL_ARGS (const CGAL_Quotient<int>& q,
-                                       const CGAL_Quotient<int>& r);
+       operator>  CGAL_NULL_TMPL_ARGS (const Quotient<int>& q,
+                                       const Quotient<int>& r);
 friend CGAL_KERNEL_INLINE
        bool
-       operator>= CGAL_NULL_TMPL_ARGS (const CGAL_Quotient<int>& q,
-                                       const CGAL_Quotient<int>& r);
-#endif // CGAL_PROVIDE_STL_PROVIDED_REL_OPS
-#ifdef CGAL_PROVIDE_STL_PROVIDED_REL_OPS
+       operator>= CGAL_NULL_TMPL_ARGS (const Quotient<int>& q,
+                                       const Quotient<int>& r);
+#endif // CGAL_NO_STL_PROVIDED_REL_OPS
+#ifndef CGAL_NO_STL_PROVIDED_REL_OPS
 friend CGAL_KERNEL_INLINE
        bool
-       operator!= CGAL_NULL_TMPL_ARGS (const CGAL_Quotient<int>& q,
+       operator!= CGAL_NULL_TMPL_ARGS (const Quotient<int>& q,
                                        const int& a);
 friend CGAL_KERNEL_INLINE
        bool
        operator!= CGAL_NULL_TMPL_ARGS (const int& n,
-                                       const CGAL_Quotient<int>& q);
+                                       const Quotient<int>& q);
 friend CGAL_KERNEL_INLINE
        bool
-       operator<= CGAL_NULL_TMPL_ARGS (const CGAL_Quotient<int>& q,
+       operator<= CGAL_NULL_TMPL_ARGS (const Quotient<int>& q,
                                        const int& r);
 friend CGAL_KERNEL_INLINE
        bool
        operator<= CGAL_NULL_TMPL_ARGS (const int& q,
-                                       const CGAL_Quotient<int>& r);
+                                       const Quotient<int>& r);
 friend CGAL_KERNEL_INLINE
        bool
-       operator>  CGAL_NULL_TMPL_ARGS (const CGAL_Quotient<int>& q,
+       operator>  CGAL_NULL_TMPL_ARGS (const Quotient<int>& q,
                                        const int& r);
 friend CGAL_KERNEL_INLINE
        bool
        operator>  CGAL_NULL_TMPL_ARGS (const int& q,
-                                       const CGAL_Quotient<int>& r);
+                                       const Quotient<int>& r);
 friend CGAL_KERNEL_INLINE
        bool
-       operator>= CGAL_NULL_TMPL_ARGS (const CGAL_Quotient<int>& q,
+       operator>= CGAL_NULL_TMPL_ARGS (const Quotient<int>& q,
                                        const int& r);
 friend CGAL_KERNEL_INLINE
        bool
        operator>= CGAL_NULL_TMPL_ARGS (const int& q,
-                                       const CGAL_Quotient<int>& r);
-#endif // CGAL_PROVIDE_STL_PROVIDED_REL_OPS
+                                       const Quotient<int>& r);
+#endif // CGAL_NO_STL_PROVIDED_REL_OPS
 
+#endif // CGAL_NO_QUOTIENT_INT_FRIENDS
+#ifndef CGAL_NO_QUOTIENT_INT_FRIENDS
 protected:
+#else
+public:
+#endif // CGAL_NO_QUOTIENT_INT_FRIENDS
   int num;
   int den;
 
 };
 
+CGAL_END_NAMESPACE
+
+
+#ifdef CGAL_INTERVAL_ARITHMETIC_H
+#include <CGAL/Interval_arithmetic/IA_Quotient.h>
+#endif // CGAL_INTERVAL_ARITHMETIC_H
 
 #endif // CGAL_QUOTIENT_H

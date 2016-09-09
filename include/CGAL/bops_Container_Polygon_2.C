@@ -1,7 +1,6 @@
-//  -*- Mode: c++ -*-
 // ======================================================================
 //
-// Copyright (c) 1997 The CGAL Consortium
+// Copyright (c) 1999 The GALIA Consortium
 //
 // This software and related documentation is part of the
 // Computational Geometry Algorithms Library (CGAL).
@@ -17,38 +16,37 @@
 // - Development licenses grant access to the source code of the library 
 //   to develop programs. These programs may be sold to other parties as 
 //   executable code. To obtain a development license, please contact
-//   the CGAL Consortium (at cgal@cs.uu.nl).
+//   the GALIA Consortium (at cgal@cs.uu.nl).
 // - Commercialization licenses grant access to the source code and the
 //   right to sell development licenses. To obtain a commercialization 
-//   license, please contact the CGAL Consortium (at cgal@cs.uu.nl).
+//   license, please contact the GALIA Consortium (at cgal@cs.uu.nl).
 //
 // This software and documentation is provided "as-is" and without
 // warranty of any kind. In no event shall the CGAL Consortium be
 // liable for any damage of any kind.
 //
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// The GALIA Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany) Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+// (Germany), Max-Planck-Institute Saarbrucken (Germany),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-1.2
-// release_date  : 1999, January 18
+// release       : CGAL-2.0
+// release_date  : 1999, June 03
 //
 // file          : include/CGAL/bops_Container_Polygon_2.C
-// package       : bops (1.1.2)
+// package       : bops (2.1.5)
 // source        : include/CGAL/bops_Container_Polygon_2.C
-// revision      : $Revision: 1.1.2 $
+// revision      : $Revision: WIP $
 // revision_date : $Date: Wed Dec  9 13:28:45 MET 1998  $
-// author(s)     :              Wolfgang Freiseisen
+// author(s)     : Wolfgang Freiseisen
 //
 // coordinator   : RISC Linz
 //  (Wolfgang Freiseisen)
 //
 // 
-//
 // email         : cgal@cs.uu.nl
 //
 // ======================================================================
@@ -62,15 +60,16 @@
 #include <CGAL/bops_Container_Polygon_2.h>
 #include <CGAL/bops_assertions.h>
 
+CGAL_BEGIN_NAMESPACE
 
 /*
    transforms a sequence of special objects
-   into a sequence of type CGAL_Object
+   into a sequence of type Object
 */
 template <class ForwardIterator, class OutputIterator>
-OutputIterator CGAL__transform_to_object(
+OutputIterator _transform_to_object(
          ForwardIterator first, ForwardIterator last, OutputIterator result) {
-    while (first != last) *result++ = CGAL_make_object(*first++);
+    while (first != last) *result++ = make_object(*first++);
     return result;
 }
 
@@ -82,20 +81,20 @@ OutputIterator CGAL__transform_to_object(
 /***********************************/ 
 
 template < class ForwardIterator, class Traits > 
-bool CGAL_do_intersect(ForwardIterator Afirst, ForwardIterator Alast,
+bool do_intersect(ForwardIterator Afirst, ForwardIterator Alast,
 		       ForwardIterator Bfirst, ForwardIterator Blast,
 		       Traits &)
 {
   typename Traits::Input_polygon A(Afirst,Alast);
   typename Traits::Input_polygon B(Bfirst,Blast);
   
-  CGAL_Bops_Simple_Polygons_2_Intersection<Traits> intersection(A,B);
+  Bops_Simple_Polygons_2_Intersection<Traits> intersection(A,B);
   return intersection.do_intersect();
 }
 
 
 template < class ForwardIterator, class OutputIterator, class Traits > 
-OutputIterator CGAL_intersection(
+OutputIterator intersection(
 	ForwardIterator Afirst,    // first "polygon", defined by a sequence of points
 	ForwardIterator Alast,
 	ForwardIterator Bfirst,    // second "polygon"
@@ -113,21 +112,21 @@ OutputIterator CGAL_intersection(
 
   /*** NOT IMPLEMENTED YET
   if( A.size() == 3 && B.size() == 3 ) 
-     return CGAL_intersection(
-	CGAL_Triangle_2<Traits::R>(*Afirst++,*Afirst++,*Afirst),
-        CGAL_Triangle_2<Traits::R>(*Bfirst++,*Bfirst++,*Bfirst),
+     return intersection(
+	Triangle_2<Traits::R>(*Afirst++,*Afirst++,*Afirst),
+        Triangle_2<Traits::R>(*Bfirst++,*Bfirst++,*Bfirst),
         result);
   */
   
-	CGAL_Bops_Polygons_2<Traits> *bops;
+	Bops_Polygons_2<Traits> *bops;
   
 	if( A.is_convex() && B.is_convex() )
-		bops= new CGAL_Bops_Convex_Polygons_2_Intersection<Traits>(A,B);
+		bops= new Bops_Convex_Polygons_2_Intersection<Traits>(A,B);
 	else
-		bops= new CGAL_Bops_Simple_Polygons_2_Intersection<Traits>(A,B);
+		bops= new Bops_Simple_Polygons_2_Intersection<Traits>(A,B);
 		
   	bops->operation();
-	copy(bops->begin(), bops->end(), result);
+	std::copy(bops->begin(), bops->end(), result);
 	
 	return result;
 }
@@ -135,7 +134,7 @@ OutputIterator CGAL_intersection(
 
 
 template < class ForwardIterator, class OutputIterator, class Traits > 
-OutputIterator CGAL_union(
+OutputIterator Union(
 	ForwardIterator Afirst,    // first "polygon", defined by a sequence of points
 	ForwardIterator Alast,
 	ForwardIterator Bfirst,    // second "polygon"
@@ -145,20 +144,20 @@ OutputIterator CGAL_union(
 )
 {
   if( Afirst == Alast ) // if polygon A is empty then return polygon B
-    return CGAL__transform_to_object(Bfirst, Blast, result);
+    return _transform_to_object(Bfirst, Blast, result);
 
   if( Bfirst == Blast ) // if polygon B is empty then return polygon A
-    return CGAL__transform_to_object(Afirst, Alast, result);
+    return _transform_to_object(Afirst, Alast, result);
 
   typename Traits::Input_polygon A(Afirst,Alast);
   typename Traits::Input_polygon B(Bfirst,Blast);
-  CGAL_Bops_Simple_Polygons_2_Union<Traits> bops(A,B);
+  Bops_Simple_Polygons_2_Union<Traits> bops(A,B);
   bops.operation();
-  return copy(bops.begin(), bops.end(), result);
+  return std::copy(bops.begin(), bops.end(), result);
 }
 
 template < class ForwardIterator, class OutputIterator, class Traits > 
-OutputIterator CGAL_difference(
+OutputIterator difference(
 	ForwardIterator Afirst,    // first "polygon", defined by a sequence of points
 	ForwardIterator Alast,
 	ForwardIterator Bfirst,    // second "polygon"
@@ -171,14 +170,15 @@ OutputIterator CGAL_difference(
     return result;      
 
   if( Bfirst == Blast ) // if polygon B is empty then return polygon A
-    return CGAL__transform_to_object(Afirst, Alast, result);
+    return _transform_to_object(Afirst, Alast, result);
 
   typename Traits::Input_polygon A(Afirst,Alast);
   typename Traits::Input_polygon B(Bfirst,Blast);
-  CGAL_Bops_Simple_Polygons_2_Difference<Traits> bops(A,B);
+  Bops_Simple_Polygons_2_Difference<Traits> bops(A,B);
   bops.operation();
-  return copy(bops.begin(), bops.end(), result);
+  return std::copy(bops.begin(), bops.end(), result);
 }
 
+CGAL_END_NAMESPACE
 
 #endif // CGAL_BOPS_CONTAINER_POLYGON_2_C

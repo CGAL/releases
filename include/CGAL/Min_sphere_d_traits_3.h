@@ -1,6 +1,6 @@
 // ======================================================================
 //
-// Copyright (c) 1997 The CGAL Consortium
+// Copyright (c) 1999 The GALIA Consortium
 //
 // This software and related documentation is part of the
 // Computational Geometry Algorithms Library (CGAL).
@@ -16,39 +16,38 @@
 // - Development licenses grant access to the source code of the library 
 //   to develop programs. These programs may be sold to other parties as 
 //   executable code. To obtain a development license, please contact
-//   the CGAL Consortium (at cgal@cs.uu.nl).
+//   the GALIA Consortium (at cgal@cs.uu.nl).
 // - Commercialization licenses grant access to the source code and the
 //   right to sell development licenses. To obtain a commercialization 
-//   license, please contact the CGAL Consortium (at cgal@cs.uu.nl).
+//   license, please contact the GALIA Consortium (at cgal@cs.uu.nl).
 //
 // This software and documentation is provided "as-is" and without
 // warranty of any kind. In no event shall the CGAL Consortium be
 // liable for any damage of any kind.
 //
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// The GALIA Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany) Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+// (Germany), Max-Planck-Institute Saarbrucken (Germany),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-1.2
-// release_date  : 1999, January 18
+// release       : CGAL-2.0
+// release_date  : 1999, June 03
 //
 // chapter       : $CGAL_Chapter: Optimisation $
 // file          : include/CGAL/Min_sphere_d_traits_3.h
-// package       : Min_sphere_d (1.9)
+// package       : Min_sphere_d (1.13)
 // source        : web/Optimisation/Min_sphere_d.aw
-// revision      : $Revision: 1.3 $
-// revision_date : $Date: 1999/01/08 10:38:24 $
+// revision      : $Revision: 1.5 $
+// revision_date : $Date: 1999/04/12 09:31:10 $
 // author(s)     : Sven Schönherr
 //                 Bernd Gärtner
 //
 // coordinator   : ETH Zurich (Bernd Gärtner)
 //
 // implementation: dD Smallest Enclosing Sphere
-//
 // email         : cgal@cs.uu.nl
 //
 // ======================================================================
@@ -62,26 +61,24 @@
 // Class interface and implementation
 // ==================================
 // includes
-#ifndef CGAL_PROTECT_ITERATOR_H
-#include <iterator.h>
-#define CGAL_PROTECT_ITERATOR_H
+#ifndef CGAL_PROTECT_ITERATOR
+#include <iterator>
+#define CGAL_PROTECT_ITERATOR
 #endif
 
 #ifndef CGAL_POINT_3_H
 #include <CGAL/Point_3.h>
 #endif
 
-#ifndef CGAL_REP_DISTINGUISHER_H
-#include <CGAL/Rep_distinguisher.h>
-#endif
+CGAL_BEGIN_NAMESPACE
 
 template <class R>
-class CGAL_Point_3_iterator :
-    public input_iterator<typename R::RT, ptrdiff_t>
+class Point_3_iterator :
+    public CGAL_STD::input_iterator<typename R::RT, ptrdiff_t>
 {
     private:
         typedef typename R::RT                      RT;
-        typedef CGAL_Point_3<R>                     Point;
+        typedef Point_3<R>                  Point;
 
         typename R::Rep_tag                         tag;
 
@@ -89,31 +86,31 @@ class CGAL_Point_3_iterator :
         int                                         pos;
 
     public:
-        CGAL_Point_3_iterator ()
+        Point_3_iterator ()
         {}
 
-        CGAL_Point_3_iterator (const Point& point, int position = 0)
+        Point_3_iterator (const Point& point, int position = 0)
             : p(point), pos(position)
         {}
 
         // assignment; not actually necessary but explicitly defined
         // to please egcs
-        CGAL_Point_3_iterator& operator= (const CGAL_Point_3_iterator& i)
+        Point_3_iterator& operator= (const Point_3_iterator& i)
         {
             p = i.p;
             pos = i.pos;
             return *this;
         }
 
-        CGAL_Point_3_iterator operator++() // prefix
+        Point_3_iterator operator++() // prefix
         {
             ++pos;
             return (*this);
         }
 
-        CGAL_Point_3_iterator operator++(int dummy) // postfix
+        Point_3_iterator operator++(int dummy) // postfix
         {
-            CGAL_Point_3_iterator it(p, pos++);
+            Point_3_iterator it(p, pos++);
             return it;
         }
 
@@ -122,7 +119,7 @@ class CGAL_Point_3_iterator :
             return dereference (tag);
         }
 
-        RT dereference (CGAL_Cartesian_tag t)
+        RT dereference (Cartesian_tag t)
         {
             switch (pos) {
                 case 0:
@@ -137,7 +134,7 @@ class CGAL_Point_3_iterator :
             }
         }
 
-        RT dereference (CGAL_Homogeneous_tag t)
+        RT dereference (Homogeneous_tag t)
         {
             switch (pos) {
                 case 0:
@@ -157,20 +154,20 @@ class CGAL_Point_3_iterator :
 
 
 template <class R>
-class CGAL_DA_3
+class DA_3
 {
     private:
         typedef typename R::RT              RT;
-        typedef CGAL_Point_3<R>             Point;
+        typedef Point_3<R>          Point;
 
         typename R::Rep_tag                 tag;
         bool                                check;
 
     public:
-        typedef CGAL_Point_3_iterator<R>    InputIterator;
+        typedef Point_3_iterator<R> InputIterator;
 
         // construction
-        CGAL_DA_3 (bool checked = false)
+        DA_3 (bool checked = false)
             : check (checked)
         {}
 
@@ -195,9 +192,9 @@ class CGAL_DA_3
         void set (Point& p, RT* first, RT* last) const
         {
             if (last-first==3)
-                p = CGAL_Point_3<R>(*first, *(first+1), *(first+2));
+                p = Point_3<R>(*first, *(first+1), *(first+2));
             else
-                p = CGAL_Point_3<R>(*first, *(first+1), *(first+2),
+                p = Point_3<R>(*first, *(first+1), *(first+2),
                                     *(first+3));
         }
 
@@ -207,7 +204,7 @@ class CGAL_DA_3
             return correctly_accesses (p, tag);
         }
 
-        bool correctly_accesses (const Point& p, CGAL_Cartesian_tag t)
+        bool correctly_accesses (const Point& p, Cartesian_tag t)
         const
         {
             InputIterator it(p);
@@ -217,7 +214,7 @@ class CGAL_DA_3
             return true;
         }
 
-        bool correctly_accesses (const Point& p, CGAL_Homogeneous_tag t)
+        bool correctly_accesses (const Point& p, Homogeneous_tag t)
         const
         {
             InputIterator it(p);
@@ -228,22 +225,25 @@ class CGAL_DA_3
 };
 
 
-template <class _R>
-class CGAL_Min_sphere_d_traits_3
+template <class R>
+class Min_sphere_d_traits_3
 {
     public:
-        typedef _R                          R;
-        typedef CGAL_Point_3<R>             Point;
-        typedef CGAL_DA_3<R>                DA;
+        typedef typename R::Rep_tag         Rep_tag;
+        typedef typename R::RT              NT;
+        typedef Point_3<R>                  Point;
+        typedef DA_3<R>                     DA;
 
         DA                                  da;
 
-        CGAL_Min_sphere_d_traits_3 (bool checked = false)
+        Min_sphere_d_traits_3 (bool checked = false)
             : da (checked)
         {}
 };
 
 
+
+ CGAL_END_NAMESPACE
 
 #endif // CGAL_MIN_SPHERE_D_TRAITS_3_H
 

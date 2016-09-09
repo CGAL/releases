@@ -1,7 +1,6 @@
-//  -*- Mode: c++ -*-
 // ======================================================================
 //
-// Copyright (c) 1997 The CGAL Consortium
+// Copyright (c) 1999 The GALIA Consortium
 //
 // This software and related documentation is part of the
 // Computational Geometry Algorithms Library (CGAL).
@@ -17,38 +16,37 @@
 // - Development licenses grant access to the source code of the library 
 //   to develop programs. These programs may be sold to other parties as 
 //   executable code. To obtain a development license, please contact
-//   the CGAL Consortium (at cgal@cs.uu.nl).
+//   the GALIA Consortium (at cgal@cs.uu.nl).
 // - Commercialization licenses grant access to the source code and the
 //   right to sell development licenses. To obtain a commercialization 
-//   license, please contact the CGAL Consortium (at cgal@cs.uu.nl).
+//   license, please contact the GALIA Consortium (at cgal@cs.uu.nl).
 //
 // This software and documentation is provided "as-is" and without
 // warranty of any kind. In no event shall the CGAL Consortium be
 // liable for any damage of any kind.
 //
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// The GALIA Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany) Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+// (Germany), Max-Planck-Institute Saarbrucken (Germany),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-1.2
-// release_date  : 1999, January 18
+// release       : CGAL-2.0
+// release_date  : 1999, June 03
 //
 // file          : include/CGAL/bops_dcel_base.C
-// package       : bops (1.1.2)
+// package       : bops (2.1.5)
 // source        : include/CGAL/bops_dcel_base.C
-// revision      : $Revision: 1.1.2 $
+// revision      : $Revision: WIP $
 // revision_date : $Date: Wed Dec  9 13:28:50 MET 1998  $
-// author(s)     :             Wolfgang Freiseisen
+// author(s)     : Wolfgang Freiseisen
 //
 // coordinator   : RISC Linz
 //  (Wolfgang Freiseisen)
 //
 // 
-//
 // email         : cgal@cs.uu.nl
 //
 // ======================================================================
@@ -62,21 +60,22 @@
 
 #include <CGAL/bops_V2E_rep.h>
 
+CGAL_BEGIN_NAMESPACE
 
 //#defineCGAL_CFG_RETURN_TYPE_BUG_2
 #ifdef CGAL_CFG_RETURN_TYPE_BUG_2
 template <class I>
-void CGAL__Dcel_base<I>::construct_vertex_cycles() {
-  //typedef typename vector<CGAL__Dcel_vertex_type<I> >::const_iterator _vertex;
-  //typedef typename vector<CGAL__Dcel_edge_type<I> >  ::const_iterator _edge;
+void _Dcel_base<I>::construct_vertex_cycles() {
+  //typedef typename vector<_Dcel_vertex_type<I> >::const_iterator _vertex;
+  //typedef typename vector<_Dcel_edge_type<I> >  ::const_iterator _edge;
   typedef const_vertices_iterator _vertex;
   typedef const_edges_iterator    _edge;
-  typedef CGAL__V2E_rep_base_type<_vertex,_edge> V2E_rep_base_dcel;
+  typedef _V2E_rep_base_type<_vertex,_edge> V2E_rep_base_dcel;
   V2E_rep_base_dcel& v2e= (*_v2e);
 #else
 template <class I>
-void CGAL__Dcel_base<I>::construct_vertex_cycles(
-  typename CGAL__Dcel_base<I>::V2E_rep_base_dcel& v2e
+void _Dcel_base<I>::construct_vertex_cycles(
+  typename _Dcel_base<I>::V2E_rep_base_dcel& v2e
 )
 {
 #endif
@@ -103,7 +102,7 @@ void CGAL__Dcel_base<I>::construct_vertex_cycles(
 
     vertices_iterator vtex;
     edges_iterator e;
-    CGAL__Dcel_edge_id  u;
+    _Dcel_edge_id  u;
 
 
     /* for all vertices v1 */
@@ -128,7 +127,7 @@ void CGAL__Dcel_base<I>::construct_vertex_cycles(
 
 
 template <class I>
-void CGAL__Dcel_base<I>::construct_face_cycles() {
+void _Dcel_base<I>::construct_face_cycles() {
     /* construction of face cycles */
     /* preconditions:
           face list _f_list is not initialized, it will be cleared and filled
@@ -147,12 +146,12 @@ void CGAL__Dcel_base<I>::construct_face_cycles() {
     _f_list.erase(_f_list.begin(), _f_list.end());
     _f_list.reserve(f+1);
     for(int i= 0; i < f; i++)
-      _f_list.push_back( CGAL__Dcel_face_type<I>(i) ); 
+      _f_list.push_back( _Dcel_face_type<I>(i) ); 
     
     faces_iterator s= _f_list.begin();; 
     int k= 1; /* edge-counter */
   
-    CGAL__Dcel_edge_id   u;
+    _Dcel_edge_id   u;
 
     while ( k<= 2*m ) {
       if( (*a).F1() != NULL && (*a).F2() != NULL )
@@ -189,5 +188,6 @@ void CGAL__Dcel_base<I>::construct_face_cycles() {
     return;
   }
 
+CGAL_END_NAMESPACE
   
 #endif /* CGAL__DCEL_C */

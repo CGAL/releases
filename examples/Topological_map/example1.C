@@ -1,16 +1,16 @@
 #include <CGAL/basic.h>
-#include <iostream.h>
+#include <iostream>
 
 #include <CGAL/Topological_map_bases.h>
 #include <CGAL/Pm_default_dcel.h>
 #include <CGAL/Topological_map.h>
 
 
-typedef CGAL_Pm_dcel<CGAL_Tpm_vertex_base,
-                     CGAL_Tpm_halfedge_base,
-                     CGAL_Tpm_face_base> Dcel;  
+typedef CGAL::Pm_dcel<CGAL::Tpm_vertex_base,
+                     CGAL::Tpm_halfedge_base,
+                     CGAL::Tpm_face_base> Dcel;  
 
-typedef CGAL_Topological_map<Dcel> Tpm;
+typedef CGAL::Topological_map<Dcel> Tpm;
 
 typedef  Tpm::Halfedge_handle Halfedge_handle;
 typedef  Tpm::Vertex_handle   Vertex_handle;
@@ -23,22 +23,22 @@ int main() {
 
   Face_handle uf=t.unbounded_face();
 
-  cout << "inserting edge e1 in face interior ..." ;
+  std::cout << "inserting edge e1 in face interior ..." ;
   Halfedge_handle e1 = t.insert_in_face_interior(uf);
   CGAL_assertion(t.is_valid());
-  cout << "map is valid." << endl;
+  std::cout << "map is valid." << std::endl;
 
-  cout << "inserting edge e2 from target vertex of e1 ..." ;
+  std::cout << "inserting edge e2 from target vertex of e1 ..." ;
   Halfedge_handle e2=t.insert_from_vertex(e1);
   CGAL_assertion(t.is_valid());
-  cout <<  "map is valid." << endl;
+  std::cout <<  "map is valid." << std::endl;
 
-  cout << "inserting edge e3 between target vertices of e2 and e1->twin() ...";
+  std::cout << "inserting edge e3 between target vertices of e2 and e1->twin() ...";
   //  Halfedge_handle e3=
   t.insert_at_vertices(e2,e1->twin());
 
   CGAL_assertion(t.is_valid());
-  cout << "map is valid." << endl;
+  std::cout << "map is valid." << std::endl;
 
   return 0;
 }

@@ -1,17 +1,22 @@
 #include "tutorial.h"
-#include <list.h>
-#include <vector.h>
-#include <algobase.h>
-#include <iterator.h>
-#include <iostream.h>
+#include <list>
+#include <vector>
+#include <algorithm>
+#include <iterator>
+#include <iostream>
 
+using std::back_inserter;
+using std::copy;
+using std::ostream_iterator;
+using std::cout;
+using std::endl;
 
-void main()
+main()
 {
     double d_array[2] = { 1.3, 1.2};
-    vector<double> d_vec(3, 0.5);
+    std::vector<double> d_vec(3, 0.5);
     d_vec[2] = 1.4;
-    list<double> d_list;
+    std::list<double> d_list;
     copy(d_vec.begin(), d_vec.end(), back_inserter(d_list));
 // d_list: 0.5, 0.5, 1.4 ;
     copy(d_array, d_array+2, back_inserter(d_list));

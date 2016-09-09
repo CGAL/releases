@@ -1,6 +1,6 @@
 // ======================================================================
 //
-// Copyright (c) 1998 The CGAL Consortium
+// Copyright (c) 1999 The GALIA Consortium
 //
 // This software and related documentation is part of the
 // Computational Geometry Algorithms Library (CGAL).
@@ -16,35 +16,34 @@
 // - Development licenses grant access to the source code of the library 
 //   to develop programs. These programs may be sold to other parties as 
 //   executable code. To obtain a development license, please contact
-//   the CGAL Consortium (at cgal@cs.uu.nl).
+//   the GALIA Consortium (at cgal@cs.uu.nl).
 // - Commercialization licenses grant access to the source code and the
 //   right to sell development licenses. To obtain a commercialization 
-//   license, please contact the CGAL Consortium (at cgal@cs.uu.nl).
+//   license, please contact the GALIA Consortium (at cgal@cs.uu.nl).
 //
 // This software and documentation is provided "as-is" and without
 // warranty of any kind. In no event shall the CGAL Consortium be
 // liable for any damage of any kind.
 //
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// The GALIA Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany) Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+// (Germany), Max-Planck-Institute Saarbrucken (Germany),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 // 
-// release       : CGAL-1.2
-// release_date  : 1999, January 18
+// release       : CGAL-2.0
+// release_date  : 1999, June 03
 // 
 // source        : rational_rotation.fw
 // file          : include/CGAL/rational_rotation.h
-// package       : Kernel_basic (1.2.12)
-// revision      : 1.2.12
-// revision_date : 08 Jan 1999 
+// package       : Kernel_basic (2.0.11)
+// revision      : 2.0.11
+// revision_date : 06 May 1999 
 // author(s)     : Stefan Schirra
 //
 // coordinator   : MPI, Saarbruecken
-//
 // email         : cgal@cs.uu.nl
 //
 // ======================================================================
@@ -53,9 +52,13 @@
 #ifndef CGAL_RATIONAL_ROTATION_H
 #define CGAL_RATIONAL_ROTATION_H
 
+#include <algorithm>
+
+CGAL_BEGIN_NAMESPACE
+
 template < class NT >
 void
-CGAL_rational_rotation_approximation( const NT &  dirx,     // dir.x()
+rational_rotation_approximation( const NT &  dirx,     // dir.x()
                                       const NT &  diry,     // dir.y()
                                             NT &  sin_num,  // return
                                             NT &  cos_num,  // return
@@ -63,6 +66,10 @@ CGAL_rational_rotation_approximation( const NT &  dirx,     // dir.x()
                                       const NT &  eps_num,  // quality_bound
                                       const NT &  eps_den )
 {
+#ifndef CGAL_CFG_NO_NAMESPACE
+  using std::swap;
+#endif // CGAL_CFG_NO_NAMESPACE
+
   const NT& n   = eps_num;
   const NT& d   = eps_den;
   const NT  NT0 = NT(0)  ;
@@ -72,8 +79,8 @@ CGAL_rational_rotation_approximation( const NT &  dirx,     // dir.x()
   NT & sin = sin_num;
   NT & cos = cos_num;
   NT & den = denom;
-  NT   dx = CGAL_abs(dirx);
-  NT   dy = CGAL_abs(diry);
+  NT   dx = abs(dirx);
+  NT   dy = abs(diry);
   NT   sq_hypotenuse = dx*dx + dy*dy;
   NT   common_part;
   NT   diff_part;
@@ -83,7 +90,7 @@ CGAL_rational_rotation_approximation( const NT &  dirx,     // dir.x()
 
   if (dy > dx)
   {
-     CGAL_swap (dx,dy);
+     swap (dx,dy);
   }
   // approximate sin = dy / sqrt(sq_hypotenuse)
   // if ( dy / sqrt(sq_hypotenuse) < n/d )
@@ -159,7 +166,7 @@ CGAL_rational_rotation_approximation( const NT &  dirx,     // dir.x()
   dy = diry;
 
 
-  if (dy > dx ) { CGAL_swap (sin,cos); }
+  if (dy > dx ) { swap (sin,cos); }
 
   if (dx < NT0) { cos = - cos; }
 
@@ -173,13 +180,17 @@ CGAL_rational_rotation_approximation( const NT &  dirx,     // dir.x()
 
 template < class NT >
 void
-CGAL_rational_rotation_approximation( const double& angle,
+rational_rotation_approximation( const double& angle,
                                             NT &  sin_num,  // return
                                             NT &  cos_num,  // return
                                             NT &  denom,    // return
                                       const NT &  eps_num,  // quality_bound
                                       const NT &  eps_den )
 {
+#ifndef CGAL_CFG_NO_NAMESPACE
+  using std::swap;
+#endif // CGAL_CFG_NO_NAMESPACE
+
   const NT& n   = eps_num;
   const NT& d   = eps_den;
   const NT  NT0 = NT(0)  ;
@@ -191,11 +202,11 @@ CGAL_rational_rotation_approximation( const double& angle,
   NT& iden = denom;
   double dsin = sin(angle);
   double dcos = cos(angle);
-  double dn = CGAL_to_double(n);
-  double dd = CGAL_to_double(d);
+  double dn = CGAL::to_double(n);
+  double dd = CGAL::to_double(d);
   double eps = dn / dd;
-  dsin = CGAL_abs( dsin);
-  dcos = CGAL_abs( dcos);
+  dsin = abs( dsin);
+  dcos = abs( dcos);
   NT   common_part;
   NT   diff_part;
   NT   os;
@@ -206,7 +217,7 @@ CGAL_rational_rotation_approximation( const double& angle,
   if (dsin > dcos)
   {
      swapped = true;
-     CGAL_swap (dsin,dcos);
+     swap (dsin,dcos);
   }
   if ( dsin < eps )
   {
@@ -235,9 +246,9 @@ CGAL_rational_rotation_approximation( const double& angle,
           //    &&  sin/den > dsin - n/d
           //        sin < dsin * den + n/d * den
           //    &&  sin > dsin * den - n/d * den
-          os          = CGAL_to_double(isin);
-          diff_part   = eps  * CGAL_to_double(iden);
-          common_part = dsin * CGAL_to_double(iden);
+          os          = CGAL::to_double(isin);
+          diff_part   = eps  * CGAL::to_double(iden);
+          common_part = dsin * CGAL::to_double(iden);
 
           upper_ok    = (common_part - diff_part < os);
           lower_ok    = (os < common_part + diff_part);
@@ -260,7 +271,7 @@ CGAL_rational_rotation_approximation( const double& angle,
           else
           {
               // XXX if ( dsin < sin/den )
-              if ( dsin * CGAL_to_double(iden) < CGAL_to_double(isin) )
+              if ( dsin * CGAL::to_double(iden) < CGAL::to_double(isin) )
               {
                   p1 = p;
                   q1 = q;
@@ -274,7 +285,7 @@ CGAL_rational_rotation_approximation( const double& angle,
       } // for(;;)
   }
 
-  if ( swapped ) { CGAL_swap (isin,icos); }
+  if ( swapped ) { swap (isin,icos); }
 
   dsin = sin( angle);
   dcos = cos( angle);
@@ -286,6 +297,8 @@ CGAL_rational_rotation_approximation( const double& angle,
   denom   = iden;
 }
 
+
+CGAL_END_NAMESPACE
 
 
 #endif // CGAL_RATIONAL_ROTATION_H

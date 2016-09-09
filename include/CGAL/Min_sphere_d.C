@@ -1,6 +1,6 @@
 // ======================================================================
 //
-// Copyright (c) 1997 The CGAL Consortium
+// Copyright (c) 1999 The GALIA Consortium
 //
 // This software and related documentation is part of the
 // Computational Geometry Algorithms Library (CGAL).
@@ -16,42 +16,43 @@
 // - Development licenses grant access to the source code of the library 
 //   to develop programs. These programs may be sold to other parties as 
 //   executable code. To obtain a development license, please contact
-//   the CGAL Consortium (at cgal@cs.uu.nl).
+//   the GALIA Consortium (at cgal@cs.uu.nl).
 // - Commercialization licenses grant access to the source code and the
 //   right to sell development licenses. To obtain a commercialization 
-//   license, please contact the CGAL Consortium (at cgal@cs.uu.nl).
+//   license, please contact the GALIA Consortium (at cgal@cs.uu.nl).
 //
 // This software and documentation is provided "as-is" and without
 // warranty of any kind. In no event shall the CGAL Consortium be
 // liable for any damage of any kind.
 //
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// The GALIA Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany) Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+// (Germany), Max-Planck-Institute Saarbrucken (Germany),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-1.2
-// release_date  : 1999, January 18
+// release       : CGAL-2.0
+// release_date  : 1999, June 03
 //
 // chapter       : $CGAL_Chapter: Optimisation $
 // file          : include/CGAL/Min_sphere_d.C
-// package       : Min_sphere_d (1.9)
+// package       : Min_sphere_d (1.13)
 // source        : web/Optimisation/Min_sphere_d.aw
-// revision      : $Revision: 1.1 $
-// revision_date : $Date: 1998/06/05 16:16:13 $
+// revision      : $Revision: 1.2 $
+// revision_date : $Date: 1999/02/26 12:13:50 $
 // author(s)     : Sven Schönherr
 //                 Bernd Gärtner
 //
 // coordinator   : ETH Zurich (Bernd Gärtner)
 //
 // implementation: dD Smallest Enclosing Sphere
-//
 // email         : cgal@cs.uu.nl
 //
 // ======================================================================
+
+CGAL_BEGIN_NAMESPACE
 
 // Class implementation (continued)
 // ================================
@@ -59,15 +60,15 @@
 // ---
 template < class Traits >
 ostream&
-operator << ( ostream& os, const CGAL_Min_sphere_d<Traits>& min_sphere)
+operator << ( ostream& os, const Min_sphere_d<Traits>& min_sphere)
 {
-    typedef typename CGAL_Min_sphere_d<Traits>::Point  Point;
+    typedef typename Min_sphere_d<Traits>::Point  Point;
 
-    switch ( CGAL_get_mode( os)) {
+    switch ( get_mode( os)) {
 
-      case CGAL_IO::PRETTY:
+      case IO::PRETTY:
         os << endl;
-        os << "CGAL_Min_sphere_d( |P| = " << min_sphere.number_of_points()
+        os << "Min_sphere_d( |P| = " << min_sphere.number_of_points()
            << ", |S| = " << min_sphere.number_of_support_points() << endl;
         os << "  P = {" << endl;
         os << "    ";
@@ -85,13 +86,13 @@ operator << ( ostream& os, const CGAL_Min_sphere_d<Traits>& min_sphere)
         os << ")" << endl;
         break;
 
-      case CGAL_IO::ASCII:
+      case IO::ASCII:
         os << min_sphere.number_of_points() << endl;
         copy( min_sphere.points_begin(), min_sphere.points_end(),
               ostream_iterator<Point>( os, "\n"));
         break;
 
-      case CGAL_IO::BINARY:
+      case IO::BINARY:
         os << min_sphere.number_of_points() << " ";
         copy( min_sphere.points_begin(), min_sphere.points_end(),
               ostream_iterator<Point>( os, " "));
@@ -99,7 +100,7 @@ operator << ( ostream& os, const CGAL_Min_sphere_d<Traits>& min_sphere)
 
       default:
         CGAL_optimisation_assertion_msg
-            ( false, "CGAL_get_mode( os) invalid!");
+            ( false, "get_mode( os) invalid!");
         break; }
 
     return( os);
@@ -107,21 +108,21 @@ operator << ( ostream& os, const CGAL_Min_sphere_d<Traits>& min_sphere)
 
 template < class Traits >
 istream&
-operator >> ( istream& is, CGAL_Min_sphere_d<Traits>& min_sphere)
+operator >> ( istream& is, Min_sphere_d<Traits>& min_sphere)
 {
-    switch ( CGAL_get_mode( is)) {
+    switch ( get_mode( is)) {
 
-      case CGAL_IO::PRETTY:
+      case IO::PRETTY:
         cerr << endl;
         cerr << "Stream must be in ascii or binary mode" << endl;
         break;
 
-      case CGAL_IO::ASCII:
-      case CGAL_IO::BINARY:
+      case IO::ASCII:
+      case IO::BINARY:
       {
         min_sphere.clear();
         int n; is >> n;
-        typename CGAL_Min_sphere_d<Traits>::Point p;
+        typename Min_sphere_d<Traits>::Point p;
         for (int i=0; i<n; ++i) {
             is >> p;
             min_sphere.insert (p);
@@ -129,7 +130,7 @@ operator >> ( istream& is, CGAL_Min_sphere_d<Traits>& min_sphere)
       } break;
 
       default:
-        CGAL_optimisation_assertion_msg( false, "CGAL_IO::mode invalid!");
+        CGAL_optimisation_assertion_msg( false, "IO::mode invalid!");
         break;
  }
 
@@ -137,6 +138,8 @@ operator >> ( istream& is, CGAL_Min_sphere_d<Traits>& min_sphere)
 }
 
 
+
+CGAL_END_NAMESPACE
 
 // ===== EOF ==================================================================
 

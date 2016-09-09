@@ -1,6 +1,6 @@
 // ======================================================================
 //
-// Copyright (c) 1998 The CGAL Consortium
+// Copyright (c) 1999 The GALIA Consortium
 //
 // This software and related documentation is part of the
 // Computational Geometry Algorithms Library (CGAL).
@@ -16,34 +16,33 @@
 // - Development licenses grant access to the source code of the library 
 //   to develop programs. These programs may be sold to other parties as 
 //   executable code. To obtain a development license, please contact
-//   the CGAL Consortium (at cgal@cs.uu.nl).
+//   the GALIA Consortium (at cgal@cs.uu.nl).
 // - Commercialization licenses grant access to the source code and the
 //   right to sell development licenses. To obtain a commercialization 
-//   license, please contact the CGAL Consortium (at cgal@cs.uu.nl).
+//   license, please contact the GALIA Consortium (at cgal@cs.uu.nl).
 //
 // This software and documentation is provided "as-is" and without
 // warranty of any kind. In no event shall the CGAL Consortium be
 // liable for any damage of any kind.
 //
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// The GALIA Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany) Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+// (Germany), Max-Planck-Institute Saarbrucken (Germany),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
-// release       : CGAL-1.2
-// release_date  : 1999, January 18
+// release       : CGAL-2.0
+// release_date  : 1999, June 03
 //
 // file          : include/CGAL/leda_in_CGAL_2.h
-// package       : Convex_hull (1.3.2)
+// package       : Convex_hull (2.0.8)
 // source        : convex_hull_2.lw
-// revision      : 1.3.2
-// revision_date : 09 Dec 1998
+// revision      : 2.0.8
+// revision_date : 06 May 1999
 // author(s)     : Stefan Schirra
 //
 // coordinator   : MPI, Saarbruecken
-//
 // email         : cgal@cs.uu.nl
 //
 // ======================================================================
@@ -56,56 +55,60 @@
 #include <LEDA/point.h>
 #include <LEDA/segment.h>
 #include <LEDA/line.h>
+
+CGAL_BEGIN_NAMESPACE
 inline
 bool
-CGAL_leftturn( const leda_point & p, 
-               const leda_point & q, 
-               const leda_point & r)
+leftturn( const leda_point & p, 
+          const leda_point & q, 
+          const leda_point & r)
 { return  left_turn(p,q,r); }
 
 inline
 bool
-CGAL_rightturn( const leda_point & p, 
-                const leda_point & q, 
-                const leda_point & r)
+rightturn( const leda_point & p, 
+           const leda_point & q, 
+           const leda_point & r)
 { return  right_turn(p,q,r); }
 
+#ifndef CGAL_CFG_NO_NAMESPACE
 inline
-CGAL_Orientation
-CGAL_orientation( const leda_point & p, 
-                  const leda_point & q, 
-                  const leda_point & r)
-{ return (CGAL_Orientation)orientation(p,q,r); }
+Orientation
+orientation( const leda_point & p, 
+             const leda_point & q, 
+             const leda_point & r)
+{ return (Orientation)::orientation(p,q,r); }
+#endif // CGAL_CFG_NO_NAMESPACE
 
 inline
 bool
-CGAL_lexicographically_xy_smaller( const leda_point & p, 
-                                   const leda_point & q)
+lexicographically_xy_smaller( const leda_point & p, 
+                              const leda_point & q)
 { return ( leda_point::cmp_xy(p,q)  <  0 ); }
 
 inline
 bool
-CGAL_lexicographically_yx_smaller( const leda_point & p, 
-                                   const leda_point & q)
+lexicographically_yx_smaller( const leda_point & p, 
+                              const leda_point & q)
 { return ( leda_point::cmp_yx(p,q)  <  0 ); }
 
 inline
 bool
-CGAL_lexicographically_xy_larger( const leda_point & p, 
-                                  const leda_point & q)
+lexicographically_xy_larger( const leda_point & p, 
+                             const leda_point & q)
 { return ( leda_point::cmp_xy(p,q)  >  0 ); }
 
 inline
 bool
-CGAL_lexicographically_yx_larger( const leda_point & p, 
-                                  const leda_point & q)
+lexicographically_yx_larger( const leda_point & p, 
+                             const leda_point & q)
 { return ( leda_point::cmp_yx(p,q)  >  0 ); }
 
 inline
 bool
-CGAL_collinear_are_ordered_along_line( const leda_point & p, 
-                                       const leda_point & q, 
-                                       const leda_point & r)
+collinear_are_ordered_along_line( const leda_point & p, 
+                                  const leda_point & q, 
+                                  const leda_point & r)
 { 
   return 
   (  (( leda_point::cmp_xy(p,q)<=0 )&&( leda_point::cmp_xy(q,r)<=0 )) 
@@ -113,26 +116,27 @@ CGAL_collinear_are_ordered_along_line( const leda_point & p,
 }
 
 inline
-CGAL_Comparison_result 
-CGAL_cmp_signed_dist_to_line( const leda_point & p, const leda_point & q,
-                              const leda_point & r, const leda_point & s )
+Comparison_result 
+cmp_signed_dist_to_line( const leda_point & p, const leda_point & q,
+                         const leda_point & r, const leda_point & s )
 {
 #if ( __LEDA__ >= 360 )
-  return (CGAL_Comparison_result)cmp_signed_dist(p,q,r,s);
+  return (Comparison_result)::cmp_signed_dist(p,q,r,s);
 #else
   leda_line  l(p,q);
-  int  r_or = orientation( l, r );
-  int  s_or = orientation( l, s );
+  int  r_or = ::orientation( l, r );
+  int  s_or = ::orientation( l, s );
   if ( r_or != s_or )
   {
-      return (CGAL_Comparison_result)( r_or < s_or );
+      return (Comparison_result)( r_or < s_or );
   }
   else
   {
       return 
-        (CGAL_Comparison_result)(r_or *( sign(l.sqr_dist(r) - l.sqr_dist(s) )));
+        (Comparison_result)(r_or *( CGAL::sign(l.sqr_dist(r) - l.sqr_dist(s) )));
   }
 #endif  // __LEDA__ >= 360
 }
+CGAL_END_NAMESPACE
 
 #endif // LEDA_IN_CGAL_H

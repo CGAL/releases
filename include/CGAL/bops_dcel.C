@@ -1,7 +1,6 @@
-//  -*- Mode: c++ -*-
 // ======================================================================
 //
-// Copyright (c) 1997 The CGAL Consortium
+// Copyright (c) 1999 The GALIA Consortium
 //
 // This software and related documentation is part of the
 // Computational Geometry Algorithms Library (CGAL).
@@ -17,38 +16,37 @@
 // - Development licenses grant access to the source code of the library 
 //   to develop programs. These programs may be sold to other parties as 
 //   executable code. To obtain a development license, please contact
-//   the CGAL Consortium (at cgal@cs.uu.nl).
+//   the GALIA Consortium (at cgal@cs.uu.nl).
 // - Commercialization licenses grant access to the source code and the
 //   right to sell development licenses. To obtain a commercialization 
-//   license, please contact the CGAL Consortium (at cgal@cs.uu.nl).
+//   license, please contact the GALIA Consortium (at cgal@cs.uu.nl).
 //
 // This software and documentation is provided "as-is" and without
 // warranty of any kind. In no event shall the CGAL Consortium be
 // liable for any damage of any kind.
 //
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// The GALIA Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany) Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+// (Germany), Max-Planck-Institute Saarbrucken (Germany),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-1.2
-// release_date  : 1999, January 18
+// release       : CGAL-2.0
+// release_date  : 1999, June 03
 //
 // file          : include/CGAL/bops_dcel.C
-// package       : bops (1.1.2)
+// package       : bops (2.1.5)
 // source        : include/CGAL/bops_dcel.C
-// revision      : $Revision: 1.1.2 $
+// revision      : $Revision: WIP $
 // revision_date : $Date: Wed Dec  9 13:28:49 MET 1998  $
-// author(s)     :             Wolfgang Freiseisen
+// author(s)     : Wolfgang Freiseisen
 //
 // coordinator   : RISC Linz
 //  (Wolfgang Freiseisen)
 //
 // 
-//
 // email         : cgal@cs.uu.nl
 //
 // ======================================================================
@@ -66,15 +64,16 @@
 
 //#define CGAL__DCEL_DEBUG_ON
 
+CGAL_BEGIN_NAMESPACE
 
 template<class I>
-struct CGAL__Dcel_V2E_compare : public I {
-   typedef const CGAL__Dcel_vertex_type<I>* vertex;
+struct _Dcel_V2E_compare : public I {
+   typedef const _Dcel_vertex_type<I>* vertex;
    typedef typename I::Point Point;
    typedef typename I::Direction Direction;
    Point p0;
 
-   CGAL__Dcel_V2E_compare(vertex v0) : p0((*v0).point()) { }
+   _Dcel_V2E_compare(vertex v0) : p0((*v0).point()) { }
    bool operator()(vertex v1, vertex v2 ) const { return compare(v1,v2); }
    bool compare(vertex v1, vertex v2 ) const {
      Point p1= (*v1).point(), p2= (*v2).point();
@@ -96,25 +95,25 @@ struct CGAL__Dcel_V2E_compare : public I {
 
 
 #ifdef  CGAL_CFG_RETURN_TYPE_BUG_2 
-template <class I> void CGAL__Dcel<I> :: insert_edges() {
-  const list<epair>& edges= *__edges;
+template <class I> void _Dcel<I> :: insert_edges() {
+  const std::list<epair>& edges= *__edges;
 #else 
 template <class I>
-void CGAL__Dcel<I> :: insert_edges( const list<epair>& edges) {
+void _Dcel<I> :: insert_edges( const std::list<epair>& edges) {
 #endif // CGAL_CFG_RETURN_TYPE_BUG_2
 
-  typedef CGAL__V2E_rep_type<const_vertices_iterator,edge_iterator,
-          CGAL__Dcel_V2E_compare<I> > V2E_rep_dcel;
-  typedef CGAL__V2E_rep_base_type<const_vertices_iterator,edge_iterator>
+  typedef _V2E_rep_type<const_vertices_iterator,edge_iterator,
+          _Dcel_V2E_compare<I> > V2E_rep_dcel;
+  typedef _V2E_rep_base_type<const_vertices_iterator,edge_iterator>
           V2E_rep_base;
 
 
     /* insert edges */
     _e_list.reserve(edges.size());
-    list< pair<int,int> >::const_iterator ee;
+    std::list< std::pair<int,int> >::const_iterator ee;
     for( ee= edges.begin(); ee != edges.end(); ee++ )
-      CGAL__Dcel_base<I>::insert(
-	CGAL__Dcel_edge_type<I>(c_it[(*ee).first], c_it[(*ee).second])
+      _Dcel_base<I>::insert(
+	_Dcel_edge_type<I>(c_it[(*ee).first], c_it[(*ee).second])
       );
     
     CGAL__BOPS_DCEL_DEBUG_LN("VERTICES inserted: ");
@@ -163,13 +162,13 @@ void CGAL__Dcel<I> :: insert_edges( const list<epair>& edges) {
 
 template <class I>
 #ifdef CGAL_CFG_RETURN_TYPE_BUG_2
-bool CGAL__Dcel<I>::colorize(const CGAL__Dcel_Color& col) {
+bool _Dcel<I>::colorize(const _Dcel_Color& col) {
   typedef typename I::Point Point;
-  const list<Point>& pgon= *__point_list;
+  const std::list<Point>& pgon= *__point_list;
 #else 
-bool CGAL__Dcel<I>::colorize(
-			     const list<typename I::Point>& pgon,
-			     const CGAL__Dcel_Color& col)
+bool _Dcel<I>::colorize(
+			     const std::list<typename I::Point>& pgon,
+			     const _Dcel_Color& col)
 {
   typedef typename I::Point Point;
   typedef typename I::vertices_iterator vertices_iterator;
@@ -192,10 +191,10 @@ bool CGAL__Dcel<I>::colorize(
 
   if( pgon.size() < 3 ) return false;
 
-  list<Point>::const_iterator it_p;
+  std::list<Point>::const_iterator it_p;
 
   /* get last point */
-  list<Point>::const_reverse_iterator rit_p= pgon.rbegin();
+  std::list<Point>::const_reverse_iterator rit_p= pgon.rbegin();
   Point pt= (*rit_p);
   Point v1_pt;
 
@@ -207,7 +206,7 @@ bool CGAL__Dcel<I>::colorize(
   edges_iterator e;
   faces_iterator f;
 
-  list<const_vertices_iterator> vlist_deg2;
+  std::list<const_vertices_iterator> vlist_deg2;
   // all vertices with degree greater than 2
   
   for(it_p= pgon.begin(); it_p != pgon.end(); it_p++) { /* for all vertices */
@@ -244,7 +243,7 @@ bool CGAL__Dcel<I>::colorize(
   }
 
   
-  list<const_vertices_iterator>::const_iterator vit;
+  std::list<const_vertices_iterator>::const_iterator vit;
   face_iterator f1, f2;
   for( vit= vlist_deg2.begin(); vit != vlist_deg2.end(); vit++) {
     v0= *vit;
@@ -275,6 +274,6 @@ bool CGAL__Dcel<I>::colorize(
   return true;
 }
 
-
+CGAL_END_NAMESPACE
 
 #endif /* CGAL__DCEL_C */

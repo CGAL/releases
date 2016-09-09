@@ -1,17 +1,19 @@
-/*  polyhedron_prog_point_iterator.C   */
-/*  ---------------------------------- */
+// polyhedron_prog_point_iterator.C
+// -----------------------------------------------------------
 #include <CGAL/Cartesian.h>
-#include <iostream.h>
 #include <CGAL/Halfedge_data_structure_polyhedron_default_3.h>
 #include <CGAL/Polyhedron_default_traits_3.h>
 #include <CGAL/Polyhedron_3.h>
+#include <iostream>
+#include <iterator>
+#include <algorithm>
 
-typedef CGAL_Cartesian<double>                               R;
-typedef CGAL_Halfedge_data_structure_polyhedron_default_3<R> HDS;
-typedef CGAL_Polyhedron_default_traits_3<R>                  Traits;
-typedef CGAL_Polyhedron_3<Traits,HDS>                        Polyhedron;
+typedef CGAL::Cartesian<double>                               R;
+typedef CGAL::Halfedge_data_structure_polyhedron_default_3<R> HDS;
+typedef CGAL::Polyhedron_default_traits_3<R>                  Traits;
+typedef CGAL::Polyhedron_3<Traits,HDS>                        Polyhedron;
 
-/* The declaration of a point iterator -- given a Polyhedron */
+// The declaration of a point iterator for a given Polyhedron
 #include <CGAL/Iterator_project.h>
 #include <CGAL/function_objects.h>
 
@@ -20,10 +22,9 @@ typedef Polyhedron::Vertex_iterator                          Vertex_iterator;
 typedef Polyhedron::Point                                    Point;
 typedef Polyhedron::Difference                               Difference;
 typedef Polyhedron::iterator_category                        Iterator_category;
-typedef CGAL_Project_point<Vertex>                           Project_point;
-typedef CGAL_Iterator_project<Vertex_iterator, Project_point,
+typedef CGAL::Project_point<Vertex>                          Project;
+typedef CGAL::Iterator_project<Vertex_iterator, Project,
         Point&, Point*, Difference, Iterator_category>       Point_iterator;
-
 
 int main() {
     Point p( 0.0, 0.0, 0.0);
@@ -33,10 +34,16 @@ int main() {
 
     Polyhedron P;
     P.make_tetrahedron( p, q, r, s);
-    CGAL_set_ascii_mode( cout);
+    CGAL::set_ascii_mode( std::cout);
+    // explicit use in a loop
     Point_iterator begin = P.vertices_begin();
     for ( ; begin != P.vertices_end(); ++begin)
-        cout << "(" << (*begin) << ") ";
-    cout << endl;
+        std::cout << "(" << (*begin) << ") ";
+    std::cout << std::endl;
+    // used with a generic algorithm
+    std::copy( Point_iterator( P.vertices_begin()),
+	       Point_iterator( P.vertices_end()),
+	       std::ostream_iterator<Point>( std::cout, ",  "));
+    std::cout << std::endl;
     return 0;
 }

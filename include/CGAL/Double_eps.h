@@ -1,6 +1,6 @@
 // ======================================================================
 //
-// Copyright (c) 1998 The CGAL Consortium
+// Copyright (c) 1999 The GALIA Consortium
 //
 // This software and related documentation is part of the
 // Computational Geometry Algorithms Library (CGAL).
@@ -16,35 +16,34 @@
 // - Development licenses grant access to the source code of the library 
 //   to develop programs. These programs may be sold to other parties as 
 //   executable code. To obtain a development license, please contact
-//   the CGAL Consortium (at cgal@cs.uu.nl).
+//   the GALIA Consortium (at cgal@cs.uu.nl).
 // - Commercialization licenses grant access to the source code and the
 //   right to sell development licenses. To obtain a commercialization 
-//   license, please contact the CGAL Consortium (at cgal@cs.uu.nl).
+//   license, please contact the GALIA Consortium (at cgal@cs.uu.nl).
 //
 // This software and documentation is provided "as-is" and without
 // warranty of any kind. In no event shall the CGAL Consortium be
 // liable for any damage of any kind.
 //
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// The GALIA Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany) Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+// (Germany), Max-Planck-Institute Saarbrucken (Germany),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 // 
-// release       : CGAL-1.2
-// release_date  : 1999, January 18
+// release       : CGAL-2.0
+// release_date  : 1999, June 03
 // 
 // source        : Double_eps.fw
 // file          : include/CGAL/Double_eps.h
-// package       : Number_types (1.6)
-// revision      : 1.6
-// revision_date : 13 Jan 1999 
+// package       : Number_types (2.1.5)
+// revision      : 2.1.5
+// revision_date : 09 May 1999 
 // author(s)     : Andreas Fabri
 //
 // coordinator   : MPI, Saarbruecken  (<Stefan.Schirra>)
-//
 // email         : cgal@cs.uu.nl
 //
 // ======================================================================
@@ -60,19 +59,21 @@
 #include <CGAL/number_utils.h>
 #endif // CGAL_NUMBER_UTILS_H
 
+CGAL_BEGIN_NAMESPACE
 
-class CGAL_Double_eps
+
+class Double_eps
 {
-friend double CGAL_set_eps(double eps);
-friend istream& operator>>(istream&, CGAL_Double_eps& );
-friend ostream& operator<<(ostream&, const CGAL_Double_eps& );
+friend double set_eps(double eps);
+friend std::istream& operator>>(std::istream&, Double_eps& );
+friend std::ostream& operator<<(std::ostream&, const Double_eps& );
 
 public:
-  CGAL_Double_eps()
+  Double_eps()
     : _d(0.0)
   {}
 
-  CGAL_Double_eps(double d)
+  Double_eps(double d)
     : _d(d)
   {}
 
@@ -91,66 +92,66 @@ public:
     return _d;
   }
 
-  CGAL_Double_eps operator+(const CGAL_Double_eps &de) const
+  Double_eps operator+(const Double_eps &de) const
   {
-    return CGAL_Double_eps(_d + de._d);
+    return Double_eps(_d + de._d);
   }
 
-  CGAL_Double_eps operator-(const CGAL_Double_eps &de) const
+  Double_eps operator-(const Double_eps &de) const
   {
-    return CGAL_Double_eps(_d - de._d);
+    return Double_eps(_d - de._d);
   }
 
-  CGAL_Double_eps operator-() const
+  Double_eps operator-() const
   {
-    return CGAL_Double_eps(-_d);
+    return Double_eps(-_d);
   }
 
-  CGAL_Double_eps operator*(const CGAL_Double_eps &de) const
+  Double_eps operator*(const Double_eps &de) const
   {
-    return CGAL_Double_eps(_d * de._d);
+    return Double_eps(_d * de._d);
   }
 
-  CGAL_Double_eps operator/(const CGAL_Double_eps &de) const
+  Double_eps operator/(const Double_eps &de) const
   {
-    return CGAL_Double_eps(_d / de._d);
+    return Double_eps(_d / de._d);
   }
 
-  CGAL_Double_eps&  operator+=(const CGAL_Double_eps &de)
+  Double_eps&  operator+=(const Double_eps &de)
   {
     _d += de._d;
     return *this;
   }
 
-  CGAL_Double_eps&  operator-=(const CGAL_Double_eps &de)
+  Double_eps&  operator-=(const Double_eps &de)
   {
     _d -= de._d;
     return *this;
   }
 
-  CGAL_Double_eps&  operator*=(const CGAL_Double_eps &de)
+  Double_eps&  operator*=(const Double_eps &de)
   {
     _d *= de._d;
     return *this;
   }
 
-  CGAL_Double_eps&  operator/=(const CGAL_Double_eps &de)
+  Double_eps&  operator/=(const Double_eps &de)
   {
     _d /= de._d;
     return *this;
   }
 
-  bool operator==(const CGAL_Double_eps &de) const
+  bool operator==(const Double_eps &de) const
   {
-    return CGAL_abs(_d - de._d) <= _eps;
+    return abs(_d - de._d) <= _eps;
   }
 
-  bool operator!=(const CGAL_Double_eps &de) const
+  bool operator!=(const Double_eps &de) const
   {
     return !(*this == de);
   }
 
-  bool operator<(const CGAL_Double_eps &de) const
+  bool operator<(const Double_eps &de) const
   {
     if (*this == de) {
       return false;
@@ -158,7 +159,7 @@ public:
     return _d < de._d;
   }
 
-  bool operator>(const CGAL_Double_eps &de) const
+  bool operator>(const Double_eps &de) const
   {
     if (*this == de) {
       return false;
@@ -166,7 +167,7 @@ public:
     return _d > de._d;
   }
 
-  bool operator<=(const CGAL_Double_eps &de) const
+  bool operator<=(const Double_eps &de) const
   {
     if (*this == de) {
       return true;
@@ -174,7 +175,7 @@ public:
     return _d <= de._d;
   }
 
-  bool operator>=(const CGAL_Double_eps &de) const
+  bool operator>=(const Double_eps &de) const
   {
     if (*this == de) {
       return true;
@@ -187,49 +188,46 @@ private:
   static double _eps;
 };
 
-inline bool CGAL_is_valid(const CGAL_Double_eps &de)
+inline bool is_valid(const Double_eps &de)
   {
-    return CGAL_is_valid(de.d());
+    return is_valid(de.d());
   }
 
-inline bool CGAL_is_finite(const CGAL_Double_eps &de)
+inline bool is_finite(const Double_eps &de)
   {
-    return CGAL_is_finite(de.d());
+    return is_finite(de.d());
   }
 
-inline double CGAL_to_double(const CGAL_Double_eps &de)
+inline double to_double(const Double_eps &de)
   {
     return de.d();
   }
 
-inline CGAL_Double_eps CGAL_numerator(const CGAL_Double_eps &d)
+inline Double_eps numerator(const Double_eps &d)
 {
   return d;
 }
 
-inline CGAL_Double_eps CGAL_denominator(const CGAL_Double_eps &)
+inline Double_eps denominator(const Double_eps &)
 {
-  return CGAL_Double_eps(1.0);
+  return Double_eps(1.0);
 }
 
-inline CGAL_Number_tag CGAL_number_type_tag(const CGAL_Double_eps &)
+inline Number_tag number_type_tag(const Double_eps &)
 {
-  return CGAL_Number_tag();
+  return Number_tag();
 }
 
-inline CGAL_io_Operator CGAL_io_tag(const CGAL_Double_eps &)
+inline io_Operator io_tag(const Double_eps &)
 {
-  return CGAL_io_Operator();
+  return io_Operator();
 }
 
-extern double CGAL_set_eps(double eps);
+extern double set_eps(double eps);
 
-#ifndef CGAL_PROTECT_IOSTREAM_H
-#include <iostream.h>
-#define CGAL_PROTECT_IOSTREAM_H
-#endif // CGAL_PROTECT_IOSTREAM_H
-extern ostream  &operator<<(ostream& os, const CGAL_Double_eps &);
+extern std::ostream  &operator<<(std::ostream& os, const Double_eps &);
 
+CGAL_END_NAMESPACE
 
 #endif  // CGAL_DOUBLE_EPS_H
 

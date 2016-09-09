@@ -1,6 +1,6 @@
 // ======================================================================
 //
-// Copyright (c) 1997 The CGAL Consortium
+// Copyright (c) 1999 The GALIA Consortium
 //
 // This software and related documentation is part of the
 // Computational Geometry Algorithms Library (CGAL).
@@ -16,35 +16,34 @@
 // - Development licenses grant access to the source code of the library 
 //   to develop programs. These programs may be sold to other parties as 
 //   executable code. To obtain a development license, please contact
-//   the CGAL Consortium (at cgal@cs.uu.nl).
+//   the GALIA Consortium (at cgal@cs.uu.nl).
 // - Commercialization licenses grant access to the source code and the
 //   right to sell development licenses. To obtain a commercialization 
-//   license, please contact the CGAL Consortium (at cgal@cs.uu.nl).
+//   license, please contact the GALIA Consortium (at cgal@cs.uu.nl).
 //
 // This software and documentation is provided "as-is" and without
 // warranty of any kind. In no event shall the CGAL Consortium be
 // liable for any damage of any kind.
 //
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// The GALIA Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany) Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+// (Germany), Max-Planck-Institute Saarbrucken (Germany),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-1.2
-// release_date  : 1999, January 18
+// release       : CGAL-2.0
+// release_date  : 1999, June 03
 //
 // file          : include/CGAL/IO/Geomview_stream.h
-// package       : Geomview (1.3)
-// source        : web/geomview.fw
-// revision      : $Revision: 1.6 $
-// revision_date : $Date: 1998/08/17 13:35:54 $
+// package       : Geomview (2.2)
+// source        : RCSfile$
+// revision      : $Revision: 1.3 $
+// revision_date : $Date: 1999/04/13 16:55:29 $
 // author(s)     : Andreas Fabri
 //
-// coordinator   : Herve Bronnimann
-//
+// coordinator   : Mariette Yvinec
 //
 // email         : cgal@cs.uu.nl
 //
@@ -59,43 +58,45 @@
 #include <CGAL/Bbox_3.h>
 #include <CGAL/IO/Color.h>
 
-#include <stdio.h>
+#include <cstdio>
 #include <unistd.h>
 #include <signal.h>
-#include <string.h>
-#include <strstream.h>
-#include <iomanip.h>
+#include <cstring>
+#include <strstream>
+#include <iomanip>
 
 #include <sys/types.h>
 #include <sys/uio.h>
+#include <cstdlib>
 
+CGAL_BEGIN_NAMESPACE
 
-class CGAL_Geomview_stream {
+class Geomview_stream {
 public:
-    CGAL_Geomview_stream(const CGAL_Bbox_3 &bbox = CGAL_Bbox_3(0,0,0, 1,1,1),
-                         const char *machine = (char*)NULL,
-                         const char *login = (char*)NULL);
+    Geomview_stream(const Bbox_3 &bbox = Bbox_3(0,0,0, 1,1,1),
+		    const char *machine = (char*)NULL,
+		    const char *login = (char*)NULL);
 
     // kept for backward compatibility
-    CGAL_Geomview_stream(const char *machine,
-                         const char *login,
-                         const CGAL_Bbox_3 &bbox = CGAL_Bbox_3(0,0,0, 1,1,1));
+    Geomview_stream(const char *machine,
+		    const char *login,
+		    const Bbox_3 &bbox = Bbox_3(0,0,0, 1,1,1));
 
-    ~CGAL_Geomview_stream();
+    ~Geomview_stream();
 
     void clear();
     void look_recenter() const;
 
-    void set_bg_color(const CGAL_Color &c);
+    void set_bg_color(const Color &c);
 
-    CGAL_Geomview_stream &operator<<(const CGAL_Color &c);
-    CGAL_Color get_vertex_color() const;
-    CGAL_Color get_edge_color() const;
-    CGAL_Color get_face_color() const;
+    Geomview_stream &operator<<(const Color &c);
+    Color get_vertex_color() const;
+    Color get_edge_color() const;
+    Color get_face_color() const;
 
-    CGAL_Color set_vertex_color(const CGAL_Color&);
-    CGAL_Color set_edge_color(const CGAL_Color&);
-    CGAL_Color set_face_color(const CGAL_Color&);
+    Color set_vertex_color(const Color&);
+    Color set_edge_color(const Color&);
+    Color set_face_color(const Color&);
 
     double vcr() const;
     double vcg() const;
@@ -115,10 +116,10 @@ public:
     int get_line_width() const;
     int set_line_width(int w);
 
-    CGAL_Geomview_stream &operator<<(const char *cptr);
+    Geomview_stream &operator<<(const char *cptr);
 
-    CGAL_Geomview_stream &operator<<(int i);
-    CGAL_Geomview_stream &operator<<(double d);
+    Geomview_stream &operator<<(int i);
+    Geomview_stream &operator<<(double d);
 
     bool get_trace() const;
     bool set_trace(bool b);
@@ -132,10 +133,9 @@ public:
     bool in_binary_mode() const;
     bool in_ascii_mode() const;
 
-    CGAL_Geomview_stream &operator<< (
-                          CGAL_Geomview_stream& (*fct)(CGAL_Geomview_stream&));
+    Geomview_stream &operator<< ( Geomview_stream& (*fct)(Geomview_stream&));
 
-    CGAL_Geomview_stream &operator>>(char *expr);
+    Geomview_stream &operator>>(char *expr);
 
     int bbox_count;
     int triangle_count;
@@ -146,10 +146,10 @@ public:
     char sexpr[1024];
 private:
     void setup_geomview(const char *machine, const char *login);
-    void frame(const CGAL_Bbox_3 &bbox);
-    void pickplane(const CGAL_Bbox_3 &bbox);
+    void frame(const Bbox_3 &bbox);
+    void pickplane(const Bbox_3 &bbox);
 
-    CGAL_Color col, vertex_color, edge_color, face_color;
+    Color col, vertex_color, edge_color, face_color;
     bool _trace;
     int in;       // file descriptor for input pipe
     int out;      // file descriptor for output pipe
@@ -161,16 +161,16 @@ private:
 
 
 inline
-CGAL_Geomview_stream&
-binary(CGAL_Geomview_stream &os)
+Geomview_stream&
+binary(Geomview_stream &os)
 {
     os.set_binary_mode();
     return os;
 }
 
 inline
-CGAL_Geomview_stream&
-ascii(CGAL_Geomview_stream &os)
+Geomview_stream&
+ascii(Geomview_stream &os)
 {
     os.set_ascii_mode();
     return os;
@@ -182,11 +182,11 @@ ascii(CGAL_Geomview_stream &os)
 #define CGAL_GV_OUT_POINT_2_H
 
 template < class R >
-CGAL_Geomview_stream&
-operator<<(CGAL_Geomview_stream &gv,
-           const CGAL_Point_2<R> &p)
+Geomview_stream&
+operator<<(Geomview_stream &gv,
+           const Point_2<R> &p)
 {
-    ostrstream os;
+    std::ostrstream os;
     os << "p" << gv.point_count++ << ends ;
     char *id = os.str();
 
@@ -196,8 +196,8 @@ operator<<(CGAL_Geomview_stream &gv,
        << gv.vcr() << gv.vcg() << gv.vcb()
        << "}}{SKEL 1 1 " ;
 
-    gv << CGAL_to_double(p.x())
-       << CGAL_to_double(p.y())
+    gv << to_double(p.x())
+       << to_double(p.y())
        << 0.0
        << "1 0\n"
        << "}})" ;
@@ -211,11 +211,11 @@ operator<<(CGAL_Geomview_stream &gv,
 #define CGAL_GV_OUT_POINT_3_H
 
 template < class R >
-CGAL_Geomview_stream&
-operator<<(CGAL_Geomview_stream &gv,
-           const CGAL_Point_3<R> &p)
+Geomview_stream&
+operator<<(Geomview_stream &gv,
+           const Point_3<R> &p)
 {
-    ostrstream os;
+    std::ostrstream os;
     os << "p" << gv.point_count++ << ends ;
     char *id = os.str();
 
@@ -225,9 +225,9 @@ operator<<(CGAL_Geomview_stream &gv,
        << gv.vcr() << gv.vcg() << gv.vcb()
        << "}}{SKEL 1 1 "
 
-       << CGAL_to_double(p.x())
-       << CGAL_to_double(p.y())
-       << CGAL_to_double(p.z())
+       << to_double(p.x())
+       << to_double(p.y())
+       << to_double(p.z())
        << "1 0\n"
        << "}})" ;
 
@@ -239,11 +239,11 @@ operator<<(CGAL_Geomview_stream &gv,
 #ifndef CGAL_GV_OUT_SEGMENT_2_H
 #define CGAL_GV_OUT_SEGMENT_2_H
 template < class R >
-CGAL_Geomview_stream&
-operator<<(CGAL_Geomview_stream &gv,
-           const CGAL_Segment_2<R> &segment)
+Geomview_stream&
+operator<<(Geomview_stream &gv,
+           const Segment_2<R> &segment)
 {
-    ostrstream os;
+    std::ostrstream os;
     os << "seg" << gv.segment_count++ << ends ;
     char *id = os.str();
 
@@ -255,11 +255,11 @@ operator<<(CGAL_Geomview_stream &gv,
        << 1               // and it has 1 color
 
     // here are start and end points
-       << CGAL_to_double(segment.source().x())
-       << CGAL_to_double(segment.source().y())
+       << to_double(segment.source().x())
+       << to_double(segment.source().y())
        << 0.0
-       << CGAL_to_double(segment.target().x())
-       << CGAL_to_double(segment.target().y())
+       << to_double(segment.target().x())
+       << to_double(segment.target().y())
        << 0.0
 
     // and the color of the segment and its opaqueness
@@ -276,11 +276,11 @@ operator<<(CGAL_Geomview_stream &gv,
 #ifndef CGAL_GV_OUT_SEGMENT_3_H
 #define CGAL_GV_OUT_SEGMENT_3_H
 template < class R >
-CGAL_Geomview_stream&
-operator<<(CGAL_Geomview_stream &gv,
-           const CGAL_Segment_3<R> &segment)
+Geomview_stream&
+operator<<(Geomview_stream &gv,
+           const Segment_3<R> &segment)
 {
-    ostrstream os;
+    std::ostrstream os;
     os << "seg" << gv.segment_count++ << ends ;
     char *id = os.str();
 
@@ -294,12 +294,12 @@ operator<<(CGAL_Geomview_stream &gv,
        << 1             // and it has 1 color
 
     // here are start and end points
-       << CGAL_to_double(segment.source().x())
-       << CGAL_to_double(segment.source().y())
-       << CGAL_to_double(segment.source().z())
-       << CGAL_to_double(segment.target().x())
-       << CGAL_to_double(segment.target().y())
-       << CGAL_to_double(segment.target().z())
+       << to_double(segment.source().x())
+       << to_double(segment.source().y())
+       << to_double(segment.source().z())
+       << to_double(segment.target().x())
+       << to_double(segment.target().y())
+       << to_double(segment.target().z())
 
     // and the color of the segment and its opaqueness
         << gv.ecr()  << gv.ecg()  << gv.ecb()  << 1.0
@@ -316,11 +316,11 @@ operator<<(CGAL_Geomview_stream &gv,
 #define CGAL_GV_OUT_TRIANGLE_2_H
 
 template < class R >
-CGAL_Geomview_stream&
-operator<<(CGAL_Geomview_stream &gv,
-           const CGAL_Triangle_2<R> &t)
+Geomview_stream&
+operator<<(Geomview_stream &gv,
+           const Triangle_2<R> &t)
 {
-    ostrstream os;
+    std::ostrstream os;
     os << "tr" << gv.triangle_count++ << ends;
     char *id = os.str();
 
@@ -335,8 +335,8 @@ operator<<(CGAL_Geomview_stream &gv,
        << 3 << 1 << 3;
 
     for(int i=0; i<3; i++){
-        gv << CGAL_to_double(t[i].x())
-           << CGAL_to_double(t[i].y())
+        gv << to_double(t[i].x())
+           << to_double(t[i].y())
            << 0.0;
     }
 
@@ -354,11 +354,11 @@ operator<<(CGAL_Geomview_stream &gv,
 #define CGAL_GV_OUT_TRIANGLE_3_H
 
 template < class R >
-CGAL_Geomview_stream&
-operator<<(CGAL_Geomview_stream &gv,
-           const CGAL_Triangle_3<R> &t)
+Geomview_stream&
+operator<<(Geomview_stream &gv,
+           const Triangle_3<R> &t)
 {
-    ostrstream os;
+    std::ostrstream os;
     os << "tr" << gv.triangle_count++ << ends;
     char *id = os.str();
 
@@ -373,9 +373,9 @@ operator<<(CGAL_Geomview_stream &gv,
        << 3 << 1 << 3;
 
     for(int i=0; i<3; i++){
-        gv << CGAL_to_double(t[i].x())
-           << CGAL_to_double(t[i].y())
-           << CGAL_to_double(t[i].z());
+        gv << to_double(t[i].x())
+           << to_double(t[i].y())
+           << to_double(t[i].z());
     }
 
     // the face
@@ -392,11 +392,11 @@ operator<<(CGAL_Geomview_stream &gv,
 #define CGAL_GV_OUT_TETRAHEDRON_3_H
 
 template < class R >
-CGAL_Geomview_stream&
-operator<<(CGAL_Geomview_stream &gv,
-           const CGAL_Tetrahedron_3<R> &t)
+Geomview_stream&
+operator<<(Geomview_stream &gv,
+           const Tetrahedron_3<R> &t)
 {
-    ostrstream os;
+    std::ostrstream os;
     os << "tetra" << gv.tetrahedron_count++ << ends ;
     char *id = os.str();
 
@@ -410,9 +410,9 @@ operator<<(CGAL_Geomview_stream &gv,
 
     // the vertices
     for(int i=0; i<4; i++){
-        gv << CGAL_to_double(t[i].x())
-           << CGAL_to_double(t[i].y())
-           << CGAL_to_double(t[i].z());
+        gv << to_double(t[i].x())
+           << to_double(t[i].y())
+           << to_double(t[i].z());
     }
 
     // the faces
@@ -429,24 +429,24 @@ operator<<(CGAL_Geomview_stream &gv,
 #endif // CGAL_GV_OUT_TETRAHEDRON_3_H
 #endif  // CGAL_TETRAHEDRON_3_H
 #ifdef CGAL_BBOX_2_H
-CGAL_Geomview_stream&
-operator<<(CGAL_Geomview_stream &gv,
-           const CGAL_Bbox_2 &bbox);
+Geomview_stream&
+operator<<(Geomview_stream &gv,
+           const Bbox_2 &bbox);
 #endif // CGAL_BBOX_2_H
 #ifdef CGAL_BBOX_3_H
-CGAL_Geomview_stream&
-operator<<(CGAL_Geomview_stream &gv,
-           const CGAL_Bbox_3 &bbox);
+Geomview_stream&
+operator<<(Geomview_stream &gv,
+           const Bbox_3 &bbox);
 #endif // CGAL_BBOX_3_H
 #ifdef CGAL_TETRAHEDRALIZATION_3_H
 #ifndef CGAL_GV_OUT_CGAL_TETRAHEDRALIZATION_3_H
 #define CGAL_GV_OUT_CGAL_TETRAHEDRALIZATION_3_H
 
 template < class Tr >
-CGAL_Geomview_stream&
-operator<<(CGAL_Geomview_stream& os, CGAL_Tetrahedralization_3<Tr>& T)
+Geomview_stream&
+operator<<(Geomview_stream& os, Tetrahedralization_3<Tr>& T)
 {
-    CGAL_Tetrahedralization_3<Tr>::Simplex_iterator
+    Tetrahedralization_3<Tr>::Simplex_iterator
         it = T.simplices_begin(),
         end = T.simplices_end();
 
@@ -465,11 +465,11 @@ operator<<(CGAL_Geomview_stream& os, CGAL_Tetrahedralization_3<Tr>& T)
 #define CGAL_GV_OUT_CGAL_TETRAHEDRALIZATION_SIMPLEX_H
 
 template < class V >
-CGAL_Geomview_stream&
-operator<<(CGAL_Geomview_stream &gv,
-           const CGAL_Tetrahedralization_simplex<V>* s)
+Geomview_stream&
+operator<<(Geomview_stream &gv,
+           const Tetrahedralization_simplex<V>* s)
 {
-    ostrstream os;
+    std::ostrstream os;
     os << "Simplex_" << (unsigned long int)s  << ends ;
     char *id = os.str();
 
@@ -483,9 +483,9 @@ operator<<(CGAL_Geomview_stream &gv,
 
     // the vertices
     for(int i=0; i<4; i++){
-        gv << CGAL_to_double(s->vertex(i)->point().x())
-           << CGAL_to_double(s->vertex(i)->point().y())
-           << CGAL_to_double(s->vertex(i)->point().z()) ;
+        gv << to_double(s->vertex(i)->point().x())
+           << to_double(s->vertex(i)->point().y())
+           << to_double(s->vertex(i)->point().z()) ;
     }
 
     // the faces
@@ -509,16 +509,16 @@ operator<<(CGAL_Geomview_stream &gv,
 #define CGAL_GV_OUT_CGAL_TETRAHEDRALIZATION_VERTEX_H
 
 template < class P >
-CGAL_Geomview_stream&
-operator<<(CGAL_Geomview_stream &gv,
-           const CGAL_Tetrahedralization_vertex<P>* v)
+Geomview_stream&
+operator<<(Geomview_stream &gv,
+           const Tetrahedralization_vertex<P>* v)
 {
-    ostrstream os;
+    std::ostrstream os;
     os << "Vertex_" << (unsigned long int)v  << ends ;
     char *id = os.str();
-    double x = CGAL_to_double(v->point().x());
-    double y = CGAL_to_double(v->point().y());
-    double z = CGAL_to_double(v->point().z());
+    double x = to_double(v->point().x());
+    double y = to_double(v->point().y());
+    double z = to_double(v->point().z());
     double radius = gv.get_vertex_radius();
     gv << ascii
        << "(geometry " << id  << "  {appearance {}{ "
@@ -559,12 +559,12 @@ operator<<(CGAL_Geomview_stream &gv,
 #ifndef CGAL_GV_OUT_CGAL_DELAUNAY_TETRAHEDRALIZATION_3_H
 #define CGAL_GV_OUT_CGAL_DELAUNAY_TETRAHEDRALIZATION_3_H
 template < class I >
-CGAL_Geomview_stream&
-operator<<(CGAL_Geomview_stream& gv,
-           const CGAL_Delaunay_tetrahedralization_3<I> &DT)
+Geomview_stream&
+operator<<(Geomview_stream& gv,
+           const Delaunay_tetrahedralization_3<I> &DT)
 {
-  // return gv << (const CGAL_Tetrahedralization_3<I>&)DT;
-  CGAL_Tetrahedralization_3<I>::Simplex_iterator
+  // return gv << (const Tetrahedralization_3<I>&)DT;
+  Tetrahedralization_3<I>::Simplex_iterator
       it = DT.simplices_begin(),
       end = DT.simplices_end();
 
@@ -581,25 +581,25 @@ operator<<(CGAL_Geomview_stream& gv,
 
 
 char*
-CGAL_nth(char* s, int count);
+nth(char* s, int count);
 
 bool
-CGAL_is_prefix(const char* p, const char* w);
+is_prefix(const char* p, const char* w);
 
 
 #ifdef CGAL_POINT_3_H
 template < class R >
 void
 parse_point(char* pickpoint,
-            CGAL_Point_3<R> &point)
+            Point_3<R> &point)
 {
-    strstream ss;
+    std::strstream ss;
     ss << pickpoint << ends ;
 
     double x, y, z, w;
     char parenthesis;
     ss >> parenthesis >> x >> y >> z >> w;
-    point  = CGAL_Point_3<R>(x, y, z, w);
+    point  = Point_3<R>(x, y, z, w);
 }
 #endif // CGAL_POINT_3_H
 
@@ -609,12 +609,13 @@ parse_point(char* pickpoint,
 #define CGAL_GV_IN_POINT_3_H
 
 template < class R >
-CGAL_Geomview_stream&
-operator>>(CGAL_Geomview_stream &gv,
-           CGAL_Point_3<R> &point)
+Geomview_stream&
+operator>>(Geomview_stream &gv,
+           Point_3<R> &point)
 {
     char gclpick[100];
-    strcpy(gclpick, "(pick world pickplane * nil nil nil nil nil nil nil)");
+    std::strcpy(gclpick, 
+	      "(pick world pickplane * nil nil nil nil nil nil nil)");
 
     gv << ascii
        << "(pickable pickplane yes) (ui-target pickplane yes)"
@@ -622,7 +623,7 @@ operator>>(CGAL_Geomview_stream &gv,
 
     gv >> gv.sexpr;  // this reads a gcl expression
 
-    char* pickpoint = CGAL_nth(gv.sexpr, 3);
+    char* pickpoint = nth(gv.sexpr, 3);
     // this gives something as: (0.0607123 0.0607125 4.76837e-07 0.529628)
     parse_point(pickpoint,point);
 
@@ -640,26 +641,26 @@ operator>>(CGAL_Geomview_stream &gv,
 #ifndef CGAL_GV_IN_CGAL_TETRAHEDRALIZATION_SIMPLEX_H
 #define CGAL_GV_IN_CGAL_TETRAHEDRALIZATION_SIMPLEX_H
 
-#include <stdlib.h>
 
 template < class V >
-CGAL_Geomview_stream&
-operator>>(CGAL_Geomview_stream &gv,
-           CGAL_Tetrahedralization_simplex<V>*& s)
+Geomview_stream&
+operator>>(Geomview_stream &gv,
+           Tetrahedralization_simplex<V>*& s)
 {
     char* id;
     char gclpick[100];
-    strcpy(gclpick, "(pick world * nil nil nil nil nil nil nil nil)");
+    std::strcpy(gclpick, 
+	      "(pick world * nil nil nil nil nil nil nil nil)");
 
     gv << ascii ;
     gv << "(interest " << gclpick << ")" ;
 
     while(true) {
         gv >> gv.sexpr;  // this reads a gcl expression
-        id = CGAL_nth(gv.sexpr, 2);
+        id = nth(gv.sexpr, 2);
 
-        if(! CGAL_is_prefix("Simplex_", id)){
-            cerr << "You did not click on a simplex" << endl;
+        if(! is_prefix("Simplex_", id)){
+            std::cerr << "You did not click on a simplex" << std::endl;
             continue;
         } else {
             break;
@@ -668,8 +669,8 @@ operator>>(CGAL_Geomview_stream &gv,
     gv << "(ui-target " << id << " yes)";
     gv << "(uninterest " << gclpick << ")";
     id+=8;                   // remove first 7 chars
-    unsigned long int ui = strtoul(id, (char **)NULL, 10);
-    s = (CGAL_Tetrahedralization_simplex<V>*)ui;
+    unsigned long int ui = std::strtoul(id, (char **)NULL, 10);
+    s = (Tetrahedralization_simplex<V>*)ui;
 
     return gv;
 }
@@ -679,26 +680,26 @@ operator>>(CGAL_Geomview_stream &gv,
 #ifndef CGAL_GV_IN_CGAL_TETRAHEDRALIZATION_VERTEX_H
 #define CGAL_GV_IN_CGAL_TETRAHEDRALIZATION_VERTEX_H
 
-#include <stdlib.h>
 
 template < class P >
-CGAL_Geomview_stream&
-operator>>(CGAL_Geomview_stream &gv,
-           CGAL_Tetrahedralization_vertex<P>*& v)
+Geomview_stream&
+operator>>(Geomview_stream &gv,
+           Tetrahedralization_vertex<P>*& v)
 {
     char* id;
     char gclpick[100];
-    strcpy(gclpick, "(pick world * nil nil nil nil nil nil nil nil)");
+    std::strcpy(gclpick, 
+	      "(pick world * nil nil nil nil nil nil nil nil)");
 
     gv << ascii
        << "(interest " << gclpick << ")" ;
 
     while(true) {
         gv >> gv.sexpr;  // this reads a gcl expression
-        id = CGAL_nth(gv.sexpr, 2);
+        id = nth(gv.sexpr, 2);
 
-        if(! CGAL_is_prefix("Vertex_", id)){
-            cerr << "You did not click on a vertex" << endl;
+        if(! is_prefix("Vertex_", id)){
+            std::cerr << "You did not click on a vertex" << std::endl;
             continue;
         } else {
             break;
@@ -708,17 +709,20 @@ operator>>(CGAL_Geomview_stream &gv,
     gv << "(uninterest " << gclpick << ")";
 
     id+=7;                   // cut first 6 chars
-    unsigned long int ui = strtoul(id, (char **)NULL, 10);
-    v = (CGAL_Tetrahedralization_vertex<P>*)ui;
+    unsigned long int ui = std::strtoul(id, (char **)NULL, 10);
+    v = (Tetrahedralization_vertex<P>*)ui;
 
     return gv;
 }
 #endif // CGAL_GV_IN_CGAL_TETRAHEDRALIZATION_VERTEX_H
 #endif  // CGAL_TETRAHEDRALIZATION_VERTEX_H
 
+CGAL_END_NAMESPACE
+
+#endif // CGAL_GEOMVIEW_STREAM_H
 
 #ifdef CGAL_POLYHEDRON_3
 #include <CGAL/IO/Polyhedron_geomview_ostream.h>
 #endif
 
-#endif // CGAL_GEOMVIEW_STREAM_H
+

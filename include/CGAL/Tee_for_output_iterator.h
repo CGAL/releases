@@ -1,6 +1,6 @@
 // ======================================================================
 //
-// Copyright (c) 1998 The CGAL Consortium
+// Copyright (c) 1999 The GALIA Consortium
 //
 // This software and related documentation is part of the
 // Computational Geometry Algorithms Library (CGAL).
@@ -16,34 +16,33 @@
 // - Development licenses grant access to the source code of the library 
 //   to develop programs. These programs may be sold to other parties as 
 //   executable code. To obtain a development license, please contact
-//   the CGAL Consortium (at cgal@cs.uu.nl).
+//   the GALIA Consortium (at cgal@cs.uu.nl).
 // - Commercialization licenses grant access to the source code and the
 //   right to sell development licenses. To obtain a commercialization 
-//   license, please contact the CGAL Consortium (at cgal@cs.uu.nl).
+//   license, please contact the GALIA Consortium (at cgal@cs.uu.nl).
 //
 // This software and documentation is provided "as-is" and without
 // warranty of any kind. In no event shall the CGAL Consortium be
 // liable for any damage of any kind.
 //
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// The GALIA Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany) Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+// (Germany), Max-Planck-Institute Saarbrucken (Germany),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
-// release       : CGAL-1.2
-// release_date  : 1999, January 18
+// release       : CGAL-2.0
+// release_date  : 1999, June 03
 //
 // file          : include/CGAL/Tee_for_output_iterator.h
-// package       : Convex_hull (1.3.2)
+// package       : Convex_hull (2.0.8)
 // source        : convex_hull_2.lw
-// revision      : 1.3.2
-// revision_date : 09 Dec 1998
+// revision      : 2.0.8
+// revision_date : 06 May 1999
 // author(s)     : Stefan Schirra
 //
 // coordinator   : MPI, Saarbruecken
-//
 // email         : cgal@cs.uu.nl
 //
 // ======================================================================
@@ -52,24 +51,25 @@
 #ifndef CGAL_TEE_FOR_OUTPUT_ITERATOR_H
 #define CGAL_TEE_FOR_OUTPUT_ITERATOR_H
 
-#include <iterator.h>
-#include <vector.h>
+#include <iterator>
+#include <vector>
 #include <CGAL/Handle.h>
 
-template <class T> class CGAL__Tee_for_output_iterator_rep;
+CGAL_BEGIN_NAMESPACE
+template <class T> class _Tee_for_output_iterator_rep;
 
 template <class OutputIterator, class T>
-class CGAL_Tee_for_output_iterator 
-  : public CGAL_Handle, public output_iterator
+class Tee_for_output_iterator 
+  : public Handle, public CGAL_STD::output_iterator
 {
-  typedef typename vector<T>::iterator  iterator;
-  typedef T                             value_type;
+  typedef typename std::vector<T>::iterator  iterator;
+  typedef T                                  value_type;
 
 public:
-  CGAL_Tee_for_output_iterator(const OutputIterator& o) : o_it(o) 
-  {  PTR = (CGAL_Rep*) new CGAL__Tee_for_output_iterator_rep<T>(); }
+  Tee_for_output_iterator(const OutputIterator& o) : o_it(o) 
+  {  PTR = (Rep*) new _Tee_for_output_iterator_rep<T>(); }
 
-  CGAL_Tee_for_output_iterator<OutputIterator,T>& 
+  Tee_for_output_iterator<OutputIterator,T>& 
   operator=(const T& value) 
   { 
     ptr()->output_so_far.push_back(value);
@@ -77,21 +77,21 @@ public:
     return *this;
   }
 
-  CGAL_Tee_for_output_iterator<OutputIterator,T>& 
+  Tee_for_output_iterator<OutputIterator,T>& 
   operator*() 
   { return *this; }
 
-  CGAL_Tee_for_output_iterator<OutputIterator,T>& 
+  Tee_for_output_iterator<OutputIterator,T>& 
   operator++() 
   { 
     ++o_it; 
     return *this; 
   } 
 
-  CGAL_Tee_for_output_iterator<OutputIterator,T> 
+  Tee_for_output_iterator<OutputIterator,T> 
   operator++(int) 
   { 
-    CGAL_Tee_for_output_iterator<OutputIterator,T> tmp = *this;
+    Tee_for_output_iterator<OutputIterator,T> tmp = *this;
     o_it++; 
     return tmp; 
   } 
@@ -108,31 +108,33 @@ public:
   to_output_iterator()
   { return o_it; }
 
-  CGAL__Tee_for_output_iterator_rep<T>*
+  _Tee_for_output_iterator_rep<T>*
   ptr()
-  { return (CGAL__Tee_for_output_iterator_rep<T>*)PTR; }
+  { return (_Tee_for_output_iterator_rep<T>*)PTR; }
 
 protected:
   OutputIterator o_it;
 };
 
 template <class T>
-class CGAL__Tee_for_output_iterator_rep : public CGAL_Rep
+class _Tee_for_output_iterator_rep : public Rep
 {
 public:
-  vector<T> output_so_far;
+  std::vector<T> output_so_far;
 };
 
 template <class OutputIterator, class T>
 inline 
-output_iterator_tag
-iterator_category(const CGAL_Tee_for_output_iterator<OutputIterator,T>&)
-{ return output_iterator_tag(); }
+T*
+value_type(const Tee_for_output_iterator<OutputIterator,T>&)
+{ return (T*)0; }
+CGAL_END_NAMESPACE
 
 template <class OutputIterator, class T>
 inline 
-T*
-value_type(const CGAL_Tee_for_output_iterator<OutputIterator,T>&)
-{ return (T*)0; }
+std::output_iterator_tag
+iterator_category(const CGAL::Tee_for_output_iterator<OutputIterator,T>&)
+{ return std::output_iterator_tag(); }
+
 
 #endif // CGAL_TEE_FOR_OUTPUT_ITERATOR_H

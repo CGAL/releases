@@ -1,7 +1,7 @@
 
 // ======================================================================
 //
-// Copyright (c) 1998 The CGAL Consortium
+// Copyright (c) 1999 The GALIA Consortium
 //
 // This software and related documentation is part of the
 // Computational Geometry Algorithms Library (CGAL).
@@ -17,33 +17,32 @@
 // - Development licenses grant access to the source code of the library 
 //   to develop programs. These programs may be sold to other parties as 
 //   executable code. To obtain a development license, please contact
-//   the CGAL Consortium (at cgal@cs.uu.nl).
+//   the GALIA Consortium (at cgal@cs.uu.nl).
 // - Commercialization licenses grant access to the source code and the
 //   right to sell development licenses. To obtain a commercialization 
-//   license, please contact the CGAL Consortium (at cgal@cs.uu.nl).
+//   license, please contact the GALIA Consortium (at cgal@cs.uu.nl).
 //
 // This software and documentation is provided "as-is" and without
 // warranty of any kind. In no event shall the CGAL Consortium be
 // liable for any damage of any kind.
 //
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// The GALIA Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany) Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+// (Germany), Max-Planck-Institute Saarbrucken (Germany),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-1.2
-// release_date  : 1999, January 18
+// release       : CGAL-2.0
+// release_date  : 1999, June 03
 //
 // file          : include/CGAL/Bbox_2_Line_2_intersection.h
-// package       : Intersections_2 (1.7)
+// package       : Intersections_2 (2.1.2)
 // source        : intersection_2_1.fw
 // author(s)     : Geert-Jan Giezeman
 //
 // coordinator   : MPI, Saarbruecken
-//
 //
 // email         : cgal@cs.uu.nl
 //
@@ -72,15 +71,17 @@
 #include <CGAL/number_utils.h>
 #endif // CGAL_NUMBER_UTILS_H
 
+CGAL_BEGIN_NAMESPACE
+
 template <class R>
-class CGAL_Bbox_2_Line_2_pair {
+class Bbox_2_Line_2_pair {
 public:
-    typedef CGAL_Cartesian<double> Rcart;
+    typedef Cartesian<double> Rcart;
     enum Intersection_results {NO, POINT, SEGMENT};
-    CGAL_Bbox_2_Line_2_pair() ;
-    CGAL_Bbox_2_Line_2_pair(CGAL_Bbox_2 const *bbox,
-                            CGAL_Line_2<R> const *line);
-    ~CGAL_Bbox_2_Line_2_pair() {}
+    Bbox_2_Line_2_pair() ;
+    Bbox_2_Line_2_pair(Bbox_2 const *bbox,
+                            Line_2<R> const *line);
+    ~Bbox_2_Line_2_pair() {}
 
 #ifndef CGAL_CFG_RETURN_TYPE_BUG_2
   Intersection_results intersection_type() const;
@@ -92,10 +93,10 @@ public:
     if (_known)
         return _result;
     // The non const this pointer is used to cast away const.
-    CGAL_Bbox_2_Line_2_pair<R> *ncthis = (CGAL_Bbox_2_Line_2_pair<R> *) this;
+    Bbox_2_Line_2_pair<R> *ncthis = (Bbox_2_Line_2_pair<R> *) this;
     ncthis->_known = true;
-    const CGAL_Point_2< CGAL_Cartesian<double> > &ref_point = _line.point();
-    const CGAL_Vector_2< CGAL_Cartesian<double> > &dir =
+    const Point_2< Cartesian<double> > &ref_point = _line.point();
+    const Vector_2< Cartesian<double> > &dir =
                                _line.direction().vector();
     bool to_infinity = true;
 // first on x value
@@ -177,57 +178,61 @@ public:
 
 #endif // CGAL_CFG_RETURN_TYPE_BUG_2
 
-    bool intersection(CGAL_Point_2< Rcart > &result) const;
-    bool intersection(CGAL_Segment_2< Rcart > &result) const;
+    bool intersection(Point_2< Rcart > &result) const;
+    bool intersection(Segment_2< Rcart > &result) const;
 protected:
-    CGAL_Bbox_2 const *      _bbox;
-    CGAL_Line_2< Rcart > _line;
+    Bbox_2 const *      _bbox;
+    Line_2< Rcart > _line;
     bool                     _known;
     Intersection_results     _result;
     double                   _min, _max;
 };
 
 template <class R>
-inline bool CGAL_do_intersect(
-    const CGAL_Bbox_2 &box,
-    const CGAL_Line_2<R> &line)
+inline bool do_intersect(
+    const Bbox_2 &box,
+    const Line_2<R> &line)
 {
-    typedef CGAL_Bbox_2_Line_2_pair<R> pair_t;
+    typedef Bbox_2_Line_2_pair<R> pair_t;
     pair_t pair(&box, &line);
     return pair.intersection_type() != pair_t::NO;
 }
 
+CGAL_END_NAMESPACE
 
+
+
+CGAL_BEGIN_NAMESPACE
 
 template <class R>
-CGAL_Bbox_2_Line_2_pair<R>::CGAL_Bbox_2_Line_2_pair()
+Bbox_2_Line_2_pair<R>::Bbox_2_Line_2_pair()
 {
     _bbox = 0;
     _known = false;
 }
 
 template <class R>
-CGAL_Bbox_2_Line_2_pair<R>::CGAL_Bbox_2_Line_2_pair(
-    CGAL_Bbox_2 const *bbox, CGAL_Line_2<R> const *line)
+Bbox_2_Line_2_pair<R>::Bbox_2_Line_2_pair(
+    Bbox_2 const *bbox, Line_2<R> const *line)
 {
     _bbox = bbox;
-    _line = CGAL_Line_2< Rcart >(CGAL_to_double(line->a()),
-            CGAL_to_double(line->b()), CGAL_to_double(line->c()));
+    _line = Line_2< Rcart >(to_double(line->a()),
+            to_double(line->b()), to_double(line->c()));
     _known = false;
 }
 
 #ifndef CGAL_CFG_RETURN_TYPE_BUG_2
 template <class R>
-CGAL_Bbox_2_Line_2_pair<R>::Intersection_results
-CGAL_Bbox_2_Line_2_pair<R>::intersection_type() const
+Bbox_2_Line_2_pair<R>::Intersection_results
+Bbox_2_Line_2_pair<R>::intersection_type() const
 {
     if (_known)
         return _result;
     // The non const this pointer is used to cast away const.
-    CGAL_Bbox_2_Line_2_pair<R> *ncthis = (CGAL_Bbox_2_Line_2_pair<R> *) this;
+    Bbox_2_Line_2_pair<R> *ncthis = (Bbox_2_Line_2_pair<R> *) this;
     ncthis->_known = true;
-    const CGAL_Point_2< CGAL_Cartesian<double> > &ref_point = _line.point();
-    const CGAL_Vector_2< CGAL_Cartesian<double> > &dir =
+    const Point_2< Cartesian<double> > &ref_point = _line.point();
+    const Vector_2< Cartesian<double> > &dir =
                                _line.direction().vector();
     bool to_infinity = true;
 // first on x value
@@ -311,25 +316,25 @@ CGAL_Bbox_2_Line_2_pair<R>::intersection_type() const
 
 template <class R>
 bool
-CGAL_Bbox_2_Line_2_pair<R>::intersection(
-    CGAL_Segment_2< CGAL_Cartesian<double> > &seg) const
+Bbox_2_Line_2_pair<R>::intersection(
+    Segment_2< Cartesian<double> > &seg) const
 {
     if (!_known)
         intersection_type();
     if (_result != SEGMENT)
         return false;
-    CGAL_Point_2< CGAL_Cartesian<double> > p1(_line.point()
+    Point_2< Cartesian<double> > p1(_line.point()
                 + _min*_line.direction().vector());
-    CGAL_Point_2< CGAL_Cartesian<double> > p2(_line.point()
+    Point_2< Cartesian<double> > p2(_line.point()
                 + _max*_line.direction().vector());
-    seg = CGAL_Segment_2< CGAL_Cartesian<double> >(p1, p2);
+    seg = Segment_2< Cartesian<double> >(p1, p2);
     return true;
 }
 
 template <class R>
 bool
-CGAL_Bbox_2_Line_2_pair<R>::intersection(
-    CGAL_Point_2< CGAL_Cartesian<double> > &pt) const
+Bbox_2_Line_2_pair<R>::intersection(
+    Point_2< Cartesian<double> > &pt) const
 {
     if (!_known)
         intersection_type();
@@ -339,24 +344,31 @@ CGAL_Bbox_2_Line_2_pair<R>::intersection(
     return true;
 }
 
+CGAL_END_NAMESPACE
+
+
+
+CGAL_BEGIN_NAMESPACE
 
 template <class R>
-class CGAL_Line_2_Bbox_2_pair: public CGAL_Bbox_2_Line_2_pair<R> {
+class Line_2_Bbox_2_pair: public Bbox_2_Line_2_pair<R> {
 public:
-    CGAL_Line_2_Bbox_2_pair(
-            CGAL_Line_2<R> const *line,
-            CGAL_Bbox_2 const *bbox) :
-                                CGAL_Bbox_2_Line_2_pair<R>(bbox, line) {}
+    Line_2_Bbox_2_pair(
+            Line_2<R> const *line,
+            Bbox_2 const *bbox) :
+                                Bbox_2_Line_2_pair<R>(bbox, line) {}
 };
 
 template <class R>
-inline bool CGAL_do_intersect(
-    const CGAL_Line_2<R> &line,
-    const CGAL_Bbox_2 &box)
+inline bool do_intersect(
+    const Line_2<R> &line,
+    const Bbox_2 &box)
 {
-    typedef CGAL_Line_2_Bbox_2_pair<R> pair_t;
+    typedef Line_2_Bbox_2_pair<R> pair_t;
     pair_t pair(&line, &box);
     return pair.intersection_type() != pair_t::NO;
 }
+
+CGAL_END_NAMESPACE
 
 #endif

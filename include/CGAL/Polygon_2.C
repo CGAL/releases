@@ -1,6 +1,6 @@
 // ======================================================================
 //
-// Copyright (c) 1997 The CGAL Consortium
+// Copyright (c) 1999 The GALIA Consortium
 //
 // This software and related documentation is part of the
 // Computational Geometry Algorithms Library (CGAL).
@@ -16,35 +16,34 @@
 // - Development licenses grant access to the source code of the library 
 //   to develop programs. These programs may be sold to other parties as 
 //   executable code. To obtain a development license, please contact
-//   the CGAL Consortium (at cgal@cs.uu.nl).
+//   the GALIA Consortium (at cgal@cs.uu.nl).
 // - Commercialization licenses grant access to the source code and the
 //   right to sell development licenses. To obtain a commercialization 
-//   license, please contact the CGAL Consortium (at cgal@cs.uu.nl).
+//   license, please contact the GALIA Consortium (at cgal@cs.uu.nl).
 //
 // This software and documentation is provided "as-is" and without
 // warranty of any kind. In no event shall the CGAL Consortium be
 // liable for any damage of any kind.
 //
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// The GALIA Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany) Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+// (Germany), Max-Planck-Institute Saarbrucken (Germany),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-1.2
-// release_date  : 1999, January 18
+// release       : CGAL-2.0
+// release_date  : 1999, June 03
 //
 // file          : include/CGAL/Polygon_2.C
-// package       : Polygon (1.13)
+// package       : Polygon (2.4.7)
 // source        :
 // revision      : 1.8a
 // revision_date : 13 Mar 1998
 // author(s)     : Wieger Wesselink
 //
 // coordinator   : Utrecht University
-//
 //
 // email         : cgal@cs.uu.nl
 //
@@ -58,19 +57,21 @@
 //                          operator==
 //-----------------------------------------------------------------------//
 
+CGAL_BEGIN_NAMESPACE
+
 template <class _Traits, class _Container1, class _Container2>
-bool operator==( const CGAL_Polygon_2<_Traits,_Container1> &x,
-                 const CGAL_Polygon_2<_Traits,_Container2> &y )
+bool operator==( const Polygon_2<_Traits,_Container1> &x,
+                 const Polygon_2<_Traits,_Container2> &y )
 {
   CGAL_polygon_precondition( (x.size() != 0) || (y.size() != 0));
 
   if (x.size() != y.size()) return false;
 
-  typename CGAL_Polygon_2<_Traits,_Container1>::Vertex_const_iterator x_iter =
+  typename Polygon_2<_Traits,_Container1>::Vertex_const_iterator x_iter =
     x.vertices_begin();
 
-  typename CGAL_Polygon_2<_Traits,_Container2>::Vertex_const_iterator y_iter =
-    find(y.vertices_begin(), y.vertices_end(), *x.vertices_begin());
+  typename Polygon_2<_Traits,_Container2>::Vertex_const_iterator y_iter =
+    std::find(y.vertices_begin(), y.vertices_end(), *x.vertices_begin());
 
   // if y doesn't contain the first point of x ...
   if (y_iter == y.vertices_end()) return false;
@@ -99,7 +100,7 @@ bool operator==( const CGAL_Polygon_2<_Traits,_Container1> &x,
 //-----------------------------------------------------------------------//
 
 template <class _Traits, class _Container>
-istream &operator>>(istream &is, CGAL_Polygon_2<_Traits,_Container>& p)
+istream &operator>>(istream &is, Polygon_2<_Traits,_Container>& p)
 {
   int n; // number of vertices
   is >> n;
@@ -119,19 +120,19 @@ istream &operator>>(istream &is, CGAL_Polygon_2<_Traits,_Container>& p)
 //-----------------------------------------------------------------------//
 
 template <class _Traits, class _Container>
-ostream &operator<<(ostream &os, const CGAL_Polygon_2<_Traits,_Container>& p)
+ostream &operator<<(ostream &os, const Polygon_2<_Traits,_Container>& p)
 {
-  typename CGAL_Polygon_2<_Traits,_Container>::Vertex_const_iterator i;
+  typename Polygon_2<_Traits,_Container>::Vertex_const_iterator i;
 
-  switch(os.iword(CGAL_IO::mode)) {
-    case CGAL_IO::ASCII :
+  switch(os.iword(IO::mode)) {
+    case IO::ASCII :
       os << p.size() << ' ';
       for (i = p.vertices_begin(); i != p.vertices_end(); ++i) {
         os << *i << ' ';
       }
       return os;
 
-    case CGAL_IO::BINARY :
+    case IO::BINARY :
       os << p.size();
       for (i = p.vertices_begin(); i != p.vertices_end(); ++i) {
         os << *i;
@@ -148,6 +149,8 @@ ostream &operator<<(ostream &os, const CGAL_Polygon_2<_Traits,_Container>& p)
   }
 }
 
+CGAL_END_NAMESPACE
+
 //-----------------------------------------------------------------------//
 //                          transform
 //-----------------------------------------------------------------------//
@@ -156,15 +159,21 @@ ostream &operator<<(ostream &os, const CGAL_Polygon_2<_Traits,_Container>& p)
 #ifndef CGAL_POLYGON_TRAITS_2_H
 #include <CGAL/Polygon_traits_2.h>
 #endif // CGAL_POLYGON_TRAITS_2_H
+
+CGAL_BEGIN_NAMESPACE
+
 template <class Transformation, class _Traits, class _Container>
-CGAL_Polygon_2<_Traits,_Container>
-CGAL_transform(const Transformation& t, const CGAL_Polygon_2<_Traits,_Container>& p)
+Polygon_2<_Traits,_Container>
+transform(const Transformation& t, const Polygon_2<_Traits,_Container>& p)
 {
-  typedef typename CGAL_Polygon_2<_Traits,_Container>::Vertex_const_iterator VI;
-  CGAL_Polygon_2<_Traits,_Container> result;
+  typedef typename Polygon_2<_Traits,_Container>::Vertex_const_iterator VI;
+  Polygon_2<_Traits,_Container> result;
   for (VI i = p.vertices_begin(); i != p.vertices_end(); ++i)
     result.push_back(t(*i));
   return result;
 }
+
+CGAL_END_NAMESPACE
+
 #endif // CGAL_REP_CLASS_DEFINED
 

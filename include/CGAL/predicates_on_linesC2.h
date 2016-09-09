@@ -1,6 +1,6 @@
 // ======================================================================
 //
-// Copyright (c) 1998 The CGAL Consortium
+// Copyright (c) 1999 The GALIA Consortium
 //
 // This software and related documentation is part of the
 // Computational Geometry Algorithms Library (CGAL).
@@ -16,35 +16,34 @@
 // - Development licenses grant access to the source code of the library 
 //   to develop programs. These programs may be sold to other parties as 
 //   executable code. To obtain a development license, please contact
-//   the CGAL Consortium (at cgal@cs.uu.nl).
+//   the GALIA Consortium (at cgal@cs.uu.nl).
 // - Commercialization licenses grant access to the source code and the
 //   right to sell development licenses. To obtain a commercialization 
-//   license, please contact the CGAL Consortium (at cgal@cs.uu.nl).
+//   license, please contact the GALIA Consortium (at cgal@cs.uu.nl).
 //
 // This software and documentation is provided "as-is" and without
 // warranty of any kind. In no event shall the CGAL Consortium be
 // liable for any damage of any kind.
 //
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// The GALIA Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany) Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+// (Germany), Max-Planck-Institute Saarbrucken (Germany),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-1.2
-// release_date  : 1999, January 18
+// release       : CGAL-2.0
+// release_date  : 1999, June 03
 //
 // file          : include/CGAL/predicates_on_linesC2.h
-// package       : C2 (1.7)
+// package       : C2 (2.1.4)
 // source        : web/predicates_on_linesC2.fw
-// revision      : $Revision: 1.10 $
-// revision_date : $Date: 1999/01/04 06:54:16 $
+// revision      : $Revision: 1.20 $
+// revision_date : $Date: 1999/05/24 06:43:34 $
 // author(s)     : Herve.Bronnimann
 //
 // coordinator   : INRIA Sophia-Antipolis
-//
 //
 // email         : cgal@cs.uu.nl
 //
@@ -64,85 +63,85 @@
 #include <CGAL/predicates_on_pointsC2.h>
 #endif // CGAL_PREDICATES_ON_POINTSC2_H
 
+CGAL_BEGIN_NAMESPACE
+
 
 template < class FT >
-CGAL_Comparison_result CGAL_compare_x(const CGAL_PointC2<FT> &p,
-                                      const CGAL_LineC2<FT> &l1,
-                                      const CGAL_LineC2<FT> &l2)
+Comparison_result compare_x(const PointC2<FT> &p,
+                            const LineC2<FT> &l1,
+                            const LineC2<FT> &l2)
 {
-  return CGAL_compare_xC2(p.x(),p.y(),
-                          l1.a(),l1.b(),l1.c(),l2.a(),l2.b(),l2.c());
+  return compare_xC2(p.x(), l1.a(),l1.b(),l1.c(),l2.a(),l2.b(),l2.c());
 }
 
 
 template < class FT >
-CGAL_Comparison_result CGAL_compare_x(const CGAL_LineC2<FT> &l1,
-                                      const CGAL_LineC2<FT> &l2,
-                                      const CGAL_LineC2<FT> &h1,
-                                      const CGAL_LineC2<FT> &h2)
+Comparison_result compare_x(const LineC2<FT> &l1,
+                            const LineC2<FT> &l2,
+                            const LineC2<FT> &h1,
+                            const LineC2<FT> &h2)
 {
-  return CGAL_compare_xC2(l1.a(),l1.b(),l1.c(),l2.a(),l2.b(),l2.c(),
+  return compare_xC2(l1.a(),l1.b(),l1.c(),l2.a(),l2.b(),l2.c(),
+                     h1.a(),h1.b(),h1.c(),h2.a(),h2.b(),h2.c());
+}
+
+
+
+template < class FT >
+Comparison_result compare_y(const PointC2<FT> &p,
+                            const LineC2<FT> &l1,
+                            const LineC2<FT> &l2)
+{
+  return compare_xC2(p.y(), l1.b(),l1.a(),l1.c(),l2.b(),l2.a(),l2.c());
+}
+
+
+template < class FT >
+Comparison_result compare_y(const LineC2<FT> &l1,
+                            const LineC2<FT> &l2,
+                            const LineC2<FT> &h1,
+                            const LineC2<FT> &h2)
+{
+  return compare_xC2(l1.b(),l1.a(),l1.c(),l2.b(),l2.a(),l2.c(),
+                     h1.b(),h1.a(),h1.c(),h2.b(),h2.a(),h2.c());
+}
+template < class FT >
+Comparison_result compare_y_at_x(const PointC2<FT> &p, const LineC2<FT> &h)
+{
+  return compare_y_at_xC2(p.x(),p.y(),h.a(),h.b(),h.c());
+}
+
+
+template < class FT >
+Comparison_result compare_y_at_x(const PointC2<FT> &p,
+                                 const LineC2<FT> &h1,
+                                 const LineC2<FT> &h2)
+{
+  return compare_y_at_xC2(p.x(), h1.a(),h1.b(),h1.c(),h2.a(),h2.b(),h2.c());
+}
+
+
+template < class FT >
+Comparison_result compare_y_at_x(const LineC2<FT> &l1,
+                                 const LineC2<FT> &l2,
+                                 const LineC2<FT> &h)
+{
+  return compare_y_at_xC2(l1.a(),l1.b(),l1.c(),l2.a(),l2.b(),l2.c(),
+                          h.a(),h.b(),h.c());
+}
+
+
+template < class FT >
+Comparison_result compare_y_at_x(const LineC2<FT> &l1,
+                                 const LineC2<FT> &l2,
+                                 const LineC2<FT> &h1,
+                                 const LineC2<FT> &h2)
+{
+  return compare_y_at_xC2(l1.a(),l1.b(),l1.c(),l2.a(),l2.b(),l2.c(),
                           h1.a(),h1.b(),h1.c(),h2.a(),h2.b(),h2.c());
 }
 
 
-
-template < class FT >
-CGAL_Comparison_result CGAL_compare_y(const CGAL_PointC2<FT> &p,
-                                      const CGAL_LineC2<FT> &l1,
-                                      const CGAL_LineC2<FT> &l2)
-{
-  return CGAL_compare_xC2(p.y(),p.x(),
-                          l1.b(),l1.a(),l1.c(),l2.b(),l2.a(),l2.c());
-}
-
-
-template < class FT >
-CGAL_Comparison_result CGAL_compare_y(const CGAL_LineC2<FT> &l1,
-                                      const CGAL_LineC2<FT> &l2,
-                                      const CGAL_LineC2<FT> &h1,
-                                      const CGAL_LineC2<FT> &h2)
-{
-  return CGAL_compare_xC2(l1.b(),l1.a(),l1.c(),l2.b(),l2.a(),l2.c(),
-                          h1.b(),h1.a(),h1.c(),h2.b(),h2.a(),h2.c());
-}
-template < class FT >
-CGAL_Comparison_result CGAL_compare_y_at_x(const CGAL_PointC2<FT> &p,
-                                           const CGAL_LineC2<FT> &h)
-{
-  return CGAL_compare_y_at_xC2(p.x(),p.y(),h.a(),h.b(),h.c());
-}
-
-
-template < class FT >
-CGAL_Comparison_result CGAL_compare_y_at_x(const CGAL_PointC2<FT> &p,
-                                           const CGAL_LineC2<FT> &h1,
-                                           const CGAL_LineC2<FT> &h2)
-{
-  return CGAL_compare_y_at_xC2(p.x(),
-                               h1.a(),h1.b(),h1.c(),h2.a(),h2.b(),h2.c());
-}
-
-
-template < class FT >
-CGAL_Comparison_result CGAL_compare_y_at_x(const CGAL_LineC2<FT> &l1,
-                                           const CGAL_LineC2<FT> &l2,
-                                           const CGAL_LineC2<FT> &h)
-{
-  return CGAL_compare_y_at_xC2(l1.a(),l1.b(),l1.c(),l2.a(),l2.b(),l2.c(),
-                               h.a(),h.b(),h.c());
-}
-
-
-template < class FT >
-CGAL_Comparison_result CGAL_compare_y_at_x(const CGAL_LineC2<FT> &l1,
-                                           const CGAL_LineC2<FT> &l2,
-                                           const CGAL_LineC2<FT> &h1,
-                                           const CGAL_LineC2<FT> &h2)
-{
-  return CGAL_compare_y_at_xC2(l1.a(),l1.b(),l1.c(),l2.a(),l2.b(),l2.c(),
-                               h1.a(),h1.b(),h1.c(),h2.a(),h2.b(),h2.c());
-}
-
+CGAL_END_NAMESPACE
 
 #endif  // CGAL_PREDICATES_ON_LINESC2_H

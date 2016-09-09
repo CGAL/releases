@@ -1,6 +1,6 @@
 // ======================================================================
 //
-// Copyright (c) 1997 The CGAL Consortium
+// Copyright (c) 1999 The GALIA Consortium
 //
 // This software and related documentation is part of the
 // Computational Geometry Algorithms Library (CGAL).
@@ -16,35 +16,34 @@
 // - Development licenses grant access to the source code of the library 
 //   to develop programs. These programs may be sold to other parties as 
 //   executable code. To obtain a development license, please contact
-//   the CGAL Consortium (at cgal@cs.uu.nl).
+//   the GALIA Consortium (at cgal@cs.uu.nl).
 // - Commercialization licenses grant access to the source code and the
 //   right to sell development licenses. To obtain a commercialization 
-//   license, please contact the CGAL Consortium (at cgal@cs.uu.nl).
+//   license, please contact the GALIA Consortium (at cgal@cs.uu.nl).
 //
 // This software and documentation is provided "as-is" and without
 // warranty of any kind. In no event shall the CGAL Consortium be
 // liable for any damage of any kind.
 //
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// The GALIA Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany) Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+// (Germany), Max-Planck-Institute Saarbrucken (Germany),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-1.2
-// release_date  : 1999, January 18
+// release       : CGAL-2.0
+// release_date  : 1999, June 03
 //
 // file          : include/CGAL/Constrained_triangulation_sweep_demo_2.h
-// package       : Triangulation (2.10)
+// package       : Triangulation (3.17)
 // source        : $RCSfile: Constrained_triangulation_sweep_demo_2.h,v $
-// revision      : $Revision: 1.1.1.4 $
-// revision_date : $Date: 1998/11/06 18:16:35 $
+// revision      : $Revision: 1.1.1.7 $
+// revision_date : $Date: 1999/04/08 12:25:35 $
 // author(s)     : Mariette Yvinec
 //
 // coordinator   : Mariette Yvinec
-//
 //
 // email         : cgal@cs.uu.nl
 //
@@ -57,25 +56,27 @@
 #include <CGAL/Constrained_triangulation_sweep_2.h>
 #include <CGAL/IO/Window_stream.h>
 
+CGAL_BEGIN_NAMESPACE
+
 template < class Gt, class Tds>
-class CGAL_Constrained_triangulation_sweep_demo_2
-  : public CGAL_Constrained_triangulation_sweep_2<Gt,Tds>
+class Constrained_triangulation_sweep_demo_2
+  : public Constrained_triangulation_sweep_2<Gt,Tds>
 {
 public:
   typedef typename Gt::Segment Segment;
-  typedef CGAL_Window_stream Window_stream;
+  typedef Window_stream Window_stream;
 
-  typedef CGAL_Constrained_triangulation_sweep_2<Gt,Tds> Sweep;
+  typedef Constrained_triangulation_sweep_2<Gt,Tds> Sweep;
   typedef typename Sweep::Out_edges Out_edges;
   typedef typename Sweep::Event_queue Event_queue;
   typedef typename Sweep::Sweep_status Sweep_status;
 
 
-CGAL_Constrained_triangulation_sweep_demo_2() {}
+Constrained_triangulation_sweep_demo_2() {}
 
-CGAL_Constrained_triangulation_sweep_demo_2(Window_stream& W,
-					 list<Constraint>& lc, const Gt& t=Gt())
-  : CGAL_Constrained_triangulation_sweep_2<Gt,Tds>()
+Constrained_triangulation_sweep_demo_2(Window_stream& W,
+				       std::list<Constraint>& lc, const Gt& t=Gt())
+  : Constrained_triangulation_sweep_2<Gt,Tds>()
   {
     _t = t ; 
     _lc = &lc;
@@ -95,7 +96,7 @@ void
 demo_build_triangulation(Window_stream& W);
 
 void 
-draw_face(Face_handle f, CGAL_Window_stream& W)
+draw_face(Face_handle f, Window_stream& W)
   {
     for(int i =0; i<3; i++){
       W << Segment((f->vertex(i))->point(), (f->vertex(f->cw(i)))->point());
@@ -104,10 +105,10 @@ draw_face(Face_handle f, CGAL_Window_stream& W)
   }
 
 void 
-draw_new_faces(Vertex_handle v, CGAL_Window_stream& W)
+draw_new_faces(Vertex_handle v, Window_stream& W)
 {
    drawing_mode dm=W.set_mode(leda_src_mode);
-   W << CGAL_BLUE;
+   W << BLUE;
    Face_handle f = v->face();
    if (f.is_null()) { return;} //first point, no face
    draw_face(f,W);
@@ -118,7 +119,7 @@ draw_new_faces(Vertex_handle v, CGAL_Window_stream& W)
 }
 
 void 
-draw_chain(Chain * pc,CGAL_Window_stream& W)
+draw_chain(Chain * pc,Window_stream& W)
 {
    Neighbor_list::iterator nit;
    Face_handle f;
@@ -143,10 +144,10 @@ draw_chain(Chain * pc,CGAL_Window_stream& W)
 }
 
 void 
-draw_status_chains(CGAL_Window_stream& W)
+draw_status_chains(Window_stream& W)
 {
   drawing_mode dm=W.set_mode(leda_src_mode);
-  W << CGAL_GREEN;
+  W << GREEN;
 
   Chain * pc;
   typename Sweep_status::iterator status_it=status.begin();
@@ -161,12 +162,12 @@ draw_status_chains(CGAL_Window_stream& W)
 }
   
 void 
-draw_constraints(CGAL_Window_stream& W)
+draw_constraints(Window_stream& W)
 {
   drawing_mode dm=W.set_mode(leda_src_mode);
-  W << CGAL_RED;
+  W << RED;
 
-  list<Constraint>::iterator cit=_lc->begin();
+  std::list<Constraint>::iterator cit=_lc->begin();
   while(cit != _lc->end()){
     W << Segment((*cit).first,(*cit).second);
     cit++;
@@ -176,13 +177,13 @@ draw_constraints(CGAL_Window_stream& W)
 
 
 void 
-draw_next_event(CGAL_Window_stream& W)
+draw_next_event(Window_stream& W)
 {
   return;
 }
 
 void 
-any_button(CGAL_Window_stream& W)
+any_button(Window_stream& W)
 {
   double x, y;
   cerr << "Press any button to continue" << endl;
@@ -194,8 +195,8 @@ any_button(CGAL_Window_stream& W)
 
 template<class Gt, class Tds>
 void
-CGAL_Constrained_triangulation_sweep_demo_2<Gt,Tds>::
-demo_build_triangulation(CGAL_Window_stream& W)
+Constrained_triangulation_sweep_demo_2<Gt,Tds>::
+demo_build_triangulation(Window_stream& W)
 {
   Point p; 
   Vertex_handle v;
@@ -239,5 +240,7 @@ demo_build_triangulation(CGAL_Window_stream& W)
   return;
 }
 
+CGAL_END_NAMESPACE
 
-#endif //CGAL_CONSTRAINED_TRIANGULATION_SWEEP_DEMO_2_H
+
+#endif //CONSTRAINED_TRIANGULATION_SWEEP_DEMO_2_H

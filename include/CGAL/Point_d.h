@@ -1,6 +1,6 @@
 // ======================================================================
 //
-// Copyright (c) 1998 The CGAL Consortium
+// Copyright (c) 1999 The GALIA Consortium
 //
 // This software and related documentation is part of the
 // Computational Geometry Algorithms Library (CGAL).
@@ -16,36 +16,35 @@
 // - Development licenses grant access to the source code of the library 
 //   to develop programs. These programs may be sold to other parties as 
 //   executable code. To obtain a development license, please contact
-//   the CGAL Consortium (at cgal@cs.uu.nl).
+//   the GALIA Consortium (at cgal@cs.uu.nl).
 // - Commercialization licenses grant access to the source code and the
 //   right to sell development licenses. To obtain a commercialization 
-//   license, please contact the CGAL Consortium (at cgal@cs.uu.nl).
+//   license, please contact the GALIA Consortium (at cgal@cs.uu.nl).
 //
 // This software and documentation is provided "as-is" and without
 // warranty of any kind. In no event shall the CGAL Consortium be
 // liable for any damage of any kind.
 //
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// The GALIA Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany) Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+// (Germany), Max-Planck-Institute Saarbrucken (Germany),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 // 
-// release       : CGAL-1.2
-// release_date  : 1999, January 18
+// release       : CGAL-2.0
+// release_date  : 1999, June 03
 // 
 // source        : ddim_points.fw
 // file          : include/CGAL/Point_d.h
-// package       : _d (0.9.2)
-// revision      : 0.9.2
-// revision_date : 01 Jul 1998 
+// package       : _d (2.1)
+// revision      : 2.1
+// revision_date : 26 Feb 1999 
 // author(s)     : Sven Schoenherr
 //                 Bernd Gaertner
 //
 // coordinator   : MPI, Saarbruecken  (<Stefan.Schirra>)
-//
 // email         : cgal@cs.uu.nl
 //
 // ======================================================================
@@ -70,9 +69,10 @@
 #endif // CGAL_POINTCD_H
 #endif // CGAL_CARTESIAN_H
 
+CGAL_BEGIN_NAMESPACE
 
 template < class _R >
-class CGAL_Point_d : public _R::Point_d
+class Point_d : public _R::Point_d
 {
 public:
     typedef  _R   R;
@@ -80,48 +80,48 @@ public:
     typedef typename R::FT              FT;
     typedef typename R::Point_d         Point;
 
-    CGAL_Point_d()
+    Point_d()
     {}
 
-    CGAL_Point_d(int dim, const CGAL_Origin &o)
+    Point_d(int dim, const Origin &o)
         : Point(dim, o)
     {}
 
-    CGAL_Point_d(const CGAL_Point_d<R> &p)
+    Point_d(const Point_d<R> &p)
         : Point((Point&)p)
     {}
 
-    CGAL_Point_d(const Point &p)
+    Point_d(const Point &p)
         : Point(p)
     {}
 
 #ifndef CGAL_CFG_NO_MEMBER_TEMPLATES
 
     template <class InputIterator>
-    CGAL_Point_d (int dim, InputIterator first, InputIterator last)
+    Point_d (int dim, InputIterator first, InputIterator last)
         : Point (dim, first, last)
     {}
 
 #else
 
-    CGAL_Point_d (int dim, RT* first, RT* last)
+    Point_d (int dim, RT* first, RT* last)
         : Point (dim, first, last)
     {}
 
 #endif // CGAL_CFG_NO_MEMBER_TEMPLATES
 
-    CGAL_Point_d<R>& operator=(const CGAL_Point_d<R>& p)
+    Point_d<R>& operator=(const Point_d<R>& p)
     {
           Point::operator=(p);
           return *this;
     }
 
-    bool operator==(const CGAL_Point_d<R>& p) const
+    bool operator==(const Point_d<R>& p) const
     {
     return Point::operator==(p);
     }
 
-    bool operator!=(const CGAL_Point_d<R>& p) const
+    bool operator!=(const Point_d<R>& p) const
     {
         return !(*this == p);
     }
@@ -143,8 +143,20 @@ public:
 
     FT operator[](int i) const
     {
-    return Point::operator[](i);
+        return Point::operator[](i);
     }
+
+    typedef const RT* const_iterator;
+
+    const_iterator begin() const
+    {
+        return Point::begin();
+    }
+
+    const_iterator end() const
+    {
+        return Point::end();
+    }   
 
     int dimension() const
     {
@@ -152,25 +164,27 @@ public:
     }
 };
 
-#ifndef CGAL_NO_OSTREAM_INSERT_POINT_D
+#ifndef NO_OSTREAM_INSERT_POINT_D
     template < class R >
     ostream &
-    operator<<(ostream &os, const CGAL_Point_d<R>& p)
+    operator<<(ostream &os, const Point_d<R>& p)
     {
       typedef typename  R::Point_d    Point;
       return os << (const Point&)p;
     }
-#endif // CGAL_NO_OSTREAM_INSERT_POINT_D
+#endif // NO_OSTREAM_INSERT_POINT_D
 
-#ifndef CGAL_NO_ISTREAM_EXTRACT_POINT_D
+#ifndef NO_ISTREAM_EXTRACT_POINT_D
     template < class R >
     istream &
-    operator>>(istream &is, CGAL_Point_d<R> &p)
+    operator>>(istream &is, Point_d<R> &p)
     {
       typedef typename  R::Point_d    Point;
       return is >> (Point&)p;
     }
-#endif // CGAL_NO_ISTREAM_EXTRACT_POINT_D
+#endif // NO_ISTREAM_EXTRACT_POINT_D
+CGAL_END_NAMESPACE
+
 
 #endif // CGAL_POINT_D_H
 

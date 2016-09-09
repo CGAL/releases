@@ -1,6 +1,6 @@
 // ======================================================================
 //
-// Copyright (c) 1998 The CGAL Consortium
+// Copyright (c) 1999 The GALIA Consortium
 //
 // This software and related documentation is part of the
 // Computational Geometry Algorithms Library (CGAL).
@@ -16,35 +16,34 @@
 // - Development licenses grant access to the source code of the library 
 //   to develop programs. These programs may be sold to other parties as 
 //   executable code. To obtain a development license, please contact
-//   the CGAL Consortium (at cgal@cs.uu.nl).
+//   the GALIA Consortium (at cgal@cs.uu.nl).
 // - Commercialization licenses grant access to the source code and the
 //   right to sell development licenses. To obtain a commercialization 
-//   license, please contact the CGAL Consortium (at cgal@cs.uu.nl).
+//   license, please contact the GALIA Consortium (at cgal@cs.uu.nl).
 //
 // This software and documentation is provided "as-is" and without
 // warranty of any kind. In no event shall the CGAL Consortium be
 // liable for any damage of any kind.
 //
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// The GALIA Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany) Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+// (Germany), Max-Planck-Institute Saarbrucken (Germany),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 // 
-// release       : CGAL-1.2
-// release_date  : 1999, January 18
+// release       : CGAL-2.0
+// release_date  : 1999, June 03
 // 
 // source        : Triangle_2.fw
 // file          : include/CGAL/Triangle_2.h
-// package       : _2 (1.3)
-// revision      : 1.3
-// revision_date : 15 Dec 1998 
+// package       : _2 (2.1.2)
+// revision      : 2.1.2
+// revision_date : 09 May 1999 
 // author(s)     : Andreas Fabri
 //
 // coordinator   : MPI, Saarbruecken  (<Stefan.Schirra>)
-//
 // email         : cgal@cs.uu.nl
 //
 // ======================================================================
@@ -74,46 +73,48 @@
 #include <CGAL/Point_2.h>
 #endif // CGAL_POINT_2_H
 
+CGAL_BEGIN_NAMESPACE
+
 template <class _R>
-  class CGAL_Triangle_2 : public _R::Triangle_2
+  class Triangle_2 : public _R::Triangle_2
 {
 public:
   typedef  _R   R;
   typedef typename R::RT                    RT;
   typedef typename R::FT                    FT;
-  typedef typename R::Triangle_2            Triangle_2;
+  typedef typename R::Triangle_2            RTriangle_2;
 
-    CGAL_Triangle_2()
-      : Triangle_2()
+    Triangle_2()
+      : RTriangle_2()
     {}
 
-    CGAL_Triangle_2(const CGAL_Triangle_2<R> &t)
-      : Triangle_2((Triangle_2&)t)
+    Triangle_2(const Triangle_2<R> &t)
+      : RTriangle_2((RTriangle_2&)t)
     {}
 
-    CGAL_Triangle_2(const Triangle_2 &t)
-      : Triangle_2(t)
+    Triangle_2(const RTriangle_2& t)
+      : RTriangle_2(t)
     {}
 
-    CGAL_Triangle_2(const CGAL_Point_2<R> &p,
-                    const CGAL_Point_2<R> &q,
-                    const CGAL_Point_2<R> &r)
-      : Triangle_2(p,q,r)
+    Triangle_2(const Point_2<R> &p,
+                    const Point_2<R> &q,
+                    const Point_2<R> &r)
+      : RTriangle_2(p,q,r)
     {}
 
 
-  CGAL_Triangle_2<R>  &operator=(const CGAL_Triangle_2<R> &t)
+  Triangle_2<R>  &operator=(const Triangle_2<R> &t)
     {
-      Triangle_2::operator=(t);
+      RTriangle_2::operator=(t);
       return *this;
     }
 
-  bool                operator==(const CGAL_Triangle_2<R> &t) const
+  bool                operator==(const Triangle_2<R> &t) const
     {
-      return Triangle_2::operator==(t);
+      return RTriangle_2::operator==(t);
     }
 
-  bool                operator!=(const CGAL_Triangle_2<R> &t) const
+  bool                operator!=(const Triangle_2<R> &t) const
     {
       return !(*this == t);
     }
@@ -124,98 +125,99 @@ public:
     }
 
 
-  CGAL_Point_2<R>     vertex(int i) const
+  Point_2<R>     vertex(int i) const
     {
-      return Triangle_2::vertex(i);
+      return RTriangle_2::vertex(i);
     }
 
-  CGAL_Point_2<R>     operator[](int i) const
+  Point_2<R>     operator[](int i) const
     {
       return vertex(i);
     }
 
 
-  CGAL_Triangle_2<R>  transform(const CGAL_Aff_transformation_2<R> &t) const
+  Triangle_2<R>  transform(const Aff_transformation_2<R> &t) const
   {
-    return  Triangle_2::transform(t);
+    return  RTriangle_2::transform(t);
   }
 
-  CGAL_Triangle_2<R>  opposite() const
+  Triangle_2<R>  opposite() const
   {
-    return  CGAL_Triangle_2<R>(vertex(0), vertex(2), vertex(1));
+    return  Triangle_2<R>(vertex(0), vertex(2), vertex(1));
   }
 
-  CGAL_Orientation  orientation() const
+  Orientation  orientation() const
     {
-      return Triangle_2::orientation();
+      return RTriangle_2::orientation();
     }
 
-  CGAL_Oriented_side           oriented_side(const CGAL_Point_2<R> &p) const
+  Oriented_side           oriented_side(const Point_2<R> &p) const
     {
-      return Triangle_2::oriented_side(p);
+      return RTriangle_2::oriented_side(p);
     }
 
-  CGAL_Bounded_side           bounded_side(const CGAL_Point_2<R> &p) const
+  Bounded_side           bounded_side(const Point_2<R> &p) const
     {
-      return Triangle_2::bounded_side(p);
+      return RTriangle_2::bounded_side(p);
     }
 
-  bool                has_on_boundary(const CGAL_Point_2<R> &p) const
+  bool                has_on_boundary(const Point_2<R> &p) const
     {
-      return Triangle_2::has_on_boundary(p);
+      return RTriangle_2::has_on_boundary(p);
     }
 
-  bool                has_on_positive_side(const CGAL_Point_2<R> &p) const
+  bool                has_on_positive_side(const Point_2<R> &p) const
     {
-      return Triangle_2::has_on_positive_side(p);
+      return RTriangle_2::has_on_positive_side(p);
     }
 
-  bool                has_on_negative_side(const CGAL_Point_2<R> &p) const
+  bool                has_on_negative_side(const Point_2<R> &p) const
     {
-      return Triangle_2::has_on_negative_side(p);
+      return RTriangle_2::has_on_negative_side(p);
     }
 
-  bool                has_on_unbounded_side(const CGAL_Point_2<R> &p) const
+  bool                has_on_unbounded_side(const Point_2<R> &p) const
     {
-      return Triangle_2::has_on_unbounded_side(p);
+      return RTriangle_2::has_on_unbounded_side(p);
     }
 
-  bool                has_on_bounded_side(const CGAL_Point_2<R> &p) const
+  bool                has_on_bounded_side(const Point_2<R> &p) const
     {
-      return Triangle_2::has_on_bounded_side(p);
+      return RTriangle_2::has_on_bounded_side(p);
     }
 
   bool                is_degenerate() const
     {
-      return Triangle_2::is_degenerate();
+      return RTriangle_2::is_degenerate();
     }
 
-  CGAL_Bbox_2           bbox() const
+  Bbox_2           bbox() const
     {
       return vertex(0).bbox() + vertex(1).bbox() + vertex(2).bbox();
     }
 };
 
-#ifndef CGAL_NO_OSTREAM_INSERT_TRIANGLE_2
+#ifndef NO_OSTREAM_INSERT_TRIANGLE_2
 template < class R >
-ostream &
-operator<<(ostream &os, const CGAL_Triangle_2<R> &t)
+std::ostream &
+operator<<(std::ostream &os, const Triangle_2<R> &t)
 {
-  typedef typename  R::Triangle_2      Triangle_2;
-  return os << (const Triangle_2&)t;
+  typedef typename  R::Triangle_2      RTriangle_2;
+  return os << (const RTriangle_2&)t;
 }
-#endif // CGAL_NO_OSTREAM_INSERT_TRIANGLE_2
+#endif // NO_OSTREAM_INSERT_TRIANGLE_2
 
-#ifndef CGAL_NO_ISTREAM_EXTRACT_TRIANGLE_2
+#ifndef NO_ISTREAM_EXTRACT_TRIANGLE_2
 template < class R >
-istream &
-operator>>(istream &is, CGAL_Triangle_2<R> &t)
+std::istream &
+operator>>(std::istream &is, Triangle_2<R> &t)
 {
-  typedef typename  R::Triangle_2      Triangle_2;
-  return is >> (Triangle_2&)t;
+  typedef typename  R::Triangle_2      RTriangle_2;
+  return is >> (RTriangle_2&)t;
 }
-#endif // CGAL_NO_ISTREAM_EXTRACT_TRIANGLE_2
+#endif // NO_ISTREAM_EXTRACT_TRIANGLE_2
+
+CGAL_END_NAMESPACE
 
 
-
-#endif
+#endif // CGAL_TRIANGLE_2_H

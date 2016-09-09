@@ -1,6 +1,6 @@
 // ======================================================================
 //
-// Copyright (c) 1997 The CGAL Consortium
+// Copyright (c) 1999 The GALIA Consortium
 //
 // This software and related documentation is part of the
 // Computational Geometry Algorithms Library (CGAL).
@@ -16,28 +16,28 @@
 // - Development licenses grant access to the source code of the library 
 //   to develop programs. These programs may be sold to other parties as 
 //   executable code. To obtain a development license, please contact
-//   the CGAL Consortium (at cgal@cs.uu.nl).
+//   the GALIA Consortium (at cgal@cs.uu.nl).
 // - Commercialization licenses grant access to the source code and the
 //   right to sell development licenses. To obtain a commercialization 
-//   license, please contact the CGAL Consortium (at cgal@cs.uu.nl).
+//   license, please contact the GALIA Consortium (at cgal@cs.uu.nl).
 //
 // This software and documentation is provided "as-is" and without
 // warranty of any kind. In no event shall the CGAL Consortium be
 // liable for any damage of any kind.
 //
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// The GALIA Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany) Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+// (Germany), Max-Planck-Institute Saarbrucken (Germany),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-1.2
-// release_date  : 1999, January 18
+// release       : CGAL-2.0
+// release_date  : 1999, June 03
 //
 // file          : include/CGAL/Topological_map.h
-// package       : pm (2.052)
+// package       : pm (3.07)
 // source        : 
 // revision      : 
 // revision_date : 
@@ -48,7 +48,6 @@
 // coordinator   : Tel-Aviv University (Dan Halperin)
 //
 // Chapter       : 
-//
 // email         : cgal@cs.uu.nl
 //
 // ======================================================================
@@ -64,8 +63,11 @@
 #endif
 
 
+CGAL_BEGIN_NAMESPACE
+
+
 template <class Dcel >
-class CGAL_Topological_map
+class Topological_map
 {
 
 protected:
@@ -110,52 +112,52 @@ public:
   friend Face;
 #endif
 
-  typedef CGAL__Polyhedron_iterator<
+  typedef _Polyhedron_iterator<
   TR_VI,
   Vertex,
   Difference, iterator_category> Vertex_iterator;
   
-  typedef CGAL__Polyhedron_const_iterator<
+  typedef _Polyhedron_const_iterator<
   TR_C_VI, TR_VI,
   Vertex,
   Difference, iterator_category>       Vertex_const_iterator;
   
-  typedef CGAL__Polyhedron_iterator<
+  typedef _Polyhedron_iterator<
   TR_HI,
   Halfedge,
   Difference, iterator_category>       Halfedge_iterator;
   
 #ifndef __SUNPRO_CC
-  typedef CGAL__Polyhedron_const_iterator<
+  typedef _Polyhedron_const_iterator<
   TR_C_HI, TR_HI,
   Halfedge,
   Difference, iterator_category>       Halfedge_const_iterator;
 #endif // __SUNPRO_CC //
   
-  typedef CGAL__Polyhedron_iterator<
+  typedef _Polyhedron_iterator<
   TR_FI,
   Face,
   Difference, iterator_category>       Face_iterator;
   
-  typedef CGAL__Polyhedron_const_iterator<
+  typedef _Polyhedron_const_iterator<
   TR_C_FI, TR_FI,
   Face,
   Difference, iterator_category>       Face_const_iterator;
 
 
-  typedef CGAL__Polyhedron_facet_circ<
+  typedef _Polyhedron_facet_circ<
   Halfedge,
   Halfedge_iterator,
-  CGAL_Forward_circulator_tag>            Ccb_halfedge_circulator;
+  Forward_circulator_tag>            Ccb_halfedge_circulator;
 
-  typedef CGAL__Polyhedron_vertex_circ<
+  typedef _Polyhedron_vertex_circ<
   Halfedge,
   Halfedge_iterator,
-  CGAL_Forward_circulator_tag>            Halfedge_around_vertex_circulator;
+  Forward_circulator_tag>            Halfedge_around_vertex_circulator;
 
 
 #ifdef __SUNPRO_CC
-  typedef CGAL__Polyhedron_halfedge_const_iterator<
+  typedef _Polyhedron_halfedge_const_iterator<
   TR_C_HI, TR_HI,
   Ccb_halfedge_circulator,
   Halfedge_around_vertex_circulator,
@@ -164,29 +166,29 @@ public:
 #endif // __SUNPRO_CC //
  
   
-  typedef CGAL__Polyhedron_facet_const_circ<
+  typedef _Polyhedron_facet_const_circ<
   Halfedge,
   Halfedge_const_iterator,
-  CGAL_Forward_circulator_tag>       Ccb_halfedge_const_circulator;
+  Forward_circulator_tag>       Ccb_halfedge_const_circulator;
   
   
-  typedef CGAL__Polyhedron_vertex_const_circ<
+  typedef _Polyhedron_vertex_const_circ<
   Halfedge,
   Halfedge_const_iterator,
-  CGAL_Forward_circulator_tag>      Halfedge_around_vertex_const_circulator;
+  Forward_circulator_tag>      Halfedge_around_vertex_const_circulator;
 
 
 
 
-  typedef CGAL__Polyhedron_iterator<
+  typedef _Polyhedron_iterator<
   TR_HOI,
   Ccb_halfedge_circulator,
-  Difference, bidirectional_iterator_tag>       Holes_iterator;
+  Difference, std::bidirectional_iterator_tag>       Holes_iterator;
   
-  typedef CGAL__Polyhedron_const_iterator<
+  typedef _Polyhedron_const_iterator<
   TR_C_HOI, TR_HOI,
   Ccb_halfedge_const_circulator,
-  Difference, bidirectional_iterator_tag>       Holes_const_iterator;
+  Difference, std::bidirectional_iterator_tag>       Holes_const_iterator;
 
 
   
@@ -437,7 +439,7 @@ public:
 
     {
       dedge* dummy;
-      return (CGAL_Topological_map<Dcel>::is_halfedge_on_inner_ccb(&(*e),(typename Dcel::Face*)this,dummy)); 
+      return (Topological_map<Dcel>::is_halfedge_on_inner_ccb(&(*e),(typename Dcel::Face*)this,dummy)); 
 // oren corrections (dummy parameter - for bug in MSC)
     }
     
@@ -447,7 +449,7 @@ public:
 #endif
     {
       dedge* dummy;
-      return CGAL_Topological_map<Dcel>::is_halfedge_on_outer_ccb(&(*e),this,dummy);
+      return Topological_map<Dcel>::is_halfedge_on_outer_ccb(&(*e),this,dummy);
 // oren corrections (dummy parameter - bug in MSC)
     }
 	
@@ -496,11 +498,11 @@ public:
 
   /**************************************************************/
   /**************************************************************/
-  /********************* CGAL_Topological_map *******************/
+  /********************* Topological_map *******************/
   /**************************************************************/
   /**************************************************************/
 
-  CGAL_Topological_map()
+  Topological_map()
     : d()
   {
     u_face = d.new_face();
@@ -624,7 +626,7 @@ public:
   
   /**************************************************************/
   /**************************************************************/
-  /*********** CGAL_Topological_map_2  - validity checks ********/
+  /*********** Topological_map_2  - validity checks ********/
   /**************************************************************/
   /**************************************************************/
   
@@ -870,8 +872,8 @@ protected:
 //the planar map will define this geometrically using the one previous to the curve clock wise.
 //prev1->target() is v1
 template<class Dcel>
-CGAL_Topological_map<Dcel>::Halfedge_handle
-CGAL_Topological_map<Dcel>::
+Topological_map<Dcel>::Halfedge_handle
+Topological_map<Dcel>::
 insert_at_vertices(Halfedge_handle previous1, Halfedge_handle previous2)  
 {
   CGAL_precondition(previous1->target()!=previous2->target()); // vertices should be distinct
@@ -982,7 +984,7 @@ insert_at_vertices(Halfedge_handle previous1, Halfedge_handle previous2)
 
 template<class Dcel> 
 void
-CGAL_Topological_map<Dcel>::
+Topological_map<Dcel>::
 move_hole(Holes_iterator e, Face_handle f1, Face_handle f2)
 {
   //move hole from df1 to df2 and set face pointer of each edge on hole to df1
@@ -1006,8 +1008,8 @@ move_hole(Holes_iterator e, Face_handle f1, Face_handle f2)
 
 //returns halfedge which is previous->next
 template<class Dcel>
-CGAL_Topological_map<Dcel>::Halfedge_handle
-CGAL_Topological_map<Dcel>::
+Topological_map<Dcel>::Halfedge_handle
+Topological_map<Dcel>::
 insert_from_vertex(Halfedge_handle previous)
 {
   typename Dcel::Halfedge* prev=&(*previous);
@@ -1038,8 +1040,8 @@ insert_from_vertex(Halfedge_handle previous)
 
 
 template<class Dcel>
-CGAL_Topological_map<Dcel>::Halfedge_handle
-CGAL_Topological_map<Dcel>::
+Topological_map<Dcel>::Halfedge_handle
+Topological_map<Dcel>::
 insert_in_face_interior(Face_handle f)
 {
   typename Dcel::Vertex* v1=d.new_vertex(); 
@@ -1068,8 +1070,8 @@ insert_in_face_interior(Face_handle f)
 
 
 template<class Dcel>
-CGAL_Topological_map<Dcel>::Halfedge_handle
-CGAL_Topological_map<Dcel>::
+Topological_map<Dcel>::Halfedge_handle
+Topological_map<Dcel>::
 split_edge (Halfedge_handle e)
 {
   typename Dcel::Halfedge* e1=&(*e); 
@@ -1110,8 +1112,8 @@ split_edge (Halfedge_handle e)
 }
 
 template<class Dcel>
-CGAL_Topological_map<Dcel>::Halfedge_handle
-CGAL_Topological_map<Dcel>::
+Topological_map<Dcel>::Halfedge_handle
+Topological_map<Dcel>::
 merge_edge (Halfedge_handle e1, Halfedge_handle e2) 
 {
     //check e1->e2 and that degree(e1.target)==2 (i.e no other edge connected)
@@ -1165,9 +1167,10 @@ merge_edge (Halfedge_handle e1, Halfedge_handle e2)
     return TR_HI(de1); 
 }
 
+
 template<class Dcel>
-CGAL_Topological_map<Dcel>::Face_handle
-CGAL_Topological_map<Dcel>::
+Topological_map<Dcel>::Face_handle
+Topological_map<Dcel>::
 remove_edge(Halfedge_handle e)
 {
   typename Dcel::Halfedge* de1=&(*e);
@@ -1451,7 +1454,9 @@ remove_edge(Halfedge_handle e)
   } //case b. (face deleted)
 }
 
+ 
 
+CGAL_END_NAMESPACE
 
 #else   
 #error  Header file .h included twice

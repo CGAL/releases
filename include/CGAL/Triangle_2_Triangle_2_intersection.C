@@ -1,7 +1,7 @@
 
 // ======================================================================
 //
-// Copyright (c) 1998 The CGAL Consortium
+// Copyright (c) 1999 The GALIA Consortium
 //
 // This software and related documentation is part of the
 // Computational Geometry Algorithms Library (CGAL).
@@ -17,33 +17,32 @@
 // - Development licenses grant access to the source code of the library 
 //   to develop programs. These programs may be sold to other parties as 
 //   executable code. To obtain a development license, please contact
-//   the CGAL Consortium (at cgal@cs.uu.nl).
+//   the GALIA Consortium (at cgal@cs.uu.nl).
 // - Commercialization licenses grant access to the source code and the
 //   right to sell development licenses. To obtain a commercialization 
-//   license, please contact the CGAL Consortium (at cgal@cs.uu.nl).
+//   license, please contact the GALIA Consortium (at cgal@cs.uu.nl).
 //
 // This software and documentation is provided "as-is" and without
 // warranty of any kind. In no event shall the CGAL Consortium be
 // liable for any damage of any kind.
 //
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// The GALIA Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany) Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+// (Germany), Max-Planck-Institute Saarbrucken (Germany),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-1.2
-// release_date  : 1999, January 18
+// release       : CGAL-2.0
+// release_date  : 1999, June 03
 //
 // file          : include/CGAL/Triangle_2_Triangle_2_intersection.C
-// package       : Intersections_2 (1.7)
+// package       : Intersections_2 (2.1.2)
 // source        : intersection_2_2.fw
 // author(s)     : Geert-Jan Giezeman
 //
 // coordinator   : Saarbruecken
-//
 //
 // email         : cgal@cs.uu.nl
 //
@@ -58,63 +57,65 @@
 #include <CGAL/Triangle_2.h>
 #endif // CGAL_TRIANGLE_2_H
 
+CGAL_BEGIN_NAMESPACE
+
 template <class R>
-struct CGAL__Pointlist_2_rec {
-    CGAL__Pointlist_2_rec *next;
-    CGAL_Point_2<R> point;
-    CGAL_Oriented_side side;
+struct _Pointlist_2_rec {
+    _Pointlist_2_rec *next;
+    Point_2<R> point;
+    Oriented_side side;
 };
 
 template <class R>
-struct CGAL__Pointlist_2 {
+struct _Pointlist_2 {
     int size;
-    CGAL__Pointlist_2_rec<R> *first;
-    CGAL__Pointlist_2() ;
-    ~CGAL__Pointlist_2() ;
+    _Pointlist_2_rec<R> *first;
+    _Pointlist_2() ;
+    ~_Pointlist_2() ;
 };
 
 template <class R>
-class CGAL_Triangle_2_Triangle_2_pair {
+class Triangle_2_Triangle_2_pair {
 public:
     enum Intersection_results {NO, POINT, SEGMENT, TRIANGLE, POLYGON};
-                        CGAL_Triangle_2_Triangle_2_pair() ;
-                        CGAL_Triangle_2_Triangle_2_pair(
-                                CGAL_Triangle_2<R> const *trian1,
-                                CGAL_Triangle_2<R> const *trian2) ;
-    ~CGAL_Triangle_2_Triangle_2_pair() {}
+                        Triangle_2_Triangle_2_pair() ;
+                        Triangle_2_Triangle_2_pair(
+                                Triangle_2<R> const *trian1,
+                                Triangle_2<R> const *trian2) ;
+    ~Triangle_2_Triangle_2_pair() {}
 #ifdef CGAL_CFG_RETURN_TYPE_BUG_2
     Intersection_results intersection_type() const
     {
         if (_known)
             return _result;
     // The non const this pointer is used to cast away const.
-        CGAL_Triangle_2_Triangle_2_pair<R> *ncthis =
-                    (CGAL_Triangle_2_Triangle_2_pair<R> *) this;
+        Triangle_2_Triangle_2_pair<R> *ncthis =
+                    (Triangle_2_Triangle_2_pair<R> *) this;
         ncthis->_known = true;
-        if (!CGAL_do_overlap(_trian1->bbox(), _trian2->bbox())) {
+        if (!do_overlap(_trian1->bbox(), _trian2->bbox())) {
             ncthis->_result = NO;
             return _result;
         }
-        CGAL__init_list(ncthis->_pointlist, *_trian1);
+        _init_list(ncthis->_pointlist, *_trian1);
         if (_trian2->is_degenerate()) {
-            // CGAL__not_implemented();
+            // _not_implemented();
             CGAL_kernel_assertion(false);
         } else {
-            CGAL_Line_2<R> l(_trian2->vertex(0), _trian2->vertex(1));
-            if (l.oriented_side(_trian2->vertex(2)) == CGAL_ON_POSITIVE_SIDE) {
+            Line_2<R> l(_trian2->vertex(0), _trian2->vertex(1));
+            if (l.oriented_side(_trian2->vertex(2)) == ON_POSITIVE_SIDE) {
                 // counterclockwise triangle
-                CGAL__cut_off(ncthis->_pointlist, l);
-                l = CGAL_Line_2<R>(_trian2->vertex(1), _trian2->vertex(2));
-                CGAL__cut_off(ncthis->_pointlist, l);
-                l = CGAL_Line_2<R>(_trian2->vertex(2), _trian2->vertex(0));
-                CGAL__cut_off(ncthis->_pointlist, l);
+                _cut_off(ncthis->_pointlist, l);
+                l = Line_2<R>(_trian2->vertex(1), _trian2->vertex(2));
+                _cut_off(ncthis->_pointlist, l);
+                l = Line_2<R>(_trian2->vertex(2), _trian2->vertex(0));
+                _cut_off(ncthis->_pointlist, l);
             } else {
                 l = l.opposite();
-                CGAL__cut_off(ncthis->_pointlist, l);
-                l = CGAL_Line_2<R>(_trian2->vertex(0), _trian2->vertex(2));
-                CGAL__cut_off(ncthis->_pointlist, l);
-                l = CGAL_Line_2<R>(_trian2->vertex(2), _trian2->vertex(1));
-                CGAL__cut_off(ncthis->_pointlist, l);
+                _cut_off(ncthis->_pointlist, l);
+                l = Line_2<R>(_trian2->vertex(0), _trian2->vertex(2));
+                _cut_off(ncthis->_pointlist, l);
+                l = Line_2<R>(_trian2->vertex(2), _trian2->vertex(1));
+                _cut_off(ncthis->_pointlist, l);
             }
         }
         switch (_pointlist.size) {
@@ -139,29 +140,31 @@ public:
 #else
     Intersection_results intersection_type() const;
 #endif // CGAL_CFG_RETURN_TYPE_BUG_2
-    bool                intersection(CGAL_Point_2<R> &result) const;
-    bool                intersection(CGAL_Segment_2<R> &result) const;
-    bool                intersection(CGAL_Triangle_2<R> &result) const;
-    bool                intersection(/*CGAL_Polygon_2<R> &result*/) const;
+    bool                intersection(Point_2<R> &result) const;
+    bool                intersection(Segment_2<R> &result) const;
+    bool                intersection(Triangle_2<R> &result) const;
+    bool                intersection(/*Polygon_2<R> &result*/) const;
     int                 vertex_count() const;
-    CGAL_Point_2<R>     vertex(int i) const;
+    Point_2<R>     vertex(int i) const;
 protected:
-    CGAL_Triangle_2<R> const*   _trian1;
-    CGAL_Triangle_2<R> const *  _trian2;
+    Triangle_2<R> const*   _trian1;
+    Triangle_2<R> const *  _trian2;
     bool                    _known;
     Intersection_results    _result;
-    CGAL__Pointlist_2<R>    _pointlist;
+    _Pointlist_2<R>    _pointlist;
 };
 
 template <class R>
-inline bool CGAL_do_intersect(
-    const CGAL_Triangle_2<R> &p1,
-    const CGAL_Triangle_2<R> &p2)
+inline bool do_intersect(
+    const Triangle_2<R> &p1,
+    const Triangle_2<R> &p2)
 {
-    typedef CGAL_Triangle_2_Triangle_2_pair<R> pair_t;
+    typedef Triangle_2_Triangle_2_pair<R> pair_t;
     pair_t pair(&p1, &p2);
     return pair.intersection_type() != pair_t::NO;
 }
+
+CGAL_END_NAMESPACE
 
 
 
@@ -174,21 +177,24 @@ inline bool CGAL_do_intersect(
 #ifndef CGAL_NUMBER_UTILS_H
 #include <CGAL/number_utils.h>
 #endif // CGAL_NUMBER_UTILS_H
-#ifndef CGAL_STD_VECTOR_H
-#include <CGAL/std/vector>
+#ifndef CGAL_PROTECT_VECTOR
+#include <vector>
+#define CGAL_PROTECT_VECTOR
 #endif
 
+CGAL_BEGIN_NAMESPACE
+
 template <class R>
-CGAL__Pointlist_2<R>::CGAL__Pointlist_2()
+_Pointlist_2<R>::_Pointlist_2()
 {
     size = 0;
     first = 0;
 }
 
 template <class R>
-CGAL__Pointlist_2<R>::~CGAL__Pointlist_2()
+_Pointlist_2<R>::~_Pointlist_2()
 {
-    CGAL__Pointlist_2_rec<R> *cur;
+    _Pointlist_2_rec<R> *cur;
     for (int i=0; i<size; i++) {
         cur = first;
         first = cur->next;
@@ -197,68 +203,74 @@ CGAL__Pointlist_2<R>::~CGAL__Pointlist_2()
 }
 
 
+
+
 template <class R>
-void CGAL__init_list(CGAL__Pointlist_2<R> &list,
-                const CGAL_Triangle_2<R> &trian)
+void _init_list(_Pointlist_2<R> &list,
+                const Triangle_2<R> &trian)
 {
     // check on degeneracies of trian.
     if (!trian.is_degenerate()) {
         list.size = 3;
         list.first = 0;
         for (int i=0; i<3; i++) {
-            CGAL__Pointlist_2_rec<R> *newrec =
-                        new CGAL__Pointlist_2_rec<R>;
+            _Pointlist_2_rec<R> *newrec =
+                        new _Pointlist_2_rec<R>;
             newrec->next = list.first;
             list.first = newrec;
             newrec->point = trian[i];
         }
     } else {
-        // CGAL__not_implemented();
+        // _not_implemented();
         CGAL_kernel_assertion(false);
     }
 }
+
+CGAL_END_NAMESPACE
 
 #ifndef CGAL_LINE_2_LINE_2_INTERSECTION_H
 #include <CGAL/Line_2_Line_2_intersection.h>
 #endif // CGAL_LINE_2_LINE_2_INTERSECTION_H
 
+CGAL_BEGIN_NAMESPACE
+
 template <class R>
-void CGAL__cut_off(CGAL__Pointlist_2<R> &list,
-                const CGAL_Line_2<R> &cutter)
+void _cut_off(_Pointlist_2<R> &list,
+                const Line_2<R> &cutter)
 {
     int i;
     int add = 0;
-    CGAL__Pointlist_2_rec<R> *cur, *last, *newrec;
+    _Pointlist_2_rec<R> *cur, *last, *newrec;
     for (i=0, cur = list.first; i<list.size; i++, cur = cur->next) {
         cur->side = cutter.oriented_side(cur->point);
         last = cur;
     }
     for (cur = list.first, i=0; i<list.size; i++, cur = cur->next) {
-        if ((cur->side == CGAL_ON_POSITIVE_SIDE
-             && last->side == CGAL_ON_NEGATIVE_SIDE)
-           || (cur->side == CGAL_ON_NEGATIVE_SIDE
-               && last->side == CGAL_ON_POSITIVE_SIDE)) {
+        if ((cur->side == ON_POSITIVE_SIDE
+             && last->side == ON_NEGATIVE_SIDE)
+           || (cur->side == ON_NEGATIVE_SIDE
+               && last->side == ON_POSITIVE_SIDE)) {
             // add a vertex after cur
             add++;
-            CGAL_Line_2<R> l(cur->point, last->point);
-            newrec = new CGAL__Pointlist_2_rec<R>;
+            Line_2<R> l(cur->point, last->point);
+            newrec = new _Pointlist_2_rec<R>;
             newrec->next = last->next;
             last->next = newrec;
-            newrec->side = CGAL_ON_ORIENTED_BOUNDARY;
-            CGAL_Line_2_Line_2_pair<R> linepair(&cutter,  &l);
-            CGAL_Line_2_Line_2_pair<R>::Intersection_results isr;
+            newrec->side = ON_ORIENTED_BOUNDARY;
+            Line_2_Line_2_pair<R> linepair(&cutter,  &l);
+            Line_2_Line_2_pair<R>::Intersection_results isr;
             isr = linepair.intersection_type();
-            CGAL_kernel_assertion(isr == CGAL_Line_2_Line_2_pair<R>::POINT);
+            CGAL_kernel_assertion(isr == Line_2_Line_2_pair<R>::POINT);
             linepair.intersection(newrec->point);
         }
         last = cur;
     }
     CGAL_kernel_assertion(add <= 2);
-    CGAL__Pointlist_2_rec<R> **curpt;
+    _Pointlist_2_rec<R> **curpt;
     curpt = &list.first;
     while (*curpt != 0) {
         cur = *curpt;
-        if (cur->side == CGAL_ON_NEGATIVE_SIDE) {
+        if (cur->side == ON_NEGATIVE_SIDE) {
             add--;
             *curpt = cur->next;
             delete cur;
@@ -269,7 +281,7 @@ void CGAL__cut_off(CGAL__Pointlist_2<R> &list,
     if (list.size == 2 && add == 1) {
         add = 0;
         cur = list.first;
-        if (cur->side == CGAL_ON_ORIENTED_BOUNDARY) {
+        if (cur->side == ON_ORIENTED_BOUNDARY) {
             list.first = cur->next;
             delete cur;
         } else {
@@ -283,8 +295,8 @@ void CGAL__cut_off(CGAL__Pointlist_2<R> &list,
 }
 
 template <class R>
-CGAL_Triangle_2_Triangle_2_pair<R>::
-CGAL_Triangle_2_Triangle_2_pair()
+Triangle_2_Triangle_2_pair<R>::
+Triangle_2_Triangle_2_pair()
 {
     _trian1 = 0;
     _trian2 = 0;
@@ -292,9 +304,9 @@ CGAL_Triangle_2_Triangle_2_pair()
 }
 
 template <class R>
-CGAL_Triangle_2_Triangle_2_pair<R>::
-CGAL_Triangle_2_Triangle_2_pair(CGAL_Triangle_2<R> const *trian1,
-         CGAL_Triangle_2<R> const *trian2)
+Triangle_2_Triangle_2_pair<R>::
+Triangle_2_Triangle_2_pair(Triangle_2<R> const *trian1,
+         Triangle_2<R> const *trian2)
 {
     _trian1 = trian1;
     _trian2 = trian2;
@@ -303,39 +315,39 @@ CGAL_Triangle_2_Triangle_2_pair(CGAL_Triangle_2<R> const *trian1,
 
 #ifndef CGAL_CFG_RETURN_TYPE_BUG_2
 template <class R>
-CGAL_Triangle_2_Triangle_2_pair<R>::Intersection_results
-CGAL_Triangle_2_Triangle_2_pair<R>::intersection_type() const
+Triangle_2_Triangle_2_pair<R>::Intersection_results
+Triangle_2_Triangle_2_pair<R>::intersection_type() const
 {
     if (_known)
         return _result;
 // The non const this pointer is used to cast away const.
-    CGAL_Triangle_2_Triangle_2_pair<R> *ncthis =
-                (CGAL_Triangle_2_Triangle_2_pair<R> *) this;
+    Triangle_2_Triangle_2_pair<R> *ncthis =
+                (Triangle_2_Triangle_2_pair<R> *) this;
     ncthis->_known = true;
-    if (!CGAL_do_overlap(_trian1->bbox(), _trian2->bbox())) {
+    if (!do_overlap(_trian1->bbox(), _trian2->bbox())) {
         ncthis->_result = NO;
         return _result;
     }
-    CGAL__init_list(ncthis->_pointlist, *_trian1);
+    _init_list(ncthis->_pointlist, *_trian1);
     if (_trian2->is_degenerate()) {
-        // CGAL__not_implemented();
+        // _not_implemented();
         CGAL_kernel_assertion(false);
     } else {
-        CGAL_Line_2<R> l(_trian2->vertex(0), _trian2->vertex(1));
-        if (l.oriented_side(_trian2->vertex(2)) == CGAL_ON_POSITIVE_SIDE) {
+        Line_2<R> l(_trian2->vertex(0), _trian2->vertex(1));
+        if (l.oriented_side(_trian2->vertex(2)) == ON_POSITIVE_SIDE) {
             // counterclockwise triangle
-            CGAL__cut_off(ncthis->_pointlist, l);
-            l = CGAL_Line_2<R>(_trian2->vertex(1), _trian2->vertex(2));
-            CGAL__cut_off(ncthis->_pointlist, l);
-            l = CGAL_Line_2<R>(_trian2->vertex(2), _trian2->vertex(0));
-            CGAL__cut_off(ncthis->_pointlist, l);
+            _cut_off(ncthis->_pointlist, l);
+            l = Line_2<R>(_trian2->vertex(1), _trian2->vertex(2));
+            _cut_off(ncthis->_pointlist, l);
+            l = Line_2<R>(_trian2->vertex(2), _trian2->vertex(0));
+            _cut_off(ncthis->_pointlist, l);
         } else {
             l = l.opposite();
-            CGAL__cut_off(ncthis->_pointlist, l);
-            l = CGAL_Line_2<R>(_trian2->vertex(0), _trian2->vertex(2));
-            CGAL__cut_off(ncthis->_pointlist, l);
-            l = CGAL_Line_2<R>(_trian2->vertex(2), _trian2->vertex(1));
-            CGAL__cut_off(ncthis->_pointlist, l);
+            _cut_off(ncthis->_pointlist, l);
+            l = Line_2<R>(_trian2->vertex(0), _trian2->vertex(2));
+            _cut_off(ncthis->_pointlist, l);
+            l = Line_2<R>(_trian2->vertex(2), _trian2->vertex(1));
+            _cut_off(ncthis->_pointlist, l);
         }
     }
     switch (_pointlist.size) {
@@ -362,20 +374,20 @@ CGAL_Triangle_2_Triangle_2_pair<R>::intersection_type() const
 
 template <class R>
 bool
-CGAL_Triangle_2_Triangle_2_pair<R>::intersection(
-        /* CGAL_Polygon_2<R> &result */) const
+Triangle_2_Triangle_2_pair<R>::intersection(
+        /* Polygon_2<R> &result */) const
 {
     if (!_known)
         intersection_type();
     if (_result != TRIANGLE  &&  _result != POLYGON)
         return false;
-    CGAL__Pointlist_2_rec<R> *cur;
+    _Pointlist_2_rec<R> *cur;
     int i;
     for (i=0, cur = _pointlist.first;
          i<_pointlist.size;
          i++, cur = cur->next) {
-      cout << CGAL_to_double(cur->point.x()) << ' ';
-      cout << CGAL_to_double(cur->point.y()) << ' ';
+      cout << to_double(cur->point.x()) << ' ';
+      cout << to_double(cur->point.y()) << ' ';
     }
     cout << endl;
     return true;
@@ -383,19 +395,19 @@ CGAL_Triangle_2_Triangle_2_pair<R>::intersection(
 
 template <class R>
 int
-CGAL_Triangle_2_Triangle_2_pair<R>::vertex_count() const
+Triangle_2_Triangle_2_pair<R>::vertex_count() const
 {
     CGAL_kernel_assertion(_known);
     return _pointlist.size;
 }
 
 template <class R>
-CGAL_Point_2<R>
-CGAL_Triangle_2_Triangle_2_pair<R>::vertex(int n) const
+Point_2<R>
+Triangle_2_Triangle_2_pair<R>::vertex(int n) const
 {
     CGAL_kernel_assertion(_known);
     CGAL_kernel_assertion(n >= 0 && n < _pointlist.size);
-    CGAL__Pointlist_2_rec<R> *cur;
+    _Pointlist_2_rec<R> *cur;
     int k;
     for (k=0, cur = _pointlist.first;
          k < n;
@@ -406,14 +418,14 @@ CGAL_Triangle_2_Triangle_2_pair<R>::vertex(int n) const
 
 template <class R>
 bool
-CGAL_Triangle_2_Triangle_2_pair<R>::intersection(
-        CGAL_Triangle_2<R> &result) const
+Triangle_2_Triangle_2_pair<R>::intersection(
+        Triangle_2<R> &result) const
 {
     if (!_known)
         intersection_type();
     if (_result != TRIANGLE)
         return false;
-    result = CGAL_Triangle_2<R>(_pointlist.first->point,
+    result = Triangle_2<R>(_pointlist.first->point,
                     _pointlist.first->next->point,
                     _pointlist.first->next->next->point);
     return true;
@@ -421,22 +433,22 @@ CGAL_Triangle_2_Triangle_2_pair<R>::intersection(
 
 template <class R>
 bool
-CGAL_Triangle_2_Triangle_2_pair<R>::intersection(
-        CGAL_Segment_2<R> &seg) const
+Triangle_2_Triangle_2_pair<R>::intersection(
+        Segment_2<R> &seg) const
 {
     if (!_known)
         intersection_type();
     if (_result != SEGMENT)
         return false;
-    seg = CGAL_Segment_2<R>(_pointlist.first->point,
+    seg = Segment_2<R>(_pointlist.first->point,
                     _pointlist.first->next->point);
     return true;
 }
 
 template <class R>
 bool
-CGAL_Triangle_2_Triangle_2_pair<R>::intersection(
-        CGAL_Point_2<R> &pt) const
+Triangle_2_Triangle_2_pair<R>::intersection(
+        Point_2<R> &pt) const
 {
     if (!_known)
         intersection_type();
@@ -446,41 +458,47 @@ CGAL_Triangle_2_Triangle_2_pair<R>::intersection(
     return true;
 }
 
+CGAL_END_NAMESPACE
 
+
+
+CGAL_BEGIN_NAMESPACE
 
 template <class R>
-CGAL_Object
-CGAL_intersection(const CGAL_Triangle_2<R> &tr1, const CGAL_Triangle_2<R>&tr2)
+Object
+intersection(const Triangle_2<R> &tr1, const Triangle_2<R>&tr2)
 {
-    typedef CGAL_Triangle_2_Triangle_2_pair<R> is_t;
+    typedef Triangle_2_Triangle_2_pair<R> is_t;
     is_t ispair(&tr1, &tr2);
     switch (ispair.intersection_type()) {
     case is_t::NO:
     default:
-        return CGAL_Object();
+        return Object();
     case is_t::POINT: {
-        CGAL_Point_2<R> pt;
+        Point_2<R> pt;
         ispair.intersection(pt);
-        return CGAL_Object(new CGAL_Wrapper< CGAL_Point_2<R> >(pt));
+        return Object(new Wrapper< Point_2<R> >(pt));
     }
     case is_t::SEGMENT: {
-        CGAL_Segment_2<R> iseg;
+        Segment_2<R> iseg;
         ispair.intersection(iseg);
-        return CGAL_Object(new CGAL_Wrapper< CGAL_Segment_2<R> >(iseg));
+        return Object(new Wrapper< Segment_2<R> >(iseg));
     }
     case is_t::TRIANGLE: {
-        CGAL_Triangle_2<R> itr;
+        Triangle_2<R> itr;
         ispair.intersection(itr);
-        return CGAL_Object(new CGAL_Wrapper< CGAL_Triangle_2<R> >(itr));
+        return Object(new Wrapper< Triangle_2<R> >(itr));
     }
     case is_t::POLYGON: {
-        typedef CGAL_STD::vector<CGAL_Point_2<R> > Container;
+        typedef CGAL_STD::vector<Point_2<R> > Container;
         Container points(ispair.vertex_count());
         for (int i =0; i < ispair.vertex_count(); i++) {
             points[i] = ispair.vertex(i);
         }
-        return CGAL_Object(new CGAL_Wrapper< Container >(points));
+        return Object(new Wrapper< Container >(points));
     }
     }
 }
+
+CGAL_END_NAMESPACE
 

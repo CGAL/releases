@@ -1,6 +1,6 @@
 // ======================================================================
 //
-// Copyright (c) 1997 The CGAL Consortium
+// Copyright (c) 1999 The GALIA Consortium
 //
 // This software and related documentation is part of the
 // Computational Geometry Algorithms Library (CGAL).
@@ -16,35 +16,34 @@
 // - Development licenses grant access to the source code of the library 
 //   to develop programs. These programs may be sold to other parties as 
 //   executable code. To obtain a development license, please contact
-//   the CGAL Consortium (at cgal@cs.uu.nl).
+//   the GALIA Consortium (at cgal@cs.uu.nl).
 // - Commercialization licenses grant access to the source code and the
 //   right to sell development licenses. To obtain a commercialization 
-//   license, please contact the CGAL Consortium (at cgal@cs.uu.nl).
+//   license, please contact the GALIA Consortium (at cgal@cs.uu.nl).
 //
 // This software and documentation is provided "as-is" and without
 // warranty of any kind. In no event shall the CGAL Consortium be
 // liable for any damage of any kind.
 //
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// The GALIA Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany) Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+// (Germany), Max-Planck-Institute Saarbrucken (Germany),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-1.2
-// release_date  : 1999, January 18
+// release       : CGAL-2.0
+// release_date  : 1999, June 03
 //
 // file          : include/CGAL/Regular_triangulation_euclidean_traits_2.h
-// package       : Triangulation (2.10)
+// package       : Triangulation (3.17)
 // source        : $RCSfile: Regular_triangulation_euclidean_traits_2.h,v $
-// revision      : $Revision: 1.2.1.5 $
-// revision_date : $Date: 1998/11/06 18:16:37 $
+// revision      : $Revision: 1.2.1.8 $
+// revision_date : $Date: 1999/05/11 11:30:16 $
 // author(s)     : Mariette Yvinec
 //
 // coordinator   : Mariette Yvinec
-//
 //
 // email         : cgal@cs.uu.nl
 //
@@ -60,44 +59,45 @@
 #include <CGAL/Cartesian.h>
 #include <CGAL/Homogeneous.h>
 
+CGAL_BEGIN_NAMESPACE 
 
 template < class R , class W >
-class CGAL_Regular_triangulation_euclidean_traits_2
-  : public CGAL_Triangulation_euclidean_traits_2<R>
+class Regular_triangulation_euclidean_traits_2
+  : public Triangulation_euclidean_traits_2<R>
 {
 public:
   typedef R Rep;
   typedef W Weight;
-  typedef CGAL_Triangulation_euclidean_traits_2 <R>  Traits;
+  typedef Triangulation_euclidean_traits_2 <R>  Traits;
   typedef Traits::Point  Bare_point;
   typedef Traits::Segment Segment;
   typedef Traits::Triangle  Triangle;
   typedef Traits::Line Line;
   typedef Traits::Direction  Direction;
   typedef Traits::Ray  Ray;
-  typedef CGAL_Weighted_point_2<Bare_point, W> Weighted_point;
+  typedef Weighted_point_2<Bare_point, W> Weighted_point;
   typedef Weighted_point Point;
 
  
-  CGAL_Oriented_side power_test(const Weighted_point &p,
+  Oriented_side power_test(const Weighted_point &p,
 				const Weighted_point &q,
 				const Weighted_point &r,
 				const Weighted_point &s) const
   {
-    if (compare(p,s)) return CGAL_ON_ORIENTED_BOUNDARY;
-    if (compare(q,s)) return CGAL_ON_ORIENTED_BOUNDARY;
-    if (compare(r,s)) return CGAL_ON_ORIENTED_BOUNDARY;
+    if (compare(p,s)) return ON_ORIENTED_BOUNDARY;
+    if (compare(q,s)) return ON_ORIENTED_BOUNDARY;
+    if (compare(r,s)) return ON_ORIENTED_BOUNDARY;
 
-    return CGAL_power_test(p, q, r, s);
+    return CGAL::power_test(p, q, r, s);
   }
 	
-  CGAL_Oriented_side power_test(const Weighted_point &p,
+  Oriented_side power_test(const Weighted_point &p,
 				const Weighted_point &q,
 				const Weighted_point &s) const
   {
-    if (compare(p,s)) return CGAL_ON_ORIENTED_BOUNDARY;
-    if (compare(q,s)) return CGAL_ON_ORIENTED_BOUNDARY;
-    return CGAL_power_test(p, q, s);
+    if (compare(p,s)) return ON_ORIENTED_BOUNDARY;
+    if (compare(q,s)) return ON_ORIENTED_BOUNDARY;
+    return CGAL::power_test(p, q, s);
   }
 
 };
@@ -105,14 +105,14 @@ public:
 // power test for 2 dimensions triangulation
 
 template <class FT,class Weight >
-CGAL_Oriented_side
-CGAL_power_test(const CGAL_Weighted_point_2<CGAL_Point_2<CGAL_Cartesian<FT> >, 
+Oriented_side
+power_test(const Weighted_point_2<Point_2<Cartesian<FT> >, 
                 Weight> &p,
-                const CGAL_Weighted_point_2<CGAL_Point_2<CGAL_Cartesian<FT> >, 
+                const Weighted_point_2<Point_2<Cartesian<FT> >, 
                 Weight> &q,
-                const CGAL_Weighted_point_2<CGAL_Point_2<CGAL_Cartesian<FT> >, 
+                const Weighted_point_2<Point_2<Cartesian<FT> >, 
                 Weight> &r,
-                const CGAL_Weighted_point_2<CGAL_Point_2<CGAL_Cartesian<FT> >, 
+                const Weighted_point_2<Point_2<Cartesian<FT> >, 
                 Weight> &test)
 {
 	FT FT0(0);
@@ -130,28 +130,28 @@ CGAL_power_test(const CGAL_Weighted_point_2<CGAL_Point_2<CGAL_Cartesian<FT> >,
 	const FT &ty = test.y();
 	const FT &tw = test.weight();
 
-	CGAL_kernel_precondition( ! CGAL_collinear(p,q,r) );
+	CGAL_kernel_precondition( ! collinear(p,q,r) );
 
-	FT det = CGAL_det4x4_by_formula(px, py, px*px + py*py -pw, FT1,
+	FT det = det4x4_by_formula(px, py, px*px + py*py -pw, FT1,
 	                                qx, qy, qx*qx + qy*qy -qw, FT1,
 	                                rx, ry, rx*rx + ry*ry -rw, FT1,
 	                                tx, ty, tx*tx + ty*ty -tw, FT1);
 
-	return (det<FT0) ? CGAL_ON_NEGATIVE_SIDE  : 
-	  ((det==FT0) ? CGAL_ON_ORIENTED_BOUNDARY : CGAL_ON_POSITIVE_SIDE);
+	return (det<FT0) ? ON_NEGATIVE_SIDE  : 
+	  ((det==FT0) ? ON_ORIENTED_BOUNDARY : ON_POSITIVE_SIDE);
 }
 
 
 template < class RT,class Weight >
-CGAL_Oriented_side
-CGAL_power_test( 
-const CGAL_Weighted_point_2<
-CGAL_Point_2<
-CGAL_Homogeneous<RT> >, 
+Oriented_side
+power_test( 
+const Weighted_point_2<
+Point_2<
+Homogeneous<RT> >, 
 Weight>& q,
-const CGAL_Weighted_point_2<CGAL_Point_2<CGAL_Homogeneous<RT> >, Weight>& r,
-const CGAL_Weighted_point_2<CGAL_Point_2<CGAL_Homogeneous<RT> >, Weight>& s,
-const CGAL_Weighted_point_2<CGAL_Point_2<CGAL_Homogeneous<RT> >, Weight>& t)
+const Weighted_point_2<Point_2<Homogeneous<RT> >, Weight>& r,
+const Weighted_point_2<Point_2<Homogeneous<RT> >, Weight>& s,
+const Weighted_point_2<Point_2<Homogeneous<RT> >, Weight>& t)
 {
 	const RT& qhx = q.hx();
 	const RT& qhy = q.hy();
@@ -171,7 +171,7 @@ const CGAL_Weighted_point_2<CGAL_Point_2<CGAL_Homogeneous<RT> >, Weight>& t)
 	const RT& thwt = t.weight();
 	const RT  RT0 = RT(0);
 
-	CGAL_kernel_precondition( ! CGAL_collinear(q,r,s) );
+	CGAL_kernel_precondition( ! collinear(q,r,s) );
 
 	// compute sign of      |qx  qy  qx^2+qy^2-qwt^2  1 |   | a b c d |
 	//                      |        --   r   --        | = | e f g h |
@@ -199,15 +199,15 @@ const CGAL_Weighted_point_2<CGAL_Point_2<CGAL_Homogeneous<RT> >, Weight>& t)
 	RT o = thx*thx + thy*thy - thwt*thw*thw;
 	RT p = thw*thw;
 
-	RT det = CGAL_det4x4_by_formula(a,b,c,d,
-	                                e,f,g,h,
-	                                i,j,k,l,
-	                                m,n,o,p);
+	RT det = det4x4_by_formula(a,b,c,d,
+				   e,f,g,h,
+				   i,j,k,l,
+				   m,n,o,p);
 
 
-	return (det<RT0) ? CGAL_ON_NEGATIVE_SIDE
+	return (det<RT0) ? ON_NEGATIVE_SIDE
 	                 : ((det==RT0) ? 
-                            CGAL_ON_ORIENTED_BOUNDARY : CGAL_ON_POSITIVE_SIDE);
+                            ON_ORIENTED_BOUNDARY : ON_POSITIVE_SIDE);
 }
 
 
@@ -215,12 +215,12 @@ const CGAL_Weighted_point_2<CGAL_Point_2<CGAL_Homogeneous<RT> >, Weight>& t)
 // power test for 1 dimension triangulation
 
 template <class FT,class Weight >
-CGAL_Oriented_side
-CGAL_power_test(const CGAL_Weighted_point_2<CGAL_Point_2<CGAL_Cartesian<FT> >, 
+Oriented_side
+power_test(const Weighted_point_2<Point_2<Cartesian<FT> >, 
                 Weight> &p,
-                const CGAL_Weighted_point_2<CGAL_Point_2<CGAL_Cartesian<FT> >, 
+                const Weighted_point_2<Point_2<Cartesian<FT> >, 
                 Weight> &q,
-                const CGAL_Weighted_point_2<CGAL_Point_2<CGAL_Cartesian<FT> >, 
+                const Weighted_point_2<Point_2<Cartesian<FT> >, 
                 Weight> &test)
 {
 	FT FT0(0);
@@ -236,39 +236,39 @@ CGAL_power_test(const CGAL_Weighted_point_2<CGAL_Point_2<CGAL_Cartesian<FT> >,
 	const FT &ty = test.y();
 	const FT &tw = test.weight();
 
-	CGAL_kernel_precondition( CGAL_collinear(p.point(),q.point(),test.point()) );
+	CGAL_kernel_precondition( collinear(p.point(),q.point(),test.point()) );
 	CGAL_kernel_precondition( p.point() != q.point() );
 	if (px!=qx)
 	{	
-		det = CGAL_det3x3_by_formula(px, px*px + py*py -pw, FT1,
-		                             qx, qx*qx + qy*qy -qw, FT1,
-		                             tx, tx*tx + ty*ty -tw, FT1);
+		det = det3x3_by_formula(px, px*px + py*py -pw, FT1,
+					qx, qx*qx + qy*qy -qw, FT1,
+					tx, tx*tx + ty*ty -tw, FT1);
 		if (px<qx)
 			det=-det;
 	}
 	else
 	{
-		det = CGAL_det3x3_by_formula(py, px*px + py*py -pw, FT1,
-		                             qy, qx*qx + qy*qy -qw, FT1,
-		                             ty, tx*tx + ty*ty -tw, FT1);
+		det = det3x3_by_formula(py, px*px + py*py -pw, FT1,
+					qy, qx*qx + qy*qy -qw, FT1,
+					ty, tx*tx + ty*ty -tw, FT1);
 		if (py<qy)
 			det=-det;
 	}
-	return (det<FT0) ? CGAL_ON_NEGATIVE_SIDE
-	                 : ((det==FT0) ? CGAL_ON_ORIENTED_BOUNDARY 
-				: CGAL_ON_POSITIVE_SIDE);
+	return (det<FT0) ? ON_NEGATIVE_SIDE
+	                 : ((det==FT0) ? ON_ORIENTED_BOUNDARY 
+				: ON_POSITIVE_SIDE);
 };
 
 
 
 template < class RT,class Weight >
-CGAL_Oriented_side
-CGAL_power_test(
-	const CGAL_Weighted_point_2<CGAL_Point_2<CGAL_Homogeneous<RT> >,
+Oriented_side
+power_test(
+	const Weighted_point_2<Point_2<Homogeneous<RT> >,
         Weight>& q,
-        const CGAL_Weighted_point_2<CGAL_Point_2<CGAL_Homogeneous<RT> >,
+        const Weighted_point_2<Point_2<Homogeneous<RT> >,
         Weight>& r,
-        const CGAL_Weighted_point_2<CGAL_Point_2<CGAL_Homogeneous<RT> >,
+        const Weighted_point_2<Point_2<Homogeneous<RT> >,
  	Weight>& t)
 {
 	const RT& qhx = q.hx();
@@ -289,9 +289,9 @@ CGAL_power_test(
 	const RT& thwt = t.weight();
 	const RT  RT0 = RT(0);
 
-	CGAL_kernel_precondition( CGAL_collinear(q,r,t) );
+	CGAL_kernel_precondition( collinear(q,r,t) );
 	CGAL_kernel_precondition( q.point() != r.point() );
-	if (qhx != rhx )
+	if (qhx * rhw != rhx * qhw )
 	{	RT a = qhx*qhw;
 		RT e = rhx*rhw;
 		RT i = thx*thw;
@@ -311,16 +311,18 @@ CGAL_power_test(
 	RT k = thx*thx + thy*thy - thwt*thw*thw;
 	RT l = thw*thw;
 
-	RT det = CGAL_det4x4_by_formula(a,c,d,
-	                                e,g,h,
-	                                i,k,l);
+	RT det = det3x3_by_formula(a,c,d,
+				   e,g,h,
+				   i,k,l);
 
 	if (a<e)
 		det=-det;
 
-	return (det<RT0) ? CGAL_ON_NEGATIVE_SIDE
-	                 : ((det==RT0) ? CGAL_ON_ORIENTED_BOUNDARY 
-				: CGAL_ON_POSITIVE_SIDE);
+	return (det<RT0) ? ON_NEGATIVE_SIDE
+	                 : ((det==RT0) ? ON_ORIENTED_BOUNDARY 
+				: ON_POSITIVE_SIDE);
 }
+
+CGAL_END_NAMESPACE
 
 #endif // CGAL_REGULAR_TRIANGULATION_EUCLIDEAN_TRAIS_2_H

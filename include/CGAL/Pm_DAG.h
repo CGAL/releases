@@ -1,6 +1,6 @@
 // ======================================================================
 //
-// Copyright (c) 1997 The CGAL Consortium
+// Copyright (c) 1999 The GALIA Consortium
 //
 // This software and related documentation is part of the
 // Computational Geometry Algorithms Library (CGAL).
@@ -16,28 +16,28 @@
 // - Development licenses grant access to the source code of the library 
 //   to develop programs. These programs may be sold to other parties as 
 //   executable code. To obtain a development license, please contact
-//   the CGAL Consortium (at cgal@cs.uu.nl).
+//   the GALIA Consortium (at cgal@cs.uu.nl).
 // - Commercialization licenses grant access to the source code and the
 //   right to sell development licenses. To obtain a commercialization 
-//   license, please contact the CGAL Consortium (at cgal@cs.uu.nl).
+//   license, please contact the GALIA Consortium (at cgal@cs.uu.nl).
 //
 // This software and documentation is provided "as-is" and without
 // warranty of any kind. In no event shall the CGAL Consortium be
 // liable for any damage of any kind.
 //
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// The GALIA Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany) Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+// (Germany), Max-Planck-Institute Saarbrucken (Germany),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-1.2
-// release_date  : 1999, January 18
+// release       : CGAL-2.0
+// release_date  : 1999, June 03
 //
 // file          : include/CGAL/Pm_DAG.h
-// package       : pm (2.052)
+// package       : pm (3.07)
 // source        : 
 // revision      : 
 // revision_date : 
@@ -48,7 +48,6 @@
 // coordinator   : Tel-Aviv University (Dan Halperin)
 //
 // Chapter       : 
-//
 // email         : cgal@cs.uu.nl
 //
 // ======================================================================
@@ -62,10 +61,10 @@ Directed acyclic binary graph template class
 #include <CGAL/Pm_config.h>
 #endif
 
-#include <stdlib.h>
-#include <iostream.h>
-#include <list.h>
-#include <function.h>
+#include <cstdlib>
+#include <iostream>
+#include <list>
+#include <functional>
 #ifndef CGAL_NUMBER_UTILS_H
 #include <CGAL/number_utils.h>
 #endif
@@ -76,11 +75,13 @@ Directed acyclic binary graph template class
 #include <CGAL/Handle.h>
 #endif
 
+CGAL_BEGIN_NAMESPACE
+
 template<class T,class Pred>
-class CGAL_DAG;
+class DAG;
 
 template<class T>
-class CGAL_DAG_handle : public CGAL_Handle
+class DAG_handle : public Handle
 {
 public: //iddo (for CC-7.2) maybe protected?
 	typedef T* pointer;
@@ -89,25 +90,25 @@ public: //iddo (for CC-7.2) maybe protected?
 protected:
 	void init() {PTR=0;}
 public:
-	CGAL_DAG_handle() {init();}
-	CGAL_DAG_handle(const CGAL_DAG_handle<T>& x) : CGAL_Handle(x) {}
-	CGAL_DAG_handle& operator=(const CGAL_DAG_handle<T>& x) {CGAL_Handle::operator=(x);return *this;}
+	DAG_handle() {init();}
+	DAG_handle(const DAG_handle<T>& x) : Handle(x) {}
+	DAG_handle& operator=(const DAG_handle<T>& x) {Handle::operator=(x);return *this;}
 	bool operator!() const {return PTR==0;}
 };
 
 template<class T,class Pred>
-class CGAL_DAG : public CGAL_DAG_handle<T>
+class DAG : public DAG_handle<T>
 {
 public:
-	typedef CGAL_DAG<T,Pred> DAG;
-	typedef CGAL_DAG_handle<T> DAG_handle;
+	typedef DAG<T,Pred> Self;
+	typedef DAG_handle<T> DAG_handle;
 	typedef Pred Predicate;
-	typedef list<pointer> list_pointer;
+	typedef std::list<pointer> list_pointer;
 protected:	
-	static const DAG dummy_DAG;
-	class node : public CGAL_Rep
+	static const Self dummy_DAG;
+	class node : public Rep
 	{
-		friend class CGAL_DAG<T,Pred>;
+		friend class DAG<T,Pred>;
 	public:
 		node(const T& e) : data(e),leftPtr(),rightPtr(){}
 		node(const T& e, const DAG_handle& left, const DAG_handle& right)
@@ -124,30 +125,30 @@ protected:
 	public:
 		
 		/* -------constructors destructors -----*/
-		CGAL_DAG(){}
-		CGAL_DAG(const DAG_handle& dag):DAG_handle(dag){}
-		CGAL_DAG(const DAG& dag):DAG_handle(dag){}
-		CGAL_DAG(const T& rootValue){PTR = new node(rootValue);}
-		CGAL_DAG(const T& rootValue, const DAG& left, const DAG& right)
+		DAG(){}
+		DAG(const DAG_handle& dag):DAG_handle(dag){}
+		DAG(const Self& dag):DAG_handle(dag){}
+		DAG(const T& rootValue){PTR = new node(rootValue);}
+		DAG(const T& rootValue, const Self& left, const Self& right)
 		{PTR= new node(rootValue, left, right);}
-		~CGAL_DAG(){}
+		~DAG(){}
 		/* --------information retrieval -------*/
-		const DAG& left() const
+		const Self& left() const
 		{
 			CGAL_precondition(!operator!());
                         //const DAG_handle& x=ptr()->leftPtr;
-/*			if (!!x) return *(const DAG*)&x;
+/*			if (!!x) return *(const Self*)&x;
 			return dummy_DAG;*/
-			return *(const DAG*)&ptr()->leftPtr;
+			return *(const Self*)&ptr()->leftPtr;
 
 		}
-		const DAG& right() const
+		const Self& right() const
 		{
 			CGAL_precondition(!operator!());
 /*			const DAG_handle& x=ptr()->rightPtr;	
-			if (!!x) return *(const DAG*)&x;
+			if (!!x) return *(const Self*)&x;
 			return dummy_DAG;*/
-			return *(const DAG*)&ptr()->rightPtr;
+			return *(const Self*)&ptr()->rightPtr;
 		}
 		reference operator*() const
 		{
@@ -170,11 +171,11 @@ protected:
 			visit_none();
 			return recursive_depth();
 		}
-		bool operator==(const DAG& b) const
+		bool operator==(const Self& b) const
 		{
 			return PTR==b.PTR;
 		}
-		bool operator!=(const DAG& b) const
+		bool operator!=(const Self& b) const
 		{
 			return !operator==(b);
 		}
@@ -182,13 +183,13 @@ protected:
 		
 		/* description:
 		Shallow copy	*/
-		DAG& operator=(const DAG& b)
+		Self& operator=(const Self& b)
 		{
-			CGAL_Handle::operator=(b);
+			Handle::operator=(b);
 			return *this;
 		}
 /*
-		DAG& deep_copy(const DAG& b)
+		Self& deep_copy(const Self& b)
 		{
 			if (this != &b)
 			{
@@ -205,7 +206,7 @@ protected:
 			{
 				left().clear();
 				right().clear();
-				operator=(DAG());
+				operator=(Self());
 			}
 		}
 */
@@ -216,7 +217,7 @@ protected:
 			{
 				// create dummy DAG
 				T tmp;
-				DAG dummy(tmp);
+				Self dummy(tmp);
 				// detach left son,redirect to dummy
 				set_left(dummy);
 				// set left son pointer to 0
@@ -231,7 +232,7 @@ protected:
 			{
 				// create dummy DAG
 				T tmp;
-				DAG dummy(tmp);
+				Self dummy(tmp);
 				// detach right son,redirect to dummy
 				set_right(dummy);
 				// set right son pointer to 0
@@ -249,19 +250,19 @@ protected:
 		void set_data(const T& data)
 		{
 			if (!operator!()) ptr()->data=data;
-			else operator=(DAG(data));
+			else operator=(Self(data));
 		}
-		void set_left(const DAG& left)
+		void set_left(const Self& left)
 		{
 			CGAL_precondition(!operator!());
 			ptr()->leftPtr=left;
 		}
-		void set_right(const DAG& right)
+		void set_right(const Self& right)
 		{
 			CGAL_precondition(!operator!());
 			ptr()->rightPtr=right;
 		}
-		void replace(const T& data,const DAG& left,const DAG& right)
+		void replace(const T& data,const Self& left,const Self& right)
 		{
 			set_data(data);
 			set_left(left);
@@ -287,7 +288,7 @@ protected:
 		{
 			if (!operator!())
 			{
-				cout << operator*() << '\t';
+				std::cout << operator*() << '\t';
 				left().preorder();
 				right().preorder();
 			}
@@ -297,7 +298,7 @@ protected:
 			if (!operator!())
 			{
 				left().inorder();
-				cout << operator*() << '\t';
+				std::cout << operator*() << '\t';
 				right().inorder();
 			}
 		}
@@ -307,13 +308,13 @@ protected:
 			{
 				left().postorder();
 				right().postorder();
-				cout << operator*() << '\t';
+				std::cout << operator*() << '\t';
 			}
 		}
 #endif
 
 #if _MSC_VER>=1100
-		friend CGAL_STD_IO_ ostream& operator<<(CGAL_STD_IO_ ostream&  cout, const DAG& t);
+		friend std::ostream& operator<<(std::ostream&  out, const Self& t);
 #endif
 
 		list_pointer& filter(const Predicate& p,list_pointer& l) const
@@ -332,7 +333,7 @@ protected:
 		unsigned long recursive_depth() const
 		{
 			if (!operator!() && !ptr()->visited())
-				return 1+ CGAL_max(left().recursive_depth(),right().recursive_depth());
+				return 1+ std::max(left().recursive_depth(),right().recursive_depth());
 			else
 				return 0;
 		}
@@ -352,37 +353,42 @@ private:
 	node* ptr() const {return (node*)PTR;}
 };
 
-template<class T,class Pred> CGAL_STD_IO_ ostream& operator<<(CGAL_STD_IO_ ostream&  cout, const CGAL_DAG<T,Pred>& t)
+template<class T,class Pred> std::ostream& operator<<(std::ostream&  out, const DAG<T,Pred>& t)
 {
-	typedef CGAL_DAG<T,Pred> DAG; 
+  //	typedef DAG<T,Pred> Self; 
 	static int depth;
 	int i;
 	if (!!t)
 	{
-		cout << "\n";
-		for(i=0;i<depth;i++)cout << ">";
-		cout << "Data=" << *t;
+		out << "\n";
+		for(i=0;i<depth;i++)out << ">";
+		out << "Data=" << *t;
 		{
 			depth++;
-			cout << "\n";
-			for(i=0;i<depth;i++)cout << ">";
-			cout << "left=" << t.left();
-			cout << "\n";
-			for(i=0;i<depth;i++)cout << ">";
-			cout << "right=" <<t.right();
+			out << "\n";
+			for(i=0;i<depth;i++)out << ">";
+			out << "left=" << t.left();
+			out << "\n";
+			for(i=0;i<depth;i++)out << ">";
+			out << "right=" <<t.right();
 			depth--;
 		}
 	}
 	else
 	{
-		cout << "Empty";
+		out << "Empty";
 	}
-	return cout ;
+	return out ;
 }
+
+CGAL_END_NAMESPACE
 
 #ifdef CGAL_CFG_NO_AUTOMATIC_TEMPLATE_INCLUSION
 //#include <CGAL/Pm_DAG.C>
 #endif
+
+
+
 
 #endif
 /* 
@@ -393,3 +399,13 @@ template<class T,class Pred> CGAL_STD_IO_ ostream& operator<<(CGAL_STD_IO_ ostre
 		operator*() returns data type
 		output is done as a binary tree.
 */
+
+
+
+
+
+
+
+
+
+

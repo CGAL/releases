@@ -1,6 +1,6 @@
 // ======================================================================
 //
-// Copyright (c) 1998 The CGAL Consortium
+// Copyright (c) 1999 The GALIA Consortium
 //
 // This software and related documentation is part of the
 // Computational Geometry Algorithms Library (CGAL).
@@ -16,33 +16,33 @@
 // - Development licenses grant access to the source code of the library 
 //   to develop programs. These programs may be sold to other parties as 
 //   executable code. To obtain a development license, please contact
-//   the CGAL Consortium (at cgal@cs.uu.nl).
+//   the GALIA Consortium (at cgal@cs.uu.nl).
 // - Commercialization licenses grant access to the source code and the
 //   right to sell development licenses. To obtain a commercialization 
-//   license, please contact the CGAL Consortium (at cgal@cs.uu.nl).
+//   license, please contact the GALIA Consortium (at cgal@cs.uu.nl).
 //
 // This software and documentation is provided "as-is" and without
 // warranty of any kind. In no event shall the CGAL Consortium be
 // liable for any damage of any kind.
 //
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// The GALIA Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany) Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+// (Germany), Max-Planck-Institute Saarbrucken (Germany),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-1.2
-// release_date  : 1999, January 18
+// release       : CGAL-2.0
+// release_date  : 1999, June 03
 //
 // file          : include/CGAL/Triangulation_utils_2.h
-// package       : Triangulation (2.10)
-// revision      : $Revision: 1.1.2.2 $
+// package       : Triangulation (3.17)
+// revision      : $Revision: 1.1.2.5 $
 // author(s)     : Mariette Yvinec
+//                 Sylvain Pion
 //
 // coordinator   : Mariette Yvinec
-//
 //
 // email         : cgal@cs.uu.nl
 //
@@ -50,26 +50,24 @@
 #ifndef CGAL_TRIANGULATION_UTILS_2_H
 #define CGAL_TRIANGULATION_UTILS_2_H
 
-class CGAL_Triangulation_cw_ccw_2
+CGAL_BEGIN_NAMESPACE 
+
+class Triangulation_cw_ccw_2
 {
 public:
-static const unsigned int tab_ccw[];
-static const unsigned int tab_cw[];
-
-  inline unsigned int ccw(const unsigned int i) const
+  int ccw(const int i) const
     {
-      CGAL_precondition( i < 3 );
-      return tab_ccw[i];
+      CGAL_triangulation_precondition( ((unsigned int) i) < 3 );
+      return (i==2) ? 0 : i+1;
     }
 
-  inline unsigned int cw(const unsigned int i) const
+  int cw(const int i) const
     {
-      CGAL_precondition( i < 3 );
-      return tab_cw[i];
+      CGAL_triangulation_precondition( ((unsigned int) i) < 3 );
+      return (i==0) ? 2 : i-1;
     }
 };
 
-const unsigned int CGAL_Triangulation_cw_ccw_2::tab_ccw[] = {1,2,0};
-const unsigned int CGAL_Triangulation_cw_ccw_2::tab_cw[] = {2,0,1};
+CGAL_END_NAMESPACE
 
 #endif //CGAL_TRIANGULATION_UTILS_2_H

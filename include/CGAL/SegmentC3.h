@@ -1,6 +1,6 @@
 // ======================================================================
 //
-// Copyright (c) 1997 The CGAL Consortium
+// Copyright (c) 1999 The GALIA Consortium
 //
 // This software and related documentation is part of the
 // Computational Geometry Algorithms Library (CGAL).
@@ -16,35 +16,34 @@
 // - Development licenses grant access to the source code of the library 
 //   to develop programs. These programs may be sold to other parties as 
 //   executable code. To obtain a development license, please contact
-//   the CGAL Consortium (at cgal@cs.uu.nl).
+//   the GALIA Consortium (at cgal@cs.uu.nl).
 // - Commercialization licenses grant access to the source code and the
 //   right to sell development licenses. To obtain a commercialization 
-//   license, please contact the CGAL Consortium (at cgal@cs.uu.nl).
+//   license, please contact the GALIA Consortium (at cgal@cs.uu.nl).
 //
 // This software and documentation is provided "as-is" and without
 // warranty of any kind. In no event shall the CGAL Consortium be
 // liable for any damage of any kind.
 //
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// The GALIA Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany) Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+// (Germany), Max-Planck-Institute Saarbrucken (Germany),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-1.2
-// release_date  : 1999, January 18
+// release       : CGAL-2.0
+// release_date  : 1999, June 03
 //
 // file          : include/CGAL/SegmentC3.h
-// package       : C3 (1.6)
+// package       : C3 (2.1.5)
 // source        : web/SegmentC3.fw
-// revision      : $Revision: 1.8 $
-// revision_date : $Date: 1997/12/18 18:23:45 $
+// revision      : $Revision: 1.11 $
+// revision_date : $Date: 1999/05/24 06:41:38 $
 // author(s)     : Andreas.Fabri
 //
 // coordinator   : INRIA Sophia-Antipolis
-//
 //
 // email         : cgal@cs.uu.nl
 //
@@ -54,227 +53,256 @@
 #ifndef CGAL_SEGMENTC3_H
 #define CGAL_SEGMENTC3_H
 
+#ifndef CGAL_LINEC3_H
 #include <CGAL/LineC3.h>
+#endif // CGAL_LINEC3_H
+
+#ifndef CGAL_TWOTUPLE_H
+#include <CGAL/Twotuple.h>
+#endif // CGAL_TWOTUPLE_H
+#ifndef CGAL_PREDICATES_ON_POINTSC3_H
+#include <CGAL/predicates_on_pointsC3.h>
+#endif // CGAL_PREDICATES_ON_POINTSC3_H
+#ifndef CGAL_BASIC_CONSTRUCTIONSC3_H
+#include <CGAL/basic_constructionsC3.h>
+#endif // CGAL_BASIC_CONSTRUCTIONSC3_H
+
+CGAL_BEGIN_NAMESPACE
 
 template < class FT >
-class CGAL_SegmentC3 : public CGAL_Handle
+class SegmentC3 : public Handle
 {
 public:
-                       CGAL_SegmentC3();
-                       CGAL_SegmentC3(const CGAL_SegmentC3<FT>  &s);
-                       CGAL_SegmentC3(const CGAL_PointC3<FT> &sp,
-                                      const CGAL_PointC3<FT> &ep);
+                  SegmentC3();
+                  SegmentC3(const SegmentC3<FT>  &s);
+                  SegmentC3(const PointC3<FT> &sp, const PointC3<FT> &ep);
+                  ~SegmentC3();
 
-                       ~CGAL_SegmentC3();
+  SegmentC3<FT>   &operator=(const SegmentC3<FT> &s);
 
-  CGAL_SegmentC3<FT>   &operator=(const CGAL_SegmentC3<FT> &s);
+  bool            has_on(const PointC3<FT> &p) const;
+  bool            collinear_has_on(const PointC3<FT> &p) const;
 
-  bool                 has_on(const CGAL_PointC3<FT> &p) const;
-  bool                 collinear_has_on(const CGAL_PointC3<FT> &p) const;
+  bool            operator==(const SegmentC3<FT> &s) const;
+  bool            operator!=(const SegmentC3<FT> &s) const;
+  long            id() const;
 
-  bool                 operator==(const CGAL_SegmentC3<FT> &s) const;
-  bool                 operator!=(const CGAL_SegmentC3<FT> &s) const;
-  int                  id() const;
+  PointC3<FT>     start() const;
+  PointC3<FT>     end() const;
 
-  CGAL_PointC3<FT>     start() const;
-  CGAL_PointC3<FT>     end() const;
+  PointC3<FT>     source() const;
+  PointC3<FT>     target() const;
 
-  CGAL_PointC3<FT>     source() const;
-  CGAL_PointC3<FT>     target() const;
+  PointC3<FT>     min() const;
+  PointC3<FT>     max() const;
+  PointC3<FT>     vertex(int i) const;
+  PointC3<FT>     point(int i) const;
+  PointC3<FT>     operator[](int i) const;
 
-  CGAL_PointC3<FT>     min() const;
-  CGAL_PointC3<FT>     max() const;
-  CGAL_PointC3<FT>     vertex(int i) const;
-  CGAL_PointC3<FT>     point(int i) const;
-  CGAL_PointC3<FT>     operator[](int i) const;
+  FT              squared_length() const;
 
-  FT                   squared_length() const;
+  DirectionC3<FT> direction() const;
+  LineC3<FT>      supporting_line() const;
+  SegmentC3       opposite() const;
+  SegmentC3       transform(const Aff_transformationC3<FT> &t) const;
 
-  CGAL_DirectionC3<FT> direction() const;
-  CGAL_LineC3<FT>      supporting_line() const;
-  CGAL_SegmentC3       opposite() const;
-  CGAL_SegmentC3       transform(const CGAL_Aff_transformationC3<FT> &t) const;
-
-  bool                 is_degenerate() const;
-  CGAL_Bbox_3          bbox() const;
+  bool            is_degenerate() const;
+  Bbox_3          bbox() const;
 
 private:
-  CGAL__Twotuple< CGAL_PointC3<FT> >*   ptr() const;
+  _Twotuple< PointC3<FT> >*   ptr() const;
 };
 
+template < class FT >
+inline _Twotuple< PointC3<FT> > *SegmentC3<FT>::ptr() const
+{
+  return (_Twotuple< PointC3<FT> >*)PTR;
+}
 
 template < class FT >
-inline CGAL__Twotuple< CGAL_PointC3<FT> > *CGAL_SegmentC3<FT>::ptr() const
+SegmentC3<FT>::SegmentC3()
 {
-  return (CGAL__Twotuple< CGAL_PointC3<FT> >*)PTR;
+  PTR = new _Twotuple< PointC3<FT> >;
 }
 
 
 template < class FT >
-CGAL_SegmentC3<FT>::CGAL_SegmentC3()
-{
-  PTR = new CGAL__Twotuple< CGAL_PointC3<FT> >;
-}
-
-
-template < class FT >
-CGAL_SegmentC3<FT>::CGAL_SegmentC3(const CGAL_SegmentC3<FT>  &s) :
-  CGAL_Handle((CGAL_Handle&)s)
+SegmentC3<FT>::SegmentC3(const SegmentC3<FT>  &s) :
+  Handle((Handle&)s)
 {}
 
 template < class FT >
-CGAL_SegmentC3<FT>::CGAL_SegmentC3(const CGAL_PointC3<FT> &sp,
-                                   const CGAL_PointC3<FT> &ep)
+SegmentC3<FT>::SegmentC3(const PointC3<FT> &sp, const PointC3<FT> &ep)
 {
-  PTR = new CGAL__Twotuple< CGAL_PointC3<FT> >(sp, ep);
+  PTR = new _Twotuple< PointC3<FT> >(sp, ep);
 }
 
 
 template < class FT >
-inline CGAL_SegmentC3<FT>::~CGAL_SegmentC3()
+inline SegmentC3<FT>::~SegmentC3()
 {}
 
 
 template < class FT >
-CGAL_SegmentC3<FT> &CGAL_SegmentC3<FT>::operator=(const CGAL_SegmentC3<FT> &s)
+SegmentC3<FT> &SegmentC3<FT>::operator=(const SegmentC3<FT> &s)
 {
-  CGAL_Handle::operator=(s);
+  Handle::operator=(s);
   return *this;
 }
 template < class FT >
-inline bool  CGAL_SegmentC3<FT>::operator==(const CGAL_SegmentC3<FT> &s) const
+inline
+bool
+SegmentC3<FT>::operator==(const SegmentC3<FT> &s) const
 {
-  return ( (source() == s.source())  && (target() == s.target()) );
+  return (source() == s.source())  && (target() == s.target());
 }
 
 
 template < class FT >
-inline bool  CGAL_SegmentC3<FT>::operator!=(const CGAL_SegmentC3<FT> &s) const
+inline
+bool
+SegmentC3<FT>::operator!=(const SegmentC3<FT> &s) const
 {
   return !(*this == s);
 }
 
 
 template < class FT >
-int  CGAL_SegmentC3<FT>::id() const
+long  SegmentC3<FT>::id() const
 {
-  return (int) PTR ;
+  return (long) PTR;
 }
 template < class FT >
-CGAL_PointC3<FT>  CGAL_SegmentC3<FT>::start() const
-{
-  return ptr()->e0;
-}
-
-
-template < class FT >
-CGAL_PointC3<FT>  CGAL_SegmentC3<FT>::end() const
-{
-  return ptr()->e1;
-}
-
-
-template < class FT >
-CGAL_PointC3<FT>  CGAL_SegmentC3<FT>::source() const
+PointC3<FT>  SegmentC3<FT>::start() const
 {
   return ptr()->e0;
 }
 
 
 template < class FT >
-CGAL_PointC3<FT>  CGAL_SegmentC3<FT>::target() const
+PointC3<FT>  SegmentC3<FT>::end() const
 {
   return ptr()->e1;
 }
 
 
 template < class FT >
-CGAL_PointC3<FT>  CGAL_SegmentC3<FT>::min() const
+PointC3<FT>  SegmentC3<FT>::source() const
 {
-  return (CGAL_lexicographically_xyz_smaller(source(),target())) ? source()
-                                                                 : target();
+  return ptr()->e0;
 }
 
 
 template < class FT >
-CGAL_PointC3<FT>  CGAL_SegmentC3<FT>::max() const
+PointC3<FT>  SegmentC3<FT>::target() const
 {
-  return (CGAL_lexicographically_xyz_smaller(source(),target())) ? target()
-                                                                 : source();
+  return ptr()->e1;
 }
 
 
 template < class FT >
-inline CGAL_PointC3<FT>  CGAL_SegmentC3<FT>::vertex(int i) const
+inline
+PointC3<FT>
+SegmentC3<FT>::min() const
 {
-  if (i%2 == 0) {
-    return source();
-  }
-  return target();
+  return (lexicographically_xyz_smaller(source(),target())) ? source()
+                                                            : target();
 }
 
 
 template < class FT >
-inline CGAL_PointC3<FT>  CGAL_SegmentC3<FT>::point(int i) const
+inline
+PointC3<FT>
+SegmentC3<FT>::max() const
 {
-  if (i%2 == 0) {
-    return source();
-  }
-  return target();
+  return (lexicographically_xyz_smaller(source(),target())) ? target()
+                                                            : source();
 }
 
 
 template < class FT >
-inline CGAL_PointC3<FT> CGAL_SegmentC3<FT>::operator[](int i) const
+inline
+PointC3<FT>
+SegmentC3<FT>::vertex(int i) const
+{
+  return (i%2 == 0) ? source() : target();
+}
+
+
+template < class FT >
+inline
+PointC3<FT>
+SegmentC3<FT>::point(int i) const
+{
+  return (i%2 == 0) ? source() : target();
+}
+
+
+template < class FT >
+inline
+PointC3<FT>
+SegmentC3<FT>::operator[](int i) const
 {
   return vertex(i);
 }
 template < class FT >
-inline FT CGAL_SegmentC3<FT>::squared_length() const
+inline
+FT
+SegmentC3<FT>::squared_length() const
 {
-  return  ( (target() - source()) * (target() - source()));
+  return squared_distance(target(), source());
 }
 
 
 template < class FT >
-inline CGAL_DirectionC3<FT> CGAL_SegmentC3<FT>::direction() const
+inline
+DirectionC3<FT>
+SegmentC3<FT>::direction() const
 {
-  return CGAL_DirectionC3<FT>( target() - source() );
+  return DirectionC3<FT>( target() - source() );
 }
 
 
 template < class FT >
-inline CGAL_LineC3<FT> CGAL_SegmentC3<FT>::supporting_line() const
+inline
+LineC3<FT>
+SegmentC3<FT>::supporting_line() const
 {
-  return CGAL_LineC3<FT>(*this);
+  return LineC3<FT>(*this);
 }
 
 
 template < class FT >
-inline CGAL_SegmentC3<FT> CGAL_SegmentC3<FT>::opposite() const
+inline
+SegmentC3<FT>
+SegmentC3<FT>::opposite() const
 {
-  return CGAL_SegmentC3<FT>(target(), source());
+  return SegmentC3<FT>(target(), source());
 }
 
 
 template < class FT >
-inline CGAL_SegmentC3<FT> CGAL_SegmentC3<FT>::transform(
-                                const CGAL_Aff_transformationC3<FT> &t) const
+inline
+SegmentC3<FT>
+SegmentC3<FT>::transform(const Aff_transformationC3<FT> &t) const
 {
-  return CGAL_SegmentC3<FT>(t.transform(source()),
-                            t.transform(target()));
+  return SegmentC3<FT>(t.transform(source()), t.transform(target()));
 }
 
 
 template < class FT >
-bool  CGAL_SegmentC3<FT>::is_degenerate() const
+inline
+bool
+SegmentC3<FT>::is_degenerate() const
 {
-  return (source() == target());
+  return source() == target();
 }
 
 
 template < class FT >
-CGAL_Bbox_3 CGAL_SegmentC3<FT>::bbox() const
+inline
+Bbox_3
+SegmentC3<FT>::bbox() const
 {
   return source().bbox() + target().bbox();
 }
@@ -282,12 +310,12 @@ CGAL_Bbox_3 CGAL_SegmentC3<FT>::bbox() const
 
 #ifndef CGAL_NO_OSTREAM_INSERT_SEGMENTC3
 template < class FT >
-ostream &operator<<(ostream &os, const CGAL_SegmentC3<FT> &s)
+ostream &operator<<(ostream &os, const SegmentC3<FT> &s)
 {
-    switch(os.iword(CGAL_IO::mode)) {
-    case CGAL_IO::ASCII :
+    switch(os.iword(IO::mode)) {
+    case IO::ASCII :
         return os << s.source() << ' ' << s.target();
-    case CGAL_IO::BINARY :
+    case IO::BINARY :
         return os << s.source() << s.target();
     default:
         return os << "SegmentC3(" << s.source() <<  ", " << s.target() << ")";
@@ -297,41 +325,31 @@ ostream &operator<<(ostream &os, const CGAL_SegmentC3<FT> &s)
 
 #ifndef CGAL_NO_ISTREAM_EXTRACT_SEGMENTC3
 template < class FT >
-istream &operator>>(istream &is, CGAL_SegmentC3<FT> &s)
+istream &operator>>(istream &is, SegmentC3<FT> &s)
 {
-    CGAL_PointC3<FT> p, q;
+    PointC3<FT> p, q;
 
     is >> p >> q;
 
-    s = CGAL_SegmentC3<FT>(p, q);
+    s = SegmentC3<FT>(p, q);
     return is;
 }
 #endif // CGAL_NO_ISTREAM_EXTRACT_SEGMENTC3
 template < class FT >
-bool CGAL_SegmentC3<FT>::has_on(const CGAL_PointC3<FT> &p) const
+bool SegmentC3<FT>::has_on(const PointC3<FT> &p) const
 {
-  return(( p == source() )
-         || ( p == target() )
-         || ( CGAL_collinear(source(), p, target())
-              &&( CGAL_DirectionC3<FT>(p - source())
-                  !=
-                  CGAL_DirectionC3<FT> (p - target()))
-             )
-         );
+  return are_ordered_along_line(source(), p, target());
 }
 
 template < class FT >
-inline bool CGAL_SegmentC3<FT>::collinear_has_on(
-                                             const CGAL_PointC3<FT> &p) const
+inline
+bool
+SegmentC3<FT>::collinear_has_on(const PointC3<FT> &p) const
 {
-  CGAL_kernel_exactness_precondition(
-        CGAL_collinear(source(), p, target()) );
-  return(( p == source() )
-         || ( p == target() )
-         || ( CGAL_DirectionC3<FT>(p - source())
-              !=
-              CGAL_DirectionC3<FT> (p - target())) );
+  return collinear_are_ordered_along_line(source(), p, target());
 }
 
+
+CGAL_END_NAMESPACE
 
 #endif

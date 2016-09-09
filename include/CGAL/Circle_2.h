@@ -1,6 +1,6 @@
 // ======================================================================
 //
-// Copyright (c) 1998 The CGAL Consortium
+// Copyright (c) 1999 The GALIA Consortium
 //
 // This software and related documentation is part of the
 // Computational Geometry Algorithms Library (CGAL).
@@ -16,36 +16,35 @@
 // - Development licenses grant access to the source code of the library 
 //   to develop programs. These programs may be sold to other parties as 
 //   executable code. To obtain a development license, please contact
-//   the CGAL Consortium (at cgal@cs.uu.nl).
+//   the GALIA Consortium (at cgal@cs.uu.nl).
 // - Commercialization licenses grant access to the source code and the
 //   right to sell development licenses. To obtain a commercialization 
-//   license, please contact the CGAL Consortium (at cgal@cs.uu.nl).
+//   license, please contact the GALIA Consortium (at cgal@cs.uu.nl).
 //
 // This software and documentation is provided "as-is" and without
 // warranty of any kind. In no event shall the CGAL Consortium be
 // liable for any damage of any kind.
 //
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// The GALIA Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany) Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+// (Germany), Max-Planck-Institute Saarbrucken (Germany),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 // 
-// release       : CGAL-1.2
-// release_date  : 1999, January 18
+// release       : CGAL-2.0
+// release_date  : 1999, June 03
 // 
 // source        : Circle_2.fw
 // file          : include/CGAL/Circle_2.h
-// package       : _2 (1.3)
-// revision      : 1.3
-// revision_date : 15 Dec 1998 
+// package       : _2 (2.1.2)
+// revision      : 2.1.2
+// revision_date : 09 May 1999 
 // author(s)     : Andreas Fabri
 //                 Sven Schoenherr
 //
 // coordinator   : MPI, Saarbruecken  (<Stefan.Schirra>)
-//
 // email         : cgal@cs.uu.nl
 //
 // ======================================================================
@@ -74,77 +73,79 @@
 #include <CGAL/Point_2.h>
 #endif // CGAL_POINT_2_H
 
+CGAL_BEGIN_NAMESPACE
+
 template <class _R>
-  class CGAL_Circle_2 : public _R::Circle_2
+  class Circle_2 : public _R::Circle_2
 {
 public:
   typedef  _R   R;
   typedef typename R::RT                    RT;
   typedef typename R::FT                    FT;
-  typedef typename R::Circle_2              Circle_2;
+  typedef typename R::Circle_2              RCircle_2;
 
-    CGAL_Circle_2()
-      : Circle_2()
+    Circle_2()
+      : RCircle_2()
     {}
 
-    CGAL_Circle_2(const CGAL_Circle_2<R> &t)
-      : Circle_2((Circle_2&)t)
+    Circle_2(const Circle_2<R> &t)
+      : RCircle_2((RCircle_2&)t)
     {}
 
-    CGAL_Circle_2(const Circle_2 &t)
-      : Circle_2(t)
+    Circle_2(const RCircle_2& t)
+      : RCircle_2(t)
     {}
 
-    CGAL_Circle_2(const CGAL_Point_2<R> &center,
+    Circle_2(const Point_2<R> &center,
                   const FT &squared_radius,
-                  const CGAL_Orientation &orientation)
-      : Circle_2(center, squared_radius, orientation)
+                  const Orientation &orientation)
+      : RCircle_2(center, squared_radius, orientation)
     {}
 
-    CGAL_Circle_2(const CGAL_Point_2<R> &center,
+    Circle_2(const Point_2<R> &center,
                   const FT &squared_radius)
-      : Circle_2(center, squared_radius, CGAL_COUNTERCLOCKWISE)
+      : RCircle_2(center, squared_radius, COUNTERCLOCKWISE)
     {}
 
-    CGAL_Circle_2(const CGAL_Point_2<R> &p,
-                  const CGAL_Point_2<R> &q,
-                  const CGAL_Point_2<R> &r)
-      : Circle_2(p,q,r)
+    Circle_2(const Point_2<R> &p,
+                  const Point_2<R> &q,
+                  const Point_2<R> &r)
+      : RCircle_2(p,q,r)
     {}
 
-    CGAL_Circle_2(const CGAL_Point_2<R> & p,
-                  const CGAL_Point_2<R> & q,
-                  const CGAL_Orientation &orientation)
-      : Circle_2(p,q,orientation)
+    Circle_2(const Point_2<R> & p,
+                  const Point_2<R> & q,
+                  const Orientation &orientation)
+      : RCircle_2(p,q,orientation)
     {}
 
-    CGAL_Circle_2(const CGAL_Point_2<R> & p,
-                  const CGAL_Point_2<R> & q)
-      : Circle_2(p,q,CGAL_COUNTERCLOCKWISE)
+    Circle_2(const Point_2<R> & p,
+                  const Point_2<R> & q)
+      : RCircle_2(p,q,COUNTERCLOCKWISE)
     {}
 
-    CGAL_Circle_2(const CGAL_Point_2<R> & center,
-                  const CGAL_Orientation& orientation)
-      : Circle_2(center,FT(0),orientation)
+    Circle_2(const Point_2<R> & center,
+                  const Orientation& orientation)
+      : RCircle_2(center,FT(0),orientation)
     {}
 
-    CGAL_Circle_2(const CGAL_Point_2<R> & center)
-      : Circle_2(center,FT(0),CGAL_COUNTERCLOCKWISE)
+    Circle_2(const Point_2<R> & center)
+      : RCircle_2(center,FT(0),COUNTERCLOCKWISE)
     {}
 
 
-  CGAL_Circle_2<R>  &operator=(const CGAL_Circle_2<R> &t)
+  Circle_2<R>  &operator=(const Circle_2<R> &t)
     {
-      Circle_2::operator=(t);
+      RCircle_2::operator=(t);
       return *this;
     }
 
-  bool                operator==(const CGAL_Circle_2<R> &t) const
+  bool                operator==(const Circle_2<R> &t) const
     {
-      return Circle_2::operator==(t);
+      return RCircle_2::operator==(t);
     }
 
-  bool                operator!=(const CGAL_Circle_2<R> &t) const
+  bool                operator!=(const Circle_2<R> &t) const
     {
       return !(*this == t);
     }
@@ -154,109 +155,111 @@ public:
       return (int)PTR;
     }
 
-  CGAL_Point_2<R>     center() const
+  Point_2<R>     center() const
     {
-      return Circle_2::center();
+      return RCircle_2::center();
     }
 
   FT     squared_radius() const
     {
-      return Circle_2::squared_radius();
+      return RCircle_2::squared_radius();
     }
 
-  CGAL_Orientation orientation() const
+  Orientation orientation() const
     {
-      return Circle_2::orientation();
+      return RCircle_2::orientation();
     }
 
 
-  CGAL_Circle_2<R>
-            orthogonal_transform(const CGAL_Aff_transformation_2<R> &t) const
+  Circle_2<R>
+            orthogonal_transform(const Aff_transformation_2<R> &t) const
   {
-    return  Circle_2::orthogonal_transform(t);
+    return  RCircle_2::orthogonal_transform(t);
   }
 
 /*
-  CGAL_Circle_2<R>  transform(const CGAL_Aff_transformation_2<R> &t) const
+  Circle_2<R>  transform(const Aff_transformation_2<R> &t) const
   {
     return  Circle_2::transform(t);
   }
 */
 
-  CGAL_Oriented_side           oriented_side(const CGAL_Point_2<R> &p) const
+  Oriented_side           oriented_side(const Point_2<R> &p) const
     {
-      return Circle_2::oriented_side(p);
+      return RCircle_2::oriented_side(p);
     }
 
-  CGAL_Bounded_side           bounded_side(const CGAL_Point_2<R> &p) const
+  Bounded_side           bounded_side(const Point_2<R> &p) const
     {
-      return Circle_2::bounded_side(p);
+      return RCircle_2::bounded_side(p);
     }
 
-  bool                has_on_boundary(const CGAL_Point_2<R> &p) const
+  bool                has_on_boundary(const Point_2<R> &p) const
     {
-      return Circle_2::has_on_boundary(p);
+      return RCircle_2::has_on_boundary(p);
     }
 
-  bool                has_on_positive_side(const CGAL_Point_2<R> &p) const
+  bool                has_on_positive_side(const Point_2<R> &p) const
     {
-      return Circle_2::has_on_positive_side(p);
+      return RCircle_2::has_on_positive_side(p);
     }
 
-  bool                has_on_negative_side(const CGAL_Point_2<R> &p) const
+  bool                has_on_negative_side(const Point_2<R> &p) const
     {
-      return Circle_2::has_on_negative_side(p);
+      return RCircle_2::has_on_negative_side(p);
     }
 
-  bool                has_on_bounded_side(const CGAL_Point_2<R> &p) const
+  bool                has_on_bounded_side(const Point_2<R> &p) const
     {
-      return Circle_2::has_on_bounded_side(p);
+      return RCircle_2::has_on_bounded_side(p);
     }
 
-  bool                has_on_unbounded_side(const CGAL_Point_2<R> &p) const
+  bool                has_on_unbounded_side(const Point_2<R> &p) const
     {
-      return Circle_2::has_on_unbounded_side(p);
+      return RCircle_2::has_on_unbounded_side(p);
     }
 
   bool                is_degenerate() const
     {
-      return Circle_2::is_degenerate();
+      return RCircle_2::is_degenerate();
     }
 
-  CGAL_Circle_2<R>     opposite() const
+  Circle_2<R>     opposite() const
     {
-      return CGAL_Circle_2<R>(center(),
-                              squared_radius(),
-                              CGAL_opposite(orientation()));
+      return Circle_2<R>(center(),
+                         squared_radius(),
+                         CGAL::opposite(orientation()));
     }
 
-  CGAL_Bbox_2           bbox() const
+  Bbox_2           bbox() const
     {
-      return Circle_2::bbox();
+      return RCircle_2::bbox();
     }
 };
 
 
-#ifndef CGAL_NO_OSTREAM_INSERT_CIRCLE_2
+#ifndef NO_OSTREAM_INSERT_CIRCLE_2
 template < class R >
-ostream &
-operator<<(ostream &os, const CGAL_Circle_2<R> &c)
+std::ostream &
+operator<<(std::ostream &os, const Circle_2<R> &c)
 {
-  typedef typename R::Circle_2   Circle_2;
-  return os << (const Circle_2&)c;
+  typedef typename R::Circle_2   RCircle_2;
+  return os << (const RCircle_2&)c;
 }
 
-#endif // CGAL_NO_OSTREAM_INSERT_CIRCLE_2
+#endif // NO_OSTREAM_INSERT_CIRCLE_2
 
-#ifndef CGAL_NO_ISTREAM_EXTRACT_CIRCLE_2
+#ifndef NO_ISTREAM_EXTRACT_CIRCLE_2
 template < class R >
-istream &
-operator>>(istream &is, CGAL_Circle_2<R> &c)
+std::istream &
+operator>>(std::istream &is, Circle_2<R> &c)
 {
-  typedef typename R::Circle_2   Circle_2;
-  return is >> (Circle_2&)c;
+  typedef typename R::Circle_2   RCircle_2;
+  return is >> (RCircle_2&)c;
 }
-#endif // CGAL_NO_ISTREAM_EXTRACT_CIRCLE_2
+#endif // NO_ISTREAM_EXTRACT_CIRCLE_2
+
+CGAL_END_NAMESPACE
 
 
 #endif  // CGAL_CIRCLE_2_H

@@ -1,6 +1,6 @@
 // ======================================================================
 //
-// Copyright (c) 1997 The CGAL Consortium
+// Copyright (c) 1999 The GALIA Consortium
 //
 // This software and related documentation is part of the
 // Computational Geometry Algorithms Library (CGAL).
@@ -16,38 +16,37 @@
 // - Development licenses grant access to the source code of the library 
 //   to develop programs. These programs may be sold to other parties as 
 //   executable code. To obtain a development license, please contact
-//   the CGAL Consortium (at cgal@cs.uu.nl).
+//   the GALIA Consortium (at cgal@cs.uu.nl).
 // - Commercialization licenses grant access to the source code and the
 //   right to sell development licenses. To obtain a commercialization 
-//   license, please contact the CGAL Consortium (at cgal@cs.uu.nl).
+//   license, please contact the GALIA Consortium (at cgal@cs.uu.nl).
 //
 // This software and documentation is provided "as-is" and without
 // warranty of any kind. In no event shall the CGAL Consortium be
 // liable for any damage of any kind.
 //
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// The GALIA Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany) Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+// (Germany), Max-Planck-Institute Saarbrucken (Germany),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-1.2
-// release_date  : 1999, January 18
+// release       : CGAL-2.0
+// release_date  : 1999, June 03
 //
 // file          : include/CGAL/Halfedge_data_structure_decorator.h
-// package       : Halfedge_DS (1.9)
+// package       : Halfedge_DS (2.4)
 // chapter       : $CGAL_Chapter: Halfedge Data Structures $
 // source        : hds_decorator.fw
-// revision      : $Revision: 1.6 $
-// revision_date : $Date: 1998/12/02 21:08:18 $
+// revision      : $Revision: 1.3 $
+// revision_date : $Date: 1999/04/07 19:28:42 $
 // author(s)     : Lutz Kettner
 //
 // coordinator   : MPI Saarbruecken (Stefan Schirra)
 //
 // Halfedge Data Structure Decorator.
-//
 // email         : cgal@cs.uu.nl
 //
 // ======================================================================
@@ -58,21 +57,21 @@
 #ifndef CGAL_BASIC_H
 #include <CGAL/basic.h>
 #endif
-
-#ifndef CGAL_PROTECT_VECTOR_H
-#include <vector.h>
-#define CGAL_PROTECT_VECTOR_H
-#endif // CGAL_PROTECT_VECTOR_H
-
+#ifndef CGAL_PROTECT_VECTOR
+#include <vector>
+#define CGAL_PROTECT_VECTOR
+#endif
 #ifndef CGAL_IO_VERBOSE_OSTREAM_H
 #include <CGAL/IO/Verbose_ostream.h>
 #endif // CGAL_IO_VERBOSE_OSTREAM_H
 
+CGAL_BEGIN_NAMESPACE
+
 template < class _HDS >
-class CGAL_Halfedge_data_structure_decorator {
+class Halfedge_data_structure_decorator {
 public:
 
-// The class CGAL_Halfedge_data_structure_decorator<HDS> provides
+// The class Halfedge_data_structure_decorator<HDS> provides
 // auxiliary functions to examine and modify a halfedge data structure
 // with respect to the different capabilities supported by the different
 // representations. The functions evaluate the support type tags of
@@ -92,7 +91,7 @@ public:
     // Point needed for Vertex constructor for efficiency reasons.
     typedef typename _HDS::Point     Point;
 
-// The following types are equal to either `CGAL_Tag_true' or `CGAL_Tag_false',
+// The following types are equal to either `Tag_true' or `Tag_false',
 // dependant whether the named feature is supported or not.
 
     typedef typename _HDS::Supports_vertex_point
@@ -114,7 +113,7 @@ public:
 // CREATION
 // ----------------------------------
 
-    // CGAL_Halfedge_data_structure_decorator() {}
+    // Halfedge_data_structure_decorator() {}
 
 // Access Functions
 // ----------------------------------
@@ -346,10 +345,10 @@ public:
     }
 
     void set_vertex_in_vertex_loop( Halfedge*  , Vertex* ,
-                                    CGAL_Tag_false) {}
+                                    Tag_false) {}
     void set_vertex_in_vertex_loop( Halfedge* h, Vertex* v,
-                                    CGAL_Tag_true) {
-        CGAL_assertion_code( size_t termination_count = 0;)
+                                    Tag_true) {
+        CGAL_assertion_code( std::size_t termination_count = 0;)
         Halfedge* end = h;
         do {
             CGAL_assertion( ++termination_count != 0);
@@ -365,9 +364,9 @@ public:
         set_vertex_in_vertex_loop( h, v, Supports_halfedge_vertex());
     }
 
-    void set_facet_in_facet_loop( Halfedge*  , Facet*, CGAL_Tag_false) {}
-    void set_facet_in_facet_loop( Halfedge* h, Facet* f, CGAL_Tag_true) {
-        CGAL_assertion_code( size_t termination_count = 0;)
+    void set_facet_in_facet_loop( Halfedge*  , Facet*, Tag_false) {}
+    void set_facet_in_facet_loop( Halfedge* h, Facet* f, Tag_true) {
+        CGAL_assertion_code( std::size_t termination_count = 0;)
         Halfedge* end = h;
         do {
             CGAL_assertion( ++termination_count != 0);
@@ -412,23 +411,25 @@ public:
         // unchanged. The time is proportional to the size of the facet
         // removed and the time to compute `h.prev()'. Precondition:
         // `HDS' supports removal of facets.
-        CGAL_Assert_compile_time_tag( CGAL_Tag_true(), Supports_removal());
+        Assert_compile_time_tag( Tag_true(), Supports_removal());
         Halfedge* hprev = find_prev( h);
         Halfedge* gprev = find_prev( h->opposite());
         remove_tip( hprev);
         remove_tip( gprev);
         hds.delete_edge( h);
-        delete_facet( hds, get_facet( gprev));
+        if ( get_facet( gprev) != 0)
+            delete_facet( hds, get_facet( gprev));
         h = hprev;
         // 'half' of the halfedges have their correct facets.
         // Here we do the remaining halfedges.
-        CGAL_assertion_code( size_t termination_count = 0;)
+        CGAL_assertion_code( std::size_t termination_count = 0;)
         while ( h != gprev) {
             CGAL_assertion( ++termination_count != 0);
             h = h->next();
             set_facet( h, get_facet( hprev));
         }
-        set_facet_halfedge(  hprev);
+        if ( get_facet( hprev) != 0)
+            set_facet_halfedge( hprev);
         set_vertex_halfedge( hprev);
         set_vertex_halfedge( gprev);
         return hprev;
@@ -457,7 +458,7 @@ public:
         // keeps `hds' unchanged. The time is proportional to the
         // degree of the vertex removed and the time to compute `h.prev()'
         // . Precondition: `HDS' supports removal of vertices.
-        CGAL_Assert_compile_time_tag( CGAL_Tag_true(), Supports_removal());
+        Assert_compile_time_tag( Tag_true(), Supports_removal());
         Halfedge* hprev = find_prev( h->opposite());
         Halfedge* gprev = find_prev( h);
         remove_halfedge( hprev);
@@ -467,7 +468,7 @@ public:
         // 'half' of the halfedges have their correct vertex.
         // Here we do the remaining halfedges.
         h = hprev;
-        CGAL_assertion_code( size_t termination_count = 0;)
+        CGAL_assertion_code( std::size_t termination_count = 0;)
         while ( h != gprev) {
             CGAL_assertion( ++termination_count != 0);
             h = h->next()->opposite();
@@ -481,10 +482,7 @@ public:
         return hprev;
     }
 
-    Halfedge* split_loop( HDS& hds,
-                          Halfedge* h,
-                          Halfedge* i,
-                          Halfedge* j) {
+    Halfedge* split_loop( HDS& hds, Halfedge* h, Halfedge* i, Halfedge* j){
         // cuts `hds' into two parts along the cycle (h,i,j).
         // Three copies of the vertices, three copies of the halfedges,
         // and two new triangles will be created. h,i,j will be incident
@@ -511,7 +509,7 @@ public:
         insert_tip( jnew->opposite(), inew);
         insert_tip( hnew->opposite(), jnew);
         // Make the new incidences with the old stucture.
-        CGAL_assertion_code( size_t termination_count = 0;)
+        CGAL_assertion_code( std::size_t termination_count = 0;)
         if ( h->next() != i) {
             Halfedge* g = h->next();
             h->set_next( i);
@@ -588,13 +586,16 @@ public:
         // keeps `hds' unchanged. Precondition: `HDS' supports
         // removal of vertices and facets. The facets denoted by h and g
         // are different and have have equal size.
-        CGAL_Assert_compile_time_tag( CGAL_Tag_true(), Supports_removal());
-        CGAL_precondition( get_facet(h) == 0 || get_facet(h) != get_facet(g));
-        delete_facet( hds, get_facet(h));
-        delete_facet( hds, get_facet(g));
+        Assert_compile_time_tag( Tag_true(), Supports_removal());
+        CGAL_precondition( get_facet(h) == 0
+                           || get_facet(h) != get_facet(g));
+        if ( get_facet(h) != 0)
+            delete_facet( hds, get_facet(h));
+        if ( get_facet(g) != 0)
+            delete_facet( hds, get_facet(g));
         Halfedge* hi = h;
         Halfedge* gi = g;
-        CGAL_assertion_code( size_t termination_count = 0;)
+        CGAL_assertion_code( std::size_t termination_count = 0;)
         do {
             CGAL_assertion( ++termination_count != 0);
             Halfedge* hii = hi;
@@ -632,18 +633,18 @@ public:
 
   protected:
     // supports facet or not.
-    void make_hole( HDS&, Halfedge*, CGAL_Tag_false) {}
-    void fill_hole( HDS&, Halfedge*, CGAL_Tag_false) {}
+    void make_hole( HDS&, Halfedge*, Tag_false) {}
+    void fill_hole( HDS&, Halfedge*, Tag_false) {}
 
-    void make_hole( HDS& hds, Halfedge* h, CGAL_Tag_true) {
-        CGAL_Assert_compile_time_tag( CGAL_Tag_true(), Supports_removal());
+    void make_hole( HDS& hds, Halfedge* h, Tag_true) {
+        Assert_compile_time_tag( Tag_true(), Supports_removal());
         CGAL_precondition( h != 0);
         CGAL_precondition( ! h->is_border());
         hds.delete_facet( h->facet());
         set_facet_in_facet_loop( h, 0);
     }
 
-    void fill_hole( HDS& hds, Halfedge* h, CGAL_Tag_true) {
+    void fill_hole( HDS& hds, Halfedge* h, Tag_true) {
         CGAL_precondition( h != 0);
         CGAL_precondition( h->is_border());
         Facet* f = new_facet(hds);
@@ -718,13 +719,13 @@ public:
 // ----------------------------------
   protected:
     // supports facet or not.
-    void erase_facet( HDS&,     Halfedge*,   CGAL_Tag_false) {}
-    void erase_facet( HDS& hds, Halfedge* h, CGAL_Tag_true)  {
-        CGAL_Assert_compile_time_tag( CGAL_Tag_true(), Supports_removal());
+    void erase_facet( HDS&,     Halfedge*,   Tag_false) {}
+    void erase_facet( HDS& hds, Halfedge* h, Tag_true)  {
+        Assert_compile_time_tag( Tag_true(), Supports_removal());
         CGAL_precondition( h != 0);
         CGAL_precondition( ! h->is_border());
         hds.delete_facet( h->facet());
-        CGAL_assertion_code( size_t termination_count = 0;)
+        CGAL_assertion_code( std::size_t termination_count = 0;)
         Halfedge* end = h;
         do {
             CGAL_assertion( ++termination_count != 0);
@@ -732,26 +733,26 @@ public:
             Halfedge* g = h->next();
             bool h_tag = h->opposite()->is_border();
             bool g_tag = g->opposite()->is_border();
-            if ( h_tag && g_tag) {
+            if ( h_tag && g_tag && g->opposite()->next() == h->opposite()){
                 delete_vertex( hds, get_vertex(h));
                 if ( h != end)
-                    hds.delete_edge( h);
+                    hds.delete_edge(h);
             } else {
+                if ( g_tag) {
+                    set_vertex_halfedge(g->opposite()->next()->opposite());
+                    remove_tip(h);
+                }
                 if ( h_tag) {
+                    set_vertex_halfedge(h->next()->opposite());
                     remove_tip( find_prev_around_vertex( h->opposite()));
                     if ( h != end)
                         hds.delete_edge(h);
-                    set_vertex_halfedge( g->opposite());
-                }
-                if ( g_tag) {
-                    remove_tip( h);
-                    set_vertex_halfedge( h);
                 }
             }
             h = g;
         } while ( h != end);
         if ( h->opposite()->is_border())
-            hds.delete_edge( h);
+            hds.delete_edge(h);
     }
 
   public:
@@ -761,15 +762,15 @@ public:
         // them from the polyhedral surface if they were already border
         // edges. See `make_hole(h)' for a more specialized variant.
         // Precondition: `h != NULL'. If facets are supported,
-        // `Supports_removal' must be equivalent to `CGAL_Tag_true'.
+        // `Supports_removal' must be equivalent to `Tag_true'.
         erase_facet( hds, h, Supports_halfedge_facet());
     }
 
   protected:                               // Supports_halfedge_vertices
       void erase_connected_component_vertex( HDS& hds, Halfedge* h,
-                                             CGAL_Tag_false) {}
+                                             Tag_false) {}
       void erase_connected_component_vertex( HDS& hds, Halfedge* h,
-                                             CGAL_Tag_true) {
+                                             Tag_true) {
           // Erases the the vertex incident to h and sets all references
           // from halfedges around this vertex to NULL,
           // if the incident vertex handle is not already equal to
@@ -787,8 +788,9 @@ public:
                                             Supports_halfedge_vertex());
       }
 
+      typedef std::vector<Halfedge*> HVector;
       void erase_connected_component_face_cycle( HDS& hds, Halfedge* h,
-                                             vector<Halfedge*>& stack) {
+                                                 HVector& stack) {
           // Delete incident facet and set all incidences to 0.
           if ( get_facet(h) != 0) {
               delete_facet( hds, get_facet(h));
@@ -811,8 +813,7 @@ public:
 
   public:
     void erase_connected_component( HDS& hds, Halfedge* h) {
-        CGAL_Assert_compile_time_tag( CGAL_Tag_true(), Supports_removal());
-        typedef vector<Halfedge*> HVector;
+        Assert_compile_time_tag( Tag_true(), Supports_removal());
         HVector stack;
         // Algorithm: The next() pointer is used as visited tag
         //     for a graph search. If the next pointer of an halfedge
@@ -903,48 +904,46 @@ public:
 // Access Functions
 // ----------------------------------
 
-    Halfedge* get_vertex_halfedge( Vertex*  ,CGAL_Tag_false) const {
+    Halfedge* get_vertex_halfedge( Vertex*  ,Tag_false) const {
         return NULL;
     }
-    Halfedge* get_vertex_halfedge( Vertex* v,CGAL_Tag_true) const {
+    Halfedge* get_vertex_halfedge( Vertex* v,Tag_true) const {
         return v->halfedge();
     }
 
-    Vertex* get_vertex( Halfedge*  , CGAL_Tag_false) const { return NULL;}
-    Vertex* get_vertex( Halfedge* h, CGAL_Tag_true)  const {
+    Vertex* get_vertex( Halfedge*  , Tag_false) const { return NULL;}
+    Vertex* get_vertex( Halfedge* h, Tag_true)  const {
         return h->vertex();
     }
 
-    Halfedge* get_prev(Halfedge*  , CGAL_Tag_false) const {return NULL;}
-    Halfedge* get_prev(Halfedge* h, CGAL_Tag_true)  const {return h->prev();}
+    Halfedge* get_prev(Halfedge*  , Tag_false) const {return NULL;}
+    Halfedge* get_prev(Halfedge* h, Tag_true)  const {return h->prev();}
 
-    Halfedge* find_prev(Halfedge* h, CGAL_Tag_true) const {
-        return h->prev();
-    }
-    Halfedge* find_prev(Halfedge* h, CGAL_Tag_false) const {
+    Halfedge* find_prev(Halfedge* h, Tag_true) const { return h->prev(); }
+    Halfedge* find_prev(Halfedge* h, Tag_false) const {
         Halfedge* g = h;
         while ( g->next() != h)
             g = g->next();
         return g;
     }
 
-    Halfedge* find_prev_around_vertex(Halfedge* h, CGAL_Tag_true) const {
+    Halfedge* find_prev_around_vertex(Halfedge* h, Tag_true) const {
         return h->prev();
     }
-    Halfedge* find_prev_around_vertex(Halfedge* h, CGAL_Tag_false) const {
+    Halfedge* find_prev_around_vertex(Halfedge* h, Tag_false) const {
         Halfedge* g = h->opposite();
         while ( g->next() != h)
             g = g->next()->opposite();
         return g;
     }
 
-    Facet* get_facet(Halfedge*  , CGAL_Tag_false) const { return NULL;}
-    Facet* get_facet(Halfedge* h, CGAL_Tag_true)  const { return h->facet();}
+    Facet* get_facet(Halfedge*  , Tag_false) const { return NULL;}
+    Facet* get_facet(Halfedge* h, Tag_true)  const { return h->facet();}
 
-    Halfedge* get_facet_halfedge( Facet*  , CGAL_Tag_false) const {
+    Halfedge* get_facet_halfedge( Facet*  , Tag_false) const {
         return NULL;
     }
-    Halfedge* get_facet_halfedge( Facet* f, CGAL_Tag_true) const {
+    Halfedge* get_facet_halfedge( Facet* f, Tag_true) const {
         return f->halfedge();
     }
 
@@ -952,44 +951,38 @@ public:
 // ----------------------------------
 
     const Halfedge*
-    get_vertex_halfedge( const Vertex*  ,CGAL_Tag_false) const {
-        return NULL;
-    }
+    get_vertex_halfedge( const Vertex*  ,Tag_false) const { return NULL; }
     const Halfedge*
-    get_vertex_halfedge( const Vertex* v,CGAL_Tag_true) const {
+    get_vertex_halfedge( const Vertex* v,Tag_true) const {
         return v->halfedge();
     }
 
     const Vertex*
-    get_vertex( const Halfedge*  , CGAL_Tag_false) const { return NULL;}
+    get_vertex( const Halfedge*  , Tag_false) const { return NULL; }
     const Vertex*
-    get_vertex( const Halfedge* h, CGAL_Tag_true)  const {
-        return h->vertex();
-    }
+    get_vertex( const Halfedge* h, Tag_true)  const { return h->vertex(); }
 
     const Halfedge*
-    get_prev( const Halfedge*  , CGAL_Tag_false) const {return NULL;}
+    get_prev( const Halfedge*  , Tag_false) const { return NULL; }
     const Halfedge*
-    get_prev( const Halfedge* h, CGAL_Tag_true)  const {return h->prev();}
+    get_prev( const Halfedge* h, Tag_true)  const { return h->prev(); }
 
     const Halfedge*
-    find_prev( const Halfedge* h, CGAL_Tag_true) const {
-        return h->prev();
-    }
+    find_prev( const Halfedge* h, Tag_true) const { return h->prev(); }
     const Halfedge*
-    find_prev( const Halfedge* h, CGAL_Tag_false) const {
+    find_prev( const Halfedge* h, Tag_false) const {
         const Halfedge* g = h;
         while ( g->next() != h)
             g = g->next();
         return g;
     }
 
-    const Halfedge* find_prev_around_vertex(const Halfedge* h,
-                                            CGAL_Tag_true) const {
+    const Halfedge* find_prev_around_vertex( const Halfedge* h,
+                                             Tag_true) const {
         return h->prev();
     }
-    const Halfedge* find_prev_around_vertex(const Halfedge* h,
-                                            CGAL_Tag_false) const {
+    const Halfedge* find_prev_around_vertex( const Halfedge* h,
+                                             Tag_false) const {
         const Halfedge* g = h->opposite();
         while ( g->next() != h)
             g = g->next()->opposite();
@@ -997,50 +990,50 @@ public:
     }
 
     const Facet*
-    get_facet( const Halfedge*  , CGAL_Tag_false) const { return NULL;}
+    get_facet( const Halfedge*  , Tag_false) const { return NULL;}
     const Facet*
-    get_facet( const Halfedge* h, CGAL_Tag_true)  const { return h->facet();}
+    get_facet( const Halfedge* h, Tag_true)  const { return h->facet();}
 
     const Halfedge*
-    get_facet_halfedge( const Facet*  , CGAL_Tag_false) const {
+    get_facet_halfedge( const Facet*  , Tag_false) const {
         return NULL;
     }
     const Halfedge*
-    get_facet_halfedge( const Facet* f, CGAL_Tag_true) const {
+    get_facet_halfedge( const Facet* f, Tag_true) const {
         return f->halfedge();
     }
 
 // Creation of New Elements
 // ----------------------------------
 
-    Vertex* new_vertex( HDS&    , CGAL_Tag_false) const { return NULL;}
-    Vertex* new_vertex( HDS& hds, CGAL_Tag_true) const  {
+    Vertex* new_vertex( HDS&    , Tag_false) const { return NULL;}
+    Vertex* new_vertex( HDS& hds, Tag_true) const  {
         return hds.new_vertex();
     }
 
-    Vertex* new_vertex( HDS&    , const Point&  , CGAL_Tag_false) const {
+    Vertex* new_vertex( HDS&    , const Point&  , Tag_false) const {
         return NULL;
     }
-    Vertex* new_vertex( HDS& hds, const Point& p, CGAL_Tag_true)  const {
+    Vertex* new_vertex( HDS& hds, const Point& p, Tag_true)  const {
         return hds.new_vertex(p);
     }
 
-    Vertex* new_vertex( HDS&    , const Vertex*  ,CGAL_Tag_false) const {
+    Vertex* new_vertex( HDS&    , const Vertex*  ,Tag_false) const {
         return NULL;
     }
-    Vertex* new_vertex( HDS& hds, const Vertex* v,CGAL_Tag_true)  const {
+    Vertex* new_vertex( HDS& hds, const Vertex* v,Tag_true)  const {
         return hds.new_vertex(v);
     }
 
-    Facet* new_facet( HDS&    , CGAL_Tag_false) const { return NULL;}
-    Facet* new_facet( HDS& hds, CGAL_Tag_true)  const {
+    Facet* new_facet( HDS&    , Tag_false) const { return NULL;}
+    Facet* new_facet( HDS& hds, Tag_true)  const {
         return hds.new_facet();
     }
 
-    Facet* new_facet( HDS&    , const Facet*  , CGAL_Tag_false) const {
+    Facet* new_facet( HDS&    , const Facet*  , Tag_false) const {
         return NULL;
     }
-    Facet* new_facet( HDS& hds, const Facet* f, CGAL_Tag_true)  const {
+    Facet* new_facet( HDS& hds, const Facet* f, Tag_true)  const {
         return hds.new_facet(f);
     }
 
@@ -1048,60 +1041,60 @@ public:
 // Removal of Elements
 // ----------------------------------
 
-    void delete_vertex(HDS&    , Vertex*  , CGAL_Tag_false) {}
-    void delete_vertex(HDS& hds, Vertex* v, CGAL_Tag_true) {
+    void delete_vertex(HDS&    , Vertex*  , Tag_false) {}
+    void delete_vertex(HDS& hds, Vertex* v, Tag_true) {
         hds.delete_vertex( v);
     }
 
-    void delete_facet(HDS&    , Facet*  , CGAL_Tag_false) {}
-    void delete_facet(HDS& hds, Facet* f, CGAL_Tag_true) {
+    void delete_facet(HDS&    , Facet*  , Tag_false) {}
+    void delete_facet(HDS& hds, Facet* f, Tag_true) {
         hds.delete_facet( f);
     }
 // Modifying Function Primitives
 // ----------------------------------
 
-    void set_point( Vertex*  , const Point&  , CGAL_Tag_false) const {}
-    void set_point( Vertex* v, const Point& p, CGAL_Tag_true)  const {
+    void set_point( Vertex*  , const Point&  , Tag_false) const {}
+    void set_point( Vertex* v, const Point& p, Tag_true)  const {
         v->point() = p;
     }
 
-    void set_point( Halfedge*  , const Point&  , CGAL_Tag_false) const {}
-    void set_point( Halfedge* h, const Point& p, CGAL_Tag_true)  const {
+    void set_point( Halfedge*  , const Point&  , Tag_false) const {}
+    void set_point( Halfedge* h, const Point& p, Tag_true)  const {
         set_point( h->vertex(), p);
     }
 
-    void set_vertex_halfedge( Vertex*  , Halfedge* , CGAL_Tag_false) const {}
-    void set_vertex_halfedge( Vertex* v, Halfedge* g, CGAL_Tag_true)  const {
+    void set_vertex_halfedge( Vertex*  , Halfedge* , Tag_false) const {}
+    void set_vertex_halfedge( Vertex* v, Halfedge* g, Tag_true)  const {
         v->set_halfedge(g);
     }
 
-    void set_vertex_halfedge( Halfedge*, Halfedge*, CGAL_Tag_false) const {}
-    void set_vertex_halfedge( Halfedge* h, Halfedge* g,CGAL_Tag_true) const {
+    void set_vertex_halfedge( Halfedge*, Halfedge*, Tag_false) const {}
+    void set_vertex_halfedge( Halfedge* h, Halfedge* g,Tag_true) const {
         set_vertex_halfedge( h->vertex(), g);
     }
 
-    void set_vertex( Halfedge*,   Vertex*  , CGAL_Tag_false) const {}
-    void set_vertex( Halfedge* h, Vertex* v, CGAL_Tag_true)  const {
+    void set_vertex( Halfedge*,   Vertex*  , Tag_false) const {}
+    void set_vertex( Halfedge* h, Vertex* v, Tag_true)  const {
         h->set_vertex(v);
     }
 
-    void set_prev( Halfedge*  , Halfedge*  , CGAL_Tag_false) const {}
-    void set_prev( Halfedge* h, Halfedge* g, CGAL_Tag_true)  const {
+    void set_prev( Halfedge*  , Halfedge*  , Tag_false) const {}
+    void set_prev( Halfedge* h, Halfedge* g, Tag_true)  const {
         h->set_prev( g);
     }
 
-    void set_facet( Halfedge*,   Facet*  , CGAL_Tag_false) const {}
-    void set_facet( Halfedge* h, Facet* f, CGAL_Tag_true)  const {
+    void set_facet( Halfedge*,   Facet*  , Tag_false) const {}
+    void set_facet( Halfedge* h, Facet* f, Tag_true)  const {
         h->set_facet(f);
     }
 
-    void set_facet_halfedge( Facet*  , Halfedge*  , CGAL_Tag_false) const {}
-    void set_facet_halfedge( Facet* f, Halfedge* g, CGAL_Tag_true)  const {
+    void set_facet_halfedge( Facet*  , Halfedge*  , Tag_false) const {}
+    void set_facet_halfedge( Facet* f, Halfedge* g, Tag_true)  const {
         f->set_halfedge(g);
     }
 
-    void set_facet_halfedge( Halfedge*  , Halfedge*, CGAL_Tag_false) const {}
-    void set_facet_halfedge( Halfedge* h, Halfedge* g, CGAL_Tag_true) const {
+    void set_facet_halfedge( Halfedge*  , Halfedge*, Tag_false) const {}
+    void set_facet_halfedge( Halfedge* h, Halfedge* g, Tag_true) const {
         set_facet_halfedge( h->facet(), g);
     }
 
@@ -1115,8 +1108,8 @@ public:
 
     void reorient_facet( Halfedge* first);
                   // Supports: halfedge pointer in facets.
-    void inside_out( _HDS& hds, CGAL_Tag_false);
-    void inside_out( _HDS& hds, CGAL_Tag_true);
+    void inside_out( _HDS& hds, Tag_false);
+    void inside_out( _HDS& hds, Tag_true);
 
     void inside_out(_HDS& hds ) {
         inside_out( hds, Supports_facet_halfedge());
@@ -1125,14 +1118,14 @@ public:
 
 template < class _HDS >
 bool
-CGAL_Halfedge_data_structure_decorator<_HDS>::
+Halfedge_data_structure_decorator<_HDS>::
 normalized_border_is_valid( const _HDS& hds, bool verb) const {
     // checks whether all non-border edges precedes the border edges.
     typedef typename _HDS::Halfedge_const_iterator Halfedge_const_iterator;
     typedef typename _HDS::Size                    Size;
     bool valid = true;
-    CGAL_Verbose_ostream verr(verb);
-    verr << "begin CGAL_Halfedge_data_structure_decorator<HDS>::"
+    Verbose_ostream verr(verb);
+    verr << "begin Halfedge_data_structure_decorator<HDS>::"
             "normalized_border_is_valid( verb=true):" << endl;
 
     Halfedge_const_iterator e = hds.halfedges_begin();
@@ -1169,7 +1162,7 @@ normalized_border_is_valid( const _HDS& hds, bool verb) const {
             valid = false;
         }
     }
-    verr << "end of CGAL_Halfedge_data_structure_decorator<HDS>::"
+    verr << "end of Halfedge_data_structure_decorator<HDS>::"
             "normalized_border_is_valid(): structure is "
          << ( valid ? "valid." : "NOT VALID.") << endl;
     return valid;
@@ -1177,7 +1170,7 @@ normalized_border_is_valid( const _HDS& hds, bool verb) const {
 
 template < class _HDS >
 bool
-CGAL_Halfedge_data_structure_decorator<_HDS>::
+Halfedge_data_structure_decorator<_HDS>::
 is_valid( const _HDS& hds, bool verb, int level) const {
     // checks the combinatorial consistency.
     typedef typename _HDS::Halfedge_const_iterator Halfedge_const_iterator;
@@ -1194,8 +1187,8 @@ is_valid( const _HDS& hds, bool verb, int level) const {
     typedef typename _HDS::Supports_facet_halfedge
         Supports_facet_halfedge;
 
-    CGAL_Verbose_ostream verr(verb);
-    verr << "begin CGAL_Halfedge_data_structure_decorator<HDS>::is_valid("
+    Verbose_ostream verr(verb);
+    verr << "begin Halfedge_data_structure_decorator<HDS>::is_valid("
             " verb=true, level = " << level << "):" << endl;
 
     bool valid = ( 1 != (hds.size_of_halfedges() & 1));
@@ -1226,7 +1219,7 @@ is_valid( const _HDS& hds, bool verb, int level) const {
             break;
         }
         // previous integrity.
-        valid = valid && ( ! CGAL_check_tag( Supports_halfedge_prev()) ||
+        valid = valid && ( ! check_tag( Supports_halfedge_prev()) ||
                            get_prev(begin->next()) == &*begin);
         if ( ! valid) {
             verr << "    previous pointer integrity corrupted." << endl;
@@ -1234,7 +1227,7 @@ is_valid( const _HDS& hds, bool verb, int level) const {
         }
         if ( level > 0) {
             // vertex integrity.
-            valid = valid && ( ! CGAL_check_tag( Supports_halfedge_vertex())
+            valid = valid && ( ! check_tag( Supports_halfedge_vertex())
                                || get_vertex( &*begin) != NULL);
             valid = valid && ( get_vertex( &*begin) ==
                                get_vertex( begin->next()->opposite()));
@@ -1243,7 +1236,7 @@ is_valid( const _HDS& hds, bool verb, int level) const {
                 break;
             }
             // facet integrity.
-            valid = valid && ( ! CGAL_check_tag( Supports_halfedge_facet())
+            valid = valid && ( ! check_tag( Supports_halfedge_facet())
                      || begin->is_border() || get_facet( &*begin) != NULL);
             valid = valid && ( get_facet( &*begin) ==
                         get_facet( begin->next()));
@@ -1274,11 +1267,11 @@ is_valid( const _HDS& hds, bool verb, int level) const {
         verr << "vertex " << v << endl;
         // Pointer integrity.
         if ( get_vertex_halfedge( &*vbegin) != NULL)
-            valid = valid && ( ! CGAL_check_tag(
+            valid = valid && ( ! check_tag(
                 Supports_halfedge_vertex()) ||
                 get_vertex( get_vertex_halfedge( &*vbegin)) == &*vbegin);
         else
-            valid = valid && (! CGAL_check_tag(
+            valid = valid && (! check_tag(
                 Supports_vertex_halfedge()));
         if ( ! valid) {
             verr << "    halfedge pointer in vertex corrupted." << endl;
@@ -1299,12 +1292,12 @@ is_valid( const _HDS& hds, bool verb, int level) const {
     }
     if ( valid && v != hds.size_of_vertices())
         verr << "counting vertices failed." << endl;
-    if ( valid && level >= 2 && ( CGAL_check_tag( Supports_vertex_halfedge())
+    if ( valid && level >= 2 && ( check_tag( Supports_vertex_halfedge())
          && n  != hds.size_of_halfedges()))
         verr << "counting halfedges via vertices failed." << endl;
     valid = valid && ( v == hds.size_of_vertices());
     valid = valid && ( level < 2 ||
-                       ! CGAL_check_tag( Supports_vertex_halfedge()) ||
+                       ! check_tag( Supports_vertex_halfedge()) ||
                        n  == hds.size_of_halfedges());
 
     // All facets.
@@ -1316,11 +1309,11 @@ is_valid( const _HDS& hds, bool verb, int level) const {
         verr << "facet " << f << endl;
         // Pointer integrity.
         if ( get_facet_halfedge( &*fbegin) != NULL)
-            valid = valid && ( ! CGAL_check_tag(
+            valid = valid && ( ! check_tag(
                 Supports_halfedge_facet()) ||
                 get_facet( get_facet_halfedge( &*fbegin)) == &*fbegin);
         else
-            valid = valid && (! CGAL_check_tag(
+            valid = valid && (! check_tag(
                 Supports_facet_halfedge()) || begin->is_border());
         if ( ! valid) {
             verr << "    halfedge pointer in facet corrupted." << endl;
@@ -1341,12 +1334,12 @@ is_valid( const _HDS& hds, bool verb, int level) const {
     }
     if ( valid && f != hds.size_of_facets())
         verr << "counting facets failed." << endl;
-    if ( valid && level >= 3 && CGAL_check_tag( Supports_facet_halfedge()) &&
+    if ( valid && level >= 3 && check_tag( Supports_facet_halfedge()) &&
          n + nb  != hds.size_of_halfedges())
         verr << "counting halfedges via facets failed." << endl;
     valid = valid && ( f == hds.size_of_facets());
     valid = valid && ( level < 3 ||
-                       ! CGAL_check_tag( Supports_facet_halfedge()) ||
+                       ! check_tag( Supports_facet_halfedge()) ||
                        n + nb  == hds.size_of_halfedges());
 
     if ( level >= 4) {
@@ -1354,7 +1347,7 @@ is_valid( const _HDS& hds, bool verb, int level) const {
              << endl;
         valid = valid && ( normalized_border_is_valid( hds, verb));
     }
-    verr << "end of CGAL_Halfedge_data_structure_decorator<HDS>::"
+    verr << "end of Halfedge_data_structure_decorator<HDS>::"
             "is_valid(): structure is " << ( valid ? "valid." :
             "NOT VALID.") << endl;
     return valid;
@@ -1363,11 +1356,11 @@ is_valid( const _HDS& hds, bool verb, int level) const {
 
 template < class _HDS >  CGAL_MEDIUM_INLINE
 void
-CGAL_Halfedge_data_structure_decorator<_HDS>::
+Halfedge_data_structure_decorator<_HDS>::
 reorient_facet( Halfedge* first) {
     if ( first == NULL)
         return;
-    CGAL_Halfedge_data_structure_decorator<_HDS> decorator;
+    Halfedge_data_structure_decorator<_HDS> decorator;
     Halfedge* last  = first;
     Halfedge* prev  = first;
     Halfedge* start = first;
@@ -1393,8 +1386,8 @@ reorient_facet( Halfedge* first) {
 
 template < class _HDS >
 void                            // Supports: halfedge pointer in facets.
-CGAL_Halfedge_data_structure_decorator<_HDS>::
-inside_out( _HDS& hds, CGAL_Tag_false) {
+Halfedge_data_structure_decorator<_HDS>::
+inside_out( _HDS& hds, Tag_false) {
     typedef typename _HDS::Halfedge_iterator Halfedge_iterator;
     Halfedge_iterator begin = hds.halfedges_begin();
     Halfedge_iterator end   = hds.halfedges_end();
@@ -1418,8 +1411,8 @@ inside_out( _HDS& hds, CGAL_Tag_false) {
 
 template < class _HDS >
 void                            // Supports: halfedge pointer in facets.
-CGAL_Halfedge_data_structure_decorator<_HDS>::
-inside_out( _HDS& hds, CGAL_Tag_true) {
+Halfedge_data_structure_decorator<_HDS>::
+inside_out( _HDS& hds, Tag_true) {
     typedef typename _HDS::Halfedge_iterator Halfedge_iterator;
     typedef typename _HDS::Facet_iterator    Facet_iterator;
     Facet_iterator begin = hds.facets_begin();
@@ -1440,5 +1433,6 @@ inside_out( _HDS& hds, CGAL_Tag_true) {
     }
 }
 
+CGAL_END_NAMESPACE
 #endif // CGAL_HALFEDGE_DATA_STRUCTURE_DECORATOR_H //
 // EOF //

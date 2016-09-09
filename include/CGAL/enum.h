@@ -1,6 +1,6 @@
 // ======================================================================
 //
-// Copyright (c) 1998 The CGAL Consortium
+// Copyright (c) 1999 The GALIA Consortium
 //
 // This software and related documentation is part of the
 // Computational Geometry Algorithms Library (CGAL).
@@ -16,35 +16,34 @@
 // - Development licenses grant access to the source code of the library 
 //   to develop programs. These programs may be sold to other parties as 
 //   executable code. To obtain a development license, please contact
-//   the CGAL Consortium (at cgal@cs.uu.nl).
+//   the GALIA Consortium (at cgal@cs.uu.nl).
 // - Commercialization licenses grant access to the source code and the
 //   right to sell development licenses. To obtain a commercialization 
-//   license, please contact the CGAL Consortium (at cgal@cs.uu.nl).
+//   license, please contact the GALIA Consortium (at cgal@cs.uu.nl).
 //
 // This software and documentation is provided "as-is" and without
 // warranty of any kind. In no event shall the CGAL Consortium be
 // liable for any damage of any kind.
 //
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// The GALIA Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany) Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+// (Germany), Max-Planck-Institute Saarbrucken (Germany),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 // 
-// release       : CGAL-1.2
-// release_date  : 1999, January 18
+// release       : CGAL-2.0
+// release_date  : 1999, June 03
 // 
 // source        : enum.fw
 // file          : include/CGAL/enum.h
-// package       : Kernel_basic (1.2.12)
-// revision      : 1.2.12
-// revision_date : 08 Jan 1999 
+// package       : Kernel_basic (2.0.11)
+// revision      : 2.0.11
+// revision_date : 06 May 1999 
 // author(s)     : Stefan Schirra
 //
 // coordinator   : MPI, Saarbruecken
-//
 // email         : cgal@cs.uu.nl
 //
 // ======================================================================
@@ -53,50 +52,54 @@
 #ifndef CGAL_ENUM_H
 #define CGAL_ENUM_H
 
+CGAL_BEGIN_NAMESPACE
 
-enum  CGAL_Sign
+
+enum  Sign
       {
-        CGAL_NEGATIVE   = -1,
-        CGAL_ZERO,
-        CGAL_POSITIVE
+        NEGATIVE   = -1,
+        ZERO,
+        POSITIVE
       };
 
-typedef CGAL_Sign CGAL_Orientation;
+typedef Sign Orientation;
 
-const CGAL_Orientation  CGAL_LEFTTURN   = CGAL_POSITIVE;
-const CGAL_Orientation  CGAL_RIGHTTURN  = CGAL_NEGATIVE;
+const Orientation  LEFTTURN   = POSITIVE;
+const Orientation  RIGHTTURN  = NEGATIVE;
 
-const CGAL_Orientation  CGAL_CLOCKWISE  = CGAL_NEGATIVE;
-const CGAL_Orientation  CGAL_COUNTERCLOCKWISE = CGAL_POSITIVE;
+const Orientation  CLOCKWISE  = NEGATIVE;
+const Orientation  COUNTERCLOCKWISE = POSITIVE;
 
-const CGAL_Orientation  CGAL_COLLINEAR  = CGAL_ZERO;
-const CGAL_Orientation  CGAL_COPLANAR   = CGAL_ZERO;
-const CGAL_Orientation  CGAL_DEGENERATE = CGAL_ZERO;
+const Orientation  COLLINEAR  = ZERO;
+const Orientation  COPLANAR   = ZERO;
+const Orientation  DEGENERATE = ZERO;
 
 
 
-enum  CGAL_Oriented_side
+enum  Oriented_side
       {
-        CGAL_ON_NEGATIVE_SIDE = -1,
-        CGAL_ON_ORIENTED_BOUNDARY,
-        CGAL_ON_POSITIVE_SIDE
-      };
-
-
-enum  CGAL_Bounded_side
-      {
-        CGAL_ON_BOUNDED_SIDE = -1,
-        CGAL_ON_BOUNDARY,
-        CGAL_ON_UNBOUNDED_SIDE
+        ON_NEGATIVE_SIDE = -1,
+        ON_ORIENTED_BOUNDARY,
+        ON_POSITIVE_SIDE
       };
 
 
-enum  CGAL_Comparison_result
+enum  Bounded_side
       {
-        CGAL_SMALLER   = -1,
-        CGAL_EQUAL,
-        CGAL_LARGER
+        ON_UNBOUNDED_SIDE = -1,
+        ON_BOUNDARY,
+        ON_BOUNDED_SIDE
       };
+
+
+enum  Comparison_result
+      {
+        SMALLER   = -1,
+        EQUAL,
+        LARGER
+      };
+
+CGAL_END_NAMESPACE
 
 
 #ifndef CGAL_FUNCTIONS_ON_ENUMS_H

@@ -1,7 +1,6 @@
-//  -*- Mode: c++ -*-
 // ======================================================================
 //
-// Copyright (c) 1997 The CGAL Consortium
+// Copyright (c) 1999 The GALIA Consortium
 //
 // This software and related documentation is part of the
 // Computational Geometry Algorithms Library (CGAL).
@@ -17,38 +16,37 @@
 // - Development licenses grant access to the source code of the library 
 //   to develop programs. These programs may be sold to other parties as 
 //   executable code. To obtain a development license, please contact
-//   the CGAL Consortium (at cgal@cs.uu.nl).
+//   the GALIA Consortium (at cgal@cs.uu.nl).
 // - Commercialization licenses grant access to the source code and the
 //   right to sell development licenses. To obtain a commercialization 
-//   license, please contact the CGAL Consortium (at cgal@cs.uu.nl).
+//   license, please contact the GALIA Consortium (at cgal@cs.uu.nl).
 //
 // This software and documentation is provided "as-is" and without
 // warranty of any kind. In no event shall the CGAL Consortium be
 // liable for any damage of any kind.
 //
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// The GALIA Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany) Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+// (Germany), Max-Planck-Institute Saarbrucken (Germany),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-1.2
-// release_date  : 1999, January 18
+// release       : CGAL-2.0
+// release_date  : 1999, June 03
 //
 // file          : include/CGAL/bops_Convex_Polygon_2.h
-// package       : bops (1.1.2)
+// package       : bops (2.1.5)
 // source        : include/CGAL/bops_Convex_Polygon_2.h
-// revision      : $Revision: 1.1.2 $
+// revision      : $Revision: WIP $
 // revision_date : $Date: Wed Dec  9 13:28:58 MET 1998  $
-// author(s)     :             Wolfgang Freiseisen
+// author(s)     : Wolfgang Freiseisen
 //
 // coordinator   : RISC Linz
 //  (Wolfgang Freiseisen)
 //
 // 
-//
 // email         : cgal@cs.uu.nl
 //
 // ======================================================================
@@ -62,38 +60,40 @@
 #include <CGAL/Polygon_2.h>
 #include <CGAL/predicates_on_points_2.h>
 #include <CGAL/Segment_2_Segment_2_intersection.h>
-#include <list.h>
+#include <list>
+
+CGAL_BEGIN_NAMESPACE
 
 #define CONVEX_INTERSECTION_PROCEDURE // now this proc. will be used
 template <class R_type, class Container>
-CGAL_Polygon_2<CGAL_Polygon_traits_2<R_type>, Container>
-CGAL_Convex_Intersection(
-           CGAL_Polygon_2<CGAL_Polygon_traits_2<R_type>, Container> P,
-           CGAL_Polygon_2<CGAL_Polygon_traits_2<R_type>, Container> Q);
+Polygon_2<Polygon_traits_2<R_type>, Container>
+Convex_Intersection(
+           Polygon_2<Polygon_traits_2<R_type>, Container> P,
+           Polygon_2<Polygon_traits_2<R_type>, Container> Q);
 
 
 
 
 
 template<class I>
-class CGAL_Bops_Convex_Polygons_2 : public CGAL_Bops_Polygons_2<I>
+class Bops_Convex_Polygons_2 : public Bops_Polygons_2<I>
 {
 public:
-	typedef CGAL_Vector_2<R>		Vector;
+	typedef CGAL::Vector_2<R>		Vector;
 	typedef typename I::NT			NT;
 	typedef typename I::Polygon	Polygon;
 	typedef typename I::Point	Point;
 	typedef typename I::Segment	Segment;
 	typedef typename I::Polygon::Vertex_circulator	Vertex_circulator;
-	typedef CGAL_Orientation	Orientation;
+	typedef CGAL::Orientation	Orientation;
 	Polygon _pgonA,_pgonB;
-	CGAL_Bops_Convex_Polygons_2() {}
-	CGAL_Bops_Convex_Polygons_2(const Polygon& A, const Polygon& B)
+	Bops_Convex_Polygons_2() {}
+	Bops_Convex_Polygons_2(const Polygon& A, const Polygon& B)
 		:
 		_pgonA(A),
 		_pgonB(B) {}
 	
-	virtual ~CGAL_Bops_Convex_Polygons_2() {}
+	virtual ~Bops_Convex_Polygons_2() {}
 	
 protected:
 	enum InFlag {Unknown, Pin, Qin};
@@ -110,7 +110,7 @@ protected:
 	
 	bool operation() {
 #   ifdef CONVEX_INTERSECTION_PROCEDURE
-		add_to_result(CGAL_Convex_Intersection(_pgonA, _pgonB));
+		add_to_result(Convex_Intersection(_pgonA, _pgonB));
 #   else
 		init();
 		mainProcedure();
@@ -180,18 +180,18 @@ protected:
 	Vertex_circulator _pCir, _qCir, _pCir1, _qCir1;
                                 // circulators over polygons
 	InFlag _inflag;             // which polygon is inside
-	list<Point> _pt_list;     // points forming solution-polynom
+	std::list<Point> _pt_list;     // points forming solution-polynom
 	int _lastaAdv, _lastbAdv;   // variables to avoid endless loop
 };
 
 
 
 template<class I>
-struct CGAL_Bops_Convex_Polygons_2_Intersection
-		: public CGAL_Bops_Convex_Polygons_2<I> {
-	CGAL_Bops_Convex_Polygons_2_Intersection() {}
-	CGAL_Bops_Convex_Polygons_2_Intersection(const Polygon& A, const Polygon& B)
-		: CGAL_Bops_Convex_Polygons_2<I>(A,B) {}
+struct Bops_Convex_Polygons_2_Intersection
+		: public Bops_Convex_Polygons_2<I> {
+	Bops_Convex_Polygons_2_Intersection() {}
+	Bops_Convex_Polygons_2_Intersection(const Polygon& A, const Polygon& B)
+		: Bops_Convex_Polygons_2<I>(A,B) {}
 
 	void conditional_insert(InFlag inPolygon, InFlag inflag, const Point& pt) {
 		if (inflag == inPolygon)
@@ -202,14 +202,16 @@ struct CGAL_Bops_Convex_Polygons_2_Intersection
 	void handle_special_cases()
 	{
 		//polygons do not intersect
-		if (_pgonA.bounded_side(*_qCir)==CGAL_ON_BOUNDED_SIDE)
+		if (_pgonA.bounded_side(*_qCir)==ON_BOUNDED_SIDE)
 			add_to_result(_pgonA);
-		else if (_pgonB.bounded_side(*_pCir)==CGAL_ON_BOUNDED_SIDE)
+		else if (_pgonB.bounded_side(*_pCir)==ON_BOUNDED_SIDE)
 			add_to_result(_pgonB);
 		else
 			add_to_result(_pt_list);
 	}
 };
+
+CGAL_END_NAMESPACE
 
 #ifdef CGAL_CFG_NO_AUTOMATIC_TEMPLATE_INCLUSION
 #include <CGAL/bops_Convex_Polygon_2.C>

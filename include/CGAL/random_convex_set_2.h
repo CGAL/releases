@@ -1,6 +1,6 @@
 // ======================================================================
 //
-// Copyright (c) 1998 The CGAL Consortium
+// Copyright (c) 1999 The GALIA Consortium
 //
 // This software and related documentation is part of the
 // Computational Geometry Algorithms Library (CGAL).
@@ -16,28 +16,28 @@
 // - Development licenses grant access to the source code of the library 
 //   to develop programs. These programs may be sold to other parties as 
 //   executable code. To obtain a development license, please contact
-//   the CGAL Consortium (at cgal@cs.uu.nl).
+//   the GALIA Consortium (at cgal@cs.uu.nl).
 // - Commercialization licenses grant access to the source code and the
 //   right to sell development licenses. To obtain a commercialization 
-//   license, please contact the CGAL Consortium (at cgal@cs.uu.nl).
+//   license, please contact the GALIA Consortium (at cgal@cs.uu.nl).
 //
 // This software and documentation is provided "as-is" and without
 // warranty of any kind. In no event shall the CGAL Consortium be
 // liable for any damage of any kind.
 //
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// The GALIA Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany) Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+// (Germany), Max-Planck-Institute Saarbrucken (Germany),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-1.2
-// release_date  : 1999, January 18
+// release       : CGAL-2.0
+// release_date  : 1999, June 03
 //
 // file          : include/CGAL/random_convex_set_2.h
-// package       : Random (1.12)
+// package       : Generator (2.10)
 // source        : src/rcs/rcs.aw
 // revision      : $Revision: 1.2 $
 // revision_date : $Date: 1998/03/06 16:19:47 $
@@ -46,7 +46,6 @@
 // coordinator   : ETH Zurich (Bernd Gaertner)
 //
 // Random Convex Point Sets
-//
 // email         : cgal@cs.uu.nl
 //
 // ======================================================================
@@ -57,13 +56,20 @@
 #ifndef CGAL_BASIC_H
 #include <CGAL/basic.h>
 #endif
-#ifndef CGAL_PROTECT_VECTOR_H
-#include <vector.h>
-#define CGAL_PROTECT_VECTOR_H
+#ifndef CGAL_COPY_N_H
+#include <CGAL/copy_n.h>
 #endif
-#ifndef CGAL_PROTECT_ALGO_H
-#include <algo.h>
-#define CGAL_PROTECT_ALGO_H
+#ifndef CGAL_PROTECT_VECTOR
+#include <vector>
+#define CGAL_PROTECT_VECTOR
+#endif
+#ifndef CGAL_PROTECT_ALGORITHM
+#include <algorithm>
+#define CGAL_PROTECT_ALGORITHM
+#endif
+#ifndef CGAL_PROTECT_NUMERIC
+#include <numeric>
+#define CGAL_PROTECT_NUMERIC
 #endif
 #ifdef CGAL_REP_CLASS_DEFINED
 #ifndef CGAL_RANDOM_CONVEX_SET_TRAITS_2_H
@@ -71,14 +77,28 @@
 #endif
 #endif
 
+CGAL_BEGIN_NAMESPACE
 template < class OutputIterator, class Point_generator, class Traits >
 OutputIterator
-CGAL_random_convex_set_2( int n,
-                          OutputIterator o,
-                          const Point_generator& pg,
-                          Traits t)
+random_convex_set_2( int n,
+                     OutputIterator o,
+                     const Point_generator& pg,
+                     Traits t)
 {
   CGAL_precondition( n >= 3);
+
+#ifndef CGAL_CFG_NO_NAMESPACE
+  using std::vector;
+  using std::back_inserter;
+  using std::accumulate;
+  using std::transform;
+  using std::bind2nd;
+  using std::sort;
+  using std::partial_sum;
+  using std::less;
+  using std::max_element;
+  using CGAL::copy_n;
+#endif
 
   typedef typename Traits::Point_2         Point_2;
   typedef typename Traits::FT              FT;
@@ -97,7 +117,7 @@ CGAL_random_convex_set_2( int n,
   // build random point set:
   Container points;
   points.reserve( n);
-  CGAL_copy_n( pg, n, back_inserter( points));
+  CGAL::copy_n( pg, n, back_inserter( points));
 
   // compute centroid of points:
   Point_2 centroid(
@@ -138,7 +158,7 @@ CGAL_random_convex_set_2( int n,
   FT maxcoord( max_coordinate(
     *max_element( points.begin(),
                   points.end(),
-                  CGAL_compose2_2( less< FT >(),
+                  compose2_2( less< FT >(),
                                    Max_coordinate(),
                                    Max_coordinate()))));
 
@@ -149,7 +169,8 @@ CGAL_random_convex_set_2( int n,
     o,
     bind2nd( Scale(), FT( pg.range()) / maxcoord));
 
-} // CGAL_random_convex_set_2( n, o, pg, t)
+} // random_convex_set_2( n, o, pg, t)
+CGAL_END_NAMESPACE
 
 #endif // ! (CGAL_RANDOM_CONVEX_SET_2_H)
 

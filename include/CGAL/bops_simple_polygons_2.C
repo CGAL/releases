@@ -1,7 +1,6 @@
-//  -*- Mode: c++ -*-
 // ======================================================================
 //
-// Copyright (c) 1997 The CGAL Consortium
+// Copyright (c) 1999 The GALIA Consortium
 //
 // This software and related documentation is part of the
 // Computational Geometry Algorithms Library (CGAL).
@@ -17,38 +16,37 @@
 // - Development licenses grant access to the source code of the library 
 //   to develop programs. These programs may be sold to other parties as 
 //   executable code. To obtain a development license, please contact
-//   the CGAL Consortium (at cgal@cs.uu.nl).
+//   the GALIA Consortium (at cgal@cs.uu.nl).
 // - Commercialization licenses grant access to the source code and the
 //   right to sell development licenses. To obtain a commercialization 
-//   license, please contact the CGAL Consortium (at cgal@cs.uu.nl).
+//   license, please contact the GALIA Consortium (at cgal@cs.uu.nl).
 //
 // This software and documentation is provided "as-is" and without
 // warranty of any kind. In no event shall the CGAL Consortium be
 // liable for any damage of any kind.
 //
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// The GALIA Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany) Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+// (Germany), Max-Planck-Institute Saarbrucken (Germany),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-1.2
-// release_date  : 1999, January 18
+// release       : CGAL-2.0
+// release_date  : 1999, June 03
 //
 // file          : include/CGAL/bops_simple_polygons_2.C
-// package       : bops (1.1.2)
+// package       : bops (2.1.5)
 // source        : include/CGAL/bops_simple_polygons_2.C
-// revision      : $Revision: 1.1.2 $
+// revision      : $Revision: WIP $
 // revision_date : $Date: Wed Dec  9 13:28:53 MET 1998  $
-// author(s)     :             Wolfgang Freiseisen
+// author(s)     : Wolfgang Freiseisen
 //
 // coordinator   : RISC Linz
 //  (Wolfgang Freiseisen)
 //
 // 
-//
 // email         : cgal@cs.uu.nl
 //
 // ======================================================================
@@ -60,11 +58,13 @@
 #include<CGAL/bops_simple_polygons_2.h>
 #endif
 
+CGAL_BEGIN_NAMESPACE
+
 #if 0
 template <class I>
-//CGAL_Bops_Simple_Polygons_2<I>::Intersection_type 
+//Bops_Simple_Polygons_2<I>::Intersection_type 
 int
-CGAL_Bops_Simple_Polygons_2<I>::calc_intersection_type(int) const {
+Bops_Simple_Polygons_2<I>::calc_intersection_type(int) const {
      typename I::Bbox a_box= I::get_Bbox(_pgon1);
      typename I::Bbox b_box= I::get_Bbox(_pgon2);
 
@@ -105,7 +105,7 @@ CGAL_Bops_Simple_Polygons_2<I>::calc_intersection_type(int) const {
 
 
 template<class I>
-void CGAL_Bops_Simple_Polygons_2_Intersection<I> ::
+void Bops_Simple_Polygons_2_Intersection<I> ::
 perform(void)
 {
   /* performs the intersection algorithm on the colored DCEL */
@@ -125,14 +125,14 @@ perform(void)
       break;
   }
 
-  CGAL__Dcel_Color search_color(CGAL__RED_AND_BLACK);
+  _Dcel_Color search_color(_RED_AND_BLACK);
   
   /* handle general case */
-  list<edge_iterator> elist;
+  std::list<edge_iterator> elist;
 
   edge_iterator e;
   vertex_iterator v;
-  Polygon_2  pgon;
+  _Polygon_2  pgon;
 
   face_iterator f;
 
@@ -171,11 +171,11 @@ perform(void)
 
 
 template<class I>
-void CGAL_Bops_Simple_Polygons_2_Difference<I> :: perform(void)
+void Bops_Simple_Polygons_2_Difference<I> :: perform(void)
 {
   /* performs the DIFFERENCE algorithm on the colored DCEL */
 
-  Polygon_2  pgon;
+  _Polygon_2  pgon;
   /* handle special cases */
   switch( _pgon_intersection_type ) {
     case is_empty:
@@ -193,7 +193,7 @@ void CGAL_Bops_Simple_Polygons_2_Difference<I> :: perform(void)
       break;
   }
 
-  CGAL__Dcel_Color search_color(CGAL__RED);
+  _Dcel_Color search_color(_RED);
   
   /* handle general case */
   edge_iterator e;
@@ -228,7 +228,7 @@ void CGAL_Bops_Simple_Polygons_2_Difference<I> :: perform(void)
 
 
 template<class I>
-void CGAL_Bops_Simple_Polygons_2_Union<I> :: perform(void) 
+void Bops_Simple_Polygons_2_Union<I> :: perform(void) 
 {
   /* performs the UNION algorithm on the colored DCEL */
 
@@ -256,20 +256,20 @@ void CGAL_Bops_Simple_Polygons_2_Union<I> :: perform(void)
   }
 
 
- typedef typename Polygon_2::Vertex_const_iterator polygon_vertex_iterator;
+ typedef typename _Polygon_2::Vertex_const_iterator polygon_vertex_iterator;
 
  polygon_vertex_iterator p1it = _pgon1.left_vertex();
  polygon_vertex_iterator p2it = _pgon2.left_vertex();
  polygon_vertex_iterator pit  = (*p1it).x() < (*p2it).x() ? p1it : p2it ;
  
  /* pt = ... the outmost to the left point of polygons A and B */
- Point_2 pt = *pit;
+ _Point_2 pt = *pit;
  vertex_iterator vit = dcel.find(pt);
  /* edgeE = ... the edge starting at vit with largest slope (and 
                                       thus on the outer boundary */
  edge_iterator lit, eit, ait= dcel.begin(vit);
  marked[(*ait).index()]= true;
- Point_2 pt1, pt2, pt3;
+ _Point_2 pt1, pt2, pt3;
  lit = ait;
  for( eit= dcel.next(ait,vit); eit != ait; eit= dcel.next(eit, vit) ) {
     pt1= dcel.point(vit); 
@@ -279,22 +279,22 @@ void CGAL_Bops_Simple_Polygons_2_Union<I> :: perform(void)
   }
 
  /* faceF = ... the face of *lit without color */
- face_iterator faceFit= (*(*lit).F1()).color() == CGAL__UNCOLORED ?
+ face_iterator faceFit= (*(*lit).F1()).color() == _UNCOLORED ?
                         (*lit).F1() : (*lit).F2();
 
  /* get the outer boundary */
- Polygon_2 pgon= walk_around(faceFit,false);
+ _Polygon_2 pgon= walk_around(faceFit,false);
  _result.push_back(I::Make_object(pgon) );
 
 
  /* get the holes */
  for( eit= dcel.begin(); eit != dcel.end(); eit++ ) { /*for_all_edges(edge e)*/
     if( marked[(*eit).index()] == false ) {
-       if( (*(*eit).F1()).color() ==  CGAL__UNCOLORED ) {
+       if( (*(*eit).F1()).color() ==  _UNCOLORED ) {
 	   pgon = walk_around((*eit).F1(),false);
 	   _result.push_back(I::Make_object(pgon) );
          }
-       if( (*(*eit).F2()).color() ==  CGAL__UNCOLORED ) {
+       if( (*(*eit).F2()).color() ==  _UNCOLORED ) {
 	   pgon= walk_around((*eit).F2(),false);
 	   _result.push_back(I::Make_object(pgon) );
          }
@@ -303,5 +303,7 @@ void CGAL_Bops_Simple_Polygons_2_Union<I> :: perform(void)
 
   return;
 }
+
+CGAL_END_NAMESPACE
 
 #endif /* CGAL_BOPS_SIMPLE_POLYGONS_2_C */

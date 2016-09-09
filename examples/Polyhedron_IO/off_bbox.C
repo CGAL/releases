@@ -1,6 +1,6 @@
 // ============================================================================
 //
-// Copyright (c) 1997 The CGAL Consortium
+// Copyright (c) 1999 The GALIA Consortium
 //
 // This software and related documentation is part of the
 // Computational Geometry Algorithms Library (CGAL).
@@ -16,56 +16,53 @@
 // - Development licenses grant access to the source code of the library 
 //   to develop programs. These programs may be sold to other parties as 
 //   executable code. To obtain a development license, please contact
-//   the CGAL Consortium (at cgal@cs.uu.nl).
+//   the GALIA Consortium (at cgal@cs.uu.nl).
 // - Commercialization licenses grant access to the source code and the
 //   right to sell development licenses. To obtain a commercialization 
-//   license, please contact the CGAL Consortium (at cgal@cs.uu.nl).
+//   license, please contact the GALIA Consortium (at cgal@cs.uu.nl).
 //
 // This software and documentation is provided "as-is" and without
 // warranty of any kind. In no event shall the CGAL Consortium be
 // liable for any damage of any kind.
 //
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// The GALIA Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany) Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+// (Germany), Max-Planck-Institute Saarbrucken (Germany),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-1.2
-// release_date  : 1999, January 18
+// release       : CGAL-2.0
+// release_date  : 1999, June 03
 //
 // file          : off_bbox.C
-// package       : $CGAL_Package: Polyhedron_IO 1.11 (17 Dec 1998) $
-// revision      : $Revision: 1.1 $
-// revision_date : $Date: 1998/03/01 06:51:10 $
+// package       : $CGAL_Package: Polyhedron_IO 2.5 (29 Apr 1999) $
+// revision      : $Revision: 1.3 $
+// revision_date : $Date: 1999/03/09 22:18:32 $
 // author(s)     : Lutz Kettner
 //
 // coordinator   : Herve Bronnimann
 //
 // computes bbox of an OFF object.
-//
 // email         : cgal@cs.uu.nl
 //
 // ======================================================================
 
 #include <CGAL/basic.h>
 
-#include <stddef.h>
-#include <stdlib.h>
-#include <string.h>
-#include <iostream.h>
-#include <fstream.h>
-#include <float.h>
+#include <cstddef>
+#include <cstdlib>
+#include <cstring>
+#include <iostream>
+#include <fstream>
+#include <cfloat>
 
 #include <CGAL/Bbox_3.h>
 #include <CGAL/IO/Verbose_ostream.h>
 #include <CGAL/IO/File_scanner_OFF.h>
 
-#define MaxParameters          1
-#define MaxOptionalParameters  1
-#define ErrParameters          10000
+using namespace std;
 
 bool  verbose   = false;
 bool  unitcube  = false;
@@ -73,113 +70,109 @@ bool  unitcube  = false;
 // main function with standard unix commandline arguments
 // ------------------------------------------------------
 int main( int argc, char **argv) {
-    int i;
-    int nParameters = 0;
-    char *parameters[ MaxParameters + 1];
-
+    int n = 0; // number of filenames
+    char *filename[1];
     bool help = false;
-
-    for (i = 1; i < argc && nParameters <= MaxParameters; i++) {
-	// check commandline options
-	if ( strcmp( "-v", argv[i]) == 0)
-	    verbose = true;
-	else if ( strcmp( "-unit", argv[i]) == 0)
-	    unitcube = true;
-	else if ( (strcmp( "-h", argv[i]) == 0) || 
-		  (strcmp( "-help", argv[i]) == 0))
-	    help = true;
-	// else parse mandatory or optional commandline arguments
-	else if ( nParameters < MaxParameters ) {
-	    parameters[nParameters ++] = argv[i];
-	} else 
-	    nParameters = ErrParameters;
+    for (int i = 1; i < argc; i++) { // check commandline options
+        if ( strcmp( "-v", argv[i]) == 0)
+            verbose = true;
+        else if ( strcmp( "-unit", argv[i]) == 0)
+            unitcube = true;
+        else if ( (strcmp( "-h", argv[i]) == 0) || 
+                  (strcmp( "-help", argv[i]) == 0))
+            help = true;
+        else if ( n < 1 ) {
+            filename[ n++] = argv[i];
+        } else {
+	    n++;
+            break;
+	}
     }
-    if ((nParameters < MaxParameters - MaxOptionalParameters) ||
-	(nParameters > MaxParameters) || help) {
-	if ( ! help)
-	    cerr << "Error: in parameter list" << endl;
-	cerr << "Usage: " << argv[0] << " [<options>] [<infile> [<outfile>]]"
-	     << endl;
-	cerr << "       computes the bbox of the coordinates of an OFF object."
-	     << endl;
-	cerr << "       -unit     prints transformation to unit cube." << endl;
-	cerr << "                 (can be used with 'off_transform')" << endl;
-	cerr << "       -v        verbose." << endl;
-	exit( ! help);
+    if ((n > 1) || help) {
+        if ( ! help)
+            cerr << "Error: in parameter list" << endl;
+        cerr << "Usage: " << argv[0] << " [<options>] [<infile> [<outfile>]]"
+             << endl;
+        cerr << "Usage: " << argv[0] << " [<options>] [<infile>]" << endl;
+        cerr << "       computes the bbox of the coordinates of an OFF object."
+             << endl;
+        cerr << "       -unit     prints transformation to unit cube." << endl;
+        cerr << "                 (can be used with 'off_transform')" << endl;
+        cerr << "       -v      verbose." << endl;
+        exit( ! help);
     }
 
-    CGAL_Verbose_ostream verr( verbose);
+    CGAL::Verbose_ostream verr( verbose);
     verr << argv[0] << ": verbosity on." << endl;
 
     const char*  name = "cin";
     istream*     p_in = &cin;
     ifstream     in;
-    if ( nParameters > 0) {
-	in.open( parameters[ 0]);
-	p_in = &in;
-	name = parameters[0];
+    if ( n > 0) {
+        in.open( filename[0]);
+        p_in = &in;
+        name = filename[0];
     }
     if ( ! * p_in) { 
-	cerr << argv[0] << ": error: cannot open file '"<< name
-	 << "' for reading." <<endl;
-	exit( 1);
+        cerr << argv[0] << ": error: cannot open file '"<< name
+         << "' for reading." <<endl;
+        exit( 1);
     }
 
-    verr << "CGAL_File_scanner_OFF( " << name << ") ...." << endl;
-    CGAL_File_scanner_OFF scanner( * p_in);
+    verr << "CGAL::File_scanner_OFF( " << name << ") ...." << endl;
+    CGAL::File_scanner_OFF scanner( * p_in);
     if ( ! * p_in) {
-	cerr << argv[0] << ": error: file '"<< name
-	 << "' is not in OFF format." << endl;
-	abort();
+        cerr << argv[0] << ": error: file '"<< name
+         << "' is not in OFF format." << endl;
+        abort();
     }
     if ( scanner.size_of_vertices() <= 0) {
-	cerr << argv[0] << ": error: file '"<< name
-	 << "' has no vertices." << endl;
-	abort();
+        cerr << argv[0] << ": error: file '"<< name
+         << "' has no vertices." << endl;
+        abort();
     }
-    size_t  n = scanner.size_of_vertices();
-    CGAL_Bbox_3 bbox;
+    size_t  v = scanner.size_of_vertices();
+    CGAL::Bbox_3 bbox;
     double x, y, z;
     scanner.scan_vertex( x, y, z);
-    bbox = CGAL_Bbox_3( x,y,z, x,y,z);
-    n--;
-    while (n--) {
-	scanner.scan_vertex( x, y, z);
-	bbox = bbox + CGAL_Bbox_3( x,y,z, x,y,z);
-	scanner.skip_to_next_vertex( scanner.size_of_vertices() - n - 1);
+    bbox = CGAL::Bbox_3( x,y,z, x,y,z);
+    v--;
+    while (v--) {
+        scanner.scan_vertex( x, y, z);
+        bbox = bbox + CGAL::Bbox_3( x,y,z, x,y,z);
+        scanner.skip_to_next_vertex( scanner.size_of_vertices() - v - 1);
     }
     verr << ".... done." << scanner.size_of_vertices() << " points read." 
-	 << endl;
+         << endl;
 
     if ( !in) { 
-	cerr << argv[0] << " read error: while reading file '"<< name << "'." 
-	     << endl;
-	exit( 1);
+        cerr << argv[0] << " read error: while reading file '"<< name << "'." 
+             << endl;
+        exit( 1);
     }
     if ( ! unitcube) {
-	cout << bbox.xmin() << "  " << bbox.ymin() << "  " << bbox.zmin() 
-	     << '\n';
-	cout << bbox.xmax() << "  " << bbox.ymax() << "  " << bbox.zmax() 
-	     << endl;
+        cout << bbox.xmin() << "  " << bbox.ymin() << "  " << bbox.zmin() 
+             << '\n';
+        cout << bbox.xmax() << "  " << bbox.ymax() << "  " << bbox.zmax() 
+             << endl;
     } else {
-	double s = DBL_MAX;
-	double d = bbox.xmax() - bbox.xmin();
-	if ( d > 0 && 2/d < s)
-	    s = 2/d;
+        double s = DBL_MAX;
+        double d = bbox.xmax() - bbox.xmin();
+        if ( d > 0 && 2/d < s)
+            s = 2/d;
         d = bbox.ymax() - bbox.ymin();
-	if ( d > 0 && 2/d < s)
-	    s = 2/d;
+        if ( d > 0 && 2/d < s)
+            s = 2/d;
         d = bbox.zmax() - bbox.zmin();
-	if ( d > 0 && 2/d < s)
-	    s = 2/d;
-	if ( s == DBL_MAX)
-	    s = 1;
-	cout << "-trans  " << (-(bbox.xmin() + bbox.xmax())/2) 
-	     << "  "       << (-(bbox.ymin() + bbox.ymax())/2) 
-	     << "  "       << (-(bbox.zmin() + bbox.zmax())/2) 
-	     << "  -scale  " << s << endl;
+        if ( d > 0 && 2/d < s)
+            s = 2/d;
+        if ( s == DBL_MAX)
+            s = 1;
+        cout << "-trans  " << (-(bbox.xmin() + bbox.xmax())/2) 
+             << "  "       << (-(bbox.ymin() + bbox.ymax())/2) 
+             << "  "       << (-(bbox.zmin() + bbox.zmax())/2) 
+             << "  -scale  " << s << endl;
     }
     return 0;
 }
-
 // EOF //

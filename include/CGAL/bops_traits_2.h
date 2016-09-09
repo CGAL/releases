@@ -1,7 +1,6 @@
-//  -*- Mode: c++ -*-
 // ======================================================================
 //
-// Copyright (c) 1997 The CGAL Consortium
+// Copyright (c) 1999 The GALIA Consortium
 //
 // This software and related documentation is part of the
 // Computational Geometry Algorithms Library (CGAL).
@@ -17,38 +16,37 @@
 // - Development licenses grant access to the source code of the library 
 //   to develop programs. These programs may be sold to other parties as 
 //   executable code. To obtain a development license, please contact
-//   the CGAL Consortium (at cgal@cs.uu.nl).
+//   the GALIA Consortium (at cgal@cs.uu.nl).
 // - Commercialization licenses grant access to the source code and the
 //   right to sell development licenses. To obtain a commercialization 
-//   license, please contact the CGAL Consortium (at cgal@cs.uu.nl).
+//   license, please contact the GALIA Consortium (at cgal@cs.uu.nl).
 //
 // This software and documentation is provided "as-is" and without
 // warranty of any kind. In no event shall the CGAL Consortium be
 // liable for any damage of any kind.
 //
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// The GALIA Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany) Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+// (Germany), Max-Planck-Institute Saarbrucken (Germany),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-1.2
-// release_date  : 1999, January 18
+// release       : CGAL-2.0
+// release_date  : 1999, June 03
 //
 // file          : include/CGAL/bops_traits_2.h
-// package       : bops (1.1.2)
+// package       : bops (2.1.5)
 // source        : include/CGAL/bops_traits_2.h
-// revision      : $Revision: 1.1.2 $
+// revision      : $Revision: WIP $
 // revision_date : $Date: Wed Dec  9 13:28:54 MET 1998  $
-// author(s)     :             Wolfgang Freiseisen
+// author(s)     : Wolfgang Freiseisen
 //
 // coordinator   : RISC Linz
 //  (Wolfgang Freiseisen)
 //
 // 
-//
 // email         : cgal@cs.uu.nl
 //
 // ======================================================================
@@ -60,7 +58,7 @@
 #include <CGAL/Cartesian.h> 
 #include <CGAL/Homogeneous.h> 
 #include <CGAL/basic.h> 
-#include <list.h>
+#include <list>
 #include <CGAL/Object.h>
 #include <CGAL/Point_2.h>
 #include <CGAL/Segment_2.h>
@@ -71,9 +69,11 @@
 
 #include <CGAL/min_sqr_distance_traits.h>
 
+CGAL_BEGIN_NAMESPACE
+
 /*
     _R should be a representation class 
-   (e.g. something like CGAL_Cartesian<CGAL_Rational> )
+   (e.g. something like Cartesian<Rational> )
 */
 template <class _R> 
 struct Bops_default_I : public min_sqr_distance_traits<_R>
@@ -82,17 +82,17 @@ struct Bops_default_I : public min_sqr_distance_traits<_R>
 
   /* representation class */
   //typedef _R R;
-  typedef CGAL_Object                          Object;
+  typedef CGAL::Object                          Object;
 
   /*------ constant sized objects ------*/
 
-  typedef CGAL_Bbox_2   Bbox;
+  typedef CGAL::Bbox_2   Bbox;
   /* required operations:
      bool operator==(Bbox, Bbox);
   */
 
   bool do_overlap( const Bbox& a, const Bbox& b) const {
-    return CGAL_do_overlap(a,b);
+    return do_overlap(a,b);
   }
 
   bool box_is_contained_in_box( const Bbox& a, const Bbox& b) const {
@@ -104,7 +104,7 @@ struct Bops_default_I : public min_sqr_distance_traits<_R>
   }
 
 
-  typedef CGAL_Point_2<R>                      Point;
+  typedef CGAL::Point_2<R>                      Point;
   /* required operations:
     R::NT Point::x() const
     R::NT Point::y() const
@@ -118,28 +118,28 @@ struct Bops_default_I : public min_sqr_distance_traits<_R>
   }
   
 
-  typedef CGAL_Segment_2<R>                    Segment;
+  typedef CGAL::Segment_2<R>                    Segment;
   /* required operations:
     Segment(Point,Point);
   */
-  typedef CGAL_Triangle_2<R>                   Triangle;
+  typedef CGAL::Triangle_2<R>                   Triangle;
   /* required operations:
     constructor with three points of type Point.
   */
-  typedef CGAL_Iso_rectangle_2<R>              Iso_rectangle;
+  typedef CGAL::Iso_rectangle_2<R>              Iso_rectangle;
   /* required operations:
     constructor with three points of type Point.
   */
 
   /*------ non-constant sized objects ------*/
-  typedef list<Object>                         Output_object_container;
+  typedef std::list<Object>                         Output_object_container;
   /* required operations:
      void Output_object_container::push_back(Object);
   */
-  typedef list<Point>                          Container;
+  typedef std::list<Point>                          Container;
   typedef Container                            Input_polygon_container;
-  typedef list<Point>                          Output_polygon_container;
-  typedef CGAL_Polygon_2<CGAL_Polygon_traits_2<R>,Container>          Polygon;
+  typedef std::list<Point>                          Output_polygon_container;
+  typedef Polygon_2<Polygon_traits_2<R>,Container>          Polygon;
   typedef Polygon                              Input_polygon;
   typedef typename Polygon::Vertex_const_iterator  
                    Polygon_vertex_const_iterator;
@@ -147,29 +147,29 @@ struct Bops_default_I : public min_sqr_distance_traits<_R>
      Polygon_vertex_const_iterator Polygon::vertices_begin();
      Polygon_vertex_const_iterator Polygon::vertices_end();
   */
-  typedef CGAL_Polygon_2<CGAL_Polygon_traits_2<R>,Output_polygon_container>
+  typedef Polygon_2<Polygon_traits_2<R>,Output_polygon_container>
           Output_polygon;
 
   bool is_leftturn(const Point& p0, const Point& p1, const Point& p2) const {
     /* p0 ... origin */
     /* return direction_of(p0,p1) < direction_of(p0,p2);*/
-    return CGAL_leftturn(p0, p1, p2);
+    return leftturn(p0, p1, p2);
   }
 
   Object Make_object(const Point& p) const {
-    return CGAL_make_object(p);
+    return make_object(p);
   }
   Object Make_object(const Segment& seg) const {
-    return CGAL_make_object(seg);
+    return make_object(seg);
   }
   Object Make_object(const Output_polygon& pgon) const {
-    return CGAL_make_object(pgon);
+    return make_object(pgon);
   }
   Object Make_object(const Iso_rectangle& irect) const {
-    return CGAL_make_object(irect);
+    return make_object(irect);
   }
   Object Make_object(const Triangle& triangle) const {
-    return CGAL_make_object(triangle);
+    return make_object(triangle);
   }
 
   Bbox get_Bbox(const Polygon& pgon) const {
@@ -180,7 +180,7 @@ struct Bops_default_I : public min_sqr_distance_traits<_R>
     /* will be used if there is a better intersection algorithm implemented */
     //return pgon.has_on_bounded_side(pt);
     //return pgon.has_on_bounded_side(pt) || pgon.has_on_boundary(pt);
-    return pgon.bounded_side(pt)==CGAL_ON_UNBOUNDED_SIDE ? false : true;
+    return pgon.bounded_side(pt)==ON_UNBOUNDED_SIDE ? false : true;
   }
   void reverse_orientation(Polygon& pgon) const {
     pgon.reverse_orientation();
@@ -199,33 +199,33 @@ struct Bops_default_I : public min_sqr_distance_traits<_R>
        return intersection_result(polygon_A, polygon_B);
      }
      int get_result( const intersection_result& result,
-                     list<Point>&               point_list,
-                     list<pair<int,int> >&      edge_list )
+                     std::list<Point>&               point_list,
+                     std::list<pair<int,int> >&      edge_list )
      {
         result.get_graph_information(point_list, edge_list);
      }
      int get_result_on_A( const intersection_result& result,
-                          list<Point>&               point_list) {
+                          std::list<Point>&               point_list) {
         point_list= result.get_color_informationA();
      }
      int get_result_on_B( const intersection_result& result,
-                          list<Point>&               point_list) {
+                          std::list<Point>&               point_list) {
         point_list= result.get_color_informationB();
      }
   */
 
   /* for nsquare-intersection algorithm:
-     CGAL_assign
-     CGAL_collinear_are_ordered_along_line
-     CGAL_compare_lexicographically_xy
-     CGAL_make_object
-     CGAL_do_intersect(Segment, Segment)
-     CGAL_intersection(Segment, Segment)
+     assign
+     collinear_are_ordered_along_line
+     compare_lexicographically_xy
+     make_object
+     do_intersect(Segment, Segment)
+     intersection(Segment, Segment)
   */
 
 protected:
 
-  typedef CGAL_Direction_2<R>                  Direction;
+  typedef CGAL::Direction_2<R>                  Direction;
   /* required operations:
      bool operator<(Direction, Direction);
   */
@@ -240,5 +240,7 @@ protected:
   double ymax(const Bbox& bbox) const { return bbox.ymax(); }
 
 };
+
+CGAL_END_NAMESPACE
 
 #endif /* BOPS_TRAITS_2_H */

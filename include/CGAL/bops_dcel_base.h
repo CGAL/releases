@@ -1,7 +1,6 @@
-//  -*- Mode: c++ -*-
 // ======================================================================
 //
-// Copyright (c) 1997 The CGAL Consortium
+// Copyright (c) 1999 The GALIA Consortium
 //
 // This software and related documentation is part of the
 // Computational Geometry Algorithms Library (CGAL).
@@ -17,38 +16,37 @@
 // - Development licenses grant access to the source code of the library 
 //   to develop programs. These programs may be sold to other parties as 
 //   executable code. To obtain a development license, please contact
-//   the CGAL Consortium (at cgal@cs.uu.nl).
+//   the GALIA Consortium (at cgal@cs.uu.nl).
 // - Commercialization licenses grant access to the source code and the
 //   right to sell development licenses. To obtain a commercialization 
-//   license, please contact the CGAL Consortium (at cgal@cs.uu.nl).
+//   license, please contact the GALIA Consortium (at cgal@cs.uu.nl).
 //
 // This software and documentation is provided "as-is" and without
 // warranty of any kind. In no event shall the CGAL Consortium be
 // liable for any damage of any kind.
 //
-// The CGAL Consortium consists of Utrecht University (The Netherlands),
+// The GALIA Consortium consists of Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland), Free University of Berlin (Germany),
 // INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg
-// (Germany) Max-Planck-Institute Saarbrucken (Germany), RISC Linz (Austria),
+// (Germany), Max-Planck-Institute Saarbrucken (Germany),
 // and Tel-Aviv University (Israel).
 //
 // ----------------------------------------------------------------------
 //
-// release       : CGAL-1.2
-// release_date  : 1999, January 18
+// release       : CGAL-2.0
+// release_date  : 1999, June 03
 //
 // file          : include/CGAL/bops_dcel_base.h
-// package       : bops (1.1.2)
+// package       : bops (2.1.5)
 // source        : include/CGAL/bops_dcel_base.h
-// revision      : $Revision: 1.1.2 $
+// revision      : $Revision: WIP $
 // revision_date : $Date: Wed Dec  9 13:28:50 MET 1998  $
-// author(s)     :             Wolfgang Freiseisen
+// author(s)     : Wolfgang Freiseisen
 //
 // coordinator   : RISC Linz
 //  (Wolfgang Freiseisen)
 //
 // 
-//
 // email         : cgal@cs.uu.nl
 //
 // ======================================================================
@@ -65,6 +63,8 @@
 
 #include <CGAL/bops_V2E_rep.h>
 
+CGAL_BEGIN_NAMESPACE
+
 /*
   Implementation of the Double Connected Edge List (DCEL)
   -------------------------------------------------------
@@ -73,10 +73,10 @@
 */
 
 template <class I>
-class CGAL__Dcel_base : public I {
+class _Dcel_base : public I {
 private:
-	CGAL__Dcel_edge_type<I>   eeeeeee;
-	CGAL__Dcel_vertex_type<I> vvvvvvv;
+	_Dcel_edge_type<I>   eeeeeee;
+	_Dcel_vertex_type<I> vvvvvvv;
 public:
   typedef typename I::Point Point;
   typedef typename I::const_vertices_iterator const_vertices_iterator;
@@ -84,16 +84,16 @@ public:
   typedef typename I::face_iterator  face_iterator;
   typedef typename I::const_points_iterator const_points_iterator;
 
-  typedef CGAL__V2E_rep_base_type<const_vertices_iterator,edge_iterator>
+  typedef _V2E_rep_base_type<const_vertices_iterator,edge_iterator>
           V2E_rep_base_dcel;
 
-  CGAL__Dcel_base() {}
-  CGAL__Dcel_base(const CGAL__Dcel_base<I>& dl) {*this= dl;}
+  _Dcel_base() {}
+  _Dcel_base(const _Dcel_base<I>& dl) {*this= dl;}
 
-  ~CGAL__Dcel_base() {}
+  ~_Dcel_base() {}
 
 
-  CGAL__Dcel_base<I>& operator=(const CGAL__Dcel_base<I>& dl) {
+  _Dcel_base<I>& operator=(const _Dcel_base<I>& dl) {
     // this will not work, since the iterators have to be updated
     _v_list= dl._v_list;
     _f_list= dl._f_list;
@@ -162,17 +162,17 @@ public:
   }
   
 
-  edge_iterator insert( const CGAL__Dcel_edge_type<I>& et ) {
-    _e_list.push_back( CGAL__Dcel_edge_type<I>(et, (int)_e_list.size()) );
+  edge_iterator insert( const _Dcel_edge_type<I>& et ) {
+    _e_list.push_back( _Dcel_edge_type<I>(et, (int)_e_list.size()) );
     edge_iterator i= _e_list.end();
-    advance(i, -1);
+    std::advance(i, -1);
     return i;
   }
 
-  const_vertices_iterator insert( const CGAL__Dcel_vertex_type<I>& vt ) {
+  const_vertices_iterator insert( const _Dcel_vertex_type<I>& vt ) {
     _v_list.push_back( vt );
     const_vertices_iterator i= _v_list.end();
-    advance(i, -1);
+    std::advance(i, -1);
     return i;
   }
 
@@ -188,10 +188,10 @@ public:
 #  endif
   }
 
-  face_iterator insert( const CGAL__Dcel_face_type<I>& ft ) {
+  face_iterator insert( const _Dcel_face_type<I>& ft ) {
     _f_list.push_back( ft );
     face_iterator i= _f_list.end();
-    advance(i, -1);
+    std::advance(i, -1);
     return i;
   }
 
@@ -209,18 +209,18 @@ public:
     return (e->F1() == f) ? e->P1() : e->P2();
   }
 
-  list<edge_iterator> get_all_edges( const_vertices_iterator v ) const {
+  std::list<edge_iterator> get_all_edges( const_vertices_iterator v ) const {
     /* traces the edges counterclockwise about vertex v */
-    list<edge_iterator> A;
+    std::list<edge_iterator> A;
     edge_iterator a, e= begin(v);
     A.push_back(e);
     for( a= next(e,v); a != e; a= next(a,v) ) A.push_back(a);
     return A;
   }
 
-  list<edge_iterator> get_all_edges( face_iterator f ) const {
+  std::list<edge_iterator> get_all_edges( face_iterator f ) const {
     /* traces the edges clockwise about face f */
-    list<edge_iterator> A;
+    std::list<edge_iterator> A;
     edge_iterator a, e= begin(f);
     A.push_back(e);
     for( a= next(e,f); a != e; a= next(a,f) ) A.push_back(a);
@@ -234,11 +234,11 @@ protected:
   typename I::Points_container   _point_list;
 
 /*
-  list<edge>              _e_list;
+  std::list<edge>              _e_list;
   vector<edge_iterator>   _i_e_list;
-  list<vertex>            _v_list;
+  std::list<vertex>            _v_list;
   vector<vertex_iterator> _i_v_list;
-  list<face>              _f_list;
+  std::list<face>              _f_list;
   set<points>             _point_list;
 
   map<point_iterator,vertex_iterator> _point_vertex_map;
@@ -258,6 +258,8 @@ protected:
   V2E_rep_base_dcel *_v2e;
 #endif // CGAL_CFG_RETURN_TYPE_BUG_2
 };
+
+CGAL_END_NAMESPACE
 
 #ifdef CGAL_CFG_NO_AUTOMATIC_TEMPLATE_INCLUSION
 #include <CGAL/bops_dcel_base.C>

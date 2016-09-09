@@ -26,6 +26,7 @@ CXXFLAGS = $(CGAL_LIB_CXXFLAGS) \
 CGAL_OBJECTS = \
 Bbox_2.o \
 Bbox_2_intersections.o \
+Color.o \
 Double.o \
 Double_eps.o \
 File_header_OFF.o \
@@ -38,6 +39,7 @@ File_writer_wavefront.o \
 Fixed_precision_nt.o \
 Float.o \
 Geomview_stream.o \
+Interval_arithmetic.o \
 Origin.o \
 Random.o \
 aff_transformation_tags.o \
@@ -49,10 +51,17 @@ optimisation_basic.o
 #                    target entries
 #---------------------------------------------------------------------#
 
-lib: $(CGAL_OBJECTS)
-	$(CGAL_LIB_CREATE) $(CGAL_LIB) $(CGAL_OBJECTS) $(CGAL_LIB_LDFLAGS)
+lib: $(CGAL_OBJECTS) $(CGAL_EXTRA_OBJECTS)
+	$(CGAL_LIB_CREATE) $(CGAL_LIB) $(CGAL_EXTRA_OBJECTS) $(CGAL_OBJECTS) $(CGAL_LIB_LDFLAGS)
 	mv $(CGAL_LIB) $(CGAL_LIB_DIR)/$(CGAL_OS_COMPILER)
-	rm $(CGAL_OBJECTS)
+	rm $(CGAL_OBJECTS) $(CGAL_EXTRA_OBJECTS)
+
+workaround_4_irix.o:
+	$(CGAL_CC) $(CXXFLAGS) -c Interval_arithmetic/workaround_4_irix.s
+
+workaround_4_irix6.o:
+	$(CGAL_CC) $(CXXFLAGS) -c Interval_arithmetic/workaround_4_irix6.s
+
 
 #---------------------------------------------------------------------#
 #                    suffix rules

@@ -3,40 +3,40 @@
 #include <CGAL/Point_2.h>
 #include <CGAL/predicates_on_points_2.h>
 #include <CGAL/predicate_objects_on_points_2.h>
-#include <vector.h>
-#include <iostream.h>
+#include <vector>
+#include <iterator>
+#include <iostream>
 
-typedef CGAL_Homogeneous<long> Rep_class;
+typedef CGAL::Homogeneous<long> Rep_class;
 
-typedef CGAL_Point_2<Rep_class> Point_2;
 
 const int IN_COUNT = 6;
 
-struct Special_point: public CGAL_Point_2<Rep_class> {
+struct Special_point: public CGAL::Point_2<Rep_class> {
     Special_point() {}
     Special_point(int x, int y) :
-            CGAL_Point_2<Rep_class>(x, y), next_on_hull(0) {}
+            CGAL::Point_2<Rep_class>(x, y), next_on_hull(0) {}
     Special_point *next_on_hull;
 };
 
 struct Special_less_xy {
     bool operator()(Special_point *p, Special_point *q) const
-        { return CGAL_lexicographically_xy_smaller(*p, *q); }
+        { return CGAL::lexicographically_xy_smaller(*p, *q); }
 };
 
 struct Special_less_yx {
     bool operator()(Special_point *p, Special_point *q) const
-        { return CGAL_lexicographically_yx_smaller(*p, *q); }
+        { return CGAL::lexicographically_yx_smaller(*p, *q); }
 };
 
 struct Special_greater_xy {
     bool operator()(Special_point *p, Special_point *q) const
-        { return CGAL_lexicographically_xy_larger(*p, *q); }
+        { return CGAL::lexicographically_xy_larger(*p, *q); }
 };
 
 struct Special_greater_yx {
     bool operator()(Special_point *p, Special_point *q) const
-        { return CGAL_lexicographically_yx_larger(*p, *q); }
+        { return CGAL::lexicographically_yx_larger(*p, *q); }
 };
 
 struct Special_right_of_line {
@@ -45,12 +45,12 @@ struct Special_right_of_line {
     bool operator()(Special_point *r) const
                     { return rol(*r);}
 private:
-    CGAL_r_Right_of_line<Rep_class> rol;
+    CGAL::r_Right_of_line<Rep_class> rol;
 };
 
 struct Special_leftturn {
     bool operator()(Special_point *p, Special_point *q, Special_point *r)const
-        { return CGAL_leftturn(*p, *q, *r); }
+        { return CGAL::leftturn(*p, *q, *r); }
 };
 
 struct Special_point_traits {
@@ -72,18 +72,6 @@ struct Special_point_traits {
   get_right_of_line_object( const Point_2& p, const Point_2& q) const
   { return Right_of_line( p, q); }
 
-//  Less_dist_to_line
-//  get_less_dist_to_line_object( const Point_2& p, const Point_2& q) const
-//  { return Less_dist_to_line( p, q); }
-
-//  Less_rotate_ccw
-//  get_less_rotate_ccw_object( const Point_2& p ) const
-//  { return Less_rotate_ccw( p); }
-
-//  Rightturn
-//  get_rightturn_object() const
-//  { return Rightturn(); }
-
   Leftturn
   get_leftturn_object() const
   { return Leftturn(); }
@@ -100,7 +88,7 @@ static Special_point in[IN_COUNT] = {
     Special_point(6, 5),
 };
 
-typedef vector<Special_point *> Pointer_collection;
+typedef std::vector<Special_point *> Pointer_collection;
 
 Special_point * link(Pointer_collection &c)
 {
@@ -119,7 +107,7 @@ Special_point * link(Pointer_collection &c)
     return c.front();
 }
 
-void main()
+main()
 {
 // Initialise a vector with pointers to the input points.
     Pointer_collection pointers(IN_COUNT), out;
@@ -127,10 +115,10 @@ void main()
         pointers[i] = in+i;
 
 // Compute the convex hull of the pointers.
-    CGAL_convex_hull_points_2(
+    CGAL::convex_hull_points_2(
                 pointers.begin(),
                 pointers.end(),
-                back_inserter(out),
+                std::back_inserter(out),
                 Special_point_traits());
 
 // Link the points of the convex hull together.
@@ -140,7 +128,7 @@ void main()
 // Print all points of the convex hull.
     if (first != 0)
         do {
-            cout << *((CGAL_Point_2<Rep_class> *) cur) << '\n';
+            std::cout << *((CGAL::Point_2<Rep_class> *) cur) << '\n';
             cur = cur->next_on_hull;
         } while (cur != first);
 }
