@@ -23,7 +23,8 @@ if ( CGAL_FOUND )
 
   include_directories (BEFORE "../../include")
 
-  create_single_source_cgal_program( "edge_collapse_constrained_polyhedron.cpp" )
+  create_single_source_cgal_program( "edge_collapse_constrain_sharp_edges.cpp" )
+  create_single_source_cgal_program( "edge_collapse_constrained_border_polyhedron.cpp" )
   create_single_source_cgal_program( "edge_collapse_enriched_polyhedron.cpp" )
   create_single_source_cgal_program( "edge_collapse_polyhedron.cpp" )
 
