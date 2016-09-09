@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Mesh_2/include/CGAL/Mesh_2/Refine_edges.h $
-// $Id: Refine_edges.h 45711 2008-09-24 08:57:10Z afabri $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Mesh_2/include/CGAL/Mesh_2/Refine_edges.h $
+// $Id: Refine_edges.h 54701 2010-03-11 14:19:21Z lrineau $
 // 
 //
 // Author(s)     : Laurent RINEAU
@@ -326,6 +326,54 @@ protected:
   bool visitor_mark_at_left, visitor_mark_at_right;
   //@}
 
+  // FUNCTIONS THAT DEPENDS ON Tr::Constraint_hierarchy_tag
+  template <typename Constraint_hierarchy_tag>
+  void scan_triangulation_impl(Constraint_hierarchy_tag)
+  {
+    // general case (no constraint hierarchy)
+
+    for(Finite_edges_iterator ei = tr.finite_edges_begin();
+        ei != tr.finite_edges_end();
+        ++ei) 
+    {
+      if(ei->first->is_constrained(ei->second) &&
+         !is_locally_conform(tr, ei->first, ei->second) )
+      {
+        add_constrained_edge_to_be_conformed(*ei);
+      }
+    }
+  }
+
+  void scan_triangulation_impl(Tag_true)
+  {
+    // with constraint hierarchy
+
+    for(typename Tr::Subconstraint_iterator it = tr.subconstraints_begin();
+        it != tr.subconstraints_end(); ++it) 
+    {
+      const Vertex_handle& v1 = it->first.first;
+      const Vertex_handle& v2 = it->first.second;
+
+      if(!is_locally_conform(tr, v1, v2) ){
+        add_constrained_edge_to_be_conformed(v1, v2);
+      }
+    }
+  }
+
+  template <typename Constraint_hierarchy_tag>
+  void after_insertion_split_constraint(Vertex_handle v1, Vertex_handle v2,
+                                        Vertex_handle va,
+      Constraint_hierarchy_tag)
+  {
+  }
+
+  void after_insertion_split_constraint(Vertex_handle v1, Vertex_handle v2,
+                                        Vertex_handle va,
+                                        Tag_true)
+  {
+    tr.split_constraint(v1, v2, va);
+  }
+
 public:
   /** \name CONSTRUCTORS */
 
@@ -369,16 +417,50 @@ public:
 
     const Face_handle& f = edge.first;
     const int i = edge.second;
-    *faces_out++ = f;
+
+    zone.fh = triangulation_ref_impl().locate(p, zone.locate_type, zone.i, edge.first);
+
     const Face_handle n = f->neighbor(i);
-    *faces_out++ = n;
+
+    const bool f_does_conflict = (zone.locate_type == Tr::EDGE) ||
+      triangulation_ref_impl().test_conflict(p, f);
+
+    if(f_does_conflict) {
+       *faces_out++ = f;
+    } else {
+      CGAL_assertion(n == zone.fh);
+    }
+
+    const bool n_does_conflict = (zone.locate_type == Tr::EDGE) ||
+      triangulation_ref_impl().test_conflict(p, n);
+
+    CGAL_assertion(f_does_conflict || 
+                   n_does_conflict);
+
     const int ni = triangulation_ref_impl().tds().mirror_index(f, i);
-    std::pair<OutputItFaces,OutputItEdges>
-    pit = std::make_pair(faces_out,edges_out);
-    pit = triangulation_ref_impl().propagate_conflicts(p,f,Tr::ccw(i),pit);
-    pit = triangulation_ref_impl().propagate_conflicts(p,f,Tr:: cw(i),pit);
-    pit = triangulation_ref_impl().propagate_conflicts(p,n,Tr::ccw(ni),pit);
-    pit = triangulation_ref_impl().propagate_conflicts(p,n,Tr:: cw(ni),pit);
+
+    if(n_does_conflict) {
+       *faces_out++ = n;
+       if(!f_does_conflict) {
+         *edges_out++ = std::make_pair(f, i);
+       }
+    } else {
+      CGAL_assertion(f_does_conflict);
+      *edges_out++ = std::make_pair(n, ni);
+    }
+
+    std::pair<OutputItFaces,OutputItEdges> pit = 
+      std::make_pair(faces_out,edges_out);
+
+    if(f_does_conflict) {
+      pit = triangulation_ref_impl().propagate_conflicts(p,f,Tr::ccw(i),pit);
+      pit = triangulation_ref_impl().propagate_conflicts(p,f,Tr:: cw(i),pit);
+    }
+
+    if(n_does_conflict) {
+      pit = triangulation_ref_impl().propagate_conflicts(p,n,Tr::ccw(ni),pit);
+      pit = triangulation_ref_impl().propagate_conflicts(p,n,Tr:: cw(ni),pit);
+    }
     return zone; 
   }
 
@@ -397,27 +479,7 @@ public:
   void scan_triangulation_impl()
   {
     this->clear();
-#ifndef CGAL_IT_IS_A_CONSTRAINED_TRIANGULATION_PLUS
-    for(Finite_edges_iterator ei = tr.finite_edges_begin();
-        ei != tr.finite_edges_end();
-        ++ei)
-      if(ei->first->is_constrained(ei->second) &&
-         !is_locally_conform(tr, ei->first, ei->second) )
-        add_constrained_edge_to_be_conformed(*ei);
-    
-#else
-  for(typename Tr::Subconstraint_iterator it = tr.subconstraints_begin();
-      it != tr.subconstraints_end(); ++it) 
-    {
-      const Vertex_handle& v1 = it->first.first;
-      const Vertex_handle& v2 = it->first.second;
-      
-      if(fh->is_constrained(i) &&
-         !is_locally_conform(tr, v1, v2) ){
-        add_constrained_edge_to_be_conformed(v1, v2);
-      }
-    }
-#endif
+    scan_triangulation_impl(typename Tr::Constraint_hierarchy_tag());
   } // end scan_triangulation_impl()
 
   /** Tells if the queue of edges to be conformed is empty or not. */
@@ -531,6 +593,9 @@ public:
 
     fh->set_constraint(index, true);
     fh->neighbor(index)->set_constraint(triangulation_ref_impl().tds().mirror_index(fh, index), true);
+
+    after_insertion_split_constraint(va, vb, v,
+                                     typename Tr::Constraint_hierarchy_tag());
 
     if(!is_locally_conform(tr, va, v))
       add_constrained_edge_to_be_conformed(va, v);

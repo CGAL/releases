@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Mesh_2/include/CGAL/IO/File_poly.h $
-// $Id: File_poly.h 28567 2006-02-16 14:30:13Z lsaboret $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Mesh_2/include/CGAL/IO/File_poly.h $
+// $Id: File_poly.h 54700 2010-03-11 14:13:25Z lrineau $
 // 
 //
 // Author(s)     : Laurent RINEAU
@@ -52,8 +52,9 @@ read_triangle_poly_file(CDT& t, std::istream &f,
   for(unsigned int i = 0; i < number_of_points; ++i)
     {
       unsigned int j;
-      Point p;
-      f >> j >> p;
+      double x, y;
+      f >> j >> x >> y;
+      Point p(x, y);
       skip_until_EOL(f); skip_comment_OFF(f);
       vertices[--j] = t.insert(p);
     }

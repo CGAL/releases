@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Ridges_3/include/CGAL/Ridges.h $
-// $Id: Ridges.h 48705 2009-04-07 19:35:03Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Ridges_3/include/CGAL/Ridges.h $
+// $Id: Ridges.h 54363 2010-03-01 10:35:39Z lrineau $
 //
 // Author(s)     : Marc Pouget and Frédéric Cazals
 #ifndef CGAL_RIDGE_3_H_
@@ -26,7 +26,7 @@
 #include <CGAL/Min_sphere_d.h>
 #include <CGAL/Optimisation_d_traits_3.h>
 
-#include <boost/property_map.hpp>
+#include <CGAL/property_map.h>
 #include <boost/static_assert.hpp>
 #include <boost/type_traits.hpp>
 

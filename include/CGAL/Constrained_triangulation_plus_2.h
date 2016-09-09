@@ -12,7 +12,7 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Triangulation_2/include/CGAL/Constrained_triangulation_plus_2.h $
-// $Id: Constrained_triangulation_plus_2.h 53845 2010-01-27 16:43:40Z lrineau $
+// $Id: Constrained_triangulation_plus_2.h 54700 2010-03-11 14:13:25Z lrineau $
 // 
 //
 // Author(s)     : Mariette Yvinec
@@ -183,6 +183,11 @@ public:
   size_type number_of_subconstraints(){
     return static_cast<size_type> (hierarchy.number_of_subconstraints());}
 
+  // public member, used by Mesh_2::Refine_edges
+  void split_constraint(Vertex_handle v1, Vertex_handle v2,
+                        Vertex_handle va) {
+    hierarchy.split_constraint(v1,v2,va);
+  }
 
 protected:
   void insert_subconstraint(Vertex_handle va,Vertex_handle vb);

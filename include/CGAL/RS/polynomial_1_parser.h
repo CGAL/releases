@@ -12,14 +12,14 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 // $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Algebraic_kernel_d/include/CGAL/RS/polynomial_1_parser.h $
-// $Id: polynomial_1_parser.h 54046 2010-02-08 11:04:59Z penarand $
+// $Id: polynomial_1_parser.h 54380 2010-03-01 16:07:43Z penarand $
 //
 // Author: Luis Peñaranda <luis.penaranda@loria.fr>
 //
 // (the first version of this file was written by Elias Tsigaridas)
 
-#ifndef RS_PARSER_1_H
-#define RS_PARSER_1_H
+#ifndef CGAL_RS_PARSER_1_H
+#define CGAL_RS_PARSER_1_H
 
 #include <iostream>
 #include <string>
@@ -358,6 +358,6 @@ struct Convert_to_Gmpz
 
 #undef CGAL_BOOST_SPIRIT
 
-#endif  // RS_PARSER_1_H
+#endif  // CGAL_RS_PARSER_1_H
 
 // vim: tabstop=8: softtabstop=8: smarttab: shiftwidth=8: expandtab

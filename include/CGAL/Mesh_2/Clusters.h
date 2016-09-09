@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/Mesh_2/include/CGAL/Mesh_2/Clusters.h $
-// $Id: Clusters.h 48704 2009-04-07 19:30:59Z spion $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/Mesh_2/include/CGAL/Mesh_2/Clusters.h $
+// $Id: Clusters.h 54700 2010-03-11 14:13:25Z lrineau $
 // 
 //
 // Author(s)     : Laurent RINEAU
@@ -21,6 +21,7 @@
 #define CGAL_MESH_2_CLUSTERS_H
 
 #include <CGAL/Filter_circulator.h>
+#include <CGAL/Unique_hash_map.h>
 
 #include <utility>
 #include <boost/iterator/transform_iterator.hpp>
@@ -143,7 +144,40 @@ public:
   }
 
   /** For all vertices, calls create_clusters_of_vertex(). */
-  void create_clusters();
+  void create_clusters() {
+    create_clusters(typename Tr::Constraint_hierarchy_tag());
+  }
+
+  // function that depends of Tr::Constraint_hierarchy_tag
+  template <typename Constraint_hierarchy_tag>
+  void create_clusters(Constraint_hierarchy_tag) {
+    cluster_map.clear();
+    for(typename Tr::Finite_vertices_iterator vit = tr.finite_vertices_begin();
+        vit != tr.finite_vertices_end();
+        vit++)
+    {
+      create_clusters_of_vertex(vit);
+    }
+  }
+
+  void create_clusters(Tag_true) {
+    cluster_map.clear();
+    Unique_hash_map<Vertex_handle,bool> created(false);
+    for(typename Tr::Subconstraint_iterator it = tr.subconstraints_begin();
+        it != tr.subconstraints_end(); ++it) {
+      Vertex_handle vh = it->first.first;
+      if(!created[vh]){
+        created[vh] = true;
+        create_clusters_of_vertex(vh);
+      }
+
+      vh = it->first.second;
+      if(!created[vh]){
+        created[vh] = true;
+        create_clusters_of_vertex(vh);
+      }
+    }
+  }
 
 private:
   /**
@@ -353,34 +387,6 @@ get_cluster(Vertex_handle va, Vertex_handle vb, Cluster& c,
   return false;
 }
 
-template <typename Tr>
-void Clusters<Tr>::
-create_clusters()
-{
-  cluster_map.clear();
-#ifndef CGAL_IT_IS_A_CONSTRAINED_TRIANGULATION_PLUS
-  for(typename Tr::Finite_vertices_iterator vit = tr.finite_vertices_begin();
-      vit != tr.finite_vertices_end();
-      vit++)
-    create_clusters_of_vertex(vit);
-#else
-  Unique_hash_map<Vertex_handle,bool> created(false);
-  for(typename Tr::Subconstraint_iterator it = tr.subconstraints_begin();
-      it != tr.subconstraints_end(); ++it) {
-    Vertex_handle vh = it->first.first;
-    if(!created[vh]){
-      created[vh] = true;
-      create_clusters_of_vertex(vh);
-    }
-
-    vh = it->first.second;
-    if(!created[vh]){
-      created[vh] = true;
-      create_clusters_of_vertex(vh);
-    }
-  }
-#endif
-}
 
 template <typename Tr>
 void Clusters<Tr>::

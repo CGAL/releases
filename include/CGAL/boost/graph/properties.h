@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.5-branch/BGL/include/CGAL/boost/graph/properties.h $
-// $Id: properties.h 37284 2007-03-19 19:36:49Z afabri $
+// $URL: svn+ssh://scm.gforge.inria.fr/svn/cgal/branches/CGAL-3.6-branch/BGL/include/CGAL/boost/graph/properties.h $
+// $Id: properties.h 54363 2010-03-01 10:35:39Z lrineau $
 // 
 //
 // Author(s)     : Andreas Fabri, Fernando Cacciola
@@ -21,7 +21,7 @@
 #ifndef CGAL_BOOST_GRAPH_BGL_PROPERTIES_H
 #define CGAL_BOOST_GRAPH_BGL_PROPERTIES_H
 
-#include <boost/property_map.hpp>
+#include <CGAL/property_map.h>
 #include <boost/graph/properties.hpp>
 
 #include <CGAL/basic.h>
