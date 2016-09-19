@@ -441,17 +441,17 @@ public:
     if (m_verbose > 0)
       std::cerr << "insert loose bbox...";
 
-    double xl = (bbox.xmax()-bbox.xmin()/2);
-    double yl = (bbox.ymax()-bbox.ymin()/2);
+    double dl = (std::max)((bbox.xmax()-bbox.xmin()) / 2.,
+                           (bbox.ymax()-bbox.ymin()) / 2.);
 
     timer.start();
     int nb = static_cast<int>(m_dt.number_of_vertices());
     typename Traits::Construct_point_2 point_2
       = m_traits.construct_point_2_object();
-    insert_point(point_2(bbox.xmin()-xl, bbox.ymin()-yl), true, nb++);
-    insert_point(point_2(bbox.xmin()-xl, bbox.ymax()+yl), true, nb++);
-    insert_point(point_2(bbox.xmax()+xl, bbox.ymax()+yl), true, nb++);
-    insert_point(point_2(bbox.xmax()+xl, bbox.ymin()-yl), true, nb++);
+    insert_point(point_2(bbox.xmin()-dl, bbox.ymin()-dl), true, nb++);
+    insert_point(point_2(bbox.xmin()-dl, bbox.ymax()+dl), true, nb++);
+    insert_point(point_2(bbox.xmax()+dl, bbox.ymax()+dl), true, nb++);
+    insert_point(point_2(bbox.xmax()+dl, bbox.ymin()-dl), true, nb++);
 
     if (m_verbose > 0)
       std::cerr << "done (" << nb << " vertices, "
@@ -532,7 +532,7 @@ public:
     Vertex_handle s = m_dt.source_vertex(edge);
     Vertex_handle t = m_dt.target_vertex(edge);
 
-    if (m_verbose > 0) {
+    if (m_verbose > 1) {
       std::cerr << std::endl << "do collapse ("
           << s->id() << "->" << t->id() << ") ... " << std::endl;
     }
@@ -552,7 +552,8 @@ public:
     // debug test
     bool ok = m_dt.check_kernel_test(edge);
     if (!ok) {
-      std::cerr << "do_collapse: kernel test failed: " << std::endl;
+      if (m_verbose > 1)
+        std::cerr << "do_collapse: kernel test failed: " << std::endl;
       return false;
     }
     //
@@ -570,7 +571,7 @@ public:
       relocate_one_ring(hull.begin(), hull.end());
     }
 
-    if (m_verbose > 0) {
+    if (m_verbose > 1) {
       std::cerr << "done" << std::endl;
     }
 

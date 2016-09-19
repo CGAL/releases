@@ -244,12 +244,12 @@ polylines_to_protect(const CGAL::Image_3& cgal_image,
           //
           switch(pixel_values_set.size()) {
           case 4: {
-            assert(get<2>(square[0][0]) != get<2>(square[0][1]));
-            assert(get<2>(square[0][0]) != get<2>(square[1][0]));
-            assert(get<2>(square[0][0]) != get<2>(square[1][1]));
-            assert(get<2>(square[1][0]) != get<2>(square[1][1]));
-            assert(get<2>(square[0][1]) != get<2>(square[1][1]));
-            assert(get<2>(square[0][1]) != get<2>(square[1][0]));
+            CGAL_assertion(get<2>(square[0][0]) != get<2>(square[0][1]));
+            CGAL_assertion(get<2>(square[0][0]) != get<2>(square[1][0]));
+            CGAL_assertion(get<2>(square[0][0]) != get<2>(square[1][1]));
+            CGAL_assertion(get<2>(square[1][0]) != get<2>(square[1][1]));
+            CGAL_assertion(get<2>(square[0][1]) != get<2>(square[1][1]));
+            CGAL_assertion(get<2>(square[0][1]) != get<2>(square[1][0]));
 case_4:
             // case 4 or case 2-2
             ++case4;
@@ -273,10 +273,10 @@ case_4:
             }
             if(get<2>(square[0][1]) == get<2>(square[1][0])) {
               // diagonal case 1-2-1
-              assert(get<2>(square[0][1]) == get<2>(square[1][0]));
-              assert(get<2>(square[1][1]) != get<2>(square[0][0]));
-              assert(get<2>(square[0][1]) != get<2>(square[0][0]));
-              assert(get<2>(square[0][1]) != get<2>(square[1][1]));
+              CGAL_assertion(get<2>(square[0][1]) == get<2>(square[1][0]));
+              CGAL_assertion(get<2>(square[1][1]) != get<2>(square[0][0]));
+              CGAL_assertion(get<2>(square[0][1]) != get<2>(square[0][0]));
+              CGAL_assertion(get<2>(square[0][1]) != get<2>(square[1][1]));
               ++case121;
               vertex_descriptor left   = g_manip.split(p00, p01, out00, out01);
               vertex_descriptor right  = g_manip.split(p10, p11, out10, out11);
@@ -323,10 +323,10 @@ case_4:
                 std::swap(square[0][0], square[1][0]); std::swap(out00, out10);
                 std::swap(square[0][1], square[1][1]); std::swap(out01, out11);
               }
-              assert(get<2>(square[0][0]) == get<2>(square[0][1]));
-              assert(get<2>(square[0][0]) != get<2>(square[1][0]));
-              assert(get<2>(square[0][0]) != get<2>(square[1][1]));
-              assert(get<2>(square[1][0]) != get<2>(square[1][1]));
+              CGAL_assertion(get<2>(square[0][0]) == get<2>(square[0][1]));
+              CGAL_assertion(get<2>(square[0][0]) != get<2>(square[1][0]));
+              CGAL_assertion(get<2>(square[0][0]) != get<2>(square[1][1]));
+              CGAL_assertion(get<2>(square[1][0]) != get<2>(square[1][1]));
               ++case211;
               Point_3 midleft =  midpoint(p00, p01);
               Point_3 midright = midpoint(p10, p11);
@@ -375,34 +375,34 @@ case_4:
               if(get<2>(square[0][0])==get<2>(square[1][0])) {
                 // case 2-2, diagonal swap
                 std::swap(square[0][1], square[1][0]); std::swap(out01, out10);
-                assert(get<2>(square[0][0])==get<2>(square[0][1]));
+                CGAL_assertion(get<2>(square[0][0])==get<2>(square[0][1]));
               }
               if(get<2>(square[1][0])==get<2>(square[1][1])) {
                 // case 2-2, vertical swap
                 std::swap(square[0][1], square[1][1]); std::swap(out01, out11);
                 std::swap(square[0][0], square[1][0]); std::swap(out00, out10);
-                assert(get<2>(square[0][0])==get<2>(square[0][1]));
+                CGAL_assertion(get<2>(square[0][0])==get<2>(square[0][1]));
               }
               if(get<2>(square[0][1])==get<2>(square[1][1])) {
                 // case 2-2, diagonal swap
                 std::swap(square[0][0], square[1][1]); std::swap(out00, out11);
-                assert(get<2>(square[0][0])==get<2>(square[0][1]));
+                CGAL_assertion(get<2>(square[0][0])==get<2>(square[0][1]));
               }
 
               if(get<2>(square[0][0])==get<2>(square[0][1])) {
                 // vertical case 2-2
                 ++case22;
-                assert(get<2>(square[1][0])==get<2>(square[1][1]));
-                assert(get<2>(square[1][0])!=get<2>(square[0][1]));
+                CGAL_assertion(get<2>(square[1][0])==get<2>(square[1][1]));
+                CGAL_assertion(get<2>(square[1][0])!=get<2>(square[0][1]));
                 vertex_descriptor top    = g_manip.split(p01, p11, out01, out11);
                 vertex_descriptor bottom = g_manip.split(p00, p10, out00, out10);
                 g_manip.try_add_edge(top, bottom);
               } else {
                 // Else diagonal case case 2-2
                 // Same as the case with 4 colors
-                assert(get<2>(square[0][0])==get<2>(square[1][1]));
-                assert(get<2>(square[1][0])==get<2>(square[0][1]));
-                assert(get<2>(square[0][0])!=get<2>(square[0][1]));
+                CGAL_assertion(get<2>(square[0][0])==get<2>(square[1][1]));
+                CGAL_assertion(get<2>(square[1][0])==get<2>(square[0][1]));
+                CGAL_assertion(get<2>(square[0][0])!=get<2>(square[0][1]));
                 goto case_4;
               }
             }
@@ -412,33 +412,33 @@ case_4:
               if(pixel_values_set.begin()->second == 1) {
                 value_alone = pixel_values_set.begin()->first;
               } else {
-                assert(pixel_values_set.begin()->second == 3);
-                assert(pixel_values_set.rbegin()->second ==1);
+                CGAL_assertion(pixel_values_set.begin()->second == 3);
+                CGAL_assertion(pixel_values_set.rbegin()->second ==1);
                 value_alone = pixel_values_set.rbegin()->first;
               }
               if(get<2>(square[0][1]) == value_alone) {
                 // central symmetry
                 std::swap(square[0][1], square[1][0]); std::swap(out01, out10);
                 std::swap(square[0][0], square[1][1]); std::swap(out00, out11);
-                assert(get<2>(square[1][0]) == value_alone);
+                CGAL_assertion(get<2>(square[1][0]) == value_alone);
               }
               if(get<2>(square[1][1]) == value_alone) {
                 // vertical swap
                 std::swap(square[0][0], square[0][1]); std::swap(out00, out01);
                 std::swap(square[1][0], square[1][1]); std::swap(out10, out11);
-                assert(get<2>(square[1][0]) == value_alone);
+                CGAL_assertion(get<2>(square[1][0]) == value_alone);
               }
               if(get<2>(square[0][0]) == value_alone) {
                 // horizontal swap
                 std::swap(square[0][1], square[1][1]); std::swap(out01, out11);
                 std::swap(square[0][0], square[1][0]); std::swap(out00, out10);
-                assert(get<2>(square[1][0]) == value_alone);
+                CGAL_assertion(get<2>(square[1][0]) == value_alone);
               }
               ++case31;
-              assert(get<2>(square[1][0]) == value_alone);
-              assert(get<2>(square[1][0]) != get<2>(square[0][0]));
-              assert(get<2>(square[1][1]) == get<2>(square[0][0]));
-              assert(get<2>(square[0][1]) == get<2>(square[0][0]));
+              CGAL_assertion(get<2>(square[1][0]) == value_alone);
+              CGAL_assertion(get<2>(square[1][0]) != get<2>(square[0][0]));
+              CGAL_assertion(get<2>(square[1][1]) == get<2>(square[0][0]));
+              CGAL_assertion(get<2>(square[0][1]) == get<2>(square[0][0]));
               vertex_descriptor bottom = g_manip.split(p00, p10, out00, out10);
               vertex_descriptor old = bottom;
 
@@ -493,6 +493,41 @@ case_4:
   split_graph_into_polylines(graph, visitor);
 }
 
+template <typename P,
+          typename PolylineInputIterator>
+void
+polylines_to_protect(std::vector<std::vector<P> >& polylines,
+                     PolylineInputIterator existing_polylines_begin,
+                     PolylineInputIterator existing_polylines_end)
+{
+  typedef P Point_3;
+  typedef boost::adjacency_list<boost::setS, boost::setS, boost::undirectedS, Point_3> Graph;
+  typedef typename boost::graph_traits<Graph>::vertex_descriptor vertex_descriptor;
+  typedef typename std::iterator_traits<PolylineInputIterator>::value_type Polyline;
+
+  Graph graph;
+  internal::Mesh_3::Graph_manipulations<Graph, Point_3> g_manip(graph);
+
+  for (PolylineInputIterator poly_it = existing_polylines_begin;
+       poly_it != existing_polylines_end; ++poly_it)
+  {
+    Polyline polyline = *poly_it;
+    if (polyline.size() < 2)
+      continue;
+
+    typename Polyline::iterator pit = polyline.begin();
+    while (boost::next(pit) != polyline.end())
+    {
+      vertex_descriptor v = g_manip.get_vertex(*pit);
+      vertex_descriptor w = g_manip.get_vertex(*boost::next(pit));
+      g_manip.try_add_edge(v, w);
+      ++pit;
+    }
+  }
+
+  Mesh_3::Polyline_visitor<Point_3, Graph> visitor(polylines, graph);
+  split_graph_into_polylines(graph, visitor);
+}
 
 template <typename P, typename Image_word_type, typename Null_subdomain_index>
 void

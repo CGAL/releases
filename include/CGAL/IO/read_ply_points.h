@@ -351,7 +351,7 @@ public:
         {
           internal::Ply_read_typed_number<Type>*
             reader = dynamic_cast<internal::Ply_read_typed_number<Type>*>(m_readers[i]);
-          assert (reader != NULL);
+          CGAL_assertion (reader != NULL);
           t = reader->buffer();
           return;
         }
@@ -389,7 +389,7 @@ public:
             {
               internal::Ply_read_typed_number<float>*
                 reader_float = dynamic_cast<internal::Ply_read_typed_number<float>*>(m_readers[i]);
-              assert (reader_float != NULL);
+              CGAL_assertion (reader_float != NULL);
               t = reader_float->buffer();
             }
           else
@@ -412,10 +412,8 @@ public:
 /// @tparam OutputIteratorValueType type of objects that can be put in `OutputIterator`.
 /// @tparam OutputIterator iterator over output points.
 /// @tparam PointPMap is a model of `WritablePropertyMap` with  value type `Point_3<Kernel>`.
-///        It can be omitted if the value type of `OutputIterator` is convertible to `Point_3<Kernel>`.
 /// @tparam NormalPMap is a model of `WritablePropertyMap` with value type `Vector_3<Kernel>`.
 /// @tparam Kernel Geometric traits class.
-///        It can be omitted and deduced automatically from the value type of `PointPMap`.
 ///
 /// \cgalModels `PlyInterpreter`
 //-----------------------------------------------------------------------------------
