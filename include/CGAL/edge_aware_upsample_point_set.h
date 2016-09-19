@@ -31,12 +31,6 @@
 #include <set>
 #include <utility>
 
-#include <boost/version.hpp>
-#if BOOST_VERSION >= 104000
-  #include <boost/property_map/property_map.hpp>
-#else
-  #include <boost/property_map.hpp>
-#endif
 
 //#define  CGAL_PSP3_VERBOSE
 
@@ -388,13 +382,8 @@ edge_aware_upsample_point_set(
   ForwardIterator it = first; // point iterator
   for(unsigned int i = 0; it != beyond; ++it, ++i)
   {
-#ifdef CGAL_USE_PROPERTY_MAPS_API_V1
-    rich_point_set[i].pt = get(point_pmap, it);
-    rich_point_set[i].normal = get(normal_pmap, it);
-#else
     rich_point_set[i].pt = get(point_pmap, *it);
     rich_point_set[i].normal = get(normal_pmap, *it);
-#endif
 
     rich_point_set[i].index = i;
     bbox += rich_point_set[i].pt.bbox();

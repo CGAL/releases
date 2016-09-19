@@ -74,7 +74,9 @@ public:
 
   friend std::size_t hash_value(const Edge& e)
   {
-    return hash_value(e.first);
+    if (e.first==Face_handle()) return 0;
+    return hash_value(e.first<e.first->neighbor(e.second)?
+                      e.first:e.first->neighbor(e.second));
   }
 
   bool operator==(const Edge& other) const
@@ -695,7 +697,7 @@ namespace CGAL {
     { }
 
     value_type operator[](key_type e) const {
-      return tr.segment(e).squared_length();
+      return approximate_sqrt(tr.segment(e).squared_length());
     }
   };
 
@@ -846,7 +848,6 @@ namespace std {
   struct hash<CGAL::detail::Edge<T,EdgeBase> > {
     std::size_t operator()(const CGAL::detail::Edge<T,EdgeBase>& e) const
     {
-      std::cerr << "Triangulation_2::Edge HashFct" << std::endl;
       return hash_value(e);
     }
   }; 
@@ -855,7 +856,6 @@ namespace std {
   struct hash<CGAL::detail::T2_halfedge_descriptor<Tr> > {
     std::size_t operator()(const CGAL::detail::T2_halfedge_descriptor<Tr>& e) const
     {
-      std::cerr << "Triangulation_2::halfedge_descriptor HashFct" << std::endl;
       return hash_value(e);
     }
   };
@@ -868,6 +868,5 @@ namespace std {
 
 } // namespace std
 
-//#include <CGAL/graph_traits_Delaunay_triangulation_2.h>
 
 #endif // CGAL_GRAPH_TRAITS_TRIANGULATION_2_H

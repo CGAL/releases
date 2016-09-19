@@ -56,8 +56,27 @@ public:
     enum Mode {ASCII = 0, PRETTY, BINARY};
 };
 
+template <typename Dummy>
+struct IO_rep_is_specialized_aux
+{
+  static const bool is_specialized = true;
+};
+template< class Dummy >
+const bool IO_rep_is_specialized_aux<Dummy>::is_specialized;
+
+template <typename Dummy>
+struct IO_rep_is_not_specialized_aux
+{
+  static const bool is_specialized = false;
+};
+template< class Dummy >
+const bool IO_rep_is_not_specialized_aux<Dummy>::is_specialized;
+
+typedef IO_rep_is_specialized_aux<void>     IO_rep_is_specialized;
+typedef IO_rep_is_not_specialized_aux<void> IO_rep_is_not_specialized;
+
 template <class T, class F = ::CGAL::Null_tag >
-class Output_rep {
+class Output_rep : public IO_rep_is_not_specialized {
     const T& t;
 public:
     //! initialize with a const reference to \a t.
@@ -95,7 +114,7 @@ oformat( const T& t, F) { return Output_rep<T,F>(t); }
  * for external types not supporting our stream IO format.
  */
 template <class T>
-class Input_rep {
+class Input_rep : public IO_rep_is_not_specialized {
     T& t;
 public:
     //! initialize with a reference to \a t.
@@ -107,7 +126,7 @@ public:
 #if CGAL_FORCE_IFORMAT_DOUBLE || \
   ( ( _MSC_VER > 1600 ) && (! defined( CGAL_NO_IFORMAT_DOUBLE )) )
 template <>
-class Input_rep<double> {
+class Input_rep<double> : public IO_rep_is_specialized {
     double& t;
 public:
   //! initialize with a reference to \a t.
@@ -372,7 +391,7 @@ void eat_white_space(std::istream &is)
     if (c== std::istream::traits_type::eof())
       return;
     else {
-      std::istream::char_type cc= c;
+      std::istream::char_type cc= static_cast<std::istream::char_type>(c);
       if ( std::isspace(cc, std::locale::classic()) ) {
         is.get();
         // since peek succeeded, this should too
@@ -388,9 +407,9 @@ void eat_white_space(std::istream &is)
   inline
   bool is_space (const std::istream& /*is*/, std::istream::int_type c)
   {
-    std::istream::char_type cc= c;
     return (c == std::istream::traits_type::eof()) ||
-           std::isspace(cc, std::locale::classic() );
+      std::isspace(static_cast<std::istream::char_type>(c),
+                   std::locale::classic() );
   }
 
   inline
@@ -402,8 +421,9 @@ void eat_white_space(std::istream &is)
   inline
   bool is_digit (const std::istream& /*is*/, std::istream::int_type c)
   {
-    std::istream::char_type cc= c;
-    return std::isdigit(cc, std::locale::classic() );
+    CGAL_assertion(c != std::istream::traits_type::eof());
+    return std::isdigit(static_cast<std::istream::char_type>(c),
+                        std::locale::classic() );
   }
 
   inline std::istream::int_type peek(std::istream& is)

@@ -55,17 +55,18 @@ struct Get_iterator_value_type<T,true>{
 namespace CGAL {
 
 
-template <class Gt, 
-          class Tds = Triangulation_data_structure_2 <
-                      Triangulation_vertex_base_2<Gt>,
-		      Constrained_triangulation_face_base_2<Gt> >,
-	  class Itag = No_intersection_tag >		
+template <class Gt,
+          class Tds_ = Default ,
+	  class Itag_ = Default>
 class Constrained_Delaunay_triangulation_2
-  : public  Constrained_triangulation_2<Gt, Tds, Itag> 
+  : public  Constrained_triangulation_2<Gt, Tds_, Itag_>
 {
 public:
-  typedef Constrained_triangulation_2<Gt,Tds,Itag>             Ctr;
-  typedef Constrained_Delaunay_triangulation_2<Gt,Tds,Itag>    CDt;
+  typedef Constrained_triangulation_2<Gt,Tds_,Itag_>            Ctr;
+  typedef typename Ctr::Tds Tds;
+  typedef typename Ctr::Itag Itag;
+
+  typedef Constrained_Delaunay_triangulation_2<Gt,Tds_,Itag_>    CDt;
   typedef typename Ctr::Geom_traits      Geom_traits;
   typedef typename Ctr::Intersection_tag Intersection_tag;
 
@@ -119,14 +120,11 @@ public:
   Constrained_Delaunay_triangulation_2(const CDt& cdt)
     : Ctr(cdt) {}
 
-  Constrained_Delaunay_triangulation_2(List_constraints& lc, 
+  Constrained_Delaunay_triangulation_2(const List_constraints& lc,
 				       const Geom_traits& gt=Geom_traits())
     : Ctr(gt) 
-    {   
-      typename List_constraints::iterator itc = lc.begin();
-      for( ; itc != lc.end(); ++itc) {
-	insert((*itc).first, (*itc).second);
-      }
+    {
+      insert_constraints(lc.begin(), lc.end());
       CGAL_triangulation_postcondition( is_valid() );
     }
 
@@ -136,9 +134,7 @@ public:
 				       const Geom_traits& gt=Geom_traits() )
     : Ctr(gt) 
     {
-      for ( ; it != last; it++) {
-      	insert((*it).first, (*it).second);
-      }
+      insert_constraints(it, last);
       CGAL_triangulation_postcondition( is_valid() );
     }
 
@@ -309,10 +305,10 @@ private:
   std::ptrdiff_t insert_with_info(InputIterator first,InputIterator last)
   {
     size_type n = this->number_of_vertices();
-    std::vector<std::ptrdiff_t> indices;
+    std::vector<std::size_t> indices;
     std::vector<Point> points;
     std::vector<typename Tds::Vertex::Info> infos;
-    std::ptrdiff_t index=0;
+    std::size_t index=0;
     for (InputIterator it=first;it!=last;++it){
       Tuple_or_pair value=*it;
       points.push_back( top_get_first(value)  );
@@ -320,13 +316,16 @@ private:
       indices.push_back(index++);
     }
 
-    typedef Spatial_sort_traits_adapter_2<Geom_traits,Point*> Search_traits;
+    typedef typename Pointer_property_map<Point>::type Pmap;
+    typedef Spatial_sort_traits_adapter_2<Geom_traits,Pmap> Search_traits;
 
-    spatial_sort(indices.begin(),indices.end(),Search_traits(&(points[0]),geom_traits()));
+    spatial_sort(indices.begin(),
+                 indices.end(),
+                 Search_traits(make_property_map(points),geom_traits()));
 
     Vertex_handle v_hint;
     Face_handle hint;
-    for (typename std::vector<std::ptrdiff_t>::const_iterator
+    for (typename std::vector<std::size_t>::const_iterator
       it = indices.begin(), end = indices.end();
       it != end; ++it){
       v_hint = insert(points[*it], hint);

@@ -123,7 +123,7 @@ namespace SurfaceReconstruction
   
   unsigned int scale_of_anisotropy (const Point_set& points, double& size)
   {
-    Tree tree(points.begin(), points.end());
+    Tree tree(points.begin_or_selection_begin(), points.end());
     
     double ratio_kept = (points.size() < 1000)
       ? 1. : 1000. / (points.size());
@@ -191,7 +191,7 @@ namespace SurfaceReconstruction
   
   unsigned int scale_of_noise (const Point_set& points, double& size)
   {
-    Tree tree(points.begin(), points.end());
+    Tree tree(points.begin_or_selection_begin(), points.end());
     
     double ratio_kept = (points.size() < 1000)
       ? 1. : 1000. / (points.size());
@@ -273,7 +273,7 @@ namespace SurfaceReconstruction
                     unsigned int samples = 300, unsigned int iterations = 4)
   {
     ScaleSpace reconstruct (scale, samples);
-    reconstruct.reconstruct_surface(points.begin (), points.end (), iterations,
+    reconstruct.reconstruct_surface(points.begin_or_selection_begin(), points.end (), iterations,
                                     separate_shells, force_manifold);
 
     for( unsigned int sh = 0; sh < reconstruct.number_of_shells(); ++sh )
@@ -304,7 +304,7 @@ namespace SurfaceReconstruction
                 if (map_i2i.find ((*it)[ind]) == map_i2i.end ())
                   {
                     map_i2i.insert (std::make_pair ((*it)[ind], current_index ++));
-                    Point p = points[(*it)[ind]].position();
+                    Point p = (points.begin_or_selection_begin() + (*it)[ind])->position();
                     new_item->new_vertex (p.x (), p.y (), p.z ());
                     
                     if (generate_smooth)
@@ -360,7 +360,7 @@ namespace SurfaceReconstruction
                 if (map_i2i.find ((*it)[ind]) == map_i2i.end ())
                   {
                     map_i2i.insert (std::make_pair ((*it)[ind], current_index ++));
-                    Point p = points[(*it)[ind]].position();
+                    Point p = (points.begin_or_selection_begin() + (*it)[ind])->position();
                     new_item->new_vertex (p.x (), p.y (), p.z ());
                     
                     if (generate_smooth)
@@ -392,22 +392,16 @@ namespace SurfaceReconstruction
   {
     Polyhedron& P = * const_cast<Polyhedron*>(new_item->polyhedron());
     Radius filter (size);
-
-    CGAL::advancing_front_surface_reconstruction (points.begin (), points.end (), P, filter,
+    CGAL::advancing_front_surface_reconstruction (points.begin_or_selection_begin(), points.end (), P, filter,
                                                   radius_ratio_bound, beta);
 						  
   }
 
   void compute_normals (Point_set& points, unsigned int neighbors)
   {
-    CGAL::jet_estimate_normals<Concurrency_tag>(points.begin(), points.end(),
+    CGAL::jet_estimate_normals<Concurrency_tag>(points.begin_or_selection_begin(), points.end(),
                                                 CGAL::make_normal_of_point_with_normal_pmap(Point_set::value_type()),
                                                 2 * neighbors);
-    
-    points.erase (CGAL::mst_orient_normals (points.begin(), points.end(),
-					    CGAL::make_normal_of_point_with_normal_pmap(Point_set::value_type()),
-					    2 * neighbors),
-		  points.end ());
   }
   
 }
@@ -468,12 +462,12 @@ class Polyhedron_demo_surface_reconstruction_plugin :
   QAction* actionSurfaceReconstruction;
 
 public:
-  void init(QMainWindow* mainWindow, CGAL::Three::Scene_interface* scene_interface) {
-
+  void init(QMainWindow* mainWindow, CGAL::Three::Scene_interface* scene_interface, Messages_interface*) {
+    scene = scene_interface;
     actionSurfaceReconstruction = new QAction(tr("Surface Reconstruction"), mainWindow);
     actionSurfaceReconstruction->setObjectName("actionSurfaceReconstruction");
+    autoConnectActions();
 
-    CGAL::Three::Polyhedron_demo_plugin_helper::init(mainWindow, scene_interface);
   }
 
   void automatic_reconstruction (const Polyhedron_demo_surface_reconstruction_plugin_dialog& dialog);
@@ -506,6 +500,7 @@ void Polyhedron_demo_surface_reconstruction_plugin::on_actionSurfaceReconstructi
     {
       //generate the dialog box to set the options
       Polyhedron_demo_surface_reconstruction_plugin_dialog dialog;
+      dialog.setWindowFlags(Qt::Dialog|Qt::CustomizeWindowHint|Qt::WindowCloseButtonHint);
       if(!dialog.exec())
 	return;
 
@@ -545,7 +540,6 @@ void Polyhedron_demo_surface_reconstruction_plugin::automatic_reconstruction
     {
       // Gets point set
       Point_set* points = pts_item->point_set();
-
       // wait cursor
       QApplication::setOverrideCursor(Qt::WaitCursor);
 
@@ -568,7 +562,7 @@ void Polyhedron_demo_surface_reconstruction_plugin::automatic_reconstruction
 	  new_item->invalidateOpenGLBuffers();
 
 	  points = new_item->point_set();
-	  std::copy (pts_item->point_set()->begin(), pts_item->point_set()->end(),
+	  std::copy (points->begin_or_selection_begin(), pts_item->point_set()->end(),
 		     std::back_inserter (*points));
 	}
 

@@ -2,7 +2,7 @@
 # This is the CMake script for compiling a CGAL application.
 
 
-project( Boolean_set_operations_2_example )
+project( Boolean_set_operations_2_ )
 
 cmake_minimum_required(VERSION 2.8.10)
 
@@ -16,17 +16,11 @@ if ( CGAL_FOUND )
 
   include_directories (BEFORE "../../include")
 
-  create_single_source_cgal_program( "bezier_traits_adapter.cpp" )
-  create_single_source_cgal_program( "bezier_traits_adapter2.cpp" )
-  create_single_source_cgal_program( "circle_segment.cpp" )
-  create_single_source_cgal_program( "conic_traits_adapter.cpp" )
-  create_single_source_cgal_program( "connect_polygon.cpp" )
-  create_single_source_cgal_program( "do_intersect.cpp" )
-  create_single_source_cgal_program( "dxf_union.cpp" )
-  create_single_source_cgal_program( "sequence.cpp" )
-  create_single_source_cgal_program( "set_union.cpp" )
-  create_single_source_cgal_program( "simple_join_intersect.cpp" )
-  create_single_source_cgal_program( "symmetric_difference.cpp" )
+  # create a target per cppfile
+  file(GLOB cppfiles RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_CURRENT_SOURCE_DIR}/*.cpp)
+  foreach(cppfile ${cppfiles})
+    create_single_source_cgal_program( "${cppfile}" )
+  endforeach()
 
 else()
   

@@ -18,6 +18,7 @@ if ( CGAL_FOUND )
 
   create_single_source_cgal_program( "connected_components.cpp" )
   create_single_source_cgal_program( "prim.cpp" )
+  create_single_source_cgal_program( "surface_mesh_dual.cpp" )
 
 else()
   

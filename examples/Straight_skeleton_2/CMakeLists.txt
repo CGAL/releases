@@ -2,7 +2,7 @@
 # This is the CMake script for compiling a CGAL application.
 
 
-project( Straight_skeleton_2_example )
+project( Straight_skeleton_2_ )
 
 cmake_minimum_required(VERSION 2.8.10)
 
@@ -16,15 +16,11 @@ if ( CGAL_FOUND )
 
   include_directories (BEFORE "../../include")
 
-  create_single_source_cgal_program( "Create_offset_polygons_2.cpp" )
-  create_single_source_cgal_program( "Create_saop_from_polygon_with_holes_2.cpp" )
-  create_single_source_cgal_program( "Create_skeleton_and_offset_polygons_2.cpp" )
-  create_single_source_cgal_program( "Create_skeleton_and_offset_polygons_with_holes_2.cpp" )
-  create_single_source_cgal_program( "Create_straight_skeleton_2.cpp" )
-  create_single_source_cgal_program( "Create_straight_skeleton_from_polygon_with_holes_2.cpp" )
-  create_single_source_cgal_program( "Low_level_API.cpp" )
-  create_single_source_cgal_program( "Show_offset_polygon.cpp" )
-  create_single_source_cgal_program( "Show_straight_skeleton.cpp" )
+  # create a target per cppfile
+  file(GLOB cppfiles RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_CURRENT_SOURCE_DIR}/*.cpp)
+  foreach(cppfile ${cppfiles})
+    create_single_source_cgal_program( "${cppfile}" )
+  endforeach()
 
 else()
   

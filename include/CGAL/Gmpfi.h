@@ -342,7 +342,6 @@ namespace Eigen {
     typedef CGAL::Gmpfi Real;
     typedef CGAL::Gmpfi NonInteger;
     typedef CGAL::Gmpfi Nested;
-    typedef CGAL::Gmpfi Literal;
 
     static inline Real epsilon() { return 0; }
     static inline Real dummy_precision() { return 0; }

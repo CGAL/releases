@@ -2,7 +2,7 @@
 # This is the CMake script for compiling a CGAL application.
 
 
-project( Minkowski_sum_2_example )
+project( Minkowski_sum_2_ )
 
 cmake_minimum_required(VERSION 2.8.10)
 
@@ -16,14 +16,11 @@ if ( CGAL_FOUND )
 
   include_directories (BEFORE "../../include")
 
-  create_single_source_cgal_program( "approx_inset.cpp" )
-  create_single_source_cgal_program( "approx_offset.cpp" )
-  create_single_source_cgal_program( "exact_inset.cpp" )
-  create_single_source_cgal_program( "exact_offset.cpp" )
-  create_single_source_cgal_program( "sum_by_decomposition.cpp" )
-  create_single_source_cgal_program( "sum_of_holes.cpp" )
-  create_single_source_cgal_program( "sum_triangle_square.cpp" )
-  create_single_source_cgal_program( "sum_with_holes.cpp" )
+  # create a target per cppfile
+  file(GLOB cppfiles RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_CURRENT_SOURCE_DIR}/*.cpp)
+  foreach(cppfile ${cppfiles})
+    create_single_source_cgal_program( "${cppfile}" )
+  endforeach()
 
 else()
   

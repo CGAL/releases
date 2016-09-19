@@ -2,7 +2,7 @@
 # This is the CMake script for compiling a CGAL application.
 
 
-project( Apollonius_graph_2_example )
+project( Apollonius_graph_2_ )
 
 cmake_minimum_required(VERSION 2.8.10)
 
@@ -16,10 +16,11 @@ if ( CGAL_FOUND )
 
   include_directories (BEFORE "../../include")
 
-  create_single_source_cgal_program( "ag2_exact_traits.cpp" )
-  create_single_source_cgal_program( "ag2_exact_traits_sqrt.cpp" )
-  create_single_source_cgal_program( "ag2_filtered_traits_no_hidden.cpp" )
-  create_single_source_cgal_program( "ag2_hierarchy.cpp" )
+  # create a target per cppfile
+  file(GLOB cppfiles RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_CURRENT_SOURCE_DIR}/*.cpp)
+  foreach(cppfile ${cppfiles})
+    create_single_source_cgal_program( "${cppfile}" )
+  endforeach()
 
 else()
   

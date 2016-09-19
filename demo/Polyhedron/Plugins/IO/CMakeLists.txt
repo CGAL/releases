@@ -12,13 +12,10 @@ target_link_libraries(nef_io_plugin  scene_nef_polyhedron_item)
 
 qt5_wrap_ui( statisticsPolyhedronUI_FILES Polyhedron_demo_statistics_on_polyhedron_dialog.ui)
 polyhedron_demo_plugin(off_plugin OFF_io_plugin)
-target_link_libraries(off_plugin scene_polyhedron_item scene_polygon_soup_item)
+target_link_libraries(off_plugin scene_polyhedron_item scene_polygon_soup_item scene_points_with_normal_item)
 
 polyhedron_demo_plugin(off_to_nef_plugin OFF_to_nef_io_plugin)
 target_link_libraries(off_to_nef_plugin scene_nef_polyhedron_item)
-
-polyhedron_demo_plugin(off_to_xyz_plugin OFF_to_xyz_io_plugin)
-target_link_libraries(off_to_xyz_plugin scene_points_with_normal_item)
 
 qt5_wrap_ui( polylines_ioUI_FILES Add_polylines_dialog.ui )
 polyhedron_demo_plugin(polylines_io_plugin Polylines_io_plugin ${polylines_ioUI_FILES})
@@ -29,6 +26,11 @@ target_link_libraries(selection_io_plugin scene_polyhedron_selection_item)
 
 polyhedron_demo_plugin(stl_plugin STL_io_plugin)
 target_link_libraries(stl_plugin scene_polyhedron_item scene_polygon_soup_item)
+
+polyhedron_demo_plugin(surface_mesh_io_plugin Surface_mesh_io_plugin)
+target_link_libraries(surface_mesh_io_plugin scene_surface_mesh_item scene_polygon_soup_item)
+
+
 
 find_package(VTK QUIET COMPONENTS
   vtkCommonCore vtkIOCore vtkIOLegacy vtkIOXML vtkFiltersCore vtkFiltersSources)

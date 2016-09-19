@@ -339,12 +339,8 @@ public:
   , average_spacing(CGAL::compute_average_spacing<CGAL::Sequential_tag>(first, beyond, 6))
   {
     forward_constructor(first, beyond, 
-#ifdef CGAL_USE_PROPERTY_MAPS_API_V1
-      make_dereference_property_map(first),
-#else
       make_identity_property_map(
       typename std::iterator_traits<InputIterator>::value_type()),
-#endif
       normal_pmap, Poisson_visitor());
     CGAL::Timer task_timer; task_timer.start();
   }
@@ -793,9 +789,19 @@ private:
     // median value set to 0.0
     shift_f(-contouring_value);
 
-    // check value on convex hull (should be positive)
-    Vertex_handle v = any_vertex_on_convex_hull();
-    if(v->f() < 0.0)
+     // Check value on convex hull (should be positive): if more than
+    // half the vertices of the convex hull are negative, we flip the
+    // sign (this is particularly useful if the surface is open, then
+    // it is closed using the smallest part of the sphere).
+    std::vector<Vertex_handle> convex_hull;
+    m_tr->adjacent_vertices (m_tr->infinite_vertex (),
+			     std::back_inserter (convex_hull));
+    unsigned int nb_negative = 0;
+    for (std::size_t i = 0; i < convex_hull.size (); ++ i)
+      if (convex_hull[i]->f() < 0.0)
+        ++ nb_negative;
+    
+    if(nb_negative > convex_hull.size () / 2)
       flip_f();
 
     // Update m_sink

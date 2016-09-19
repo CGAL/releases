@@ -51,23 +51,94 @@ namespace CGAL {
 ///@brief Deformation algorithm type
 enum Deformation_algorithm_tag
 {
-  ORIGINAL_ARAP,  /**< use original as-rigid-as possible algorithm */
-  SPOKES_AND_RIMS /**< use spokes and rims version of as-rigid-as possible algorithm */
+  ORIGINAL_ARAP,   /**< use original as-rigid-as possible algorithm */
+  SPOKES_AND_RIMS, /**< use spokes and rims version of as-rigid-as possible algorithm */
+  SRE_ARAP         /**< use smooth rotation enhanced As-rigid-as-possible */
 };
 
 /// @cond CGAL_DOCUMENT_INTERNAL
 namespace internal {
-template<class HalfedgeGraph, Deformation_algorithm_tag deformation_algorithm_tag>
-struct Weight_calculator_selector;
+template<class TriangleMesh, Deformation_algorithm_tag deformation_algorithm_tag>
+struct Types_selectors;
 
-template<class HalfedgeGraph>
-struct Weight_calculator_selector<HalfedgeGraph, CGAL::SPOKES_AND_RIMS> {
-  typedef Single_cotangent_weight_impl<HalfedgeGraph> weight_calculator;
+template<class TriangleMesh>
+struct Types_selectors<TriangleMesh, CGAL::SPOKES_AND_RIMS> {
+  typedef internal::Single_cotangent_weight_impl<TriangleMesh> Weight_calculator;
+
+  struct ARAP_visitor{
+    template <class VertexPointMap>
+    void init(TriangleMesh, VertexPointMap){}
+
+    void rotation_matrix_pre(
+      typename boost::graph_traits<TriangleMesh>::vertex_descriptor,
+      TriangleMesh&){}
+
+    template <class Square_matrix_3>
+    void update_covariance_matrix(
+      Square_matrix_3&,
+      const Square_matrix_3&){}
+
+    void set_sre_arap_alpha(double){}
+  };
 };
 
-template<class HalfedgeGraph>
-struct Weight_calculator_selector<HalfedgeGraph, CGAL::ORIGINAL_ARAP> {
-  typedef Cotangent_weight_impl<HalfedgeGraph> weight_calculator;
+template<class TriangleMesh>
+struct Types_selectors<TriangleMesh, CGAL::ORIGINAL_ARAP> {
+  typedef internal::Cotangent_weight_impl<TriangleMesh> Weight_calculator;
+
+  typedef typename Types_selectors<TriangleMesh, CGAL::SPOKES_AND_RIMS>
+    ::ARAP_visitor ARAP_visitor;
+};
+
+template<class TriangleMesh>
+struct Types_selectors<TriangleMesh, CGAL::SRE_ARAP> {
+  typedef internal::Cotangent_weight_impl<TriangleMesh> Weight_calculator;
+
+  class ARAP_visitor{
+    double m_nb_edges_incident;
+    double m_area;
+    double m_alpha;
+
+  public:
+    ARAP_visitor(): m_alpha(0.02) {}
+
+    template<class VertexPointMap>
+    void init(TriangleMesh triangle_mesh, const VertexPointMap& vpmap)
+    {
+      // calculate area
+      m_area = 0;
+      typedef typename boost::graph_traits<TriangleMesh>::face_descriptor face_descriptor;
+      BOOST_FOREACH(face_descriptor f, faces(triangle_mesh))
+      {
+        typename boost::graph_traits<TriangleMesh>::halfedge_descriptor
+          h = halfedge(f, triangle_mesh);
+        m_area += std::sqrt(CGAL::squared_area(
+                        get(vpmap, source(h, triangle_mesh) ),
+                        get(vpmap, target(h, triangle_mesh) ),
+                        get(vpmap, target(next(h, triangle_mesh), triangle_mesh) ) ));
+      }
+    }
+
+    void rotation_matrix_pre(
+      typename boost::graph_traits<TriangleMesh>::vertex_descriptor vi,
+      TriangleMesh& hg)
+    {
+      typename boost::graph_traits<TriangleMesh>::in_edge_iterator e, e_end;
+      cpp11::tie(e,e_end) = in_edges(vi, hg);
+      m_nb_edges_incident=(double) std::distance(e,e_end);
+    }
+
+    template <class Square_matrix_3>
+    void update_covariance_matrix(
+      Square_matrix_3& cov,
+      const Square_matrix_3& rot_mtr)
+    {
+      // add neighbor rotation
+      cov += m_alpha * m_area * rot_mtr.transpose() / m_nb_edges_incident;
+    }
+
+    void set_sre_arap_alpha(double a){ m_alpha=a; }
+  };
 };
 
 // property map that create a Simple_cartesian<double>::Point_3
@@ -100,13 +171,13 @@ struct SC_on_the_fly_pmap: public Vertex_point_map{
  /// \ingroup PkgSurfaceMeshDeformation
  /// @brief Class providing the functionalities for deforming a triangulated surface mesh
  ///
- /// @tparam HG a model of HalfedgeGraph
+ /// @tparam TM a model of `HalfedgeGraph`
  /// @tparam VIM a model of `ReadablePropertyMap` with `Surface_mesh_deformation::vertex_descriptor` as key and `unsigned int` as value type.
- ///         The default is `boost::property_map<HG, boost::%vertex_index_t>::%type`.
+ ///         The default is `boost::property_map<TM, boost::%vertex_index_t>::%type`.
  /// @tparam HIM a model of `ReadablePropertyMap` with `Surface_mesh_deformation::halfedge_descriptor` as key and `unsigned int` as value type.
- ///         The default is `boost::property_map<HG, boost::%halfedge_index_t>::%type`.
+ ///         The default is `boost::property_map<TM, boost::%halfedge_index_t>::%type`.
  /// @tparam TAG tag for selecting the deformation algorithm
- /// @tparam WC a model of `SurfaceMeshDeformationWeights`, with `WC::Halfedge_graph` being `HG`.
+ /// @tparam WC a model of SurfaceMeshDeformationWeights, with `WC::Triangle_mesh` being `TM`.
  ///         If `TAG` is `ORIGINAL_ARAP`, the weights must be positive to guarantee a correct energy minimization.
  ///         The default is the cotangent weighting scheme. In case `TAG` is `ORIGINAL_ARAP`, negative weights are clamped to zero.
  /// @tparam ST a model of SparseLinearAlgebraWithFactorTraits_d. If \ref thirdpartyEigen "Eigen" 3.2 (or greater) is available
@@ -120,9 +191,9 @@ struct SC_on_the_fly_pmap: public Vertex_point_map{
  /// @tparam CR a model of DeformationClosestRotationTraits_3. If \ref thirdpartyEigen "Eigen" 3.1 (or greater) is available and `CGAL_EIGEN3_ENABLED` is defined,
  /// `Deformation_Eigen_polar_closest_rotation_traits_3` is provided as default parameter.
  /// @tparam VPM a model of `ReadWritePropertyMap`</a>  with `Surface_mesh_deformation::vertex_descriptor` as key and a point as value type. The point type must be a model of `::RawPoint_3`.
- /// The default is `boost::property_map<HG, CGAL::vertex_point_t>::%type`.
+ /// The default is `boost::property_map<TM, CGAL::vertex_point_t>::%type`.
 template <
-  class HG,
+  class TM,
   class VIM=Default,
   class HIM=Default,
   Deformation_algorithm_tag TAG = SPOKES_AND_RIMS,
@@ -140,17 +211,18 @@ public:
   /// @{
   // typedefed template parameters, main reason is doxygen creates autolink to typedefs but not template parameters
   ///
-  typedef HG Halfedge_graph;
+  typedef TM Triangle_mesh;
+  typedef TM Halfedge_graph;
 
 // Index maps
 #ifndef DOXYGEN_RUNNING
   typedef typename Default::Get<
     VIM,
-    typename boost::property_map<Halfedge_graph, boost::vertex_index_t>::type
+    typename boost::property_map<Triangle_mesh, boost::vertex_index_t>::type
   >::type Vertex_index_map;
   typedef typename Default::Get<
     HIM,
-    typename boost::property_map<Halfedge_graph, boost::halfedge_index_t>::type
+    typename boost::property_map<Triangle_mesh, boost::halfedge_index_t>::type
   >::type Hedge_index_map;
 #else
   ///
@@ -163,7 +235,7 @@ public:
 #ifndef DOXYGEN_RUNNING
   typedef typename Default::Get<
     WC,
-    typename internal::Weight_calculator_selector<HG, TAG>::weight_calculator
+    typename internal::Types_selectors<TM, TAG>::Weight_calculator
   >::type Weight_calculator;
 #else
   ///
@@ -207,7 +279,7 @@ public:
 #ifndef DOXYGEN_RUNNING
   typedef typename Default::Get<
     VPM,
-    typename boost::property_map<Halfedge_graph, CGAL::vertex_point_t>::type
+    typename boost::property_map<Triangle_mesh, CGAL::vertex_point_t>::type
   >::type Vertex_point_map;
 #else
   ///
@@ -215,9 +287,9 @@ public:
 #endif
 
   /// The type for vertex descriptor
-  typedef typename boost::graph_traits<Halfedge_graph>::vertex_descriptor vertex_descriptor;
+  typedef typename boost::graph_traits<Triangle_mesh>::vertex_descriptor vertex_descriptor;
   /// The type for halfedge descriptor
-  typedef typename boost::graph_traits<Halfedge_graph>::halfedge_descriptor halfedge_descriptor;
+  typedef typename boost::graph_traits<Triangle_mesh>::halfedge_descriptor halfedge_descriptor;
   /// The 3D point type, model of `::RawPoint_3`
   typedef typename boost::property_traits<Vertex_point_map>::value_type Point;
   /// A constant iterator range over the vertices of the region-of-interest.
@@ -226,18 +298,18 @@ public:
 /// @}
 
 private:
-  typedef Surface_mesh_deformation<HG, VIM, HIM, TAG, WC, ST, CR> Self;
-  // Repeat Halfedge_graph types
-  typedef typename boost::graph_traits<Halfedge_graph>::vertex_iterator     vertex_iterator;
-  typedef typename boost::graph_traits<Halfedge_graph>::halfedge_iterator       halfedge_iterator;
-  typedef typename boost::graph_traits<Halfedge_graph>::in_edge_iterator    in_edge_iterator;
-  typedef typename boost::graph_traits<Halfedge_graph>::out_edge_iterator   out_edge_iterator;
+  typedef Surface_mesh_deformation<TM, VIM, HIM, TAG, WC, ST, CR> Self;
+  // Repeat Triangle_mesh types
+  typedef typename boost::graph_traits<Triangle_mesh>::vertex_iterator     vertex_iterator;
+  typedef typename boost::graph_traits<Triangle_mesh>::halfedge_iterator       halfedge_iterator;
+  typedef typename boost::graph_traits<Triangle_mesh>::in_edge_iterator    in_edge_iterator;
+  typedef typename boost::graph_traits<Triangle_mesh>::out_edge_iterator   out_edge_iterator;
 
   typedef typename Closest_rotation_traits::Matrix CR_matrix;
   typedef typename Closest_rotation_traits::Vector CR_vector;
 
 // Data members.
-  Halfedge_graph& m_halfedge_graph;                   /**< Source triangulated surface mesh for modeling */
+  Triangle_mesh& m_triangle_mesh;                   /**< Source triangulated surface mesh for modeling */
 
   std::vector<Point> original;                        ///< original positions of roi (size: ros + boundary_of_ros)
   std::vector<Point> solution;                        ///< storing position of ros vertices during iterations (size: ros + boundary_of_ros)
@@ -268,12 +340,10 @@ private:
 
   Vertex_point_map vertex_point_map;
 
-#ifdef CGAL_DEFORM_MESH_USE_EXPERIMENTAL_SR_ARAP
 public:
-// SR-ARAP [Zohar13]
-  double m_sr_arap_alpha;
+  typename internal::Types_selectors<TM, TAG>::ARAP_visitor arap_visitor;
 private:
-#endif
+
 #ifdef CGAL_DEFORM_MESH_USE_EXPERIMENTAL_SCALE
   std::vector<double> scales;
 #endif
@@ -292,71 +362,71 @@ public:
 
   /// \cond SKIP_FROM_MANUAL
   //vertex_point_map set by default
-  Surface_mesh_deformation(Halfedge_graph& halfedge_graph,
+  Surface_mesh_deformation(Triangle_mesh& triangle_mesh,
                            Vertex_index_map vertex_index_map,
                            Hedge_index_map hedge_index_map
                           )
-    : m_halfedge_graph(halfedge_graph), vertex_index_map(vertex_index_map), hedge_index_map(hedge_index_map),
-      ros_id_map(std::vector<std::size_t>(num_vertices(halfedge_graph), (std::numeric_limits<std::size_t>::max)() )),
-      is_roi_map(std::vector<bool>(num_vertices(halfedge_graph), false)),
-      is_ctrl_map(std::vector<bool>(num_vertices(halfedge_graph), false)),
+    : m_triangle_mesh(triangle_mesh), vertex_index_map(vertex_index_map), hedge_index_map(hedge_index_map),
+      ros_id_map(std::vector<std::size_t>(num_vertices(triangle_mesh), (std::numeric_limits<std::size_t>::max)() )),
+      is_roi_map(std::vector<bool>(num_vertices(triangle_mesh), false)),
+      is_ctrl_map(std::vector<bool>(num_vertices(triangle_mesh), false)),
       m_iterations(5), m_tolerance(1e-4),
       need_preprocess_factorization(true),
       need_preprocess_region_of_solution(true),
       last_preprocess_successful(false),
       weight_calculator(Weight_calculator()),
-      vertex_point_map(get(vertex_point, halfedge_graph))
+      vertex_point_map(get(vertex_point, triangle_mesh))
   {
     init();
   }
 
   //vertex_point_map and hedge_index_map set by default
-  Surface_mesh_deformation(Halfedge_graph& halfedge_graph,
+  Surface_mesh_deformation(Triangle_mesh& triangle_mesh,
                            Vertex_index_map vertex_index_map
                           )
-    : m_halfedge_graph(halfedge_graph), vertex_index_map(vertex_index_map),
-      hedge_index_map(get(boost::halfedge_index, halfedge_graph)),
-      ros_id_map(std::vector<std::size_t>(num_vertices(halfedge_graph), (std::numeric_limits<std::size_t>::max)() )),
-      is_roi_map(std::vector<bool>(num_vertices(halfedge_graph), false)),
-      is_ctrl_map(std::vector<bool>(num_vertices(halfedge_graph), false)),
+    : m_triangle_mesh(triangle_mesh), vertex_index_map(vertex_index_map),
+      hedge_index_map(get(boost::halfedge_index, triangle_mesh)),
+      ros_id_map(std::vector<std::size_t>(num_vertices(triangle_mesh), (std::numeric_limits<std::size_t>::max)() )),
+      is_roi_map(std::vector<bool>(num_vertices(triangle_mesh), false)),
+      is_ctrl_map(std::vector<bool>(num_vertices(triangle_mesh), false)),
       m_iterations(5), m_tolerance(1e-4),
       need_preprocess_factorization(true),
       need_preprocess_region_of_solution(true),
       last_preprocess_successful(false),
       weight_calculator(Weight_calculator()),
-      vertex_point_map(get(vertex_point, halfedge_graph))
+      vertex_point_map(get(vertex_point, triangle_mesh))
   {
     init();
   }
   //vertex_point_map, hedge_index_map and vertex_index_map set by default
-  Surface_mesh_deformation(Halfedge_graph& halfedge_graph)
-    : m_halfedge_graph(halfedge_graph),
-      vertex_index_map(get(boost::vertex_index, halfedge_graph)),
-      hedge_index_map(get(boost::halfedge_index, halfedge_graph)),
-      ros_id_map(std::vector<std::size_t>(num_vertices(halfedge_graph), (std::numeric_limits<std::size_t>::max)() )),
-      is_roi_map(std::vector<bool>(num_vertices(halfedge_graph), false)),
-      is_ctrl_map(std::vector<bool>(num_vertices(halfedge_graph), false)),
+  Surface_mesh_deformation(Triangle_mesh& triangle_mesh)
+    : m_triangle_mesh(triangle_mesh),
+      vertex_index_map(get(boost::vertex_index, triangle_mesh)),
+      hedge_index_map(get(boost::halfedge_index, triangle_mesh)),
+      ros_id_map(std::vector<std::size_t>(num_vertices(triangle_mesh), (std::numeric_limits<std::size_t>::max)() )),
+      is_roi_map(std::vector<bool>(num_vertices(triangle_mesh), false)),
+      is_ctrl_map(std::vector<bool>(num_vertices(triangle_mesh), false)),
       m_iterations(5), m_tolerance(1e-4),
       need_preprocess_factorization(true),
       need_preprocess_region_of_solution(true),
       last_preprocess_successful(false),
       weight_calculator(Weight_calculator()),
-      vertex_point_map(get(vertex_point, halfedge_graph))
+      vertex_point_map(get(vertex_point, triangle_mesh))
   {
     init();
   }
 
   // Constructor with all the parameters provided
-  Surface_mesh_deformation(Halfedge_graph& halfedge_graph,
+  Surface_mesh_deformation(Triangle_mesh& triangle_mesh,
                            Vertex_index_map vertex_index_map,
                            Hedge_index_map hedge_index_map,
                            Vertex_point_map vertex_point_map,
                            Weight_calculator weight_calculator = Weight_calculator()
                           )
-    : m_halfedge_graph(halfedge_graph), vertex_index_map(vertex_index_map), hedge_index_map(hedge_index_map),
-    ros_id_map(std::vector<std::size_t>(num_vertices(halfedge_graph), (std::numeric_limits<std::size_t>::max)() )),
-    is_roi_map(std::vector<bool>(num_vertices(halfedge_graph), false)),
-    is_ctrl_map(std::vector<bool>(num_vertices(halfedge_graph), false)),
+    : m_triangle_mesh(triangle_mesh), vertex_index_map(vertex_index_map), hedge_index_map(hedge_index_map),
+    ros_id_map(std::vector<std::size_t>(num_vertices(triangle_mesh), (std::numeric_limits<std::size_t>::max)() )),
+    is_roi_map(std::vector<bool>(num_vertices(triangle_mesh), false)),
+    is_ctrl_map(std::vector<bool>(num_vertices(triangle_mesh), false)),
     m_iterations(5), m_tolerance(1e-4),
     need_preprocess_factorization(true),
     need_preprocess_region_of_solution(true),
@@ -373,17 +443,17 @@ public:
     /**
    * The constructor of a deformation object
    *
-   * @pre the halfedge_graph consists of only triangular facets
-   * @param halfedge_graph triangulated surface mesh to deform
-   * @param vertex_index_map property map which associates an id to each vertex, from `0` to `num_vertices(halfedge_graph)-1`.
-   * @param hedge_index_map property map which associates an id to each halfedge, from `0` to `2*num_edges(halfedge_graph)-1`.
-   * @param vertex_point_map property map which associates a point to each vertex of the graph.
+   * @pre `triangle_mesh` consists of only triangular facets
+   * @param triangle_mesh triangulated surface mesh to deform
+   * @param vertex_index_map property map which associates an id to each vertex, from `0` to `num_vertices(triangle_mesh)-1`.
+   * @param hedge_index_map property map which associates an id to each halfedge, from `0` to `2*num_edges(triangle_mesh)-1`.
+   * @param vertex_point_map property map which associates a point to each vertex of the triangle mesh.
    * @param weight_calculator function object or pointer for weight calculation
    */
-  Surface_mesh_deformation(Halfedge_graph& halfedge_graph,
-    Vertex_index_map vertex_index_map=get(boost::vertex_index, halfedge_graph),
-    Hedge_index_map hedge_index_map=get(boost::halfedge_index, halfedge_graph),
-    Vertex_point_map vertex_point_map=get(boost::vertex_point, halfedge_graph),
+  Surface_mesh_deformation(Triangle_mesh& triangle_mesh,
+    Vertex_index_map vertex_index_map=get(boost::vertex_index, triangle_mesh),
+    Hedge_index_map hedge_index_map=get(boost::halfedge_index, triangle_mesh),
+    Vertex_point_map vertex_point_map=get(boost::vertex_point, triangle_mesh),
     Weight_calculator weight_calculator = Weight_calculator()
     );
 /// @}
@@ -394,15 +464,13 @@ private:
     typedef internal::SC_on_the_fly_pmap<Vertex_point_map> Wrapper;
     // compute halfedge weights
     halfedge_iterator eb, ee;
-    hedge_weight.reserve(2*num_edges(m_halfedge_graph));
-    for(cpp11::tie(eb, ee) = halfedges(m_halfedge_graph); eb != ee; ++eb)
+    hedge_weight.reserve(2*num_edges(m_triangle_mesh));
+    for(cpp11::tie(eb, ee) = halfedges(m_triangle_mesh); eb != ee; ++eb)
     {
       hedge_weight.push_back(
-        this->weight_calculator(*eb, m_halfedge_graph, Wrapper(vertex_point_map)));
+        this->weight_calculator(*eb, m_triangle_mesh, Wrapper(vertex_point_map)));
     }
-#ifdef CGAL_DEFORM_MESH_USE_EXPERIMENTAL_SR_ARAP
-    m_sr_arap_alpha=2;
-#endif
+    arap_visitor.init(m_triangle_mesh, vertex_point_map);
   }
 
 public:
@@ -417,8 +485,8 @@ public:
     // clear roi vertices
     roi.clear();
     //set to false all bits
-    is_roi_map.assign(num_vertices(m_halfedge_graph), false);
-    is_ctrl_map.assign(num_vertices(m_halfedge_graph), false);
+    is_roi_map.assign(num_vertices(m_triangle_mesh), false);
+    is_ctrl_map.assign(num_vertices(m_triangle_mesh), false);
   }
 
   /**
@@ -427,7 +495,7 @@ public:
   void clear_control_vertices(){
     need_preprocess_factorization=true;
     //set to false all bits
-    is_ctrl_map.assign(num_vertices(m_halfedge_graph), false);
+    is_ctrl_map.assign(num_vertices(m_triangle_mesh), false);
   }
 
   /**
@@ -684,7 +752,7 @@ public:
 
   /**
    * Deforms the region-of-interest according to the deformation algorithm, using the target positions of each control vertex set by using `rotate()`, `translate()`, or `set_target_position()`.
-   * The points associated to each vertex of the input graph that are inside the region-of-interest are updated.
+   * The points associated to each vertex of the input triangle mesh that are inside the region-of-interest are updated.
    * \note Nothing happens if `preprocess()` returns `false`.
    * @see set_iterations(unsigned int iterations), set_tolerance(double tolerance), deform(unsigned int iterations, double tolerance)
    */
@@ -770,7 +838,7 @@ public:
 
   /**
    * Sets the initial positions of the vertices from the region-of-interest to the current positions. Calling this function has the same effect as creating
-   * a new deformation object with the current deformed halfedge-graph, keeping the region-of-interest and the set of control vertices.
+   * a new deformation object with the current deformed triangle mesh, keeping the region-of-interest and the set of control vertices.
    * \note if the region-of-interest or the set of control vertices have been modified since the last call to `preprocess()`,
    * it will be called prior to the overwrite.
    *
@@ -797,23 +865,23 @@ public:
     }
 
     // now I need to compute weights for halfedges incident to roi vertices
-    std::vector<bool> is_weight_computed(2*num_edges(m_halfedge_graph), false);
+    std::vector<bool> is_weight_computed(2*num_edges(m_triangle_mesh), false);
     BOOST_FOREACH(vertex_descriptor vd, roi_vertices())
     {
       in_edge_iterator e, e_end;
-      for (cpp11::tie(e,e_end) = in_edges(vd, m_halfedge_graph); e != e_end; e++)
+      for (cpp11::tie(e,e_end) = in_edges(vd, m_triangle_mesh); e != e_end; e++)
       {
-        halfedge_descriptor he = halfedge(*e, m_halfedge_graph);
+        halfedge_descriptor he = halfedge(*e, m_triangle_mesh);
         std::size_t id_e = id(he);
         if(is_weight_computed[id_e]) { continue; }
 
-        hedge_weight[id_e] = weight_calculator(he, m_halfedge_graph, Wrapper(vertex_point_map));
+        hedge_weight[id_e] = weight_calculator(he, m_triangle_mesh, Wrapper(vertex_point_map));
         is_weight_computed[id_e] = true;
 
-        halfedge_descriptor e_opp = opposite(he, m_halfedge_graph);
+        halfedge_descriptor e_opp = opposite(he, m_triangle_mesh);
         std::size_t id_e_opp = id(e_opp);
 
-        hedge_weight[id_e_opp] = weight_calculator(e_opp, m_halfedge_graph, Wrapper(vertex_point_map));
+        hedge_weight[id_e_opp] = weight_calculator(e_opp, m_triangle_mesh, Wrapper(vertex_point_map));
         is_weight_computed[id_e_opp] = true;
       }
     }
@@ -879,10 +947,23 @@ public:
   { return is_ctrl_map[id(vd)]; }
 
   /**
-   * Provides access to the halfedge graph being deformed
+   * Provides access to the triangle mesh being deformed
    */
-  const Halfedge_graph& halfedge_graph() const
-  { return m_halfedge_graph; }
+  const Triangle_mesh& triangle_mesh() const
+  { return m_triangle_mesh; }
+
+  const Triangle_mesh& halfedge_graph() const
+  { return m_triangle_mesh; }
+
+  /**
+   * Sets the alpha coefficient that determines the weight of the bending term (rotation smoothness) for the SRE-ARAP deformation technique.
+   * The range of values can be from 0 to infinity. When alpha=0, the method reverts to ARAP. When alpha is increased, neighboring rotations become similar to each other, where alpha=infinity results in a global rigid transformation of the ROI. The value of alpha depends on the surface area and shape. Since alpha is not too sensitive, it can be tweaked in most cases by multiplying it by powers of 10.
+   * The default value for alpha is 0.02.
+   */
+  void set_sre_arap_alpha(double a)
+  {
+    arap_visitor.set_sre_arap_alpha(a);
+  }
 
 /// @} Utilities
 
@@ -895,9 +976,9 @@ private:
                              std::vector<vertex_descriptor>& push_vector)
   {
     in_edge_iterator e, e_end;
-    for (cpp11::tie(e,e_end) = in_edges(vd, m_halfedge_graph); e != e_end; e++)
+    for (cpp11::tie(e,e_end) = in_edges(vd, m_triangle_mesh); e != e_end; e++)
     {
-      vertex_descriptor vt = source(*e, m_halfedge_graph);
+      vertex_descriptor vt = source(*e, m_triangle_mesh);
       if(ros_id(vt) == (std::numeric_limits<std::size_t>::max)())  // neighboring vertex which is outside of roi and not visited previously (i.e. need an id)
       {
         ros_id(vt) = next_id++;
@@ -945,7 +1026,7 @@ private:
     ros.clear(); // clear ros
     ros.insert(ros.end(), roi.begin(), roi.end());
 
-    ros_id_map.assign(num_vertices(m_halfedge_graph), (std::numeric_limits<std::size_t>::max)()); // use max as not assigned mark
+    ros_id_map.assign(num_vertices(m_triangle_mesh), (std::numeric_limits<std::size_t>::max)()); // use max as not assigned mark
 
     for(std::size_t i = 0; i < roi.size(); i++)  // assign id to all roi vertices
     { ros_id(roi[i]) = i; }
@@ -1050,12 +1131,12 @@ private:
       {
         double diagonal = 0;
         in_edge_iterator e, e_end;
-        for (cpp11::tie(e,e_end) = in_edges(vi, m_halfedge_graph); e != e_end; e++)
+        for (cpp11::tie(e,e_end) = in_edges(vi, m_triangle_mesh); e != e_end; e++)
         {
-          halfedge_descriptor he = halfedge(*e, m_halfedge_graph);
-          vertex_descriptor vj = source(he, m_halfedge_graph);
+          halfedge_descriptor he = halfedge(*e, m_triangle_mesh);
+          vertex_descriptor vj = source(he, m_triangle_mesh);
           double wij = hedge_weight[id(he)];  // edge(pi - pj)
-          double wji = hedge_weight[id(opposite(he, m_halfedge_graph))]; // edge(pi - pj)
+          double wji = hedge_weight[id(opposite(he, m_triangle_mesh))]; // edge(pi - pj)
           double total_weight = wij + wji;
 
           A.set_coef(vi_id, ros_id(vj), -total_weight, true); // off-diagonal coefficient
@@ -1093,27 +1174,27 @@ private:
       {
         double diagonal = 0;
         out_edge_iterator e, e_end;
-        for (cpp11::tie(e,e_end) = out_edges(vi, m_halfedge_graph); e != e_end; e++)
+        for (cpp11::tie(e,e_end) = out_edges(vi, m_triangle_mesh); e != e_end; e++)
         {
-          halfedge_descriptor he = halfedge(*e, m_halfedge_graph);
+          halfedge_descriptor he = halfedge(*e, m_triangle_mesh);
           double total_weight = 0;
           // an edge contribute to energy only if it is part of an incident triangle
           // (i.e it should not be a border edge)
-          if(!is_border(he, m_halfedge_graph))
+          if(!is_border(he, m_triangle_mesh))
           {
             double wji = hedge_weight[id(he)]; // edge(pj - pi)
             total_weight += wji;
           }
 
-          halfedge_descriptor opp = opposite(he, m_halfedge_graph);
-          if(!is_border(opp, m_halfedge_graph))
+          halfedge_descriptor opp = opposite(he, m_triangle_mesh);
+          if(!is_border(opp, m_triangle_mesh))
           {
             double wij = hedge_weight[id(opp)]; // edge(pi - pj)
             total_weight += wij;
           }
 
           // place coefficient to matrix
-          vertex_descriptor vj = target(he, m_halfedge_graph);
+          vertex_descriptor vj = target(he, m_triangle_mesh);
           A.set_coef(vi_id, ros_id(vj), -total_weight, true); // off-diagonal coefficient
           diagonal += total_weight;
         }
@@ -1159,14 +1240,12 @@ private:
 
       in_edge_iterator e, e_end;
 
-#ifdef CGAL_DEFORM_MESH_USE_EXPERIMENTAL_SR_ARAP
-      cpp11::tie(e,e_end) = in_edges(vi, m_halfedge_graph);
-      double ne_i=std::distance(e,e_end);
-#endif
-      for (cpp11::tie(e,e_end) = in_edges(vi, m_halfedge_graph); e != e_end; e++)
+      arap_visitor.rotation_matrix_pre(vi, m_triangle_mesh);
+
+      for (cpp11::tie(e,e_end) = in_edges(vi, m_triangle_mesh); e != e_end; e++)
       {
-        halfedge_descriptor he=halfedge(*e, m_halfedge_graph);
-        vertex_descriptor vj = source(he, m_halfedge_graph);
+        halfedge_descriptor he=halfedge(*e, m_triangle_mesh);
+        vertex_descriptor vj = source(he, m_triangle_mesh);
         std::size_t vj_id = ros_id(vj);
 
         const CR_vector& pij = sub_to_CR_vector(original[vi_id], original[vj_id]);
@@ -1174,11 +1253,9 @@ private:
         double wij = hedge_weight[id(he)];
 
         cr_traits.add_scalar_t_vector_t_vector_transpose(cov, wij, pij, qij); // cov += wij * (pij * qij)
-#ifdef CGAL_DEFORM_MESH_USE_EXPERIMENTAL_SR_ARAP
-        // add neighbor rotation
-        cov += m_sr_arap_alpha * rot_mtr[vj_id].transpose() / ne_i;
-#endif
 
+        if ( vj_id < rot_mtr.size() )
+          arap_visitor.update_covariance_matrix(cov, rot_mtr[vj_id]);
       }
 
       cr_traits.compute_close_rotation(cov, rot_mtr[vi_id]);
@@ -1199,16 +1276,16 @@ private:
 
       //iterate through all triangles
       out_edge_iterator e, e_end;
-      for (cpp11::tie(e,e_end) = out_edges(vi, m_halfedge_graph); e != e_end; e++)
+      for (cpp11::tie(e,e_end) = out_edges(vi, m_triangle_mesh); e != e_end; e++)
       {
-        halfedge_descriptor he = halfedge(*e, m_halfedge_graph);
-        if(is_border(he, m_halfedge_graph)) { continue; } // no facet
+        halfedge_descriptor he = halfedge(*e, m_triangle_mesh);
+        if(is_border(he, m_triangle_mesh)) { continue; } // no facet
         // iterate edges around facet
         halfedge_descriptor hedge_around_facet = he;
         do
         {
-          vertex_descriptor v1 = target(hedge_around_facet, m_halfedge_graph);
-          vertex_descriptor v2 = source(hedge_around_facet, m_halfedge_graph);
+          vertex_descriptor v1 = target(hedge_around_facet, m_triangle_mesh);
+          vertex_descriptor v2 = source(hedge_around_facet, m_triangle_mesh);
 
           std::size_t v1_id = ros_id(v1); std::size_t v2_id = ros_id(v2);
 
@@ -1218,7 +1295,7 @@ private:
 
           cr_traits.add_scalar_t_vector_t_vector_transpose(cov, w12, p12, q12); // cov += w12 * (p12 * q12);
 
-        } while( (hedge_around_facet = next(hedge_around_facet, m_halfedge_graph)) != he);
+        } while( (hedge_around_facet = next(hedge_around_facet, m_triangle_mesh)) != he);
       }
 
       cr_traits.compute_close_rotation(cov, rot_mtr[vi_id]);
@@ -1236,10 +1313,10 @@ private:
       double eT_eR = 0, eRT_eR = 0;
 
       in_edge_iterator e, e_end;
-      for (cpp11::tie(e,e_end) = in_edges(vi, m_halfedge_graph); e != e_end; e++)
+      for (cpp11::tie(e,e_end) = in_edges(vi, m_triangle_mesh); e != e_end; e++)
       {
         halfedge_descriptor he = *e;
-        vertex_descriptor vj = source(he, m_halfedge_graph);
+        vertex_descriptor vj = source(he, m_triangle_mesh);
         std::size_t vj_id = ros_id(vj);
 
         const CR_vector& pij = sub_to_CR_vector(original[vi_id], original[vj_id]);
@@ -1290,16 +1367,16 @@ private:
         CR_vector xyz = cr_traits.vector(0, 0, 0);
 
         in_edge_iterator e, e_end;
-        for (cpp11::tie(e,e_end) = in_edges(vi, m_halfedge_graph); e != e_end; e++)
+        for (cpp11::tie(e,e_end) = in_edges(vi, m_triangle_mesh); e != e_end; e++)
         {
-          halfedge_descriptor he = halfedge(*e, m_halfedge_graph);
-          vertex_descriptor vj = source(he, m_halfedge_graph);
+          halfedge_descriptor he = halfedge(*e, m_triangle_mesh);
+          vertex_descriptor vj = source(he, m_triangle_mesh);
           std::size_t vj_id = ros_id(vj);
 
           const CR_vector& pij = sub_to_CR_vector(original[vi_id], original[vj_id]);
 
           double wij = hedge_weight[id(he)];
-          double wji = hedge_weight[id(opposite(he, m_halfedge_graph))];
+          double wji = hedge_weight[id(opposite(he, m_triangle_mesh))];
 #ifndef CGAL_DEFORM_MESH_USE_EXPERIMENTAL_SCALE
           cr_traits.add__scalar_t_matrix_p_scalar_t_matrix__t_vector(xyz, wij, rot_mtr[vi_id], wji, rot_mtr[vj_id], pij);
 #else
@@ -1354,26 +1431,26 @@ private:
         CR_vector xyz = cr_traits.vector(0, 0, 0);
 
         out_edge_iterator e, e_end;
-        for (cpp11::tie(e,e_end) = out_edges(vi, m_halfedge_graph); e != e_end; e++)
+        for (cpp11::tie(e,e_end) = out_edges(vi, m_triangle_mesh); e != e_end; e++)
         {
-          halfedge_descriptor he = halfedge(*e, m_halfedge_graph);
-          vertex_descriptor vj = target(he, m_halfedge_graph);
+          halfedge_descriptor he = halfedge(*e, m_triangle_mesh);
+          vertex_descriptor vj = target(he, m_triangle_mesh);
           std::size_t vj_id = ros_id(vj);
 
           const CR_vector& pij = sub_to_CR_vector(original[vi_id], original[vj_id]);
 
-          if(!is_border(he, m_halfedge_graph))
+          if(!is_border(he, m_triangle_mesh))
           {
-            vertex_descriptor vn = target(next(he, m_halfedge_graph), m_halfedge_graph); // opp vertex of e_ij
+            vertex_descriptor vn = target(next(he, m_triangle_mesh), m_triangle_mesh); // opp vertex of e_ij
             double wji = hedge_weight[id(he)] / 3.0;  // edge(pj - pi)
             cr_traits.add_scalar_t_matrix_sum_t_vector(xyz, wji, rot_mtr[vi_id], rot_mtr[vj_id], rot_mtr[ros_id(vn)], pij);
             // corresponds  xyz += wji*(rot_mtr[vi_id] + rot_mtr[vj_id] + rot_mtr[ros_id(vn)])*pij;
           }
 
-          halfedge_descriptor opp = opposite(he, m_halfedge_graph);
-          if(!is_border(opp, m_halfedge_graph))
+          halfedge_descriptor opp = opposite(he, m_triangle_mesh);
+          if(!is_border(opp, m_triangle_mesh))
           {
-            vertex_descriptor vm = target(next(opp, m_halfedge_graph), m_halfedge_graph); // other opp vertex of e_ij
+            vertex_descriptor vm = target(next(opp, m_triangle_mesh), m_triangle_mesh); // other opp vertex of e_ij
             double wij = hedge_weight[id(opp)] / 3.0;  // edge(pi - pj)
             cr_traits.add_scalar_t_matrix_sum_t_vector(xyz, wij, rot_mtr[vi_id], rot_mtr[vj_id], rot_mtr[ros_id(vm)], pij);
             // corresponds xyz += wij * ( rot_mtr[vi_id] + rot_mtr[vj_id] + rot_mtr[ros_id(vm)] ) * pij
@@ -1442,10 +1519,10 @@ private:
       std::size_t vi_id = ros_id(vi);
 
       in_edge_iterator e, e_end;
-      for (cpp11::tie(e,e_end) = in_edges(vi, m_halfedge_graph); e != e_end; e++)
+      for (cpp11::tie(e,e_end) = in_edges(vi, m_triangle_mesh); e != e_end; e++)
       {
-        halfedge_descriptor he = halfedge(*e, m_halfedge_graph);
-        vertex_descriptor vj = source(he, m_halfedge_graph);
+        halfedge_descriptor he = halfedge(*e, m_triangle_mesh);
+        vertex_descriptor vj = source(he, m_triangle_mesh);
         std::size_t vj_id = ros_id(vj);
 
         const CR_vector& pij = sub_to_CR_vector(original[vi_id], original[vj_id]);
@@ -1471,16 +1548,16 @@ private:
       std::size_t vi_id = ros_id(vi);
       //iterate through all triangles
       out_edge_iterator e, e_end;
-      for (cpp11::tie(e,e_end) = out_edges(vi, m_halfedge_graph); e != e_end; e++)
+      for (cpp11::tie(e,e_end) = out_edges(vi, m_triangle_mesh); e != e_end; e++)
       {
-        halfedge_descriptor he = halfedge(*e, m_halfedge_graph);
-        if(is_border(he, m_halfedge_graph)) { continue; } // no facet
+        halfedge_descriptor he = halfedge(*e, m_triangle_mesh);
+        if(is_border(he, m_triangle_mesh)) { continue; } // no facet
         // iterate edges around facet
         halfedge_descriptor hedge_around_facet = he;
         do
         {
-          vertex_descriptor v1 = target(hedge_around_facet, m_halfedge_graph);
-          vertex_descriptor v2 = source(hedge_around_facet, m_halfedge_graph);
+          vertex_descriptor v1 = target(hedge_around_facet, m_triangle_mesh);
+          vertex_descriptor v2 = source(hedge_around_facet, m_triangle_mesh);
           std::size_t v1_id = ros_id(v1); std::size_t v2_id = ros_id(v2);
 
           const CR_vector& p12 = sub_to_CR_vector(original[v1_id], original[v2_id]);
@@ -1490,7 +1567,7 @@ private:
           sum_of_energy += w12 * cr_traits.squared_norm_vector_scalar_vector_subs(q12, rot_mtr[vi_id], p12);
           // sum_of_energy += w12 * ( q12 - rot_mtr[vi_id]*p12 )^2
 
-        } while( (hedge_around_facet = next(hedge_around_facet, m_halfedge_graph)) != he);
+        } while( (hedge_around_facet = next(hedge_around_facet, m_triangle_mesh)) != he);
       }
     }
     return sum_of_energy;

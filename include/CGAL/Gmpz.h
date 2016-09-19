@@ -215,7 +215,6 @@ namespace Eigen {
     typedef CGAL::Gmpz Real;
     typedef CGAL::Gmpq NonInteger;
     typedef CGAL::Gmpz Nested;
-    typedef CGAL::Gmpz Literal;
 
     static inline Real epsilon() { return 0; }
     static inline Real dummy_precision() { return 0; }

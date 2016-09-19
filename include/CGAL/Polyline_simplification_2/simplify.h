@@ -267,17 +267,11 @@ operator()()
     if((*u)->is_removable()){
       boost::optional<FT> dist = cost(pct, u);
       if(! dist){
-        // cost is undefined
-        if( mpq->contains(u) ){
-          mpq->erase(u);
-        }
+        std::cerr << "undefined cost not handled yet" << std::endl;
       } else {
         (*u)->set_cost(*dist);
-        if(mpq->contains(u)){
-          mpq->update(u, true);
-        }
-        else{
-          mpq->push(u);
+        if((*mpq).contains(u)){
+        (*mpq).update(u, true);
         }
       }
     }
@@ -285,17 +279,11 @@ operator()()
     if((*w)->is_removable()){
       boost::optional<FT> dist = cost(pct, w);
       if(! dist){
-        // cost is undefined
-        if( mpq->contains(w) ){
-          mpq->erase(w);
-        }
+        std::cerr << "undefined cost not handled yet" << std::endl;
       } else {
         (*w)->set_cost(*dist);
-        if(mpq->contains(w)){
-          mpq->update(w, true);
-        }
-        else{
-          mpq->push(w);
+        if((*mpq).contains(w)){
+        (*mpq).update(w, true);
         }
 
       }
@@ -339,7 +327,7 @@ template <class Traits, class Container, class CostFunction, class StopFunction>
   typedef Vertex_base_2< K > Vb;
   typedef CGAL::Constrained_triangulation_face_base_2<K> Fb;
   typedef CGAL::Triangulation_data_structure_2<Vb,Fb> TDS;
-  typedef CGAL::Constrained_Delaunay_triangulation_2<K, TDS,typename internal::Itag<K>::type>  CDT;
+  typedef CGAL::Constrained_Delaunay_triangulation_2<K, TDS, CGAL::Exact_predicates_tag> CDT;
   typedef CGAL::Constrained_triangulation_plus_2<CDT>       PCT;
   typedef typename PCT::Constraint_id Constraint_id;
   typedef typename PCT::Vertices_in_constraint_iterator Vertices_in_constraint_iterator;
@@ -387,7 +375,7 @@ Simplifies an open or closed polyline given as an iterator range of 2D \cgal poi
   typedef Vertex_base_2< K > Vb;
   typedef CGAL::Constrained_triangulation_face_base_2<K> Fb;
   typedef CGAL::Triangulation_data_structure_2<Vb,Fb> TDS;
-  typedef CGAL::Constrained_Delaunay_triangulation_2<K, TDS,typename internal::Itag<K>::type > CDT;
+  typedef CGAL::Constrained_Delaunay_triangulation_2<K, TDS, CGAL::Exact_predicates_tag> CDT;
   typedef CGAL::Constrained_triangulation_plus_2<CDT>       PCT;
   typedef typename PCT::Constraint_id Constraint_id;
   typedef typename PCT::Vertices_in_constraint_iterator Vertices_in_constraint_iterator;

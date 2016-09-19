@@ -3,7 +3,6 @@
 #include "Scene_polyhedron_transform_item.h"
 #include "Polyhedron_type.h"
 #include <CGAL/Three/Polyhedron_demo_plugin_interface.h>
-#include <CGAL/Three/Polyhedron_demo_plugin_helper.h>
 
 #include "Scene_polylines_item.h"
 
@@ -17,7 +16,7 @@
 using namespace CGAL::Three;
 class Polyhedron_demo_transform_polyhedron_plugin :
   public QObject,
-  public Polyhedron_demo_plugin_helper
+  public Polyhedron_demo_plugin_interface
 {
   Q_OBJECT
   Q_INTERFACES(CGAL::Three::Polyhedron_demo_plugin_interface)
@@ -36,9 +35,8 @@ public:
            qobject_cast<Scene_polyhedron_transform_item*>(scene->item(scene->mainSelectionIndex()));
   }
   
-  void init(QMainWindow* mainWindow, CGAL::Three::Scene_interface* scene_interface) {
+  void init(QMainWindow* mw, CGAL::Three::Scene_interface* scene_interface, Messages_interface*) {
     this->scene = scene_interface;
-    this->mw = mainWindow;
     actionTransformPolyhedron = new QAction("Affine Transformation", mw);
     if(actionTransformPolyhedron) {
       connect(actionTransformPolyhedron, SIGNAL(triggered()),this, SLOT(go()));
@@ -53,6 +51,7 @@ private:
   QAction*  actionTransformPolyhedron;
   Scene_polyhedron_transform_item* transform_item;
   CGAL::Three::Scene_interface::Item_id tr_item_index;
+  CGAL::Three::Scene_interface* scene;
   bool started;
 
 public Q_SLOTS:
@@ -64,8 +63,7 @@ void Polyhedron_demo_transform_polyhedron_plugin::go(){
   if (!started){
     Scene_item* item = scene->item(scene->mainSelectionIndex());
     Scene_polyhedron_item* poly_item = qobject_cast<Scene_polyhedron_item*>(item);
-    if(!poly_item) return;    
-    
+    if(!poly_item) return;
     started=true;
     actionTransformPolyhedron->setText("Apply affine transformation");
     start(poly_item);
@@ -83,13 +81,14 @@ void Polyhedron_demo_transform_polyhedron_plugin::start(Scene_polyhedron_item* p
   QApplication::setOverrideCursor(Qt::PointingHandCursor);
   
   Scene_polyhedron_item::Bbox bbox = poly_item->bbox();
-  double x=(bbox.xmin+bbox.xmax)/2;
-  double y=(bbox.ymin+bbox.ymax)/2;
-  double z=(bbox.zmin+bbox.zmax)/2;
+  double x=(bbox.xmin()+bbox.xmax())/2;
+  double y=(bbox.ymin()+bbox.ymax())/2;
+  double z=(bbox.zmin()+bbox.zmax())/2;
   
   transform_item = new Scene_polyhedron_transform_item(qglviewer::Vec(x,y,z),poly_item,scene);
   transform_item->setManipulatable(true);
   transform_item->setColor(Qt::green);
+  transform_item->setRenderingMode(Wireframe);
   transform_item->setName(tr("Affine Transformation"));
   connect(transform_item, SIGNAL(stop()),this, SLOT(go()));
   connect(transform_item, SIGNAL(killed()),this, SLOT(transformed_killed()));
@@ -107,7 +106,7 @@ struct Modifier_transform_vertices : public CGAL::Modifier_base<Polyhedron::Half
     transform(m[0],m[4], m[8],m[12],
               m[1],m[5], m[9],m[13],
               m[2],m[6],m[10],m[14],
-              /*m[3],m[7],m[11],*/m[15]),
+              m[15]),
     frame_center_translation(-tr.x,-tr.y,-tr.z)
   {
     CGAL_assertion(m[3]==0);

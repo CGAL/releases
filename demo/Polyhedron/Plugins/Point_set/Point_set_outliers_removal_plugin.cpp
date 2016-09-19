@@ -29,11 +29,12 @@ private:
   QAction* actionOutlierRemoval;
 
 public:
-  void init(QMainWindow* mainWindow, CGAL::Three::Scene_interface* scene_interface) {
-    actionOutlierRemoval = new QAction(tr("Point Set Outliers Selection"), mainWindow);
+  void init(QMainWindow* mainWindow, CGAL::Three::Scene_interface* scene_interface, Messages_interface*) {
+    scene = scene_interface;
+    actionOutlierRemoval = new QAction(tr("Outliers Selection"), mainWindow);
+    actionOutlierRemoval->setProperty("subMenuName","Point Set Processing");
     actionOutlierRemoval->setObjectName("actionOutlierRemoval");
-
-    Polyhedron_demo_plugin_helper::init(mainWindow, scene_interface);
+    autoConnectActions();
   }
   
   //! Applicate for Point_sets with normals.
