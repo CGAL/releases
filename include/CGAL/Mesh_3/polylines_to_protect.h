@@ -68,6 +68,44 @@ struct Polyline_visitor
       polylines.resize(polylines.size() - 1);
   }
 };
+
+template <typename Kernel>
+struct Angle_tester
+{
+  template <typename vertex_descriptor, typename Graph>
+  bool operator()(vertex_descriptor& v, const Graph& g) const
+  {
+    typedef typename boost::graph_traits<Graph>::out_edge_iterator out_edge_iterator;
+    if (out_degree(v, g) != 2)
+      return true;
+    else
+    {
+      out_edge_iterator out_edge_it, out_edges_end;
+      boost::tie(out_edge_it, out_edges_end) = out_edges(v, g);
+
+      vertex_descriptor v1 = target(*out_edge_it++, g);
+      vertex_descriptor v2 = target(*out_edge_it++, g);
+      CGAL_assertion(out_edge_it == out_edges_end);
+
+      const typename Kernel::Point_3& p = g[v];
+      const typename Kernel::Point_3& p1 = g[v1];
+      const typename Kernel::Point_3& p2 = g[v2];
+
+      if(CGAL::angle(p1, p, p2) == CGAL::ACUTE) {
+        // const typename Kernel::Vector_3 e1 = p1 - p;
+        // const typename Kernel::Vector_3 e2 = p2 - p;
+        // std::cerr << "At point " << p << ": the angle is "
+        //           << ( std::acos(e1 * e2
+        //                          / CGAL::sqrt(e1*e1)
+        //                          / CGAL::sqrt(e2*e2))
+        //                * 180 / CGAL_PI ) << std::endl;
+        return true;
+      }
+    }
+    return false;
+  }
+};
+
 }//namespace Mesh_3
 
 // this function is overloaded for when `PolylineInputIterator` is `int`.
@@ -119,6 +157,18 @@ template <typename K,
 void snap_graph_vertices(Graph&, double, double, double, int, int, K)
 {}
 
+template <typename Graph>
+struct Less_for_Graph_vertex_descriptors
+{
+  const Graph& graph;
+  Less_for_Graph_vertex_descriptors(const Graph& graph) : graph(graph) {}
+
+  template <typename vertex_descriptor>
+  bool operator()(vertex_descriptor v1, vertex_descriptor v2) const {
+    return graph[v1] < graph[v2];
+  }
+}; // end of Less_for_Graph_vertex_descriptors<Graph>
+
 template <typename P,
           typename Image_word_type,
           typename Null_subdomain_index,
@@ -134,7 +184,7 @@ polylines_to_protect(const CGAL::Image_3& cgal_image,
 {
   typedef typename Kernel_traits<P>::Kernel K;
   typedef P Point_3;
-  typedef boost::adjacency_list<boost::setS, boost::setS, boost::undirectedS, Point_3> Graph;
+  typedef boost::adjacency_list<boost::setS, boost::vecS, boost::undirectedS, Point_3> Graph;
   typedef typename boost::graph_traits<Graph>::vertex_descriptor vertex_descriptor;
   // typedef typename boost::graph_traits<Graph>::edge_iterator edge_iterator;
 
@@ -490,7 +540,10 @@ case_4:
                       K());
 
   Mesh_3::Polyline_visitor<Point_3, Graph> visitor(polylines, graph);
-  split_graph_into_polylines(graph, visitor);
+  Less_for_Graph_vertex_descriptors<Graph> less(graph);
+  const Graph& const_graph = graph;
+  split_graph_into_polylines(const_graph, visitor,
+                             Mesh_3::Angle_tester<K>(), less);
 }
 
 template <typename P,
@@ -501,7 +554,7 @@ polylines_to_protect(std::vector<std::vector<P> >& polylines,
                      PolylineInputIterator existing_polylines_end)
 {
   typedef P Point_3;
-  typedef boost::adjacency_list<boost::setS, boost::setS, boost::undirectedS, Point_3> Graph;
+  typedef boost::adjacency_list<boost::setS, boost::vecS, boost::undirectedS, Point_3> Graph;
   typedef typename boost::graph_traits<Graph>::vertex_descriptor vertex_descriptor;
   typedef typename std::iterator_traits<PolylineInputIterator>::value_type Polyline;
 
@@ -526,7 +579,11 @@ polylines_to_protect(std::vector<std::vector<P> >& polylines,
   }
 
   Mesh_3::Polyline_visitor<Point_3, Graph> visitor(polylines, graph);
-  split_graph_into_polylines(graph, visitor);
+  Less_for_Graph_vertex_descriptors<Graph> less(graph);
+  const Graph& const_graph = graph;
+  typedef typename Kernel_traits<P>::Kernel K;
+  split_graph_into_polylines(const_graph, visitor,
+                             Mesh_3::Angle_tester<K>(), less);
 }
 
 template <typename P, typename Image_word_type, typename Null_subdomain_index>

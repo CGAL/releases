@@ -51,13 +51,53 @@ struct Dummy_visitor_for_split_graph_into_polylines
 
 namespace internal {
 
-/// Splits a graph at vertices with degree higher than two and at vertices where `is_terminal  returns `true`
+template <typename G_copy, typename Less_on_orig_vertex_descriptors>
+class Less_on_G_copy_vertex_descriptors {
+  const G_copy& g_copy;
+  const Less_on_orig_vertex_descriptors& less;
+public:
+  Less_on_G_copy_vertex_descriptors ( const G_copy& g_copy,
+    const Less_on_orig_vertex_descriptors& less)
+    : g_copy(g_copy), less(less) {}
+
+  typedef typename boost::graph_traits<G_copy>::vertex_descriptor
+    g_copy_vertex_descriptor;
+  typedef typename boost::graph_traits<G_copy>::out_edge_iterator
+    g_copy_out_edge_iterator;
+  typedef typename boost::graph_traits<G_copy>::degree_size_type
+    g_copy_degree_size_type;
+
+  bool operator()(g_copy_vertex_descriptor v1,
+                  g_copy_vertex_descriptor v2) const {
+    if(less(g_copy[v1], g_copy[v2]))
+      return true;
+    else if(less(g_copy[v2], g_copy[v1]))
+      return false;
+    // If g_copy[v1] and g_copy[v2] are equivalent, then compare the
+    // descriptors:
+    if(v1 == v2) return false;
+    //   - compare degrees:
+    const g_copy_degree_size_type dv1 = degree(v1, g_copy);
+    const g_copy_degree_size_type dv2 = degree(v2, g_copy);
+    if(dv1 != dv2)
+      return dv1 < dv2;
+    if(dv1 == 0) return v1 < v2;
+    ///  - then compare an adjacent vertex:
+    g_copy_vertex_descriptor other_v1 = target(*out_edges(v1, g_copy).first,
+                                               g_copy);
+    g_copy_vertex_descriptor other_v2 = target(*out_edges(v2, g_copy).first,
+                                               g_copy);
+    return less(g_copy[other_v1], g_copy[other_v2]);
+  }
+}; // end class Less_on_G_copy_vertex_descriptors
+
+/// Splits a graph at vertices with degree higher than two and at vertices where `is_terminal` returns `true`
 /// The vertices are duplicated, and new incident edges created.
-/// OrigGraph must be undirected
+/// `OrigGraph` must be undirected
 template <typename Graph,
           typename OrigGraph,
           typename IsTerminal>
-void split_graph_into_polylines(Graph& graph,
+void duplicate_terminal_vertices(Graph& graph,
                                 const OrigGraph& orig,
                                 IsTerminal is_terminal)
 {
@@ -71,20 +111,23 @@ void split_graph_into_polylines(Graph& graph,
   std::vector<vertex_descriptor> V(b,e);
   BOOST_FOREACH(vertex_descriptor v, V)
   {
-    if (degree(v, graph) > 2 || is_terminal(graph[v], orig))
+    typename boost::graph_traits<OrigGraph>::vertex_descriptor orig_v = graph[v];
+    typename boost::graph_traits<Graph>::degree_size_type deg = degree(v, graph);
+    if ((deg != 0 && is_terminal(orig_v, orig)) || deg > 2)
       {
         out_edge_iterator b, e;
         boost::tie(b, e) = out_edges(v, graph);
-        std::vector<edge_descriptor> E(b, e);
-        for (unsigned int i = 1; i < E.size(); ++i)
+        std::vector<edge_descriptor> out_edges_of_v(b, e);
+        for (unsigned int i = 1; i < out_edges_of_v.size(); ++i)
           {
-            edge_descriptor e = E[i];
+            edge_descriptor e = out_edges_of_v[i];
             vertex_descriptor w = target(e, graph);
             remove_edge(e, graph);
             vertex_descriptor vc = add_vertex(graph);
-            graph[vc] = graph[v];
+            graph[vc] = orig_v;
             add_edge(vc, w, graph);
           }
+        CGAL_assertion(degree(v, graph) == 1);
       }
   }
 
@@ -102,7 +145,7 @@ void split_graph_into_polylines(Graph& graph,
                         CGAL_assertion(v != w);
                       }
                       ) // end of CGAL_assertion_code
-    }
+} // end of duplicate_terminal_vertices
     
 } // namespace internal
 
@@ -125,6 +168,8 @@ The polylines are reported using a visitor.
 
 An overload without `is_terminal` is provided if no vertices but those of degree
 different from 2 are polyline endpoints.
+
+@todo Document the version with four parameters
 */
 template <typename Graph,
           typename Visitor,
@@ -135,27 +180,42 @@ split_graph_into_polylines(const Graph& graph,
                            IsTerminal is_terminal)
 {
   typedef typename boost::graph_traits<Graph>::vertex_descriptor Graph_vertex_descriptor;
+  std::less<Graph_vertex_descriptor> less;
+  split_graph_into_polylines(graph, polyline_visitor, is_terminal, less);
+}
+
+template <typename Graph,
+          typename Visitor,
+          typename IsTerminal,
+          typename LessForVertexDescriptors>
+void
+split_graph_into_polylines(const Graph& graph,
+                           Visitor& polyline_visitor,
+                           IsTerminal is_terminal,
+                           LessForVertexDescriptors less)
+{
+  typedef typename boost::graph_traits<Graph>::vertex_descriptor Graph_vertex_descriptor;
   typedef typename boost::graph_traits<Graph>::edge_descriptor Graph_edge_descriptor;
   
   typedef boost::adjacency_list <boost::setS, // this avoids parallel edges
                                  boost::vecS, 
                                  boost::undirectedS,
-                                 Graph_vertex_descriptor > G;
+                                 Graph_vertex_descriptor > G_copy;
 
-  typedef typename boost::graph_traits<G>::vertex_descriptor vertex_descriptor;
-  typedef typename boost::graph_traits<G>::edge_descriptor edge_descriptor;
-  typedef typename boost::graph_traits<G>::out_edge_iterator out_edge_iterator;
+  typedef typename boost::graph_traits<G_copy>::vertex_descriptor vertex_descriptor;
+  typedef typename boost::graph_traits<G_copy>::edge_descriptor edge_descriptor;
+  typedef typename boost::graph_traits<G_copy>::out_edge_iterator out_edge_iterator;
   
   // we make a copy of the input graph
-  G g;
+  G_copy g_copy;
   {
     typedef std::map<typename boost::graph_traits<Graph>::vertex_descriptor,
-                     typename boost::graph_traits<G>::vertex_descriptor> V2vmap;
+                     typename boost::graph_traits<G_copy>::vertex_descriptor> V2vmap;
     V2vmap v2vmap;
     
     BOOST_FOREACH(Graph_vertex_descriptor v, vertices(graph)){
-      vertex_descriptor vc = add_vertex(g);
-      g[vc] = v;
+      vertex_descriptor vc = add_vertex(g_copy);
+      g_copy[vc] = v;
       v2vmap[v] = vc; 
     }
     
@@ -170,35 +230,40 @@ split_graph_into_polylines(const Graph& graph,
         typename V2vmap::iterator it;
 
         if((it = v2vmap.find(vs)) == v2vmap.end()){
-          vsc = add_vertex(g);
-          g[vsc] = vs;
+          vsc = add_vertex(g_copy);
+          g_copy[vsc] = vs;
           v2vmap[vs] = vsc;
         }else{
           vsc = it->second;
         }
         if((it = v2vmap.find(vt)) == v2vmap.end()){
-          vtc = add_vertex(g);
-          g[vtc] = vt;
+          vtc = add_vertex(g_copy);
+          g_copy[vtc] = vt;
           v2vmap[vt] = vtc;
         }else{
           vtc = it->second;
         }
-        add_edge(vsc,vtc,g);
+        add_edge(vsc,vtc,g_copy);
       }
     }
   }  
   // duplicate terminal vertices and vertices of degree more than 2
-  internal::split_graph_into_polylines(g, graph, is_terminal);
-  // put polylines endpoint in a set
-  std::set<vertex_descriptor> terminal;
+  internal::duplicate_terminal_vertices(g_copy, graph, is_terminal);
 
-  BOOST_FOREACH(vertex_descriptor v, vertices(g)){
-    typename boost::graph_traits<Graph>::degree_size_type n = degree(v, g);
+  // put polylines endpoint in a set
+  typedef internal::Less_on_G_copy_vertex_descriptors<
+    G_copy,
+    LessForVertexDescriptors> G_copy_less;
+  G_copy_less g_copy_less(g_copy, less);
+  std::set<vertex_descriptor, G_copy_less> terminal(g_copy_less);
+
+  BOOST_FOREACH(vertex_descriptor v, vertices(g_copy)){
+    typename boost::graph_traits<Graph>::degree_size_type n = degree(v, g_copy);
     if ( n == 1 ) terminal.insert(v);
     if ( n ==0 ){
       //isolated vertex
       polyline_visitor.start_new_polyline();
-      polyline_visitor.add_node(g[v]);
+      polyline_visitor.add_node(g_copy[v]);
       polyline_visitor.end_polyline();
     }
   }
@@ -210,42 +275,43 @@ split_graph_into_polylines(const Graph& graph,
     vertex_descriptor u = *it;
     terminal.erase(it);
     polyline_visitor.start_new_polyline();
-    polyline_visitor.add_node(g[u]);
-    while (degree(u,g) != 0)
+    polyline_visitor.add_node(g_copy[u]);
+    while (degree(u,g_copy) != 0)
     {
-      CGAL_assertion(degree(u,g) == 1);
-      out_edge_iterator b = out_edges(u, g).first;
-      vertex_descriptor v = target(*b, g);
+      CGAL_assertion(degree(u,g_copy) == 1);
+      out_edge_iterator b = out_edges(u, g_copy).first;
+      vertex_descriptor v = target(*b, g_copy);
       CGAL_assertion(u!=v);
-      polyline_visitor.add_node(g[v]);
-      remove_edge(b, g);
+      polyline_visitor.add_node(g_copy[v]);
+      if (degree(v, g_copy)==1)
+        terminal.erase(v);
+      remove_edge(b, g_copy);
       u = v;
     }
-    terminal.erase(u);
     polyline_visitor.end_polyline();
   }
 
   // do the same but for cycles
-  while (num_edges(g) != 0)
+  while (num_edges(g_copy) != 0)
   {
-    edge_descriptor first_edge = *edges(g).first;
-    vertex_descriptor u = source(first_edge, g);
+    edge_descriptor first_edge = *edges(g_copy).first;
+    vertex_descriptor u = source(first_edge, g_copy);
 
     polyline_visitor.start_new_polyline();
-    polyline_visitor.add_node(g[u]);
+    polyline_visitor.add_node(g_copy[u]);
 
-    u = target(first_edge, g);
-    remove_edge(first_edge, g);
-    polyline_visitor.add_node(g[u]);
+    u = target(first_edge, g_copy);
+    remove_edge(first_edge, g_copy);
+    polyline_visitor.add_node(g_copy[u]);
 
-    while (degree(u,g) != 0)
+    while (degree(u,g_copy) != 0)
     {
-      CGAL_assertion(degree(u,g) == 1);
-      out_edge_iterator b = out_edges(u, g).first;
-      vertex_descriptor v = target(*b, g);
+      CGAL_assertion(degree(u,g_copy) == 1);
+      out_edge_iterator b = out_edges(u, g_copy).first;
+      vertex_descriptor v = target(*b, g_copy);
       CGAL_assertion(u!=v);
-      polyline_visitor.add_node(g[v]);
-      remove_edge(b, g);
+      polyline_visitor.add_node(g_copy[v]);
+      remove_edge(b, g_copy);
       u = v;
     }
     polyline_visitor.end_polyline();
