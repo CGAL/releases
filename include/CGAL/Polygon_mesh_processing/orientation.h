@@ -22,15 +22,18 @@
 #ifndef CGAL_ORIENT_POLYGON_MESH_H
 #define CGAL_ORIENT_POLYGON_MESH_H
 
+#include <CGAL/license/Polygon_mesh_processing/orientation.h>
+
+
 #include <algorithm>
 #include <CGAL/Polygon_mesh_processing/compute_normal.h>
 #include <CGAL/Polygon_mesh_processing/internal/named_function_params.h>
 #include <CGAL/Polygon_mesh_processing/internal/named_params_helper.h>
 #include <CGAL/boost/graph/helpers.h>
 #include <CGAL/boost/graph/iterator.h>
-#include <CGAL/Kernel_traits.h>
 
 #include <boost/foreach.hpp>
+#include <boost/unordered_set.hpp>
 
 namespace CGAL {
 
@@ -53,6 +56,22 @@ namespace internal{
     }
 
   };
+
+  template<typename Kernel, typename PM, typename NamedParameters>
+  bool is_outward_oriented(typename boost::graph_traits<PM>::vertex_descriptor vd,
+                           const PM& pmesh,
+                           const NamedParameters& np)
+  {
+    const typename Kernel::Vector_3&
+      normal_v_min = compute_vertex_normal(vd, pmesh, np);
+
+    return normal_v_min[0] < 0 || (
+              normal_v_min[0] == 0 && (
+                normal_v_min[1] < 0  ||
+                ( normal_v_min[1]==0  && normal_v_min[2] < 0 )
+              )
+           );
+  }
 } // end of namespace internal
 
 /**
@@ -67,8 +86,7 @@ namespace internal{
  *      In other words, the answer to this predicate would be the same for each
  *      isolated connected component.
  *
- * @tparam PolygonMesh a model of `FaceListGraph` that has an internal property map
- *         for `boost::vertex_point_t`
+ * @tparam PolygonMesh a model of `FaceListGraph`
  * @tparam NamedParameters a sequence of \ref namedparameters
  *
  * @param pmesh the closed polygon mesh to be tested
@@ -91,14 +109,13 @@ bool is_outward_oriented(const PolygonMesh& pmesh,
   CGAL_warning(CGAL::is_closed(pmesh));
   CGAL_precondition(CGAL::is_valid(pmesh));
 
-  using boost::choose_const_pmap;
+  using boost::choose_param;
   using boost::get_param;
 
   //VertexPointMap
   typedef typename GetVertexPointMap<PolygonMesh, NamedParameters>::const_type VPMap;
-  VPMap vpmap = choose_const_pmap(get_param(np, boost::vertex_point),
-                                  pmesh,
-                                  boost::vertex_point);
+  VPMap vpmap = choose_param(get_param(np, vertex_point),
+                             get_const_property_map(vertex_point, pmesh));
   //Kernel
   typedef typename GetGeomTraits<PolygonMesh, NamedParameters>::type Kernel;
 
@@ -110,15 +127,7 @@ bool is_outward_oriented(const PolygonMesh& pmesh,
   typename boost::graph_traits<PolygonMesh>::vertex_iterator v_min
     = std::min_element(vbegin, vend, less_xyz);
 
-  const typename Kernel::Vector_3&
-    normal_v_min = compute_vertex_normal(*v_min, pmesh, np);
-
-  return normal_v_min[0] < 0 || (
-            normal_v_min[0] == 0 && (
-              normal_v_min[1] < 0  ||
-              ( normal_v_min[1]==0  && normal_v_min[2] < 0 )
-            )
-         );
+  return internal::is_outward_oriented<Kernel>(*v_min, pmesh, np);
 }
 
 ///\cond SKIP_IN_MANUAL
@@ -186,6 +195,37 @@ void reverse_face_orientations(PolygonMesh& pmesh)
   }
 }
 
+// Do the same thing as `reverse_face_orientations()` except that for
+// the reversal of the border cycles (last step in the aforementioned function),
+// this function guarantees that each cycle is reversed only once. This is
+// particularly useful if you mesh contains polylines (i.e. edge which halfedges
+// are both border halfedges).
+template<typename PolygonMesh>
+void reverse_face_orientations_of_mesh_with_polylines(PolygonMesh& pmesh)
+{
+  typedef typename boost::graph_traits<PolygonMesh>::face_descriptor face_descriptor;
+  typedef typename boost::graph_traits<PolygonMesh>::halfedge_descriptor halfedge_descriptor;
+
+  // reverse the orientation of each face
+  BOOST_FOREACH(face_descriptor fd, faces(pmesh))
+    reverse_orientation(halfedge(fd,pmesh),pmesh);
+
+  //extract all border cycles
+  boost::unordered_set<halfedge_descriptor> already_seen;
+  std::vector<halfedge_descriptor> border_cycles;
+  BOOST_FOREACH(halfedge_descriptor h, halfedges(pmesh))
+    if ( is_border(h,pmesh) && already_seen.insert(h).second )
+    {
+      border_cycles.push_back(h);
+      BOOST_FOREACH(halfedge_descriptor h2, halfedges_around_face(h,pmesh))
+        already_seen.insert(h2);
+    }
+
+  // now reverse the border cycles
+  BOOST_FOREACH(halfedge_descriptor h, border_cycles)
+    reverse_orientation(h, pmesh);
+}
+
 /**
 * \ingroup PMP_orientation_grp
 * reverses for each face in `face_range` the order of the vertices along the face boundary.
@@ -226,4 +266,3 @@ void reverse_face_orientations(const FaceRange& face_range, PolygonMesh& pmesh)
 } // namespace Polygon_mesh_processing
 } // namespace CGAL
 #endif // CGAL_ORIENT_POLYGON_MESH_H
-

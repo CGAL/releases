@@ -4,6 +4,8 @@
 #include <CGAL/bounding_box.h>
 #include <CGAL/gl.h>
 #include <QMenu>
+#include <QSlider>
+#include <QWidgetAction>
 #include <QAction>
 #include <QInputDialog>
 #include <QApplication>
@@ -14,9 +16,24 @@ struct Scene_polylines_item_private {
 
     Scene_polylines_item_private(Scene_polylines_item *parent) :
         draw_extremities(false),
-        spheres_drawn_radius(0)
+        spheres_drawn_square_radius(0)
     {
+      line_Slider = new QSlider(Qt::Horizontal);
+      line_Slider->setMaximum(2);
+      line_Slider->setMinimum(1);
+      line_Slider->setValue(2);
       item = parent;
+      invalidate_stats();
+    }
+
+    void invalidate_stats()
+    {
+      nb_vertices = 0;
+      nb_edges = 0;
+      min_length = std::numeric_limits<double>::max();
+      max_length = 0;
+      mean_length = 0;
+      computed_stats = false;
     }
 
     enum VAOs {
@@ -37,14 +54,24 @@ struct Scene_polylines_item_private {
     void initializeBuffers(CGAL::Three::Viewer_interface *viewer) const;
     void computeElements() const;
     bool draw_extremities;
-    double spheres_drawn_radius;
+    double spheres_drawn_square_radius;
     Scene_polylines_item *item;
+    mutable std::size_t nb_vertices;
+    mutable std::size_t nb_edges;
+    mutable double min_length;
+    mutable double max_length;
+    mutable double mean_length;
+    mutable bool computed_stats;
+    QSlider* line_Slider;
 };
 
 
 void
 Scene_polylines_item_private::initializeBuffers(CGAL::Three::Viewer_interface *viewer = 0) const
 {
+  float lineWidth[2];
+  viewer->glGetFloatv(GL_LINE_WIDTH_RANGE, lineWidth);
+  line_Slider->setMaximum(lineWidth[1]);
     QOpenGLShaderProgram *program;
    //vao for the lines
     {
@@ -70,36 +97,60 @@ Scene_polylines_item_private::initializeBuffers(CGAL::Three::Viewer_interface *v
 void
 Scene_polylines_item_private::computeElements() const
 {
+    const qglviewer::Vec offset = static_cast<CGAL::Three::Viewer_interface*>(QGLViewer::QGLViewerPool().first())->offset();
     QApplication::setOverrideCursor(Qt::WaitCursor);
     positions_lines.resize(0);
+    double mean = 0;
     //Fills the VBO with the lines
     for(std::list<std::vector<Point_3> >::const_iterator it = item->polylines.begin();
         it != item->polylines.end();
-        ++it){
+        ++it)
+    {
         if(it->empty()) continue;
+        nb_vertices += it->size();
         for(size_t i = 0, end = it->size()-1;
             i < end; ++i)
         {
             const Point_3& a = (*it)[i];
             const Point_3& b = (*it)[i+1];
-            positions_lines.push_back(a.x());
-            positions_lines.push_back(a.y());
-            positions_lines.push_back(a.z());
+            if(!computed_stats)
+            {
+              ++nb_edges;
+                double length = CGAL::sqrt(
+                      (a.x()-b.x()) * (a.x()-b.x()) +
+                      (a.y()-b.y()) * (a.y()-b.y()) +
+                      (a.z()-b.z()) * (a.z()-b.z()) );
+                if(max_length < length)
+                  max_length = length;
+                if(min_length > length)
+                  min_length = length;
+                mean += length;
+            }
+
+            positions_lines.push_back(a.x()+offset.x);
+            positions_lines.push_back(a.y()+offset.y);
+            positions_lines.push_back(a.z()+offset.z);
             positions_lines.push_back(1.0);
 
-            positions_lines.push_back(b.x());
-            positions_lines.push_back(b.y());
-            positions_lines.push_back(b.z());
+            positions_lines.push_back(b.x()+offset.x);
+            positions_lines.push_back(b.y()+offset.y);
+            positions_lines.push_back(b.z()+offset.z);
             positions_lines.push_back(1.0);
         }
 
     }
+    if(!computed_stats)
+      mean_length = mean/nb_edges;
+    computed_stats = true;
     QApplication::restoreOverrideCursor();
 }
 
 void
 Scene_polylines_item_private::computeSpheres()
 {
+  const qglviewer::Vec v_offset = static_cast<CGAL::Three::Viewer_interface*>(QGLViewer::QGLViewerPool().first())->offset();
+  K::Vector_3 offset(v_offset.x, v_offset.y, v_offset.z);
+
       spheres->clear_spheres();
       QApplication::setOverrideCursor(Qt::WaitCursor);
       // FIRST, count the number of incident cycles and polylines
@@ -190,9 +241,7 @@ Scene_polylines_item_private::computeSpheres()
           }
 
           CGAL::Color c(colors[0], colors[1], colors[2]);
-
-          K::Sphere_3 *sphere = new K::Sphere_3(center, spheres_drawn_radius);
-          spheres->add_sphere(sphere, c);
+          spheres->add_sphere(K::Sphere_3(center+offset, spheres_drawn_square_radius), c);
       }
       spheres->setToolTip(
             QString("<p>Legende of endpoints colors: <ul>"
@@ -220,7 +269,8 @@ Scene_polylines_item::Scene_polylines_item()
 
 Scene_polylines_item::~Scene_polylines_item()
 {
-    delete d;
+  delete d->line_Slider;
+  delete d;
 
 }
 
@@ -324,6 +374,7 @@ Scene_polylines_item::drawEdges(CGAL::Three::Viewer_interface* viewer) const {
         d->initializeBuffers(viewer);
     }
 
+    viewer->glLineWidth(d->line_Slider->value());
     vaos[Scene_polylines_item_private::Edges]->bind();
     attribBuffers(viewer, PROGRAM_NO_SELECTION);
     QOpenGLShaderProgram *program = getShaderProgram(PROGRAM_NO_SELECTION);
@@ -336,7 +387,7 @@ Scene_polylines_item::drawEdges(CGAL::Three::Viewer_interface* viewer) const {
     {
        Scene_group_item::drawEdges(viewer);
     }
-
+    viewer->glLineWidth(1.0f);
 }
 
 void 
@@ -384,6 +435,16 @@ QMenu* Scene_polylines_item::contextMenu()
                 menu->addAction(tr("Smooth polylines"));
         actionSmoothPolylines->setObjectName("actionSmoothPolylines");
         connect(actionSmoothPolylines, SIGNAL(triggered()),this, SLOT(smooth()));
+
+        QMenu *container = new QMenu(tr("Line Width"));
+        QWidgetAction *sliderAction = new QWidgetAction(0);
+        connect(d->line_Slider, &QSlider::valueChanged, this, &Scene_polylines_item::itemChanged);
+
+        sliderAction->setDefaultWidget(d->line_Slider);
+
+        container->addAction(sliderAction);
+        menu->addMenu(container);
+
         menu->setProperty(prop_name, true);
     }
     return menu;
@@ -392,6 +453,7 @@ QMenu* Scene_polylines_item::contextMenu()
 void Scene_polylines_item::invalidateOpenGLBuffers()
 {
     are_buffers_filled = false;
+    d->invalidate_stats();
     compute_bbox();
 
 
@@ -399,7 +461,7 @@ void Scene_polylines_item::invalidateOpenGLBuffers()
 
 void Scene_polylines_item::change_corner_radii() {
     bool ok = true;
-    double proposed_radius = d->spheres_drawn_radius;
+    double proposed_radius = std::sqrt(d->spheres_drawn_square_radius);
     if(proposed_radius == 0) {
         CGAL::Three::Scene_interface::Bbox b = bbox();
         proposed_radius = (std::max)(b.xmax() - b.xmin(),
@@ -425,7 +487,7 @@ void Scene_polylines_item::change_corner_radii() {
 
 void Scene_polylines_item::change_corner_radii(double r) {
     if(r >= 0) {
-        d->spheres_drawn_radius = r;
+        d->spheres_drawn_square_radius = r*r;
         d->draw_extremities = (r > 0);
         if(r>0 && !d->spheres)
         {
@@ -584,4 +646,38 @@ void Scene_polylines_item::smooth(std::vector<Point_3>& polyline){
     }
 
     if (is_closed) polyline[end]=polyline[0];
+}
+
+QString Scene_polylines_item::computeStats(int type)
+{
+  switch (type)
+  {
+  case NB_VERTICES:
+    return QString::number(d->nb_vertices);
+  case NB_EDGES:
+    return QString::number(d->nb_edges);
+  case MIN_LENGTH:
+    return QString::number(d->min_length);
+  case MAX_LENGTH:
+    return QString::number(d->max_length);
+  case MEAN_LENGTH:
+    return QString::number(d->mean_length);
+  default:
+    return QString();
+  }
+}
+CGAL::Three::Scene_item::Header_data Scene_polylines_item::header() const
+{
+  CGAL::Three::Scene_item::Header_data data;
+  //categories
+  data.categories.append(std::pair<QString,int>(QString("Properties"),5));
+
+
+  //titles
+  data.titles.append(QString("#Vertices"));
+  data.titles.append(QString("#Segment Edges"));
+  data.titles.append(QString("Shortest Segment Edge Length"));
+  data.titles.append(QString("Longest Segment Edge Length"));
+  data.titles.append(QString("Average Segment Edge Length"));
+  return data;
 }

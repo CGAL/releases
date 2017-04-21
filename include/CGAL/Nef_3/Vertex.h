@@ -24,8 +24,12 @@
 #ifndef CGAL_NEF_VERTEX_H
 #define CGAL_NEF_VERTEX_H
 
+#include <CGAL/license/Nef_3.h>
+
+
 #include <string>
 #include <sstream>
+#include <CGAL/IO/io.h>
 #include <CGAL/IO/Verbose_ostream.h>
 #include <CGAL/Nef_3/SNC_iteration.h>
 

@@ -21,8 +21,12 @@
 #ifndef CGAL_PROPERTIES_SURFACE_MESH_H
 #define CGAL_PROPERTIES_SURFACE_MESH_H
 
+#include <CGAL/license/Surface_mesh.h>
+
+
 #include <CGAL/assertions.h>
 #include <CGAL/Surface_mesh.h>
+#include <CGAL/Surface_mesh/Properties.h>
 #include <CGAL/Kernel_traits.h>
 #include <CGAL/squared_distance_3.h>
 #include <CGAL/number_utils.h>
@@ -58,7 +62,7 @@ public:
   }
 
 private:
-   typename SM::template Property_map< typename SM::Vertex_index, 
+   typename SM::template Property_map< typename SM::Vertex_index,
                                        typename SM::Point > pm_;
   const SM& sm_;
 };
@@ -222,7 +226,7 @@ struct property_map<CGAL::Surface_mesh<P>, CGAL::vertex_point_t >
     SM::template Property_map< typename SM::Vertex_index,
                                P
                                > type;
-
+  
   typedef type const_type;
 
 };
@@ -266,7 +270,6 @@ namespace internal {
      const TYPE& x)                                                \
  { return get(get(p, sm), x); }                                        \
 
-
 CGAL_SM_INTRINSIC_PROPERTY(boost::uint32_t, boost::vertex_index_t,
 SM_Vertex_index)
 CGAL_SM_INTRINSIC_PROPERTY(boost::uint32_t, boost::edge_index_t,
@@ -294,6 +297,29 @@ put(CGAL::vertex_point_t p, const CGAL::Surface_mesh<Point>& g,
 }
 
 } // CGAL
+
+namespace boost
+{
+  template<typename Point>
+  struct graph_has_property<CGAL::Surface_mesh<Point>, vertex_index_t>
+    : CGAL::Tag_true {};
+  template<typename Point>
+  struct graph_has_property<CGAL::Surface_mesh<Point>, edge_index_t>
+    : CGAL::Tag_true {};
+  template<typename Point>
+  struct graph_has_property<CGAL::Surface_mesh<Point>, halfedge_index_t>
+    : CGAL::Tag_true {};
+  template<typename Point>
+  struct graph_has_property<CGAL::Surface_mesh<Point>, face_index_t>
+    : CGAL::Tag_true {};
+  template<typename Point>
+  struct graph_has_property<CGAL::Surface_mesh<Point>, CGAL::vertex_point_t>
+    : CGAL::Tag_true {};
+  template<typename Point>
+  struct graph_has_property<CGAL::Surface_mesh<Point>, edge_weight_t>
+    : CGAL::Tag_true {};
+
+} //boost
 
 #if 0
 //

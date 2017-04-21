@@ -26,12 +26,16 @@
 #ifndef CGAL_MESH_DOMAIN_WITH_POLYLINE_FEATURES_3_H
 #define CGAL_MESH_DOMAIN_WITH_POLYLINE_FEATURES_3_H
 
+#include <CGAL/license/Mesh_3.h>
+
+
 #include <CGAL/iterator.h>
 #include <CGAL/enum.h>
 #include <CGAL/number_utils.h>
 #include <CGAL/AABB_tree.h>
 #include <CGAL/AABB_traits.h>
 #include <CGAL/is_streamable.h>
+#include <CGAL/Real_timer.h>
 
 #include <vector>
 #include <set>
@@ -93,6 +97,16 @@ public:
   bool is_cycle() const
   {
     return start_point() == end_point();
+  }
+
+  /// Returns the angle at the first point.
+  /// \pre The polyline must be a cycle.
+  Angle angle_at_first_point() const {
+    CGAL_precondition(is_cycle());
+    const Point_3& first = points_.front();
+    const Point_3& next = points_[1];
+    const Point_3& prev = points_[points_.size() - 2];
+    return angle(prev, first, next);
   }
 
   /// Returns the length of the polyline
@@ -556,13 +570,27 @@ public:
                             IndicesOutputIterator out /*=
                                                         CGAL::Emptyset_iterator()*/);
 
+  template <typename InputIterator>
+  void
+  add_features(InputIterator first, InputIterator last)
+  { add_features(first, last, CGAL::Emptyset_iterator()); }
+
+  template <typename InputIterator>
+  void
+  add_features_with_context(InputIterator first, InputIterator last)
+  { add_features_with_context(first, last, CGAL::Emptyset_iterator()); }
+
   template <typename IndicesOutputIterator>
   IndicesOutputIterator
   get_incidences(Curve_segment_index id, IndicesOutputIterator out) const;
 
   template <typename IndicesOutputIterator>
   IndicesOutputIterator
-  get_corner_incidences(Curve_segment_index id, IndicesOutputIterator out) const;
+  get_corner_incidences(Corner_index id, IndicesOutputIterator out) const;
+
+  template <typename IndicesOutputIterator>
+  IndicesOutputIterator
+  get_corner_incident_curves(Corner_index id, IndicesOutputIterator out) const;
 
   typedef std::set<Surface_patch_index> Surface_patch_index_set;
 
@@ -570,11 +598,6 @@ public:
   get_incidences(Curve_segment_index id) const;
 
   void display_corner_incidences(std::ostream& os, Point_3, Corner_index id);
-
-  template <typename InputIterator>
-  void
-  add_features(InputIterator first, InputIterator last)
-  { add_features(first, last, CGAL::Emptyset_iterator()); }
 
   /// Insert one edge into domain
   /// InputIterator value type is Point_3
@@ -621,19 +644,33 @@ private:
 
 public:
   typedef CGAL::AABB_tree<AABB_curves_traits> Curves_AABB_tree;
+  typedef std::set<Surface_patch_index> Set_of_patch_ids;
+  typedef std::map<Point_3, Set_of_patch_ids> Corners_incidence_map;
 
 private:
+  Corners_incidence_map corners_incidence_map_;
   mutable Curves_AABB_tree curves_aabb_tree_;
   mutable bool curves_aabb_tree_is_built;
 
 public:
+  const Corners_incidence_map& corners_incidences_map() const
+  { return corners_incidence_map_; }
+
   const Curves_AABB_tree& curves_aabb_tree() const {
     if(!curves_aabb_tree_is_built) build_curves_aabb_tree();
     return curves_aabb_tree_;
   }
+  Curve_segment_index maximal_curve_segment_index() const {
+    if(edges_incidences_.empty()) return Curve_segment_index();
+    return boost::prior(edges_incidences_.end())->first;
+  }
 
   void build_curves_aabb_tree() const {
-    std::cerr << "Building curves AABB tree...\n";
+#if CGAL_MESH_3_VERBOSE
+    std::cerr << "Building curves AABB tree...";
+    CGAL::Real_timer timer;
+    timer.start();
+#endif
     curves_aabb_tree_.clear();
     for(typename Edges::const_iterator
           edges_it = edges_.begin(),
@@ -651,6 +688,10 @@ public:
     }
     curves_aabb_tree_.build();
     curves_aabb_tree_is_built = true;
+#if CGAL_MESH_3_VERBOSE
+    timer.stop();
+    std::cerr << " done (" << timer.time() * 1000 << " ms)" << std::endl;
+#endif
   } // end build_curves_aabb_tree()
 
 private:
@@ -788,6 +829,16 @@ add_features_with_context(InputIterator first, InputIterator last,
   // Insert one edge for each element
   for( ; first != last ; ++first )
   {
+    const typename Gt::Point_3& p1 = first->polyline_content.front();
+    const typename Gt::Point_3& p2 = first->polyline_content.back();
+    Set_of_patch_ids& ids_p1 = corners_incidence_map_[p1];
+    std::copy(first->context.adjacent_patches_ids.begin(),
+              first->context.adjacent_patches_ids.end(),
+              std::inserter(ids_p1, ids_p1.begin()));
+    Set_of_patch_ids& ids_p2 = corners_incidence_map_[p2];
+    std::copy(first->context.adjacent_patches_ids.begin(),
+              first->context.adjacent_patches_ids.end(),
+              std::inserter(ids_p2, ids_p2.begin()));
     Curve_segment_index curve_id =
       insert_edge(first->polyline_content.begin(), first->polyline_content.end());
     edges_incidences_[curve_id] = first->context.adjacent_patches_ids;
@@ -822,6 +873,19 @@ get_corner_incidences(Corner_index id,
 {
   typename Corners_incidences::const_iterator it = corners_incidences_.find(id);
   const Surface_patch_index_set& incidences = it->second;
+  return std::copy(incidences.begin(), incidences.end(), indices_out);
+}
+
+template <class MD_>
+template <typename IndicesOutputIterator>
+IndicesOutputIterator
+Mesh_domain_with_polyline_features_3<MD_>::
+get_corner_incident_curves(Corner_index id,
+                           IndicesOutputIterator indices_out) const
+{
+  typename Corners_tmp_incidences::const_iterator it =
+    corners_tmp_incidences_.find(id);
+  const std::set<Curve_segment_index>& incidences = it->second;
   return std::copy(incidences.begin(), incidences.end(), indices_out);
 }
 
@@ -923,14 +987,20 @@ compute_corners_incidences()
       corner_tmp_incidences = corners_tmp_incidences_[id];
 
     // If the corner is incident to only one curve, and that curve is a
-    // cycle, then remove the corner from the set.
+    // cycle, then remove the corner from the set, only if the angle is not
+    // acute. If the angle is acute, the corner must remain as a corner,
+    // to deal correctly with the angle.
     if(corner_tmp_incidences.size() == 1 &&
        is_cycle(Point_3(), *corner_tmp_incidences.begin()))
     {
-      typename Corners::iterator to_erase = cit;
-      ++cit;
-      corners_.erase(to_erase);
-      continue;
+      const Curve_segment_index curve_id = *corner_tmp_incidences.begin();
+      const Polyline& polyline = edges_[curve_id];
+      if(polyline.angle_at_first_point() == OBTUSE) {
+        typename Corners::iterator to_erase = cit;
+        ++cit;
+        corners_.erase(to_erase);
+        continue;
+      }
     }
 
     Surface_patch_index_set& incidences = corners_incidences_[id];

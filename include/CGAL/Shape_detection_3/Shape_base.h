@@ -22,14 +22,19 @@
 #ifndef CGAL_SHAPE_DETECTION_3_SHAPE_BASE_H
 #define CGAL_SHAPE_DETECTION_3_SHAPE_BASE_H
 
+#include <CGAL/license/Point_set_shape_detection_3.h>
+
+
 #include <vector>
 #include <set>
+#include <stack>
 #include <boost/tuple/tuple.hpp>
 #include <CGAL/Kd_tree.h>
 #include <CGAL/Fuzzy_sphere.h>
 #include <CGAL/property_map.h>
 #include <CGAL/number_utils.h>
 #include <CGAL/Random.h>
+#include <CGAL/Origin.h>
 
 /*!
  \file Shape_base.h

@@ -33,6 +33,7 @@
 #include <CGAL/Interval_nt.h>
 #include <CGAL/Arithmetic_kernel.h>
 #include <CGAL/convert_to_bfi.h>
+#include <CGAL/tss.h>
 
 #include <iterator>
 #include <list>
@@ -104,7 +105,7 @@ private:
   
 private: 
   static inline Self& get_default_instance(){
-    static Self x = Self(0); 
+    CGAL_STATIC_THREAD_LOCAL_VARIABLE(Self, x,0); 
     return x; 
   }
 public:
@@ -321,9 +322,10 @@ public:
   void refine_to(const Rational& lo, const Rational& hi) const {
     // test whether lo < x < hi
     // and refines isolating interval until in ]lo,hi[
-    CGAL::Comparison_result s;
-    s  = compare_distinct(lo); CGAL_assertion(CGAL::LARGER == s);
-    s = compare_distinct(hi) ; CGAL_assertion(CGAL::SMALLER == s);
+    CGAL_assertion_code(CGAL::Comparison_result s =) compare_distinct(lo);
+    CGAL_assertion(CGAL::LARGER == s);
+    CGAL_assertion_code(s =) compare_distinct(hi);
+    CGAL_assertion(CGAL::SMALLER == s);
   }
 
 

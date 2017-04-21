@@ -20,6 +20,9 @@
 #ifndef CGAL_LINEAR_LEAST_SQUARES_FITTING_UTIL_H
 #define CGAL_LINEAR_LEAST_SQUARES_FITTING_UTIL_H
 
+#include <CGAL/license/Principal_component_analysis.h>
+
+
 #include <CGAL/Linear_algebraCd.h>
 #include <CGAL/Dimension.h>
 
@@ -54,7 +57,7 @@ assemble_covariance_matrix_3(InputIterator first,
                              InputIterator beyond, 
                              typename DiagonalizeTraits::Covariance_matrix& covariance, // covariance matrix
                              const typename K::Point_3& c, // centroid
-                             const K& ,                    // kernel
+                             const K& k,                    // kernel
                              const typename K::Point_3*,   // used for indirection
                              const CGAL::Dimension_tag<0>&,
 			     const DiagonalizeTraits&)
@@ -74,7 +77,7 @@ assemble_covariance_matrix_3(InputIterator first,
       it++)
   {
     const Point& p = *it;
-    Vector d = p - c;
+    Vector d = k.construct_vector_3_object()(c,p);
     covariance[0] += d.x() * d.x();
     covariance[1] += d.x() * d.y();
     covariance[2] += d.x() * d.z();

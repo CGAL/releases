@@ -2,7 +2,7 @@
 # This is the CMake script for compiling a CGAL application.
 
 
-project( Advancing_front_surface_reconstruction_ )
+project( Advancing_front_surface_reconstruction_Examples )
 
 cmake_minimum_required(VERSION 2.8.10)
 
@@ -13,6 +13,10 @@ if ( CGAL_FOUND )
   include( ${CGAL_USE_FILE} )
 
   include( CGAL_CreateSingleSourceCGALProgram )
+
+  if (MSVC AND ( CMAKE_SIZEOF_VOID_P EQUAL 4 ) )
+     SET (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /wd4244")
+  endif()
 
   include_directories (BEFORE "../../include")
 

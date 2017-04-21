@@ -20,11 +20,15 @@
 #ifndef CGAL_FILTERED_EXTENDED_HOMOGENEOUS_H
 #define CGAL_FILTERED_EXTENDED_HOMOGENEOUS_H
 
+#include <CGAL/license/Nef_2.h>
+
+
 #include <CGAL/basic.h>
 #include <CGAL/Handle_for.h>
 #include <CGAL/Interval_arithmetic.h>
 #include <CGAL/Homogeneous.h>
 #include <CGAL/number_utils.h>
+#include <CGAL/tss.h>
 #undef CGAL_NEF_DEBUG
 #define CGAL_NEF_DEBUG 5
 #include <CGAL/Nef_2/debug.h>
@@ -93,14 +97,18 @@ public:
 
 
   // only for visualization:
-  static void set_R(const RT& R) { R_ = R; }
+  
+  static RT& R()
+  {
+    CGAL_STATIC_THREAD_LOCAL_VARIABLE(RT,R_,0);
+  }
+  
+  static void set_R(const RT& r) { R() = r; }
   RT eval_at(const RT& r) const { return _m*r+_n; }
-  RT eval_at_R() const { return _m*R_+_n; }
-protected:
-  static RT R_;
+  RT eval_at_R() const { return _m*R()+_n; }
+
 };
 
-template <class RT> RT SPolynomial<RT>::R_;
 
 template <typename RT>
 int sign(const SPolynomial<RT>& p)
@@ -138,7 +146,7 @@ bool operator<(const SPolynomial<RT>& p1, int i)
 
 template <class RT>
 inline double to_double(const SPolynomial<RT>& p)
-{ return (CGAL::to_double(p.eval_at(SPolynomial<RT>::R_))); }
+{ return (CGAL::to_double(p.eval_at(SPolynomial<RT>::R()))); }
 
 template <class RT>
 std::ostream& operator<<(std::ostream& os, const SPolynomial<RT>& p)

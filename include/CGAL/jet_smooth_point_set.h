@@ -20,6 +20,9 @@
 #ifndef CGAL_JET_SMOOTH_POINT_SET_H
 #define CGAL_JET_SMOOTH_POINT_SET_H
 
+#include <CGAL/license/Point_set_processing_3.h>
+
+
 #include <CGAL/trace.h>
 #include <CGAL/Search_traits_3.h>
 #include <CGAL/Orthogonal_k_neighbor_search.h>
@@ -234,7 +237,7 @@ jet_smooth_point_set(
      {
        for(it = first; it != beyond; it++)
 	 {
-	   typename boost::property_traits<PointPMap>::reference p = get(point_pmap, *it);
+	   const typename boost::property_traits<PointPMap>::reference p = get(point_pmap, *it);
 	   put(point_pmap, *it ,
 	       internal::jet_smooth_point<Kernel, SvdTraits>(
 							     p,tree,k,degree_fitting,degree_monge) );

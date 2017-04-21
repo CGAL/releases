@@ -198,7 +198,8 @@ protected:
   { return k_ring_selector.active_handle_type; }
   void set_active_handle_type(Active_handle::Type aht) 
   { k_ring_selector.active_handle_type = aht; }
-
+  void set_lasso_mode(bool b)
+  { k_ring_selector.set_lasso_mode(b); }
   int get_k_ring() { return k_ring_selector.k_ring; }
   void set_k_ring(int k) { k_ring_selector.k_ring = k; }
 
@@ -311,6 +312,7 @@ public:
   // we do not have access to selected polyhedron item
   bool actual_load(Scene_polyhedron_item* poly_item, QMainWindow* mw) 
   {
+
     init(poly_item, mw);
 
     std::vector<Vertex_handle> all_vertices;
@@ -357,6 +359,7 @@ public:
       if(! exists) { return false; }
       selected_edges.insert(edge(hd,*polyhedron()));
     }
+    compute_normal_maps();
     return true;
   }
 
@@ -931,7 +934,6 @@ public:
   Selection_set_vertex HL_selected_vertices;
   Selection_set_facet  HL_selected_facets;
   Selection_set_edge   HL_selected_edges; // stores one halfedge for each pair (halfedge with minimum address)
-  QColor vertex_color, facet_color, edge_color;
 
 protected :
   friend struct Scene_polyhedron_selection_item_priv;

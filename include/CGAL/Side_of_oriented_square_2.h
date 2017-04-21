@@ -22,10 +22,14 @@
 #ifndef CGAL_SIDE_OF_ORIENTED_SQUARE_2_H
 #define CGAL_SIDE_OF_ORIENTED_SQUARE_2_H
 
+#include <CGAL/license/Segment_Delaunay_graph_Linf_2.h>
+
+
 #include <CGAL/basic.h>
 #include <CGAL/Orientation_Linf_2.h>
 #include <CGAL/Side_of_bounded_square_2.h>
 #include <CGAL/enum.h>
+#include <CGAL/Segment_Delaunay_graph_Linf_2/basic.h>
 
 namespace CGAL {
 

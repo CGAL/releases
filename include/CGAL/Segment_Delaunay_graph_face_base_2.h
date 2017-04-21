@@ -23,6 +23,9 @@
 #ifndef CGAL_SEGMENT_DELAUNAY_GRAPH_FACE_BASE_2_H
 #define CGAL_SEGMENT_DELAUNAY_GRAPH_FACE_BASE_2_H
 
+#include <CGAL/license/Segment_Delaunay_graph_2.h>
+
+
 #include <CGAL/basic.h>
 #include <CGAL/Triangulation_ds_face_base_2.h>
 
@@ -61,15 +64,19 @@ private:
     bool selected[3];
     Edge next_[3], prev_[3];
 
+    static int sentinel_index() { return -1; }
+
+    static Edge sentinel_edge() {
+      return Edge(Face_handle(), sentinel_index());
+    }
+
     // method to initialize the in-place edge list
     void initialize_in_place_edge_list()
     {
-      static Edge SENTINEL_QUEUE_EDGE = Edge(Face_handle(), -1);
-
       for (int i = 0; i < 3; ++i) {
 	selected[i] = false;
-	next_[i] = SENTINEL_QUEUE_EDGE;
-	prev_[i] = SENTINEL_QUEUE_EDGE;
+	next_[i] = sentinel_edge();
+	prev_[i] = sentinel_edge();
       }
     }
 

@@ -22,12 +22,16 @@
 #ifndef CGAL_DXF_BSOP_READER_H
 #define CGAL_DXF_BSOP_READER_H
 
+#include <CGAL/license/Boolean_set_operations_2.h>
+
+
 #include <CGAL/IO/Dxf_reader.h>
 #include <iostream>
 
 #include <list>
 #include <CGAL/Gps_circle_segment_traits_2.h>
 #include <CGAL/General_polygon_set_2.h>
+#include <CGAL/squared_distance_2.h>
 
 namespace CGAL {
 

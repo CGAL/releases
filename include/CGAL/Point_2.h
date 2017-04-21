@@ -32,6 +32,7 @@
 #include <CGAL/Kernel/Return_base_tag.h>
 #include <CGAL/representation_tags.h>
 #include <CGAL/Dimension.h>
+#include <CGAL/result_of.h>
 
 namespace CGAL {
 
@@ -51,6 +52,7 @@ public:
   typedef Dimension_tag<2>  Ambient_dimension;
   typedef Dimension_tag<0>  Feature_dimension;
 
+  typedef typename R_::Weighted_point_2 Weighted_point_2;
   typedef RPoint_2 Rep;
   typedef typename R_::Cartesian_const_iterator_2 Cartesian_const_iterator;
 
@@ -74,6 +76,10 @@ public:
 
   Point_2(const RPoint_2& p)
     : RPoint_2(p)
+  {}
+
+  Point_2(const Weighted_point_2& wp)
+    : Rep(wp.point())
   {}
 
   template < typename T1, typename T2 >
@@ -162,6 +168,21 @@ public:
     return t.transform(*this);
   }
 
+  Point_2<R_>&
+  operator+=(const typename R::Vector_2 &v)
+  {
+    *this = R().construct_translated_point_2_object()(*this, v);
+    return *this;
+  }
+
+  Point_2<R_>&
+  operator-=(const typename R::Vector_2 &v)
+  {
+    *this = R().construct_translated_point_2_object()(*this,
+                  R().construct_opposite_vector_2_object()(v));
+    return *this;
+  }
+
 };
 
 
@@ -213,7 +234,7 @@ template <class R >
 std::istream&
 extract(std::istream& is, Point_2<R>& p, const Cartesian_tag&)
 {
-    typename R::FT x, y;
+  typename R::FT x(0), y(0);
     switch(get_mode(is)) {
     case IO::ASCII :
         is >> iformat(x) >> iformat(y);
@@ -223,6 +244,7 @@ extract(std::istream& is, Point_2<R>& p, const Cartesian_tag&)
         read(is, y);
         break;
     default:
+        is.setstate(std::ios::failbit);
         std::cerr << "" << std::endl;
         std::cerr << "Stream must be in ascii or binary mode" << std::endl;
         break;
@@ -249,6 +271,7 @@ extract(std::istream& is, Point_2<R>& p, const Homogeneous_tag&)
         read(is, hw);
         break;
     default:
+        is.setstate(std::ios::failbit);
         std::cerr << "" << std::endl;
         std::cerr << "Stream must be in ascii or binary mode" << std::endl;
         break;

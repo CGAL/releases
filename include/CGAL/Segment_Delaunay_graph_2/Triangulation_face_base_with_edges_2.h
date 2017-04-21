@@ -23,6 +23,9 @@
 #ifndef CGAL_TRIANGULATION_FACE_BASE_WITH_EDGES_2_H
 #define CGAL_TRIANGULATION_FACE_BASE_WITH_EDGES_2_H
 
+#include <CGAL/license/Segment_Delaunay_graph_2.h>
+
+
 
 #include <CGAL/Triangulation_ds_face_base_2.h>
 #include <CGAL/triangulation_assertions.h>
@@ -125,11 +128,11 @@ protected:
   Edge prev_edge_in_list[3];
 
 protected:
+
   static int sentinel_index() { return -1; }
 
-  static const Edge& sentinel_edge() {
-    static Edge SENTINEL_EDGE = Edge(Face_handle(), sentinel_index());
-    return SENTINEL_EDGE;
+  static Edge sentinel_edge() {
+    return Edge(Face_handle(), sentinel_index());
   }
 
   // initialization of in-place list pointers

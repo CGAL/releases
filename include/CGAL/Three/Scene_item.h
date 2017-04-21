@@ -20,6 +20,9 @@
 
 #ifndef SCENE_ITEM_H
 #define SCENE_ITEM_H
+
+#include <CGAL/license/Three.h>
+
 #include <CGAL/Three/Scene_item_config.h>
 #include <CGAL/Three/Scene_interface.h>
 #include <QString>
@@ -77,6 +80,8 @@ public:
   PROGRAM_C3T3_EDGES,          /** Used to render the edges of a c3t3_item. It discards any fragment on a side of a plane, meaning that nothing is displayed on this side of the plane. Not affected by light.*/
   PROGRAM_CUTPLANE_SPHERES,    /** Used to render the spheres of an item with a cut plane.*/
   PROGRAM_SPHERES,             /** Used to render one or several spheres.*/
+  PROGRAM_C3T3_TETS,           /** Used to render the tetrahedra of the intersection of a c3t3_item.*/
+  PROGRAM_FLAT,                /** Used to render flat shading without pre computing normals*/
   NB_OF_PROGRAMS               /** Holds the number of different programs in this enum.*/
  };
   typedef CGAL::Bbox_3 Bbox;
@@ -285,6 +290,10 @@ public Q_SLOTS:
   void setPointsMode() {
     setRenderingMode(Points);
   }
+  //!Sets the RenderingMode to Points.
+  void setShadedPointsMode() {
+    setRenderingMode(ShadedPoints);
+  }
   //!Sets the RenderingMode to Wireframe.
   void setWireframeMode() {
     setRenderingMode(Wireframe);
@@ -312,6 +321,9 @@ public Q_SLOTS:
   }
   
   //!Emits an aboutToBeDestroyed() signal.
+  //!Override this function to delete what needs to be deleted on destruction.
+  //!This might be needed as items are not always deleted right away by Qt and this behaviour may cause a simily
+  //!memory leak, for example when multiple items are created at the same time.
   virtual void itemAboutToBeDestroyed(Scene_item*);
 
   //!Selects a point through raycasting.
@@ -321,6 +333,8 @@ public Q_SLOTS:
                       double dir_x,
                       double dir_y,
                       double dir_z);
+
+
 
 Q_SIGNALS:
   //! Is emitted to notify a change in the item's data.

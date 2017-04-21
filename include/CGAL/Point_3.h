@@ -50,6 +50,7 @@ public:
   typedef Dimension_tag<3>  Ambient_dimension;
   typedef Dimension_tag<0>  Feature_dimension;
 
+  typedef typename R_::Weighted_point_3 Weighted_point_3;
   typedef typename R_::Kernel_base::Point_3  Rep;
   typedef typename R_::Cartesian_const_iterator_3 Cartesian_const_iterator;
 
@@ -73,6 +74,10 @@ public:
 
   Point_3(const Rep& p)
       : Rep(p) {}
+
+  Point_3(const Weighted_point_3& wp)
+    : Rep(wp.point())
+  {}
 
   template < typename T1, typename T2, typename T3 >
   Point_3(const T1& x, const T2& y, const T3& z)
@@ -175,6 +180,21 @@ public:
     return t.transform(*this);
   }
 
+  Point_3<R_>&
+  operator+=(const Vector_3 &v)
+  {
+    *this = R().construct_translated_point_3_object()(*this, v);
+    return *this;
+  }
+
+  Point_3<R_>&
+  operator-=(const Vector_3 &v)
+  {
+    *this = R().construct_translated_point_3_object()(*this,
+                  R().construct_opposite_vector_3_object()(v));
+    return *this;
+  }
+
 };
 
 template <class R>
@@ -242,7 +262,7 @@ template <class R >
 std::istream&
 extract(std::istream& is, Point_3<R>& p, const Cartesian_tag&)
 {
-    typename R::FT x, y, z;
+  typename R::FT x(0), y(0), z(0);
     switch(get_mode(is)) {
     case IO::ASCII :
         is >> iformat(x) >> iformat(y) >> iformat(z);
@@ -253,6 +273,7 @@ extract(std::istream& is, Point_3<R>& p, const Cartesian_tag&)
         read(is, z);
         break;
     default:
+        is.setstate(std::ios::failbit);
         std::cerr << "" << std::endl;
         std::cerr << "Stream must be in ascii or binary mode" << std::endl;
         break;
@@ -280,6 +301,7 @@ extract(std::istream& is, Point_3<R>& p, const Homogeneous_tag&)
         read(is, hw);
         break;
     default:
+        is.setstate(std::ios::failbit);
         std::cerr << "" << std::endl;
         std::cerr << "Stream must be in ascii or binary mode" << std::endl;
         break;

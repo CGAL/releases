@@ -26,6 +26,9 @@
 #ifndef CGAL_MESH_COMPLEX_3_IN_TRIANGULATION_3_H
 #define CGAL_MESH_COMPLEX_3_IN_TRIANGULATION_3_H
 
+#include <CGAL/license/Mesh_3.h>
+
+
 
 #include <CGAL/iterator.h>
 
@@ -549,7 +552,7 @@ private:
   void add_to_complex(const Internal_edge& edge, const Curve_segment_index& index)
   {
     CGAL_precondition(!is_in_complex(edge));
-#ifdef CGAL_MESH_3_PROTECTION_DEBUG
+#if CGAL_MESH_3_PROTECTION_DEBUG & 1
     std::cerr << "Add edge ( " << edge.left->point()
               << " , " << edge.right->point() << " ), curve_index=" << index
               << " to c3t3.\n";

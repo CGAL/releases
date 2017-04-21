@@ -24,6 +24,9 @@
 #ifndef CGAL_SEGMENT_DELAUNAY_GRAPH_2_ARRANGEMENT_TYPE_C2_H
 #define CGAL_SEGMENT_DELAUNAY_GRAPH_2_ARRANGEMENT_TYPE_C2_H
 
+#include <CGAL/license/Segment_Delaunay_graph_2.h>
+
+
 #include <CGAL/enum.h>
 #include <CGAL/determinant.h>
 #include <CGAL/Segment_Delaunay_graph_2/Basic_predicates_C2.h>
@@ -83,7 +86,7 @@ private:
 			      const RT& x3, const RT& y3,
 			      const RT& x4, const RT& y4) const
   {
-    RT delta = -determinant(x2 - x1, x4 - x3, y2 - y1, y4 - y3);
+    RT delta = -determinant<RT>(x2 - x1, x4 - x3, y2 - y1, y4 - y3);
 
     Sign s = CGAL::sign( delta );
     if ( s != CGAL::ZERO ) {
@@ -98,8 +101,8 @@ private:
 		  const RT& x3, const RT& y3, const RT& x4, const RT& y4,
 		  const RT& D) const
   {
-    RT Dt = -determinant(x3 - x1, x4 - x3, y3 - y1, y4 - y3);
-    RT Ds = determinant(x2 - x1, x3 - x1, y2 - y1, y3 - y1);
+    RT Dt = -determinant<RT>(x3 - x1, x4 - x3, y3 - y1, y4 - y3);
+    RT Ds = determinant<RT>(x2 - x1, x3 - x1, y2 - y1, y3 - y1);
 
     Sign s_D = CGAL::sign( D );
     Sign s_Dt = CGAL::sign( Dt );
@@ -168,7 +171,7 @@ private:
   parallel_C2(const RT& x1, const RT& y1, const RT& x2, const RT& y2,
 	      const RT& x3, const RT& y3, const RT& x4, const RT& y4) const
   {
-    RT D1 = determinant(x2 - x1, x3 - x1,	y2 - y1, y3 - y1);
+    RT D1 = determinant<RT>(x2 - x1, x3 - x1,	y2 - y1, y3 - y1);
 
     if ( CGAL::sign( D1 ) != CGAL::ZERO ) {
       return Enum::DISJOINT;

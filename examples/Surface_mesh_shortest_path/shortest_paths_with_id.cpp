@@ -15,6 +15,7 @@
 #include <CGAL/boost/graph/graph_traits_Polyhedron_3.h>
 #include <CGAL/boost/graph/iterator.h>
 
+#include <boost/lexical_cast.hpp>
 
 typedef CGAL::Exact_predicates_inexact_constructions_kernel Kernel;
 typedef CGAL::Polyhedron_3<Kernel, CGAL::Polyhedron_items_with_id_3> Polyhedron_3;
@@ -32,17 +33,17 @@ int main(int argc, char** argv)
   input >> polyhedron;
   input.close();
 
-  // initialize indices of vertices, halfedges and facets
+  // initialize indices of vertices, halfedges and faces
   CGAL::set_halfedgeds_items_id(polyhedron);
 
   // pick up a random face
-  const size_t randSeed = argc > 2 ? std::atoi(argv[2]) : 7915421;
+  const unsigned int randSeed = argc > 2 ? boost::lexical_cast<unsigned int>(argv[2]) : 7915421;
   CGAL::Random rand(randSeed);
-  const int target_face_index = rand.get_int(0, num_faces(polyhedron));
+  const int target_face_index = rand.get_int(0, static_cast<int>(num_faces(polyhedron)));
   face_iterator face_it = faces(polyhedron).first;
   std::advance(face_it,target_face_index);
-  // ... and define a barycentric coordinate inside the face
-  Traits::Barycentric_coordinate face_location = {{0.25, 0.5, 0.25}};
+  // ... and define a barycentric coordinates inside the face
+  Traits::Barycentric_coordinates face_location = {{0.25, 0.5, 0.25}};
 
   // construct a shortest path query object and add a source point
   Surface_mesh_shortest_path shortest_paths(polyhedron);

@@ -21,6 +21,9 @@
 #ifndef CGAL_SEGMENT_DELAUNAY_GRAPH_2_ARE_PARALLEL_C2_H
 #define CGAL_SEGMENT_DELAUNAY_GRAPH_2_ARE_PARALLEL_C2_H
 
+#include <CGAL/license/Segment_Delaunay_graph_2.h>
+
+
 #include <CGAL/Segment_Delaunay_graph_2/basic.h>
 #include <CGAL/determinant.h>
 
@@ -62,8 +65,8 @@ private:
       x4 = s2.target().x(),
       y4 = s2.target().y();
 
-    FT det = determinant(x2 - x1, x4 - x3,
-			       y2 - y1, y4 - y3);
+    FT det = determinant<FT>(x2 - x1, x4 - x3,
+			     y2 - y1, y4 - y3);
 
     return ( CGAL::sign(det) == CGAL::ZERO );
   }

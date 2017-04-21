@@ -20,6 +20,9 @@
 #ifndef CGAL_WIN32_EXCEPTION_H
 #define CGAL_WIN32_EXCEPTION_H
 
+#include <CGAL/license/Surface_mesh_parameterization.h>
+
+
 #ifdef _MSC_VER
 
 #include <exception>
@@ -27,6 +30,8 @@
 #include <windows.h>
 #include <eh.h>
 #include <iostream>
+
+#include <CGAL/tss.h>
 
 namespace CGAL {
 
@@ -116,7 +121,7 @@ private:
   bool needs_stack_reset(bool new_value)
   {
     // default value
-    static bool m_needs_stack_reset = false;
+    CGAL_STATIC_THREAD_LOCAL_VARIABLE(bool, m_needs_stack_reset, false);
     
     bool previous_value = m_needs_stack_reset;
     m_needs_stack_reset = new_value;

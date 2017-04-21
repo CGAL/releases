@@ -22,7 +22,11 @@
 #ifndef CGAL_TRIANGULATION_DS_VERTEX_BASE_2_H
 #define CGAL_TRIANGULATION_DS_VERTEX_BASE_2_H
 
-#include <CGAL/basic.h>
+#include <CGAL/license/TDS_2.h>
+
+
+#include <CGAL/config.h>
+#include <iostream>
 #include <CGAL/Dummy_tds_2.h>
 
 namespace CGAL {

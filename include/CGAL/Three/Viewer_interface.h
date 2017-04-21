@@ -21,6 +21,9 @@
 #ifndef VIEWER_INTERFACE_H
 #define VIEWER_INTERFACE_H
 
+#include <CGAL/license/Three.h>
+
+
 #include <QGLViewer/qglviewer.h>
 #include <QWidget>
 #include <QPoint>
@@ -39,6 +42,7 @@ class TextListItem;
 namespace CGAL{
 namespace Three{
 class Scene_draw_interface;
+class Scene_item;
 //! Base class to interact with the viewer from the plugins, the items and the scene.
 class VIEWER_EXPORT Viewer_interface : public QGLViewer, public QOpenGLFunctions_2_1 {
 
@@ -65,6 +69,8 @@ public:
    PROGRAM_C3T3_EDGES,          /** Used to render the edges of a c3t3_item. It discards any fragment on a side of a plane, meaning that nothing is displayed on this side of the plane. Not affected by light.*/
    PROGRAM_CUTPLANE_SPHERES,    /** Used to render the spheres of an item with a cut plane.*/
    PROGRAM_SPHERES,             /** Used to render one or several spheres.*/
+   PROGRAM_C3T3_TETS,           /** Used to render the tetrahedra of the intersection of a c3t3_item.*/
+   PROGRAM_FLAT,                /** Used to render flat shading without pre computing normals*/
    NB_OF_PROGRAMS               /** Holds the number of different programs in this enum.*/
   };
 
@@ -83,6 +89,8 @@ public:
   * \param z the Z coordinate of the id's position.
   * \return true if the ID is visible. */
   virtual bool testDisplayId(double x, double y, double z) = 0;
+  //!Recomputes the ids of the selected item.
+  virtual void updateIds(CGAL::Three::Scene_item *) = 0;
   //!Returns true if the primitive ids are displayed
   virtual bool hasText() const { return false; }
 
@@ -134,6 +142,8 @@ public:
   bool extension_is_found;
   //!The matrix used for the picking.
   mutable GLfloat pickMatrix_[16];
+  //!Returns the scene's offset
+  virtual qglviewer::Vec offset()const = 0;
   //!Sets the binding for SHIFT+LEFT CLICK to SELECT (initially used in Scene_polyhedron_selection_item.h)
   void setBindingSelect()
   {

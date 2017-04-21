@@ -19,12 +19,16 @@
 #ifndef CGAL_UMBILIC_H_
 #define CGAL_UMBILIC_H_
 
+#include <CGAL/license/Ridges_3.h>
+
+
 #include <list>
 #include <vector>
 #include <math.h>
 #include <CGAL/basic.h>
 #include <CGAL/boost/graph/helpers.h>
 #include <CGAL/PolyhedralSurf_neighbors.h>
+#include <CGAL/Kernel/global_functions_3.h>
 #include <boost/shared_ptr.hpp>
 
 namespace CGAL {

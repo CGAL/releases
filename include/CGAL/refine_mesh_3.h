@@ -25,6 +25,9 @@
 #ifndef CGAL_REFINE_MESH_3_H
 #define CGAL_REFINE_MESH_3_H
 
+#include <CGAL/license/Mesh_3.h>
+
+
 #include <CGAL/config.h>
 #include <CGAL/Mesh_3/config.h>
 #include <CGAL/Mesh_3/Dump_c3t3.h>
@@ -178,6 +181,7 @@ namespace parameters {
         , dump_after_perturb_prefix()
         , dump_after_exude_prefix()
         , number_of_initial_points()
+        , nonlinear_growth_of_balls(false)
       {}
 
       std::string dump_after_init_prefix;
@@ -187,6 +191,7 @@ namespace parameters {
       std::string dump_after_perturb_prefix;
       std::string dump_after_exude_prefix;
       int number_of_initial_points;
+      bool nonlinear_growth_of_balls;
 
     }; // end struct Mesh_3_options
 

@@ -717,7 +717,11 @@ _image* _readImage_raw(const char *name,
                        const double vx,
                        const double vy,
                        const double vz,
-		       const unsigned int offset)
+		       const unsigned int offset,
+                       const std::size_t wdim,
+                       WORD_KIND wk,
+                       SIGN sgned
+                       )
 {
   _image *im = NULL;
   im = (_image *) ImageIO_alloc(sizeof(_image));
@@ -753,10 +757,10 @@ _image* _readImage_raw(const char *name,
   im->nuser = 0;
 
   // word type (unsigned byte)
-  im->wdim = 1;
-  im->wordKind = WK_FIXED;
+  im->wdim = wdim;
+  im->wordKind = wk;
   im->vectMode = VM_SCALAR;
-  im->sign = SGN_UNSIGNED;
+  im->sign = sgned;
   im->imageFormat = NULL;
 
   // read file
@@ -774,12 +778,12 @@ _image* _readImage_raw(const char *name,
     ImageIO_free(im->data);
   }
   // allocate memory
-  im->data = ImageIO_alloc(rx*ry*rz);
+  im->data = ImageIO_alloc(rx*ry*rz*wdim);
   if(im->data == NULL)
     return NULL;
 
   // read
-  ImageIO_read(im, im->data, rx*ry*rz);
+  ImageIO_read(im, im->data, rx*ry*rz*wdim);
 
   ImageIO_close(im);
   /*
@@ -852,7 +856,6 @@ _image* _readNonInterlacedImage(const char *name) {
    on stdout */
 CGAL_INLINE_FUNCTION
 int _writeImage(_image *im, const char *name_to_be_written ) {
-
   int r = ImageIO_NO_ERROR;
   std::size_t length = 0;
   char *name = NULL;
@@ -1622,7 +1625,7 @@ float triLinInterp(const _image* image,
   posz = static_cast<float>(posz /(image->vz));
 
   //patch suggested by J.Cugnoni to prevent integer overflow
-  if(posz >= dimz-1 || posy >= dimy-1 || posx >= dimx-1)
+  if(posz >= float(dimz-1) || posy >= float(dimy-1) || posx >= float(dimx-1))
     return value_outside;
   
   const int i1 = (int)(posz);

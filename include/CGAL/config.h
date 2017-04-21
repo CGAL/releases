@@ -152,6 +152,12 @@
     defined(BOOST_NO_CXX11_HDR_ARRAY) || BOOST_VERSION < 104000
 #define CGAL_CFG_NO_CPP0X_ARRAY 1
 #endif
+#if defined(BOOST_NO_0X_HDR_UNORDERED_SET) || \
+    defined(BOOST_NO_0X_HDR_UNORDERED_MAP) || \
+    defined(BOOST_NO_CXX11_HDR_UNORDERED_SET) || \
+    defined(BOOST_NO_CXX11_HDR_UNORDERED_MAP)
+#define CGAL_CFG_NO_CPP0X_UNORDERED 1
+#endif
 #if defined(BOOST_NO_DECLTYPE) || \
     defined(BOOST_NO_CXX11_DECLTYPE) || (BOOST_VERSION < 103600)
 #define CGAL_CFG_NO_CPP0X_DECLTYPE 1
@@ -409,6 +415,7 @@ using std::max;
 // Macros to detect features of clang. We define them for the other
 // compilers.
 // See http://clang.llvm.org/docs/LanguageExtensions.html
+// See also http://en.cppreference.com/w/cpp/experimental/feature_test
 #ifndef __has_feature
   #define __has_feature(x) 0  // Compatibility with non-clang compilers.
 #endif
@@ -423,6 +430,9 @@ using std::max;
 #endif
 #ifndef __has_attribute
   #define __has_attribute(x) 0  // Compatibility with non-clang compilers.
+#endif
+#ifndef __has_cpp_attribute
+  #define __has_cpp_attribute(x) 0  // Compatibility with non-supporting compilers.
 #endif
 #ifndef __has_warning
   #define __has_warning(x) 0  // Compatibility with non-clang compilers.
@@ -454,6 +464,22 @@ using std::max;
 #  define CGAL_DEPRECATED_UNUSED
 #endif
 
+// Macro to trigger deprecation warnings with a custom message
+#ifdef CGAL_NO_DEPRECATION_WARNINGS
+#  define CGAL_DEPRECATED_MSG(msg)
+#elif defined(__GNUC__) || __has_attribute(__deprecated__)
+#  if BOOST_GCC >= 40500 || __has_attribute(__deprecated__)
+#    define CGAL_DEPRECATED_MSG(msg) __attribute__ ((deprecated(msg)))
+#  else
+#    define CGAL_DEPRECATED_MSG(msg) __attribute__ ((deprecated))
+#  endif
+#elif defined (_MSC_VER) && (_MSC_VER > 1300)
+#  define CGAL_DEPRECATED_MSG(msg) __declspec(deprecated(msg))
+#elif defined(__clang__)
+#  define CGAL_DEPRECATED_MSG(msg) __attribute__ ((deprecated(msg)))
+#else
+#  define CGAL_DEPRECATED_MSG(msg)
+#endif
 
 // Macro to specify a 'noreturn' attribute.
 #if defined(__GNUG__) || __has_attribute(__noreturn__)
@@ -486,6 +512,7 @@ using std::max;
 #if __has_feature(cxx_thread_local) || \
     ( (__GNUC__ * 100 + __GNUC_MINOR__) >= 408 && __cplusplus >= 201103L ) || \
     ( _MSC_VER >= 1900 )
+// see also Installation/config/support/CGAL_test_cpp_version.cpp
 #define CGAL_CAN_USE_CXX11_THREAD_LOCAL
 #endif
 
@@ -535,6 +562,23 @@ typedef const void * Nullptr_t;   // Anticipate C++0x's std::nullptr_t
 #define CGAL_NOEXCEPT(x)
 #endif
 
+// The fallthrough attribute
+// See for clang:
+//   http://clang.llvm.org/docs/AttributeReference.html#statement-attributes
+// See for gcc:
+//   https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html
+#if __has_cpp_attribute(fallthrough)
+#  define CGAL_FALLTHROUGH [[fallthrough]]
+#elif __has_cpp_attribute(gnu::fallthrough)
+#  define CGAL_FALLTHROUGH [[gnu::fallthrough]]
+#elif __has_cpp_attribute(clang::fallthrough)
+#  define CGAL_FALLTHROUGH [[clang::fallthrough]]
+#elif __has_attribute(fallthrough) && ! __clang__
+#  define CGAL_FALLTHROUGH __attribute__ ((fallthrough))
+#else
+#  define CGAL_FALLTHROUGH while(false){}
+#endif
+
 // https://svn.boost.org/trac/boost/ticket/2839
 #if defined(BOOST_MSVC) && BOOST_VERSION < 105600
 #define CGAL_CFG_BOOST_VARIANT_SWAP_BUG 1
@@ -545,5 +589,43 @@ typedef const void * Nullptr_t;   // Anticipate C++0x's std::nullptr_t
 #else
 #  define CGAL_NO_ASSERTIONS_BOOL true
 #endif
+
+#if defined( __INTEL_COMPILER)
+#define CGAL_ADDITIONAL_VARIANT_FOR_ICL ,int
+#else
+#define CGAL_ADDITIONAL_VARIANT_FOR_ICL
+#endif
+
+#if !defined CGAL_EIGEN3_ENABLED && \
+    !defined CGAL_EIGEN3_DISABLED && \
+    __has_include(<Eigen/Jacobi>)
+#  define CGAL_EIGEN3_ENABLED 1
+#endif
+
+#define CGAL_STRINGIZE_HELPER(x) #x
+#define CGAL_STRINGIZE(x) CGAL_STRINGIZE_HELPER(x)
+
+/// Macro `CGAL_WARNING`.
+/// Must be used with `#pragma`, this way:
+///
+///     #pragma CGAL_WARNING(This line should trigger a warning)
+///
+/// @{
+#ifdef BOOST_MSVC
+#  define CGAL_WARNING(desc) message(__FILE__ "(" CGAL_STRINGIZE(__LINE__) ") : warning: " desc)
+#else // not BOOST_MSVC
+#  define CGAL_WARNING(desc) message( "warning: " desc)
+#endif // not BOOST_MSVC
+/// @}
+
+/// Macro `CGAL_pragma_warning`.
+#ifdef BOOST_MSVC
+#  define CGAL_pragma_warning(desc) __pragma(CGAL_WARNING(desc))
+#else // not BOOST_MSVC
+#  define CGAL_pragma_warning(desc) _Pragma(CGAL_STRINGIZE(CGAL_WARNING(desc)))
+#endif // not BOOST_MSVC
+/// @}
+#include <CGAL/license/lgpl.h>
+
 
 #endif // CGAL_CONFIG_H

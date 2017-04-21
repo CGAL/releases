@@ -21,9 +21,13 @@
 #ifndef CGAL_HOLE_FILLING_TRIANGULATE_HOLE_POLYHEDRON_3_H
 #define CGAL_HOLE_FILLING_TRIANGULATE_HOLE_POLYHEDRON_3_H
 
+#include <CGAL/license/Polygon_mesh_processing/meshing_hole_filling.h>
+
+
 #include <CGAL/Polygon_mesh_processing/internal/Hole_filling/Triangulate_hole_polyline.h>
+#ifdef CGAL_PMP_HOLE_FILLING_DEBUG
 #include <CGAL/Timer.h>
-#include <CGAL/trace.h>
+#endif
 #include <CGAL/boost/graph/iterator.h>
 #include <CGAL/boost/graph/Euler_operations.h>
 #include <vector>
@@ -108,7 +112,9 @@ triangulate_hole_polygon_mesh(PolygonMesh& pmesh,
   typedef std::map<vertex_descriptor, int>    Vertex_map;
   typedef typename Vertex_map::iterator       Vertex_map_it;
 
+  #ifdef CGAL_PMP_HOLE_FILLING_DEBUG
   CGAL::Timer timer; timer.start();
+  #endif
 
   std::vector<Point_3>         P, Q;
   std::vector<halfedge_descriptor> P_edges;
@@ -183,7 +189,9 @@ triangulate_hole_polygon_mesh(PolygonMesh& pmesh,
 #endif
   ;
 
-  CGAL_TRACE_STREAM << "Hole filling: " << timer.time() << " sc." << std::endl; timer.reset();
+  #ifdef CGAL_PMP_HOLE_FILLING_DEBUG
+  std:cerr << "Hole filling: " << timer.time() << " sc." << std::endl; timer.reset();
+  #endif
   return std::make_pair(tracer.out, weight);
 }
 

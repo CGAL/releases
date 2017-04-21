@@ -2,7 +2,7 @@
 # This is the CMake script for compiling a CGAL application.
 
 
-project( Combinatorial_map_ )
+project( Combinatorial_map_Examples )
 
 cmake_minimum_required(VERSION 2.8.10)
 
@@ -27,4 +27,3 @@ else()
     message(STATUS "This program requires the CGAL library, and will not be compiled.")
   
 endif()
-

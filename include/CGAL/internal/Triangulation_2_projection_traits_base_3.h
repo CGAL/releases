@@ -22,8 +22,12 @@
 #ifndef CGAL_INTERNAL_TRIANGULATION_2_PROJECTION_TRAITS_BASE_3_H
 #define CGAL_INTERNAL_TRIANGULATION_2_PROJECTION_TRAITS_BASE_3_H
 
+#include <CGAL/license/Triangulation_2.h>
+
+
 #include <CGAL/Profile_timer.h>
 #include <CGAL/intersections.h>
+#include <CGAL/predicates/sign_of_determinant.h>
 
 namespace CGAL {
 
@@ -33,7 +37,7 @@ template <class Traits>
 class Projected_orientation_with_normal_3
 {
   // private members
-  const typename Traits::Vector_3 normal;
+  typename Traits::Vector_3 normal;
 
   // private type aliases
   typedef typename Traits::K K;
@@ -64,7 +68,7 @@ template <class Traits>
 class Projected_side_of_oriented_circle_with_normal_3
 {
   // private members
-  const typename Traits::Vector_3 normal;
+  typename Traits::Vector_3 normal;
 
   // private types aliases
   typedef typename Traits::K K;
@@ -107,11 +111,11 @@ public:
     const FT k_q = tq * u;
     const FT k_r = tr * u;
 
-    return
-       sign_of_determinant(tp.x(), tp.y(), tp.z(), (tp2 + k_p) * u2 - k_p * k_p,
-			   tr.x(), tr.y(), tr.z(), (tr2 + k_r) * u2 - k_r * k_r,
-			   tq.x(), tq.y(), tq.z(), (tq2 + k_q) * u2 - k_q * k_q,
-                           u.x(),  u.y(),  u.z(), u2 * u2);
+    return sign_of_determinant<FT>(
+	tp.x(), tp.y(), tp.z(), (tp2 + k_p) * u2 - k_p * k_p,
+	tr.x(), tr.y(), tr.z(), (tr2 + k_r) * u2 - k_r * k_r,
+	tq.x(), tq.y(), tq.z(), (tq2 + k_q) * u2 - k_q * k_q,
+	 u.x(),  u.y(),  u.z(), u2 * u2);
     // Note that q and r have been swapped in the determinant above, to
     // inverse its sign.
   }
@@ -121,7 +125,7 @@ template <class Traits>
 class Projected_squared_distance_with_normal_3
 {
   // private members
-  const typename Traits::Vector_3 normal;
+  typename Traits::Vector_3 normal;
 
   // private types aliases
   typedef typename Traits::K K;
@@ -171,7 +175,7 @@ template <class Traits>
 class Projected_intersect_3
 {
   // private members
-  const typename Traits::Vector_3 normal;
+  typename Traits::Vector_3 normal;
 
   // private types aliases
   typedef typename Traits::K K;
@@ -249,7 +253,7 @@ class Less_along_axis
   // private members
   typedef typename Traits::Vector_3 Vector_3;
   typedef typename Traits::Point_2 Point;
-  const Vector_3 base;
+  Vector_3 base;
 public:
   Less_along_axis(const Vector_3& base) : base(base)
   {
@@ -270,7 +274,7 @@ class Compare_along_axis
   // private members
   typedef typename Traits::Vector_3 Vector_3;
   typedef typename Traits::Point_2 Point;
-  const Vector_3 base;
+  Vector_3 base;
 public:
   Compare_along_axis(const Vector_3& base) : base(base)
   {

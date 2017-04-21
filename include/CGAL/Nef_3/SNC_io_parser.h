@@ -24,6 +24,9 @@
 #ifndef CGAL_SNC_IO_PARSER_H
 #define CGAL_SNC_IO_PARSER_H
 
+#include <CGAL/license/Nef_3.h>
+
+
 #include <CGAL/basic.h>
 #include <CGAL/Unique_hash_map.h>
 #include <CGAL/Nef_S2/SM_decorator.h>
@@ -1487,7 +1490,9 @@ read_vertex(Vertex_handle vh) {
 
   bool OK = true;
   int index;
+  #ifdef CGAL_NEF_NATURAL_COORDINATE_INPUT
   typename K::RT hx, hy, hz, hw;
+  #endif
 
   in >> index;
   OK = OK && test_string("{");
@@ -1556,8 +1561,9 @@ read_edge(Halfedge_handle eh) {
 
   bool OK = true;
   int index;
+#ifdef CGAL_NEF_NATURAL_COORDINATE_INPUT
   typename K::RT hx,hy,hz,hw;
-
+#endif
   in >> index;
   OK = OK && test_string("{");
 
@@ -1619,7 +1625,9 @@ read_facet(Halffacet_handle fh) {
   bool OK = true;
   int index;
   char cc;
+#ifdef CGAL_NEF_NATURAL_COORDINATE_INPUT
   typename K::RT a,b,c,d;
+#endif
 
   in >> index;
   OK = OK && test_string("{");
@@ -1729,7 +1737,9 @@ read_sedge(SHalfedge_handle seh) {
 
   bool OK = true;
   int index;
+#ifdef CGAL_NEF_NATURAL_COORDINATE_INPUT
   typename K::RT a,b,c,d;
+#endif
 
   in >> index;
   OK = OK && test_string("{");
@@ -1798,7 +1808,9 @@ read_sloop(SHalfloop_handle slh) {
 
   bool OK = true;
   int index;
+#ifdef CGAL_NEF_NATURAL_COORDINATE_INPUT
   typename K::RT a,b,c,d;
+#endif
 
   in >> index;
   OK = OK && test_string("{");

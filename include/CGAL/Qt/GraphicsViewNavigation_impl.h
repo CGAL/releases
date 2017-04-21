@@ -21,6 +21,9 @@
    
 #ifdef CGAL_HEADER_ONLY
 #define CGAL_INLINE_FUNCTION inline
+
+#include <CGAL/license/GraphicsView.h>
+
 #else
 #define CGAL_INLINE_FUNCTION
 #endif
@@ -115,6 +118,7 @@ namespace Qt {
       case ::Qt::Key_Control:
         cursor_backup = v->cursor();
         v->setCursor(::Qt::CrossCursor);
+        CGAL_FALLTHROUGH;
       default:
         return false;
       }

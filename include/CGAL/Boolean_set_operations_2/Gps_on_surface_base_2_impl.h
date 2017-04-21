@@ -24,6 +24,9 @@
 #ifndef CGAL_GPS_ON_SURFACE_BASE_2_IMPL_H
 #define CGAL_GPS_ON_SURFACE_BASE_2_IMPL_H
 
+#include <CGAL/license/Boolean_set_operations_2.h>
+
+
 #include <CGAL/iterator.h>
 #include <CGAL/function_objects.h>
 #include <CGAL/circulator.h>
@@ -32,6 +35,8 @@
 
 #include <queue>
 #include <list>
+
+namespace CGAL {
 
 template <class Traits_, class TopTraits_, class ValidationPolicy>
 void Gps_on_surface_base_2<Traits_, TopTraits_,ValidationPolicy>::
@@ -786,5 +791,7 @@ template <class Traits_, class TopTraits_, class ValidationPolicy>
 
   return false;
 }
+
+} // namespace CGAL
 
 #endif // CGAL_GPS_UTILS_H

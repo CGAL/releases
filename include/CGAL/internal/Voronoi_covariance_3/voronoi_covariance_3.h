@@ -21,6 +21,12 @@
 #ifndef CGAL_INTERNAL_VCM_VORONOI_COVARIANCE_3_HPP
 #define CGAL_INTERNAL_VCM_VORONOI_COVARIANCE_3_HPP
 
+#include <CGAL/license/Point_set_processing_3.h>
+
+
+// See mail on cgal-develop from 1.Dec 2016
+#define CGAL_VORONOI_COVARIANCE_USE_CONSTRUCTIONS
+
 #include <list>
 #include <CGAL/array.h>
 #include <CGAL/internal/Voronoi_covariance_3/voronoi_covariance_sphere_3.h>
@@ -138,7 +144,7 @@ namespace CGAL {
                     typedef typename K::Point_3 Point;
                     typedef typename K::Vector_3 Vector;
                     typedef typename CGAL::Convex_hull_traits_3<K> Traits;
-                    typedef typename Traits::Polyhedron_3 Polyhedron;
+                    typedef typename Traits::Polygon_mesh Polyhedron;
 
                     std::list<Vertex_handle> vertices;
                     dt.incident_vertices(v,std::back_inserter(vertices));

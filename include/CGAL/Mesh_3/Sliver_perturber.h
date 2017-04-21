@@ -25,6 +25,9 @@
 #ifndef CGAL_MESH_3_SLIVER_PERTURBER_H
 #define CGAL_MESH_3_SLIVER_PERTURBER_H
 
+#include <CGAL/license/Mesh_3.h>
+
+
 #include <CGAL/Mesh_3/config.h>
 
 
@@ -785,7 +788,7 @@ operator()(Visitor visitor)
 {
   //check criterion bound
   if ( sliver_criterion_.sliver_bound() == 0 )
-    sliver_criterion_.set_sliver_bound(Sc::default_value);
+    sliver_criterion_.set_sliver_bound(sliver_criterion_.get_default_value());
 
   // Reset sliver value cache
   helper_.reset_cache();
@@ -1304,9 +1307,9 @@ perturb_vertex( PVertex pv
   {
     return;
   }
-
+  
   Point_3 p = pv.vertex()->point();
-  if (!helper_.try_lock_point_no_spin(p) || p != pv.vertex()->point())
+  if (!helper_.try_lock_point_no_spin(p) || ! Gt().equal_3_object()(p,pv.vertex()->point()))
   {
 #ifdef CGAL_CONCURRENT_MESH_3_PROFILING
     bcounter.increment_branch_2(); // THIS is an early withdrawal!

@@ -2,7 +2,7 @@
 # This is the CMake script for compiling a CGAL application.
 
 
-project( Mesh_3_example )
+project( Mesh_3_Examples )
 
 cmake_minimum_required(VERSION 2.8.11)
 
@@ -64,6 +64,7 @@ if ( CGAL_FOUND )
     include( CGAL_CreateSingleSourceCGALProgram )
 
     # Compilable examples
+    create_single_source_cgal_program( "mesh_hybrid_mesh_domain.cpp" )
     create_single_source_cgal_program( "mesh_implicit_sphere.cpp" )
     create_single_source_cgal_program( "mesh_implicit_sphere_variable_size.cpp" )
     create_single_source_cgal_program( "mesh_two_implicit_spheres_with_balls.cpp" )
@@ -74,6 +75,8 @@ if ( CGAL_FOUND )
     create_single_source_cgal_program( "mesh_polyhedral_domain.cpp" )
     create_single_source_cgal_program( "remesh_polyhedral_surface.cpp" )
     create_single_source_cgal_program( "mesh_polyhedral_domain_with_features.cpp" )
+    create_single_source_cgal_program( "mesh_polyhedral_domain_with_lipschitz_sizing.cpp" )
+    
     if( WITH_CGAL_ImageIO )
       if( VTK_FOUND AND "${VTK_VERSION_MAJOR}" GREATER "5" )
         add_executable ( mesh_3D_gray_vtk_image mesh_3D_gray_vtk_image.cpp )

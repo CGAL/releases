@@ -21,6 +21,9 @@
 #ifndef CGAL_REGULAR_NEIGHBOR_COORDINATES_2_H
 #define CGAL_REGULAR_NEIGHBOR_COORDINATES_2_H
 
+#include <CGAL/license/Interpolation.h>
+
+
 #include <utility>
 #include <CGAL/Polygon_2.h>
 #include <CGAL/iterator.h>
@@ -171,7 +174,7 @@ regular_neighbor_coordinates_vertex_2(const Rt& rt,
 
   typedef typename Rt::Geom_traits         Traits;
   typedef typename Traits::FT              Coord_type;
-  typedef typename Traits::Bare_point      Bare_point;
+  typedef typename Rt::Bare_point          Bare_point;
 
   typedef typename Rt::Vertex_handle     Vertex_handle;
   typedef typename Rt::Face_circulator   Face_circulator;

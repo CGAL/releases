@@ -13,7 +13,7 @@ if(EIGEN3_FOUND)
 
     qt5_wrap_ui( hole_fillingUI_FILES Hole_filling_widget.ui)
     polyhedron_demo_plugin(hole_filling_plugin Hole_filling_plugin ${hole_fillingUI_FILES})
-    target_link_libraries(hole_filling_plugin scene_polyhedron_item scene_polylines_item)
+    target_link_libraries(hole_filling_plugin scene_polyhedron_item scene_polylines_item scene_polyhedron_selection_item)
 
     qt5_wrap_ui( fairingUI_FILES Fairing_widget.ui)
     polyhedron_demo_plugin(fairing_plugin Fairing_plugin ${fairingUI_FILES})
@@ -64,10 +64,16 @@ polyhedron_demo_plugin(selection_plugin Selection_plugin ${selectionUI_FILES})
 target_link_libraries(selection_plugin scene_polyhedron_selection_item scene_points_with_normal_item scene_polylines_item)
 
 polyhedron_demo_plugin(self_intersection_plugin Self_intersection_plugin)
-target_link_libraries(self_intersection_plugin scene_polyhedron_item scene_polyhedron_selection_item)
+target_link_libraries(self_intersection_plugin scene_polyhedron_item scene_polyhedron_selection_item scene_surface_mesh_item)
 
 polyhedron_demo_plugin(triangulate_facets_plugin Triangulate_facets_plugin)
 target_link_libraries(triangulate_facets_plugin scene_polyhedron_item)
+
+polyhedron_demo_plugin(corefinement_plugin Corefinement_plugin)
+target_link_libraries(corefinement_plugin scene_polyhedron_item)
+
+polyhedron_demo_plugin(surface_intersection_plugin Surface_intersection_plugin)
+target_link_libraries(surface_intersection_plugin scene_polyhedron_item scene_polylines_item)
 
 polyhedron_demo_plugin(repair_polyhedron_plugin Repair_polyhedron_plugin)
 target_link_libraries(repair_polyhedron_plugin scene_polyhedron_item)
@@ -75,3 +81,6 @@ target_link_libraries(repair_polyhedron_plugin scene_polyhedron_item)
 qt5_wrap_ui( isotropicRemeshingUI_FILES Isotropic_remeshing_dialog.ui)
 polyhedron_demo_plugin(isotropic_remeshing_plugin Isotropic_remeshing_plugin  ${isotropicRemeshingUI_FILES})
 target_link_libraries(isotropic_remeshing_plugin  scene_polyhedron_item scene_polyhedron_selection_item)
+
+polyhedron_demo_plugin(distance_plugin Distance_plugin)
+target_link_libraries(distance_plugin scene_polyhedron_item scene_color_ramp)

@@ -25,7 +25,8 @@
 #include <CGAL/extract_mean_curvature_flow_skeleton.h>
 #include <CGAL/boost/graph/graph_traits_Polyhedron_3.h>
 #include <CGAL/iterator.h>
-#include <CGAL/Polygon_mesh_processing/connected_components.h>
+#include <CGAL/internal/corefinement/connected_components.h>
+
 #include <CGAL/boost/graph/split_graph_into_polylines.h>
 #include <CGAL/mesh_segmentation.h>
 #include <CGAL/Polyhedron_copy_3.h>
@@ -648,8 +649,8 @@ void Polyhedron_demo_mean_curvature_flow_skeleton_plugin::on_actionDegeneracy()
   Point_set *ps = fixedPointsItem->point_set();
   for (size_t i = 0; i < fixedPoints.size(); ++i)
   {
-    UI_point_3<Kernel> point(fixedPoints[i].x(), fixedPoints[i].y(), fixedPoints[i].z());
-    ps->push_back(point);
+    Kernel::Point_3 point (fixedPoints[i].x(), fixedPoints[i].y(), fixedPoints[i].z());
+    ps->insert(point);
   }
   ps->select_all ();
 
@@ -711,8 +712,8 @@ void Polyhedron_demo_mean_curvature_flow_skeleton_plugin::on_actionRun()
   Point_set *ps = fixedPointsItem->point_set();
   for (size_t i = 0; i < fixedPoints.size(); ++i)
   {
-    UI_point_3<Kernel> point(fixedPoints[i].x(), fixedPoints[i].y(), fixedPoints[i].z());
-    ps->push_back(point);
+    Kernel::Point_3 point(fixedPoints[i].x(), fixedPoints[i].y(), fixedPoints[i].z());
+    ps->insert(point);
   }
   ps->select_all();
   
@@ -885,8 +886,8 @@ void Polyhedron_demo_mean_curvature_flow_skeleton_plugin::on_actionConverge()
   Point_set *ps = fixedPointsItem->point_set();
   for (size_t i = 0; i < fixedPoints.size(); ++i)
   {
-    UI_point_3<Kernel> point(fixedPoints[i].x(), fixedPoints[i].y(), fixedPoints[i].z());
-    ps->push_back(point);
+    Kernel::Point_3 point(fixedPoints[i].x(), fixedPoints[i].y(), fixedPoints[i].z());
+    ps->insert(point);
   }
   ps->select_all();
   

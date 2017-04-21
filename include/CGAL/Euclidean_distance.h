@@ -22,10 +22,13 @@
 #ifndef CGAL_EUCLIDEAN_DISTANCE_H
 #define CGAL_EUCLIDEAN_DISTANCE_H
 
+#include <CGAL/license/Spatial_searching.h>
+
+
 #include <CGAL/Kd_tree_rectangle.h>
 #include <CGAL/number_utils.h>
 #include <CGAL/internal/Get_dimension_tag.h>
-
+#include <vector>
 
 namespace CGAL {
 

@@ -21,8 +21,9 @@
 #ifndef CGAL_POLYGON_MESH_PROCESSING_POLYGON_SOUP_TO_POLYGON_MESH
 #define CGAL_POLYGON_MESH_PROCESSING_POLYGON_SOUP_TO_POLYGON_MESH
 
-#include <CGAL/IO/generic_print_polyhedron.h>
-#include <CGAL/Polyhedron_incremental_builder_3.h>
+#include <CGAL/license/Polygon_mesh_processing/repair.h>
+
+
 #include <CGAL/boost/graph/Euler_operations.h>
 #include <CGAL/property_map.h>
 #include <CGAL/Polygon_mesh_processing/orient_polygon_soup.h>

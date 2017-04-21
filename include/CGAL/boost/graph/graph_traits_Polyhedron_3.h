@@ -20,6 +20,9 @@
 #ifndef CGAL_BOOST_GRAPH_GRAPH_TRAITS_POLYHEDRON_3_H
 #define CGAL_BOOST_GRAPH_GRAPH_TRAITS_POLYHEDRON_3_H
 
+#include <CGAL/license/Polyhedron.h>
+
+
 #include <CGAL/boost/graph/graph_traits_HalfedgeDS.h>
 
 #include <CGAL/Polyhedron_3.h>
@@ -444,7 +447,15 @@ num_faces(const CGAL::Polyhedron_3<Gt,I,HDS,A>& p)
   return p.size_of_facets();
 }
 
-
+template<class Gt, class I, CGAL_HDS_PARAM_, class A>
+void
+reserve(CGAL::Polyhedron_3<Gt,I,HDS,A>& p,
+        typename boost::graph_traits< CGAL::Polyhedron_3<Gt,I,HDS,A> >::vertices_size_type nv,
+        typename boost::graph_traits< CGAL::Polyhedron_3<Gt,I,HDS,A> >::edges_size_type ne,
+        typename boost::graph_traits< CGAL::Polyhedron_3<Gt,I,HDS,A> >::faces_size_type nf)
+{
+  p.reserve(nv, 2*ne, nf);
+}
 
 template<class Gt, class I, CGAL_HDS_PARAM_, class A>
 bool is_valid(const CGAL::Polyhedron_3<Gt,I,HDS,A>& p, bool verbose = false)

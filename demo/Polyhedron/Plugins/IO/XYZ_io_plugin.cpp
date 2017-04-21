@@ -73,9 +73,7 @@ public:
   bool canSave(const CGAL::Three::Scene_item*);
   bool save(const CGAL::Three::Scene_item*, QFileInfo fileinfo);
   bool applicable(QAction*) const { return true;}
-  QList<QAction*> actions() const {
-    return QList<QAction*>();
-  }
+  QList<QAction*> actions() const { return QList<QAction*>(); }
 protected Q_SLOTS:
   //!Opens a dialog to add a point set on the fly.
   void on_actionAdd_point_set_triggered();
@@ -168,6 +166,7 @@ void Polyhedron_demo_xyz_plugin::addPointSetButton_clicked()
     msgBox->exec();
     return;
   }
+
   Q_FOREACH(QString s, list)
   {
       if(!s.isEmpty())
@@ -190,11 +189,7 @@ void Polyhedron_demo_xyz_plugin::addPointSetButton_clicked()
       if(counter == 3)
       {
           const Kernel::Point_3 p(coord[0], coord[1], coord[2]);
-          Kernel::Vector_3 n(0,0,0);
-          UI_point point(p,n);
-          item->point_set()->push_back(point);
-
-
+          item->point_set()->insert(p);
           counter =0;
       }
   }

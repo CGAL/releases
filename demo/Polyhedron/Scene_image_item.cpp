@@ -321,6 +321,7 @@ Vertex_buffer_helper::push_normal(std::size_t i, std::size_t j, std::size_t k)
 void
 Vertex_buffer_helper::push_vertex(std::size_t i, std::size_t j, std::size_t k)
 {
+  const qglviewer::Vec offset = static_cast<CGAL::Three::Viewer_interface*>(QGLViewer::QGLViewerPool().first())->offset();
   indices_.insert(std::make_pair(compute_position(i,j,k),
                                  vertices_.size()/3)); 
   //resize the "border vertices"
@@ -333,14 +334,14 @@ Vertex_buffer_helper::push_vertex(std::size_t i, std::size_t j, std::size_t k)
     dk = 0.5;
   if (di == data_.xdim())
     di = data_.xdim()-0.5;
-  if (dj == data_.xdim())
+  if (dj == data_.ydim())
     dj = data_.ydim()-0.5;
   if (dk == data_.zdim())
     dk = data_.zdim()-0.5;
 
-  vertices_.push_back( (di - 0.5) * data_.vx());
-  vertices_.push_back( (dj - 0.5) * data_.vy());
-  vertices_.push_back( (dk - 0.5) * data_.vz());
+  vertices_.push_back( (di - 0.5) * data_.vx()+offset.x);
+  vertices_.push_back( (dj - 0.5) * data_.vy()+offset.y);
+  vertices_.push_back( (dk - 0.5) * data_.vz()+offset.z);
 }
 
 void
@@ -448,7 +449,6 @@ struct Scene_image_item_priv
   std::vector<float> color;
   static const int vaoSize = 2;
   static const int vboSize = 6;
-
   mutable int poly_vertexLocation[1];
   mutable int normalsLocation[1];
   mutable int mvpLocation[1];
@@ -837,101 +837,102 @@ void Scene_image_item::changed()
 
 void Scene_image_item_priv::draw_Bbox(Scene_item::Bbox bbox, std::vector<float> *vertices)
 {
-    vertices->push_back(bbox.xmin());
-    vertices->push_back(bbox.ymin());
-    vertices->push_back(bbox.zmin());
+  const qglviewer::Vec offset = static_cast<CGAL::Three::Viewer_interface*>(QGLViewer::QGLViewerPool().first())->offset();
+    vertices->push_back(bbox.xmin()+offset.x);
+    vertices->push_back(bbox.ymin()+offset.y);
+    vertices->push_back(bbox.zmin()+offset.z);
 
-    vertices->push_back(bbox.xmin());
-    vertices->push_back(bbox.ymin());
-    vertices->push_back(bbox.zmax());
+    vertices->push_back(bbox.xmin()+offset.x);
+    vertices->push_back(bbox.ymin()+offset.y);
+    vertices->push_back(bbox.zmax()+offset.z);
 
-    vertices->push_back(bbox.xmin());
-    vertices->push_back(bbox.ymin());
-    vertices->push_back(bbox.zmin());
+    vertices->push_back(bbox.xmin()+offset.x);
+    vertices->push_back(bbox.ymin()+offset.y);
+    vertices->push_back(bbox.zmin()+offset.z);
 
-    vertices->push_back(bbox.xmin());
-    vertices->push_back(bbox.ymax());
-    vertices->push_back(bbox.zmin());
+    vertices->push_back(bbox.xmin()+offset.x);
+    vertices->push_back(bbox.ymax()+offset.y);
+    vertices->push_back(bbox.zmin()+offset.z);
 
-    vertices->push_back(bbox.xmin());
-    vertices->push_back(bbox.ymin());
-    vertices->push_back(bbox.zmin());
+    vertices->push_back(bbox.xmin()+offset.x);
+    vertices->push_back(bbox.ymin()+offset.y);
+    vertices->push_back(bbox.zmin()+offset.z);
 
-    vertices->push_back(bbox.xmax());
-    vertices->push_back(bbox.ymin());
-    vertices->push_back(bbox.zmin());
+    vertices->push_back(bbox.xmax()+offset.x);
+    vertices->push_back(bbox.ymin()+offset.y);
+    vertices->push_back(bbox.zmin()+offset.z);
 
-    vertices->push_back(bbox.xmax());
-    vertices->push_back(bbox.ymin());
-    vertices->push_back(bbox.zmin());
+    vertices->push_back(bbox.xmax()+offset.x);
+    vertices->push_back(bbox.ymin()+offset.y);
+    vertices->push_back(bbox.zmin()+offset.z);
 
-    vertices->push_back(bbox.xmax());
-    vertices->push_back(bbox.ymax());
-    vertices->push_back(bbox.zmin());
+    vertices->push_back(bbox.xmax()+offset.x);
+    vertices->push_back(bbox.ymax()+offset.y);
+    vertices->push_back(bbox.zmin()+offset.z);
 
-    vertices->push_back(bbox.xmax());
-    vertices->push_back(bbox.ymin());
-    vertices->push_back(bbox.zmin());
+    vertices->push_back(bbox.xmax()+offset.x);
+    vertices->push_back(bbox.ymin()+offset.y);
+    vertices->push_back(bbox.zmin()+offset.z);
 
-    vertices->push_back(bbox.xmax());
-    vertices->push_back(bbox.ymin());
-    vertices->push_back(bbox.zmax());
+    vertices->push_back(bbox.xmax()+offset.x);
+    vertices->push_back(bbox.ymin()+offset.y);
+    vertices->push_back(bbox.zmax()+offset.z);
 
-    vertices->push_back(bbox.xmin());
-    vertices->push_back(bbox.ymax());
-    vertices->push_back(bbox.zmin());
+    vertices->push_back(bbox.xmin()+offset.x);
+    vertices->push_back(bbox.ymax()+offset.y);
+    vertices->push_back(bbox.zmin()+offset.z);
 
-    vertices->push_back(bbox.xmin());
-    vertices->push_back(bbox.ymax());
-    vertices->push_back(bbox.zmax());
+    vertices->push_back(bbox.xmin()+offset.x);
+    vertices->push_back(bbox.ymax()+offset.y);
+    vertices->push_back(bbox.zmax()+offset.z);
 
-    vertices->push_back(bbox.xmin());
-    vertices->push_back(bbox.ymax());
-    vertices->push_back(bbox.zmin());
+    vertices->push_back(bbox.xmin()+offset.x);
+    vertices->push_back(bbox.ymax()+offset.y);
+    vertices->push_back(bbox.zmin()+offset.z);
 
-    vertices->push_back(bbox.xmax());
-    vertices->push_back(bbox.ymax());
-    vertices->push_back(bbox.zmin());
+    vertices->push_back(bbox.xmax()+offset.x);
+    vertices->push_back(bbox.ymax()+offset.y);
+    vertices->push_back(bbox.zmin()+offset.z);
 
-    vertices->push_back(bbox.xmax());
-    vertices->push_back(bbox.ymax());
-    vertices->push_back(bbox.zmin());
+    vertices->push_back(bbox.xmax()+offset.x);
+    vertices->push_back(bbox.ymax()+offset.y);
+    vertices->push_back(bbox.zmin()+offset.z);
 
-    vertices->push_back(bbox.xmax());
-    vertices->push_back(bbox.ymax());
-    vertices->push_back(bbox.zmax());
+    vertices->push_back(bbox.xmax()+offset.x);
+    vertices->push_back(bbox.ymax()+offset.y);
+    vertices->push_back(bbox.zmax()+offset.z);
 
-    vertices->push_back(bbox.xmin());
-    vertices->push_back(bbox.ymin());
-    vertices->push_back(bbox.zmax());
+    vertices->push_back(bbox.xmin()+offset.x);
+    vertices->push_back(bbox.ymin()+offset.y);
+    vertices->push_back(bbox.zmax()+offset.z);
 
-    vertices->push_back(bbox.xmin());
-    vertices->push_back(bbox.ymax());
-    vertices->push_back(bbox.zmax());
+    vertices->push_back(bbox.xmin()+offset.x);
+    vertices->push_back(bbox.ymax()+offset.y);
+    vertices->push_back(bbox.zmax()+offset.z);
 
-    vertices->push_back(bbox.xmin());
-    vertices->push_back(bbox.ymin());
-    vertices->push_back(bbox.zmax());
+    vertices->push_back(bbox.xmin()+offset.x);
+    vertices->push_back(bbox.ymin()+offset.y);
+    vertices->push_back(bbox.zmax()+offset.z);
 
-    vertices->push_back(bbox.xmax());
-    vertices->push_back(bbox.ymin());
-    vertices->push_back(bbox.zmax());
+    vertices->push_back(bbox.xmax()+offset.x);
+    vertices->push_back(bbox.ymin()+offset.y);
+    vertices->push_back(bbox.zmax()+offset.z);
 
-    vertices->push_back(bbox.xmax());
-    vertices->push_back(bbox.ymax());
-    vertices->push_back(bbox.zmax());
+    vertices->push_back(bbox.xmax()+offset.x);
+    vertices->push_back(bbox.ymax()+offset.y);
+    vertices->push_back(bbox.zmax()+offset.z);
 
-    vertices->push_back(bbox.xmin());
-    vertices->push_back(bbox.ymax());
-    vertices->push_back(bbox.zmax());
+    vertices->push_back(bbox.xmin()+offset.x);
+    vertices->push_back(bbox.ymax()+offset.y);
+    vertices->push_back(bbox.zmax()+offset.z);
 
-    vertices->push_back(bbox.xmax());
-    vertices->push_back(bbox.ymax());
-    vertices->push_back(bbox.zmax());
+    vertices->push_back(bbox.xmax()+offset.x);
+    vertices->push_back(bbox.ymax()+offset.y);
+    vertices->push_back(bbox.zmax()+offset.z);
 
-    vertices->push_back(bbox.xmax());
-    vertices->push_back(bbox.ymin());
-    vertices->push_back(bbox.zmax());
+    vertices->push_back(bbox.xmax()+offset.x);
+    vertices->push_back(bbox.ymin()+offset.y);
+    vertices->push_back(bbox.zmax()+offset.z);
 
 }
 
@@ -939,3 +940,9 @@ void Scene_image_item::drawEdges(CGAL::Three::Viewer_interface* viewer) const
 { d->draw_gl(viewer); }
 
 bool Scene_image_item::isGray() { return d->is_hidden;}
+
+void Scene_image_item::invalidateOpenGLBuffers()
+{
+  d->v_box->clear();
+  changed();
+}

@@ -42,7 +42,11 @@ struct Scene_surface_mesh_item_priv{
 
   ~Scene_surface_mesh_item_priv()
   {
-    delete smesh_;
+    if(smesh_)
+    {
+      delete smesh_;
+      smesh_ = NULL;
+    }
   }
 
   void initializeBuffers(CGAL::Three::Viewer_interface *) const;
@@ -94,6 +98,7 @@ struct Scene_surface_mesh_item_priv{
   mutable std::vector<cgal_gl_data> flat_normals;
   mutable std::vector<cgal_gl_data> f_colors;
   mutable std::vector<cgal_gl_data> v_colors;
+  mutable std::size_t nb_flat;
   mutable QOpenGLShaderProgram *program;
   Scene_surface_mesh_item *item;
 
@@ -105,8 +110,7 @@ Scene_surface_mesh_item::Scene_surface_mesh_item(const Scene_surface_mesh_item& 
   are_buffers_filled = false;
 }
 
-Scene_surface_mesh_item::Scene_surface_mesh_item(SMesh* sm)
-  : CGAL::Three::Scene_item(Scene_surface_mesh_item_priv::NbOfVbos,Scene_surface_mesh_item_priv::NbOfVaos)
+void Scene_surface_mesh_item::standard_constructor(SMesh* sm)
 {
   d = new Scene_surface_mesh_item_priv(sm, this);
   d->floated = false;
@@ -174,6 +178,17 @@ Scene_surface_mesh_item::Scene_surface_mesh_item(SMesh* sm)
   d->compute_elements();
   are_buffers_filled = false;
 }
+Scene_surface_mesh_item::Scene_surface_mesh_item(SMesh* sm)
+  : CGAL::Three::Scene_item(Scene_surface_mesh_item_priv::NbOfVbos,Scene_surface_mesh_item_priv::NbOfVaos)
+{
+  standard_constructor(sm);
+}
+
+Scene_surface_mesh_item::Scene_surface_mesh_item(SMesh sm)
+  : CGAL::Three::Scene_item(Scene_surface_mesh_item_priv::NbOfVbos,Scene_surface_mesh_item_priv::NbOfVaos)
+{
+  standard_constructor(new SMesh(sm));
+}
 
 Scene_surface_mesh_item*
 Scene_surface_mesh_item::clone() const
@@ -181,10 +196,11 @@ Scene_surface_mesh_item::clone() const
 
 void Scene_surface_mesh_item_priv::addFlatData(Point p, Kernel::Vector_3 n, CGAL::Color *c) const
 {
+  const qglviewer::Vec offset = static_cast<CGAL::Three::Viewer_interface*>(QGLViewer::QGLViewerPool().first())->offset();
 
-  flat_vertices.push_back((cgal_gl_data)p.x());
-  flat_vertices.push_back((cgal_gl_data)p.y());
-  flat_vertices.push_back((cgal_gl_data)p.z());
+  flat_vertices.push_back((cgal_gl_data)p.x()+offset[0]);
+  flat_vertices.push_back((cgal_gl_data)p.y()+offset[1]);
+  flat_vertices.push_back((cgal_gl_data)p.z()+offset[2]);
 
   flat_normals.push_back((cgal_gl_data)n.x());
   flat_normals.push_back((cgal_gl_data)n.y());
@@ -201,6 +217,14 @@ void Scene_surface_mesh_item_priv::addFlatData(Point p, Kernel::Vector_3 n, CGAL
 void Scene_surface_mesh_item_priv::compute_elements()
 {
   QApplication::setOverrideCursor(Qt::WaitCursor);
+
+  smooth_vertices.clear();
+  smooth_normals.clear();
+  flat_vertices.clear();
+  flat_normals.clear();
+  f_colors.clear();
+  v_colors.clear();
+  const qglviewer::Vec offset = static_cast<CGAL::Three::Viewer_interface*>(QGLViewer::QGLViewerPool().first())->offset();
   SMesh::Property_map<vertex_descriptor, SMesh::Point> positions =
     smesh_->points();
   SMesh::Property_map<vertex_descriptor, Kernel::Vector_3 > vnormals =
@@ -234,9 +258,9 @@ void Scene_surface_mesh_item_priv::compute_elements()
       BOOST_FOREACH(halfedge_descriptor hd, halfedges_around_face(halfedge(fd, *smesh_),*smesh_))
       {
         Point p = positions[source(hd, *smesh_)];
-        flat_vertices.push_back((cgal_gl_data)p.x());
-        flat_vertices.push_back((cgal_gl_data)p.y());
-        flat_vertices.push_back((cgal_gl_data)p.z());
+        flat_vertices.push_back((cgal_gl_data)p.x()+offset.x);
+        flat_vertices.push_back((cgal_gl_data)p.y()+offset.y);
+        flat_vertices.push_back((cgal_gl_data)p.z()+offset.z);
 
         Kernel::Vector_3 n = fnormals[fd];
         flat_normals.push_back((cgal_gl_data)n.x());
@@ -312,9 +336,9 @@ void Scene_surface_mesh_item_priv::compute_elements()
     BOOST_FOREACH(vertex_descriptor vd, vertices(*smesh_))
     {
       Point p = positions[vd];
-      smooth_vertices.push_back((cgal_gl_data)p.x());
-      smooth_vertices.push_back((cgal_gl_data)p.y());
-      smooth_vertices.push_back((cgal_gl_data)p.z());
+      smooth_vertices.push_back((cgal_gl_data)p.x()+offset.x);
+      smooth_vertices.push_back((cgal_gl_data)p.y()+offset.y);
+      smooth_vertices.push_back((cgal_gl_data)p.z()+offset.z);
 
       Kernel::Vector_3 n = vnormals[vd];
       smooth_normals.push_back((cgal_gl_data)n.x());
@@ -364,12 +388,16 @@ void Scene_surface_mesh_item_priv::initializeBuffers(CGAL::Three::Viewer_interfa
   //vao containing the data for the smooth facets
   item->vaos[Scene_surface_mesh_item_priv::Smooth_facets]->bind();
   item->buffers[Scene_surface_mesh_item_priv::Smooth_vertices].bind();
-  if(!floated)
+  if(!(floated||viewer->offset() == qglviewer::Vec(0,0,0)))
+  {
     item->buffers[Scene_surface_mesh_item_priv::Smooth_vertices].allocate(positions.data(),
                              static_cast<int>(num_vertices(*smesh_)*3*sizeof(cgal_gl_data)));
+  }
   else
+  {
     item->buffers[Scene_surface_mesh_item_priv::Smooth_vertices].allocate(smooth_vertices.data(),
                                static_cast<int>(num_vertices(*smesh_)*3*sizeof(cgal_gl_data)));
+  }
   program->enableAttributeArray("vertex");
   program->setAttributeBuffer("vertex",CGAL_GL_DATA,0,3);
   item->buffers[Scene_surface_mesh_item_priv::Smooth_vertices].release();
@@ -405,6 +433,21 @@ void Scene_surface_mesh_item_priv::initializeBuffers(CGAL::Three::Viewer_interfa
   program->setAttributeBuffer("vertex",CGAL_GL_DATA,0,3);
   item->buffers[Scene_surface_mesh_item_priv::Smooth_vertices].release();
   program->release();
+
+  nb_flat = flat_vertices.size();
+  smooth_vertices.resize(0);
+  smooth_normals .resize(0);
+  flat_vertices  .resize(0);
+  flat_normals   .resize(0);
+  f_colors       .resize(0);
+  v_colors       .resize(0);
+  smooth_vertices.shrink_to_fit();
+  smooth_normals .shrink_to_fit();
+  flat_vertices  .shrink_to_fit();
+  flat_normals   .shrink_to_fit();
+  f_colors       .shrink_to_fit();
+  v_colors       .shrink_to_fit();
+
   item->are_buffers_filled = true;
 }
 
@@ -412,7 +455,10 @@ void Scene_surface_mesh_item::draw(CGAL::Three::Viewer_interface *viewer) const
 {
   glShadeModel(GL_SMOOTH);
   if(!are_buffers_filled)
+  {
+    d->compute_elements();
     d->initializeBuffers(viewer);
+  }
   attribBuffers(viewer, PROGRAM_WITH_LIGHT);
   d->program = getShaderProgram(PROGRAM_WITH_LIGHT, viewer);
   d->program->bind();
@@ -424,8 +470,8 @@ void Scene_surface_mesh_item::draw(CGAL::Three::Viewer_interface *viewer) const
       d->program->setAttributeValue("is_selected", true);
     else
       d->program->setAttributeValue("is_selected", false);
-      if(!d->has_vcolors)
-        d->program->setAttributeValue("colors", this->color());
+    if(!d->has_vcolors)
+      d->program->setAttributeValue("colors", this->color());
     glDrawElements(GL_TRIANGLES, static_cast<GLuint>(d->idx_data_.size()),
                    GL_UNSIGNED_INT, d->idx_data_.data());
     vaos[Scene_surface_mesh_item_priv::Smooth_facets]->release();
@@ -440,7 +486,7 @@ void Scene_surface_mesh_item::draw(CGAL::Three::Viewer_interface *viewer) const
       d->program->setAttributeValue("is_selected", false);
     if(!d->has_fcolors)
       d->program->setAttributeValue("colors", this->color());
-    glDrawArrays(GL_TRIANGLES,0,static_cast<GLsizei>(d->flat_vertices.size()/3));
+    glDrawArrays(GL_TRIANGLES,0,static_cast<GLsizei>(d->nb_flat/3));
     vaos[Scene_surface_mesh_item_priv::Flat_facets]->release();
   }
 
@@ -449,8 +495,11 @@ void Scene_surface_mesh_item::draw(CGAL::Three::Viewer_interface *viewer) const
 
 void Scene_surface_mesh_item::drawEdges(CGAL::Three::Viewer_interface *viewer) const
 {
- if(!are_buffers_filled)
-   d->initializeBuffers(viewer);
+  if(!are_buffers_filled)
+  {
+    d->compute_elements();
+    d->initializeBuffers(viewer);
+  }
  attribBuffers(viewer, PROGRAM_WITHOUT_LIGHT);
  d->program = getShaderProgram(PROGRAM_WITHOUT_LIGHT, viewer);
  d->program->bind();
@@ -604,3 +653,12 @@ void Scene_surface_mesh_item::compute_bbox()const
 
 }
 
+void Scene_surface_mesh_item::itemAboutToBeDestroyed(Scene_item *item)
+{
+  Scene_item::itemAboutToBeDestroyed(item);
+  if(d && d->smesh_ && item == this)
+  {
+    delete d->smesh_;
+    d->smesh_ = NULL;
+  }
+}

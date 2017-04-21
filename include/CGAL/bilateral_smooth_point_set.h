@@ -20,11 +20,15 @@
 #ifndef CGAL_BILATERAL_SMOOTH_POINT_SET_H
 #define CGAL_BILATERAL_SMOOTH_POINT_SET_H
 
+#include <CGAL/license/Point_set_processing_3.h>
+
+
 #include <CGAL/Search_traits_3.h>
 #include <CGAL/Orthogonal_k_neighbor_search.h>
 #include <CGAL/property_map.h>
 #include <CGAL/point_set_processing_assertions.h>
 #include <CGAL/Point_with_normal_3.h>
+#include <CGAL/squared_distance_3.h>
 
 #include <iterator>
 #include <set>

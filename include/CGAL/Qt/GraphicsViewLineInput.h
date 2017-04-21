@@ -22,6 +22,9 @@
 #ifndef CGAL_QT_GRAPHICS_VIEW_LINE_INPUT_H
 #define CGAL_QT_GRAPHICS_VIEW_LINE_INPUT_H
 
+#include <CGAL/license/GraphicsView.h>
+
+
 #include <QGraphicsView>
 #include <QRectF>
 #include <QPointF>
@@ -31,6 +34,7 @@
 #include <QGraphicsSceneMouseEvent>
 #include <QPainter>
 #include <QStyleOption>
+#include <QKeyEvent>
 
 #include <CGAL/Qt/Converter.h>
 #include <CGAL/Qt/GraphicsViewInput.h>

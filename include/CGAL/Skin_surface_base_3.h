@@ -21,6 +21,9 @@
 #ifndef CGAL_SKIN_SURFACE_BASE_3_H
 #define CGAL_SKIN_SURFACE_BASE_3_H
 
+#include <CGAL/license/Skin_surface_3.h>
+
+
 #include <CGAL/Exact_predicates_exact_constructions_kernel.h>
 #include <CGAL/Exact_predicates_inexact_constructions_kernel.h>
 #include <CGAL/Simple_cartesian.h>
@@ -498,8 +501,8 @@ Skin_surface_base_3<MixedComplexTraits_3>::
 construct_bounding_box() 
 {
   typedef typename Regular::Finite_vertices_iterator Finite_vertices_iterator;
-  typedef typename Regular::Geom_traits     GT;
-  typedef typename GT::Point                Weighted_point;
+  typedef typename Regular::Geom_traits       GT;
+  typedef typename GT::Weighted_point         Weighted_point;
   typedef typename GT::FT                     FT;
   
   Finite_vertices_iterator vit = regular().finite_vertices_begin();
@@ -569,11 +572,9 @@ Skin_surface_quadratic_surface_3<Traits>
 Skin_surface_base_3<MixedComplexTraits_3>::
 construct_surface(const Simplex &sim, const Traits &) const {
   typedef Skin_surface_quadratic_surface_3<Traits>      Quadratic_surface;
-  typedef Weighted_converter_3<Cartesian_converter<
-    typename Geometric_traits::Bare_point::R, Traits> > Converter;
-  typedef typename Traits::Point_3                      Point;
-  typedef typename Traits::FT                           FT;
-  typedef CGAL::Weighted_point<Point,FT>                Weighted_point;
+  typedef Cartesian_converter<
+    typename Geometric_traits::Bare_point::R, Traits>  Converter;
+  typedef typename Traits::Weighted_point_3           Weighted_point;
 
   Converter conv;
 
@@ -756,9 +757,8 @@ get_weighted_circumcenter(const Simplex &s, Gt2 &traits) {
   Facet          f;
   Cell_handle   ch;
 
-  Weighted_converter_3<
     Cartesian_converter<typename Gt::Bare_point::R, 
-                        typename Gt2::Bare_point::R> > converter;
+                        typename Gt2::Bare_point::R>  converter;
 
   typename Gt2::Bare_point result;
   switch(s.dimension()) {

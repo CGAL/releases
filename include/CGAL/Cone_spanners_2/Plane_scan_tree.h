@@ -28,6 +28,9 @@
 #ifndef CGAL_PLANE_SCAN_TREE_H
 #define CGAL_PLANE_SCAN_TREE_H
 
+#include <CGAL/license/Cone_spanners_2.h>
+
+
 #include <iostream>
 #include <algorithm>
 #include <functional>
@@ -182,16 +185,12 @@ public:
 
     /* End Iterator */
     inline iterator end() {
-        static iterator res;
-
-        return res;
+        return iterator();
     }
 
     /* Constant End Iterator */
     inline const_iterator end() const {
-        static const_iterator res;
-
-        return res;
+        return const_iterator();
     }
 
     /* Reverse order Begin Iterator */
@@ -206,16 +205,12 @@ public:
 
     /* Reverse order End Iterator */
     reverse_iterator rend() {
-        static reverse_iterator res;
-
-        return res;
+       return reverse_iterator();
     }
 
     /* Constant Reverse order End Iterator */
     const_reverse_iterator rend() const {
-        static const_reverse_iterator res;
-
-        return res;
+        return const_reverse_iterator();
     }
 
     friend class _Leaf<Key, T, Comp, VComp>;

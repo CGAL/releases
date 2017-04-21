@@ -22,8 +22,11 @@
 #ifndef CGAL_AABB_TRAITS_H_
 #define CGAL_AABB_TRAITS_H_
 
+#include <CGAL/license/AABB_tree.h>
+
+
 #include <CGAL/Bbox_3.h>
-#include <CGAL/AABB_intersections.h>
+#include <CGAL/intersections.h>
 #include <CGAL/internal/AABB_tree/Has_nested_type_Shared_data.h>
 #include <CGAL/internal/AABB_tree/Is_ray_intersection_geomtraits.h>
 #include <CGAL/internal/AABB_tree/Primitive_helper.h>
@@ -251,13 +254,15 @@ public:
   typedef typename GeomTraits::Construct_max_vertex_3 Construct_max_vertex_3;
   typedef typename GeomTraits::Construct_iso_cuboid_3 Construct_iso_cuboid_3;
 
-
   /// Default constructor.
   AABB_traits() { };
 
 
   typedef typename GeomTraits::Compute_squared_distance_3 Squared_distance;
   Squared_distance squared_distance_object() const { return GeomTraits().compute_squared_distance_3_object(); }
+
+  typedef typename GeomTraits::Equal_3 Equal_3;
+  Equal_3 equal_3_object() const { return GeomTraits().equal_3_object(); }
 
   /**
    * @internal
@@ -397,7 +402,12 @@ public:
 
     Point operator()(const Point& p, const Primitive& pr, const Point& bound) const
     {
-        return CGAL::nearest_point_3(p, internal::Primitive_helper<AT>::get_datum(pr,m_traits), bound);
+      GeomTraits geom_traits;
+      Point closest_point = geom_traits.construct_projected_point_3_object()(
+        internal::Primitive_helper<AT>::get_datum(pr,m_traits), p);
+      return
+        geom_traits.compare_distance_3_object()(p, closest_point, bound)==LARGER ?
+        bound : closest_point;
     }
   };
 
@@ -454,11 +464,20 @@ private:
 
   /// Comparison functions
   static bool less_x(const Primitive& pr1, const Primitive& pr2,const AABB_traits<GeomTraits,AABBPrimitive>& traits)
-  { return internal::Primitive_helper<AT>::get_reference_point(pr1,traits).x() < internal::Primitive_helper<AT>::get_reference_point(pr2,traits).x(); }
+  {
+    return GeomTraits().less_x_3_object()( internal::Primitive_helper<AT>::get_reference_point(pr1,traits),
+                                           internal::Primitive_helper<AT>::get_reference_point(pr2,traits) );
+  }
   static bool less_y(const Primitive& pr1, const Primitive& pr2,const AABB_traits<GeomTraits,AABBPrimitive>& traits)
-  { return internal::Primitive_helper<AT>::get_reference_point(pr1,traits).y() < internal::Primitive_helper<AT>::get_reference_point(pr2,traits).y(); }
+  {
+    return GeomTraits().less_y_3_object()( internal::Primitive_helper<AT>::get_reference_point(pr1,traits),
+                                           internal::Primitive_helper<AT>::get_reference_point(pr2,traits) );
+  }
   static bool less_z(const Primitive& pr1, const Primitive& pr2,const AABB_traits<GeomTraits,AABBPrimitive>& traits)
-  { return internal::Primitive_helper<AT>::get_reference_point(pr1,traits).z() < internal::Primitive_helper<AT>::get_reference_point(pr2,traits).z(); }
+  {
+    return GeomTraits().less_z_3_object()( internal::Primitive_helper<AT>::get_reference_point(pr1,traits),
+                                           internal::Primitive_helper<AT>::get_reference_point(pr2,traits) );
+  }
 
 };  // end class AABB_traits
 

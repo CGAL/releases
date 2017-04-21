@@ -21,6 +21,9 @@
 #ifndef CGAL_POLYHEDRON_3_H
 #define CGAL_POLYHEDRON_3_H 1
 
+#include <CGAL/license/Polyhedron.h>
+
+
 #include <CGAL/basic.h>
 #include <algorithm>
 #include <cstddef>
@@ -1537,9 +1540,7 @@ public:
 
 } //namespace CGAL
 
-#ifndef CGAL_NO_DEPRECATED_CODE
 #include <CGAL/boost/graph/graph_traits_Polyhedron_3.h>
-#endif
 
 #include <CGAL/IO/Polyhedron_iostream.h>
 

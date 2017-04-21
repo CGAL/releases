@@ -23,10 +23,14 @@
 #ifndef CGAL_SIMPLE_POLYGON_VISIBILITY_2_H
 #define CGAL_SIMPLE_POLYGON_VISIBILITY_2_H
 
+#include <CGAL/license/Visibility_2.h>
+
+
 #include <CGAL/tags.h>
 #include <CGAL/enum.h>
 #include <CGAL/Visibility_2/visibility_utils.h>
 #include <CGAL/Arrangement_2.h>
+#include <CGAL/Kernel/global_functions_2.h>
 #include <CGAL/Arr_walk_along_line_point_location.h>
 #include <CGAL/assertions.h>
 #include <stack>

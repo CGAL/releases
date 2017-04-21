@@ -21,6 +21,9 @@
 #ifndef CGAL_IO_ALPHA_SHAPE_GEOMVIEW_OSTREAM_3_H
 #define CGAL_IO_ALPHA_SHAPE_GEOMVIEW_OSTREAM_3_H
 
+#include <CGAL/license/Alpha_shapes_3.h>
+
+
 #include <CGAL/IO/Geomview_stream.h>
 #include <CGAL/Alpha_shape_3.h>
 
@@ -101,7 +104,7 @@ Alpha_shape_3<Dt,EACT>::show_alpha_shape_faces(Geomview_stream &gv) const
      << number_of_vertex << number_of_facets << 0;
 
   for( Vlist_it = Vlist_begin; Vlist_it != Vlist_end; Vlist_it++) {
-    gv << (*Vlist_it)->point();
+    gv << Gt().construct_point_3_object()((*Vlist_it)->point());
   }
   
   // Finite facets indices.

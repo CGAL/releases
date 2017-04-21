@@ -21,6 +21,9 @@
 #ifndef CGAL_CIRCULAR_KERNEL_3_INTERSECTION_TRAITS_H
 #define CGAL_CIRCULAR_KERNEL_3_INTERSECTION_TRAITS_H
 
+#include <CGAL/license/Circular_kernel_3.h>
+
+
 //this include is needed to know the value of CGAL_INTERSECTION_VERSION
 #include <CGAL/Intersection_traits.h>
 
@@ -35,11 +38,21 @@ template <typename SK, typename T1, typename T2, typename T3=void*>
 struct SK3_Intersection_traits
 {};
 
+// Intersection_traits for the circular kernel
+
+// The additional CGAL_ADDITIONAL_VARIANT_FOR_ICL ( = int) in the variant 
+// has the only purpose to work around a bug of the Intel compiler,
+// which without it produces the error
+// /usr/include/boost/type_traits/has_nothrow_copy.hpp(36): internal error: bad pointer
+// template struct has_nothrow_copy_constructor : public integral_constant{};
+// See also https://github.com/CGAL/cgal/issues/1581
+
 template <typename SK>
 struct SK3_Intersection_traits<SK, typename SK::Sphere_3, typename SK::Line_3>
 { 
   typedef boost::variant< 
-            std::pair< typename SK::Circular_arc_point_3, unsigned int > 
+            std::pair< typename SK::Circular_arc_point_3, unsigned int >
+            CGAL_ADDITIONAL_VARIANT_FOR_ICL
           > type; 
 };
 
@@ -52,12 +65,14 @@ struct SK3_Intersection_traits<SK, typename SK::Circle_3, typename SK::Plane_3>
 {
   typedef boost::variant< 
             std::pair< typename SK::Circular_arc_point_3, unsigned int >,
-            typename SK::Circle_3 
+            typename SK::Circle_3
+            CGAL_ADDITIONAL_VARIANT_FOR_ICL
           > type; };
 
 template <typename SK>
 struct SK3_Intersection_traits<SK, typename SK::Plane_3, typename SK::Circle_3>
   : SK3_Intersection_traits<SK, typename SK::Circle_3, typename SK::Plane_3> {};
+
 
 template <typename SK>
 struct SK3_Intersection_traits<SK, typename SK::Circle_3, typename SK::Sphere_3>
@@ -65,6 +80,7 @@ struct SK3_Intersection_traits<SK, typename SK::Circle_3, typename SK::Sphere_3>
   typedef boost::variant< 
             std::pair< typename SK::Circular_arc_point_3, unsigned int >, 
             typename SK::Circle_3 
+            CGAL_ADDITIONAL_VARIANT_FOR_ICL
           > type;
 };
 
@@ -77,7 +93,8 @@ struct SK3_Intersection_traits<SK, typename SK::Circle_3, typename SK::Circle_3>
 {
   typedef boost::variant< 
             std::pair <typename SK::Circular_arc_point_3, unsigned int >,
-            typename SK::Circle_3 
+            typename SK::Circle_3
+            CGAL_ADDITIONAL_VARIANT_FOR_ICL 
           > type; 
 };
 
@@ -85,7 +102,8 @@ template <typename SK>
 struct SK3_Intersection_traits<SK, typename SK::Circle_3, typename SK::Line_3>
 {
   typedef boost::variant<
-            std::pair <typename SK::Circular_arc_point_3, unsigned int > 
+            std::pair <typename SK::Circular_arc_point_3, unsigned int >
+            CGAL_ADDITIONAL_VARIANT_FOR_ICL
           > type; 
 };
 
@@ -99,7 +117,8 @@ struct SK3_Intersection_traits<SK, typename SK::Circular_arc_3, typename SK::Cir
   typedef boost::variant< 
             typename SK::Circle_3, 
             std::pair <typename SK::Circular_arc_point_3, unsigned int >,
-            typename SK::Circular_arc_3 
+            typename SK::Circular_arc_3
+            CGAL_ADDITIONAL_VARIANT_FOR_ICL
           > type;
 };
 
@@ -108,7 +127,8 @@ struct SK3_Intersection_traits<SK, typename SK::Circular_arc_3, typename SK::Pla
 {
   typedef boost::variant<
             std::pair <typename SK::Circular_arc_point_3, unsigned int >,
-            typename SK::Circular_arc_3 
+            typename SK::Circular_arc_3
+            CGAL_ADDITIONAL_VARIANT_FOR_ICL
           > type;
 };
 
@@ -121,7 +141,8 @@ struct SK3_Intersection_traits<SK, typename SK::Line_arc_3, typename SK::Line_ar
 { 
   typedef boost::variant< 
             std::pair <typename SK::Circular_arc_point_3, unsigned int >,
-            typename SK::Line_arc_3 
+            typename SK::Line_arc_3
+            CGAL_ADDITIONAL_VARIANT_FOR_ICL
           > type; 
 };
   
@@ -133,7 +154,8 @@ struct SK3_intersect_ternary
             typename SK::Circle_3,
             typename SK::Plane_3,
             typename SK::Sphere_3,
-            std::pair< typename SK::Circular_arc_point_3, unsigned >
+            std::pair< typename SK::Circular_arc_point_3, unsigned >,
+            int
           > type;
 };
 

@@ -22,6 +22,9 @@
 #ifndef CGAL_POLYGON_MESH_PROCESSING_ORIENT_POLYGON_SOUP
 #define CGAL_POLYGON_MESH_PROCESSING_ORIENT_POLYGON_SOUP
 
+#include <CGAL/license/Polygon_mesh_processing/orientation.h>
+
+
 #include <CGAL/tuple.h>
 #include <CGAL/array.h>
 #include <CGAL/assertions.h>
@@ -438,7 +441,7 @@ struct Polygon_soup_orienter
 } // namespace internal
 
 /**
- * \ingroup PMP_repairing_grp
+ * \ingroup PMP_orientation_grp
  * tries to consistently orient a soup of polygons in 3D space.
  * When it is not possible to produce a combinatorial manifold surface,
  * some points are duplicated.

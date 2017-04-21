@@ -2,7 +2,7 @@
 # This is the CMake script for compiling a CGAL application.
 # cmake ../ -DCMAKE_BUILD_TYPE=Debug
 
-project (Linear_cell_complex_3_demo)
+project (Linear_cell_complex_Demo)
 
 # Find includes in corresponding build directories
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
@@ -64,6 +64,7 @@ add_executable(Linear_cell_complex_3_demo
   Linear_cell_complex_3_demo.cpp MainWindow.cpp
   Viewer.cpp Linear_cell_complex_3_subdivision.cpp
   Linear_cell_complex_pqq_subdivision.cpp
+  typedefs.h import_moka.h
   ${uis} ${CGAL_Qt5_RESOURCE_FILES} ${CGAL_Qt5_MOC_FILES})
 
 qt5_use_modules(Linear_cell_complex_3_demo Xml Script OpenGL Svg)

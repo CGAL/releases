@@ -19,10 +19,15 @@
 #ifndef CGAL_POLYHEDRALSURF_NEIGHBORS_H_
 #define CGAL_POLYHEDRALSURF_NEIGHBORS_H_
 
+#include <CGAL/license/Ridges_3.h>
+
+
 #include <queue>
 #include <algorithm>
 #include <list>
 #include <CGAL/basic.h>
+#include <CGAL/boost/graph/properties.h>
+#include <CGAL/boost/graph/iterator.h>
 
 namespace CGAL {
 

@@ -21,10 +21,14 @@
 
 #ifndef CGAL_MESH_3_IO_SIGNATURE_H
 #define CGAL_MESH_3_IO_SIGNATURE_H
+
+#include <CGAL/license/Mesh_3.h>
+
 #define CGAL_MESH_3_IO_H // the old include macro, tested by other files
 
 #include <CGAL/Point_3.h>
 #include <CGAL/Weighted_point.h>
+#include <CGAL/Weighted_point_3.h>
 #include <CGAL/Delaunay_triangulation_3.h>
 #include <CGAL/Triangulation_vertex_base_3.h>
 #include <CGAL/Triangulation_vertex_base_with_info_3.h>
@@ -173,6 +177,14 @@ struct Get_io_signature<Weighted_point<Point, FT> >
 {
   std::string operator()() {
     return std::string("Weighted_point<") + Get_io_signature<Point>()() + ">";
+  }
+};
+
+template <class K>
+struct Get_io_signature<Weighted_point_3<K> >
+{
+  std::string operator()() {
+    return std::string("Weighted_point<") + Get_io_signature<Point_3<K> >()() + ">";
   }
 };
 

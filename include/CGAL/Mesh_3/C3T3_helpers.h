@@ -25,6 +25,9 @@
 #ifndef CGAL_MESH_3_C3T3_HELPERS_H
 #define CGAL_MESH_3_C3T3_HELPERS_H
 
+#include <CGAL/license/Mesh_3.h>
+
+
 #include <CGAL/Mesh_3/config.h>
 #include <CGAL/use.h>
 
@@ -384,6 +387,7 @@ class C3T3_helpers_base
 protected:
   typedef typename Tr::Geom_traits          Gt;
   typedef typename Gt::Point_3              Point_3;
+  typedef typename Gt::FT                   FT;
   typedef typename Tr::Vertex_handle        Vertex_handle;
   typedef typename Tr::Cell_handle          Cell_handle;
   typedef typename Tr::Facet                Facet;
@@ -2647,6 +2651,7 @@ C3T3_helpers<C3T3,MD>::
 rebuild_restricted_delaunay(OutdatedCells& outdated_cells,
                             Moving_vertices_set& moving_vertices)
 {
+  typename Gt::Equal_3 equal = Gt().equal_3_object();
   typename OutdatedCells::iterator first_cell = outdated_cells.begin();
   typename OutdatedCells::iterator last_cell = outdated_cells.end();
   Update_c3t3 updater(domain_,c3t3_);
@@ -2745,7 +2750,7 @@ rebuild_restricted_delaunay(OutdatedCells& outdated_cells,
   {
     Point_3 new_pos = project_on_surface((*it)->point(),*it);
 
-    if ( new_pos != Point_3() )
+    if ( ! equal(new_pos, Point_3()) )
     {
       //freezing needs 'erase' to be done before the vertex is actually destroyed
       // Update moving vertices (it becomes new_vertex)
@@ -2772,6 +2777,7 @@ rebuild_restricted_delaunay(ForwardIterator first_cell,
                             ForwardIterator last_cell,
                             Moving_vertices_set& moving_vertices)
 {
+  typename Gt::Equal_3 equal = Gt().equal_3_object();
   Update_c3t3 updater(domain_,c3t3_);
 
   // Get facets (returns each canonical facet only once)
@@ -2851,7 +2857,7 @@ rebuild_restricted_delaunay(ForwardIterator first_cell,
   {
     Point_3 new_pos = project_on_surface((it->first)->point(),it->first,it->second);
 
-    if ( new_pos != Point_3() )
+    if ( ! equal(new_pos, Point_3()) )
     {
       //freezing needs 'erase' to be done before the vertex is actually destroyed
       // Update moving vertices (it becomes new_vertex)
@@ -3266,6 +3272,9 @@ project_on_surface_aux(const Point_3& p,
   typename Gt::Is_degenerate_3 is_degenerate =
     Gt().is_degenerate_3_object();
 
+  typename Gt::Construct_translated_point_3 translate =
+    Gt().construct_translated_point_3_object();
+
   typename MD::Construct_intersection construct_intersection =
     domain_.construct_intersection_object();
 
@@ -3278,8 +3287,8 @@ project_on_surface_aux(const Point_3& p,
   const Vector_3 projection_scaled_vector =
     scale(projection_vector, CGAL::sqrt(sq_dist/sq_proj_length));
 
-  const Point_3 source = p + projection_scaled_vector;
-  const Point_3 target = p - projection_scaled_vector;
+  const Point_3 source = translate(p, projection_scaled_vector);
+  const Point_3 target = translate(p, - projection_scaled_vector);
 
   const Segment_3 proj_segment(source,target);
 
@@ -3354,10 +3363,14 @@ get_least_square_surface_plane(const Vertex_handle& v,
 
   // Compute least square fitting plane
   Plane_3 plane;
+  Point_3 point;
   CGAL::linear_least_squares_fitting_3(surface_point_vector.begin(),
                                        surface_point_vector.end(),
                                        plane,
-                                       Dimension_tag<0>());
+                                       point,
+                                       Dimension_tag<0>(),
+                                       tr_.geom_traits(),
+                                       Default_diagonalize_traits<FT, 3>());
 
   reference_point = surface_point_vector.front();
 
@@ -3373,16 +3386,17 @@ project_on_surface(const Point_3& p,
                    const Vertex_handle& v,
                    Surface_patch_index index) const
 {
+  typename Gt::Equal_3 equal = Gt().equal_3_object();
   // return domain_.project_on_surface(p);
   // Get plane
   Point_3 reference_point(CGAL::ORIGIN);
   Plane_3 plane = get_least_square_surface_plane(v,reference_point, index);
 
-  if ( reference_point == CGAL::ORIGIN )
+  if ( equal(reference_point, CGAL::ORIGIN) )
     return p;
 
   // Project
-  if ( p != v->point() )
+  if ( ! equal(p, v->point()) )
     return project_on_surface_aux(p,
                                   v->point(),
                                   plane.orthogonal_vector());

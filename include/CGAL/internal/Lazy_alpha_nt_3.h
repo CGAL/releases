@@ -21,15 +21,31 @@
 #ifndef CGAL_INTERNAL_LAZY_ALPHA_NT_3_H
 #define CGAL_INTERNAL_LAZY_ALPHA_NT_3_H
 
+#include <CGAL/license/Alpha_shapes_3.h>
+
+
 #include <CGAL/assertions.h>
+#include <CGAL/Cartesian_converter.h>
+#include <CGAL/internal/Exact_type_selector.h>
 #include <CGAL/Regular_triangulation_euclidean_traits_3.h>
 #include <boost/shared_ptr.hpp>
 #include <boost/type_traits.hpp>
+#include <boost/optional.hpp>
 #include <iostream>
 
 namespace CGAL {
 
 namespace internal{
+
+template <class T>
+struct Input_points_for_lazy_alpha_nt_3
+{
+  int nbpts;
+  const T* p0;
+  const T* p1;
+  const T* p2;
+  const T* p3;
+};
 
 //non-weighted case  
 template <class Weighted_tag,class Input_traits,class Kernel_input,class Kernel_approx,class Kernel_exact>
@@ -55,15 +71,15 @@ template <class Input_traits,class Kernel_input,class Kernel_approx,class Kernel
 struct Types_for_alpha_nt_3< ::CGAL::Tag_true,Input_traits,Kernel_input,Kernel_approx,Kernel_exact>
 {
 //Converter types
-  typedef CGAL::Weighted_converter_3< CGAL::Cartesian_converter<Kernel_input,Kernel_approx> >   To_approx;
-  typedef CGAL::Weighted_converter_3< CGAL::Cartesian_converter<Kernel_input,Kernel_exact> >    To_exact;
+  typedef CGAL::Cartesian_converter<Kernel_input,Kernel_approx>   To_approx;
+  typedef CGAL::Cartesian_converter<Kernel_input,Kernel_exact>    To_exact;
 //Traits types
   typedef ::CGAL::Regular_triangulation_euclidean_traits_3<Kernel_approx>                       Approx_traits;
   typedef ::CGAL::Regular_triangulation_euclidean_traits_3<Kernel_exact>                        Exact_traits;
 //Point types
   typedef typename Approx_traits::Weighted_point Approx_point;
   typedef typename Exact_traits::Weighted_point  Exact_point;
-  typedef typename Input_traits::Weighted_point  Input_point;
+  typedef typename Input_traits::Weighted_point_3  Input_point;
 //Constructions 
   typedef typename Approx_traits::Compute_squared_radius_smallest_orthogonal_sphere_3           Approx_squared_radius;
   typedef typename Exact_traits::Compute_squared_radius_smallest_orthogonal_sphere_3            Exact_squared_radius; 
@@ -106,59 +122,54 @@ class Lazy_alpha_nt_3{
 
 
 //members  
-  unsigned nb_pt;
   //the members can be updated when calling method exact()
-  mutable bool updated;
-  mutable NT_exact exact_;
+  mutable boost::optional<NT_exact> exact_;
   mutable NT_approx approx_;
-  typedef std::vector<const Input_point*> Data_vector;
-  boost::shared_ptr<Data_vector> inputs_ptr;
 
-//private functions  
-  const Data_vector& data() const{ return *inputs_ptr;}
+//private functions
+  typedef Input_points_for_lazy_alpha_nt_3<Input_point> Data_vector;
+  Data_vector input_points;
 
-  Data_vector& 
-  data(){ return *inputs_ptr;}  
-  
-  
+  const Data_vector& data() const{ return input_points;}
+  Data_vector& data(){ return input_points;}
+
 public:
 
   typedef NT_exact               Exact_nt;
   typedef NT_approx              Approximate_nt;
 
   void update_exact() const{
-    switch (nb_pt){
+    switch (data().nbpts){
       case 1:
-        exact_ = Exact_squared_radius()( to_exact(*data()[0]) );
+        exact_ = Exact_squared_radius()( to_exact(*data().p0) );
       break;
       case 2:
-        exact_ = Exact_squared_radius()( to_exact(*data()[0]),to_exact(*data()[1]) );
+        exact_ = Exact_squared_radius()( to_exact(*data().p0),to_exact(*data().p1) );
       break;
       case 3:
-        exact_ = Exact_squared_radius()( to_exact(*data()[0]),to_exact(*data()[1]),to_exact(*data()[2]) );
+        exact_ = Exact_squared_radius()( to_exact(*data().p0),to_exact(*data().p1),to_exact(*data().p2) );
       break;
       case 4:
-        exact_ = Exact_squared_radius()( to_exact(*data()[0]),to_exact(*data()[1]),to_exact(*data()[2]),to_exact(*data()[3]) );
+        exact_ = Exact_squared_radius()( to_exact(*data().p0),to_exact(*data().p1),to_exact(*data().p2),to_exact(*data().p3) );
       break;
       default:
         CGAL_assertion(false);
     }
-    updated=true;
   }
   
   void set_approx(){
-    switch (nb_pt){
+    switch (data().nbpts){
       case 1:
-        approx_ = Approx_squared_radius()( to_approx(*data()[0]) );
+        approx_ = Approx_squared_radius()( to_approx(*data().p0) );
       break;
       case 2:
-        approx_ = Approx_squared_radius()( to_approx(*data()[0]),to_approx(*data()[1]) );
+        approx_ = Approx_squared_radius()( to_approx(*data().p0),to_approx(*data().p1) );
       break;
       case 3:
-        approx_ = Approx_squared_radius()( to_approx(*data()[0]),to_approx(*data()[1]),to_approx(*data()[2]) );
+        approx_ = Approx_squared_radius()( to_approx(*data().p0),to_approx(*data().p1),to_approx(*data().p2) );
       break;
       case 4:
-        approx_ = Approx_squared_radius()( to_approx(*data()[0]),to_approx(*data()[1]),to_approx(*data()[2]),to_approx(*data()[3]) );
+        approx_ = Approx_squared_radius()( to_approx(*data().p0),to_approx(*data().p1),to_approx(*data().p2),to_approx(*data().p3) );
       break;
       default:
         CGAL_assertion(false);
@@ -166,58 +177,80 @@ public:
   }
 
   const NT_exact& exact() const {
-    if (!updated){
+    if (exact_ == boost::none){
       update_exact();
-      approx_=to_interval(exact_);
+      approx_=to_interval(*exact_);
     }
-    return exact_;
+    return *exact_;
   }
 
   const NT_approx& approx() const{
     return approx_;
   }
 //Constructors  
-  Lazy_alpha_nt_3():nb_pt(0),updated(true),exact_(0),approx_(0){}
+  Lazy_alpha_nt_3()
+   : exact_(Exact_nt(0)),approx_(0)
+  {
+    data().nbpts=0;
+    data().p0=NULL;
+    data().p1=NULL;
+    data().p2=NULL;
+    data().p3=NULL;
+  }
   
-  Lazy_alpha_nt_3(double d):nb_pt(0),updated(true),exact_(d),approx_(d){}
+  Lazy_alpha_nt_3(double d)
+   : exact_(Exact_nt(d)),approx_(d)
+  {
+    data().nbpts=0;
+    data().p0=NULL;
+    data().p1=NULL;
+    data().p2=NULL;
+    data().p3=NULL;
+  }
   
-  Lazy_alpha_nt_3(const Input_point& wp1):nb_pt(1),updated(false),inputs_ptr(new Data_vector())
+  Lazy_alpha_nt_3(const Input_point& wp1)
   {
-    data().reserve(nb_pt);
-    data().push_back(&wp1);
+    data().nbpts=1;
+    data().p0=&wp1;
+    data().p1=NULL;
+    data().p2=NULL;
+    data().p3=NULL;
     set_approx();
   }
 
   Lazy_alpha_nt_3(const Input_point& wp1,
-           const Input_point& wp2):nb_pt(2),updated(false),inputs_ptr(new Data_vector())
+                  const Input_point& wp2)
   {
-    data().reserve(nb_pt);
-    data().push_back(&wp1);
-    data().push_back(&wp2);
+    data().nbpts=2;
+    data().p0=&wp1;
+    data().p1=&wp2;
+    data().p2=NULL;
+    data().p3=NULL;
     set_approx();
   }
 
   Lazy_alpha_nt_3(const Input_point& wp1,
-           const Input_point& wp2,
-           const Input_point& wp3):nb_pt(3),updated(false),inputs_ptr(new Data_vector())
+                  const Input_point& wp2,
+                  const Input_point& wp3)
   {
-    data().reserve(nb_pt);
-    data().push_back(&wp1);
-    data().push_back(&wp2);
-    data().push_back(&wp3);
+    data().nbpts=3;
+    data().p0=&wp1;
+    data().p1=&wp2;
+    data().p2=&wp3;
+    data().p3=NULL;
     set_approx();
   }
 
   Lazy_alpha_nt_3(const Input_point& wp1,
-           const Input_point& wp2,
-           const Input_point& wp3,
-           const Input_point& wp4):nb_pt(4),updated(false),inputs_ptr(new Data_vector())
+                  const Input_point& wp2,
+                  const Input_point& wp3,
+                  const Input_point& wp4)
   {
-    data().reserve(nb_pt);
-    data().push_back(&wp1);
-    data().push_back(&wp2);
-    data().push_back(&wp3);
-    data().push_back(&wp4);
+    data().nbpts=4;
+    data().p0=&wp1;
+    data().p1=&wp2;
+    data().p2=&wp3;
+    data().p3=&wp4;
     set_approx();
   }
     
@@ -225,12 +258,11 @@ public:
   bool \
   operator CMP (const Lazy_alpha_nt_3<Input_traits,Kernel_input,mode,Weighted_tag> &other) const \
   { \
-    try{ \
-      return this->approx() CMP other.approx(); \
-    } \
-    catch(CGAL::Uncertain_conversion_exception&){ \
+    Uncertain<bool> res = this->approx() CMP other.approx(); \
+    if (res.is_certain()) \
+      return res; \
+    else \
       return this->exact() CMP other.exact(); \
-    } \
   } \
 
   CGAL_LANT_COMPARE_FUNCTIONS(<)
@@ -320,7 +352,7 @@ template <class GeomTraits>
 struct Alpha_nt_selector_impl_3<GeomTraits,Tag_true,Tag_true>
 {
   typedef Lazy_alpha_nt_3<GeomTraits,typename GeomTraits::Kernel,true,Tag_true> Type_of_alpha;
-  typedef Lazy_compute_squared_radius_3<Type_of_alpha,typename GeomTraits::Weighted_point> Functor;
+  typedef Lazy_compute_squared_radius_3<Type_of_alpha,typename GeomTraits::Weighted_point_3> Functor;
   struct Compute_squared_radius_3{
     template<class As>
     Functor operator()(const As&){return Functor();}    
@@ -336,6 +368,12 @@ struct Alpha_nt_selector_3:
 
 
 } //namespace internal
+
+template<class Input_traits, class Kernel_input, bool mode, class Weighted_tag>
+double to_double(const internal::Lazy_alpha_nt_3<Input_traits, Kernel_input, mode, Weighted_tag>& a)
+{
+  return to_double(a.approx());
+}
 
 } //namespace CGAL
 

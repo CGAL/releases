@@ -23,6 +23,9 @@
 #ifndef CGAL_MESH_3_SLIVERS_EXUDER_H
 #define CGAL_MESH_3_SLIVERS_EXUDER_H
 
+#include <CGAL/license/Mesh_3.h>
+
+
 #include <CGAL/Mesh_3/config.h>
 #include <CGAL/Mesh_3/Concurrent_mesher_config.h>
 #include <CGAL/Bbox_3.h>
@@ -589,7 +592,7 @@ private:
     if ( 0 < limit_value )
       sliver_criteria_.set_sliver_bound(limit_value);
     else
-      sliver_criteria_.set_sliver_bound(SliverCriteria::max_value);
+      sliver_criteria_.set_sliver_bound(sliver_criteria_.get_max_value());
 
     this->cells_queue_clear();
     initialize_cells_priority_queue();
@@ -619,11 +622,11 @@ private:
   double compute_critical_radius(const Vertex_handle& v,
                                  const Cell_handle& c) const
   {
-    typedef typename Geom_traits::Compute_critical_squared_radius_3
+    typedef typename Geom_traits::Compute_power_distance_to_power_sphere_3
       Critical_radius;
 
     Critical_radius critical_radius =
-      tr_.geom_traits().compute_critical_squared_radius_3_object();
+      tr_.geom_traits().compute_power_distance_to_power_sphere_3_object();
 
     return CGAL::to_double(critical_radius(c->vertex(0)->point(),
                                            c->vertex(1)->point(),

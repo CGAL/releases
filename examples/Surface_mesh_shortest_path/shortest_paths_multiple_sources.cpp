@@ -34,11 +34,11 @@ int main(int argc, char** argv)
   input >> polyhedron;
   input.close();
 
-  // initialize indices of vertices, halfedges and facets
+  // initialize indices of vertices, halfedges and faces
   CGAL::set_halfedgeds_items_id(polyhedron);
 
   // pick up some source points inside faces,
-  const size_t randSeed = argc > 2 ? std::atoi(argv[2]) : 7915421;
+  const unsigned int randSeed = argc > 2 ? boost::lexical_cast<unsigned int>(argv[2]) : 7915421;
   CGAL::Random rand(randSeed);
   // by copying the faces in a vector to get a direct access to faces
   std::size_t nb_faces=num_faces(polyhedron);
@@ -47,11 +47,11 @@ int main(int argc, char** argv)
   std::vector<face_descriptor> face_vector(fit, fit_end);
   // and creating a vector of Face_location objects
   const std::size_t nb_source_points = 30;
-  Traits::Barycentric_coordinate face_location = {{0.25, 0.5, 0.25}};
+  Traits::Barycentric_coordinates face_location = {{0.25, 0.5, 0.25}};
   std::vector<Face_location> faceLocations(nb_source_points, Face_location(face_descriptor(), face_location));
   for (std::size_t i = 0; i < nb_source_points; ++i)
   {
-    faceLocations[i].first=face_vector[rand.get_int(0, nb_faces)];
+    faceLocations[i].first=face_vector[rand.get_int(0, static_cast<int>(nb_faces))];
   }
 
   // construct a shortest path query object and add a range of source points

@@ -1,7 +1,7 @@
 
 #include <fstream>
 #include <QtCore/qglobal.h>
-#include <CGAL/AABB_intersections.h>
+#include <CGAL/intersections.h>
 
 #include "Scene.h"
 #include "Color_ramp.h"
@@ -69,12 +69,12 @@ class FillGridSize {
   Point_distance (&distance_function)[100][100];
   FT diag;
   FT& max_distance_function;
-  std::vector<Tree*>&trees;
+  QMap<QObject*, Tree*> *trees;
   bool is_signed;
   qglviewer::ManipulatedFrame* frame;
 public:
   FillGridSize(std::size_t grid_size, FT diag, Point_distance (&distance_function)[100][100],
-  FT& max_distance_function, std::vector<Tree*>& trees,
+  FT& max_distance_function,QMap<QObject*, Tree*>* trees,
   bool is_signed, qglviewer::ManipulatedFrame* frame)
   : grid_size(grid_size), distance_function (distance_function), diag(diag),
     max_distance_function(max_distance_function),
@@ -94,16 +94,19 @@ public:
     Tree *min_tree = NULL ;
     for( std::size_t t = r.begin(); t != r.end(); ++t)
     {
-      int i(int(t%grid_size)), j(int(t/grid_size));
+      int i = static_cast<int>(t%grid_size), j = static_cast<int>(t/grid_size);
       FT x = -diag/fd + FT(i)/FT(grid_size) * dx;
       {
         FT y = -diag/fd + FT(j)/FT(grid_size) * dy;
-
-        Point query = transfo( Point(x,y,z) );
+        const qglviewer::Vec v_offset = static_cast<CGAL::Three::Viewer_interface*>(QGLViewer::QGLViewerPool().first())->offset();
+        Simple_kernel::Vector_3 offset(v_offset.x, v_offset.y, v_offset.z);
+        Point query = transfo( Point(x,y,z))-offset;
         FT min = DBL_MAX;
 
-        Q_FOREACH(Tree *tree, trees)
+        Q_FOREACH(Tree *tree, trees->values())
         {
+          if(is_signed && !qobject_cast<Scene_polyhedron_item*>(trees->key(tree))->polyhedron()->is_closed())
+            continue;
           FT dist = CGAL::sqrt( tree->squared_distance(query) );
           if(dist < min)
           {
@@ -282,11 +285,14 @@ private:
 
     void computeElements() const
     {
+       const qglviewer::Vec offset = static_cast<CGAL::Three::Viewer_interface*>(QGLViewer::QGLViewerPool().first())->offset();
        QApplication::setOverrideCursor(Qt::WaitCursor);
        positions_lines.clear();
 
        CGAL::AABB_drawing_traits<Facet_primitive, CGAL::AABB_node<Facet_traits> > traits;
        traits.v_edges = &positions_lines;
+       for(int i=0; i<3; ++i)
+         traits.offset[i] = offset[i];
 
        tree.traversal(0, traits);
        QApplication::restoreOverrideCursor();
@@ -401,14 +407,16 @@ private:
     }
     void computeElements() const
     {
+       const qglviewer::Vec v_offset = static_cast<CGAL::Three::Viewer_interface*>(QGLViewer::QGLViewerPool().first())->offset();
+       Simple_kernel::Vector_3 offset(v_offset.x, v_offset.y, v_offset.z);
        QApplication::setOverrideCursor(Qt::WaitCursor);
        positions_lines.clear();
 
        for(size_t i = 0, end = edges.size();
            i < end; ++i)
        {
-         const Simple_kernel::Point_3& a = edges[i].source();
-         const Simple_kernel::Point_3& b = edges[i].target();
+         const Simple_kernel::Point_3& a = edges[i].source()+offset;
+         const Simple_kernel::Point_3& b = edges[i].target()+offset;
          positions_lines.push_back(a.x()); positions_lines.push_back(a.y()); positions_lines.push_back(a.z());
          positions_lines.push_back(b.x()); positions_lines.push_back(b.y()); positions_lines.push_back(b.z());
        }
@@ -677,10 +685,6 @@ private:
     const FT z (0);
     const FT fd =  FT(1);
     Tree *min_tree = NULL;
-    std::vector<Tree*> closed_trees;
-    Q_FOREACH(Tree *tree, trees->values())
-    if(!(is_signed && !qobject_cast<Scene_polyhedron_item*>(trees->key(tree))->polyhedron()->is_closed()))
-      closed_trees.push_back(tree);
     for(int i=0 ; i<m_grid_size ; ++i)
     {
       FT x = -diag/fd + FT(i)/FT(m_grid_size) * dx;
@@ -691,8 +695,10 @@ private:
         Simple_kernel::Point_3 query = t( Simple_kernel::Point_3(x,y,z) );
         FT min = DBL_MAX;
 
-        Q_FOREACH(Tree *tree, closed_trees)
+        Q_FOREACH(Tree *tree, trees->values())
         {
+          if(is_signed && !qobject_cast<Scene_polyhedron_item*>(trees->key(tree))->polyhedron()->is_closed())
+            continue;
           FT dist = CGAL::sqrt( tree->squared_distance(query) );
           if(dist < min)
           {
@@ -727,11 +733,7 @@ private:
         }
     }
 #else
-    std::vector<Tree*> closed_trees;
-    Q_FOREACH(Tree *tree, trees->values())
-    if(!(is_signed && !qobject_cast<Scene_polyhedron_item*>(trees->key(tree))->polyhedron()->is_closed()))
-      closed_trees.push_back(tree);
-    FillGridSize<Tree> f(m_grid_size, diag, m_distance_function, m_max_distance_function, closed_trees, is_signed, frame);
+    FillGridSize<Tree> f(m_grid_size, diag, m_distance_function, m_max_distance_function, trees, is_signed, frame);
     tbb::parallel_for(tbb::blocked_range<size_t>(0, m_grid_size*m_grid_size), f);
 #endif
   }
@@ -769,7 +771,7 @@ private:
     {
       for(std::size_t t = r.begin(); t!= r.end(); ++t)
       {
-        int i(int(t%grid_size)), j(int(t/grid_size));
+        int i = static_cast<int>(t%grid_size), j = static_cast<int>(t/grid_size);
         item->compute_texture(i,j, pos_ramp, neg_ramp);
       }
     }
@@ -1333,7 +1335,8 @@ void Polyhedron_demo_cut_plugin::computeIntersection()
     scene->addItem(edges_item);
   }
 
-  const qglviewer::Vec& pos = plane_item->manipulatedFrame()->position();
+  const qglviewer::Vec offset = static_cast<CGAL::Three::Viewer_interface*>(QGLViewer::QGLViewerPool().first())->offset();
+  const qglviewer::Vec& pos = plane_item->manipulatedFrame()->position() - offset;
   const qglviewer::Vec& n =
       plane_item->manipulatedFrame()->inverseTransformOf(qglviewer::Vec(0.f, 0.f, 1.f));
   Simple_kernel::Plane_3 plane(n[0], n[1],  n[2], - n * pos);

@@ -26,10 +26,11 @@
 #ifndef CGAL_HANDLE_HASH_FUNCTION_H
 #define CGAL_HANDLE_HASH_FUNCTION_H
 
-#include <CGAL/basic.h>
+#include <CGAL/config.h>
 #include <cstddef>
 
 namespace CGAL {
+
 
 //mechanism to abuse Handle_hash_function which is the default
 //template parameter of Unique_hash_map

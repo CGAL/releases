@@ -18,6 +18,9 @@
 #ifndef CGAL_SURFACE_MESH_IO_H
 #define CGAL_SURFACE_MESH_IO_H
 
+#include <CGAL/license/Surface_mesh.h>
+
+
 
 //== INCLUDES =================================================================
 
@@ -32,6 +35,7 @@
 #include <CGAL/use.h>
 #include <CGAL/Surface_mesh/Surface_mesh.h>
 #include <CGAL/Surface_mesh/Properties.h>
+#include <CGAL/Kernel_traits.h>
 
 //=============================================================================
 
@@ -68,8 +72,8 @@ bool read_off_binary(Surface_mesh<Point_3>& mesh,
     typename Mesh::Vertex_index  v;
 
     // properties
-    typename Mesh:: template Property_map<typename Mesh::Vertex_index, Normal>              normals;
-    typename Mesh:: template Property_map<typename Mesh::Vertex_index, Texture_coordinate>  texcoords;
+    typename Mesh::template Property_map<typename Mesh::Vertex_index, Normal>              normals;
+    typename Mesh::template Property_map<typename Mesh::Vertex_index, Texture_coordinate>  texcoords;
     if (has_normals)   normals   = mesh.template add_property_map<typename Mesh::Vertex_index, Normal>("v:normal").first;
     if (has_texcoords) texcoords = mesh.template add_property_map<typename Mesh::Vertex_index, Texture_coordinate>("v:texcoord").first;
 
@@ -343,7 +347,7 @@ bool write_off(const Surface_mesh<K>& mesh, const std::string& filename)
 
 
     // vertices
-    typename Mesh::template Property_map<typename Mesh::Vertex_index, Point_3> points 
+    typename Mesh::template Property_map<typename Mesh::Vertex_index, Point_3> points
       = mesh.template property_map<typename Mesh::Vertex_index, Point_3>("v:point").first;
     for (typename Mesh::Vertex_iterator vit=mesh.vertices_begin(); vit!=mesh.vertices_end(); ++vit)
     {

@@ -21,9 +21,12 @@
 #ifndef CGAL_VORONOI_INTERSECTION_2_TRAITS_3_H
 #define CGAL_VORONOI_INTERSECTION_2_TRAITS_3_H
 
+#include <CGAL/license/Interpolation.h>
+
+
 #include <CGAL/Origin.h>
 #include <CGAL/tags.h>
-#include <CGAL/number_utils.h>
+#include <CGAL/number_utils_classes.h>
 #include <CGAL/representation_tags.h>
 #include <CGAL/predicates/predicates_for_voronoi_intersection_cartesian_2_3.h>
 #include <CGAL/constructions/constructions_for_voronoi_intersection_cartesian_2_3.h>
@@ -240,6 +243,7 @@ public:
 
   typedef typename Rep::RT                          Weight;
   typedef typename Rep::FT                          FT;
+  typedef typename Rep::RT                          RT;
 
   //other types needed:
   typedef typename Rep::Point_3                     Point_2;
@@ -264,7 +268,7 @@ public:
 
   //specific tests:
   typedef Orientation_with_normal_plane_2_3<Rep>           Orientation_2;
-  typedef Side_of_plane_centered_sphere_2_3<Rep>           Power_test_2;
+  typedef Side_of_plane_centered_sphere_2_3<Rep>           Power_side_of_oriented_power_circle_2;
 
   typedef Construct_plane_centered_circumcenter_3<Rep>
           Construct_weighted_circumcenter_2;
@@ -288,9 +292,9 @@ public:
   orientation_2_object() const
   { return Orientation_2(normal, Rep()); }
 
-  Power_test_2
-  power_test_2_object() const
-  { return Power_test_2(a,normal); }
+  Power_side_of_oriented_power_circle_2
+  power_side_of_oriented_power_circle_2_object() const
+  { return Power_side_of_oriented_power_circle_2(a,normal); }
 
   Compare_distance_2 compare_distance_2_object() const
   { return Compare_distance_2(); }

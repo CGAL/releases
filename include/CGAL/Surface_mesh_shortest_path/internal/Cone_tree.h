@@ -20,11 +20,12 @@
 #ifndef CGAL_SURFACE_MESH_SHORTEST_PATH_INTERNAL_CONE_TREE_H
 #define CGAL_SURFACE_MESH_SHORTEST_PATH_INTERNAL_CONE_TREE_H
 
+#include <CGAL/license/Surface_mesh_shortest_path.h>
+
+
 #include <vector>
 
-#include <CGAL/boost/graph/graph_traits_Polyhedron_3.h>
-#include <CGAL/boost/graph/graph_traits_Polyhedron_3.h>
-#include <CGAL/boost/graph/properties_Polyhedron_3.h>
+#include <boost/graph/graph_traits.hpp>
 #include <CGAL/boost/graph/iterator.h>
 
 #include <CGAL/Surface_mesh_shortest_path/internal/Cone_expansion_event.h>

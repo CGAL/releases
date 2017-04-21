@@ -21,6 +21,9 @@
 #ifndef CGAL_SEGMENT_TREE_D_H
 #define CGAL_SEGMENT_TREE_D_H
 
+#include <CGAL/license/SearchStructures.h>
+
+
 #include <iostream>
 #include <iterator>
 #include <algorithm>
@@ -103,7 +106,7 @@ protected:
   typedef Segment_tree_node<C_Data,C_Window,C_Interface> Segment_tree_node_t;
   typedef Segment_tree_node<C_Data,C_Window,C_Interface> *link_type;
   
-  static std::allocator<Segment_tree_node_t> alloc;
+  std::allocator<Segment_tree_node_t> alloc;
   
   C_Interface m_interface;
   bool is_built;
@@ -704,9 +707,6 @@ public:
   }
 };
 
-template <class C_Data, class C_Window, class C_Interface>
-std::allocator<Segment_tree_node<C_Data,C_Window,C_Interface> > 
-    Segment_tree_d<C_Data,C_Window,C_Interface>::alloc;
 
 } //namespace CGAL
 

@@ -21,6 +21,9 @@
 #ifndef CGAL_SKIN_SURFACE_TRAITS_3_H
 #define CGAL_SKIN_SURFACE_TRAITS_3_H
 
+#include <CGAL/license/Skin_surface_3.h>
+
+
 #include <CGAL/Regular_triangulation_euclidean_traits_3.h>
 #include <CGAL/predicates/predicates_for_mixed_complex_3.h>
 
@@ -118,7 +121,7 @@ public:
   typedef Weighted_point                      Weighted_point_3;
 
   typedef CGAL::Side_of_mixed_cell_3<Self>          Side_of_mixed_cell_3;
-  typedef CGAL::Construct_weighted_circumcenter_3<Self> 
+  typedef typename Kernel::Construct_weighted_circumcenter_3
                                               Construct_weighted_circumcenter_3;
   typedef CGAL::Construct_anchor_point_3<Self> Construct_anchor_point_3;
   

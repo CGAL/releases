@@ -3,7 +3,9 @@
 # refer to the root source directory of the project as ${CMAKE_SOURCE_DIR} or
 # ${CMAKE_SOURCE_DIR} and to the root binary directory of the project as
 # ${CMAKE_BINARY_DIR} or ${CMAKE_BINARY_DIR}.
-project(CGAL CXX C)
+if(NOT PROJECT_NAME)
+  project(CGAL CXX C)
+endif()
 
 # Minimal version of CMake:
 cmake_minimum_required(VERSION 2.8.11)
@@ -79,7 +81,7 @@ if ( CGAL_BRANCH_BUILD )
   foreach (package ${CGAL_CONFIGURED_PACKAGES})
     if (NOT IS_DIRECTORY "${CMAKE_SOURCE_DIR}/${package}")
       list(APPEND CGAL_WRONG_PACKAGES ${package})
-    elseif(NOT IS_DIRECTORY "${CMAKE_SOURCE_DIR}/${package}/package_info")
+    elseif(NOT EXISTS "${CMAKE_SOURCE_DIR}/${package}/package_info/${package}/maintainer")
       list(APPEND CGAL_WRONG_PACKAGES ${package})
     endif()
   endforeach()
@@ -129,6 +131,10 @@ else ( CGAL_BRANCH_BUILD )
   set(CGAL_MAINTENANCE_PACKAGE_DIR "${CMAKE_SOURCE_DIR}" CACHE INTERNAL "Directory containing the Maintenance package")
   set(CGAL_CORE_PACKAGE_DIR "${CMAKE_SOURCE_DIR}" CACHE INTERNAL "Directory containing the Core package")
   set(CGAL_GRAPHICSVIEW_PACKAGE_DIR "${CMAKE_SOURCE_DIR}" CACHE INTERNAL "Directory containing the GraphicsView package")
+
+  # Enable testing with BUILD_TESTING
+  option(BUILD_TESTING "Build the testing tree." OFF)
+  include(CTest)
 
 endif (CGAL_BRANCH_BUILD )
 
@@ -206,6 +212,7 @@ if ( CGAL_BRANCH_BUILD )
   message(STATUS "CGAL_CREATED_SVN_REVISION is ${CGAL_CREATED_SVN_REVISION} (dummy)")
 
   file(REMOVE ${CMAKE_BINARY_DIR}/include/CGAL/version.h)
+  string(TIMESTAMP CGAL_CREATED_RELEASE_DATE "%Y%m%d")
   configure_file(${CGAL_INSTALLATION_PACKAGE_DIR}/config/version.h.in ${CMAKE_BINARY_DIR}/include/CGAL/version.h @ONLY)
 
   #
@@ -377,10 +384,11 @@ endif()
 #   CGAL-4.7   : 11.0.1 (Nothing different in CGAL compiled libraries.)
 #   CGAL-4.8   : 11.0.2 (Nothing different in CGAL compiled libraries.)
 #   CGAL-4.9   : 12.0.0 (Change the API/ABI in CGAL_ImageIO, but issue with 4GB images.)
+#   CGAL-4.1-  : 13.0.0 (Change the API/ABI in CGAL_ImageIO.)
 # ¹) According to http://upstream-tracker.org/versions/cgal.html
 
-set( CGAL_SONAME_VERSION "12" )
-set( CGAL_SOVERSION      "12.0.0" )
+set( CGAL_SONAME_VERSION "13" )
+set( CGAL_SOVERSION      "13.0.0" )
 
 message( STATUS "CGAL_SONAME_VERSION=${CGAL_SONAME_VERSION}" )
 message( STATUS "CGAL_SOVERSION     =${CGAL_SOVERSION}" )
@@ -776,10 +784,6 @@ message("== Write compiler_config.h (DONE) ==\n")
 #--------------------------------------------------------------------------------------------------
 
 
-# Enable testing with BUILD_TESTING
-option(BUILD_TESTING "Build the testing tree." OFF)
-include(CTest)
-
 message("== Generating build files ==")
 
 set(CGAL_LIBRARIES_DIR ${CMAKE_BINARY_DIR}/lib)
@@ -891,7 +895,10 @@ if ( ZLIB_IN_AUXILIARY )
 endif()
 
 
-install(FILES ${CMAKE_BINARY_DIR}/config/CGALConfig.cmake DESTINATION ${CGAL_INSTALL_CMAKE_DIR} )
+install(FILES
+  ${CMAKE_BINARY_DIR}/CGALConfigVersion.cmake
+  ${CMAKE_BINARY_DIR}/config/CGALConfig.cmake
+  DESTINATION ${CGAL_INSTALL_CMAKE_DIR} )
 
 if(CGAL_INSTALL_MAN_DIR)
   install(FILES auxiliary/cgal_create_cmake_script.1 DESTINATION ${CGAL_INSTALL_MAN_DIR} )
@@ -1015,7 +1022,69 @@ if ( CGAL_BRANCH_BUILD )
     "Enable the special targets \"check_pkg_headers\", and \"check_pkg_<package>_headers\" for each package"
     FALSE)
 
-  if(CGAL_ENABLE_CHECK_HEADERS)
+  option(CGAL_COMPUTE_DEPENDENCIES
+    "Enable the special targets \"packages_dependencies\", and \"pkg_<package>_deps\" for each package.
+Note that this option will modify the source directory!"
+    FALSE)
+
+  if(CGAL_ENABLE_CHECK_HEADERS OR CGAL_COMPUTE_DEPENDENCIES)
+    if(NOT CMAKE_MAJOR_VERSION GREATER 2)
+      message(FATAL_ERROR "Your version of CMake is too old.
+You must disable CGAL_ENABLE_CHECK_HEADERS and CGAL_COMPUTE_DEPENDENCIES.")
+    endif()
+
+    message( "== Setting header checking ==" )
+
+    find_package(Eigen3 REQUIRED)
+    find_package(Qt5 COMPONENTS Core Widgets Xml OpenGL REQUIRED)
+    find_package(QGLViewer)
+    find_package(VTK COMPONENTS vtkImagingGeneral  vtkIOImage NO_MODULE)
+    find_package(IPE)
+    find_package(RS3)
+    find_package(LEDA)
+    find_package(OpenMesh)
+
+    set(compile_options "\
+${CMAKE_CXX_FLAGS} -DCGAL_EIGEN3_ENABLED \
+${Qt5Widgets_DEFINITIONS} ${Qt5Xml_DEFINITIONS} ${Qt5OpenGL_DEFINITIONS} \
+${Qt5OpenGL_EXECUTABLE_COMPILE_FLAGS} -fPIC \
+${Qt5Gui_EXECUTABLE_COMPILE_FLAGS} \
+${Qt5Xml_EXECUTABLE_COMPILE_FLAGS} \
+${CGAL_3RD_PARTY_DEFINITIONS} ${CGAL_Qt5_3RD_PARTY_DEFINITIONS} \
+${CGAL_DEFINITIONS}"
+      )
+
+    if(NOT RS_FOUND AND NOT RS3_FOUND)
+      set(compile_options "${compile_options} \
+-DCGAL_ALGEBRAIC_KERNEL_RS_GMPZ_D_1=1 \
+-DCGAL_ALGEBRAIC_KERNEL_RS_GMPQ_D_1=1")
+      message(STATUS "Skip RS headers \"CGAL/Algebraic_kernel_rs_gmpq_d_1.h\" \
+and \"CGAL/Algebraic_kernel_rs_gmpz_d_1.h\" because RS_FOUND is false.")
+    else()
+      set(compile_options "${compile_options} \
+-DCGAL_USE_MPFI=1 \
+-DCGAL_USE_RS=1")
+    endif()
+    if(NOT OpenMesh_FOUND)
+      set(compile_options "${compile_options} \
+-DCGAL_BOOST_GRAPH_GRAPH_TRAITS_POLYMESH_ARRAYKERNELT_H \
+-DCGAL_BOOST_GRAPH_GRAPH_TRAITS_TRIMESH_ARRAYKERNELT_H \
+-DCGAL_HASH_OPENMESH_H \
+-DCGAL_PROPERTIES_POLYMESH_ARRAYKERNELT_H \
+-DCGAL_PROPERTIES_TRIMESH_ARRAYKERNELT_H")
+    endif()
+
+    if(LEDA_FOUND)
+      set(compile_options "${compile_options} -DCGAL_USE_LEDA")
+    endif()
+    if(NOT IPE_FOUND)
+      set(compile_options "${compile_options} -DCGAL_IPELET_BASE_H=1")
+      message(STATUS "Skip header \"CGAL/CGAL_ipelet_base.h\" \
+because IPE_FOUND is false.")
+    endif()
+    if ("${IPE_VERSION}" EQUAL "7")
+      set(compile_options "${compile_options} -DCGAL_USE_IPE_7")
+    endif()
 
     if(NOT DEFINED CGAL_CHECK_SYNTAX_ONLY)
       execute_process(COMMAND 
@@ -1031,7 +1100,7 @@ if ( CGAL_BRANCH_BUILD )
 
     if(NOT CGAL_CHECK_SYNTAX_ONLY)
       message(FATAL_ERROR "Your compiler does not seem to support -fsyntax-only.
-You must disable CGAL_ENABLE_CHECK_HEADERS.")
+You must disable CGAL_ENABLE_CHECK_HEADERS and CGAL_COMPUTE_DEPENDENCIES.")
     endif()
 
     ## Fill the variable include_options with all the -I and -isystem options
@@ -1039,37 +1108,152 @@ You must disable CGAL_ENABLE_CHECK_HEADERS.")
     foreach (incdir ${CGAL_INCLUDE_DIRS})
       list(APPEND include_options "-I${incdir}")
     endforeach()
-    foreach (incdir ${CGAL_3RD_PARTY_INCLUDE_DIRS})
-      list(APPEND include_options "-isystem${incdir}")
+    foreach (incdir
+        ${VTK_INCLUDE_DIRS}
+        ${LEDA_INCLUDE_DIR}
+        ${OPENMESH_INCLUDE_DIR}
+        ${RS_INCLUDE_DIR}
+        ${EIGEN3_INCLUDE_DIR}
+        ${QGLVIEWER_INCLUDE_DIR} ${Qt5OpenGL_INCLUDE_DIRS}
+        ${Qt5Widgets_INCLUDE_DIRS} ${Qt5Xml_INCLUDE_DIRS}
+        ${CGAL_3RD_PARTY_INCLUDE_DIRS} ${CGAL_Qt5_3RD_PARTY_INCLUDE_DIRS}
+    )
+      list(APPEND include_options "-I${incdir}")
     endforeach()
     include_directories ( SYSTEM ${CGAL_3RD_PARTY_INCLUDE_DIRS} )
 
+    include(${CMAKE_CURRENT_SOURCE_DIR}/cmake/modules/list_of_documented_headers.cmake
+      OPTIONAL RESULT_VARIABLE has_list_of_documented_headers)
+    include(${CMAKE_CURRENT_SOURCE_DIR}/cmake/modules/list_of_whitelisted_headers.cmake
+      OPTIONAL RESULT_VARIABLE has_list_of_whitelisted_headers)
+    message("list_of_whitelisted_headers: ${list_of_whitelisted_headers}")
     ## Loop on package and headers
     set(check_pkg_target_list)
+    if(POLICY CMP0057)
+      cmake_policy(SET CMP0057 NEW)
+    endif()
     foreach (package ${CGAL_CONFIGURED_PACKAGES_NAMES})
       if(EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/../${package}/include)
-        set(depends "")
-        file(GLOB ${package}_HEADERS 
-          RELATIVE "${CMAKE_CURRENT_SOURCE_DIR}/../${package}/include" 
-          "${CMAKE_CURRENT_SOURCE_DIR}/../${package}/include/CGAL/*.h")
+        set(check_pkg_headers_depends "")
+        if(has_list_of_documented_headers AND POLICY CMP0057)
+          # Then recurse2
+          file(GLOB_RECURSE ${package}_HEADERS
+            RELATIVE "${CMAKE_CURRENT_SOURCE_DIR}/../${package}/include"
+            "${CMAKE_CURRENT_SOURCE_DIR}/../${package}/include/CGAL/*.h*")
+        else() # do not recurse
+          file(GLOB ${package}_HEADERS
+            RELATIVE "${CMAKE_CURRENT_SOURCE_DIR}/../${package}/include"
+            "${CMAKE_CURRENT_SOURCE_DIR}/../${package}/include/CGAL/*.h*")
+        endif()
         list(SORT ${package}_HEADERS)
+        if(CGAL_COMPUTE_DEPENDENCIES OR COMPUTE_DEPS)
+          set(compute_deps_extra_args "-H ")
+        endif()
         foreach(header ${${package}_HEADERS})
-          string(REPLACE "/" "__" header2 "${header}")
-          string(REPLACE "." "_" header2 "${header2}")
-          add_custom_command(OUTPUT check_${header2}
-            COMMAND ${CMAKE_CXX_COMPILER} ${CGAL_3RD_PARTY_DEFINITIONS} ${CGAL_DEFINITIONS} ${include_options} -x c++ -fsyntax-only "${CMAKE_CURRENT_SOURCE_DIR}/../${package}/include/${header}"
-            COMMAND ${CMAKE_COMMAND} -E touch check_${header2}
-            DEPENDS "${CMAKE_CURRENT_SOURCE_DIR}/../${package}/include/${header}"
-            VERBATIM
-            COMMENT "Check header ${header}"
-            )
-          list(APPEND depends check_${header2})
+          set(skip_hdr FALSE)
+          if(POLICY CMP0057)
+            if(has_list_of_documented_headers
+                AND NOT header IN_LIST list_of_documented_headers)
+              message(STATUS "Skip non-documented header \"${header}\".")
+              set(skip_hdr TRUE)
+            endif()
+          endif()
+          if(NOT QGLVIEWER_FOUND)
+            string(REGEX MATCH "CGAL/Three/.*" is_a_three_header ${header})
+            if(is_a_three_header)
+              message(STATUS "Skip Three header \"${header}\" because \
+QGLVIEWER_FOUND is false.")
+              set(skip_hdr TRUE)
+            endif()
+          endif()
+          if(NOT VTK_FOUND)
+            string(REGEX MATCH ".*vtk.*" is_a_vtk_header ${header})
+            if(is_a_vtk_header)
+              message(STATUS "Skip VTK header \"${header}\" because \
+VTK_FOUND is false.")
+              set(skip_hdr TRUE)
+            endif()
+          endif()
+          string(REGEX MATCH "CGAL/leda_.*" is_a_leda_header ${header})
+          if(NOT LEDA_FOUND AND is_a_leda_header)
+            message(STATUS "Skip LEDA header \"${header}\" because \
+LEDA_FOUND is false.")
+            set(skip_hdr TRUE)
+          endif()
+          if(POLICY CMP0057)
+            if(has_list_of_whitelisted_headers
+                AND header IN_LIST list_of_whitelisted_headers)
+              message(STATUS "Skip whitelisted header \"${header}\".")
+              set(skip_hdr TRUE)
+            endif()
+          endif()
+          if(NOT skip_hdr)
+            string(REPLACE "/" "__" header2 "${header}")
+            string(REPLACE "." "_" header2 "${header2}")
+            string(REPLACE ";" " " include_options_str "${include_options}")
+            string(REPLACE ";" " " compile_options_str "${compile_options}")
+            separate_arguments(CMD
+              UNIX_COMMAND
+              "${CMAKE_CXX_COMPILER} ${compile_options_str}
+${include_options_str} -x c++ -fsyntax-only \
+${compute_deps_extra_args} \
+${CMAKE_CURRENT_SOURCE_DIR}/../${package}/include/${header}"
+              # The header Algebraic_kernel_rs_gmpz_d_1.h is skipped on purpose: it
+              # depends on RS.
+              )
+            set(chk_header_name
+              ${CGAL_BINARY_DIR}/package_info/${package}/check_headers/check_${header2})
+            add_custom_command(OUTPUT ${chk_header_name}
+              COMMAND ${CMAKE_COMMAND}
+              -DCERR:STRING=${chk_header_name}
+              "-DCMD:STRING=${CMD}"
+              -P "${CGAL_MODULES_DIR}/run_cmd_redirection_cerr.cmake"
+              DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/../${package}/include/${header}
+              DEPENDS ${CGAL_MODULES_DIR}/run_cmd_redirection_cerr.cmake
+              VERBATIM
+              COMMENT "Check header ${package}/include/${header}"
+              )
+            list(APPEND check_pkg_headers_depends ${chk_header_name})
+            if(${header2}_deps)
+              list(REMOVE_DUPLICATES ${header2}_deps)
+            endif()
+          endif() # end the if on list_of_documented_headers
         endforeach() # look on headers
-        add_custom_target(check_pkg_${package}_headers DEPENDS ${depends})
+        add_custom_target(check_pkg_${package}_headers
+          DEPENDS ${check_pkg_headers_depends})
+        add_custom_command(
+          OUTPUT ${CGAL_BINARY_DIR}/package_info/${package}/included_headers
+                 ${CGAL_BINARY_DIR}/package_info/${package}/dependencies
+          DEPENDS ${check_pkg_headers_depends}
+          COMMENT "Compute dependencies of ${package}"
+          COMMAND ${CMAKE_COMMAND}
+            -DCGAL_PACKAGES_PREFIX=${CGAL_SOURCE_DIR}
+            -DOUTPUT_HEADERS_LIST=${CGAL_BINARY_DIR}/package_info/${package}/included_headers
+            -DOUTPUT_PACKAGES_LIST=${CGAL_BINARY_DIR}/package_info/${package}/dependencies
+            -P "${CGAL_MODULES_DIR}/process_dependencies.cmake"
+            ${check_pkg_headers_depends}
+          )
+        add_custom_target(${package}_deps DEPENDS ${CGAL_BINARY_DIR}/package_info/${package}/dependencies)
         list(APPEND check_pkg_target_list check_pkg_${package}_headers)
+        list(APPEND packages_deps ${CGAL_BINARY_DIR}/package_info/${package}/dependencies)
       endif() # if the package has an include directory
+      if(${package}_deps)
+        list(REMOVE_DUPLICATES ${package}_deps)
+      endif()
     endforeach() # loop on packages
     add_custom_target(check_headers DEPENDS ${check_pkg_target_list})
+    add_custom_target(packages_dependencies DEPENDS ${packages_deps})
+    message( "  \n\
+  You can now check the headers with the target `check_headers`\n\
+  and the package dependencies with the target `packages_dependencies`.\n\
+  Results are in the `package_info/` sub-directory of the build directory:\n\
+  \n\
+    - package_info/<package>/dependencies\n\
+    - package_info/<package>/included_headers\n\
+    - package_info/<package>/check_headers/ (error messages from \
+the headers checks)\n")
+    message( "== Setting header checking (DONE) ==\n" )
+
   endif()
 endif( CGAL_BRANCH_BUILD )
 

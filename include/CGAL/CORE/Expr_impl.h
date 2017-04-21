@@ -42,6 +42,7 @@
 
 #include <CGAL/CORE/Expr.h>
 #include <cmath>
+#include <sstream> 
 
 namespace CORE { 
 
@@ -68,12 +69,12 @@ const char* Sub::name = "-";
  ********************************************************/
 CGAL_INLINE_FUNCTION
 const Expr& Expr::getZero() {
-  static Expr Zero(0);
+  CGAL_STATIC_THREAD_LOCAL_VARIABLE(Expr, Zero,0);
   return Zero;
 }
 CGAL_INLINE_FUNCTION
 const Expr& Expr::getOne() {
-  static Expr One(1);
+  CGAL_STATIC_THREAD_LOCAL_VARIABLE(Expr, One,1);
   return One;
 }
 
@@ -1028,8 +1029,9 @@ void MultRep::computeApproxValue(const extLong& relPrec,
   // handling overflow and underflow
   if (lMSB() >= EXTLONG_BIG || lMSB() <= EXTLONG_SMALL)
   {
-    std::cerr << "lMSB = " << lMSB() << std::endl; // should be in core_error
-    core_error("CORE WARNING: a huge lMSB in AddSubRep",
+    std::ostringstream oss;
+    oss << "CORE WARNING: a huge lMSB in AddSubRep " <<  lMSB();
+    core_error(oss.str(),
 	 	__FILE__, __LINE__, false);
   }
 
@@ -1050,8 +1052,9 @@ void DivRep::computeApproxValue(const extLong& relPrec,
   // handling overflow and underflow
   if (lMSB() >= EXTLONG_BIG || lMSB() <= EXTLONG_SMALL)
   {
-    std::cerr << "lMSB = " << lMSB() << std::endl; // should be in core_error
-    core_error("CORE WARNING: a huge lMSB in AddSubRep",
+    std::ostringstream oss;
+    oss << "CORE WARNING: a huge lMSB in AddSubRep " << lMSB();
+    core_error(oss.str(),
 	 	__FILE__, __LINE__, false);
   }
 
@@ -1229,23 +1232,6 @@ CORE_MEMORY_IMPL(SqrtRep)
 CORE_MEMORY_IMPL(MultRep)
 CORE_MEMORY_IMPL(DivRep)
 
-template <typename O>
-void * AddSubRep<O>::operator new( size_t size)
-{ return MemoryPool<AddSubRep<O> >::global_allocator().allocate(size); }
-
-template <typename O>
-void AddSubRep<O>::operator delete( void *p, size_t )
-{ MemoryPool<AddSubRep<O> >::global_allocator().free(p); }
-
-
-
-template <class T>
-void * Realbase_for<T>::operator new( size_t size)
-{ return MemoryPool<Realbase_for<T> >::global_allocator().allocate(size); }
-
-template <class T>
-void Realbase_for<T>::operator delete( void *p, size_t )
-{ MemoryPool<Realbase_for<T> >::global_allocator().free(p); }
 
  template class AddSubRep<Add>;
  template class AddSubRep<Sub>;

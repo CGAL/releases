@@ -24,9 +24,12 @@
 #ifndef CGAL_REGULAR_TRIANGULATION_CELL_BASE_WITH_CIRCUMCENTER_3_H
 #define CGAL_REGULAR_TRIANGULATION_CELL_BASE_WITH_CIRCUMCENTER_3_H
 
+#include <CGAL/license/Triangulation_3.h>
+
+
 #include <CGAL/basic.h>
 #include <CGAL/triangulation_assertions.h>
-#include <CGAL/Triangulation_cell_base_3.h>
+#include <CGAL/Regular_triangulation_cell_base_3.h>
 
 namespace CGAL {
 

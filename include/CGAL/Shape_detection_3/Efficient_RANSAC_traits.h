@@ -22,6 +22,9 @@
 #ifndef CGAL_SHAPE_DETECTION_3_EFFICIENT_RANSAC_TRAITS_H
 #define CGAL_SHAPE_DETECTION_3_EFFICIENT_RANSAC_TRAITS_H
 
+#include <CGAL/license/Point_set_shape_detection_3.h>
+
+
 #include <CGAL/Search_traits_3.h>
 
 namespace CGAL {
@@ -54,6 +57,8 @@ namespace CGAL {
     typedef typename Gt::Vector_3 Vector_3;
     ///
     typedef typename Gt::Sphere_3 Sphere_3;
+    ///
+    typedef typename Gt::Segment_3 Segment_3;
     ///
     typedef typename Gt::Line_3 Line_3;
     ///
@@ -176,6 +181,12 @@ namespace CGAL {
     Collinear_2 collinear_2_object() const
     { return m_gt.collinear_2_object(); }
 
+    ///
+    typedef typename Gt::Intersect_3 Intersect_3;
+    ///
+    Intersect_3 intersection_3_object() const
+    { return m_gt.intersection_3_object(); }
+    
   private:
     Gt m_gt;
   };

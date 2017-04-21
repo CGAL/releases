@@ -22,6 +22,9 @@
 #ifndef CGAL_SM_OVERLAYER_H
 #define CGAL_SM_OVERLAYER_H
 
+#include <CGAL/license/Nef_S2.h>
+
+
 #include <CGAL/basic.h>
 #include <CGAL/Union_find.h>
 #include <CGAL/Nef_2/Segment_overlay_traits.h>
@@ -35,7 +38,7 @@
 #include <CGAL/Nef_S2/SM_const_decorator.h>
 #include <CGAL/Nef_S2/SM_point_locator.h>
 #include <CGAL/Nef_S2/SM_io_parser.h>
-#include <CGAL/Nef_3/ID_support_handler.h>
+#include <CGAL/Nef_S2/ID_support_handler.h>
 #undef CGAL_NEF_DEBUG
 #define CGAL_NEF_DEBUG 131
 #include <CGAL/Nef_2/debug.h>

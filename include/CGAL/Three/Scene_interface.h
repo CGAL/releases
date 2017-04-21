@@ -22,6 +22,9 @@
 #ifndef SCENE_INTERFACE_H
 #define SCENE_INTERFACE_H
 
+#include <CGAL/license/Three.h>
+
+
 #include <QString>
 #include <QColor>
 #include <QList>
@@ -50,8 +53,8 @@ enum RenderingMode { Points = 0,
                      Flat,
                      FlatPlusEdges,
                      Gouraud,
-                     LastRenderingMode = Gouraud,
-                     NumberOfRenderingMode = LastRenderingMode+1 };
+                     ShadedPoints,
+                     NumberOfRenderingMode};
 
 
 namespace CGAL {

@@ -25,6 +25,9 @@
 #ifndef CGAL_MESH_3_MESH_GLOBAL_OPTIMIZER_H
 #define CGAL_MESH_3_MESH_GLOBAL_OPTIMIZER_H
 
+#include <CGAL/license/Mesh_3.h>
+
+
 #include <CGAL/Mesh_3/config.h>
 
 #include <CGAL/Real_timer.h>
@@ -33,7 +36,7 @@
 #include <CGAL/Origin.h>
 #include <CGAL/Mesh_optimization_return_code.h>
 #include <CGAL/Mesh_3/Null_global_optimizer_visitor.h>
-#include <CGAL/Prevent_deref.h>
+#include <CGAL/iterator.h>
 #include <CGAL/tuple.h>
 
 #include <CGAL/Mesh_3/Concurrent_mesher_config.h>
@@ -733,7 +736,7 @@ operator()(int nb_iterations, Visitor visitor)
     //Pb with Freeze : sometimes a few vertices continue moving indefinitely
     //if the nb of moving vertices is < 1% of total nb AND does not decrease
     if(do_freeze_
-      && nb_vertices_moved < 0.005 * double(initial_vertices_nb)
+      && double(nb_vertices_moved) < 0.005 * double(initial_vertices_nb)
       && nb_vertices_moved == moving_vertices.size())
     {
       // we should stop because we are

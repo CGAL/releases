@@ -279,7 +279,12 @@ if( NOT CGAL_MACROS_FILE_INCLUDED )
       add_to_list( CGAL_3RD_PARTY_DEFINITIONS    ${CGAL_${component}_3RD_PARTY_DEFINITIONS}    )
       add_to_list( CGAL_3RD_PARTY_LIBRARIES_DIRS ${CGAL_${component}_3RD_PARTY_LIBRARIES_DIRS} )
 
-      # Nothing to add for Core
+      if (NOT MSVC AND "${component}" STREQUAL "Core")
+        # See the release notes of CGAL-4.10: CGAL_Core now requires
+        # Boost.Thread, with all compilers but MSVC.
+        find_package( Boost 1.48 REQUIRED thread system )
+        add_to_list( CGAL_3RD_PARTY_LIBRARIES ${Boost_LIBRARIES} )
+      endif()
 
       if (${component} STREQUAL "ImageIO")
         find_package( ZLIB QUIET )
@@ -411,8 +416,13 @@ if( NOT CGAL_MACROS_FILE_INCLUDED )
 
   macro( create_CGALconfig_files )
 
+    include(CMakePackageConfigHelpers)
+
     # CGALConfig.cmake is platform specific so it is generated and stored in the binary folder.
     configure_file("${CGAL_MODULES_DIR}/CGALConfig_binary.cmake.in"  "${CMAKE_BINARY_DIR}/CGALConfig.cmake"        @ONLY)
+    write_basic_package_version_file("${CMAKE_BINARY_DIR}/CGALConfigVersion.cmake"
+      VERSION "${CGAL_MAJOR_VERSION}.${CGAL_MINOR_VERSION}.${CGAL_BUILD_VERSION}"
+      COMPATIBILITY SameMajorVersion)
 
     # There is also a version of CGALConfig.cmake that is prepared in case CGAL in installed in CMAKE_INSTALL_PREFIX.
     configure_file("${CGAL_MODULES_DIR}/CGALConfig_install.cmake.in" "${CMAKE_BINARY_DIR}/config/CGALConfig.cmake" @ONLY)
@@ -696,6 +706,7 @@ function(process_CGAL_subdirectory entry subdir type_name)
   if(ADD_SUBDIR)
     message("\n-- Configuring ${subdir} in ${subdir}/${ENTRY_DIR_NAME}")
     if(EXISTS ${entry}/CMakeLists.txt)
+      set(source_dir ${entry})
       add_subdirectory( ${entry} ${CMAKE_BINARY_DIR}/${subdir}/${ENTRY_DIR_NAME} )
     else()
       if(CGAL_CREATE_CMAKE_SCRIPT)
@@ -706,9 +717,14 @@ function(process_CGAL_subdirectory entry subdir type_name)
           RESULT_VARIABLE RESULT_VAR OUTPUT_QUIET)
         if(NOT RESULT_VAR)
 #          message("Subdir ${CMAKE_BINARY_DIR}/${subdir}/${ENTRY_DIR_NAME}")
-          add_subdirectory( "${CMAKE_BINARY_DIR}/${subdir}/${ENTRY_DIR_NAME}" "${CMAKE_BINARY_DIR}/${subdir}/${ENTRY_DIR_NAME}")
+          set(source_dir "${CMAKE_BINARY_DIR}/${subdir}/${ENTRY_DIR_NAME}")
+          add_subdirectory( "${source_dir}" "${CMAKE_BINARY_DIR}/${subdir}/${ENTRY_DIR_NAME}")
         endif()
       endif()
+    endif()
+    if(source_dir AND type_name STREQUAL "demo")
+      # Do not test demos
+      set_property(DIRECTORY "${entry}"	PROPERTY CGAL_NO_TESTING TRUE)
     endif()
   else()
     message(STATUS "${subdir}/${ENTRY_DIR_NAME} is in dont_submit")

@@ -23,6 +23,9 @@
 #ifndef CGAL_PARABOLA_SEGMENT_2_H
 #define CGAL_PARABOLA_SEGMENT_2_H
 
+#include <CGAL/license/Apollonius_graph_2.h>
+
+
 #include <CGAL/Parabola_2.h>
 
 namespace CGAL {
@@ -68,12 +71,12 @@ public:
   }
 
   int compute_k(const FT& tt) const {
-    //    return int(CGAL::to_double(CGAL::sqrt(tt / this->STEP())));
-    return int(CGAL::sqrt(CGAL::to_double(tt) / CGAL::to_double(this->STEP())));
+    return int(CGAL::sqrt(CGAL::to_double(tt) / 2));
   }
 
   void generate_points(std::vector<Point_2>& p) const
   {
+    const FT STEP(2);
     FT s0, s1;
 
     s0 = t(p1);
@@ -92,20 +95,21 @@ public:
 
       p.push_back( this->o );
       k = -1;
-      tt = -this->STEP();
+
+      tt = - STEP;
       while ( CGAL::compare(tt, s0) == LARGER ) {
 	p.insert( p.begin(), f(tt) );
 	k--;
-	tt = -FT(k * k) * this->STEP();
+	tt = -FT(k * k) * STEP;
       }
       p.insert( p.begin(), f(s0) );
 
       k = 1;
-      tt = this->STEP();
+      tt = STEP;
       while ( CGAL::compare(tt, s1) == SMALLER ) {
 	p.push_back( f(tt) );
 	k++;
-	tt = FT(k * k) * this->STEP();
+	tt = FT(k * k) * STEP;
       }
       p.push_back( f(s1) );
     } else if ( !(CGAL::is_negative(s0)) &&
@@ -123,7 +127,7 @@ public:
 	if ( CGAL::compare(tt, s0) != SMALLER )
 	  p.push_back( f(tt) );
 	k++;
-	tt = FT(k * k) * this->STEP();
+	tt = FT(k * k) * STEP;
       }
       p.push_back( f(s1) );
     } else {
@@ -139,7 +143,7 @@ public:
 	if ( CGAL::compare(tt, s1) != LARGER )
 	  p.push_back( f(tt) );
 	k--;
-	tt = -FT(k * k) * this->STEP();
+	tt = -FT(k * k) * STEP;
       }
       p.push_back( f(s0) );
     }

@@ -22,6 +22,9 @@
 #ifndef SCENE_GROUP_ITEM_H
 #define SCENE_GROUP_ITEM_H
 
+#include <CGAL/license/Three.h>
+
+
 #include <CGAL/Three/Scene_item.h>
 #include <CGAL/Three/Scene_interface.h>
 using namespace CGAL::Three;
@@ -152,6 +155,7 @@ public :
     void moveDown(int);
 
 public Q_SLOTS:
+    //!Let the scene know that the item has not been drawn yet.
     void resetDraw() { already_drawn = false;}
 private:
     //!Updates the property has_group for each group and sub-groups containing new_item.

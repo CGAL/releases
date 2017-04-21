@@ -28,6 +28,9 @@
 
 #ifndef CGAL_REGULAR_COMPLEX_D_H
 #define CGAL_REGULAR_COMPLEX_D_H
+
+#include <CGAL/license/Convex_hull_d.h>
+
 #define CGAL_DEPRECATED_HEADER "<CGAL/Regular_complex_d.h>"
 #define CGAL_REPLACEMENT_HEADER "the Triangulation package (see http://doc.cgal.org/latest/Triangulation)"
 #include <CGAL/internal/deprecation_warning.h>
@@ -622,13 +625,13 @@ std::list<Vertex_const_handle> all_vertices() const
 
 
 const R& kernel() const { return Kernel_; }
-static Point_d nil_point;
+static const Point_d nil_point;
 
 }; // Regular_complex_d<R>
 
 // init static member:
 template <class R> 
-typename Regular_complex_d<R>::Point_d Regular_complex_d<R>::nil_point;
+const typename Regular_complex_d<R>::Point_d Regular_complex_d<R>::nil_point;
 
 
 template <class R>

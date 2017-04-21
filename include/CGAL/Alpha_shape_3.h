@@ -23,6 +23,9 @@
 #ifndef CGAL_ALPHA_SHAPE_3_H
 #define CGAL_ALPHA_SHAPE_3_H
 
+#include <CGAL/license/Alpha_shapes_3.h>
+
+
 #include <CGAL/basic.h>
 
 #include <set>
@@ -112,7 +115,7 @@ public:
   CGAL_static_assertion( (boost::is_same<NT,typename Dt::Cell::NT>::value) );
   CGAL_static_assertion( (boost::is_same<NT,typename Dt::Vertex::Alpha_status::NT>::value) );
 
-  typedef typename Gt::Point_3 Point;
+  typedef typename Dt::Point Point;
   
   typedef typename Dt::Cell_handle Cell_handle;
   typedef typename Dt::Vertex_handle Vertex_handle;

@@ -44,7 +44,11 @@ struct Scene_polygon_soup_item_priv{
   }
   ~Scene_polygon_soup_item_priv()
   {
-    delete soup;
+    if(soup)
+    {
+      delete soup;
+      soup = NULL;
+    }
   }
   void initializeBuffers(CGAL::Three::Viewer_interface *viewer) const;
   void compute_normals_and_vertices(void) const;
@@ -264,60 +268,21 @@ Scene_polygon_soup_item_priv::triangulate_polygon(Polygons_iterator pit, int pol
       pointId.id = pit->at(it);
       pointIds.push_back(pointId);
     } while( ++it != it_end );
-
-    FT triangulation(pointIds,normal,diagonal);
-  /*  P_traits cdt_traits(normal);
-
-    CDT cdt(cdt_traits);
-    //A map used to associate the vertices in the triangulation to the points
-    //in the soup. This is needed to retrieve the colors of the points.
-    QMap<CDT::Vertex_handle, std::size_t> p2p;
-
-    std::size_t it = 0;
-    std::size_t it_end =pit->size();
-
-    // Iterates the vector of facet handles
-    CDT::Vertex_handle previous, first;
-    do {
-
-        CDT::Vertex_handle vh = cdt.insert(soup->points[pit->at(it)]);
-        p2p[vh]=pit->at(it);
-        if(first == 0) {
-            first = vh;
-        }
-        if(previous != 0 && previous != vh) {
-            cdt.insert_constraint(previous, vh);
-        }
-        previous = vh;
-    } while( ++it != it_end );
-
-    cdt.insert_constraint(previous, first);
-
-    // sets mark is_external
-    for(CDT::All_faces_iterator
-        pitt = cdt.all_faces_begin(),
-        end = cdt.all_faces_end();
-        pitt != end; ++pitt)
+    //detect degenerated faces
+    std::vector<FT::PointAndId> pid_stack = pointIds;
+    for(std::size_t i = 0; i< pointIds.size(); ++i)
     {
-        pitt->info().is_external = false;
+     FT::PointAndId pid = pid_stack.back();
+     pid_stack.pop_back();
+     BOOST_FOREACH(FT::PointAndId poai, pid_stack)
+     {
+      if (pid.point== poai.point)
+      {
+        return;
+      }
+     }
     }
-
-    //check if the facet is external or internal
-    std::queue<CDT::Face_handle> face_queue;
-    face_queue.push(cdt.infinite_vertex()->face());
-    while(! face_queue.empty() ) {
-        CDT::Face_handle fh = face_queue.front();
-        face_queue.pop();
-        if(fh->info().is_external) continue;
-        fh->info().is_external = true;
-        for(int i = 0; i <3; ++i) {
-            if(!cdt.is_constrained(std::make_pair(fh, i)))
-            {
-                face_queue.push(fh->neighbor(i));
-            }
-        }
-    }
-*/
+    FT triangulation(pointIds,normal,diagonal);
     //iterates on the internal faces to add the vertices to the positions
     //and the normals to the appropriate vectors
     for(FT::CDT::Finite_faces_iterator
@@ -380,6 +345,8 @@ Scene_polygon_soup_item_priv::compute_normals_and_vertices() const{
 
     QApplication::setOverrideCursor(Qt::WaitCursor);
     //get the vertices and normals
+    const qglviewer::Vec offset = static_cast<CGAL::Three::Viewer_interface*>(QGLViewer::QGLViewerPool().first())->offset();
+
     typedef Polygon_soup::Polygons::size_type size_type;
     positions_poly.resize(0);
     positions_lines.resize(0);
@@ -421,9 +388,9 @@ Scene_polygon_soup_item_priv::compute_normals_and_vertices() const{
             for(size_type i = 0; i < it->size(); ++i)
             {
                 const Point_3& p = soup->points[it->at(i)];
-                positions_poly.push_back(p.x());
-                positions_poly.push_back(p.y());
-                positions_poly.push_back(p.z());
+                positions_poly.push_back(p.x()+offset.x);
+                positions_poly.push_back(p.y()+offset.y);
+                positions_poly.push_back(p.z()+offset.z);
                 positions_poly.push_back(1.0);
                 if(!soup->fcolors.empty())
                 {
@@ -450,14 +417,14 @@ Scene_polygon_soup_item_priv::compute_normals_and_vertices() const{
 
             const Point_3& pa = soup->points[it->at(i)];
             const Point_3& pb = soup->points[it->at((i+1)%it->size())];
-            positions_lines.push_back(pa.x());
-            positions_lines.push_back(pa.y());
-            positions_lines.push_back(pa.z());
+            positions_lines.push_back(pa.x()+offset.x);
+            positions_lines.push_back(pa.y()+offset.y);
+            positions_lines.push_back(pa.z()+offset.z);
             positions_lines.push_back(1.0);
 
-            positions_lines.push_back(pb.x());
-            positions_lines.push_back(pb.y());
-            positions_lines.push_back(pb.z());
+            positions_lines.push_back(pb.x()+offset.x);
+            positions_lines.push_back(pb.y()+offset.y);
+            positions_lines.push_back(pb.z()+offset.z);
             positions_lines.push_back(1.0);
         }
     }
@@ -469,14 +436,14 @@ Scene_polygon_soup_item_priv::compute_normals_and_vertices() const{
 
         const Point_3& a = soup->points[edge[0]];
         const Point_3& b = soup->points[edge[1]];
-        positions_nm_lines.push_back(a.x());
-        positions_nm_lines.push_back(a.y());
-        positions_nm_lines.push_back(a.z());
+        positions_nm_lines.push_back(a.x()+offset.x);
+        positions_nm_lines.push_back(a.y()+offset.y);
+        positions_nm_lines.push_back(a.z()+offset.z);
         positions_nm_lines.push_back(1.0);
 
-        positions_nm_lines.push_back(b.x());
-        positions_nm_lines.push_back(b.y());
-        positions_nm_lines.push_back(b.z());
+        positions_nm_lines.push_back(b.x()+offset.x);
+        positions_nm_lines.push_back(b.y()+offset.y);
+        positions_nm_lines.push_back(b.z()+offset.z);
         positions_nm_lines.push_back(1.0);
     }
     QApplication::restoreOverrideCursor();
@@ -883,3 +850,16 @@ const Scene_polygon_soup_item::Points& Scene_polygon_soup_item::points() const {
 bool Scene_polygon_soup_item::isDataColored() { return d->soup->fcolors.size()>0 || d->soup->vcolors.size()>0;}
 std::vector<CGAL::Color> Scene_polygon_soup_item::getVColors() const{return d->soup->vcolors;}
 std::vector<CGAL::Color> Scene_polygon_soup_item::getFColors() const{return d->soup->fcolors;}
+
+void Scene_polygon_soup_item::itemAboutToBeDestroyed(Scene_item *item)
+{
+  Scene_item::itemAboutToBeDestroyed(item);
+  if(d && item == this)
+  {
+    if(d->soup)
+    {
+      delete d->soup;
+      d->soup=NULL;
+    }
+  }
+}

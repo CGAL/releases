@@ -21,6 +21,9 @@
 #ifndef HIERARCHY_SIMPLIFY_POINT_SET_H
 #define HIERARCHY_SIMPLIFY_POINT_SET_H
 
+#include <CGAL/license/Point_set_processing_3.h>
+
+
 #include <cmath>
 #include <stack>
 
@@ -32,6 +35,7 @@
 #include <CGAL/point_set_processing_assertions.h>
 #include <CGAL/Default_diagonalize_traits.h>
 #include <CGAL/PCA_util.h>
+#include <CGAL/squared_distance_3.h>
 
 namespace CGAL {
 

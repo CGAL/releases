@@ -19,6 +19,9 @@
 #ifndef CGAL_SURFACE_MESH_SIMPLIFICATION_DETAIL_COMMON_H
 #define CGAL_SURFACE_MESH_SIMPLIFICATION_DETAIL_COMMON_H 1
 
+#include <CGAL/license/Surface_mesh_simplification.h>
+
+
 #include <functional>
 #include <utility>
 #include <vector>
@@ -38,8 +41,11 @@
 #include <boost/graph/properties.hpp>
 #include <boost/graph/adjacency_list.hpp>
 
+#include <CGAL/algorithm.h>
 #include <CGAL/Cartesian/MatrixC33.h>
 #include <CGAL/Modifiable_priority_queue.h>
+#include <CGAL/boost/graph/properties.h>
+#include <CGAL/boost/graph/iterator.h>
 
 namespace CGAL {
 

@@ -20,9 +20,9 @@
 #ifndef CGAL_COMBINATORIAL_MAP_CONSTRUCTORS_H
 #define CGAL_COMBINATORIAL_MAP_CONSTRUCTORS_H 1
 
-#ifndef CGAL_NO_DEPRECATED_CODE
+#include <CGAL/config.h>
 
-#include <CGAL/Combinatorial_map_basic_operations.h>
+#ifndef CGAL_NO_DEPRECATED_CODE
 
 namespace CGAL {
 

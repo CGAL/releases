@@ -21,13 +21,16 @@
 #ifndef CGAL_NEF_POLYHEDRON_2_PS_STREAM_H
 #define CGAL_NEF_POLYHEDRON_2_PS_STREAM_H
 
+#include <CGAL/license/Nef_2.h>
+
+
 #include <CGAL/Nef_polyhedron_2.h>
 #include <LEDA/geo/gen_polygon.h>
 #include <LEDA/graphics/ps_file.h>
 #include <LEDA/graphics/color.h>
 
 namespace CGAL {
-static int frame_default = 100;
+static const int frame_default = 100;
 
 template <typename CIRC>
 leda_list<leda_point>

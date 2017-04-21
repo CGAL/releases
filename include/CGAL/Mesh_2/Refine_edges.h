@@ -21,6 +21,9 @@
 #ifndef CGAL_MESH_2_REFINE_EDGES_H
 #define CGAL_MESH_2_REFINE_EDGES_H
 
+#include <CGAL/license/Mesh_2.h>
+
+
 #include <CGAL/Mesher_level.h>
 #include <CGAL/Meshes/Triangulation_mesher_level_traits_2.h>
 #include <CGAL/Meshes/Filtered_queue_container.h>
@@ -581,7 +584,9 @@ public:
     } while( fc != fcbegin );
 
     Face_handle fh;
-    int index;
+    int index = 0; // Avoids a warning. 
+                   // We know that is_edge must return true, and is_edge will assign something to index
+                   // but the compiler does not so it will issue a maybe uninitialized warning
 
     CGAL_assume_code(bool is_edge = )
     tr.is_edge(va, v, fh, index);

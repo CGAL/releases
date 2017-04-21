@@ -1,12 +1,8 @@
-# Created by the script cgal_create_cmake_script
-# This is the CMake script for compiling a CGAL application.
-
-
-project( RangeSegmentTrees_example )
+project( RangeSegmentTrees_Examples )
 
 cmake_minimum_required(VERSION 2.8.10)
 
-find_package(CGAL QUIET COMPONENTS Core )
+find_package(CGAL QUIET)
 
 if ( CGAL_FOUND )
 
@@ -16,22 +12,11 @@ if ( CGAL_FOUND )
 
   include_directories (BEFORE "../../include")
 
-    include_directories (BEFORE "include")
-
-  create_single_source_cgal_program( "range_tree_1.cpp" )
-  create_single_source_cgal_program( "range_tree_2.cpp" )
-  create_single_source_cgal_program( "range_tree_3.cpp" )
-  create_single_source_cgal_program( "range_tree_4.cpp" )
-  create_single_source_cgal_program( "range_tree_map_2.cpp" )
-  create_single_source_cgal_program( "range_tree_set_2.cpp" )
-  create_single_source_cgal_program( "segment_tree_1.cpp" )
-  create_single_source_cgal_program( "segment_tree_2.cpp" )
-  create_single_source_cgal_program( "segment_tree_3.cpp" )
-  create_single_source_cgal_program( "segment_tree_4.cpp" )
-  create_single_source_cgal_program( "segment_tree_map_2.cpp" )
-  create_single_source_cgal_program( "segment_tree_set_2.cpp" )
-  create_single_source_cgal_program( "segment_tree_set_3.cpp" )
-  create_single_source_cgal_program( "software_design_rgs.cpp" )
+  # create a target per cppfile
+  file(GLOB cppfiles RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_CURRENT_SOURCE_DIR}/*.cpp)
+  foreach(cppfile ${cppfiles})
+    create_single_source_cgal_program( "${cppfile}" )
+  endforeach()
 
 else()
   

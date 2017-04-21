@@ -18,6 +18,9 @@
 #ifndef CGAL_SCALE_SPACE_RECONSTRUCTION_3_SCALE_SPACE_SURFACE_RECONSTRUCTION_3_IMPL_H
 #define CGAL_SCALE_SPACE_RECONSTRUCTION_3_SCALE_SPACE_SURFACE_RECONSTRUCTION_3_IMPL_H
 
+#include <CGAL/license/Scale_space_reconstruction_3.h>
+
+
 //#include <omp.h>
 #ifdef CGAL_LINKED_WITH_TBB
 #include "tbb/blocked_range.h"
@@ -31,7 +34,6 @@
 #include <boost/lexical_cast.hpp>
 #include <string>
 
-#include <CGAL/Mesh_3/dihedral_angle_3.h>
 
 
 namespace CGAL {
@@ -753,10 +755,10 @@ detect_bubbles(FT border_angle) {
 			  || _shape->classify (f1) != Shape::REGULAR)
 			continue;
 		      
-		      double angle = CGAL::Mesh_3::dihedral_angle (vedge.first->point (),
-								   vedge.second->point (),
-								   c->vertex (i)->point (),
-								   c->vertex ((i + (j+2)%3 + 1)%4)->point ());
+		      double angle = Gt().compute_approximate_dihedral_angle_3_object()(vedge.first->point (),
+                                                                       vedge.second->point (),
+                                                                       c->vertex (i)->point (),
+                                                                       c->vertex ((i + (j+2)%3 + 1)%4)->point ());
 
 		      if (-border_angle < angle && angle < border_angle)
 			{

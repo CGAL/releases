@@ -21,6 +21,9 @@
 #ifndef CGAL_ARR_COUNTING_TRAITS_H
 #define CGAL_ARR_COUNTING_TRAITS_H
 
+#include <CGAL/license/Arrangement_on_surface_2.h>
+
+
 /*! \file
  * A counting traits-class for the arrangement package.
  * This is a meta-traits class. It is parameterized with another traits class
@@ -32,6 +35,7 @@
 #include <string.h>
 
 #include <CGAL/basic.h>
+#include <CGAL/atomic.h>
 #include <CGAL/Arr_enums.h>
 #include <CGAL/Arr_tags.h>
 
@@ -950,7 +954,11 @@ public:
    */
   static unsigned int increment(bool doit = true)
   {
-    static unsigned int counter = 0;
+#ifdef CGAL_NO_ATOMIC
+    static unsigned int counter;
+#else
+    static CGAL::cpp11::atomic<unsigned int> counter;
+#endif
     if (doit) ++counter;
     return counter;
   }

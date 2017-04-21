@@ -164,11 +164,16 @@ public:
                 const double vx = 1,
                 const double vy = 1,
                 const double vz = 1,
-		const unsigned int offset = 0)
+                const unsigned int offset = 0,
+                std::size_t wdim=1,
+                WORD_KIND wk = WK_FIXED,
+                SIGN sign = SGN_UNSIGNED
+                )
   {
     return private_read(::_readImage_raw(file,
                                          rx,ry,rz,
-                                         vx,vy,vz,offset));
+                                         vx,vy,vz,offset,
+                                         wdim, wk, sign));
   }
 
 public:
@@ -257,9 +262,9 @@ Image_3::trilinear_interpolation(const Coord_type& x,
   if(lx < 0 ||
      ly < 0 ||
      lz < 0 ||
-     lz >= dimz-1 ||
-     ly >= dimy-1 ||
-     lx >= dimx-1)
+     lz >= Coord_type(dimz-1) ||
+     ly >= Coord_type(dimy-1) ||
+     lx >= Coord_type(dimx-1))
   {
     return value_outside;
   }  
@@ -448,9 +453,9 @@ Image_3::labellized_trilinear_interpolation
   if( lx < 0 ||
       ly < 0 ||
       lz < 0 ||
-     lz >= dimz-1 ||
-     ly >= dimy-1 ||
-     lx >= dimx-1)
+     lz >= Coord_type(dimz-1) ||
+     ly >= Coord_type(dimy-1) ||
+     lx >= Coord_type(dimx-1))
   {
     return value_outside;
   }  

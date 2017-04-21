@@ -22,6 +22,9 @@
 #ifndef CGAL_TRIANGULATION_3_H
 #define CGAL_TRIANGULATION_3_H
 
+#include <CGAL/license/Triangulation_3.h>
+
+
 #include <CGAL/basic.h>
 
 #ifdef CGAL_CONCURRENT_TRIANGULATION_3_PROFILING
@@ -397,6 +400,7 @@ public:
   typedef typename Tds::Concurrency_tag        Concurrency_tag;
 
   typedef typename Tds::Vertex                 Vertex;
+  CGAL_static_assertion((boost::is_same<Point, typename Vertex::Point>::value));
   typedef typename Tds::Cell                   Cell;
   typedef typename Tds::Facet                  Facet;
   typedef typename Tds::Edge                   Edge;
@@ -1222,10 +1226,8 @@ protected:
       *the_facet_is_in_its_cz = false;
 
     if (could_lock_zone)
-      *could_lock_zone = true;
-
-    if (could_lock_zone)
     {
+      *could_lock_zone = true;
       if (!this->try_lock_cell(d))
       {
         *could_lock_zone = false;
@@ -2077,6 +2079,20 @@ public:
   finite_incident_edges(Vertex_handle v, OutputIterator edges) const
   {
     return _tds.incident_edges(v, edges, Finite_filter(this));
+  }
+
+  template <class OutputIterator>
+  OutputIterator
+  incident_edges_threadsafe(Vertex_handle v, OutputIterator edges) const
+  {
+      return _tds.incident_edges_threadsafe(v, edges);
+  }
+
+  template <class OutputIterator>
+  OutputIterator
+  finite_incident_edges_threadsafe(Vertex_handle v, OutputIterator edges) const
+  {
+    return _tds.incident_edges_threadsafe(v, edges, Finite_filter(this));
   }
 
   size_type degree(Vertex_handle v) const
@@ -6135,7 +6151,7 @@ _remove_cluster_3D(InputIterator first, InputIterator beyond, VertexRemover &rem
           mp_vps[vv->point()] = vv;
         } else inf = true;
       }
-      spatial_sort(vps.begin(), vps.end());
+      spatial_sort(vps.begin(), vps.end(),geom_traits());
 
       std::size_t svps = vps.size();
 

@@ -14,12 +14,15 @@
 //
 // $URL$
 // $Id$
-// 
+//
 //
 // Author(s)     : Jane Tournois
 
 #ifndef CGAL_PMP_BGL_NAMED_FUNCTION_PARAMS_H
 #define CGAL_PMP_BGL_NAMED_FUNCTION_PARAMS_H
+
+#include <CGAL/license/Polygon_mesh_processing/core.h>
+
 
 #include <CGAL/boost/graph/named_function_params.h>
 
@@ -39,6 +42,19 @@ namespace CGAL{
   enum relax_constraints_t          { relax_constraints };
   enum vertex_is_constrained_t      { vertex_is_constrained };
   enum face_patch_t                 { face_patch };
+  enum random_uniform_sampling_t    { random_uniform_sampling };
+  enum grid_sampling_t              { grid_sampling };
+  enum monte_carlo_sampling_t       { monte_carlo_sampling };
+  enum do_sample_edges_t            { do_sample_edges };
+  enum do_sample_vertices_t         { do_sample_vertices };
+  enum do_sample_faces_t            { do_sample_faces };
+  enum number_of_points_on_faces_t  { number_of_points_on_faces };
+  enum number_of_points_per_face_t  { number_of_points_per_face };
+  enum grid_spacing_t               { grid_spacing };
+  enum nb_points_per_area_unit_t    { nb_points_per_area_unit };
+  enum number_of_points_per_edge_t  { number_of_points_per_edge };
+  enum number_of_points_on_edges_t  { number_of_points_on_edges };
+  enum nb_points_per_distance_unit_t{ nb_points_per_distance_unit };
 
   //to be documented
   enum face_normal_t                { face_normal };
@@ -47,12 +63,9 @@ namespace CGAL{
   enum weight_calculator_t          { weight_calculator };
   enum all_default_t                { all_default };
 
-  struct named_params_base {};
-
   template <typename T, typename Tag, typename Base = boost::no_property>
   struct pmp_bgl_named_params
     : CGAL::cgal_bgl_named_params<T, Tag, Base>
-    , CGAL::named_params_base
   {
     typedef CGAL::cgal_bgl_named_params<T, Tag, Base> base;
     typedef pmp_bgl_named_params self;
@@ -216,6 +229,109 @@ namespace CGAL{
       return Params(p, *this);
     }
 
+    template <typename Boolean>
+    pmp_bgl_named_params<Boolean, random_uniform_sampling_t, self>
+    use_random_uniform_sampling(const Boolean& p) const
+    {
+      typedef pmp_bgl_named_params<Boolean, random_uniform_sampling_t, self> Params;
+      return Params(p, *this);
+    }
+
+    template <typename Boolean>
+    pmp_bgl_named_params<Boolean, grid_sampling_t, self>
+    use_grid_sampling(const Boolean& p) const
+    {
+      typedef pmp_bgl_named_params<Boolean, grid_sampling_t, self> Params;
+      return Params(p, *this);
+    }
+
+    template <typename Boolean>
+    pmp_bgl_named_params<Boolean, monte_carlo_sampling_t, self>
+    use_monte_carlo_sampling(const Boolean& p) const
+    {
+      typedef pmp_bgl_named_params<Boolean, monte_carlo_sampling_t, self> Params;
+      return Params(p, *this);
+    }
+
+    template <typename Boolean>
+    pmp_bgl_named_params<Boolean, do_sample_edges_t, self>
+    sample_edges(const Boolean& p) const
+    {
+      typedef pmp_bgl_named_params<Boolean, do_sample_edges_t, self> Params;
+      return Params(p, *this);
+    }
+
+    template <typename Boolean>
+    pmp_bgl_named_params<Boolean, do_sample_vertices_t, self>
+    sample_vertices(const Boolean& p) const
+    {
+      typedef pmp_bgl_named_params<Boolean, do_sample_vertices_t, self> Params;
+      return Params(p, *this);
+    }
+
+    template <typename Boolean>
+    pmp_bgl_named_params<Boolean, do_sample_faces_t, self>
+    sample_faces(const Boolean& p) const
+    {
+      typedef pmp_bgl_named_params<Boolean, do_sample_faces_t, self> Params;
+      return Params(p, *this);
+    }
+
+    template<typename NT>
+    pmp_bgl_named_params<NT, number_of_points_on_faces_t, self>
+    number_of_points_on_faces(const NT& n) const
+    {
+      typedef pmp_bgl_named_params<NT, number_of_points_on_faces_t, self> Params;
+      return Params(n, *this);
+    }
+
+    template<typename NT>
+    pmp_bgl_named_params<NT, number_of_points_per_face_t, self>
+    number_of_points_per_face(const NT& n) const
+    {
+      typedef pmp_bgl_named_params<NT, number_of_points_per_face_t, self> Params;
+      return Params(n, *this);
+    }
+
+    template<typename NT>
+    pmp_bgl_named_params<NT, grid_spacing_t, self>
+    grid_spacing(const NT& n) const
+    {
+      typedef pmp_bgl_named_params<NT, grid_spacing_t, self> Params;
+      return Params(n, *this);
+    }
+
+    template<typename NT>
+    pmp_bgl_named_params<NT, nb_points_per_area_unit_t, self>
+    number_of_points_per_area_unit(const NT& n) const
+    {
+      typedef pmp_bgl_named_params<NT, nb_points_per_area_unit_t, self> Params;
+      return Params(n, *this);
+    }
+
+    template<typename NT>
+    pmp_bgl_named_params<NT, number_of_points_per_edge_t, self>
+    number_of_points_per_edge(const NT& n) const
+    {
+      typedef pmp_bgl_named_params<NT, number_of_points_per_edge_t, self> Params;
+      return Params(n, *this);
+    }
+
+    template<typename NT>
+    pmp_bgl_named_params<NT, number_of_points_on_edges_t, self>
+    number_of_points_on_edges(const NT& n) const
+    {
+      typedef pmp_bgl_named_params<NT, number_of_points_on_edges_t, self> Params;
+      return Params(n, *this);
+    }
+
+    template<typename NT>
+    pmp_bgl_named_params<NT, nb_points_per_distance_unit_t, self>
+    number_of_points_per_distance_unit(const NT& n) const
+    {
+      typedef pmp_bgl_named_params<NT, nb_points_per_distance_unit_t, self> Params;
+      return Params(n, *this);
+    }
   };
 
 namespace Polygon_mesh_processing{
@@ -226,6 +342,14 @@ namespace parameters{
   inline all_default()
   {
     typedef pmp_bgl_named_params<bool, all_default_t> Params;
+    return Params();
+  }
+
+  template <typename T, typename Tag, typename Base>
+  pmp_bgl_named_params<T,Tag,Base>
+  inline no_parameters(pmp_bgl_named_params<T,Tag,Base>)
+  {
+    typedef pmp_bgl_named_params<T,Tag,Base> Params;
     return Params();
   }
 
@@ -379,29 +503,146 @@ namespace parameters{
     return Params(p);
   }
 
+  //overload
+  template <typename Boolean>
+  pmp_bgl_named_params<Boolean, random_uniform_sampling_t>
+  use_random_uniform_sampling(const Boolean& p)
+  {
+    typedef pmp_bgl_named_params<Boolean, random_uniform_sampling_t> Params;
+    return Params(p);
+  }
+
+  //overload
+  template <typename Boolean>
+  pmp_bgl_named_params<Boolean, grid_sampling_t>
+  use_grid_sampling(const Boolean& p)
+  {
+    typedef pmp_bgl_named_params<Boolean, grid_sampling_t> Params;
+    return Params(p);
+  }
+
+  //overload
+  template <typename Boolean>
+  pmp_bgl_named_params<Boolean, monte_carlo_sampling_t>
+  use_monte_carlo_sampling(const Boolean& p)
+  {
+    typedef pmp_bgl_named_params<Boolean, monte_carlo_sampling_t> Params;
+    return Params(p);
+  }
+
+  //overload
+  template <typename Boolean>
+  pmp_bgl_named_params<Boolean, do_sample_edges_t>
+  sample_edges(const Boolean& p)
+  {
+    typedef pmp_bgl_named_params<Boolean, do_sample_edges_t> Params;
+    return Params(p);
+  }
+
+  //overload
+  template <typename Boolean>
+  pmp_bgl_named_params<Boolean, do_sample_vertices_t>
+  sample_vertices(const Boolean& p)
+  {
+    typedef pmp_bgl_named_params<Boolean, do_sample_vertices_t> Params;
+    return Params(p);
+  }
+
+  //overload
+  template <typename Boolean>
+  pmp_bgl_named_params<Boolean, do_sample_faces_t>
+  sample_faces(const Boolean& p)
+  {
+    typedef pmp_bgl_named_params<Boolean, do_sample_faces_t> Params;
+    return Params(p);
+  }
+
+  //overload
+  template<typename NT>
+  pmp_bgl_named_params<NT, number_of_points_on_faces_t>
+  number_of_points_on_faces(const NT& n)
+  {
+    typedef pmp_bgl_named_params<NT, number_of_points_on_faces_t> Params;
+    return Params(n);
+  }
+
+  //overload
+  template<typename NT>
+  pmp_bgl_named_params<NT, number_of_points_per_face_t>
+  number_of_points_per_face(const NT& n)
+  {
+    typedef pmp_bgl_named_params<NT, number_of_points_per_face_t> Params;
+    return Params(n);
+  }
+
+  //overload
+  template<typename NT>
+  pmp_bgl_named_params<NT, grid_spacing_t>
+  grid_spacing(const NT& n)
+  {
+    typedef pmp_bgl_named_params<NT, grid_spacing_t> Params;
+    return Params(n);
+  }
+
+  //overload
+  template<typename NT>
+  pmp_bgl_named_params<NT, nb_points_per_area_unit_t>
+  number_of_points_per_area_unit(const NT& n)
+  {
+    typedef pmp_bgl_named_params<NT, nb_points_per_area_unit_t> Params;
+    return Params(n);
+  }
+
+  //overload
+  template<typename NT>
+  pmp_bgl_named_params<NT, number_of_points_per_edge_t>
+  number_of_points_per_edge(const NT& n)
+  {
+    typedef pmp_bgl_named_params<NT, number_of_points_per_edge_t> Params;
+    return Params(n);
+  }
+
+  //overload
+  template<typename NT>
+  pmp_bgl_named_params<NT, number_of_points_on_edges_t>
+  number_of_points_on_edges(const NT& n)
+  {
+    typedef pmp_bgl_named_params<NT, number_of_points_on_edges_t> Params;
+    return Params(n);
+  }
+
+  //overload
+  template<typename NT>
+  pmp_bgl_named_params<NT, nb_points_per_distance_unit_t>
+  number_of_points_per_distance_unit(const NT& n)
+  {
+    typedef pmp_bgl_named_params<NT, nb_points_per_distance_unit_t> Params;
+    return Params(n);
+  }
+
 } //namespace parameters
 } //namespace Polygon_mesh_processing
-
-#if BOOST_VERSION < 105100
-  template <class Tag1, class Tag2, class T1, class Base>
-  inline
-  typename boost::property_value< pmp_bgl_named_params<T1,Tag1,Base>, Tag2>::type
-  get_param(const pmp_bgl_named_params<T1,Tag1,Base>& p, Tag2 tag2)
-  {
-    enum { match = boost::detail::same_property<Tag1,Tag2>::value };
-    typedef typename
-      boost::property_value< pmp_bgl_named_params<T1,Tag1,Base>, Tag2>::type T2;
-    T2* t2 = 0;
-    typedef boost::detail::property_value_dispatch<match> Dispatcher;
-    return Dispatcher::const_get_value(p, t2, tag2);
-  }
-#endif
 
 } //namespace CGAL
 
 // partial specializations hate inheritance and we need to repeat
 // those here. this is rather fragile.
 namespace boost {
+#if BOOST_VERSION < 105100
+  template <class Tag1, class Tag2, class T1, class Base>
+  inline
+  typename property_value< CGAL::pmp_bgl_named_params<T1,Tag1,Base>, Tag2>::type
+  get_param(const CGAL::pmp_bgl_named_params<T1,Tag1,Base>& p, Tag2 tag2)
+  {
+    enum { match = detail::same_property<Tag1,Tag2>::value };
+    typedef typename
+      boost::property_value< CGAL::pmp_bgl_named_params<T1,Tag1,Base>, Tag2>::type T2;
+    T2* t2 = 0;
+    typedef detail::property_value_dispatch<match> Dispatcher;
+    return Dispatcher::const_get_value(p, t2, tag2);
+  }
+#endif
+
   template <typename T, typename Tag, typename Base, typename Def>
   struct lookup_named_param_def<Tag, CGAL::pmp_bgl_named_params<T, Tag, Base>, Def> {
     typedef T type;

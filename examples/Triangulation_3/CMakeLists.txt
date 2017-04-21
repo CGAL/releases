@@ -2,7 +2,7 @@
 # This is the CMake script for compiling a CGAL application.
 
 
-project( Triangulation_3_example )
+project( Triangulation_3_Examples )
 
 cmake_minimum_required(VERSION 2.8.11)
 
@@ -36,6 +36,7 @@ if ( CGAL_FOUND )
   create_single_source_cgal_program( "parallel_insertion_and_removal_in_regular_3.cpp" )
   create_single_source_cgal_program( "parallel_insertion_in_delaunay_3.cpp" )
   create_single_source_cgal_program( "regular_3.cpp" )
+  create_single_source_cgal_program( "regular_with_info_3.cpp" )
   create_single_source_cgal_program( "sequential_parallel.cpp" )
   create_single_source_cgal_program( "simple_triangulation_3.cpp" )
   create_single_source_cgal_program( "simplex.cpp" )

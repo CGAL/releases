@@ -21,6 +21,9 @@
 #ifndef CGAL_ALPHA_SHAPE_VERTEX_BASE_3_H
 #define CGAL_ALPHA_SHAPE_VERTEX_BASE_3_H
 
+#include <CGAL/license/Alpha_shapes_3.h>
+
+
 #include <utility>
 #include <CGAL/Compact_container.h>
 #include <CGAL/Triangulation_vertex_base_3.h>
@@ -44,7 +47,7 @@ public:
     typedef Alpha_shape_vertex_base_3<Gt, Vb2,ExactAlphaComparisonTag,Weighted_tag>              Other;
   };
 
-  typedef typename Gt::Point_3 Point;
+  typedef typename Vb::Point Point;
   typedef typename internal::Alpha_nt_selector_3<Gt,ExactAlphaComparisonTag,Weighted_tag>::Type_of_alpha  NT;
   typedef CGAL::Alpha_status<NT>     Alpha_status;
   typedef Compact_container<Alpha_status>   Alpha_status_container;

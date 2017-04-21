@@ -25,8 +25,12 @@
 #ifndef CGAL_DELAUNAY_TRIANGULATION_2_H
 #define CGAL_DELAUNAY_TRIANGULATION_2_H
 
+#include <CGAL/license/Triangulation_2.h>
+
+
 #include <CGAL/Triangulation_2.h>
 #include <CGAL/iterator.h>
+#include <CGAL/Object.h>
 
 #ifndef CGAL_TRIANGULATION_2_DONT_INSERT_RANGE_OF_POINTS_WITH_INFO
 #include <CGAL/Spatial_sort_traits_adapter_2.h>
@@ -694,7 +698,7 @@ nearest_vertex(const Point  &p, Face_handle f) const
   switch (this->dimension()) {
   case 0:
     if (this->number_of_vertices() == 0) return Vertex_handle();
-    if (this->number_of_vertices() == 1) return this->finite_vertex();
+    return this->finite_vertex();
     //break;
   case 1:
     return nearest_vertex_1D(p);

@@ -24,6 +24,9 @@
 #ifndef CGAL_DELAUNAY_TRIANGULATION_3_H
 #define CGAL_DELAUNAY_TRIANGULATION_3_H
 
+#include <CGAL/license/Triangulation_3.h>
+
+
 #include <CGAL/basic.h>
 
 #ifdef CGAL_CONCURRENT_TRIANGULATION_3_PROFILING
@@ -87,9 +90,8 @@ class Delaunay_triangulation_3<Gt, Tds_, Default, Lock_data_structure_>
 {
   typedef Delaunay_triangulation_3<Gt, Tds_, Default,
                                    Lock_data_structure_> Self;
-  typedef Triangulation_3<Gt,Tds_,Lock_data_structure_>  Tr_Base;
-
 public:
+  typedef Triangulation_3<Gt,Tds_,Lock_data_structure_>  Tr_Base;
 
   typedef typename Tr_Base::Triangulation_data_structure
                                      Triangulation_data_structure;

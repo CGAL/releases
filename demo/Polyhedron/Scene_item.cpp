@@ -65,6 +65,8 @@ QString modeName(RenderingMode mode) {
     {
     case Points:
         return QObject::tr("points");
+    case ShadedPoints:
+        return QObject::tr("shaded points");
     case Wireframe:
         return QObject::tr("wire");
     case Flat:
@@ -88,6 +90,8 @@ const char* slotName(RenderingMode mode) {
     {
     case Points:
         return SLOT(setPointsMode());
+    case ShadedPoints:
+      return SLOT(setShadedPointsMode());
     case Wireframe:
         return SLOT(setWireframeMode());
     case Flat:
@@ -228,6 +232,8 @@ bool CGAL::Three::Scene_item::testDisplayId(double, double, double, CGAL::Three:
 {
     return false;
 }
+
+#include <CGAL/double.h>
 
 void CGAL::Three::Scene_item::compute_diag_bbox()const
 {

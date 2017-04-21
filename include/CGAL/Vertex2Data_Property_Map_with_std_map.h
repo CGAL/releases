@@ -20,6 +20,19 @@
 #ifndef CGAL_VERTEX2DATA_PROPERTY_MAP_WITH_STD_MAP_H
 #define CGAL_VERTEX2DATA_PROPERTY_MAP_WITH_STD_MAP_H 
 
+#include <CGAL/license/Ridges_3.h>
+
+
+#include <map>
+
+namespace boost {
+template <typename G>
+class graph_traits;
+
+template <typename T>
+class associative_property_map;
+}
+
 //---------------------------------------------------------------------------
 //Vertex2Data_Property_Map_with_std_map
 // defines models for Vertex2FTPropertyMap and Vertex2VectorPropertyMap

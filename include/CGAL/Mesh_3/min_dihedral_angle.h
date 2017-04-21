@@ -21,8 +21,13 @@
 #ifndef CGAL_MESH_3_MIN_DIHEDRAL_ANGLE_H
 #define CGAL_MESH_3_MIN_DIHEDRAL_ANGLE_H
 
-#include <CGAL/Mesh_3/dihedral_angle_3.h>
+#include <CGAL/license/Mesh_3.h>
+
+
 #include <cmath>
+#include <CGAL/Kernel_traits.h>
+#include <CGAL/utils.h>
+#include <CGAL/number_utils.h>
 
 namespace CGAL {
 
@@ -99,12 +104,16 @@ minimum_dihedral_angle(
   typename K::Compute_scalar_product_3 sp =
     k.compute_scalar_product_3_object();
 
-  typename K::Vector_3 v01 = p1-p0;
-  typename K::Vector_3 v02 = p2-p0;
-  typename K::Vector_3 v03 = p3-p0;
-  typename K::Vector_3 v12 = p2-p1;
-  typename K::Vector_3 v13 = p3-p1;
-  typename K::Vector_3 v23 = p3-p2;
+  typename K::Construct_vector_3 cv =
+    k.construct_vector_3_object();
+
+  
+  typename K::Vector_3 v01 = cv(p0,p1);
+  typename K::Vector_3 v02 = cv(p0,p2);
+  typename K::Vector_3 v03 = cv(p0,p3);
+  typename K::Vector_3 v12 = cv(p1,p2);
+  typename K::Vector_3 v13 = cv(p1,p3);
+  typename K::Vector_3 v23 = cv(p2,p3);
 
   typename K::Vector_3 v_01_02 = cp(v01,v02);
   FT a_012 = v_01_02*v_01_02;

@@ -6,6 +6,8 @@ project( Three_demo )
 
 cmake_minimum_required(VERSION 2.8.10)
 
+set(CMAKE_CXX_STANDARD 14)
+
 find_package(CGAL QUIET COMPONENTS Core )
 
 if ( CGAL_FOUND )

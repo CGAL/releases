@@ -21,6 +21,9 @@
 #ifndef CGAL_TRIANGULATED_MIXED_COMPLEX_OBSERVER_3
 #define CGAL_TRIANGULATED_MIXED_COMPLEX_OBSERVER_3
 
+#include <CGAL/license/Skin_surface_3.h>
+
+
 #include <CGAL/Skin_surface_quadratic_surface_3.h>
 #include <CGAL/Triangulation_simplex_3.h>
 
@@ -72,11 +75,11 @@ public:
   typedef Regular_triangulation_euclidean_traits_3<Surface_traits> Surface_regular_traits;
   typedef typename Quadratic_surface::Point               Surface_point;
   typedef typename Quadratic_surface::Vector              Surface_vector;
-  typedef Weighted_point<Surface_point,Surface_RT>   Surface_weighted_point;
+  typedef typename Surface_traits::Weighted_point_3  Surface_weighted_point;
 
-  typedef Weighted_converter_3<
+  typedef 
   Cartesian_converter < typename Regular_traits::Bare_point::R,
-  typename Quadratic_surface::K > >            R2S_converter;
+  typename Quadratic_surface::K >            R2S_converter;
   Triangulated_mixed_complex_observer_3(FT shrink) :
   shrink(shrink) {}
 
@@ -114,7 +117,8 @@ public:
                              Construct_weighted_circumcenter_3()(p0,p1),
                              typename Surface_regular_traits::
                              Compute_squared_radius_smallest_orthogonal_sphere_3()(p0,p1),
-                             p0 - p1,
+                             typename Surface_regular_traits::
+                             Construct_vector_3()(p1,p0),
                              r2s_converter(shrink),
                              1);
           break;

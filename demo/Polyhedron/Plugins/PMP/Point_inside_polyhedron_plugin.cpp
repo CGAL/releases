@@ -158,7 +158,7 @@ public Q_SLOTS:
         Point_set::iterator point_it = point_set->begin() + pt;
         for (std::size_t i = 0; i < inside_testers.size(); ++i)
         {
-        CGAL::Bounded_side res = (*inside_testers[i])(point_it->position());
+        CGAL::Bounded_side res = (*inside_testers[i])(point_set->point(*point_it));
 
         if( (inside      && res == CGAL::ON_BOUNDED_SIDE) ||
             (on_boundary && res == CGAL::ON_BOUNDARY)     ||
@@ -237,6 +237,7 @@ public Q_SLOTS:
 
     if(!ok) { return; }
     QApplication::setOverrideCursor(Qt::WaitCursor);
+    QApplication::processEvents();
     // sample random points and constuct item
     Scene_points_with_normal_item* point_item = new Scene_points_with_normal_item();
     point_item->setName(QString("sample-%1").arg(nb_points));
@@ -247,7 +248,7 @@ public Q_SLOTS:
     double grid_dz = bbox->zmax() - bbox->zmin();
 
     for(int i=0; i < nb_points; i++){
-      point_item->point_set()->push_back(
+      point_item->point_set()->insert(
       Epic_kernel::Point_3(bbox->xmin ()+ rg.get_double()* grid_dx,
         bbox->ymin() + rg.get_double()* grid_dy,
         bbox->zmin() + rg.get_double()* grid_dz)
