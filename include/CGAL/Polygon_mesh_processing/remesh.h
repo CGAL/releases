@@ -57,7 +57,8 @@ namespace Polygon_mesh_processing {
 *
 * @param pmesh a polygon mesh with triangulated surface patches to be remeshed
 * @param faces the range of triangular faces defining one or several surface patches to be remeshed
-* @param target_edge_length the edge length that is targetted in the remeshed patch
+* @param target_edge_length the edge length that is targetted in the remeshed patch.
+*        If `0` is passed then only the edge-flip, tangential relaxation, and projection steps will be done.
 * @param np optional sequence of \ref namedparameters among the ones listed below
 *
 * @pre if constraints protection is activated, the constrained edges should
@@ -76,7 +77,7 @@ namespace Polygon_mesh_processing {
 *    sequence of atomic operations performed (listed in the above description)
 *  \cgalParamEnd
 *  \cgalParamBegin{edge_is_constrained_map} a property map containing the
-*    constrained-or-not status of each edge of `pmesh`. A constrained edge can be splitted
+*    constrained-or-not status of each edge of `pmesh`. A constrained edge can be split
 *    or collapsed, but not flipped, nor its endpoints moved by smoothing.
 *    Note that patch boundary edges (i.e. incident to only one face in the range)
 *    are always considered as constrained edges.
@@ -87,7 +88,7 @@ namespace Polygon_mesh_processing {
 *  \cgalParamEnd
 *  \cgalParamBegin{protect_constraints} If `true`, the edges set as constrained
 *     in `edge_is_constrained_map` (or by default the boundary edges)
-*     are not splitted nor collapsed during remeshing.
+*     are not split nor collapsed during remeshing.
 *     Note that around constrained edges that have their length higher than
 *     twice `target_edge_length`, remeshing will fail to provide
 *     good quality results. It can even fail to terminate because of cascading vertex
@@ -230,9 +231,11 @@ void isotropic_remeshing(const FaceRange& faces
 #ifdef CGAL_PMP_REMESHING_VERBOSE
     std::cout << " * Iteration " << (i + 1) << " *" << std::endl;
 #endif
-
-    remesher.split_long_edges(high);
-    remesher.collapse_short_edges(low, high);
+    if (target_edge_length>0)
+    {
+      remesher.split_long_edges(high);
+      remesher.collapse_short_edges(low, high);
+    }
     remesher.equalize_valences();
     remesher.tangential_relaxation(smoothing_1d, nb_laplacian);
     remesher.project_to_surface();
