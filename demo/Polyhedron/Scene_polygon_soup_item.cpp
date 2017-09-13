@@ -639,7 +639,7 @@ Scene_polygon_soup_item::exportAsPolyhedron(Polyhedron* out_polyhedron)
 }
 
 bool
-Scene_polygon_soup_item::exportAsSurfaceMesh(CGAL::Surface_mesh<Point_3> *out_surface_mesh)
+Scene_polygon_soup_item::exportAsSurfaceMesh(SMesh *out_surface_mesh)
 {
   orient();
   CGAL::Polygon_mesh_processing::polygon_soup_to_polygon_mesh< CGAL::Surface_mesh<Point_3> >(
@@ -668,7 +668,7 @@ Scene_polygon_soup_item::toolTip() const
     .arg(d->soup->polygons.size())
     .arg(this->renderingModeName())
     .arg(this->color().name());
-    str += QString("<br />Number of isolated vertices : %1<br />").arg(getNbIsolatedvertices());
+    str += QString("<br />Number of isolated vertices: %1<br />").arg(getNbIsolatedvertices());
     return str;
 }
 

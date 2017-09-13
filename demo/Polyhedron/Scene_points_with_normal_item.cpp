@@ -1,7 +1,6 @@
 #define CGAL_data_type float
 #define CGAL_GL_data_type GL_FLOAT
 #include "Scene_points_with_normal_item.h"
-#include "Polyhedron_type.h"
 #include <CGAL/Polygon_mesh_processing/compute_normal.h>
 
 #include <CGAL/Point_set_3/IO.h>
@@ -13,6 +12,7 @@
 #include <CGAL/Orthogonal_k_neighbor_search.h>
 #include <CGAL/Search_traits_3.h>
 #include <CGAL/Search_traits_adapter.h>
+#include <CGAL/linear_least_squares_fitting_3.h>
 
 #include <QObject>
 #include <QApplication>
@@ -26,12 +26,15 @@
 #include <algorithm>
 #include <boost/array.hpp>
 
+#include <CGAL/boost/graph/properties_Surface_mesh.h>
+#include "Polyhedron_type.h"
+
+
 const std::size_t limit_fast_drawing = 300000; //arbitraty large value
 
 struct Scene_points_with_normal_item_priv
 {
-  Scene_points_with_normal_item_priv(Scene_points_with_normal_item* parent)
-    :m_points(new Point_set)
+  void init_values(Scene_points_with_normal_item* parent)
   {
     item = parent;
     nb_points = 0;
@@ -44,44 +47,51 @@ struct Scene_points_with_normal_item_priv
     point_Slider->setValue(2);
     point_Slider->setMinimum(1);
     point_Slider->setMaximum(25);
+  }
+  Scene_points_with_normal_item_priv(Scene_points_with_normal_item* parent)
+    :m_points(new Point_set)
+  {
+    init_values(parent);
   }
   Scene_points_with_normal_item_priv(const Scene_points_with_normal_item& toCopy, Scene_points_with_normal_item* parent)
     : m_points(new Point_set(*toCopy.d->m_points))
   {
-    item = parent;
-    is_point_slider_moving = false;
-    normal_Slider = new QSlider(Qt::Horizontal);
-    normal_Slider->setValue(20);
-    point_Slider = new QSlider(Qt::Horizontal);
-    point_Slider->setValue(2);
-    point_Slider->setMinimum(1);
-    point_Slider->setMaximum(25);
+    init_values(parent);
   }
-  Scene_points_with_normal_item_priv(const Polyhedron& input_mesh, Scene_points_with_normal_item* parent)
+
+  Scene_points_with_normal_item_priv(const SMesh& input_mesh, Scene_points_with_normal_item* parent)
     : m_points(new Point_set)
   {
-    item = parent;
-    is_point_slider_moving = false;
-    nb_points = 0;
-    nb_selected_points = 0;
-    nb_lines = 0;
-    Polyhedron::Vertex_iterator v;
+   init_values(parent);
+   boost::graph_traits<SMesh>::vertex_iterator v;
     m_points->add_normal_map();
-    for (v = const_cast<Polyhedron&>(input_mesh).vertices_begin();
-         v != const_cast<Polyhedron&>(input_mesh).vertices_end(); v++)
+    for (v = const_cast<SMesh&>(input_mesh).vertices_begin();
+         v != const_cast<SMesh&>(input_mesh).vertices_end(); v++)
     {
-      const Kernel::Point_3& p = v->point();
+      boost::graph_traits<SMesh>::vertex_descriptor vd(*v);
+      const Kernel::Point_3& p = input_mesh.point(vd);
       Kernel::Vector_3 n =
-        CGAL::Polygon_mesh_processing::compute_vertex_normal(v, input_mesh);
+        CGAL::Polygon_mesh_processing::compute_vertex_normal(vd, input_mesh);
       m_points->insert(p,n);
     }
-    normal_Slider = new QSlider(Qt::Horizontal);
-    normal_Slider->setValue(20);
-    point_Slider = new QSlider(Qt::Horizontal);
-    point_Slider->setValue(2);
-    point_Slider->setMinimum(1);
-    point_Slider->setMaximum(25);
   }
+
+  Scene_points_with_normal_item_priv(const Polyhedron& input_mesh, Scene_points_with_normal_item* parent)
+     : m_points(new Point_set)
+   {
+    init_values(parent);
+     Polyhedron::Vertex_iterator v;
+     m_points->add_normal_map();
+     for (v = const_cast<Polyhedron&>(input_mesh).vertices_begin();
+          v != const_cast<Polyhedron&>(input_mesh).vertices_end(); v++)
+     {
+       const Kernel::Point_3& p = v->point();
+       Kernel::Vector_3 n =
+         CGAL::Polygon_mesh_processing::compute_vertex_normal(v, input_mesh);
+       m_points->insert(p,n);
+     }
+   }
+
   ~Scene_points_with_normal_item_priv()
   {
     if(m_points)
@@ -162,6 +172,18 @@ Scene_points_with_normal_item::Scene_points_with_normal_item(const Scene_points_
 }
 
 // Converts polyhedron to point set
+
+Scene_points_with_normal_item::Scene_points_with_normal_item(const SMesh& input_mesh)
+    : Scene_item(Scene_points_with_normal_item_priv::NbOfVbos,Scene_points_with_normal_item_priv::NbOfVaos)
+{
+  // Converts Polyhedron vertices to point set.
+  // Computes vertices normal from connectivity.
+  d = new Scene_points_with_normal_item_priv(input_mesh, this);
+  setRenderingMode(PointsPlusNormals);
+  is_selected = true;
+  invalidateOpenGLBuffers();
+}
+
 Scene_points_with_normal_item::Scene_points_with_normal_item(const Polyhedron& input_mesh)
     : Scene_item(Scene_points_with_normal_item_priv::NbOfVbos,Scene_points_with_normal_item_priv::NbOfVaos)
 {
@@ -515,6 +537,41 @@ void Scene_points_with_normal_item::selectDuplicates()
   Q_EMIT itemChanged();
 }
 
+#if !defined(CGAL_CFG_NO_CPP0X_RVALUE_REFERENCE) && !defined(CGAL_CFG_NO_CPP0X_VARIADIC_TEMPLATES)
+#ifdef CGAL_LINKED_WITH_LASLIB
+// Loads point set from .LAS file
+bool Scene_points_with_normal_item::read_las_point_set(std::istream& stream)
+{
+  Q_ASSERT(d->m_points != NULL);
+
+  d->m_points->clear();
+
+  bool ok = stream &&
+    CGAL::read_las_point_set (stream, *(d->m_points)) &&
+            !isEmpty();
+
+  std::cerr << d->m_points->info();
+
+  if (d->m_points->has_normal_map())
+    setRenderingMode(PointsPlusNormals);
+  if (d->m_points->check_colors())
+    std::cerr << "-> Point set has colors" << std::endl;
+  
+  invalidateOpenGLBuffers();
+  return ok;
+}
+
+// Write point set to .LAS file
+bool Scene_points_with_normal_item::write_las_point_set(std::ostream& stream) const
+{
+  Q_ASSERT(d->m_points != NULL);
+
+  return stream &&
+    CGAL::write_las_point_set (stream, *(d->m_points));
+}
+
+#endif // LAS
+
 // Loads point set from .PLY file
 bool Scene_points_with_normal_item::read_ply_point_set(std::istream& stream)
 {
@@ -538,17 +595,21 @@ bool Scene_points_with_normal_item::read_ply_point_set(std::istream& stream)
 }
 
 // Write point set to .PLY file
-bool Scene_points_with_normal_item::write_ply_point_set(std::ostream& stream) const
+bool Scene_points_with_normal_item::write_ply_point_set(std::ostream& stream, bool binary) const
 {
   Q_ASSERT(d->m_points != NULL);
 
   if (!stream)
     return false;
 
+  if (binary)
+    CGAL::set_binary_mode (stream);
   stream << *(d->m_points);
 
   return true;
 }
+
+#endif // CXX11
 
 // Loads point set from .OFF file
 bool Scene_points_with_normal_item::read_off_point_set(std::istream& stream)
@@ -602,7 +663,7 @@ Scene_points_with_normal_item::toolTip() const
   Q_ASSERT(d->m_points != NULL);
 
   return QObject::tr("<p><b>%1</b> (color: %4)<br />"
-                     "<i>Point set</i></p>"
+                     "<i>Point_set_3</i></p>"
                      "<p>Number of points: %2</p>")
     .arg(name())
     .arg(d->m_points->size())
@@ -934,4 +995,56 @@ void Scene_points_with_normal_item::itemAboutToBeDestroyed(Scene_item *item)
     delete d->m_points;
     d->m_points = NULL;
   }
+}
+
+void Scene_points_with_normal_item::
+zoomToPosition(const QPoint &, CGAL::Three::Viewer_interface *viewer) const
+{
+  if (point_set()->nb_selected_points() == 0)
+    return;
+  const qglviewer::Vec offset = static_cast<CGAL::Three::Viewer_interface*>(QGLViewer::QGLViewerPool().first())->offset();
+  // fit plane to triangles
+  Point_set points;
+  Bbox selected_points_bbox;
+  for(Point_set::const_iterator it = point_set()->first_selected();
+      it != point_set()->end();
+      ++it)
+  {
+    points.insert(point_set()->point(*it));
+    selected_points_bbox += point_set()->point(*it).bbox();
+  }
+  Kernel::Plane_3 plane;
+  Kernel::Point_3 center_of_mass;
+  CGAL::linear_least_squares_fitting_3
+      (points.points().begin(),points.points().end(),plane, center_of_mass,
+       CGAL::Dimension_tag<0>());
+
+  Kernel::Vector_3 plane_normal= plane.orthogonal_vector();
+  plane_normal = plane_normal/(CGAL::sqrt(plane_normal.squared_length()));
+  Kernel::Point_3 centroid(center_of_mass.x() + offset.x,
+                           center_of_mass.y() + offset.y,
+                           center_of_mass.z() + offset.z);
+
+  qglviewer::Quaternion new_orientation(qglviewer::Vec(0,0,-1),
+                                        qglviewer::Vec(-plane_normal.x(), -plane_normal.y(), -plane_normal.z()));
+  double max_side = (std::max)((std::max)(selected_points_bbox.xmax() - selected_points_bbox.xmin(),
+                                          selected_points_bbox.ymax() - selected_points_bbox.ymin()),
+                               selected_points_bbox.zmax() - selected_points_bbox.zmin());
+  //put the camera in way we are sure the longest side is entirely visible on the screen
+  //See openGL's frustum definition
+  double factor = max_side/(tan(viewer->camera()->aspectRatio()/
+                                  (viewer->camera()->fieldOfView()/2)));
+
+  Kernel::Point_3 new_pos = centroid + factor*plane_normal ;
+  viewer->camera()->setSceneCenter(qglviewer::Vec(centroid.x(),
+                                                  centroid.y(),
+                                                  centroid.z()));
+  viewer->moveCameraToCoordinates(QString("%1 %2 %3 %4 %5 %6 %7").arg(new_pos.x())
+                                                                 .arg(new_pos.y())
+                                                                 .arg(new_pos.z())
+                                                                 .arg(new_orientation[0])
+                                                                 .arg(new_orientation[1])
+                                                                 .arg(new_orientation[2])
+                                                                 .arg(new_orientation[3]));
+
 }

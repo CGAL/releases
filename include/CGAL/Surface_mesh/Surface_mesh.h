@@ -42,9 +42,9 @@
 #include <CGAL/circulator.h>
 #include <CGAL/assertions.h>
 #include <CGAL/Surface_mesh/Surface_mesh_fwd.h>
-#include <CGAL/Surface_mesh/IO.h>
 #include <CGAL/Surface_mesh/Properties.h>
 #include <CGAL/boost/graph/graph_traits_Surface_mesh.h>
+#include <CGAL/boost/graph/copy_face_graph.h>
 #include <CGAL/boost/graph/iterator.h>
 #include <CGAL/boost/graph/Euler_operations.h>
 #include <CGAL/IO/File_scanner_OFF.h>
@@ -273,6 +273,8 @@ namespace CGAL {
   ///         besides being default constructible and assignable. 
   ///         In typical use cases it will be a 2D or 3D point type.
   /// \cgalModels `MutableFaceGraph` and `FaceListGraph`
+  ///
+  /// \sa \ref PkgBGLConcepts "Graph Concepts"
 
 template <typename P>
 class Surface_mesh
@@ -328,15 +330,13 @@ public:
     {
     public:
         /// %Default constructor.
-        Vertex_index() : SM_Index<Vertex_index>(-1) {}
+        Vertex_index(){}
 
-        explicit Vertex_index(size_type _idx) : SM_Index<Vertex_index>(_idx) {}
+        Vertex_index(size_type _idx){}
 
         /// prints the index and a short identification string to an ostream.
         friend std::ostream& operator<<(std::ostream& os, typename Surface_mesh::Vertex_index const& v)
-        {
-          return (os << 'v' << (size_type)v );
-        }
+        {}
     };
 #else
   typedef SM_Vertex_index Vertex_index;
@@ -353,14 +353,13 @@ public:
     {
     public:
         /// %Default constructor
-        Halfedge_index() : SM_Index<Halfedge_index>(-1) {}
+        Halfedge_index(){}
 
-        explicit Halfedge_index(size_type _idx) : SM_Index<Halfedge_index>(_idx) {}
+        Halfedge_index(size_type _idx){}
 
         /// prints the index and a short identification string to an ostream.
         friend std::ostream& operator<<(std::ostream& os, typename Surface_mesh::Halfedge_index const& h)
         {
-          return (os << 'h' << (size_type)h );
         }
 
     };
@@ -378,15 +377,13 @@ public:
     {
     public:
         /// %Default constructor
-        Face_index() : SM_Index<Face_index>(-1) {}
+        Face_index(){}
 
-        explicit Face_index(size_type _idx) : SM_Index<Face_index>(_idx) {}
+        Face_index(size_type _idx){}
 
         /// prints the index and a short identification string to an ostream.
         friend std::ostream& operator<<(std::ostream& os, typename Surface_mesh::Face_index const& f)
-        {
-          return (os << 'f' << (size_type)f );
-        }
+        {}
     };
 #else
   typedef SM_Face_index Face_index;
@@ -402,63 +399,16 @@ public:
     {
     public:
         /// %Default constructor
-        Edge_index() : halfedge_(-1) { }
+        Edge_index(){}
 
-        Edge_index(size_type idx) : halfedge_(idx * 2) { }
+        Edge_index(size_type idx){}
 
         /// constructs an `Edge_index` from a halfedge.
-        Edge_index(Halfedge_index he) : halfedge_(he) { }
-        /// @cond CGAL_DOCUMENT_INTERNALS
-        /// returns the internal halfedge.
-        Halfedge_index halfedge() const { return halfedge_; }
-
-        /// returns the underlying index of this index.
-        operator size_type() const { return (size_type)halfedge_ / 2; }
-
-        /// resets index to be invalid (index=-1)
-        void reset() { halfedge_.reset(); }
-
-        /// returns whether the index is valid, i.e., the index is not equal to -1.
-        bool is_valid() const { return halfedge_.is_valid(); }
-
-        /// Are two indices equal?
-        bool operator==(const Edge_index& other) const { return (size_type)(*this) == (size_type)other; }
-
-        /// Are two indices different?
-        bool operator!=(const Edge_index& other) const { return (size_type)(*this) != (size_type)other; }
-
-        /// compares by index.
-        bool operator<(const Edge_index& other) const { return (size_type)(*this) < (size_type)other;}
-
-        /// decrements the internal index. This operation does not
-        /// guarantee that the index is valid or undeleted after the
-        /// decrement.
-        Edge_index& operator--() { halfedge_ = Halfedge_index((size_type)halfedge_ - 2); return *this; }
-
-        /// increments the internal index. This operation does not
-        /// guarantee that the index is valid or undeleted after the
-        /// increment.
-        Edge_index& operator++() { halfedge_ = Halfedge_index((size_type)halfedge_ + 2); return *this; }
-
-        /// decrements internal index. This operation does not
-        /// guarantee that the index is valid or undeleted after the
-        /// decrement.
-        Edge_index operator--(int) { Edge_index tmp(*this); halfedge_ = Halfedge_index((size_type)halfedge_ - 2); return tmp; }
-
-        /// increments internal index. This operation does not
-        /// guarantee that the index is valid or undeleted after the
-        /// increment.
-        Edge_index operator++(int) { Edge_index tmp(*this); halfedge_ = Halfedge_index((size_type)halfedge_ + 2); return tmp; }
-
-        /// @endcond 
+        Edge_index(Halfedge_index he){}
 
         /// prints the index and a short identification string to an ostream.
         friend std::ostream& operator<<(std::ostream& os, typename Surface_mesh::Edge_index const& e)
-        {
-          return (os << 'e' << (size_type)e << " on " << e.halfedge());
-        }
-    private:
-        Halfedge_index halfedge_;
+        {}
     };
 #else
   typedef SM_Edge_index Edge_index;
@@ -1545,7 +1495,7 @@ public:
         hconn_[h].prev_halfedge_ = nh;
       }
     }
-    /// @endcond  
+    /// @endcond
 
     /// sets the next halfedge of `h` within the face to `nh` and
     /// the previous halfedge of `nh` to `h`.
@@ -2008,23 +1958,40 @@ private: //------------------------------------------------------- private data
     return sm;
   }
 
+
   /// \relates Surface_mesh
   /// Inserts the surface mesh in an output stream in Ascii OFF format. 
   /// Only the \em point property is inserted in the stream.
   /// \pre `operator<<(std::ostream&,const P&)` must be defined.
+ 
   template <typename P>
-  std::ostream& operator<<(std::ostream& os, const Surface_mesh<P>& sm)
-  {
+  bool write_off(std::ostream& os, const Surface_mesh<P>& sm) {
     typedef Surface_mesh<P> Mesh;
     typedef typename Mesh::Vertex_index Vertex_index;
     typedef typename Mesh::Face_index Face_index;
 
-    os << "OFF\n" << sm.number_of_vertices() << " " << sm.number_of_faces() << " 0\n";
+    typename Mesh::template Property_map<typename Mesh::Vertex_index, CGAL::Color> vcolors;
+    bool has_vcolors;
+    boost::tie(vcolors, has_vcolors) = sm.template property_map<typename Mesh::Vertex_index, CGAL::Color >("v:color");
+    typename Mesh::template Property_map<typename Mesh::Face_index, CGAL::Color> fcolors;
+    bool has_fcolors;
+    boost::tie(fcolors, has_fcolors) = sm.template property_map<typename Mesh::Face_index, CGAL::Color >("f:color");
+
+    if(!has_fcolors && !has_vcolors)
+      os << "OFF\n" << sm.number_of_vertices() << " " << sm.number_of_faces() << " 0\n";
+    else
+      os << "COFF\n" << sm.number_of_vertices() << " " << sm.number_of_faces() << " 0\n";
     std::vector<int> reindex;
     reindex.resize(sm.num_vertices());
     int n = 0;
     BOOST_FOREACH(Vertex_index v, sm.vertices()){
-      os << sm.point(v) << '\n';
+      os << sm.point(v);
+      if(has_vcolors)
+      {
+        CGAL::Color color = vcolors[v];
+        os <<" "<< static_cast<int>(color.r())<<" "<< static_cast<int>(color.g())<<" "<< static_cast<int>(color.b());
+      }
+      os << '\n';
       reindex[v]=n++;
     }
 
@@ -2033,10 +2000,26 @@ private: //------------------------------------------------------- private data
       BOOST_FOREACH(Vertex_index v, CGAL::vertices_around_face(sm.halfedge(f),sm)){
         os << " " << reindex[v];
       }
+      if(has_fcolors)
+      {
+        CGAL::Color color = fcolors[f];
+        os <<" "<< static_cast<int>(color.r())<<" "<< static_cast<int>(color.g())<<" "<< static_cast<int>(color.b());
+      }
       os << '\n';
     }
+    return os.good();
+  }
+
+  /// \relates Surface_mesh
+  /// 
+  /// This operator calls `write_off(std::istream& , CGAL::Surface_mesh)`.
+   template <typename P>
+  std::ostream& operator<<(std::ostream& os, const Surface_mesh<P>& sm)
+  {
+    write_off(os, sm);
     return os;
   }
+
 
 /// @cond CGAL_DOCUMENT_INTERNALS
 
@@ -2051,18 +2034,22 @@ private: //------------------------------------------------------- private data
       in.putback(c);
       return in;
   }
+
+
+
 /// @endcond
 
-
   /// \relates Surface_mesh
-
-  /// \relates Surface_mesh
-  /// Extracts the surface mesh from an input stream in Ascii OFF, COFF, NOFF, CNOFF format.
+  /// Extracts the surface mesh from an input stream in Ascii OFF, COFF, NOFF, CNOFF 
+  /// format and appends it to the surface mesh `sm`.
   /// The operator reads the point property as well as "v:normal", "v:color", and "f:color".
   /// Vertex texture coordinates are ignored.
   /// \pre `operator>>(std::istream&,const P&)` must be defined.
+  /// \pre The data in the stream must represent a two-manifold. If this is not the case
+  ///      the `failbit` of `is` is set and the mesh cleared.
+
   template <typename P>
-  std::istream& operator>>(std::istream& is, Surface_mesh<P>& sm)
+  bool read_off(std::istream& is, Surface_mesh<P>& sm)
   {
    typedef Surface_mesh<P> Mesh;
    typedef typename Kernel_traits<P>::Kernel K;
@@ -2070,7 +2057,6 @@ private: //------------------------------------------------------- private data
    typedef typename Mesh::Face_index Face_index;
    typedef typename Mesh::Vertex_index Vertex_index;
    typedef typename Mesh::size_type size_type;
-    sm.clear();
     int n, f, e;
     std::string off;
     is >> sm_skip_comments;
@@ -2079,7 +2065,8 @@ private: //------------------------------------------------------- private data
 
     is >> n >> f >> e;
 
-    sm.reserve(n,2*f,e);
+    sm.reserve(sm.num_vertices()+n, sm.num_faces()+2*f, sm.num_edges()+e);
+    std::vector<Vertex_index> vertexmap(n);
     P p;
     Vector_3 v;
     typename Mesh::template Property_map<Vertex_index,CGAL::Color> vcolor;
@@ -2097,6 +2084,7 @@ private: //------------------------------------------------------- private data
       is >> sm_skip_comments;
       is >> p;
       Vertex_index vi= sm.add_vertex(p);
+      vertexmap[i] = vi;
       if(v_has_normals){
         is >> v;
         vnormal[vi] = v;
@@ -2121,9 +2109,8 @@ private: //------------------------------------------------------- private data
          }
        }
     }
-    std::vector<size_type> vr;
-    std::size_t d;
-
+    std::vector<Vertex_index> vr;
+    size_type d, vi;
     bool fcolored = false;
     typename Mesh::template Property_map<Face_index,CGAL::Color> fcolor;
 
@@ -2132,14 +2119,15 @@ private: //------------------------------------------------------- private data
       is >> d;
       vr.resize(d);
       for(std::size_t j=0; j<d; j++){
-        is >> vr[j];
+        is >> vi;
+        vr[j] = vertexmap[vi];
       }
       Face_index fi = sm.add_face(vr);
       if(fi == sm.null_face())
       {
-       std::cout<< "Warning: Facets don't seem to be oriented. Loading a Soup of polygons instead."<<std::endl;
-       sm.clear();
-       return is;
+        is.setstate(std::ios::failbit);
+        sm.clear();
+        return false;
       }
 
       // the first face will tell us if faces have a color map
@@ -2161,10 +2149,20 @@ private: //------------------------------------------------------- private data
           }
         }
     }
+    return is.good();
+  }
+
+
+ 
+  /// \relates Surface_mesh
+  /// This operator calls `read_off(std::istream& , CGAL::Surface_mesh)`.
+  template <typename P>
+  std::istream& operator>>(std::istream& is, Surface_mesh<P>& sm)
+  {
+    read_off(is, sm);
     return is;
   }
 
- 
  /*! @} */
 
 template <typename P>
@@ -2405,16 +2403,17 @@ typename Surface_mesh<P>::size_type
 Surface_mesh<P>::
 degree(Vertex_index v) const
 {
-    size_type count(0);
-    if(halfedge(v) == null_halfedge()){
+    Halfedge_index h = halfedge(v);
+
+    if(h == null_halfedge()){
       return 0;
     }
-    Vertex_around_target_circulator vvit(halfedge(v), *this);
-    Vertex_around_target_circulator vvend = vvit;
-    if(vvit) do
-    {
-        ++count;
-    } while (++vvit != vvend);
+    size_type count(0);
+    Halfedge_index done = h;
+    do {
+      ++count;
+      h = opposite(next(h));
+    }while(h != done);
 
     return count;
 }
@@ -2617,7 +2616,6 @@ namespace internal{
 }
 
 } // CGAL
-
 
 namespace std {
 

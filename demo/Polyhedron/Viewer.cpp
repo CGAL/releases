@@ -71,12 +71,16 @@ public:
   //! Decides if the distance between APoint and BPoint must be drawn;
   bool distance_is_displayed;
   bool i_is_pressed;
+  bool z_is_pressed;
   //!Draws the distance between two selected points.
   void showDistance(QPoint);
   qglviewer::Vec APoint;
   qglviewer::Vec BPoint;
   qglviewer::Vec offset;
   bool is_d_pressed;
+  bool extension_is_found;
+
+  TextRenderer *textRenderer;
   /*!
    * \brief makeArrow creates an arrow and stores it in a struct of vectors.
    * \param R the radius of the arrow.
@@ -111,8 +115,8 @@ Viewer::Viewer(QWidget* parent, bool antialiasing)
   d->inDrawWithNames = false;
   d->shader_programs.resize(NB_OF_PROGRAMS);
   d->offset = qglviewer::Vec(0,0,0);
-  textRenderer = new TextRenderer();
-  connect( textRenderer, SIGNAL(sendMessage(QString,int)),
+  d->textRenderer = new TextRenderer();
+  connect( d->textRenderer, SIGNAL(sendMessage(QString,int)),
            this, SLOT(printMessage(QString,int)) );
   connect(&d->messageTimer, SIGNAL(timeout()), SLOT(hideMessage()));
   setShortcut(EXIT_VIEWER, 0);
@@ -128,6 +132,7 @@ Viewer::Viewer(QWidget* parent, bool antialiasing)
                       tr("Toggle the primitive IDs visibility of the selected Item."));
   setKeyDescription(Qt::Key_D,
                       tr("Disable the distance between two points  visibility."));
+
 #if QGLVIEWER_VERSION >= 0x020501
   //modify mouse bindings that have been updated
   setMouseBinding(Qt::Key(0), Qt::NoModifier, Qt::LeftButton, RAP_FROM_PIXEL, true, Qt::RightButton);
@@ -145,6 +150,9 @@ Viewer::Viewer(QWidget* parent, bool antialiasing)
   setMouseBindingDescription(Qt::Key_D, Qt::NoModifier, Qt::LeftButton,
                              tr("Selects a point. When the second point is selected,  "
                                 "displays the two points and the distance between them."));
+  setMouseBindingDescription(Qt::Key_O, Qt::NoModifier, Qt::LeftButton,
+                             tr("Move the camera orthogonally to the picked facet of a Scene_polyhedron_item or "
+                                "to the current selection of a Scene_points_with_normal_item."));
 #else
   setMouseBinding(Qt::SHIFT + Qt::LeftButton, SELECT);
   setMouseBindingDescription(Qt::SHIFT + Qt::RightButton,
@@ -156,6 +164,7 @@ Viewer::Viewer(QWidget* parent, bool antialiasing)
   d->axis_are_displayed = true;
   d->has_text = false;
   d->i_is_pressed = false;
+  d->z_is_pressed = false;
   d->fpsTime.start();
   d->fpsCounter=0;
   d->f_p_s=0.0;
@@ -227,19 +236,19 @@ void Viewer::initializeGL()
   if(!glDrawArraysInstanced)
   {
       qDebug()<<"glDrawArraysInstancedARB : extension not found. Spheres will be displayed as points.";
-      extension_is_found = false;
+      d->extension_is_found = false;
   }
   else
-      extension_is_found = true;
+      d->extension_is_found = true;
 
   glVertexAttribDivisor = (PFNGLVERTEXATTRIBDIVISORARBPROC)this->context()->getProcAddress("glVertexAttribDivisorARB");
   if(!glDrawArraysInstanced)
   {
       qDebug()<<"glVertexAttribDivisorARB : extension not found. Spheres will be displayed as points.";
-      extension_is_found = false;
+      d->extension_is_found = false;
   }
   else
-      extension_is_found = true;
+      d->extension_is_found = true;
 
 
   setBackgroundColor(::Qt::white);
@@ -435,6 +444,12 @@ void Viewer::mousePressEvent(QMouseEvent* event)
   }
   else if(!event->modifiers()
           && event->button() == Qt::LeftButton
+          && d->z_is_pressed)
+  {
+      d->scene->zoomToPosition(event->pos(), this);
+  }
+  else if(!event->modifiers()
+          && event->button() == Qt::LeftButton
           && d->is_d_pressed)
   {
       d->showDistance(event->pos());
@@ -486,6 +501,9 @@ void Viewer::keyPressEvent(QKeyEvent* e)
     else if(e->key() == Qt::Key_I) {
           d->i_is_pressed = true;
         }
+    else if(e->key() == Qt::Key_O) {
+          d->z_is_pressed = true;
+        }
     else if(e->key() == Qt::Key_D) {
         if(e->isAutoRepeat())
         {
@@ -501,7 +519,7 @@ void Viewer::keyPressEvent(QKeyEvent* e)
     }
   }
   else if(e->key() == Qt::Key_I && e->modifiers() & Qt::ControlModifier){
-    d->scene->printPrimitiveIds(this);
+    d->scene->printAllIds(this);
     update();
     return;
   }
@@ -525,6 +543,9 @@ void Viewer::keyReleaseEvent(QKeyEvent *e)
 {
   if(e->key() == Qt::Key_I) {
     d->i_is_pressed = false;
+  }
+  else if(e->key() == Qt::Key_O) {
+    d->z_is_pressed = false;
   }
   else if(!e->modifiers() && e->key() == Qt::Key_D)
   {
@@ -1052,7 +1073,7 @@ void Viewer::drawVisualHints()
     TextItem *fps_text = new TextItem(20, int(1.5*((QApplication::font().pixelSize()>0)?QApplication::font().pixelSize():QApplication::font().pointSize())),0,d->fpsString,false, QFont(), Qt::gray);
     if(FPSIsDisplayed())
     {
-      textRenderer->addText(fps_text);
+      d->textRenderer->addText(fps_text);
     }
     //Prints the displayMessage
     QFont font = QFont();
@@ -1060,13 +1081,13 @@ void Viewer::drawVisualHints()
     TextItem *message_text = new TextItem(10 + fm.width(d->message)/2, height()-20, 0, d->message, false, QFont(), Qt::gray );
     if (d->_displayMessage)
     {
-      textRenderer->addText(message_text);
+      d->textRenderer->addText(message_text);
     }
-    textRenderer->draw(this);
+    d->textRenderer->draw(this);
     if(FPSIsDisplayed())
-      textRenderer->removeText(fps_text);
+      d->textRenderer->removeText(fps_text);
     if (d->_displayMessage)
-      textRenderer->removeText(message_text);
+      d->textRenderer->removeText(message_text);
 }
 
 void Viewer::resizeGL(int w, int h)
@@ -1297,7 +1318,7 @@ void Viewer_impl::showDistance(QPoint pixel)
 
         distance_text.append(centerCoord);
         Q_FOREACH(TextItem* ti, distance_text)
-          viewer->textRenderer->addText(ti);
+          textRenderer->addText(ti);
         Q_EMIT(viewer->sendMessage(QString("First point : A(%1,%2,%3), second point : B(%4,%5,%6), distance between them : %7")
                   .arg(APoint.x-offset.x)
                   .arg(APoint.y-offset.y)
@@ -1315,7 +1336,7 @@ void Viewer_impl::clearDistancedisplay()
   distance_is_displayed = false;
   Q_FOREACH(TextItem* ti, distance_text)
   {
-    viewer->textRenderer->removeText(ti);
+    textRenderer->removeText(ti);
     delete ti;
   }
   distance_text.clear();
@@ -1565,5 +1586,15 @@ void Viewer::updateIds(CGAL::Three::Scene_item * item)
 
   d->scene->updatePrimitiveIds(this, item);
   d->scene->updatePrimitiveIds(this, item);
+}
+
+TextRenderer* Viewer::textRenderer()
+{
+  return d->textRenderer;
+}
+
+bool Viewer::isExtensionFound()
+{
+  return d->extension_is_found;
 }
  #include "Viewer.moc"

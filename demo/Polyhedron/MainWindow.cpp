@@ -57,6 +57,7 @@
 #ifdef QT_SCRIPT_LIB
 #  include <QScriptEngine>
 #  include <QScriptValue>
+#include "Color_map.h"
 using namespace CGAL::Three;
 QScriptValue 
 myScene_itemToScriptValue(QScriptEngine *engine, 
@@ -140,9 +141,9 @@ MainWindow::MainWindow(QWidget* parent)
 
   // setup scene
   scene = new Scene(this);
-  viewer->textRenderer->setScene(scene);
+  viewer->textRenderer()->setScene(scene);
   viewer->setScene(scene);
-  ui->actionMaxTextItemsDisplayed->setText(QString("Set Maximum Text Items Displayed : %1").arg(viewer->textRenderer->getMax_textItems()));
+  ui->actionMaxTextItemsDisplayed->setText(QString("Set Maximum Text Items Displayed : %1").arg(viewer->textRenderer()->getMax_textItems()));
   {
     QShortcut* shortcut = new QShortcut(QKeySequence(Qt::ALT+Qt::Key_Q), this);
     connect(shortcut, SIGNAL(activated()),
@@ -183,8 +184,8 @@ MainWindow::MainWindow(QWidget* parent)
   connect(scene, SIGNAL(itemAboutToBeDestroyed(CGAL::Three::Scene_item*)),
           this, SLOT(removeManipulatedFrame(CGAL::Three::Scene_item*)));
 
-  connect(scene, SIGNAL(updated_bbox()),
-          this, SLOT(updateViewerBBox()));
+  connect(scene, SIGNAL(updated_bbox(bool)),
+          this, SLOT(updateViewerBBox(bool)));
 
   connect(scene, SIGNAL(selectionChanged(int)),
           this, SLOT(selectSceneItem(int)));
@@ -240,10 +241,8 @@ MainWindow::MainWindow(QWidget* parent)
   // can easily copy-paste its text.
   // connect(ui->infoLabel, SIGNAL(customContextMenuRequested(const QPoint & )),
   //         this, SLOT(showSceneContextMenu(const QPoint &)));
-
   connect(ui->actionRecenterScene, SIGNAL(triggered()),
           viewer, SLOT(update()));
-
   connect(ui->actionAntiAliasing, SIGNAL(toggled(bool)),
           viewer, SLOT(setAntiAliasing(bool)));
 
@@ -270,6 +269,9 @@ MainWindow::MainWindow(QWidget* parent)
   // Connect "Select all items"
   connect(ui->actionSelectAllItems, SIGNAL(triggered()),
           this, SLOT(selectAll()));
+
+  connect(ui->actionColorItems, SIGNAL(triggered()),
+          this, SLOT(colorItems()));
 
   // Recent files menu
   this->addRecentFiles(ui->menuFile, ui->actionQuit);
@@ -351,34 +353,11 @@ MainWindow::MainWindow(QWidget* parent)
   }
 
   QMenu* menuFile = findChild<QMenu*>("menuFile");
-  if ( NULL != menuFile )
-  {
-    QList<QAction*> menuFileActions = menuFile->actions();
-
-    // Look for action just after "Load..." action
-    QAction* actionAfterLoad = NULL;
-    for ( QList<QAction*>::iterator it_action = menuFileActions.begin(),
-         end = menuFileActions.end() ; it_action != end ; ++ it_action ) //Q_FOREACH( QAction* action, menuFileActions)
-    {
-      if ( NULL != *it_action && (*it_action)->text().contains("Load") )
-      {
-        ++it_action;
-        if ( it_action != end && NULL != *it_action )
-        {
-          actionAfterLoad = *it_action;
-        }
-      }
-    }
-
-    // Insert "Load implicit function" action
-    if ( NULL != actionAfterLoad )
-    {
-      menuFile->insertAction(actionAfterLoad,actionAddToGroup);
-    }
-  }
-
+  insertActionBeforeLoadPlugin(menuFile, actionAddToGroup);
   statistics_dlg = NULL;
   statistics_ui = new Ui::Statistics_on_item_dialog();
+
+  actionResetDefaultLoaders = new QAction("Reset Default Loaders",this);
 
 #ifdef QT_SCRIPT_LIB
   // evaluate_script("print(plugins);");
@@ -655,6 +634,7 @@ void MainWindow::updateMenus()
   ui->menuOperations->clear();
   ui->menuOperations->addActions(as);
 }
+
 bool MainWindow::hasPlugin(const QString& pluginName) const
 {
   Q_FOREACH(const PluginNamePair& p, plugins) {
@@ -772,6 +752,9 @@ void MainWindow::viewerShow(float xmin,
   qglviewer::Vec
     min_(xmin, ymin, zmin),
     max_(xmax, ymax, zmax);
+
+  if(min_ == max_) return viewerShow(xmin, ymin, zmin);
+
 #if QGLVIEWER_VERSION >= 0x020502
   viewer->camera()->setPivotPoint((min_+max_)*0.5);
 #else
@@ -828,9 +811,14 @@ void MainWindow::error(QString text) {
   this->message("ERROR: " + text, "red");
 }
 
-void MainWindow::updateViewerBBox()
+void MainWindow::updateViewerBBox(bool recenter = true)
 {
   const Scene::Bbox bbox = scene->bbox();
+#if QGLVIEWER_VERSION >= 0x020502
+    qglviewer::Vec center = viewer->camera()->pivotPoint();
+#else
+    qglviewer::Vec center = viewer->camera()->revolveAroundPoint();
+#endif
   const double xmin = bbox.xmin();
   const double ymin = bbox.ymin();
   const double zmin = bbox.zmin();
@@ -866,7 +854,18 @@ void MainWindow::updateViewerBBox()
 
   viewer->setSceneBoundingBox(vec_min,
                               vec_max);
-  viewer->camera()->showEntireScene();
+  if(recenter)
+  {
+    viewer->camera()->showEntireScene();
+  }
+  else
+  {
+#if QGLVIEWER_VERSION >= 0x020502
+    viewer->camera()->setPivotPoint(center);
+#else
+    viewer->camera()->setRevolveAroundPoint(center);
+#endif
+  }
 }
 
 void MainWindow::reloadItem() {
@@ -1029,7 +1028,12 @@ void MainWindow::open(QString filename)
   if(!ok || load_pair.first.isEmpty()) { return; }
   
   if (load_pair.second)
-     default_plugin_selection[fileinfo.completeSuffix()]=load_pair.first;
+  {
+    connect(actionResetDefaultLoaders, SIGNAL(triggered()),
+            this, SLOT(reset_default_loaders()));
+    default_plugin_selection[fileinfo.completeSuffix()]=load_pair.first;
+    insertActionBeforeLoadPlugin(ui->menuFile, actionResetDefaultLoaders);
+  }
   
   
   QSettings settings;
@@ -1039,6 +1043,7 @@ void MainWindow::open(QString filename)
   if(scene_item != 0) {
     this->addToRecentFiles(fileinfo.absoluteFilePath());
   }
+
   selectSceneItem(scene->addItem(scene_item));
 
   CGAL::Three::Scene_group_item* group =
@@ -1349,6 +1354,7 @@ void MainWindow::readSettings()
     // read plugin blacklist
     QStringList blacklist=settings.value("plugin_blacklist",QStringList()).toStringList();
     Q_FOREACH(QString name,blacklist){ plugin_blacklist.insert(name); }
+    set_facegraph_mode_adapter(settings.value("polyhedron_mode", true).toBool());
 }
 
 void MainWindow::writeSettings()
@@ -1363,6 +1369,8 @@ void MainWindow::writeSettings()
     Q_FOREACH(QString name,plugin_blacklist){ blacklist << name; }
     if ( !blacklist.isEmpty() ) settings.setValue("plugin_blacklist",blacklist);
     else settings.remove("plugin_blacklist");
+    //setting polyhedron mode
+    settings.setValue("polyhedron_mode", this->property("is_polyhedron_mode").toBool());
   }
   std::cerr << "Write setting... done.\n";
 }
@@ -1469,6 +1477,7 @@ void MainWindow::on_actionLoad_triggered()
   dialog.setFileMode(QFileDialog::ExistingFiles);
 
   if(dialog.exec() != QDialog::Accepted) { return; }
+  viewer->update();
   FilterPluginMap::iterator it = 
     filterPluginMap.find(dialog.selectedNameFilter());
   
@@ -1478,11 +1487,19 @@ void MainWindow::on_actionLoad_triggered()
     selectedPlugin = it.value();
   }
 
+  std::size_t nb_files = dialog.selectedFiles().size();
+  std::vector<QColor> colors_;
+  colors_.reserve(nb_files);
+  compute_color_map(QColor(100, 100, 255),//Scene_item's default color
+                    static_cast<unsigned>(nb_files),
+                    std::back_inserter(colors_));
+  std::size_t nb_item = -1;
   Q_FOREACH(const QString& filename, dialog.selectedFiles()) {
     CGAL::Three::Scene_item* item = NULL;
     if(selectedPlugin) {
       QFileInfo info(filename);
       item = loadItem(info, selectedPlugin);
+      item->setColor(colors_[++nb_item]);
       Scene::Item_id index = scene->addItem(item);
       selectSceneItem(index);
       CGAL::Three::Scene_group_item* group =
@@ -1492,6 +1509,7 @@ void MainWindow::on_actionLoad_triggered()
       this->addToRecentFiles(filename);
     } else {
       open(filename);
+      scene->item(scene->numberOfEntries()-1)->setColor(colors_[++nb_item]);
     }
   }
 }
@@ -1535,13 +1553,19 @@ void MainWindow::on_actionSaveAs_triggered()
     return;
   }
   QString caption = tr("Save %1 to File...%2").arg(item->name()).arg(ext);
+  //remove `)`
+  ext.chop(1);
+  //remove `(*.`
+  ext = ext.right(ext.size()-3);
   QString filename = 
     QFileDialog::getSaveFileName(this,
                                  caption,
-                                 QString(),
+                                 QString("%1.%2").arg(item->name()).arg(ext),
                                  filters.join(";;"));
   if(filename.isEmpty())
     return;
+
+  viewer->update();
   save(filename, item);
 }
 
@@ -1621,7 +1645,12 @@ void MainWindow::on_actionPreferences_triggered()
   QDialog dialog(this);
   Ui::PreferencesDialog prefdiag;
   prefdiag.setupUi(&dialog);
-  
+  if(this->property("is_polyhedron_mode").toBool())
+    prefdiag.polyRadioButton->setChecked(true);
+  else
+    prefdiag.smRadioButton->setChecked(true);
+  connect(prefdiag.polyRadioButton, &QRadioButton::toggled,
+          this, &MainWindow::set_facegraph_mode_adapter);
   
   QStandardItemModel* iStandardModel = new QStandardItemModel(this);
   //add blacklisted plugins
@@ -1922,10 +1951,10 @@ void MainWindow::on_actionMaxTextItemsDisplayed_triggered()
   bool valid;
   QString text = QInputDialog::getText(this, tr("Maximum Number of Text Items"),
                                        tr("Maximum Text Items Diplayed:"), QLineEdit::Normal,
-                                       QString("%1").arg(viewer->textRenderer->getMax_textItems()), &ok);
+                                       QString("%1").arg(viewer->textRenderer()->getMax_textItems()), &ok);
   text.toInt(&valid);
   if (ok && valid){
-    viewer->textRenderer->setMax(text.toInt());
+    viewer->textRenderer()->setMax(text.toInt());
     ui->actionMaxTextItemsDisplayed->setText(QString("Set Maximum Text Items Displayed : %1").arg(text.toInt()));
   }
 }
@@ -1945,4 +1974,58 @@ void MainWindow::resetHeader()
   sceneView->header()->resizeSection(Scene::VisibleColumn, sceneView->header()->fontMetrics().width(QString("_View_")));
 }
 
+void MainWindow::reset_default_loaders()
+{
+  default_plugin_selection.clear();
 
+  const char* prop_name = "Menu modified by MainWindow.";
+  QMenu* menu = ui->menuFile;
+  if(!menu)
+    return;
+  bool menuChanged = menu->property(prop_name).toBool();
+  if(!menuChanged) {
+    menu->setProperty(prop_name, true);
+  }
+  QList<QAction*> menuActions = menu->actions();
+  menu->removeAction(actionResetDefaultLoaders);
+}
+
+void MainWindow::insertActionBeforeLoadPlugin(QMenu* menu, QAction* actionToInsert)
+{
+  if(menu)
+  {
+    QList<QAction*> menuActions = menu->actions();
+    if(!menuActions.contains(actionToInsert))
+      menu->insertAction(ui->actionLoadPlugin, actionToInsert);
+  }
+}
+
+void MainWindow::colorItems()
+{
+  std::size_t nb_files = scene->selectionIndices().size();
+  std::vector<QColor> colors_;
+  colors_.reserve(nb_files);
+  compute_color_map(scene->item(scene->selectionIndices().last())->color(),
+                    static_cast<unsigned>(nb_files),
+                    std::back_inserter(colors_));
+  std::size_t nb_item = -1;
+  Q_FOREACH(int id, scene->selectionIndices())
+  {
+    scene->item(id)->setColor(colors_[++nb_item]);
+  }
+  viewer->update();
+}
+// Only used to make the doc clearer. Only the adapter is actueally used in the code,
+// for signal/slots reasons.
+void MainWindow::set_face_graph_default_type(Face_graph_mode m)
+{
+  this->setProperty("is_polyhedron_mode", m);
+}
+
+void MainWindow::set_facegraph_mode_adapter(bool is_polyhedron)
+{
+  if(is_polyhedron)
+   set_face_graph_default_type(POLYHEDRON);
+  else
+    set_face_graph_default_type(SURFACE_MESH);
+}

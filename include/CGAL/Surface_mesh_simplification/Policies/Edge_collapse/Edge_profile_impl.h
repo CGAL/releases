@@ -152,7 +152,7 @@ template<class VertexIdxMap
 
   // counterclockwise around v0
   halfedge_descriptor e02 = opposite(prev(v0_v1(),surface_mesh()), surface_mesh());
-  vertex_descriptor v=target(e02,surface_mesh()), v2=v;
+  vertex_descriptor v, v2 =target(e02,surface_mesh());
   while(e02 != endleft) {
     #ifdef CGAL_SMS_EDGE_PROFILE_ALWAYS_NEED_UNIQUE_VERTEX_IN_LINK
     if (vertex_already_inserted.insert(v2).second)
@@ -161,14 +161,12 @@ template<class VertexIdxMap
     bool is_b = is_border(e02);
     e02 = opposite(prev(e02,surface_mesh()), surface_mesh());
     v = target(e02,surface_mesh());
-    if( !is_b )
+    if(! is_b){
       mTriangles.push_back(Triangle(v,v0(),v2) ) ;
+    }
     v2 = v;
   }
-
-  e02 = opposite(prev(v1_v0(),surface_mesh()), surface_mesh());
-  if(target(e02, surface_mesh())!=v ) // add the vertex if it is not added in the following loop
-  {
+  if(v != vR() && (v!= vertex_descriptor())){
     #ifdef CGAL_SMS_EDGE_PROFILE_ALWAYS_NEED_UNIQUE_VERTEX_IN_LINK
     if (vertex_already_inserted.insert(v).second)
     #endif
@@ -176,8 +174,8 @@ template<class VertexIdxMap
   }
 
   // counterclockwise around v1
+  e02 = opposite(prev(v1_v0(),surface_mesh()), surface_mesh());
   v2 = target(e02,surface_mesh());
-  v = v2;
   while(e02 != endright) {
     #ifdef CGAL_SMS_EDGE_PROFILE_ALWAYS_NEED_UNIQUE_VERTEX_IN_LINK
     if (vertex_already_inserted.insert(v2).second)
@@ -186,22 +184,18 @@ template<class VertexIdxMap
     bool is_b = is_border(e02);
     e02 = opposite(prev(e02,surface_mesh()), surface_mesh());
     v = target(e02,surface_mesh());
-    if( !is_b ){
+    if(! is_b){
       mTriangles.push_back(Triangle(v,v1(),v2) ) ;
     }
     v2 = v;
   }
-
-  if(mLink.empty() || //handle link of an isolated triangle
-     target(opposite(prev(v0_v1(),surface_mesh()), surface_mesh()), surface_mesh())!=v)
-  {
+  if(v != vL() && (v!= vertex_descriptor())){
     #ifdef CGAL_SMS_EDGE_PROFILE_ALWAYS_NEED_UNIQUE_VERTEX_IN_LINK
     if (vertex_already_inserted.insert(v).second)
     #endif
     mLink.push_back(v);
   }
-
-  CGAL_assertion(!mLink.empty());
+  
 }
 
 } // namespace Surface_mesh_simplification

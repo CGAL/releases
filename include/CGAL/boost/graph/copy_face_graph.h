@@ -111,7 +111,6 @@ void copy_face_graph_impl(const SourceMesh& sm, TargetMesh& tm,
       put(tm_vpm, tm_h_src, conv(get(sm_vpm, sm_h_src)));
     }
   }
-
   //create faces and connect halfedges
   BOOST_FOREACH(sm_face_descriptor sm_f, faces(sm))
   {
@@ -152,7 +151,6 @@ void copy_face_graph_impl(const SourceMesh& sm, TargetMesh& tm,
       tm_h_prev=tm_h;
     }
   }
-
   // update halfedge vertex of all but the vertex halfedge
   for(tm_vertex_iterator vit = vertices(tm).first;
       vit != vertices(tm).second; ++vit)

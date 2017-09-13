@@ -343,10 +343,10 @@ std::size_t remove_null_edges(
   typedef typename GT::vertex_descriptor vertex_descriptor;
 
   typedef typename GetVertexPointMap<TM, NamedParameters>::type VertexPointMap;
-  VertexPointMap vpmap = choose_param(get_param(np, vertex_point),
+  VertexPointMap vpmap = choose_param(get_param(np, internal_np::vertex_point),
                                       get_property_map(vertex_point, tmesh));
   typedef typename GetGeomTraits<TM, NamedParameters>::type Traits;
-  Traits traits = choose_param(get_param(np, geom_traits), Traits());
+  Traits traits = choose_param(get_param(np, internal_np::geom_traits), Traits());
 
   std::size_t nb_deg_faces = 0;
 
@@ -664,10 +664,10 @@ std::size_t remove_degenerate_faces(TriangleMesh& tmesh,
   typedef typename GT::vertex_descriptor vertex_descriptor;
 
   typedef typename GetVertexPointMap<TM, NamedParameters>::type VertexPointMap;
-  VertexPointMap vpmap = choose_param(get_param(np, vertex_point),
+  VertexPointMap vpmap = choose_param(get_param(np, internal_np::vertex_point),
                                       get_property_map(vertex_point, tmesh));
   typedef typename GetGeomTraits<TM, NamedParameters>::type Traits;
-  Traits traits = choose_param(get_param(np, geom_traits), Traits());
+  Traits traits = choose_param(get_param(np, internal_np::geom_traits), Traits());
 
 // First remove edges of length 0
   std::size_t nb_deg_faces = remove_null_edges(edges(tmesh), tmesh, np);
@@ -1126,7 +1126,7 @@ bool remove_self_intersections(TriangleMesh& tm, const int max_steps = 7, bool v
         boundary_hedges.resize(boundary_hedges_initial_size);
         BOOST_FOREACH(face_descriptor fh, faces_to_remove)
         {
-          halfedge_descriptor h = fh->halfedge();
+          halfedge_descriptor h = halfedge(fh,tm);
           for (int i=0;i<3; ++i)
           {
             if ( is_border( opposite(h, tm), tm) ){
@@ -1154,7 +1154,7 @@ bool remove_self_intersections(TriangleMesh& tm, const int max_steps = 7, bool v
         std::set<vertex_descriptor> border_vertices;
         BOOST_FOREACH(halfedge_descriptor h, boundary_hedges)
         {
-          if (!border_vertices.insert(h->vertex()).second){
+          if (!border_vertices.insert(target(h,tm)).second){
             BOOST_FOREACH(halfedge_descriptor hh, halfedges_around_target(h,tm)){
               if (!is_border(hh, tm))
                 faces_to_remove.insert(face(hh, tm));
@@ -1176,7 +1176,7 @@ bool remove_self_intersections(TriangleMesh& tm, const int max_steps = 7, bool v
         std::set<edge_descriptor>  edges_to_remove;
         BOOST_FOREACH(face_descriptor fh, faces_to_remove)
         {
-          BOOST_FOREACH(halfedge_descriptor h, halfedges_around_face(fh->halfedge(),tm))
+          BOOST_FOREACH(halfedge_descriptor h, halfedges_around_face(halfedge(fh,tm),tm))
           {
             if (halfedge(target(h, tm), tm)==h) // limit the number of insertions
               vertices_to_remove.insert(target(h, tm));
