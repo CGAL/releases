@@ -257,9 +257,9 @@ struct Scene_c3t3_item_priv {
   {
     init_default_values();
     tet_Slider = new QSlider(Qt::Horizontal);
-    tet_Slider->setValue(100);
     tet_Slider->setMinimum(0);
     tet_Slider->setMaximum(100);
+    tet_Slider->setValue(100);
     invalidate_stats();
   }
   Scene_c3t3_item_priv(const C3t3& c3t3_, Scene_c3t3_item* item)
@@ -273,9 +273,9 @@ struct Scene_c3t3_item_priv {
   {
     init_default_values();
     tet_Slider = new QSlider(Qt::Horizontal);
-    tet_Slider->setValue(100);
     tet_Slider->setMinimum(0);
     tet_Slider->setMaximum(100);
+    tet_Slider->setValue(100);
     invalidate_stats();
   }
   ~Scene_c3t3_item_priv()
@@ -1498,6 +1498,7 @@ void Scene_c3t3_item_priv::computeSpheres()
         vvit = incident_vertices.begin(), end = incident_vertices.end();
         vvit != end; ++vvit)
     {
+      if(c3t3.triangulation().is_infinite(*vvit)) continue;
       if(Geom_traits::Sphere_3(wp2p(vit->point()),
                                vit->point().weight()).bounded_side(wp2p((*vvit)->point()))
          == CGAL::ON_BOUNDED_SIDE)
