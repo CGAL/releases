@@ -57,7 +57,7 @@ namespace boost {
     typedef CGAL::detail::Edge<CGAL::Regular_triangulation_2<GT,TDS>, typename CGAL::Regular_triangulation_2<GT,TDS>::Edge>  edge_descriptor;
     typedef typename CGAL::Regular_triangulation_2<GT,TDS>::All_edges_iterator  edge_iterator;
 
-    typedef CGAL::detail::T2_halfedge_descriptor<typename Regular_triangulation::Triangulation> halfedge_descriptor;
+    typedef CGAL::detail::T2_halfedge_descriptor<typename Regular_triangulation::Triangulation_base> halfedge_descriptor;
 
     typedef typename Regular_triangulation::All_halfedges_iterator  halfedge_iterator;
 
@@ -75,6 +75,11 @@ namespace boost {
     typedef size_type vertices_size_type;
     typedef size_type edges_size_type;
     typedef size_type degree_size_type;
+
+    // nulls
+    static vertex_descriptor   null_vertex() { return vertex_descriptor(); }
+    static face_descriptor     null_face()   { return face_descriptor(); }
+    static halfedge_descriptor     null_halfedge()   { return halfedge_descriptor(); }    
   };
 
 
