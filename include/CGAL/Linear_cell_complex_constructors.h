@@ -14,15 +14,16 @@
 //
 // $URL$
 // $Id$
+// SPDX-License-Identifier: LGPL-3.0+
 //
 // Author(s)     : Guillaume Damiand <guillaume.damiand@liris.cnrs.fr>
 //
 #ifndef CGAL_LINEAR_CELL_COMPLEX_CONSTRUCTORS_H
 #define CGAL_LINEAR_CELL_COMPLEX_CONSTRUCTORS_H 1
 
-#include <CGAL/IO/Polyhedron_iostream.h>
 #include <CGAL/IO/File_header_OFF.h>
 #include <CGAL/IO/File_scanner_OFF.h>
+#include <CGAL/IO/File_writer_OFF.h>
 #include <CGAL/Linear_cell_complex_incremental_builder.h>
 
 #include <iostream>

@@ -14,6 +14,7 @@
 //
 // $URL$
 // $Id$
+// SPDX-License-Identifier: GPL-3.0+
 //
 // Author(s)     : Olivier Devillers <Olivier.Devillers@sophia.inria.fr>
 //                 Sylvain Pion
@@ -26,13 +27,13 @@
 
 #include <CGAL/basic.h>
 #include <CGAL/array.h>
+#include <CGAL/algorithm.h>
 #include <CGAL/Triangulation_hierarchy_vertex_base_3.h>
 
 #include <boost/random/linear_congruential.hpp>
 #include <boost/random/geometric_distribution.hpp>
 #include <boost/random/variate_generator.hpp>
 
-#include <algorithm>
 #include <cstddef>
 #include <map>
 #include <vector>
@@ -63,6 +64,9 @@ public:
   typedef typename PTr_Base::Cell_iterator     Cell_iterator;
   typedef typename PTr_Base::Facet_iterator    Facet_iterator;
   typedef typename PTr_Base::Edge_iterator     Edge_iterator;
+
+  typedef typename PTr_Base::Weighted_tag      Weighted_tag;
+  typedef typename PTr_Base::Periodic_tag      Periodic_tag;
 
 #ifndef CGAL_CFG_USING_BASE_MEMBER_BUG_2
   using PTr_Base::number_of_vertices;
@@ -123,7 +127,7 @@ public:
     size_type n = number_of_vertices();
 
     std::vector<Point> points (first, last);
-    std::random_shuffle (points.begin(), points.end());
+    CGAL::cpp98::random_shuffle (points.begin(), points.end());
     spatial_sort (points.begin(), points.end(), geom_traits());
 
     // hints[i] is the cell of the previously inserted point in level i.

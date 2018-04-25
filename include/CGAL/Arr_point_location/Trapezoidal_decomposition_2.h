@@ -12,6 +12,10 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
+// $URL$
+// $Id$
+// SPDX-License-Identifier: GPL-3.0+
+//
 // Author(s)     : Oren Nechushtan <theoren@math.tau.ac.il>
 //                 Iddo Hanniel <hanniel@math.tau.ac.il>
 
@@ -25,6 +29,7 @@
 
 #include <CGAL/Arr_tags.h>
 #include <CGAL/basic.h>
+#include <CGAL/algorithm.h>
 #include <CGAL/Arr_point_location/Td_predicates.h>
 #include <CGAL/Arr_point_location/Trapezoidal_decomposition_2_misc.h>
 
@@ -1421,7 +1426,7 @@ public:
       start_over = false;
 
       //random_shuffle the range
-      std::random_shuffle(begin,end);
+      CGAL::cpp98::random_shuffle(begin,end);
 
       Halfedge_const_handle he_cst;
       Halfedge_iterator it = begin;
@@ -1471,7 +1476,7 @@ public:
   //  if(begin == end)
   //    return;
   //
-  //  std::random_shuffle(begin,end);
+  //  CGAL::cpp98::random_shuffle(begin,end);
   //
   //  curve_iterator it=begin,next=it;
   //  while(it!=end)
@@ -1867,7 +1872,7 @@ public:
       }
     }
     if(! container.empty()) {
-      std::random_shuffle(container.begin(),container.end());
+      CGAL::cpp98::random_shuffle(container.begin(),container.end());
     }
     return sz;
   }

@@ -830,7 +830,7 @@ void Scene::draw() {
         rendering_program.bind();
 
         glPointSize(5);
-        ::glEnable(GL_POINT_SMOOTH);
+        glEnable(GL_POINT_SMOOTH);
 
         rendering_program.setUniformValue(colorLocation[0], color);
         glDrawArrays(GL_POINTS, 0, static_cast<GLsizei>(pos_points.size()/3));
@@ -844,7 +844,7 @@ void Scene::draw() {
             rendering_program.bind();
 
             glPointSize(5);
-            ::glEnable(GL_POINT_SMOOTH);
+            glEnable(GL_POINT_SMOOTH);
             rendering_program.setUniformValue(colorLocation[0], color);
             glDrawArrays(GL_POINTS, 0, 1);
             rendering_program.release();
@@ -972,7 +972,7 @@ void Scene::load_points(const QString& fileName) {
     std::copy(std::istream_iterator<Point>(ifs),
               std::istream_iterator<Point>(),
               std::back_inserter(points));
-    std::random_shuffle(points.begin(), points.end());
+    CGAL::cpp98::random_shuffle(points.begin(), points.end());
     p3dt.insert(points.begin(), points.end());
 
     QString snv;

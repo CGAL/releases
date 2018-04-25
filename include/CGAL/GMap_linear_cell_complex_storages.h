@@ -14,6 +14,7 @@
 //
 // $URL$
 // $Id$
+// SPDX-License-Identifier: LGPL-3.0+
 //
 // Author(s)     : Guillaume Damiand <guillaume.damiand@liris.cnrs.fr>
 //
@@ -70,7 +71,12 @@ namespace CGAL {
                                                            Darts_with_id;
     typedef CGAL::Dart<d_, Self, Dart_info, Darts_with_id> Dart;
 
+#ifdef CGAL_CXX11
+    typedef std::allocator_traits<Alloc_> Allocator_traits;
+    typedef typename Allocator_traits::template rebind_alloc<Dart> Dart_allocator;
+#else
     typedef typename Alloc_::template rebind<Dart>::other  Dart_allocator;
+#endif
 
     typedef Compact_container<Dart, Dart_allocator>        Dart_container;
 
@@ -84,11 +90,17 @@ namespace CGAL {
     typedef Items_ Items;
     typedef Alloc_ Alloc;
 
+#ifdef CGAL_CXX11
+    template <typename T>
+    struct Container_for_attributes :
+        public Compact_container<T, typename std::allocator_traits<Alloc_>::template rebind_alloc<T> >
+    {};
+#else
     template <typename T>
     struct Container_for_attributes :
         public Compact_container<T, typename Alloc_::template rebind<T>::other>
     {};
-
+#endif
     /// Typedef for attributes
     typedef typename internal::template Get_attributes_tuple<Dart_wrapper>::type
                                    Attributes;
@@ -358,7 +370,7 @@ namespace CGAL {
 
     // Get the dart of the i-cell attribute associated with the given dart
     template<unsigned int i>
-    Dart_handle & dart(Dart_handle adart)
+    Dart_handle dart(Dart_handle adart)
     {
       CGAL_assertion( adart!=NULL );
       CGAL_assertion( attribute<i>(adart)!=NULL );

@@ -12,6 +12,10 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
+// $URL$
+// $Id$
+// SPDX-License-Identifier: GPL-3.0+
+//
 // Author(s)     : Mael Rouxel-Labbé
 
 #ifndef CGAL_SURFACE_MESH_PARAMETERIZATION_INTERNAL_ERROR_CODE_H
@@ -45,7 +49,7 @@ enum Error_code
 /// \brief Get the message corresponding to an error code.
 /// \param error_code The code returned by `parameterize()`
 /// \return The string describing the error code.
-const char* get_error_message(int error_code)
+inline const char* get_error_message(int error_code)
 {
   // Messages corresponding to Error_code list above. Must be kept in sync!
   static const char* error_message[ERROR_WRONG_PARAMETER+1] = {

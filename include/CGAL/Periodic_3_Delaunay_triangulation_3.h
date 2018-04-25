@@ -12,6 +12,10 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
+// $URL$
+// $Id$
+// SPDX-License-Identifier: GPL-3.0+
+//
 // Author(s)     : Monique Teillaud <Monique.Teillaud@sophia.inria.fr>
 //                 Sylvain Pion <Sylvain.Pion@sophia.inria.fr>
 //                 Andreas Fabri <Andreas.Fabri@sophia.inria.fr>
@@ -30,7 +34,6 @@
 #include <CGAL/internal/Periodic_3_Delaunay_triangulation_remove_traits_3.h>
 #include <CGAL/Delaunay_triangulation_3.h>
 
-#include <algorithm>
 #include <iostream>
 #include <vector>
 #include <utility>
@@ -113,6 +116,12 @@ public:
   typedef typename Base::Periodic_segment_iterator  Periodic_segment_iterator;
   typedef typename Base::Periodic_tetrahedron_iterator  Periodic_tetrahedron_iterator;
   //@}
+
+  //Tag to distinguish Delaunay from Regular triangulations
+  typedef Tag_false                             Weighted_tag;
+
+  // Tag to distinguish periodic triangulations from others
+  typedef Tag_true                              Periodic_tag;
 
 #ifndef CGAL_CFG_USING_BASE_MEMBER_BUG_2
   using Base::cw;
@@ -360,11 +369,10 @@ public:
             edge_to_delete = std::make_pair((*it)->vertex(k),(*it)->vertex(j));
           }
           Vertex_handle v_no = edge_to_delete.first;
-          sit = std::find(too_long_edges[v_no].begin(),
-              too_long_edges[v_no].end(),
-              edge_to_delete.second);
-          if(sit != too_long_edges[v_no].end()) {
-            too_long_edges[v_no].erase(sit);
+          std::list<Vertex_handle>& vl = too_long_edges[v_no];
+          sit = std::find(vl.begin(), vl.end(), edge_to_delete.second);
+          if(sit != vl.end()) {
+            vl.erase(sit);
             too_long_edge_counter--;
           }
         }
@@ -398,12 +406,12 @@ public:
           p1 = construct_point((*it)->vertex(j)->point(), get_offset(*it, j));
           p2 = construct_point((*it)->vertex(k)->point(), get_offset(*it, k));
 
+          std::list<Vertex_handle>& vl = too_long_edges[(*it)->vertex(j)];
+
           if((squared_distance(p1,p2) > edge_length_threshold)
-             && (find(too_long_edges[(*it)->vertex(j)].begin(),
-                      too_long_edges[(*it)->vertex(j)].end(),
-                      edge_to_add.second)
-                 == too_long_edges[(*it)->vertex(j)].end())) {
-            too_long_edges[(*it)->vertex(j)].push_back(edge_to_add.second);
+             && (find(vl.begin(), vl.end(), edge_to_add.second)
+                 == vl.end())) {
+            vl.push_back(edge_to_add.second);
             too_long_edge_counter++;
           }
         }
@@ -482,7 +490,7 @@ public:
       is_large_point_set = false;
 
     std::vector<Point> points(first, last);
-    std::random_shuffle (points.begin(), points.end());
+    CGAL::cpp98::random_shuffle (points.begin(), points.end());
     Cell_handle hint;
     std::vector<Vertex_handle> dummy_points, double_vertices;
     typename std::vector<Point>::iterator pbegin = points.begin();

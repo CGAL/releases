@@ -14,6 +14,7 @@
 //
 // $URL$
 // $Id$
+// SPDX-License-Identifier: LGPL-3.0+
 // 
 //
 // Author(s)     : Sebastien Loriot, Sylvain Pion
@@ -78,7 +79,7 @@ namespace CGAL{
     int IpelibVersion() const { return IPELIB_VERSION; }
     int NumFunctions() const { return nbf; }
     virtual const char *Label() const{ return &Name[0]; }
-    const char *About() const {return "http://www.cgal.org";};
+    const char *About() const {return "https://www.cgal.org";};
     virtual const char *SubLabel(int function) const {return &SubLab[function][0];};
     virtual const char *HelpMsg(int function) const{return &HMsg[function][0];};
     void Run (int i, IpePage *page, IpeletHelper *helper) {
@@ -88,7 +89,7 @@ namespace CGAL{
         protected_run(i);
       }
       catch(...){
-        helper->MessageBox("Error : Save your page in a file and submit it to \n http://www.cgal.org/bug_report.html","OK",NULL,NULL);
+        helper->MessageBox("Error : Save your page in a file and submit it to \n https://www.cgal.org/bug_report.html","OK",NULL,NULL);
       }
     };
 

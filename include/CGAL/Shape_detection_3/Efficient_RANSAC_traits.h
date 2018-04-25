@@ -14,6 +14,7 @@
 //
 // $URL$
 // $Id$
+// SPDX-License-Identifier: GPL-3.0+
 //
 //
 // Author(s)     : Sven Oesau, Yannick Verdie, Clément Jamin, Pierre Alliez
@@ -27,12 +28,14 @@
 
 #include <CGAL/Search_traits_3.h>
 
+/// \cond SKIP_IN_MANUAL
+
 namespace CGAL {
   namespace Shape_detection_3 {
     /*!
       \ingroup PkgPointSetShapeDetection3
       \brief %Default traits class to use the shape detection class `Efficient_RANSAC`.
-      \cgalModels `EfficientRANSACTraits`
+      \cgalModels `Shape_detection_3::Traits`
 
       \tparam Gt a model of the concept `#Kernel` with `Gt::FT` being `float` or `double`.
 
@@ -48,7 +51,9 @@ namespace CGAL {
             class InputRange,
             class InputPointMap,
             class InputNormalMap>
-  struct Efficient_RANSAC_traits {
+  struct
+  CGAL_DEPRECATED_MSG("CGAL::Shape_detection_3::Efficient_RANSAC_traits<> is now called CGAL::Shape_detection_3::Shape_detection_traits<>, please update your code")
+  Efficient_RANSAC_traits {
     ///
     typedef typename Gt::FT FT;
     ///
@@ -192,5 +197,7 @@ namespace CGAL {
   };
 
 } } // end of namespace CGAL::Shape_detection_3
+
+/// \endcond
 
 #endif // CGAL_SHAPE_DETECTION_3_EFFICIENT_RANSAC_TRAITS_H

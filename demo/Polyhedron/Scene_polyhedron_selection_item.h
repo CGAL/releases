@@ -7,10 +7,8 @@
 
 #ifdef USE_SURFACE_MESH
 #include "Scene_surface_mesh_item.h"
-#include <CGAL/Mesh_3/properties_Surface_mesh.h>
 #else
 #include "Polyhedron_type.h"
-#include <CGAL/Mesh_3/properties_Polyhedron_3.h>
 #endif
 #include "Scene_polyhedron_item_decorator.h"
 #include <CGAL/property_map.h>
@@ -440,6 +438,8 @@ public:
       break;
     }
   }
+
+  void select_boundary();
   void select_all_NT();
   // select all of vertex, facet or edge (use fg_vertex_descriptor, fg_face_descriptor, fg_edge_descriptor as template argument)
   template<class HandleType>
@@ -785,11 +785,10 @@ public:
   {
     CGAL::detect_sharp_edges(polyhedron(), angle);
 
-    boost::property_map<Face_graph,CGAL::halfedge_is_feature_t>::type is_feature = get(CGAL::halfedge_is_feature,*polyhedron());
+    boost::property_map<Face_graph,CGAL::edge_is_feature_t>::type is_feature = get(CGAL::edge_is_feature,*polyhedron());
     BOOST_FOREACH(fg_edge_descriptor e, edges(*polyhedron()))
     {
-      fg_halfedge_descriptor h = halfedge(e, *polyhedron());
-      if (get(is_feature,h))
+      if (get(is_feature,e))
         selected_edges.insert(e);
     }
     invalidateOpenGLBuffers();
@@ -813,6 +812,7 @@ Q_SIGNALS:
   void updateInstructions(QString);
   void simplicesSelected(CGAL::Three::Scene_item*);
   void isCurrentlySelected(Scene_facegraph_item_k_ring_selection*);
+  void printMessage(QString);
 
 public Q_SLOTS:
 
@@ -826,6 +826,7 @@ public Q_SLOTS:
   void validateMoveVertex();
   void compute_normal_maps();
   void clearHL();
+  QString toolTip() const;
 
   // slots are called by signals of polyhedron_k_ring_selector
   void selected(const std::set<fg_vertex_descriptor>& m)

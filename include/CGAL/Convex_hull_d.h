@@ -14,6 +14,7 @@
 //
 // $URL$
 // $Id$
+// SPDX-License-Identifier: GPL-3.0+
 // 
 //
 // Author(s)     : Michael Seel <seel@mpi-sb.mpg.de>
@@ -33,7 +34,7 @@
 
 #define CGAL_DEPRECATED_HEADER "<CGAL/Convex_hull_d.h>"
 #define CGAL_DEPRECATED_MESSAGE_DETAILS \
-  "The Triangulation package (see http://doc.cgal.org/latest/Triangulation) should be used instead."
+  "The Triangulation package (see https://doc.cgal.org/latest/Triangulation) should be used instead."
 #include <CGAL/internal/deprecation_warning.h>
 
 /*{\Manpage {Convex_hull_d}{R}{Convex Hulls}{C}}*/

@@ -14,6 +14,7 @@
 //
 // $URL$
 // $Id$
+// SPDX-License-Identifier: GPL-3.0+
 //
 // Author(s)     : Idit Haran   <haranidi@post.tau.ac.il>
 //                 Ron Wein     <wein@post.tau.ac.il>
@@ -32,6 +33,7 @@
 #include <CGAL/Arrangement_2/Arr_traits_adaptor_2.h>
 #include <CGAL/Arr_point_location/Arr_lm_nearest_neighbor.h>
 #include <CGAL/Arr_batched_point_location.h>
+#include <CGAL/algorithm.h>
 
 #include <list>
 #include <algorithm>
@@ -456,7 +458,7 @@ protected:
 
     // Apply a random shuffle on the points, since the batched point-location
     // returns them sorted.
-    std::random_shuffle(pairs.begin(), pairs.end());
+    CGAL::cpp98::random_shuffle(pairs.begin(), pairs.end());
 
     // Insert all landmarks (paired with their current location in the
     // arrangement) into the nearest-neighbor search structure.

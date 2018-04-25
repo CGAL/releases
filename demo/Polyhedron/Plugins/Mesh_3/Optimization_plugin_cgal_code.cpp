@@ -4,7 +4,6 @@
 #include "Scene_c3t3_item.h"
 #include "Scene_surface_mesh_item.h"
 #include "Scene_polyhedron_item.h"
-#include <CGAL/Mesh_3/properties_Surface_mesh.h>
 
 #ifdef CGAL_MESH_3_DEMO_ACTIVATE_SEGMENTED_IMAGES
 #include "Scene_image_item.h"
@@ -156,8 +155,7 @@ Optimizer_thread* cgal_code_optimization(Scene_c3t3_item& c3t3_item,
     {
       return NULL;
     }
-    SMwgd smesh_wg(const_cast< SMesh& >(*smesh));
-    Polyhedral_mesh_domain_sm* sm_domain = new Polyhedral_mesh_domain_sm(smesh_wg);
+    Polyhedral_mesh_domain_sm* sm_domain = new Polyhedral_mesh_domain_sm(*smesh);
 
     // Create thread
     typedef Optimization_function<Polyhedral_mesh_domain_sm,Parameters> Opt_function;

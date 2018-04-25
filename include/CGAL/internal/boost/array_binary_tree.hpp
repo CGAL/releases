@@ -10,6 +10,7 @@
 //
 // $URL$
 // $Id$
+// SPDX-License-Identifier: BSL-1.0
 //
 // NOTE: this file have been taken from boost 1.46.1 for using
 //       with Modificable_priority_queue (to enhance the 
@@ -19,7 +20,7 @@
 #ifndef CGAL_INTERNAL_ARRAY_BINARY_TREE_HPP
 #define CGAL_INTERNAL_ARRAY_BINARY_TREE_HPP
 
-#include <iterator>
+#include <boost/iterator.hpp>
 #include <functional>
 #include <boost/config.hpp>
 
