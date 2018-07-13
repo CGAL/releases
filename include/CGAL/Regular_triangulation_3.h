@@ -360,7 +360,7 @@ namespace CGAL {
         // Insert "num_points_seq" points sequentially
         // (or more if dim < 3 after that)
         size_t num_points_seq = (std::min)(num_points, (size_t)100);
-        while (dimension() < 3 || i < num_points_seq)
+        while (i < num_points_seq || (dimension() < 3 && i < num_points))
         {
           Locate_type lt;
           Cell_handle c;
@@ -425,7 +425,8 @@ namespace CGAL {
     template<class Construct_bare_point, class Container>
     struct Index_to_Bare_point
     {
-      const Bare_point& operator()(const std::size_t& i) const
+      typename boost::result_of<const Construct_bare_point(const Weighted_point&)>::type
+      operator()(const std::size_t& i) const
       {
         return cp(c[i]);
       }
@@ -483,7 +484,7 @@ namespace CGAL {
         // Insert "num_points_seq" points sequentially
         // (or more if dim < 3 after that)
         size_t num_points_seq = (std::min)(num_points, (size_t)100);
-        while (dimension() < 3 || i < num_points_seq)
+        while (i < num_points_seq || (dimension() < 3 && i < num_points))
         {
           Locate_type lt;
           Cell_handle c;
