@@ -69,7 +69,7 @@ VertexIndexMap vertex_id_map;
 typedef boost::associative_property_map<VertexIndexMap> VertexIdPropertyMap;
 VertexIdPropertyMap vertex_index_pmap(vertex_id_map);
 
-void mstIpelet::protected_run(int fn)
+void mstIpelet::protected_run(int /*fn*/)
 {
   std::list<Point_2> pt_list;
 
@@ -104,7 +104,6 @@ void mstIpelet::protected_run(int fn)
    boost::kruskal_minimum_spanning_tree(ft,
                     std::back_inserter(mst),
                     vertex_index_map(vertex_index_pmap));
-   std::cout << "The edges of the Euclidean mimimum spanning tree:" << std::endl;
    for(std::list<edge_descriptor>::iterator it = mst.begin(); it != mst.end(); ++it){
      edge_descriptor ed = *it;
      vertex_descriptor svd = source(ed,t);
