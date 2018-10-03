@@ -1401,6 +1401,12 @@ bool Scene_surface_mesh_item::isItemMulticolor()
   return d->has_fcolors;
 }
 
+bool Scene_surface_mesh_item::hasPatchIds()
+{
+  return d->has_fpatch_id;
+}
+
+
 bool
 Scene_surface_mesh_item::save(std::ostream& out) const
 {
@@ -1651,8 +1657,8 @@ CGAL::Three::Scene_item::Header_data Scene_surface_mesh_item::header() const
 
   data.categories.append(std::pair<QString,int>(QString("Properties"),9));
   data.categories.append(std::pair<QString,int>(QString("Faces"),10));
-  data.categories.append(std::pair<QString,int>(QString("Edges"),6));
-  data.categories.append(std::pair<QString,int>(QString("Angles"),3));
+  data.categories.append(std::pair<QString,int>(QString("Edges"),7));
+  data.categories.append(std::pair<QString,int>(QString("Angles"),2));
 
 
   //titles
@@ -1826,7 +1832,7 @@ QMenu* Scene_surface_mesh_item::contextMenu()
   QAction* actionResetColor=
       menu->findChild<QAction*>(tr("actionResetColor"));
 
-  if(isItemMulticolor())
+  if(isItemMulticolor() || d->has_fpatch_id)
   {
     if(!actionResetColor)
     {
