@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL$
-// $Id$
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14-beta1/Nef_S2/include/CGAL/Nef_S2/Sphere_segment.h $
+// $Id: Sphere_segment.h d8f608f %aI Andreas Fabri
 // SPDX-License-Identifier: GPL-3.0+
 // 
 //
@@ -141,7 +141,7 @@ Sphere_segment(const Sphere_circle<R>& c1,
 that is part of the halfsphere left of the oriented circle |c2|.
 \precond |c1 != c2| as unoriented circles.}*/
 
-Sphere_segment(const Self& s) : Base(s) {}
+// Sphere_segment(const Self& s) : Base(s) {}
 
 /*{\Moperations 4 2}*/
 

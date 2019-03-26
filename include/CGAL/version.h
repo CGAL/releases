@@ -1,4 +1,5 @@
-// Copyright (c) 2006  Utrecht University (The Netherlands),
+// Copyright (c) 2009
+// Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland),
 // INRIA Sophia-Antipolis (France),
 // Max-Planck-Institute Saarbruecken (Germany),
@@ -15,24 +16,21 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14-beta1/Installation/include/CGAL/version.h $
+// $Id: version.h 01e5727 %aI Laurent Rineau
 // SPDX-License-Identifier: LGPL-3.0+
 //
 // Author(s)     : -
 
-// This file is automatically created by create_internal_release.
-// Do not edit manually.
-
 #ifndef CGAL_VERSION_H
 #define CGAL_VERSION_H
 
-#define CGAL_xstr(s) #s
-#define CGAL_str(s) CGAL_xstr(s)
-
-#define CGAL_VERSION 4.13
-#define CGAL_VERSION_NR 1041301000
+#define CGAL_VERSION 4.14-beta1
+#define CGAL_VERSION_NR 1041401000
 #define CGAL_SVN_REVISION 99999
-#define CGAL_GIT_HASH 48bb90a36e42cb4f97bad676f57bae66fc32ccd7
-#define CGAL_RELEASE_DATE 20181001
-#define CGAL_VERSION_STR CGAL_str(CGAL_VERSION)
+#define CGAL_GIT_HASH 7be874c46422eaf67cc06b3c727e8b95d04cd63f
+#define CGAL_RELEASE_DATE 20190301
+
+#include <CGAL/version_macros.h>
 
 #endif

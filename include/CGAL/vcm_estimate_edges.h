@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL$
-// $Id$
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14-beta1/Point_set_processing_3/include/CGAL/vcm_estimate_edges.h $
+// $Id: vcm_estimate_edges.h 2f9408f %aI Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0+
 //
 // Author(s) : Jocelyn Meyron and Quentin Mérigot
@@ -30,7 +30,7 @@
 
 namespace CGAL {
 
-/// \ingroup PkgPointSetProcessingAlgorithms
+/// \ingroup PkgPointSetProcessing3Algorithms
 /// determines if a point is on a sharp feature edge from a point set
 /// for which the Voronoi covariance Measures have been computed.
 ///

@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL$
-// $Id$
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14-beta1/Spatial_searching/include/CGAL/Kd_tree_rectangle.h $
+// $Id: Kd_tree_rectangle.h 5a2857d %aI Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0+
 // 
 //
@@ -166,6 +166,7 @@ namespace CGAL {
     inline FT 
     min_coord(int i) const 
     {
+      CGAL_assume(i<D::value);
       CGAL_assertion(lower_.size() != 0);
       return lower_[i];
     }
@@ -173,6 +174,7 @@ namespace CGAL {
     inline FT 
     max_coord(int i) const 
     {
+      CGAL_assume(i<D::value);
       return upper_[i];
     }
     

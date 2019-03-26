@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL$
-// $Id$
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14-beta1/Arrangement_on_surface_2/include/CGAL/Curved_kernel_via_analysis_2/Make_x_monotone_2.h $
+// $Id: Make_x_monotone_2.h 26c857a %aI Mael Rouxel-Labbé
 // SPDX-License-Identifier: LGPL-3.0+
 //
 //

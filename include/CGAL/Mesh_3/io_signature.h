@@ -13,8 +13,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL$
-// $Id$
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14-beta1/Mesh_3/include/CGAL/Mesh_3/io_signature.h $
+// $Id: io_signature.h d82cdbc %aI Laurent Rineau
 // SPDX-License-Identifier: GPL-3.0+
 //
 // Author(s)     : Laurent RINEAU
@@ -106,6 +106,46 @@ struct Get_io_signature<unsigned int>
 {
   std::string operator()() {
     return "ui";
+  }
+};
+
+template <>
+struct Get_io_signature<char>
+{
+  std::string operator()() {
+    return "c";
+  }
+};
+
+template <>
+struct Get_io_signature<unsigned char>
+{
+  std::string operator()() {
+    return "uc";
+  }
+};
+
+template <>
+struct Get_io_signature<signed char>
+{
+  std::string operator()() {
+    return "sc";
+  }
+};
+
+template <>
+struct Get_io_signature<short int>
+{
+  std::string operator()() {
+    return "s";
+  }
+};
+
+template <>
+struct Get_io_signature<unsigned short int>
+{
+  std::string operator()() {
+    return "us";
   }
 };
 

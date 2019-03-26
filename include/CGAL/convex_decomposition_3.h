@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL$
-// $Id$
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14-beta1/Convex_decomposition_3/include/CGAL/convex_decomposition_3.h $
+// $Id: convex_decomposition_3.h a2e8a1c %aI Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0+
 // 
 //
@@ -44,7 +44,7 @@
 namespace CGAL {
 
 /*!
-\ingroup PkgConvexDecomposition3
+\ingroup PkgConvexDecomposition3Ref
 
 The function `convex_decomposition_3()` inserts additional facets 
 into the given `Nef_polyhedron_3` `N`, such that each bounded 

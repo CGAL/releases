@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL$
-// $Id$
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14-beta1/Point_set_processing_3/include/CGAL/IO/write_ply_points.h $
+// $Id: write_ply_points.h 2f9408f %aI Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0+
 //
 // Author(s) : Simon Giraudot
@@ -46,7 +46,7 @@
 namespace CGAL {
 
   /**
-     \ingroup PkgPointSetProcessingIOPly
+     \ingroup PkgPointSetProcessing3IOPly
      
      Generates a %PLY property handler to write 3D points. Points are
      written as 3 %PLY properties of type `FT` and named `x`, `y` and
@@ -75,7 +75,7 @@ namespace CGAL {
   }
 
   /**
-     \ingroup PkgPointSetProcessingIOPly
+     \ingroup PkgPointSetProcessing3IOPly
      
      Generates a %PLY property handler to write 3D normal
      vectors. Vectors are written as 3 %PLY properties of type `FT`
@@ -331,7 +331,7 @@ namespace internal {
 
 
 /**
-   \ingroup PkgPointSetProcessingIOPly
+   \ingroup PkgPointSetProcessing3IOPly
    Saves the range of `points` with properties to a
    .ply stream. %PLY is either ASCII or binary depending on the value
    of `CGAL::get_mode(stream)`.
@@ -397,7 +397,7 @@ write_ply_points_with_properties(
 }
 
 /**
-   \ingroup PkgPointSetProcessingIOPly
+   \ingroup PkgPointSetProcessing3IOPly
    Saves the range of `points` (positions + normals, if available) to
    a .ply stream. %PLY is either ASCII or binary depending on the
    value of `CGAL::get_mode(stream)`.

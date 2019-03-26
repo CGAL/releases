@@ -13,8 +13,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL$
-// $Id$
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14-beta1/Subdivision_method_3/include/CGAL/subdivision_method_3.h $
+// $Id: subdivision_method_3.h 2f9408f %aI Sébastien Loriot
 // SPDX-License-Identifier: LGPL-3.0+
 //
 //
@@ -23,7 +23,7 @@
 // ======================================================================
 
 /**
-* \ingroup PkgSurfaceSubdivisionMethods3
+* \ingroup PkgSurfaceSubdivisionMethod3Ref
 * \file CGAL/subdivision_method_3.h
 * Convenience header file including the headers for all
 * the free functions of this package.

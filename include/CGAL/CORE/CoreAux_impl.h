@@ -29,8 +29,8 @@
  * WWW URL: http://cs.nyu.edu/exact/
  * Email: exact@cs.nyu.edu
  *
- * $URL$
- * $Id$
+ * $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14-beta1/CGAL_Core/include/CGAL/CORE/CoreAux_impl.h $
+ * $Id: CoreAux_impl.h 78e7060 %aI Laurent Rineau
  * SPDX-License-Identifier: LGPL-3.0+
  ***************************************************************************/
 

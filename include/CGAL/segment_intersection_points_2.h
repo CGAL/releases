@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL$
-// $Id$
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14-beta1/Convex_hull_2/include/CGAL/segment_intersection_points_2.h $
+// $Id: segment_intersection_points_2.h 97b5c37 %aI Andreas Fabri
 // SPDX-License-Identifier: GPL-3.0+
 // 
 //
@@ -32,7 +32,7 @@
 namespace CGAL {
 
 /*
-#include <CGAL/Segment_2_Segment_2_intersection.h>
+#include <CGAL/Intersections_2/Segment_2_Segment_2.h>
 template <class ForwardIterator, class OutputIterator, class R>
 OutputIterator
 si_brute_force(ForwardIterator first, ForwardIterator last,

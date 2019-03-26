@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL$
-// $Id$
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14-beta1/Classification/include/CGAL/Classification.h $
+// $Id: Classification.h c81fbe4 %aI Simon Giraudot
 // SPDX-License-Identifier: GPL-3.0+
 //
 // Author(s)     : Simon Giraudot
@@ -25,10 +25,14 @@
 
 #include <CGAL/Classification/classify.h>
 #include <CGAL/Classification/Sum_of_weighted_features_classifier.h>
-#include <CGAL/Classification/ETHZ_random_forest_classifier.h>
+#include <CGAL/Classification/ETHZ/Random_forest_classifier.h>
 
 #ifdef CGAL_LINKED_WITH_OPENCV
-#include <CGAL/Classification/OpenCV_random_forest_classifier.h>
+#include <CGAL/Classification/OpenCV/Random_forest_classifier.h>
+#endif
+
+#ifdef CGAL_LINKED_WITH_TENSORFLOW
+#include <CGAL/Classification/TensorFlow/Neural_network_classifier.h>
 #endif
 
 #include <CGAL/Classification/Cluster.h>

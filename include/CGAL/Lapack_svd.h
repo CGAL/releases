@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL$
-// $Id$
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14-beta1/Solver_interface/include/CGAL/Lapack_svd.h $
+// $Id: Lapack_svd.h 2f9408f %aI Sébastien Loriot
 // SPDX-License-Identifier: LGPL-3.0+
 //
 // Author(s)     : Marc Pouget and Frédéric Cazals
@@ -58,7 +58,7 @@ void dgelss(int *m, int *n, int *nrhs,
 
 namespace CGAL {
 
-/// \ingroup PkgSolver
+/// \ingroup PkgSolverInterfaceRef
 ///
 /// A matrix class to be used in the class `Lapack_svd`.
 ///
@@ -102,7 +102,7 @@ private:
   Lapack_vector& operator =(const Lapack_vector& toCopy);
 };
 
-/// \ingroup PkgSolver
+/// \ingroup PkgSolverInterfaceRef
 ///
 /// In CLAPACK, matrices are one-dimensional arrays and elements are
 /// column-major ordered. This class is a wrapper defining set and get
@@ -152,7 +152,7 @@ private:
   Lapack_matrix& operator =(const Lapack_matrix& toCopy);
 }; 
 
-/// \ingroup PkgSolver
+/// \ingroup PkgSolverInterfaceRef
 ///
 /// This class is a wrapper to the singular value decomposition algorithm of LAPACK.
 ///

@@ -16,8 +16,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL$
-// $Id$
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14-beta1/Kernel_d/include/CGAL/Kernel_d/Direction_d.h $
+// $Id: Direction_d.h 383d93d %aI Andreas Fabri
 // SPDX-License-Identifier: LGPL-3.0+
 // 
 //
@@ -58,7 +58,7 @@ class Direction_d : public pR::Direction_d_base
   Direction_d (int d, InputIterator first, InputIterator last)
     : Base(d, first, last) {}
 
-  Direction_d(const Direction_d<R> &d) : Base(d) {}
+
   Direction_d(const Vector_d<R> &v) : Base(v) {}
   Direction_d(int d, Base_direction, int i) : 
     Base(d,Base_direction(),i) {}

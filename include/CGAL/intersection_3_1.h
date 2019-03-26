@@ -17,8 +17,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL$
-// $Id$
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14-beta1/Intersections_3/include/CGAL/intersection_3_1.h $
+// $Id: intersection_3_1.h 09c7fe1 %aI Andreas Fabri
 // SPDX-License-Identifier: LGPL-3.0+
 // 
 //
@@ -28,7 +28,7 @@
 #ifndef CGAL_INTERSECTION_3_1_H
 #define CGAL_INTERSECTION_3_1_H
 
-#include <CGAL/bbox_intersection_3.h>
-#include <CGAL/Intersections_3/intersection_3_1_impl.h>
+#include <CGAL/Intersections_3/internal/bbox_intersection_3.h>
+#include <CGAL/Intersections_3/internal/intersection_3_1_impl.h>
 
 #endif // CGAL_INTERSECTION_3_1_H

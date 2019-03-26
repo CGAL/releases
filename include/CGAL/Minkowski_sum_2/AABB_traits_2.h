@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL$
-// $Id$
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14-beta1/Minkowski_sum_2/include/CGAL/Minkowski_sum_2/AABB_traits_2.h $
+// $Id: AABB_traits_2.h a764322 %aI Maxime Gimeno
 // SPDX-License-Identifier: GPL-3.0+
 //
 // Author(s): Sebastian Morr    <sebastian@morr.cc>
@@ -90,7 +90,7 @@ public:
 
   // Put the n/2 smallest primitives in the front, the n/2 largest primitives
   // in the back. They are compared along the bbox' longest axis.
-  class Sort_primitives
+  class Split_primitives
   {
   public:
     template<typename PrimitiveIterator>
@@ -111,9 +111,9 @@ public:
     }
   };
 
-  Sort_primitives sort_primitives_object() const
+  Split_primitives split_primitives_object() const
   {
-    return Sort_primitives();
+    return Split_primitives();
   }
 
   // Computes the bounding box of a set of primitives

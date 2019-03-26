@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL$
-// $Id$
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14-beta1/Polygon_mesh_processing/include/CGAL/Side_of_triangle_mesh.h $
+// $Id: Side_of_triangle_mesh.h 3dd0aa1 %aI Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0+
 // 
 //
@@ -37,7 +37,7 @@
 namespace CGAL {
 
 /** 
- * \ingroup PkgPolygonMeshProcessing
+ * \ingroup PkgPolygonMeshProcessingRef
  * This class provides an efficient point location functionality with respect to a domain bounded
  * by one or several disjoint closed triangle meshes.
  *
@@ -55,7 +55,7 @@ namespace CGAL {
  * will return in turns `CGAL::ON_BOUNDED_SIDE` and `CGAL::ON_UNBOUNDED_SIDE`,
  * following the aforementioned parity criterion.
  *
- * This class depends on the package \ref PkgAABB_treeSummary.
+ * This class depends on the package \ref PkgAABBTree.
  *
  * @tparam TriangleMesh a triangulated surface mesh, model of `FaceListGraph`
  * @tparam GeomTraits a geometric traits class, model of `Kernel`

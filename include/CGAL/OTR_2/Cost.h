@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL$
-// $Id$
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14-beta1/Optimal_transportation_reconstruction_2/include/CGAL/OTR_2/Cost.h $
+// $Id: Cost.h d03a49b %aI Andreas Fabri
 // SPDX-License-Identifier: GPL-3.0+
 //
 // Author(s)     : Fernando de Goes, Pierre Alliez, Ivo Vigan, Clément Jamin
@@ -40,32 +40,14 @@ private:
   FT m_total_weight;
 
 public:
-  Cost()
-  : m_norm(0),
-    m_tang(0),
-    m_max_norm(0),
-    m_max_tang(0),
-    m_total_weight(0)
-  {}
 
-  Cost(const FT norm, const FT tang)
+  Cost(const FT norm = FT(0), const FT tang = FT(0))
   : m_norm(norm),
     m_tang(tang),
     m_max_norm(norm),
     m_max_tang(tang),
     m_total_weight(0)
   {}
-
-  ~Cost() {}
-
-  Cost& operator= (const Cost& cost)
-  {
-    m_norm = cost.norm();
-    m_tang = cost.tang();
-    m_max_norm = cost.max_norm();
-    m_max_tang = cost.max_tang();
-    return *this;
-  }
 
   const FT norm() const { return m_norm; }
 

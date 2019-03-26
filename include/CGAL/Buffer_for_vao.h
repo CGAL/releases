@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL$
-// $Id$
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14-beta1/GraphicsView/include/CGAL/Buffer_for_vao.h $
+// $Id: Buffer_for_vao.h 4b8bd40 %aI Guillaume Damiand
 // SPDX-License-Identifier: GPL-3.0+
 // 
 //
@@ -426,8 +426,7 @@ public:
       const Local_point& S=facet[id];
       const Local_point& T=facet[(id+1==facet.size())?0:id+1];
       Local_vector V1=Local_vector((T-S).x(), (T-S).y(), (T-S).z());
-
-      const Local_point& U=facet[(id+2==facet.size())?0:id+2];
+      const Local_point& U=facet[(id+2>=facet.size())?id+2-facet.size():id+2];
       Local_vector V2=Local_vector((U-T).x(), (U-T).y(), (U-T).z());
 
       orientation = Local_kernel::Orientation_3()(V1, V2, normal);
@@ -448,7 +447,7 @@ public:
       const Local_point& T=facet[(id+1==facet.size())?0:id+1];
       Local_vector V1=Local_vector((T-S).x(), (T-S).y(), (T-S).z());
       
-      const Local_point& U=facet[(id+2==facet.size())?0:id+2];
+      const Local_point& U=facet[(id+2>=facet.size())?id+2-facet.size():id+2];
       Local_vector V2=Local_vector((U-T).x(), (U-T).y(), (U-T).z());
       
       local_orientation=Local_kernel::Orientation_3()(V1, V2, normal) ;

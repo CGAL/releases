@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL$
-// $Id$
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14-beta1/Polyhedron/include/CGAL/polyhedron_cut_plane_3.h $
+// $Id: polyhedron_cut_plane_3.h 22bd281 %aI Andreas Fabri
 // SPDX-License-Identifier: GPL-3.0+
 // 
 //

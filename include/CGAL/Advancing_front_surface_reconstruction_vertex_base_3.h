@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL$
-// $Id$
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14-beta1/Advancing_front_surface_reconstruction/include/CGAL/Advancing_front_surface_reconstruction_vertex_base_3.h $
+// $Id: Advancing_front_surface_reconstruction_vertex_base_3.h a2e8a1c %aI Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0+
 //
 // Author(s)     : Frank Da, David Cohen-Steiner, Andreas Fabri
@@ -38,7 +38,7 @@ namespace CGAL {
   template <class B, class C> class Advancing_front_surface_reconstruction;
 
   /*!
-  \ingroup PkgAdvancingFrontSurfaceReconstruction
+  \ingroup PkgAdvancingFrontSurfaceReconstructionRef
 
   The class `Advancing_front_surface_reconstruction_vertex_base_3` is the default
   vertex type for the class  `Advancing_front_surface_reconstruction`.

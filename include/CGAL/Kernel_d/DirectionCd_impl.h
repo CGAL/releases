@@ -16,8 +16,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL$
-// $Id$
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14-beta1/Kernel_d/include/CGAL/Kernel_d/DirectionCd_impl.h $
+// $Id: DirectionCd_impl.h 41f420f %aI Marc Glisse
 // SPDX-License-Identifier: LGPL-3.0+
 // 
 //
@@ -52,8 +52,8 @@ cmp(const DirectionCd<FT,LA>& h1,
   int c2 = CGAL_NTS sign(h2.delta(i));
   if (c1 != c2) return CGAL_NTS compare(c1,c2);
  
-  FT s1 = (FT) CGAL_NTS sign(h2.delta(i)) * h2.delta(i); 
-  FT s2 = (FT) CGAL_NTS sign(h1.delta(i)) * h1.delta(i); 
+  FT s1 = (FT) (int) CGAL_NTS sign(h2.delta(i)) * h2.delta(i);
+  FT s2 = (FT) (int) CGAL_NTS sign(h1.delta(i)) * h1.delta(i);
 
   i++;
   Comparison_result c; 

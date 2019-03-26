@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL$
-// $Id$
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14-beta1/Installation/include/CGAL/license/Periodic_3_mesh_3.h $
+// $Id: Periodic_3_mesh_3.h 15fe22c %aI Mael Rouxel-Labbé
 // SPDX-License-Identifier: LGPL-3.0+
 //
 // Author(s) : Andreas Fabri
@@ -48,8 +48,8 @@
 
 #  if defined(CGAL_LICENSE_WARNING)
      CGAL_pragma_warning("\nThe macro CGAL_PERIODIC_3_MESH_3_COMMERCIAL_LICENSE is not defined."
-                         "\nYou use the CGAL 3D Periodic Mesh Generation package under "
-                         "the terms of the GPLv3+.")
+                          "\nYou use the CGAL 3D Periodic Mesh Generation package under "
+                          "the terms of the GPLv3+.")
 #  endif // CGAL_LICENSE_WARNING
 
 #  ifdef CGAL_LICENSE_ERROR

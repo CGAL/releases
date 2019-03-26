@@ -32,8 +32,8 @@
  *      - copied Jacobi preconditioner from Graphite 1.9 code
  *      - Added OpenNL namespace
  *
- * $URL$
- * $Id$
+ * $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14-beta1/OpenNL/include/CGAL/OpenNL/preconditioner.h $
+ * $Id: preconditioner.h 8cdfad0 %aI Sébastien Loriot
  * SPDX-License-Identifier: LGPL-3.0+
  */
 

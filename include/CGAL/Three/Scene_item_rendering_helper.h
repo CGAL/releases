@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL$
-// $Id$
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14-beta1/Three/include/CGAL/Three/Scene_item_rendering_helper.h $
+// $Id: Scene_item_rendering_helper.h 9072324 %aI Maxime Gimeno
 // SPDX-License-Identifier: GPL-3.0+
 //
 // Author(s)     : Maxime Gimeno
@@ -78,12 +78,6 @@ public:
 #endif
   Q_DECLARE_FLAGS(Gl_data_names, Gl_data_name)
 
-#ifdef DOXYGEN_RUNNING
-  //! \brief Flag interface for Scene_item::Gl_data_name.
-  //! \todo Review Laurent Rineau:  Should be explained better. Points to `QFlags`...
-  enum Gl_data_names{};
-#endif
-  
   QMenu* contextMenu() Q_DECL_OVERRIDE;
 
   /*!

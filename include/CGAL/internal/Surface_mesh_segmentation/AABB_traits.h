@@ -13,8 +13,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL$
-// $Id$
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14-beta1/Surface_mesh_segmentation/include/CGAL/internal/Surface_mesh_segmentation/AABB_traits.h $
+// $Id: AABB_traits.h 827e9fe %aI Andreas Fabri
 // SPDX-License-Identifier: GPL-3.0+
 //
 // Author(s)     : Ilker O. Yaz
@@ -61,7 +61,7 @@ public:
       const Point_3& p = segment.source();
       const Point_3& q = segment.target();
 
-      return internal::do_intersect_bbox_segment_aux
+      return Intersections::internal::do_intersect_bbox_segment_aux
              <double,
              true, // bounded at t=0
              true, // bounded at t=1
@@ -79,7 +79,7 @@ public:
       const Point_3& p = ray.source();
       const Point_3& q = ray.second_point();
 
-      return internal::do_intersect_bbox_segment_aux
+      return Intersections::internal::do_intersect_bbox_segment_aux
              <double,
              true, // bounded at t=0
              false,// not bounded at t=1

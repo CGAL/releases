@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL$
-// $Id$
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14-beta1/Segment_Delaunay_graph_Linf_2/include/CGAL/Side_of_bounded_square_2.h $
+// $Id: Side_of_bounded_square_2.h 4fb1fe6 %aI Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0+
 // 
 //
@@ -70,7 +70,7 @@ namespace CGAL {
         bool samepq = false;
         bool samepr = false;
         bool sameqr = false;
-        const Comparison_result cmppq = compare(p, q);
+        const Comparison_result cmppq = CGAL::compare(p, q);
         switch(cmppq) {
           case SMALLER:
             min_p = &p;
@@ -86,7 +86,7 @@ namespace CGAL {
             samepq = true;
             break;
         }
-        const Comparison_result cmppr = compare(p, r);
+        const Comparison_result cmppr = CGAL::compare(p, r);
         Comparison_result cmpqr;
         if (samepq) {
           cmpqr = cmppr;
@@ -105,7 +105,7 @@ namespace CGAL {
           if (min_p == &p) {
             switch(cmppr) {
               case SMALLER:
-                cmpqr = compare(q, r);
+                cmpqr = CGAL::compare(q, r);
                 switch(cmpqr) {
                   case SMALLER:
                     max_p = &r;
@@ -135,7 +135,7 @@ namespace CGAL {
                 max_p = &r;
                 break;
               case LARGER:
-                cmpqr = compare(q, r);
+                cmpqr = CGAL::compare(q, r);
                 switch(cmpqr) {
                   case SMALLER:
                     break;

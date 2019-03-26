@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL$
-// $Id$
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14-beta1/Surface_mesh_parameterization/include/CGAL/Surface_mesh_parameterization/Error_code.h $
+// $Id: Error_code.h 2f9408f %aI Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0+
 //
 // Author(s)     : Mael Rouxel-Labbé
@@ -29,7 +29,7 @@ namespace CGAL {
 
 namespace Surface_mesh_parameterization {
 
-/// \ingroup PkgSurfaceParameterizationEnums
+/// \ingroup PkgSurfaceMeshParameterizationEnums
 ///
 /// List of errors detected by this package
 enum Error_code
@@ -46,7 +46,7 @@ enum Error_code
   ERROR_WRONG_PARAMETER           ///< A method received an unexpected parameter
 };
 
-/// \ingroup PkgSurfaceParameterizationEnums
+/// \ingroup PkgSurfaceMeshParameterizationEnums
 /// \brief Get the message corresponding to an error code.
 /// \param error_code The code returned by `parameterize()`
 /// \return The string describing the error code.

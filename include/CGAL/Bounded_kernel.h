@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL$
-// $Id$
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14-beta1/Nef_2/include/CGAL/Bounded_kernel.h $
+// $Id: Bounded_kernel.h 97b5c37 %aI Andreas Fabri
 // SPDX-License-Identifier: GPL-3.0+
 // 
 //
@@ -27,7 +27,7 @@
 
 #include <CGAL/Simple_cartesian.h>
 #include <CGAL/Point_2.h> 
-#include <CGAL/Line_2_Line_2_intersection.h>
+#include <CGAL/Intersections_2/Line_2_Line_2.h>
 
 
 #undef CGAL_NEF_DEBUG

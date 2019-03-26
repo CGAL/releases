@@ -14,8 +14,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL$
-// $Id$
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14-beta1/Filtered_kernel/include/CGAL/internal/Static_filters/Do_intersect_3.h $
+// $Id: Do_intersect_3.h 4111e3e %aI Andreas Fabri
 // SPDX-License-Identifier: LGPL-3.0+
 //
 //
@@ -30,7 +30,7 @@
 #include <CGAL/internal/Static_filters/Static_filter_error.h>
 #include <CGAL/internal/Static_filters/tools.h>
 
-#include <CGAL/internal/Intersections_3/Bbox_3_Segment_3_do_intersect.h>
+#include <CGAL/Intersections_3/Bbox_3_Segment_3.h>
 // for CGAL::internal::do_intersect_bbox_segment_aux
 
 #include <iostream>
@@ -89,13 +89,13 @@ public:
   result_type 
   operator()(const Segment_3 &s, const Triangle_3& t) const
   {
-    return internal::do_intersect(t,s, SFK());
+    return Intersections::internal::do_intersect(t,s, SFK());
   }
 
   result_type 
   operator()(const Triangle_3& t, const Segment_3 &s) const
   {
-    return internal::do_intersect(t,s, SFK());
+    return Intersections::internal::do_intersect(t,s, SFK());
   }
 
   result_type 
@@ -124,7 +124,7 @@ public:
       CGAL_BRANCH_PROFILER_BRANCH_1(tmp);
 
       const Uncertain<result_type> ub = 
-        do_intersect_bbox_segment_aux
+        Intersections::internal::do_intersect_bbox_segment_aux
         <double,
          true, // bounded at t=0 
          true, // bounded at t=1 
@@ -167,7 +167,7 @@ public:
       CGAL_BRANCH_PROFILER_BRANCH_1(tmp);
 
       const Uncertain<result_type> ub = 
-        do_intersect_bbox_segment_aux
+        Intersections::internal::do_intersect_bbox_segment_aux
         <double,
          true, // bounded at t=0 
          false,// not bounded at t=1 

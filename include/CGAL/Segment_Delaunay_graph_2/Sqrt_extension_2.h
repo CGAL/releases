@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL$
-// $Id$
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14-beta1/Segment_Delaunay_graph_2/include/CGAL/Segment_Delaunay_graph_2/Sqrt_extension_2.h $
+// $Id: Sqrt_extension_2.h bb76e51 %aI Andreas Fabri
 // SPDX-License-Identifier: GPL-3.0+
 // 
 //
@@ -64,11 +64,6 @@ public:
     CGAL_exactness_precondition( !(CGAL::is_negative(A_)) );
     CGAL_exactness_precondition( !(CGAL::is_negative(B_)) );
   }
-
-  Sqrt_extension_2(const Sqrt_extension_2<NT>& other)
-    : a0_(other.a0_), a1_(other.a1_), a2_(other.a2_),
-      a3_(other.a3_), A_(other.A_), B_(other.B_) {}
-
 
   NT a() const { return a0_; }
   NT b() const { return a1_; }

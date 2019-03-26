@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL$
-// $Id$
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14-beta1/Solver_interface/include/CGAL/Diagonalize_traits.h $
+// $Id: Diagonalize_traits.h 821f9c0 %aI Laurent Rineau
 // SPDX-License-Identifier: LGPL-3.0+
 //
 // Author(s)     : Simon Giraudot
@@ -26,15 +26,19 @@
 #include <CGAL/number_type_config.h>
 #include <CGAL/double.h>
 
+#ifndef CGAL_I_WANT_TO_USE_DIAGONALIZE_TRAITS
 #define CGAL_WARNING_DIAGONALIZE_TRAITS \
   CGAL_DEPRECATED_MSG("CGAL::Diagonalize_traits is a deprecated class that can \
 lead to precision issues, please use CGAL::Eigen_diagonalize_traits")
+#else
+#define CGAL_WARNING_DIAGONALIZE_TRAITS
+#endif
 
 /// \cond SKIP_IN_MANUAL
 
 namespace CGAL {
 
-/// \ingroup PkgSolver
+/// \ingroup PkgSolverInterfaceRef
 ///
 /// The class `Diagonalize_traits` provides an internal
 /// implementation for the diagonalization of Variance-Covariance

@@ -13,8 +13,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL$
-// $Id$
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14-beta1/Subdivision_method_3/include/CGAL/Subdivision_method_3/subdivision_masks_3.h $
+// $Id: subdivision_masks_3.h e4cbae5 %aI Sébastien Loriot
 // SPDX-License-Identifier: LGPL-3.0+
 //
 //
@@ -136,7 +136,7 @@ public:
 
 // ======================================================================
 /*!
-\ingroup PkgSurfaceSubdivisionMethods3
+\ingroup PkgSurfaceSubdivisionMethod3Ref
 
 The geometry mask of Catmull-Clark subdivision.
 
@@ -215,13 +215,13 @@ public:
   /// computes the Catmull-Clark vertex-point `pt` of the vertex `vertex`.
   void vertex_node(vertex_descriptor vertex, Point& pt) {
     Halfedge_around_target_circulator<Mesh> vcir(vertex, *(this->pmesh));
-    typename boost::graph_traits<Mesh>::degree_size_type n = degree(vertex, *(this->pmesh));
+    int n = static_cast<int>(degree(vertex, *(this->pmesh)));
 
     FT Q[] = {0.0, 0.0, 0.0}, R[] = {0.0, 0.0, 0.0};
     Point_ref S = get(this->vpmap,vertex);
 
     Point q;
-    for (typename boost::graph_traits<Mesh>::degree_size_type i = 0; i < n; i++, ++vcir) {
+    for (int i = 0; i < n; i++, ++vcir) {
       Point_ref p2 = get(this->vpmap, target(opposite(*vcir, *(this->pmesh)), *(this->pmesh)));
       R[0] += (S[0] + p2[0]) / 2;
       R[1] += (S[1] + p2[1]) / 2;
@@ -260,7 +260,7 @@ public:
 
 // ======================================================================
 /*!
-\ingroup PkgSurfaceSubdivisionMethods3
+\ingroup PkgSurfaceSubdivisionMethod3Ref
 
 The geometry mask of Loop subdivision.
 
@@ -422,7 +422,7 @@ public:
 
 // ======================================================================
 /*!
-\ingroup PkgSurfaceSubdivisionMethods3
+\ingroup PkgSurfaceSubdivisionMethod3Ref
 
 The geometry mask of Doo-Sabin subdivision.
 
@@ -517,7 +517,7 @@ public:
 
 // ======================================================================
 /*!
-\ingroup PkgSurfaceSubdivisionMethods3
+\ingroup PkgSurfaceSubdivisionMethod3Ref
 
 The geometry mask of Sqrt(3) subdivision.
 

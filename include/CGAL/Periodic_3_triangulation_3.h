@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL$
-// $Id$
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14-beta1/Periodic_3_triangulation_3/include/CGAL/Periodic_3_triangulation_3.h $
+// $Id: Periodic_3_triangulation_3.h 8c60160 %aI Laurent Rineau
 // SPDX-License-Identifier: GPL-3.0+
 //
 // Author(s)     : Monique Teillaud <Monique.Teillaud@sophia.inria.fr>
@@ -2063,11 +2063,11 @@ inline void
 Periodic_3_triangulation_3<GT,TDS>::
 make_canonical(Vertex_triple& t) const
 {
-  int i = (&*(t.first) < &*(t.second))? 0 : 1;
+  int i = (t.first < t.second) ? 0 : 1;
   if(i==0) {
-    i = (&*(t.first) < &*(t.third))? 0 : 2;
+    i = (t.first < t.third) ? 0 : 2;
   } else {
-    i = (&*(t.second) < &*(t.third))? 1 : 2;
+    i = (t.second < t.third) ? 1 : 2;
   }
   Vertex_handle tmp;
   switch(i) {

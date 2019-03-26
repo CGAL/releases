@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL$
-// $Id$
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14-beta1/QP_solver/include/CGAL/QP_solver/functors.h $
+// $Id: functors.h f83053c %aI Laurent Rineau
 // SPDX-License-Identifier: GPL-3.0+
 // 
 //
@@ -262,6 +262,15 @@ public:
   Map_with_default (const Map* m, const mapped_type& v = mapped_type())
     : map(m), d(v)
   {}
+
+  // Added as workaround for VC2017 with /arch:AVX to fix
+  // https://cgal.geometryfactory.com/CGAL/testsuite/CGAL-4.14-I-95/QP_solver/TestReport_afabri_x64_Cygwin-Windows10_MSVC2017-Release-64bits.gz
+  Map_with_default& operator=(const Map_with_default& other)
+  {
+    map = other.map;
+    d = other.d;
+    return *this;
+  }
   
   // operator()
   const mapped_type& operator() (key_type n) const {

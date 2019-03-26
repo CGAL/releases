@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL$
-// $Id$
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14-beta1/Triangulation_2/include/CGAL/Triangulation_euclidean_traits_2.h $
+// $Id: Triangulation_euclidean_traits_2.h 97b5c37 %aI Andreas Fabri
 // SPDX-License-Identifier: GPL-3.0+
 // 
 //
@@ -38,7 +38,7 @@
 #include <CGAL/distance_predicates_2.h>
 
 #include <CGAL/triangulation_assertions.h>
-#include <CGAL/Segment_2_Segment_2_intersection.h>
+#include <CGAL/Intersections_2/Segment_2_Segment_2.h>
 
 namespace CGAL { 
 

@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL$
-// $Id$
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14-beta1/GraphicsView/include/CGAL/Qt/DemosMainWindow.h $
+// $Id: DemosMainWindow.h 32c0064 %aI Maxime Gimeno
 // SPDX-License-Identifier: GPL-3.0+
 // 
 //
@@ -35,6 +35,7 @@
 #include <CGAL/auto_link/Qt.h>
 #include <CGAL/export/Qt.h>
 #include <CGAL/Qt/resources.h>
+#include <QSettings>
 
 // forward declaration
 class QLabel;
@@ -125,6 +126,7 @@ protected:
   QAction* recentFilesSeparator;
   unsigned int maxNumRecentFiles;
   QVector<QAction*> recentFileActs;
+  QSettings settings;
 }; // end class DemosMainWindow
 
 } // namespace Qt
@@ -137,3 +139,4 @@ Q_DECLARE_OPERATORS_FOR_FLAGS(CGAL::Qt::DemosMainWindow::Options)
 #endif // CGAL_HEADER_ONLY
 
 #endif // CGAL_QT_DEMOS_MAIN_WINDOW_H
+

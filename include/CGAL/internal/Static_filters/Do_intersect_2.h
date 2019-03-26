@@ -14,8 +14,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL$
-// $Id$
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14-beta1/Filtered_kernel/include/CGAL/internal/Static_filters/Do_intersect_2.h $
+// $Id: Do_intersect_2.h 0d3ac75 %aI Andreas Fabri
 // SPDX-License-Identifier: LGPL-3.0+
 //
 //
@@ -69,19 +69,19 @@ public:
   result_type 
   operator()(const Segment_2 &s, const Segment_2& t) const
   {
-    return internal::do_intersect(s,t, SFK());
+    return Intersections::internal::do_intersect(s,t, SFK());
   }
 
   result_type 
   operator()(const Point_2 &p, const Segment_2& t) const
   {
-    return internal::do_intersect(p,t, SFK());
+    return Intersections::internal::do_intersect(p,t, SFK());
   }
   
   result_type 
   operator()(const Segment_2& t, const Point_2 &p) const
   {
-    return internal::do_intersect(p,t, SFK());
+    return Intersections::internal::do_intersect(p,t, SFK());
   }
   
 };

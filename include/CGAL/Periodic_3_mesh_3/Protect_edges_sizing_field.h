@@ -13,8 +13,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL$
-// $Id$
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14-beta1/Periodic_3_mesh_3/include/CGAL/Periodic_3_mesh_3/Protect_edges_sizing_field.h $
+// $Id: Protect_edges_sizing_field.h 8e75d21 %aI Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0+
 //
 // Author(s)     : Stephane Tayeb, Laurent Rineau, Mael Rouxel-Labbé
@@ -772,7 +772,6 @@ get_positions_with_vertex_at_extremity(const Bare_point& known_point,
             << " inverted order ? " << std::boolalpha << inverted_return_order << std::endl;
 #endif
 
-  CGAL_precondition(known_point != Bare_point());
   CGAL_precondition(!domain_.is_loop(curve_index));
   CGAL_precondition(extremity_points.size() == 2);
 

@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL$
-// $Id$
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14-beta1/Point_set_processing_3/include/CGAL/hierarchy_simplify_point_set.h $
+// $Id: hierarchy_simplify_point_set.h 2f9408f %aI Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0+
 //
 // Author(s) : Simon Giraudot, Pierre Alliez
@@ -115,7 +115,7 @@ namespace CGAL {
   /// \endcond
 
   /**
-     \ingroup PkgPointSetProcessingAlgorithms
+     \ingroup PkgPointSetProcessing3Algorithms
   
      Recursively split the point set in smaller clusters until the
      clusters have less than `size` elements or until their variation

@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL$
-// $Id$
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14-beta1/Algebraic_kernel_d/include/CGAL/Algebraic_kernel_d/Bitstream_descartes_rndl_tree_traits.h $
+// $Id: Bitstream_descartes_rndl_tree_traits.h 6853a92 %aI Andreas Fabri
 // SPDX-License-Identifier: LGPL-3.0+
 // 
 //
@@ -154,9 +154,10 @@ public:
       : Base(static_cast<const Base&>(get_default_instance())){}
 
     // explicit copy-constructor, required by VC9
+#ifdef DOXYGEN_RUNNING
     Bitstream_descartes_rndl_tree_traits(const Self& traits)
       : Base(static_cast<const Base&>(traits)){}
-  
+#endif  
     //! @}
 
     class Approximator {

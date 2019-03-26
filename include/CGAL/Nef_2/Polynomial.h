@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL$
-// $Id$
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14-beta1/Nef_2/include/CGAL/Nef_2/Polynomial.h $
+// $Id: Polynomial.h 8dc8ca5 %aI Andreas Fabri
 // SPDX-License-Identifier: LGPL-3.0+
 // 
 //
@@ -308,8 +308,6 @@ template <class pNT> class Polynomial :
   Polynomial(int n1, int n2)
     : Base(Polynomial_rep<NT>(NT(n1),NT(n2))) { reduce(); }
   // KILL int END
-
-  Polynomial(const Polynomial<NT>& p) : Base(p) {}
 
   //protected: // accessing coefficients internally:
   NT& coeff(unsigned int i) 
@@ -644,8 +642,6 @@ class Polynomial<int> :
     : Base(Polynomial_rep<int>(int(n1),int(n2))) { reduce(); }
   // KILL double END
 
-  Polynomial(const Polynomial<int>& p) : Base(p) {}
-
   //protected: // accessing coefficients internally:
   int& coeff(unsigned int i) 
   { CGAL_assertion(!this->is_shared() && i<(this->ptr()->coeff.size()));
@@ -944,8 +940,6 @@ determines the sign for the limit process $x \rightarrow \infty$.
   Polynomial(int n1, int n2)
     : Base(Polynomial_rep<double>(double(n1),double(n2))) { reduce(); }
   // KILL int END
-
-  Polynomial(const Polynomial<double>& p) : Base(p) {}
 
   //protected: // accessing coefficients internally:
   double& coeff(unsigned int i) 

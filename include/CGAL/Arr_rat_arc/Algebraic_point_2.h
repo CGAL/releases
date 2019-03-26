@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL$
-// $Id$
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14-beta1/Arrangement_on_surface_2/include/CGAL/Arr_rat_arc/Algebraic_point_2.h $
+// $Id: Algebraic_point_2.h cc23699 %aI Andreas Fabri
 // SPDX-License-Identifier: GPL-3.0+
 //
 // Author(s)     : Oren Salzman <orenzalz@post.tau.ac.il >
@@ -89,6 +89,15 @@ public:
     _rational_function(rational_function),
     _x_coordinate(x_coordinate) {}
 
+  Algebraic_point_2_rep(const Algebraic_point_2_rep& other)
+  {
+    if (this != &other) // protect against invalid self-assignment
+    {
+      _rational_function = other._rational_function;
+      _x_coordinate = other._x_coordinate;
+    } 
+  }
+  
   //assignment oparator
   Algebraic_point_2_rep& operator=(const Algebraic_point_2_rep& other)
   {
@@ -373,10 +382,6 @@ public:
   
   Algebraic_point_2() :
     Base(static_cast<const Base &> (get_default_instance())) {}
-
-  // explicit copy-constructor, required by VC9
-  Algebraic_point_2 (const Self & p)
-    : Base(static_cast<const Base &> (p)) {}
 
   Comparison_result compare_xy_2(const Algebraic_point_2& other,
                                  const Cache& cache) const

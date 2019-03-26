@@ -12,23 +12,19 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL$
-// $Id$
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14-beta1/Installation/include/CGAL/license/Jet_fitting_3.h $
+// $Id: Jet_fitting_3.h 15fe22c %aI Mael Rouxel-Labbé
 // SPDX-License-Identifier: LGPL-3.0+
 //
 // Author(s) : Andreas Fabri
 //
 // Warning: this file is generated, see include/CGAL/licence/README.md
 
-
 #ifndef CGAL_LICENSE_JET_FITTING_3_H
 #define CGAL_LICENSE_JET_FITTING_3_H
 
 #include <CGAL/config.h>
 #include <CGAL/license.h>
-
-
-
 
 #ifdef CGAL_JET_FITTING_3_COMMERCIAL_LICENSE
 
@@ -42,8 +38,8 @@
 
 #    ifdef CGAL_LICENSE_ERROR
 #      error "Your commercial license for CGAL does not cover this release \
-of the Estimation of Local Differential Properties of Point-Sampled Surfaces package. \
-You get this error, as you defined CGAL_LICENSE_ERROR."
+              of the Estimation of Local Differential Properties of Point-Sampled Surfaces package. \
+              You get this error, as you defined CGAL_LICENSE_ERROR."
 #    endif // CGAL_LICENSE_ERROR
 
 #  endif // CGAL_JET_FITTING_3_COMMERCIAL_LICENSE < CGAL_RELEASE_DATE
@@ -58,10 +54,10 @@ You get this error, as you defined CGAL_LICENSE_ERROR."
 
 #  ifdef CGAL_LICENSE_ERROR
 #    error "The macro CGAL_JET_FITTING_3_COMMERCIAL_LICENSE is not defined.\
- You use the CGAL Estimation of Local Differential Properties of Point-Sampled Surfaces package under the terms of \
-the GPLv3+. You get this error, as you defined CGAL_LICENSE_ERROR."
+            You use the CGAL Estimation of Local Differential Properties of Point-Sampled Surfaces package under the terms of \
+            the GPLv3+. You get this error, as you defined CGAL_LICENSE_ERROR."
 #  endif // CGAL_LICENSE_ERROR
 
 #endif // no CGAL_JET_FITTING_3_COMMERCIAL_LICENSE
 
-#endif // CGAL_LICENSE_CHECK_JET_FITTING_3_H
+#endif // CGAL_LICENSE_JET_FITTING_3_H

@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL$
-// $Id$
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14-beta1/Bounding_volumes/include/CGAL/Min_ellipse_2.h $
+// $Id: Min_ellipse_2.h 82d4479 %aI Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0+
 // 
 //
@@ -360,7 +360,20 @@ class Min_ellipse_2 {
     
     // default constructor
     inline
-    Min_ellipse_2( const Traits& traits = Traits())
+    Min_ellipse_2()
+        : n_support_points( 0)
+    {
+        // allocate support points' array
+        support_points = new Point[ 5];
+    
+        // initialize ellipse
+        tco.ellipse.set();
+    
+        CGAL_optimisation_postcondition( is_empty());
+    }
+
+    inline
+    Min_ellipse_2( const Traits& traits )
         : tco( traits), n_support_points( 0)
     {
         // allocate support points' array

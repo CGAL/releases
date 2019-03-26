@@ -13,8 +13,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL$
-// $Id$
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14-beta1/STL_Extension/include/CGAL/value_type_traits.h $
+// $Id: value_type_traits.h 2f9408f %aI Sébastien Loriot
 // SPDX-License-Identifier: LGPL-3.0+
 //
 // Author(s) : Alberto Ganesh Barbati and Laurent Saboret
@@ -26,7 +26,7 @@
 
 namespace CGAL {
 
-/// \ingroup  PkgStlExtension
+/// \ingroup  PkgSTLExtensionRef
 /// Class providing the value type of an iterator, and
 /// in the case of an output iterator, a type of objects that can be put in it.
 ///

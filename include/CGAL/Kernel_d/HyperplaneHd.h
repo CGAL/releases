@@ -16,8 +16,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL$
-// $Id$
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14-beta1/Kernel_d/include/CGAL/Kernel_d/HyperplaneHd.h $
+// $Id: HyperplaneHd.h a48e367 %aI Andreas Fabri
 // SPDX-License-Identifier: LGPL-3.0+
 // 
 // Author(s)     : Michael Seel
@@ -223,7 +223,6 @@ $3$-dimensional space with equation $ax+by+cz+d=0$. }*/
 HyperplaneHd(int a, int b, int c, int d) : 
   Base( Tuple(RT(a),RT(b),RT(c),RT(d)) ) {} 
 
-HyperplaneHd(const HyperplaneHd<RT,LA>& h) : Base(h) {}
 ~HyperplaneHd()  {}    
 
 /*{\Moperations 4 2}*/

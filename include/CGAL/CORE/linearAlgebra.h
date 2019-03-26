@@ -16,8 +16,8 @@
  * WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE. 
  *                                                                           
  *                                                                           
- * $URL$
- * $Id$
+ * $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14-beta1/CGAL_Core/include/CGAL/CORE/linearAlgebra.h $
+ * $Id: linearAlgebra.h 8cdfad0 %aI Sébastien Loriot
  * SPDX-License-Identifier: LGPL-3.0+
  ***************************************************************************/
 /******************************************************************
@@ -36,7 +36,7 @@
  * WWW URL: http://cs.nyu.edu/exact/
  * Email: exact@cs.nyu.edu
  *
- * $Id$
+ * $Id: linearAlgebra.h 8cdfad0 %aI Sébastien Loriot
  *****************************************************************/
 
 #ifndef CORE_LINEAR_ALGEBRA_H

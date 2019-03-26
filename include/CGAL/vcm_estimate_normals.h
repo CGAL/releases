@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL$
-// $Id$
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14-beta1/Point_set_processing_3/include/CGAL/vcm_estimate_normals.h $
+// $Id: vcm_estimate_normals.h 2f9408f %aI Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0+
 //
 // Author(s) : Jocelyn Meyron and Quentin Mérigot
@@ -213,7 +213,7 @@ vcm_convolve (ForwardIterator first,
 // ----------------------------------------------------------------------------
 
 /**
-   \ingroup PkgPointSetProcessingAlgorithms
+   \ingroup PkgPointSetProcessing3Algorithms
    computes the Voronoi Covariance Measure (VCM) of a point cloud,
    a construction that can be used for normal estimation and sharp feature detection.
 
@@ -411,7 +411,7 @@ vcm_estimate_normals_internal (PointRange& points,
 
 
 /**  
-   \ingroup PkgPointSetProcessingAlgorithms
+   \ingroup PkgPointSetProcessing3Algorithms
    Estimates normal directions of the range of `points`
    using the Voronoi Covariance Measure with a radius for the convolution.
    The output normals are randomly oriented.
@@ -497,7 +497,7 @@ vcm_estimate_normals (ForwardIterator first, ///< iterator over the first input 
 
 
 /**
-   \ingroup PkgPointSetProcessingAlgorithms
+   \ingroup PkgPointSetProcessing3Algorithms
    Estimates normal directions of the range of `points`
    using the Voronoi Covariance Measure with a number of neighbors for the convolution.
    The output normals are randomly oriented.

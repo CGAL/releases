@@ -16,8 +16,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL$
-// $Id$
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14-beta1/STL_Extension/include/CGAL/iterator.h $
+// $Id: iterator.h b84f54a %aI Andreas Fabri
 // SPDX-License-Identifier: LGPL-3.0+
 // 
 //
@@ -1371,12 +1371,17 @@ public:
 
   Dispatch_output_iterator(O... o) : cpp11::tuple<O...>(o...) {}
 
+    
+#ifndef CGAL_CFG_NO_CPP0X_DELETED_AND_DEFAULT_FUNCTIONS
+  Dispatch_output_iterator(const Dispatch_output_iterator&)=default;
+#endif
+
   Self& operator=(const Self& s)
   {
     static_cast<Iterator_tuple&>(*this) = static_cast<const Iterator_tuple&>(s);
     return *this;
   }
-
+  
   template<BOOST_VARIANT_ENUM_PARAMS(typename T)>
   Self& operator=(const boost::variant<BOOST_VARIANT_ENUM_PARAMS(T) >& t) {
     internal::Output_visitor<Self> visitor(this);
@@ -1439,6 +1444,11 @@ class Dispatch_or_drop_output_iterator < cpp11::tuple<V...>, cpp11::tuple<O...> 
 public:
 
   Dispatch_or_drop_output_iterator(O... o) : Base(o...) {}
+  
+#ifndef CGAL_CFG_NO_CPP0X_DELETED_AND_DEFAULT_FUNCTIONS
+  Dispatch_or_drop_output_iterator(const Dispatch_or_drop_output_iterator&)=default;
+  Dispatch_or_drop_output_iterator& operator=(const Dispatch_or_drop_output_iterator&)=default;
+#endif
 
   using Base::operator=;
 

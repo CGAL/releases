@@ -16,8 +16,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL$
-// $Id$
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14-beta1/Homogeneous_kernel/include/CGAL/Homogeneous/Aff_transformationH2.h $
+// $Id: Aff_transformationH2.h 23d701c %aI Maxime Gimeno
 // SPDX-License-Identifier: LGPL-3.0+
 // 
 //
@@ -605,6 +605,21 @@ public:
 
     Aff_transformationH2<R>
     operator*(const Aff_transformationH2<R>& right_argument ) const;
+    
+    
+    bool operator==(const Aff_transformationH2 &t)const
+    {
+      for(int i=0; i<3; ++i)
+        for(int j = 0; j< 3; ++j)
+          if(homogeneous(i,j)!=t.homogeneous(i,j))
+            return false;
+      return true;
+    }
+    
+    bool operator!=(const Aff_transformationH2 &t)const
+    {
+      return !(*this == t);
+    }
 
 };
 

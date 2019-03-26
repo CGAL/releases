@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL$
-// $Id$
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14-beta1/Solver_interface/include/CGAL/Eigen_svd.h $
+// $Id: Eigen_svd.h 2f9408f %aI Sébastien Loriot
 // SPDX-License-Identifier: LGPL-3.0+
 //
 // Author(s)     : Gael Guennebaud
@@ -34,7 +34,7 @@
 namespace CGAL {
 
   /*!
-\ingroup PkgSolver
+\ingroup PkgSolverInterfaceRef
 
 The class `Eigen_svd` provides an algorithm to solve in the least
 square sense a linear system with a singular value decomposition using

@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL$
-// $Id$
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14-beta1/AABB_tree/include/CGAL/AABB_polyhedron_triangle_primitive.h $
+// $Id: AABB_polyhedron_triangle_primitive.h 3dd0aa1 %aI Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0+
 //
 //
@@ -35,7 +35,7 @@
 #include <boost/type_traits/is_same.hpp>
 
 namespace CGAL {
-    /// \ingroup PkgAABB_tree
+    /// \ingroup PkgAABBTreeRef
     /// \deprecated This class is deprecated since \cgal 4.3, the class
     /// `AABB_face_graph_triangle_primitive` should be used instead.
     ///

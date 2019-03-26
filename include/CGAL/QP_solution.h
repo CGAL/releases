@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL$
-// $Id$
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14-beta1/QP_solver/include/CGAL/QP_solution.h $
+// $Id: QP_solution.h d0b8fc5 %aI Andreas Fabri
 // SPDX-License-Identifier: GPL-3.0+
 // 
 //
@@ -314,6 +314,12 @@ public:
     : Handle_for<const QP_solver_base<ET>*>(s), et0(0)
   {}
 
+  Quadratic_program_solution(const Quadratic_program_solution& rhs)
+    : Handle_for<const QP_solver_base<ET>*>(), et0(0)
+  {
+    *this = rhs;
+  }
+ 
   Quadratic_program_solution& 
   operator= (const Quadratic_program_solution& sol)
   {

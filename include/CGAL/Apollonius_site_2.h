@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL$
-// $Id$
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14-beta1/Apollonius_graph_2/include/CGAL/Apollonius_site_2.h $
+// $Id: Apollonius_site_2.h f4faff2 %aI Andreas Fabri
 // SPDX-License-Identifier: GPL-3.0+
 // 
 //
@@ -47,10 +47,6 @@ public:
   Apollonius_site_2(const Point_2& p = Point_2(),
 		    const Weight& w = Weight(0))
     : _p(p), _w(w) {}
-
-  Apollonius_site_2(const Apollonius_site_2& other)
-    : _p(other._p), _w(other._w) {}
-
   
   const Point_2& point() const { return _p; }
   const Weight&  weight() const { return _w; }

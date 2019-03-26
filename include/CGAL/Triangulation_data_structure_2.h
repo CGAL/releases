@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL$
-// $Id$
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14-beta1/TDS_2/include/CGAL/Triangulation_data_structure_2.h $
+// $Id: Triangulation_data_structure_2.h 54381db %aI Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0+
 // 
 //
@@ -296,9 +296,11 @@ public:
 // 		  FaceIt face_begin,
 // 		  FaceIt face_end);
   
-  Vertex_handle create_vertex(const Vertex &v = Vertex());
+  Vertex_handle create_vertex();
+  Vertex_handle create_vertex(const Vertex &v);
   Vertex_handle create_vertex(Vertex_handle v); //calls copy constructor 
-  Face_handle create_face(const Face& f = Face());
+  Face_handle create_face();
+  Face_handle create_face(const Face& f);
   Face_handle create_face(Face_handle f); //calls copy constructor 
 
  Face_handle create_face(Face_handle f1, int i1, 
@@ -1352,6 +1354,14 @@ make_hole(Vertex_handle v, List_edges& hole)
   return;
 }
 
+template <class Vb, class Fb>
+inline
+typename Triangulation_data_structure_2<Vb,Fb>::Vertex_handle
+Triangulation_data_structure_2<Vb,Fb>::
+create_vertex()
+{
+  return vertices().emplace();
+}
 
 template <class Vb, class Fb>
 inline
@@ -1369,6 +1379,14 @@ Triangulation_data_structure_2<Vb,Fb>::
 create_vertex(Vertex_handle vh)
 {
   return vertices().insert(*vh);
+}
+
+template <class Vb, class Fb>
+typename Triangulation_data_structure_2<Vb,Fb>::Face_handle
+Triangulation_data_structure_2<Vb,Fb>::
+create_face()
+{
+  return faces().emplace();
 }
 
 template <class Vb, class Fb>

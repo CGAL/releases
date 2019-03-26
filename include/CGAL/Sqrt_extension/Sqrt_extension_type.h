@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL$
-// $Id$
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14-beta1/Number_types/include/CGAL/Sqrt_extension/Sqrt_extension_type.h $
+// $Id: Sqrt_extension_type.h 1ec37a7 %aI Andreas Fabri
 // SPDX-License-Identifier: LGPL-3.0+
 //
 //
@@ -153,13 +153,7 @@ public:
     explicit Sqrt_extension(const NTX& i)
         : a0_(NT(i)), a1_(NT(0)), root_(ROOT(0)), is_extended_(false) {}
 
-    /*! \brief copy constructor  */
-    Sqrt_extension(const Self& x)
-        : a0_(x.a0()),
-          a1_(x.a1()),
-          root_(x.root()),
-          is_extended_(x.is_extended()){}
-
+ 
 
     /*! \brief Expicite constructor of Sqrt_extension, from
      *  \c Sqrt_extension<NTX,ROOTX>.

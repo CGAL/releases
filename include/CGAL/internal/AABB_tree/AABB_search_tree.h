@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL$
-// $Id$
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14-beta1/AABB_tree/include/CGAL/internal/AABB_tree/AABB_search_tree.h $
+// $Id: AABB_search_tree.h 81d4227 %aI Andreas Fabri
 // SPDX-License-Identifier: GPL-3.0+
 //
 //
@@ -65,6 +65,9 @@ namespace CGAL
                           m_id = rhs.m_id;
                     }
 
+#ifndef CGAL_CFG_NO_CPP0X_DELETED_AND_DEFAULT_FUNCTIONS
+                  Decorated_point& operator=(const Decorated_point&)=default;
+#endif
                 private:
                     Id m_id;
 

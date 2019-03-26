@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL$
-// $Id$
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14-beta1/BGL/include/CGAL/boost/graph/Dual.h $
+// $Id: Dual.h a5576cd %aI Sébastien Loriot
 // SPDX-License-Identifier: LGPL-3.0+
 //
 //
@@ -43,8 +43,7 @@ vertices as a source and target. It is possible to filter border edges
 using `boost::filtered_graph` as shown in example
 \ref BGL_surface_mesh/surface_mesh_dual.cpp
 
-Property forwarding
--------------------
+\cgalHeading{Property Forwarding}
 \cgalAdvancedBegin
 Edge properties of the underlying graph are forwarded directly. For
 faces and vertices only the `face_index` and `vertex_index` properties

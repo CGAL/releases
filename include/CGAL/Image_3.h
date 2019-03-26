@@ -13,8 +13,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL$
-// $Id$
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14-beta1/CGAL_ImageIO/include/CGAL/Image_3.h $
+// $Id: Image_3.h 166606c %aI Laurent Rineau
 // SPDX-License-Identifier: LGPL-3.0+
 //
 //
@@ -73,14 +73,23 @@ struct Indicator_factory
 
 class CGAL_IMAGEIO_EXPORT Image_3
 {
+  class Image_deleter {
+    const bool own_the_data;
 
-  struct Image_deleter {
+  public:
+    Image_deleter(bool own_the_data) : own_the_data(own_the_data) {}
+
     void operator()(_image* image)
     {
+      if(!own_the_data && image != 0) {
+        image->data = 0;
+      }
       ::_freeImage(image);
     }
   };
 public:
+  enum Own { OWN_THE_DATA, DO_NOT_OWN_THE_DATA };
+
   typedef boost::shared_ptr<_image> Image_shared_ptr;
   typedef Image_shared_ptr Pointer;
 
@@ -88,7 +97,7 @@ protected:
   Image_shared_ptr image_ptr;
 
    // implementation in src/CGAL_ImageIO/Image_3.cpp
-  bool private_read(_image* im);
+  bool private_read(_image* im, Own own_the_data = OWN_THE_DATA);
 
 public:
   Image_3()
@@ -102,9 +111,9 @@ public:
 //     std::cerr << "Image_3::copy_constructor\n";
   }
 
-  Image_3(_image* im) 
+  Image_3(_image* im, Own own_the_data = OWN_THE_DATA)
   {
-    private_read(im);
+    private_read(im, own_the_data);
   }
 
   ~Image_3()

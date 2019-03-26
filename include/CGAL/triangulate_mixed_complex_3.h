@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL$
-// $Id$
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14-beta1/Skin_surface_3/include/CGAL/triangulate_mixed_complex_3.h $
+// $Id: triangulate_mixed_complex_3.h 93cfd56 %aI Andreas Fabri
 // SPDX-License-Identifier: GPL-3.0+
 //
 //
@@ -1024,7 +1024,7 @@ get_weighted_circumcenter(Rt_Simplex const &s)
            r2t_converter_object(e.first->vertex(e.third)->point()));
     break;
   case 2:
-    f=s;
+    f= Rt_Facet(s);
     result = weighted_circumcenter_obj(
            r2t_converter_object(f.first->vertex((f.second+1)&3)->point()),
            r2t_converter_object(f.first->vertex((f.second+2)&3)->point()),

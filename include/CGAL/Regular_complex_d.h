@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL$
-// $Id$
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14-beta1/Convex_hull_d/include/CGAL/Regular_complex_d.h $
+// $Id: Regular_complex_d.h 9bd443d %aI Andreas Fabri
 // SPDX-License-Identifier: GPL-3.0+
 // 
 //
@@ -86,7 +86,7 @@ public:
   RC_vertex_d(Simplex_handle s, int i, const Point_d& p) :
     s_(s), index_(i), point_(p) {}
   RC_vertex_d(const Point_d& p) : point_(p), pp(NULL) {}
-  RC_vertex_d() :  s_(), index_(-42), pp(NULL) {}
+  RC_vertex_d() :  s_(), pp(NULL) {}
   // beware that ass_point was initialized here by nil_point
   ~RC_vertex_d() {}
 
@@ -514,9 +514,7 @@ Vertex_handle  new_vertex()
         is the point |Regular_complex_d::nil_point| which is a static
         member of class |Regular_complex_d.|}*/
 { 
-  Vertex v(nil_point);
-  Vertex_handle h = vertices_.insert(v);
-  return h; 
+  return vertices_.emplace(nil_point); 
 }
 
 Vertex_handle  new_vertex(const Point_d& p) 
@@ -524,9 +522,7 @@ Vertex_handle  new_vertex(const Point_d& p)
         has |p| as the associated point, but is has no associated
         simplex nor index yet.}*/
 { 
-  Vertex v(p);
-  Vertex_handle h = vertices_.insert(v);
-  return h;
+  return vertices_.emplace(p);
 }
 
 void associate_vertex_with_simplex(Simplex_handle s, int i, Vertex_handle v)

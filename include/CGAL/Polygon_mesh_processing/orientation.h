@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL$
-// $Id$
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14-beta1/Polygon_mesh_processing/include/CGAL/Polygon_mesh_processing/orientation.h $
+// $Id: orientation.h 089377d %aI Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0+
 //
 //
@@ -77,7 +77,7 @@ namespace internal{
 
     //VertexPointMap
     typedef typename GetVertexPointMap<PolygonMesh, NamedParameters>::const_type VPMap;
-    VPMap vpmap = choose_param(get_param(np, vertex_point),
+    VPMap vpmap = choose_param(get_param(np, internal_np::vertex_point),
                                get_const_property_map(vertex_point, pmesh));
     //Kernel
     typedef typename GetGeomTraits<PolygonMesh, NamedParameters>::type GT;

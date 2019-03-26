@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL$
-// $Id$
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14-beta1/Surface_mesh_parameterization/include/CGAL/Surface_mesh_parameterization/parameterize.h $
+// $Id: parameterize.h 2f9408f %aI Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0+
 //
 //
@@ -44,7 +44,7 @@ namespace CGAL {
 
 namespace Surface_mesh_parameterization {
 
-/// \ingroup  PkgSurfaceParameterizationMainFunction
+/// \ingroup  PkgSurfaceMeshParameterizationMainFunction
 ///
 /// Compute a one-to-one mapping from a 3D triangle surface `mesh` to a
 /// simple 2D domain.
@@ -96,7 +96,7 @@ Error_code parameterize(TriangleMesh& mesh,
   return parameterizer.parameterize(mesh, bhd, uvm, vipm, vpm);
 }
 
-/// \ingroup  PkgSurfaceParameterizationMainFunction
+/// \ingroup  PkgSurfaceMeshParameterizationMainFunction
 ///
 /// Compute a one-to-one mapping from a 3D triangle surface `mesh` to a
 /// 2D circle, using Floater Mean Value Coordinates algorithm.

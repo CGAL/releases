@@ -16,8 +16,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL$
-// $Id$
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14-beta1/Kernel_d/include/CGAL/Kernel_d/Segment_d.h $
+// $Id: Segment_d.h 383d93d %aI Andreas Fabri
 // SPDX-License-Identifier: LGPL-3.0+
 // 
 //
@@ -95,7 +95,7 @@ Segment_d(const Point_d<R>& p, const Vector_d<R>& v)
 is initialized to the segment |(p,p+v)|. }*/
  : Base( Pair(p,p+v) ) {}
 
-Segment_d(const Segment_d<R>& s) : Base(s) {}     
+
 
 /*{\Moperations 3 3}*/
 

@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL$
-// $Id$
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14-beta1/Classification/include/CGAL/Classification/Label.h $
+// $Id: Label.h f2f919c %aI Simon Giraudot
 // SPDX-License-Identifier: GPL-3.0+
 //
 // Author(s)     : Simon Giraudot
@@ -50,6 +50,10 @@ public:
   Label (std::string name) : m_name (name) { }
 
   const std::string& name() const { return m_name; }
+
+  /// \cond SKIP_IN_MANUAL
+  void set_name (const std::string& name) { m_name = name; }
+  /// \endcond
 };
 
 #ifdef DOXYGEN_RUNNING

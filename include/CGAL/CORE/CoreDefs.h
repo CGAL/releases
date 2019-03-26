@@ -31,8 +31,8 @@
  * WWW URL: http://cs.nyu.edu/exact/
  * Email: exact@cs.nyu.edu
  *
- * $URL$
- * $Id$
+ * $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14-beta1/CGAL_Core/include/CGAL/CORE/CoreDefs.h $
+ * $Id: CoreDefs.h f1e1b57 %aI Andreas Fabri
  * SPDX-License-Identifier: LGPL-3.0+
  ***************************************************************************/
 
@@ -322,7 +322,6 @@ inline bool setRationalReduceFlag(bool f) {
 inline void CORE_init(long d) {
   get_static_defAbsPrec() = CORE_posInfty;
   get_static_defOutputDigits() = d;
-  std::setprecision(get_static_defOutputDigits());
 }
 
 /// change to scientific output format

@@ -16,8 +16,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL$
-// $Id$
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14-beta1/Kernel_d/include/CGAL/Kernel_d/HyperplaneCd.h $
+// $Id: HyperplaneCd.h a48e367 %aI Andreas Fabri
 // SPDX-License-Identifier: LGPL-3.0+
 // 
 // Author(s)     : Michael Seel
@@ -144,7 +144,6 @@ HyperplaneCd(const FT& a, const FT& b, const FT& c, const FT& d) :
 HyperplaneCd(int a, int b, int c, int d) : 
   Base( Tuple(FT(a),FT(b),FT(c),FT(d)) ) {} 
 
-HyperplaneCd(const HyperplaneCd<FT,LA>& h) : Base(h) {}
 ~HyperplaneCd()  {}    
 
 int dimension() const { return ptr()->size()-1; }

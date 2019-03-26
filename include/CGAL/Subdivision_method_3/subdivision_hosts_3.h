@@ -13,8 +13,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL$
-// $Id$
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14-beta1/Subdivision_method_3/include/CGAL/Subdivision_method_3/subdivision_hosts_3.h $
+// $Id: subdivision_hosts_3.h 2f9408f %aI Sébastien Loriot
 // SPDX-License-Identifier: LGPL-3.0+
 //
 //
@@ -42,7 +42,7 @@ namespace CGAL {
 namespace Subdivision_method_3 {
 
 /*!
-\addtogroup PkgSurfaceSubdivisionMethods3Functions
+\addtogroup PkgSurfaceSubdivisionMethod3Functions
 */
 /// @{
 

@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL$
-// $Id$
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14-beta1/Nef_2/include/CGAL/Nef_2/PM_const_decorator.h $
+// $Id: PM_const_decorator.h e34ddae %aI Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0+
 // 
 //
@@ -473,7 +473,7 @@ check_integrity_and_topological_planarity(bool faces) const
   int fc_num(0),iv_num(0);
   Face_const_iterator fit;
   for (fit = faces_begin(); fit != faces_end(); ++fit) {
-    if (!first) {
+    if (!first && halfedge(fit)!=Halfedge_const_handle()) {
       CGAL_assertion( face(halfedge(fit))==fit ); ++fc_num;
     }
     Hole_const_iterator fcit;

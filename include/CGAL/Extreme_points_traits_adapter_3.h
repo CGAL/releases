@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL$
-// $Id$
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14-beta1/Convex_hull_3/include/CGAL/Extreme_points_traits_adapter_3.h $
+// $Id: Extreme_points_traits_adapter_3.h a88438e %aI Andreas Fabri
 // SPDX-License-Identifier: GPL-3.0+
 //
 //
@@ -138,7 +138,7 @@ public:
   public:
     Construct_plane_3(const PointPropertyMap& map, const typename Base_traits::Construct_plane_3& base):
       Base_traits::Construct_plane_3(base),vpm_(map), base(base){}
-    typename Base_traits::Plane_3 operator()(const Point_3& p, const Point_3& q, const Point_3& r)const 
+    typename Base_traits::Plane_3 operator()(const Vertex& p, const Vertex& q, const Vertex& r)const 
     {
       return base(get(vpm_,p),get(vpm_,q),get(vpm_,r));
     }
@@ -159,7 +159,7 @@ public:
     typedef bool          result_type;
     
     result_type
-    operator()( const Plane_3& pl, const Point_3& p) const
+    operator()( const Plane_3& pl, const Vertex& p) const
     { 
       return base(pl, get(vpm_, p));
     }

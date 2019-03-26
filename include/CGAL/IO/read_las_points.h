@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL$
-// $Id$
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14-beta1/Point_set_processing_3/include/CGAL/IO/read_las_points.h $
+// $Id: read_las_points.h 2f9408f %aI Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0+
 //
 // Author(s) : Simon Giraudot
@@ -134,7 +134,7 @@ namespace CGAL {
 
 
   /**
-     \ingroup PkgPointSetProcessingIOLas
+     \ingroup PkgPointSetProcessing3IOLas
      
      Generates a %LAS property handler to read 3D points. Points are
      constructed from the input the using 3 %LAS properties
@@ -328,7 +328,7 @@ namespace internal {
 
 
 /**
-   \ingroup PkgPointSetProcessingIOLas
+   \ingroup PkgPointSetProcessing3IOLas
 
    Reads user-selected points properties from a .las or .laz stream.
    Potential additional properties are ignored.
@@ -429,7 +429,7 @@ bool read_las_points_with_properties (std::istream& stream,
 /// \endcond
 
 /**
-   \ingroup PkgPointSetProcessingIOLas
+   \ingroup PkgPointSetProcessing3IOLas
    Reads points (position only) from a .las or .laz stream.
    Potential additional properties are ignored.
 

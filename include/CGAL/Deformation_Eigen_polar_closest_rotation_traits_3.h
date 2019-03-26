@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL$
-// $Id$
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14-beta1/Surface_mesh_deformation/include/CGAL/Deformation_Eigen_polar_closest_rotation_traits_3.h $
+// $Id: Deformation_Eigen_polar_closest_rotation_traits_3.h a2e8a1c %aI Sébastien Loriot
 // SPDX-License-Identifier: LGPL-3.0+
 //
 // Author(s)     : Gael Guennebaud Ilker O. Yaz
@@ -27,7 +27,7 @@
 #include <CGAL/Profile_counter.h>
 
 namespace CGAL {
-  /// \ingroup PkgSurfaceMeshDeformation
+  /// \ingroup PkgSurfaceMeshDeformationRef
   /// A class to compute the closest rotation in Frobenius norm to a 3x3 Matrix using the \link thirdpartyEigen `Eigen` library \endlink.
   /// The internal computation relies on a hybrid system using the solvers `Eigen::SelfAdjointEigenSolver<>`
   /// and `Eigen::JacobiSVD<>` (polar decomposition).

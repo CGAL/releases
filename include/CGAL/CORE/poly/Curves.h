@@ -63,8 +63,8 @@
  * WWW URL: http://cs.nyu.edu/exact/
  * Email: exact@cs.nyu.edu
  *
- * $URL$
- * $Id$
+ * $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14-beta1/CGAL_Core/include/CGAL/CORE/poly/Curves.h $
+ * $Id: Curves.h 6b568a8 %aI Sébastien Loriot
  * SPDX-License-Identifier: LGPL-3.0+
  ***************************************************************************/
 

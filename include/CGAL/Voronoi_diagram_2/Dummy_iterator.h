@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL$
-// $Id$
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14-beta1/Voronoi_diagram_2/include/CGAL/Voronoi_diagram_2/Dummy_iterator.h $
+// $Id: Dummy_iterator.h ade4903 %aI Andreas Fabri
 // SPDX-License-Identifier: GPL-3.0+
 // 
 //
@@ -47,9 +47,6 @@ class Dummy_iterator : public Emptyset_iterator
   typedef std::size_t                     size_type;
   typedef std::ptrdiff_t                  difference_type;
   typedef std::bidirectional_iterator_tag iterator_category;
-
-  Dummy_iterator() {}
-  Dummy_iterator(const Dummy_iterator&) {}
 
   template< class T >
   Self& operator=(const T&) { return *this; }

@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL$
-// $Id$
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14-beta1/Segment_Delaunay_graph_Linf_2/include/CGAL/Segment_Delaunay_graph_Linf_filtered_traits_2.h $
+// $Id: Segment_Delaunay_graph_Linf_filtered_traits_2.h 4fb1fe6 %aI Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0+
 // 
 //
@@ -221,7 +221,7 @@ template<class CK,
 #ifdef CGAL_USE_GMP
 	 class EK      = Simple_cartesian< Gmpq >,
 #else
-	 class EK      = Simple_cartesian< MP_Float >,
+	 class EK      = Simple_cartesian< CGAL::Quotient<MP_Float> >,
 #endif
 	 class EK_MTag = Integral_domain_without_division_tag,
 	 class FK      = Simple_cartesian< Interval_nt<false> >,

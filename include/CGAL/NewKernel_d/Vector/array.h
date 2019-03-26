@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL$
-// $Id$
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14-beta1/NewKernel_d/include/CGAL/NewKernel_d/Vector/array.h $
+// $Id: array.h 0550728 %aI Sébastien Loriot
 // SPDX-License-Identifier: LGPL-3.0+
 //
 // Author(s)     : Marc Glisse
@@ -70,6 +70,7 @@ template<class NT_,class Dim_,class Max_dim_=Dim_> struct Array_vector {
 					CGAL_assertion(d<=d_);
 					//TODO: optimize for forward iterators
 					Vector a;
+					CGAL_assume(f!=e);
 					std::copy(f,e,a.begin());
 					return a;
 				}

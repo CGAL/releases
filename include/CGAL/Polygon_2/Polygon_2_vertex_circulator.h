@@ -16,8 +16,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL$
-// $Id$
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14-beta1/Polygon/include/CGAL/Polygon_2/Polygon_2_vertex_circulator.h $
+// $Id: Polygon_2_vertex_circulator.h 6596ba9 %aI Andreas Fabri
 // SPDX-License-Identifier: LGPL-3.0+
 // 
 //
@@ -64,12 +64,7 @@ public:
     Polygon_circulator( const Mutable& c)
         : ctnr( c.container()), i( c.current_iterator()) {}
 
-// Gnu-bug workaround: define operator= explicitly.
-    Self& operator=( const Self& c) {
-        ctnr = c.ctnr;
-        i    = c.i;
-        return *this;
-    }
+
 
 // OPERATIONS
 

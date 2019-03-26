@@ -14,8 +14,8 @@
  WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 
 *****************************************************************************/
-// $URL$
-// $Id$
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14-beta1/GraphicsView/include/CGAL/Qt/domUtils.h $
+// $Id: domUtils.h 1969ee9 %aI Andreas Fabri
 // SPDX-License-Identifier: GPL-3.0
 #ifndef QGLVIEWER_DOMUTILS_H
 #define QGLVIEWER_DOMUTILS_H

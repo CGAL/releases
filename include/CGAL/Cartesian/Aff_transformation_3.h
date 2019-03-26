@@ -16,8 +16,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL$
-// $Id$
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14-beta1/Cartesian_kernel/include/CGAL/Cartesian/Aff_transformation_3.h $
+// $Id: Aff_transformation_3.h 23d701c %aI Maxime Gimeno
 // SPDX-License-Identifier: LGPL-3.0+
 // 
 //
@@ -177,7 +177,21 @@ public:
 
   Aff_transformation_3 operator*(const Aff_transformationC3 &t) const
   { return (*this->Ptr()) * (*t.Ptr()); }
-
+  
+  bool operator==(const Aff_transformationC3 &t)const
+  {
+    for(int i=0; i<3; ++i)
+      for(int j = 0; j< 4; ++j)
+        if(cartesian(i,j)!=t.cartesian(i,j))
+          return false;
+    return true;
+  }
+  
+  bool operator!=(const Aff_transformationC3 &t)const
+  {
+    return !(*this == t);
+  }
+  
 protected:
   Aff_transformation_3  transpose() const { return this->Ptr()->transpose(); }
 };

@@ -16,8 +16,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL$
-// $Id$
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14-beta1/Kernel_d/include/CGAL/Kernel_d/DirectionHd.h $
+// $Id: DirectionHd.h a48e367 %aI Andreas Fabri
 // SPDX-License-Identifier: LGPL-3.0+
 // 
 //
@@ -134,7 +134,6 @@ $3$-dimensional space. }*/
 DirectionHd(int a, int b, int c) : 
   Base( Tuple(RT(a),RT(b),RT(c),RT(1)) ) {}
 
-DirectionHd(const DirectionHd<RT,LA>& p) : Base(p)  {}
 ~DirectionHd() {}     
 
 /*{\Moperations 5 3}*/

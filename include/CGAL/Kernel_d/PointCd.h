@@ -16,8 +16,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL$
-// $Id$
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14-beta1/Kernel_d/include/CGAL/Kernel_d/PointCd.h $
+// $Id: PointCd.h a48e367 %aI Andreas Fabri
 // SPDX-License-Identifier: LGPL-3.0+
 // 
 //
@@ -105,7 +105,6 @@ PointCd(const FT& x, const FT& y, const FT& z, const FT& w)
 { CGAL_assertion_msg(w!=FT(0),"PointCd::construction: w == 0.");
   vector_rep()/=w; }
 
-PointCd(const PointCd<FT,LA>& p) : Base(p) {}
 ~PointCd() {}     
 
 int dimension() const  { return ptr()->size(); }

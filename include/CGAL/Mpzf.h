@@ -13,8 +13,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL$
-// $Id$
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14-beta1/Number_types/include/CGAL/Mpzf.h $
+// $Id: Mpzf.h f1821f2 %aI Laurent Rineau
 // SPDX-License-Identifier: LGPL-3.0+
 //
 // Author(s)	:  Marc Glisse
@@ -302,7 +302,13 @@ struct Mpzf {
     data()[-1] = mini;
   }
   void clear(){
-    while(*--data()==0); // in case we skipped final zeroes
+    // while(*--data()==0);
+    // This line gave a misscompilation by Intel Compiler 2019
+    // (19.0.0.117). I replaced it by the following two lines:
+    // -- Laurent Rineau, sept. 2018
+    --data();
+    while(*data()==0) { --data(); } // in case we skipped final zeroes
+
 #ifdef CGAL_MPZF_USE_CACHE
     if (data() == cache) return;
 #endif

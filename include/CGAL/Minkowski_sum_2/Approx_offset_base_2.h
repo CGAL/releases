@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL$
-// $Id$
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14-beta1/Minkowski_sum_2/include/CGAL/Minkowski_sum_2/Approx_offset_base_2.h $
+// $Id: Approx_offset_base_2.h 3006595 %aI Laurent Rineau
 // SPDX-License-Identifier: GPL-3.0+
 //
 // Author(s)     : Ron Wein       <wein_r@yahoo.com>
@@ -252,8 +252,8 @@ protected:
       }
       else
       {
-        abs_delta_x = (sign_delta_x == POSITIVE) ? delta_x : -delta_x;
-        abs_delta_y = (sign_delta_y == POSITIVE) ? delta_y : -delta_y;
+        abs_delta_x = (sign_delta_x == POSITIVE) ? delta_x : NT(-delta_x);
+        abs_delta_y = (sign_delta_y == POSITIVE) ? delta_y : NT(-delta_y);
 
         // In this general case, the length d of the current edge is usually
         // an irrational number.

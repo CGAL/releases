@@ -18,8 +18,8 @@
 // and a STREP (FET Open) Project under Contract No  IST-006413 
 // (ACS -- Algorithms for Complex Shapes)
 //
-// $URL$
-// $Id$
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14-beta1/Algebraic_kernel_for_spheres/include/CGAL/Algebraic_kernel_for_spheres/internal_functions_on_roots_and_polynomials_2_3.h $
+// $Id: internal_functions_on_roots_and_polynomials_2_3.h bc4da1f %aI Laurent Rineau
 // SPDX-License-Identifier: GPL-3.0+
 //
 // Author(s) : Monique Teillaud <Monique.Teillaud@sophia.inria.fr>
@@ -216,8 +216,8 @@ namespace CGAL {
     const FT cz = (p.a()*p.c())/sqbc;
 
     const Root_of_2 x = make_root_of_2(s.a(),FT(i?-1:1),delta);
-    const Root_of_2 y = make_root_of_2(s.b(),FT(i?(cy):(-cy)),delta);
-    const Root_of_2 z = make_root_of_2(s.c(),FT(i?(cz):(-cz)),delta);
+    const Root_of_2 y = make_root_of_2(s.b(),FT(i?(cy):FT(-cy)),delta);
+    const Root_of_2 z = make_root_of_2(s.c(),FT(i?(cz):FT(-cz)),delta);
 
     return Root_for_spheres_2_3(x,y,z);
   }
@@ -290,14 +290,14 @@ namespace CGAL {
     const FT cz = (p.c()*p.b())/sqac;
 
     if(!is_positive(cx)) {
-        const Root_of_2 x = make_root_of_2(s.a(),FT(i?(cx):(-cx)),delta);
+        const Root_of_2 x = make_root_of_2(s.a(),FT(i?(cx):FT(-cx)),delta);
         const Root_of_2 y = make_root_of_2(s.b(),FT(i?-1:1),delta);
-        const Root_of_2 z = make_root_of_2(s.c(),FT(i?(cz):(-cz)),delta);
+        const Root_of_2 z = make_root_of_2(s.c(),FT(i?(cz):FT(-cz)),delta);
       return Root_for_spheres_2_3(x,y,z);
     } else {
-        const Root_of_2 x = make_root_of_2(s.a(),FT(i?(-cx):(cx)),delta);
+        const Root_of_2 x = make_root_of_2(s.a(),FT(i?FT(-cx):(cx)),delta);
         const Root_of_2 y = make_root_of_2(s.b(),FT(i?1:-1),delta);
-        const Root_of_2 z = make_root_of_2(s.c(),FT(i?(-cz):(cz)),delta);
+        const Root_of_2 z = make_root_of_2(s.c(),FT(i?FT(-cz):(cz)),delta);
       return Root_for_spheres_2_3(x,y,z);
     } 
   }
@@ -375,25 +375,25 @@ namespace CGAL {
     const FT cy = (p.c()*p.b())/sqab;
 
     if(is_negative(cx)) {
-        const Root_of_2 x = make_root_of_2(s.a(),FT(i?(cx):(-cx)),delta);
-        const Root_of_2 y = make_root_of_2(s.b(),FT(i?(cy):(-cy)),delta);
+        const Root_of_2 x = make_root_of_2(s.a(),FT(i?(cx):FT(-cx)),delta);
+        const Root_of_2 y = make_root_of_2(s.b(),FT(i?(cy):FT(-cy)),delta);
         const Root_of_2 z = make_root_of_2(s.c(),FT(i?-1:1),delta);
       return Root_for_spheres_2_3(x,y,z);
     } else if(is_zero(cx)) {
       if(!is_positive(cy)) {
         const Root_of_2 x = s.a();
-        const Root_of_2 y = make_root_of_2(s.b(),FT(i?(cy):(-cy)),delta);
+        const Root_of_2 y = make_root_of_2(s.b(),FT(i?(cy):FT(-cy)),delta);
         const Root_of_2 z = make_root_of_2(s.c(),FT(i?-1:1),delta);
         return Root_for_spheres_2_3(x,y,z);
       } else {
         const Root_of_2 x = s.a();
-        const Root_of_2 y = make_root_of_2(s.b(),FT(i?(-cy):(cy)),delta);
+        const Root_of_2 y = make_root_of_2(s.b(),FT(i?FT(-cy):(cy)),delta);
         const Root_of_2 z = make_root_of_2(s.c(),FT(i?1:-1),delta);
         return Root_for_spheres_2_3(x,y,z);
       }
     } else {
-        const Root_of_2 x = make_root_of_2(s.a(),FT(i?(-cx):(cx)),delta);
-        const Root_of_2 y = make_root_of_2(s.b(),FT(i?(-cy):(cy)),delta);
+        const Root_of_2 x = make_root_of_2(s.a(),FT(i?FT(-cx):(cx)),delta);
+        const Root_of_2 y = make_root_of_2(s.b(),FT(i?FT(-cy):(cy)),delta);
         const Root_of_2 z = make_root_of_2(s.c(),FT(i?1:-1),delta);
       return Root_for_spheres_2_3(x,y,z);
     } 

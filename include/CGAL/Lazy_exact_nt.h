@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL$
-// $Id$
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14-beta1/Number_types/include/CGAL/Lazy_exact_nt.h $
+// $Id: Lazy_exact_nt.h 45505a3 %aI Marc Glisse
 // SPDX-License-Identifier: LGPL-3.0+
 //
 //
@@ -478,7 +478,7 @@ public:
     return relative_precision_of_to_double_internal();
   }
 
-  static void set_relative_precision_of_to_double(const double & d)
+  static void set_relative_precision_of_to_double(double d)
   {
       CGAL_assertion((0 < d) & (d < 1));
       relative_precision_of_to_double_internal() = d;

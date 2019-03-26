@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL$
-// $Id$
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14-beta1/Circular_kernel_2/include/CGAL/Circular_kernel_2/Line_arc_2.h $
+// $Id: Line_arc_2.h 0d3ac75 %aI Andreas Fabri
 // SPDX-License-Identifier: GPL-3.0+
 //
 // Author(s)     : Monique Teillaud, Sylvain Pion, Pedro Machado
@@ -92,13 +92,13 @@ public:
     // the circles intersect
       
     const std::pair<typename CK::Circular_arc_point_2, unsigned>* 
-      result = CGAL::internal::intersect_get<std::pair<typename CK::Circular_arc_point_2, unsigned> >(*it);
+      result = CGAL::Intersections::internal::intersect_get<std::pair<typename CK::Circular_arc_point_2, unsigned> >(*it);
     // get must have succeeded
     if ( result->second == 2 ) // double solution
       return result->first;
     if (b) return result->first;
     ++it;
-    result = CGAL::internal::intersect_get<std::pair<typename CK::Circular_arc_point_2, unsigned> >(*it);
+    result = CGAL::Intersections::internal::intersect_get<std::pair<typename CK::Circular_arc_point_2, unsigned> >(*it);
     return result->first;
   }
 
@@ -136,14 +136,14 @@ public:
     CGAL_kernel_precondition(do_intersect(support, l2));
     //typedef typename Root_of_2::RT RT_2;
     typename Intersection_traits<CK, Line_2, Line_2>::result_type 
-      v = CGAL::internal::intersection(support, l1, CK());
+      v = CGAL::Intersections::internal::intersection(support, l1, CK());
     CGAL_assertion(bool(v));
 
-    const Point_2 *pt = CGAL::internal::intersect_get<Point_2>(v);
+    const Point_2 *pt = CGAL::Intersections::internal::intersect_get<Point_2>(v);
     CGAL_assertion(pt != NULL);
     _begin = Circular_arc_point_2(*pt);
-    v = CGAL::internal::intersection(support, l2, CK());
-    const Point_2 *pt2 = CGAL::internal::intersect_get<Point_2>(v);
+    v = CGAL::Intersections::internal::intersection(support, l2, CK());
+    const Point_2 *pt2 = CGAL::Intersections::internal::intersect_get<Point_2>(v);
     CGAL_assertion(pt2 != NULL);
     _end = Circular_arc_point_2(*pt2);
     reset_flags();

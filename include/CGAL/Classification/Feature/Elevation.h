@@ -13,8 +13,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL$
-// $Id$
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14-beta1/Classification/include/CGAL/Classification/Feature/Elevation.h $
+// $Id: Elevation.h 4e1212b %aI Simon Giraudot
 // SPDX-License-Identifier: GPL-3.0+
 //
 // Author(s)     : Florent Lafarge, Simon Giraudot
@@ -91,7 +91,7 @@ public:
   {
     this->set_name ("elevation");
     if (radius_dtm < 0.)
-      radius_dtm = 100.f * grid.resolution();
+      radius_dtm = 10.f * grid.resolution();
 
     //DEM
     Image_float dem(grid.width(),grid.height());

@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL$
-// $Id$
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14-beta1/TDS_3/include/CGAL/Triangulation_data_structure_3.h $
+// $Id: Triangulation_data_structure_3.h afc3de2 %aI Laurent Rineau
 // SPDX-License-Identifier: GPL-3.0+
 //
 // Author(s)     : Monique Teillaud <Monique.Teillaud@sophia.inria.fr>
@@ -78,8 +78,12 @@ class Triangulation_data_structure_3
   typedef Triangulation_data_structure_3<Vb, Cb, Concurrency_tag_> Tds;
 
 public:
-
   typedef Concurrency_tag_            Concurrency_tag;
+
+  // This tag is used in the parallel operations of RT_3 to access some functions
+  // of the TDS (tds.vertices().is_used(Vertex_handle)) that are much more efficient
+  // than what is exposed by the TDS concept (tds.is_vertex(Vertex_handle)).
+  typedef CGAL::Tag_true              Is_CGAL_TDS_3;
 
   // Tools to change the Vertex and Cell types of the TDS.
   template < typename Vb2 >
@@ -827,7 +831,10 @@ public:
         output = f.output;
         filter = f.filter;
         return *this;
-      }
+      }  
+#ifndef CGAL_CFG_NO_CPP0X_DELETED_AND_DEFAULT_FUNCTIONS
+      Facet_it(const Facet_it&)=default;
+#endif      
     };
     Facet_it facet_it() {
       return Facet_it(output, filter);

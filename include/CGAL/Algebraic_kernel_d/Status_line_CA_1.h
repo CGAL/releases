@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL$
-// $Id$
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14-beta1/Algebraic_kernel_d/include/CGAL/Algebraic_kernel_d/Status_line_CA_1.h $
+// $Id: Status_line_CA_1.h cc23699 %aI Andreas Fabri
 // SPDX-License-Identifier: LGPL-3.0+
 // 
 //
@@ -252,9 +252,11 @@ public:
     /*!\brief
      * copy constructor
      */
+#ifdef DOXYGEN_RUNNING  
     Status_line_CA_1(const Self& p) : 
             Base(static_cast<const Base&>(p)) {  
     }
+#endif
 
     /*!\brief
      * constructs a status line over the \c i-th interval with x-coordinate

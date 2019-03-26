@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL$
-// $Id$
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14-beta1/Segment_Delaunay_graph_Linf_2/include/CGAL/Polychain_2.h $
+// $Id: Polychain_2.h 6596ba9 %aI Andreas Fabri
 // SPDX-License-Identifier: GPL-3.0+
 // 
 //
@@ -51,10 +51,6 @@ class Polychainsegment_2 : public Polygon_2<Traits_P, Container_P> {
     // constructors
 
     Polychainsegment_2() : Base() {}
-
-    Polychainsegment_2(
-        const Polychainsegment_2<Traits_P,Container_P>& pc)
-      : Base((Base) pc) {}
 
     template <class InputIterator>
     Polychainsegment_2(InputIterator first, InputIterator last,
@@ -207,13 +203,11 @@ public:
 
     Polychainray_2(): Base(), outgoing() {}
 
-    Polychainray_2(const Polychainray_2<Traits_P,Container_P>& pcr)
-      : Base((Base) pcr), outgoing(pcr.outgoing) {}
 
     template <class InputIterator>
     Polychainray_2(InputIterator first, InputIterator last,
 	           OutgoingDirection d,
-              Traits p_traits = Traits())
+                   Traits p_traits = Traits())
         : Base(first, last, p_traits), outgoing(d)
     {
     }
@@ -371,11 +365,6 @@ public:
 
     Polychainline_2() : Base(), incoming(),
       is_line_optimization(false)
-    {}
-
-    Polychainline_2(const Self& pcl)
-      : Base((Base) pcl), incoming(pcl.incoming),
-        is_line_optimization(pcl.is_line_optimization)
     {}
 
     template <class InputIterator>

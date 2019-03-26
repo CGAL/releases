@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL$
-// $Id$
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14-beta1/AABB_tree/include/CGAL/internal/AABB_tree/AABB_ray_intersection.h $
+// $Id: AABB_ray_intersection.h 6cc109f %aI Andreas Fabri
 // SPDX-License-Identifier: GPL-3.0+
 //
 //
@@ -31,10 +31,18 @@
 #include <boost/type_traits/is_same.hpp>
 #include <boost/variant/apply_visitor.hpp>
 #if BOOST_VERSION >= 105000
-#include <boost/heap/priority_queue.hpp>
+#  if defined(BOOST_MSVC)
+#    pragma warning(push)
+#    pragma warning(disable: 4996)
+#  endif
+#  include <boost/heap/priority_queue.hpp>
+#  if defined(BOOST_MSVC)
+#    pragma warning(pop)
+#  endif
 #else
-#include <queue>
+#  include <queue>
 #endif
+
 #include <CGAL/assertions.h>
 
 namespace CGAL {

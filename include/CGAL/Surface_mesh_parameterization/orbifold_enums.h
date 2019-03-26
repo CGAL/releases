@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL$
-// $Id$
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14-beta1/Surface_mesh_parameterization/include/CGAL/Surface_mesh_parameterization/orbifold_enums.h $
+// $Id: orbifold_enums.h 2f9408f %aI Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0+
 //
 // Author(s)     : Mael Rouxel-Labbé
@@ -29,7 +29,7 @@ namespace CGAL {
 
 namespace Surface_mesh_parameterization {
 
-/// \ingroup PkgSurfaceParameterizationEnums
+/// \ingroup PkgSurfaceMeshParameterizationEnums
 ///
 /// The two possible weight types available in the Orbifold Tutte parameterization.
 enum Weight_type
@@ -40,7 +40,7 @@ enum Weight_type
                  /// and the parameterization is guaranteed to be injective.
 };
 
-/// \ingroup PkgSurfaceParameterizationEnums
+/// \ingroup PkgSurfaceMeshParameterizationEnums
 ///
 /// A classification type for the cones used in Orbifold Tutte parameterization.
 enum Cone_type
@@ -52,7 +52,7 @@ enum Cone_type
                          /// at two different positions.
 };
 
-/// \ingroup PkgSurfaceParameterizationEnums
+/// \ingroup PkgSurfaceMeshParameterizationEnums
 ///
 /// The four Orbifold types available in the Orbifold Tutte parameterization.
 /// The different shapes result from the number of cones and the angle constraints
@@ -65,7 +65,7 @@ enum Orbifold_type
   Parallelogram ///< Four cones, forming a parallelogram-shaped basic tile.
 };
 
-/// \ingroup PkgSurfaceParameterizationEnums
+/// \ingroup PkgSurfaceMeshParameterizationEnums
 /// \brief Convert the orbifold type to a literal message.
 /// \param orb_type the integer value in the enum
 /// \return the string describing the Orbifold type.

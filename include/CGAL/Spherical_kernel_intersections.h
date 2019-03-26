@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL$
-// $Id$
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14-beta1/Circular_kernel_3/include/CGAL/Spherical_kernel_intersections.h $
+// $Id: Spherical_kernel_intersections.h f9dcc6f %aI Andreas Fabri
 // SPDX-License-Identifier: GPL-3.0+
 //
 // Author(s) : Monique Teillaud, Sylvain Pion, Pedro Machado
@@ -37,6 +37,14 @@
 #include <CGAL/Circular_arc_point_3.h>
 
 namespace CGAL {
+
+#define CGAL_SPHERICAL_KERNEL_MACRO_GLOBAL_FUNCTION_JUST_INTERSECTION_2_(A,B) \
+template < class OutputIterator, class K > \
+OutputIterator \
+intersection(const A <K> &c1, const B <K> &c2, OutputIterator res) \
+{ \
+  return typename K::Intersect_3()(c1, c2, res); \
+}
 
 #define CGAL_SPHERICAL_KERNEL_MACRO_GLOBAL_FUNCTION_INTERSECTION_2_(A,B) \
 template < class OutputIterator, class K > \
@@ -68,8 +76,8 @@ do_intersect(const A <K> &c1, const B <K> &c2, const C <K> &c3) \
   return typename K::Do_intersect_3()(c1, c2, c3); \
 }
 
-CGAL_SPHERICAL_KERNEL_MACRO_GLOBAL_FUNCTION_INTERSECTION_2_(Sphere_3, Line_3)
-CGAL_SPHERICAL_KERNEL_MACRO_GLOBAL_FUNCTION_INTERSECTION_2_(Line_3, Sphere_3)
+CGAL_SPHERICAL_KERNEL_MACRO_GLOBAL_FUNCTION_JUST_INTERSECTION_2_(Sphere_3, Line_3)
+CGAL_SPHERICAL_KERNEL_MACRO_GLOBAL_FUNCTION_JUST_INTERSECTION_2_(Line_3, Sphere_3)
 CGAL_SPHERICAL_KERNEL_MACRO_GLOBAL_FUNCTION_INTERSECTION_3_(Sphere_3, Sphere_3, Sphere_3)
 CGAL_SPHERICAL_KERNEL_MACRO_GLOBAL_FUNCTION_INTERSECTION_3_(Sphere_3, Sphere_3, Plane_3)
 CGAL_SPHERICAL_KERNEL_MACRO_GLOBAL_FUNCTION_INTERSECTION_3_(Plane_3, Sphere_3, Sphere_3)

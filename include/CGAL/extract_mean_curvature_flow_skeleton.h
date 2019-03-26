@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL$
-// $Id$
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14-beta1/Surface_mesh_skeletonization/include/CGAL/extract_mean_curvature_flow_skeleton.h $
+// $Id: extract_mean_curvature_flow_skeleton.h 2f9408f %aI Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0+
 //
 // Author(s)     : Sebastien Loriot
@@ -35,7 +35,7 @@
 namespace CGAL{
 
 #if defined(DOXYGEN_RUNNING) || defined(CGAL_EIGEN3_ENABLED)
-/// \ingroup PkgMeanCurvatureSkeleton3
+/// \ingroup PkgSurfaceMeshSkeletonizationRef
 /// @brief extracts a medially centered curve skeleton for the triangle mesh `tmesh`.
 /// This function uses the class CGAL::Mean_curvature_flow_skeletonization with the default parameters.
 /// This function is provided only if \ref thirdpartyEigen "Eigen" 3.2 (or greater) is available and `CGAL_EIGEN3_ENABLED` is defined.

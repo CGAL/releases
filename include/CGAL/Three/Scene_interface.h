@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL$
-// $Id$
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14-beta1/Three/include/CGAL/Three/Scene_interface.h $
+// $Id: Scene_interface.h f3e4183 %aI Maxime Gimeno
 // SPDX-License-Identifier: GPL-3.0+
 //
 //
@@ -26,7 +26,7 @@
 #define SCENE_INTERFACE_H
 #include <CGAL/license/Three.h>
 /*!
-* \ingroup PkgThree
+* \ingroup PkgThreeRef
 * The RenderingMode determines which of an item's primitives must be drawn.
 * It can be Points, PointsPlusNormals, Wireframe, Flat, FlatPlusEdges, or Gouraud.
 * - Points, PointsPlusNormals, and Wireframe have no light model.
@@ -148,7 +148,17 @@ public:
   virtual void itemVisibilityChanged(CGAL::Three::Scene_item*) = 0;
   //! Clears the current selection then sets the selected item to the target index.
   //! Used to update the selection in the Geometric Objects view.
-  virtual void setSelectedItem(Item_id) = 0;  
+  virtual void setSelectedItem(Item_id) = 0;
+  //! \brief ignore data updating.
+  //! 
+  //! This will ignore all the individual calls to `itemChanged()` until 
+  //! `setUpdatesEnabled()` is called whith `b` being `true`.
+  //!
+  virtual void setUpdatesEnabled(bool b) =0;
+  //!
+  //! \brief Updates all the items in the SceneView.
+  //!
+  virtual void allItemsChanged() = 0;
 }; // end interface Scene_interface
 }
 }

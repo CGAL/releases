@@ -16,8 +16,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL$
-// $Id$
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14-beta1/Generator/include/CGAL/point_generators_2.h $
+// $Id: point_generators_2.h 07b720c %aI Maxime Gimeno
 // SPDX-License-Identifier: LGPL-3.0+
 // 
 //
@@ -194,6 +194,8 @@ generate_point() {
     case 3:
         this->d_item = creator( T( this->d_range),        T(d));
         break;
+    default:
+        CGAL_assume(false);
     }
 }
 

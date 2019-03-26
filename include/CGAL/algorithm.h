@@ -16,8 +16,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL$
-// $Id$
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14-beta1/STL_Extension/include/CGAL/algorithm.h $
+// $Id: algorithm.h ab04858 %aI Marc Glisse
 // SPDX-License-Identifier: LGPL-3.0+
 //
 //
@@ -455,6 +455,19 @@ void nth_element(RandomAccessIterator left,
   } // end while(true)
 }
 
+// Not a standard function, but close enough
+template <class InputIterator, class Size, class OutputIterator, class UnaryFun>
+OutputIterator transform_n( InputIterator first, Size n, OutputIterator result, UnaryFun fun)
+{
+  // copies the first `n' transformed items from `first' to `result'.
+  // Returns the value of `result' after inserting the `n' items.
+  while( n--) {
+    *result = fun(*first);
+    first++;
+    result++;
+  }
+  return result;
+}
 } //namespace CGAL
 
 #endif // CGAL_ALGORITHM_H

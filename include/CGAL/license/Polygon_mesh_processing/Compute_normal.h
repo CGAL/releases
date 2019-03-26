@@ -12,23 +12,19 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL$
-// $Id$
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14-beta1/Installation/include/CGAL/license/Polygon_mesh_processing/Compute_normal.h $
+// $Id: Compute_normal.h 15fe22c %aI Mael Rouxel-Labbé
 // SPDX-License-Identifier: LGPL-3.0+
 //
 // Author(s) : Andreas Fabri
 //
 // Warning: this file is generated, see include/CGAL/licence/README.md
 
-
 #ifndef CGAL_LICENSE_POLYGON_MESH_PROCESSING_COMPUTE_NORMAL_H
 #define CGAL_LICENSE_POLYGON_MESH_PROCESSING_COMPUTE_NORMAL_H
 
 #include <CGAL/config.h>
 #include <CGAL/license.h>
-
-
-
 
 #ifdef CGAL_POLYGON_MESH_PROCESSING_COMPUTE_NORMAL_COMMERCIAL_LICENSE
 
@@ -42,8 +38,8 @@
 
 #    ifdef CGAL_LICENSE_ERROR
 #      error "Your commercial license for CGAL does not cover this release \
-of the Polygon Mesh Processing - Normal Computation package. \
-You get this error, as you defined CGAL_LICENSE_ERROR."
+              of the Polygon Mesh Processing - Normal Computation package. \
+              You get this error, as you defined CGAL_LICENSE_ERROR."
 #    endif // CGAL_LICENSE_ERROR
 
 #  endif // CGAL_POLYGON_MESH_PROCESSING_COMPUTE_NORMAL_COMMERCIAL_LICENSE < CGAL_RELEASE_DATE
@@ -58,10 +54,10 @@ You get this error, as you defined CGAL_LICENSE_ERROR."
 
 #  ifdef CGAL_LICENSE_ERROR
 #    error "The macro CGAL_POLYGON_MESH_PROCESSING_COMPUTE_NORMAL_COMMERCIAL_LICENSE is not defined.\
- You use the CGAL Polygon Mesh Processing - Normal Computation package under the terms of \
-the GPLv3+. You get this error, as you defined CGAL_LICENSE_ERROR."
+            You use the CGAL Polygon Mesh Processing - Normal Computation package under the terms of \
+            the GPLv3+. You get this error, as you defined CGAL_LICENSE_ERROR."
 #  endif // CGAL_LICENSE_ERROR
 
 #endif // no CGAL_POLYGON_MESH_PROCESSING_COMPUTE_NORMAL_COMMERCIAL_LICENSE
 
-#endif // CGAL_LICENSE_CHECK_POLYGON_MESH_PROCESSING_COMPUTE_NORMAL_H
+#endif // CGAL_LICENSE_POLYGON_MESH_PROCESSING_COMPUTE_NORMAL_H

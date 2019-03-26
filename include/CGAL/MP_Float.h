@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL$
-// $Id$
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14-beta1/Number_types/include/CGAL/MP_Float.h $
+// $Id: MP_Float.h 3c08d12 %aI Marc Glisse
 // SPDX-License-Identifier: LGPL-3.0+
 //
 //
@@ -879,6 +879,8 @@ inline MP_Float max BOOST_PREVENT_MACRO_SUBSTITUTION(const MP_Float& x,const MP_
 // Coercion_traits
 CGAL_DEFINE_COERCION_TRAITS_FOR_SELF(MP_Float)
 CGAL_DEFINE_COERCION_TRAITS_FROM_TO(int, MP_Float)
+CGAL_DEFINE_COERCION_TRAITS_FROM_TO(float, MP_Float)
+CGAL_DEFINE_COERCION_TRAITS_FROM_TO(double, MP_Float)
 
 
 } //namespace CGAL

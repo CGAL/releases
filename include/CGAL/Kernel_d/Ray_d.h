@@ -16,8 +16,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL$
-// $Id$
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14-beta1/Kernel_d/include/CGAL/Kernel_d/Ray_d.h $
+// $Id: Ray_d.h 383d93d %aI Andreas Fabri
 // SPDX-License-Identifier: LGPL-3.0+
 // 
 //
@@ -114,7 +114,6 @@ starting at |s.source()|. \precond $s$ is not trivial. }*/
     "Ray_d::constructor: segment is trivial.");
 }
 
-Ray_d(const Ray_d<R>& r) : Base(r) {}
 
 /*{\Moperations 3 3}*/
 

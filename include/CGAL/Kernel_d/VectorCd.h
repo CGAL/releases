@@ -16,8 +16,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL$
-// $Id$
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14-beta1/Kernel_d/include/CGAL/Kernel_d/VectorCd.h $
+// $Id: VectorCd.h a48e367 %aI Andreas Fabri
 // SPDX-License-Identifier: LGPL-3.0+
 // 
 // Author(s)     : Michael Seel
@@ -113,7 +113,6 @@ VectorCd(int x, int y, int z, int w) :
 { CGAL_assertion_msg((w!=0), "VectorCd::construction: w == 0.");
   vector_rep()/=w; }
 
-VectorCd(const VectorCd<FT,LA>& p) : Base(p)  {}
 ~VectorCd() {}     
 
 int dimension() const { return ptr()->size(); } 

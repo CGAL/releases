@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL$
-// $Id$
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14-beta1/Generator/include/CGAL/internal/Generic_random_point_generator.h $
+// $Id: Generic_random_point_generator.h 0cd5d3f %aI Laurent Rineau
 // SPDX-License-Identifier: LGPL-3.0+
 //
 //

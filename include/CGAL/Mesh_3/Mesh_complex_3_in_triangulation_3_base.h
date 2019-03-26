@@ -13,8 +13,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL$
-// $Id$
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14-beta1/Mesh_3/include/CGAL/Mesh_3/Mesh_complex_3_in_triangulation_3_base.h $
+// $Id: Mesh_complex_3_in_triangulation_3_base.h 3a8aee1 %aI Laurent Rineau
 // SPDX-License-Identifier: GPL-3.0+
 //
 //
@@ -61,12 +61,6 @@ namespace CGAL {
   }
 
 
-  template < class DSC, bool Const >
-  std::size_t tbb_hasher(const CGAL::CCC_internal::CCC_iterator<DSC, Const>& it)
-  {
-    return CGAL::CCC_internal::hash_value(it);
-  }
-
   // As Marc Glisse pointed out the TBB hash of a std::pair is
   // simplistic and leads to the
   // TBB Warning: Performance is not optimal because the hash function
@@ -80,14 +74,6 @@ namespace CGAL {
                                  CGAL::internal::CC_iterator<DSC, Const> > >()(p);
   }
 
-
-  template < class DSC, bool Const >
-  std::size_t tbb_hasher(const std::pair<CGAL::CCC_internal::CCC_iterator<DSC, Const>,
-                                         CGAL::CCC_internal::CCC_iterator<DSC, Const> >& p)
-  {
-    return boost::hash<std::pair<CGAL::CCC_internal::CCC_iterator<DSC, Const>,
-                                 CGAL::CCC_internal::CCC_iterator<DSC, Const> > >()(p);
-  }
 
 }
 #endif

@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL$
-// $Id$
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14-beta1/Inscribed_areas/include/CGAL/Extremal_polygon_traits_2.h $
+// $Id: Extremal_polygon_traits_2.h a879cb0 %aI Andreas Fabri
 // SPDX-License-Identifier: GPL-3.0+
 // 
 //
@@ -167,7 +167,19 @@ struct Extremal_polygon_perimeter_traits_2 {
     typedef FT              result_type;
   
     Kgon_triangle_perimeter(const K& k_): k(k_) {}
-  
+
+    // Added as workaround for VC2017 with /arch:AVX to fix
+    // https://cgal.geometryfactory.com/CGAL/testsuite/CGAL-4.14-I-95/Inscribed_areas_Examples/TestReport_afabri_x64_Cygwin-Windows10_MSVC2017-Release-64bits.gz
+    Kgon_triangle_perimeter(const Kgon_triangle_perimeter& other)
+      : k(other.k)
+    {}
+
+    Kgon_triangle_perimeter& operator=(const Kgon_triangle_perimeter& other)
+    {
+      k = other.k;
+      return *this;
+    }
+    
     result_type
     operator()(const Point_2& p, const Point_2& q, const Point_2& r) const
     { return dist(p, r) + dist(p, q) - dist(q, r); }

@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL$
-// $Id$
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14-beta1/Nef_S2/include/CGAL/Nef_polyhedron_S2.h $
+// $Id: Nef_polyhedron_S2.h 1f51c8a %aI Andreas Fabri
 // SPDX-License-Identifier: GPL-3.0+
 // 
 //
@@ -350,6 +350,11 @@ public:
             f->mark() == true);
   }
 
+  bool is_sphere() const
+  {
+    return is_plane();
+  }
+
   void extract_complement()
   { CGAL_NEF_TRACEN("extract complement");
     if ( this->is_shared() ) clone_rep();
@@ -375,7 +380,7 @@ public:
     SHalfedge_iterator e;
     CGAL_forall_svertices(v,D) v->mark() = false;
     CGAL_forall_sedges(e,D) e->mark() = false;
-    if ( D.has_sloop() ) D.shalfloop()->mark() = false;
+    if ( D.has_shalfloop() ) D.shalfloop()->mark() = false;
     D.simplify();
   }
 
@@ -390,7 +395,7 @@ public:
     CGAL_forall_svertices(v,D) v->mark() = true;
     CGAL_forall_sedges(e,D)    e->mark() = true;
     CGAL_forall_sfaces(f,D)    f->mark() = false;
-    if ( D.has_sloop() )       D.shalfloop()->mark() = D.shalfoop()->twin() = true;
+    if ( D.has_shalfloop() )       D.shalfloop()->mark() = D.shalfoop()->twin()->mark() = true;
     D.simplify();
   }
 

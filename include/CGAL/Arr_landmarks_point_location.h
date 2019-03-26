@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL$
-// $Id$
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14-beta1/Arrangement_on_surface_2/include/CGAL/Arr_landmarks_point_location.h $
+// $Id: Arr_landmarks_point_location.h 18acb2e %aI Andreas Fabri
 // SPDX-License-Identifier: GPL-3.0+
 //
 //

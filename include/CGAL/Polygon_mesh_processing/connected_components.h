@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL$
-// $Id$
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14-beta1/Polygon_mesh_processing/include/CGAL/Polygon_mesh_processing/connected_components.h $
+// $Id: connected_components.h b932560 %aI Mael Rouxel-Labbé
 // SPDX-License-Identifier: GPL-3.0+
 //
 //
@@ -277,7 +277,7 @@ void keep_connected_components(PolygonMesh& pmesh
  *
  * \param pmesh the polygon mesh
  * \param nb_components_to_keep the number of components to be kept
- * \param np optional \ref pmp_namedparameters "Named Parameters" described below
+ * \param np optional \ref pmp_namedparameters "Named Parameters", amongst those described below
  *
  * \cgalNamedParamsBegin
  *    \cgalParamBegin{edge_is_constrained_map} a property map containing the constrained-or-not status of each edge of `pmesh` \cgalParamEnd
@@ -360,7 +360,7 @@ std::size_t keep_largest_connected_components(PolygonMesh& pmesh,
  *
  * \param pmesh the polygon mesh
  * \param threshold_components_to_keep the number of faces a component must have so that it is kept
- * \param np optional \ref pmp_namedparameters "Named Parameters" described below
+ * \param np optional \ref pmp_namedparameters "Named Parameters", amongst those described below
  *
  * \cgalNamedParamsBegin
  *    \cgalParamBegin{edge_is_constrained_map} a property map containing the constrained-or-not status of each edge of `pmesh` \cgalParamEnd
@@ -664,7 +664,7 @@ void remove_connected_components(PolygonMesh& pmesh
 *
 * \param components_to_remove a face range, including one face or more on each component to be removed
 * \param pmesh the polygon mesh
-* \param np optional \ref pmp_namedparameters "Named Parameters" described below
+* \param np optional \ref pmp_namedparameters "Named Parameters", amongst those described below
 *
 * \cgalNamedParamsBegin
 *    \cgalParamBegin{edge_is_constrained_map} a property map containing the constrained-or-not status of each edge of `pmesh` \cgalParamEnd
@@ -722,7 +722,7 @@ void remove_connected_components(PolygonMesh& pmesh
 *
 * \param pmesh the polygon mesh
 * \param components_to_keep a face range, including one face or more on each component to be kept
-* \param np optional \ref pmp_namedparameters "Named Parameters" described below
+* \param np optional \ref pmp_namedparameters "Named Parameters", amongst those described below
 *
 * \cgalNamedParamsBegin
 *    \cgalParamBegin{edge_is_constrained_map} a property map containing the constrained-or-not status of each edge of `pmesh` \cgalParamEnd

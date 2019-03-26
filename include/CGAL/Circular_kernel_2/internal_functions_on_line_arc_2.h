@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL$
-// $Id$
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14-beta1/Circular_kernel_2/include/CGAL/Circular_kernel_2/internal_functions_on_line_arc_2.h $
+// $Id: internal_functions_on_line_arc_2.h 0d3ac75 %aI Andreas Fabri
 // SPDX-License-Identifier: GPL-3.0+
 //
 // Author(s)     : Monique Teillaud, Sylvain Pion, Pedro Machado
@@ -488,10 +488,10 @@ namespace CircularFunctors {
     }
 
     typename Intersection_traits<CK, typename CK::Line_2, typename CK::Line_2>::result_type
-      v = CGAL::internal::intersection(a1.supporting_line(), a2.supporting_line(), CK());
+      v = CGAL::Intersections::internal::intersection(a1.supporting_line(), a2.supporting_line(), CK());
     if(!v) return res;
 
-    const Point_2 *pt = CGAL::internal::intersect_get<Point_2>(v);
+    const Point_2 *pt = CGAL::Intersections::internal::intersect_get<Point_2>(v);
     if(pt == NULL) return res;
     Circular_arc_point_2 intersect_point = Circular_arc_point_2(*pt);
     //      (Root_for_circles_2_2(Root_of_2(pt->x()),Root_of_2(pt->y())));

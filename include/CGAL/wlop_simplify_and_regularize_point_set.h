@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL$
-// $Id$
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14-beta1/Point_set_processing_3/include/CGAL/wlop_simplify_and_regularize_point_set.h $
+// $Id: wlop_simplify_and_regularize_point_set.h c636ea1 %aI Andreas Fabri
 // SPDX-License-Identifier: GPL-3.0+
 //
 // Author(s) : Shihao Wu, Clement Jamin, Pierre Alliez 
@@ -78,9 +78,7 @@ public:
   Kd_tree_element(const Base& p, unsigned int id=0)
     : Base(p), index(id)
   {}
-  Kd_tree_element(const Kd_tree_element& other)
-    : Base(other), index(other.index)
-  {}
+
 };
 
 // Helper class for the Kd-tree
@@ -407,7 +405,7 @@ public:
 // ----------------------------------------------------------------------------
 
 /**
-   \ingroup PkgPointSetProcessingAlgorithms
+   \ingroup PkgPointSetProcessing3Algorithms
    This is an implementation of the Weighted Locally Optimal Projection (WLOP) simplification algorithm.
    The WLOP simplification algorithm can produce a set of 
    denoised, outlier-free and evenly distributed particles over the original 

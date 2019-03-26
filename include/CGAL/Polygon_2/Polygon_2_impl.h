@@ -16,8 +16,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL$
-// $Id$
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14-beta1/Polygon/include/CGAL/Polygon_2/Polygon_2_impl.h $
+// $Id: Polygon_2_impl.h 8030667 %aI Andreas Fabri
 // SPDX-License-Identifier: LGPL-3.0+
 // 
 //
@@ -99,8 +99,9 @@ operator>>(std::istream &is, Polygon_2<Traits_P,Container_P>& p)
   if (is) {
       p.erase(p.vertices_begin(),p.vertices_end());
       for (int i=0; i<n; i++) {
-        is >> point;
-        p.push_back(point);
+        if(is >> point){
+          p.push_back(point);
+        }
       }
   }
  

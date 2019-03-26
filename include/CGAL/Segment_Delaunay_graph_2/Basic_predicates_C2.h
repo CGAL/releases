@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL$
-// $Id$
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14-beta1/Segment_Delaunay_graph_2/include/CGAL/Segment_Delaunay_graph_2/Basic_predicates_C2.h $
+// $Id: Basic_predicates_C2.h 1c21a80 %aI Andreas Fabri
 // SPDX-License-Identifier: GPL-3.0+
 // 
 //
@@ -109,9 +109,6 @@ public:
 
     Homogeneous_point_2(const Point_2& p)
       : hx_(p.x()), hy_(p.y()), hw_(1) {}
-
-    Homogeneous_point_2(const Homogeneous_point_2& other)
-      : hx_(other.hx_), hy_(other.hy_), hw_(other.hw_) {}
 
     RT hx() const { return hx_; }
     RT hy() const { return hy_; }

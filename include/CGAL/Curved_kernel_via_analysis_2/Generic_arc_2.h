@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL$
-// $Id$
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14-beta1/Arrangement_on_surface_2/include/CGAL/Curved_kernel_via_analysis_2/Generic_arc_2.h $
+// $Id: Generic_arc_2.h cc23699 %aI Andreas Fabri
 // SPDX-License-Identifier: LGPL-3.0+
 //
 //
@@ -150,10 +150,12 @@ public:
     /*!\brief
      * copy constructor
      */
+#ifdef DOXYGEN_RUNNING  
     Generic_arc_2(const Self& p) :
             Base(static_cast<const Base&>(p)) {  
     }
-    
+#endif
+  
     /*!\brief
      * constructs an arc from a given represenation
      */

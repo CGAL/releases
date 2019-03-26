@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL$
-// $Id$
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14-beta1/Polygon_mesh_processing/include/CGAL/Polygon_mesh_processing/transform.h $
+// $Id: transform.h a2e8a1c %aI Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0+
 //
 //
@@ -28,7 +28,7 @@
 namespace CGAL{
 namespace Polygon_mesh_processing{
 /**
- * \ingroup PkgPolygonMeshProcessing
+ * \ingroup PkgPolygonMeshProcessingRef
  * applies a transformation to every vertex of a `PolygonMesh`.
  * 
  * @tparam Transformation a functor that has an `operator()(Point_3)`, with `Point_3`

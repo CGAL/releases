@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL$
-// $Id$
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14-beta1/Partition_2/include/CGAL/Partition_2/Partitioned_polygon_2.h $
+// $Id: Partitioned_polygon_2.h 561d689 %aI Andreas Fabri
 // SPDX-License-Identifier: GPL-3.0+
 // 
 //
@@ -328,6 +328,10 @@ class Partition_vertex : public Traits_::Point_2
     // We initialize in order to avoid problem with g++ safe STL
     current_diag = diag_endpoint_refs.end() ; 
   }
+
+#ifndef CGAL_CFG_NO_CPP0X_DELETED_AND_DEFAULT_FUNCTIONS
+    Partition_vertex& operator=(const Partition_vertex&)=default;
+#endif
 
     void insert_diagonal(Circulator v_ref) 
     {

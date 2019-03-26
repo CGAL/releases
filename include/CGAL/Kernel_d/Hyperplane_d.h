@@ -16,8 +16,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL$
-// $Id$
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14-beta1/Kernel_d/include/CGAL/Kernel_d/Hyperplane_d.h $
+// $Id: Hyperplane_d.h 383d93d %aI Andreas Fabri
 // SPDX-License-Identifier: LGPL-3.0+
 // 
 //
@@ -59,7 +59,6 @@ public:
   Hyperplane_d(const Point_d<R>& p, const Direction_d<R>& dir) :
     Base(p,dir) {}
 
-  Hyperplane_d(const Hyperplane_d<R> &h) : Base(h) {}
   Hyperplane_d(const Base& p) : Base(p) {}
 
   template <class InputIterator>

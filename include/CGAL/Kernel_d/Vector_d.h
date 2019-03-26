@@ -16,8 +16,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL$
-// $Id$
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14-beta1/Kernel_d/include/CGAL/Kernel_d/Vector_d.h $
+// $Id: Vector_d.h 11131d3 %aI Andreas Fabri
 // SPDX-License-Identifier: LGPL-3.0+
 //
 // Author(s)     : Michael Seel
@@ -69,9 +69,8 @@ class Vector_d : public pR::Vector_d_base
   Vector_d (int d, InputIterator first, InputIterator last, const RT& D)
     : Base (d, first, last, D) {}
 
-  Vector_d(const Self& v) : Base(v) {}
-  Vector_d(const Base& v) : Base(v) {}
-
+  Vector_d(const Base& v) : Base(v) {}  
+  
   Direction_d<R> direction() const { return Base::direction(); }
 
   FT operator* (const Self& w) const

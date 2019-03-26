@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL$
-// $Id$
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14-beta1/Surface_mesh/include/CGAL/boost/graph/properties_Surface_mesh_features.h $
+// $Id: properties_Surface_mesh_features.h d76c163 %aI Maxime Gimeno
 // SPDX-License-Identifier: LGPL-3.0+
 //
 //
@@ -131,7 +131,7 @@ CGAL_PROPERTY_SURFACE_MESH_RETURN_TYPE(CGAL::edge_is_feature_t)
 inline get(CGAL::edge_is_feature_t, Surface_mesh<P>& smesh)
 {
   typedef typename boost::graph_traits<Surface_mesh<P> >::edge_descriptor edge_descriptor;
-  return smesh. template add_property_map<edge_descriptor,bool>("e:is_feature").first;
+  return smesh. template add_property_map<edge_descriptor,bool>("e:is_feature", false).first;
 }
 
 

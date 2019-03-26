@@ -13,8 +13,8 @@
 // These files are provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL$
-// $Id$
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14-beta1/CGAL_ImageIO/include/CGAL/ImageIO/typedefs.h $
+// $Id: typedefs.h 0698f79 %aI Sébastien Loriot
 // SPDX-License-Identifier: LGPL-3.0+
 //
 //
@@ -23,7 +23,7 @@
 /*************************************************************************
  * typedefs.h - 
  *
- * $Id$
+ * $Id: typedefs.h 0698f79 %aI Sébastien Loriot
  *
  * Copyright©INRIA 1998
  *

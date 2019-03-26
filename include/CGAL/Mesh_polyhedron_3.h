@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL$
-// $Id$
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14-beta1/Mesh_3/include/CGAL/Mesh_polyhedron_3.h $
+// $Id: Mesh_polyhedron_3.h 98c1371 %aI Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0+
 //
 //
@@ -95,7 +95,7 @@ public:
   }
 
   Mesh_polyhedron_vertex() : Pdv_base(), nb_of_feature_edges(0) {}
-  Mesh_polyhedron_vertex(const Point& p) : Pdv_base(p), nb_of_feature_edges(0) {}
+  Mesh_polyhedron_vertex(const Point& p) : Pdv_base(p), time_stamp_(-1), nb_of_feature_edges(0) {}
 };
 
 template <class Refs, class Tprev, class Tvertex, class Tface>

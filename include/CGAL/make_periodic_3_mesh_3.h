@@ -13,8 +13,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL$
-// $Id$
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14-beta1/Periodic_3_mesh_3/include/CGAL/make_periodic_3_mesh_3.h $
+// $Id: make_periodic_3_mesh_3.h ade4903 %aI Andreas Fabri
 // SPDX-License-Identifier: GPL-3.0+
 //
 // Author(s)     : Stéphane Tayeb,
@@ -245,6 +245,11 @@ C3T3 make_periodic_3_mesh_3(const MD& md, const MC& mc,
 }
 #endif
 
+#if defined(BOOST_MSVC)
+#  pragma warning(push)
+#  pragma warning(disable:4003) // not enough actual parameters for macro
+#endif
+  
 // see <CGAL/config.h>
 CGAL_PRAGMA_DIAG_PUSH
 // see <CGAL/boost/parameter.h>
@@ -276,6 +281,10 @@ BOOST_PARAMETER_FUNCTION(
                               manifold_options_param);
 }
 CGAL_PRAGMA_DIAG_POP
+
+#if defined(BOOST_MSVC)
+#  pragma warning(pop)
+#endif
 
 /**
  * @brief This function meshes the domain defined by mesh_traits

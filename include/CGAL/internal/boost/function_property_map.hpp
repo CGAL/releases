@@ -9,8 +9,8 @@
 // http://www.boost.org/LICENSE_1_0.txt)
 //=======================================================================
 //
-// $URL$
-// $Id$
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14-beta1/STL_Extension/include/CGAL/internal/boost/function_property_map.hpp $
+// $Id: function_property_map.hpp 8cdfad0 %aI Sébastien Loriot
 // SPDX-License-Identifier: BSL-1.0
 //
 

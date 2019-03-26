@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL$
-// $Id$
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14-beta1/Triangulation/include/CGAL/Triangulation_vertex.h $
+// $Id: Triangulation_vertex.h 21d53cd %aI Sebastien Loriot
 // SPDX-License-Identifier: GPL-3.0+
 //
 // Author(s)    : Samuel Hornus
@@ -115,7 +115,9 @@ template < class A, typename Data, class B >
 std::istream &
 operator>>(std::istream & is, Triangulation_vertex<A, Data, B> & v)
 {
-    is >> v.point();
+    typename Triangulation_vertex<A, Data, B>::Point tmp;
+    is >> tmp;
+    v.set_point(tmp);
     return (is >> v.data());
 }
 

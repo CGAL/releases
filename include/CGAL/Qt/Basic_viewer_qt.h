@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL$
-// $Id$
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14-beta1/GraphicsView/include/CGAL/Qt/Basic_viewer_qt.h $
+// $Id: Basic_viewer_qt.h d069b6f %aI Maxime Gimeno
 // SPDX-License-Identifier: GPL-3.0+
 // 
 //
@@ -27,6 +27,13 @@
 
 #ifdef CGAL_USE_BASIC_VIEWER
 
+#ifdef __GNUC__ 
+#if  __GNUC__ >= 9
+#  pragma GCC diagnostic push
+#  pragma GCC diagnostic ignored "-Wdeprecated-copy"
+#endif
+#endif
+
 #include <QApplication>
 #include <QKeyEvent>
 
@@ -36,6 +43,12 @@
 #include <QOpenGLVertexArrayObject>
 #include <QGLBuffer>
 #include <QOpenGLShaderProgram>
+
+#ifdef __GNUC__ 
+#if __GNUC__ >= 9
+#  pragma GCC diagnostic pop
+#endif
+#endif
 
 #include <vector>
 #include <cstdlib>
@@ -144,11 +157,11 @@ inline CGAL::Color get_random_color(CGAL::Random& random)
 //------------------------------------------------------------------------------
 class Basic_viewer_qt : public CGAL::QGLViewer
 {  
+public:
   typedef CGAL::Exact_predicates_inexact_constructions_kernel Local_kernel;
   typedef Local_kernel::Point_3  Local_point;
   typedef Local_kernel::Vector_3 Local_vector;
 
-public:
   // Constructor/Destructor
   Basic_viewer_qt(QWidget* parent,
                   const char* title="",
@@ -740,7 +753,7 @@ protected:
     setKeyDescription(::Qt::Key_E, "Toggles edges display");
     setKeyDescription(::Qt::Key_F, "Toggles faces display");
     setKeyDescription(::Qt::Key_G, "Switch between flat/Gouraud shading display");
-    setKeyDescription(::Qt::Key_M, "Toggles mono color for all faces");
+    setKeyDescription(::Qt::Key_M, "Toggles mono color");
     setKeyDescription(::Qt::Key_N, "Inverse direction of normals");
     setKeyDescription(::Qt::Key_V, "Toggles vertices display");
     setKeyDescription(::Qt::Key_Plus, "Increase size of edges");
@@ -935,8 +948,11 @@ protected:
   }
 
   virtual QString helpString() const
+  { return helpString("CGAL Basic Viewer"); }
+
+  virtual QString helpString(const char* title) const
   {
-    QString text("<h2>C G A L   B a s i c   V i e w e r</h2>");
+    QString text(QString("<h2>")+QString(title)+QString("</h2>"));
     text += "Use the mouse to move the camera around the object. ";
     text += "You can respectively revolve around, zoom and translate with "
       "the three mouse buttons. ";
@@ -966,7 +982,7 @@ protected:
     return text;
   }
 
-private:
+protected:
   bool m_draw_vertices;
   bool m_draw_edges;
   bool m_draw_faces;

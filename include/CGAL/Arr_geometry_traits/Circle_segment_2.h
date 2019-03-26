@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL$
-// $Id$
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14-beta1/Arrangement_on_surface_2/include/CGAL/Arr_geometry_traits/Circle_segment_2.h $
+// $Id: Circle_segment_2.h de14c48 %aI Andreas Fabri
 // SPDX-License-Identifier: GPL-3.0+
 //
 //
@@ -109,6 +109,10 @@ public:
     Point_handle (p)
   {}
 
+#ifndef CGAL_CFG_NO_CPP0X_DELETED_AND_DEFAULT_FUNCTIONS
+  _One_root_point_2& operator=(const _One_root_point_2&)=default;
+#endif
+  
   /*! Constructor of a point with one-root coefficients.
      This constructor of a point can also be used with rational coefficients
      thanks to convertor of CoordNT. */

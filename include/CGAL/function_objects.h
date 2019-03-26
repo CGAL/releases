@@ -16,8 +16,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL$
-// $Id$
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14-beta1/STL_Extension/include/CGAL/function_objects.h $
+// $Id: function_objects.h f83053c %aI Laurent Rineau
 // SPDX-License-Identifier: LGPL-3.0+
 // 
 //
@@ -451,6 +451,19 @@ public:
   Binary_compose_2(const Op1& x, const Op2& y, const Op3& z)
   : op1(x), op2(y), op3(z) {}
 
+  // Added as workaround for VC2017 with /arch:AVX to fix
+  // https://cgal.geometryfactory.com/CGAL/testsuite/CGAL-4.14-I-95/Polytope_distance_d/TestReport_afabri_x64_Cygwin-Windows10_MSVC2017-Release-64bits.gz
+  Binary_compose_2(const Binary_compose_2& other)
+    : op1(other.op1), op2(other.op2), op3(other.op3) {}
+
+  Binary_compose_2& operator=(const Binary_compose_2& other)
+  {
+    op1 = other.op1;
+    op2 = other.op2;
+    op3 = other.op3;
+    return *this;
+  }
+    
   result_type
   operator()(const first_argument_type& x,
              const second_argument_type& y) const

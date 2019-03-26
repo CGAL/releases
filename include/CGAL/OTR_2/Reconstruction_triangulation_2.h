@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL$
-// $Id$
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14-beta1/Optimal_transportation_reconstruction_2/include/CGAL/OTR_2/Reconstruction_triangulation_2.h $
+// $Id: Reconstruction_triangulation_2.h a231468 %aI Simon Giraudot
 // SPDX-License-Identifier: GPL-3.0+
 //
 // Author(s)     : Fernando de Goes, Pierre Alliez, Ivo Vigan, Clément Jamin
@@ -919,6 +919,22 @@ public:
         return false;
     }
     return true;
+  }
+
+  bool check_validity_test () const
+  {
+    for(Finite_faces_iterator it = Base::finite_faces_begin();
+        it != Base::finite_faces_end(); it++)
+    {
+      typename Traits_::Orientation s
+        = orientation(it->vertex(0)->point(),
+                      it->vertex(1)->point(),
+                      it->vertex(2)->point());
+      if (s != LEFT_TURN)
+        return false;
+    }
+
+    return true;  
   }
 
   // COLLAPSE //

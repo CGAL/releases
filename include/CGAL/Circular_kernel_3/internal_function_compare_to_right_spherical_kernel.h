@@ -18,8 +18,8 @@
 // and a STREP (FET Open) Project under Contract No  IST-006413 
 // (ACS -- Algorithms for Complex Shapes)
 //
-// $URL$
-// $Id$
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14-beta1/Circular_kernel_3/include/CGAL/Circular_kernel_3/internal_function_compare_to_right_spherical_kernel.h $
+// $Id: internal_function_compare_to_right_spherical_kernel.h e58cc2c %aI Marc Glisse
 // SPDX-License-Identifier: GPL-3.0+
 //
 // Author(s) : Sebastien Loriot
@@ -70,7 +70,7 @@ struct Trait_for_cmp_tgt_theta_0{
   typename SK::FT 
   unsigned_tkz_coeff_normal( const typename SK::Point_3& C,const typename SK::FT& gamma_k) const
   {
-    return - CGAL_NTS sign(gamma_k)*C.y();
+    return - (int)CGAL_NTS sign(gamma_k)*C.y();
   }
 
   Tk_type

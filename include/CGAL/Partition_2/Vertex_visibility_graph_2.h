@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL$
-// $Id$
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14-beta1/Partition_2/include/CGAL/Partition_2/Vertex_visibility_graph_2.h $
+// $Id: Vertex_visibility_graph_2.h 955b6a8 %aI Andreas Fabri
 // SPDX-License-Identifier: GPL-3.0+
 // 
 //
@@ -68,7 +68,7 @@
 #include <CGAL/Partition_2/Iterator_list.h>
 #include <CGAL/Partition_2/Turn_reverser.h>
 #include <CGAL/Partition_2/Point_pair_less_xy_2.h>
-#include <CGAL/Segment_2_Ray_2_intersection.h>
+#include <CGAL/Intersections_2/Ray_2_Segment_2.h>
 #include <CGAL/Partition_2/Segment_less_yx_2.h>
 #include <cmath>
 #include <list>

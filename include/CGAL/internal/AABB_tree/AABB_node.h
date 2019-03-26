@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL$
-// $Id$
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14-beta1/AABB_tree/include/CGAL/internal/AABB_tree/AABB_node.h $
+// $Id: AABB_node.h a764322 %aI Maxime Gimeno
 // SPDX-License-Identifier: GPL-3.0+
 //
 //
@@ -138,7 +138,7 @@ AABB_node<Tr>::expand(ConstPrimitiveIterator first,
   m_bbox = traits.compute_bbox_object()(first, beyond);
 
   // sort primitives along longest axis aabb
-  traits.sort_primitives_object()(first, beyond, m_bbox);
+  traits.split_primitives_object()(first, beyond, m_bbox);
 
   switch(range)
   {

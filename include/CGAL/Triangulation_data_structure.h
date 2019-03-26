@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL$
-// $Id$
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14-beta1/Triangulation/include/CGAL/Triangulation_data_structure.h $
+// $Id: Triangulation_data_structure.h 21d53cd %aI Sebastien Loriot
 // SPDX-License-Identifier: GPL-3.0+
 //
 // Author(s)    : Samuel Hornus
@@ -1392,7 +1392,9 @@ Triangulation_data_structure<Dimen, Vb, Fcb>
     std::size_t i = 0;
     while( i < m )
     {
-        Full_cell_handle s = new_full_cell();
+        Full_cell_handle s = (i==0 && full_cells_.size()==1 )
+                           ? full_cells_begin()
+                           : new_full_cell();
         full_cells.push_back(s);
         for( int j = 0; j <= cd; ++j )
         {

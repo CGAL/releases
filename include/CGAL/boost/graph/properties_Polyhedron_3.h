@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL$
-// $Id$
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14-beta1/Polyhedron/include/CGAL/boost/graph/properties_Polyhedron_3.h $
+// $Id: properties_Polyhedron_3.h a69b9e1 %aI Sébastien Loriot
 // SPDX-License-Identifier: LGPL-3.0+
 //
 //
@@ -135,6 +135,24 @@ typename boost::property_traits< typename boost::property_map<CGAL::Polyhedron_3
 get(PropertyTag p, CGAL::Polyhedron_3<Gt,I,HDS,A> const& g, const Key& key)
 { return get(get(p, g), key); }
 
+
+
+#define CGAL_POLYHEDRON_DYNAMIC_PM(TAG, DESCRIPTOR) \
+template <typename T, typename Gt, typename I, CGAL_HDS_PARAM_, typename A> \
+typename boost::property_map<Polyhedron_3<Gt,I,HDS,A>, TAG >::const_type \
+get(const TAG&, const Polyhedron_3<Gt,I,HDS,A>&) \
+{ \
+  typedef typename boost::graph_traits< Polyhedron_3<Gt,I,HDS,A> >::DESCRIPTOR descriptor; \
+  return internal::Dynamic_property_map<descriptor,T>(); \
+}
+
+CGAL_POLYHEDRON_DYNAMIC_PM(dynamic_vertex_property_t<T>, vertex_descriptor)
+CGAL_POLYHEDRON_DYNAMIC_PM(dynamic_halfedge_property_t<T>, halfedge_descriptor)
+CGAL_POLYHEDRON_DYNAMIC_PM(dynamic_edge_property_t<T>, edge_descriptor)
+CGAL_POLYHEDRON_DYNAMIC_PM(dynamic_face_property_t<T>, face_descriptor)
+
+
+#undef CGAL_POLYHEDRON_DYNAMIC_PM
 
 
 // generalized put

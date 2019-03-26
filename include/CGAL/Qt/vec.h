@@ -14,8 +14,8 @@
  WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 
 *****************************************************************************/
-// $URL$
-// $Id$
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14-beta1/GraphicsView/include/CGAL/Qt/vec.h $
+// $Id: vec.h f627339 %aI Andreas Fabri
 // SPDX-License-Identifier: GPL-3.0
 
 #ifndef QGLVIEWER_VEC_H
@@ -115,13 +115,14 @@ and can hence be used in place of Vec. See also operator const qreal*() .*/
   // Vec(const Vec& v) : x(v.x), y(v.y), z(v.z) {}
 
   /*! Equal operator. */
+#ifdef DOXYGEN_RUNNING  
   Vec &operator=(const Vec &v) {
     x = v.x;
     y = v.y;
     z = v.z;
     return *this;
   }
-
+#endif
   /*! Set the current value. May be faster than using operator=() with a
    * temporary Vec(x,y,z). */
   void setValue(qreal X, qreal Y, qreal Z) {

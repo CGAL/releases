@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL$
-// $Id$
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14-beta1/Cone_spanners_2/include/CGAL/gnuplot_output_2.h $
+// $Id: gnuplot_output_2.h 2f9408f %aI Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0+
 //
 //
@@ -46,7 +46,7 @@ namespace CGAL {
 /*  ------ Declarations go first, then implementations follow.   ------ */
 
 /*!
-*  \ingroup PkgConeBasedSpanners
+*  \ingroup PkgConeSpanners2Ref
 *  \brief Output a set of files used by Gnuplot to plot `g`.
 *
 *  The files that are generated for Gnuplot are:

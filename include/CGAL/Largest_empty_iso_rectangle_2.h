@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL$
-// $Id$
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14-beta1/Inscribed_areas/include/CGAL/Largest_empty_iso_rectangle_2.h $
+// $Id: Largest_empty_iso_rectangle_2.h bc455b4 %aI Andreas Fabri
 // SPDX-License-Identifier: GPL-3.0+
 // 
 //
@@ -253,16 +253,6 @@ public:
     Point_2 x_part;// the x coordinate of the point
     Point_2 y_part;// the y coordinate of the point
     Point_2 original;
-
-    Internal_point &
-     operator=(const Internal_point &other)
-    {
-      x_part = other.x_part;
-      y_part = other.y_part;
-      original = other.original;
-
-      return(*this);
-    }
 
     Internal_point() // no real value - just to allow construction of LER
       : x_part(Point_2(0,0)), y_part(Point_2(0,0)), original(Point_2(0,0)) {}

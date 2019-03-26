@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL$
-// $Id$
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14-beta1/Nef_2/include/CGAL/Nef_2/HDS_items.h $
+// $Id: HDS_items.h fdd8357 %aI Laurent Rineau
 // SPDX-License-Identifier: GPL-3.0+
 // 
 //
@@ -271,7 +271,7 @@ public:
     public:
         Hole_iterator() : Ibase() {}
         Hole_iterator(const Ibase& b) : Ibase(b) {}
-        Hole_iterator(const Hole_iterator& i) : Ibase(i) {}  
+
         operator Halfedge_handle() const { return Ibase::operator*(); }
         Halfedge& operator*() { return *(Ibase::operator*()); }
         Halfedge_handle operator->() { return Ibase::operator*(); }
@@ -284,7 +284,7 @@ public:
     public:
         Hole_const_iterator() : Ibase() {}
         Hole_const_iterator(const Ibase& b) : Ibase(b) {}
-        Hole_const_iterator(const Hole_const_iterator& i) : Ibase(i) {}  
+
         operator Halfedge_const_handle() const { return Ibase::operator*(); }
         const Halfedge& operator*() { return *(Ibase::operator*()); }
         Halfedge_const_handle operator->() { return Ibase::operator*(); }
@@ -299,8 +299,7 @@ public:
     public:
         Isolated_vertex_iterator() : Ibase() {}
         Isolated_vertex_iterator(const Ibase& b) : Ibase(b) {}
-        Isolated_vertex_iterator(const Isolated_vertex_iterator& i) 
-            : Ibase(i) {}  
+
         operator Vertex_handle() const { return Ibase::operator*(); }
         Vertex& operator*() { return *(Ibase::operator*()); }
         Vertex_handle operator->() { return Ibase::operator*(); }
@@ -313,8 +312,7 @@ public:
     public:
         Isolated_vertex_const_iterator() : Ibase() {}
         Isolated_vertex_const_iterator(const Ibase& b) : Ibase(b) {}
-        Isolated_vertex_const_iterator(
-            const Isolated_vertex_const_iterator& i) : Ibase(i) {}  
+
         operator Vertex_const_handle() const { return Ibase::operator*(); }
         const Vertex& operator*() { return *(Ibase::operator*()); }
         Vertex_const_handle operator->() { return Ibase::operator*(); }
@@ -389,7 +387,9 @@ public:
             hit->reset_fcit();
         for (Isolated_vertex_iterator vit = iv_begin(); vit!=iv_end(); ++vit) 
             vit->reset_ivit();
-        FC.clear(); IV.clear(); }
+        FC.clear(); IV.clear();
+        _e=Halfedge_handle();
+          }
 
     /*{\Mtext There are the same iterator ranges defined for the const
       iterators |Hole_const_iterator|, |Isolated_vertex_const_iterator|.

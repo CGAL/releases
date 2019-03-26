@@ -13,8 +13,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL$
-// $Id$
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14-beta1/Point_set_processing_3/include/CGAL/estimate_scale.h $
+// $Id: estimate_scale.h 2f9408f %aI Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0+
 //
 // Author(s) : Simon Giraudot
@@ -443,7 +443,7 @@ public:
 // ----------------------------------------------------------------------------
 
 /**  
-   \ingroup PkgPointSetProcessingAlgorithms
+   \ingroup PkgPointSetProcessing3Algorithms
 
    Estimates the local scale in a K nearest neighbors sense on a set
    of user-defined query points. The computed scales correspond to
@@ -535,7 +535,7 @@ estimate_local_k_neighbor_scales(
 /// \endcond
 
 /**  
-   \ingroup PkgPointSetProcessingAlgorithms
+   \ingroup PkgPointSetProcessing3Algorithms
 
    Estimates the global scale in a K nearest neighbors sense. The
    computed scale corresponds to the smallest scale such that the K
@@ -591,7 +591,7 @@ estimate_global_k_neighbor_scale(const PointRange& points)
 /// \endcond  
 
 /**  
-   \ingroup PkgPointSetProcessingAlgorithms
+   \ingroup PkgPointSetProcessing3Algorithms
 
    Estimates the local scale in a range sense on a set of
    user-defined query points. The computed scales correspond to the
@@ -683,7 +683,7 @@ estimate_local_range_scales(
 /// \endcond
 
 /**  
-   \ingroup PkgPointSetProcessingAlgorithms
+   \ingroup PkgPointSetProcessing3Algorithms
 
    Estimates the global scale in a range sense. The computed scale
    corresponds to the smallest scale such that the subsets of points

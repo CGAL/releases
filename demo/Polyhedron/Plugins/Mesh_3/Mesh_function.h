@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL$
-// $Id$
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14-beta1/Polyhedron/demo/Polyhedron/Plugins/Mesh_3/Mesh_function.h $
+// $Id: Mesh_function.h d51475b %aI Maxime Gimeno
 // SPDX-License-Identifier: GPL-3.0+
 //
 //
@@ -57,8 +57,8 @@ struct Get_facet_patch_id_selector {
 };
 //specialization for surface_mesh
 template<>
-struct Get_facet_patch_id_selector<Polyhedral_mesh_domain_sm> {
-  typedef CGAL::Mesh_3::Get_facet_patch_id_sm<Polyhedral_mesh_domain_sm> type;
+struct Get_facet_patch_id_selector<Polyhedral_mesh_domain> {
+  typedef CGAL::Mesh_3::Get_facet_patch_id_sm<Polyhedral_mesh_domain> type;
 };
 }//end internal
 struct Mesh_parameters

@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL$
-// $Id$
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14-beta1/Point_set_shape_detection_3/include/CGAL/Shape_detection_3/Efficient_RANSAC.h $
+// $Id: Efficient_RANSAC.h a2e8a1c %aI Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0+
 //
 //
@@ -59,7 +59,7 @@ namespace CGAL {
   namespace Shape_detection_3 {
 
 /*!
-\ingroup PkgPointSetShapeDetection3
+\ingroup PkgPointSetShapeDetection3Ref
 \brief A shape detection algorithm using a RANSAC method.
 
 Given a point set in 3D space with unoriented normals, sampled on surfaces,

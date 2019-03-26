@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL$
-// $Id$
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14-beta1/BGL/include/CGAL/boost/graph/property_maps.h $
+// $Id: property_maps.h eb8e5e5 %aI Sébastien Loriot
 // SPDX-License-Identifier: LGPL-3.0+
 //
 // Author(s)     : Sebastien Loriot
@@ -73,6 +73,19 @@ struct Triangle_from_face_descriptor_map{
                        get(pmap.m_vpm, target(next(halfedge(f,tm),tm),tm)),
                        get(pmap.m_vpm, source(halfedge(f,tm),tm)) );
   }
+
+  inline friend
+  reference
+  get(const Triangle_from_face_descriptor_map<TriangleMesh,VertexPointMap>& pmap,
+      const std::pair<key_type, const TriangleMesh*>& f)
+  {
+    typename boost::remove_const<TriangleMesh>::type & tm = *(pmap.m_tm);
+    CGAL_precondition(halfedge(f.first,tm) == next(next(next(halfedge(f.first,tm),tm),tm),tm));
+
+    return value_type( get(pmap.m_vpm, target(halfedge(f.first,tm),tm)),
+                       get(pmap.m_vpm, target(next(halfedge(f.first,tm),tm),tm)),
+                       get(pmap.m_vpm, source(halfedge(f.first,tm),tm)) );
+  }
 };
 
 template < class PolygonMesh,
@@ -114,6 +127,15 @@ struct Segment_from_edge_descriptor_map{
     return value_type(get(pmap.m_vpm, source(h, *pmap.m_pm) ),
                       get(pmap.m_vpm, target(h, *pmap.m_pm) ) );
   }
+
+  inline friend
+  reference
+  get(const Segment_from_edge_descriptor_map<PolygonMesh,VertexPointMap>& pmap,
+      const std::pair<key_type, const PolygonMesh*>& h)
+  {
+    return value_type(get(pmap.m_vpm, source(h.first, *pmap.m_pm) ),
+                      get(pmap.m_vpm, target(h.first, *pmap.m_pm) ) );
+  }
 };
 
 //property map to access a point from a face_descriptor
@@ -151,6 +173,14 @@ struct One_point_from_face_descriptor_map{
   {
     return get(m.m_vpm, target(halfedge(f, *m.m_pm), *m.m_pm));
   }
+
+  inline friend
+  reference
+  get(const One_point_from_face_descriptor_map<PolygonMesh,VertexPointMap>& m,
+      const std::pair<key_type, const PolygonMesh*>& f)
+  {
+    return get(m.m_vpm, target(halfedge(f.first, *m.m_pm), *m.m_pm));
+  }
 };
 
 //property map to access a point from an edge
@@ -186,6 +216,14 @@ struct Source_point_from_edge_descriptor_map{
       key_type h)
   {
     return get(pmap.m_vpm,  source(h, *pmap.m_pm) );
+  }
+
+  inline friend
+  reference
+  get(const Source_point_from_edge_descriptor_map<PolygonMesh,VertexPointMap>& pmap,
+      const std::pair<key_type, const PolygonMesh*>& h)
+  {
+    return get(pmap.m_vpm,  source(h.first, *pmap.m_pm) );
   }
 };
 

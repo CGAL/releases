@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL$
-// $Id$
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14-beta1/Solver_interface/include/CGAL/Eigen_solver_traits.h $
+// $Id: Eigen_solver_traits.h a5576cd %aI Sébastien Loriot
 // SPDX-License-Identifier: LGPL-3.0+
 //
 // Author(s)     : Gael Guennebaud
@@ -61,6 +61,7 @@ struct Get_eigen_matrix< ::Eigen::SimplicialCholesky<EigenMatrix>, FT>
   typedef Eigen_sparse_symmetric_matrix<FT>   type;
 };
 
+
 #if EIGEN_VERSION_AT_LEAST(3, 1, 91)
 template <class FT, class EigenMatrix, class EigenOrdering>
 struct Get_eigen_matrix< ::Eigen::SparseLU<EigenMatrix, EigenOrdering >, FT>
@@ -71,7 +72,7 @@ struct Get_eigen_matrix< ::Eigen::SparseLU<EigenMatrix, EigenOrdering >, FT>
 } //internal
 
 /*!
-\ingroup PkgSolver
+\ingroup PkgSolverInterfaceRef
 
 The class `Eigen_solver_traits` provides an interface to the sparse solvers of \ref thirdpartyEigen "Eigen".
 \ref thirdpartyEigen "Eigen" version 3.1 (or later) must be available on the system.
@@ -85,8 +86,7 @@ The class `Eigen_solver_traits` provides an interface to the sparse solvers of \
 \sa `CGAL::Eigen_vector<T>`
 \sa http://eigen.tuxfamily.org
 
-Example
--------------- 
+\cgalHeading{Instantiation Example}
 
 The instantiation of this class assumes an \ref thirdpartyEigen "Eigen" sparse solver is provided. Here are few examples:
 
@@ -118,7 +118,11 @@ public:
   typedef EigenSolverT                                                Solver;
   typedef Scalar                                                      NT;
   typedef CGAL::Eigen_vector<NT>                                      Vector;
-
+#if EIGEN_VERSION_AT_LEAST(3, 3, 0)
+  typedef Eigen::Index                                                Index;
+#else
+  typedef Eigen::DenseIndex                                                  Index;
+#endif
   /// If `T` is `Eigen::ConjugateGradient<M>` or `Eigen::SimplicialCholesky<M>`,
   /// `Matrix` is `CGAL::Eigen_sparse_symmetric_matrix<T>`, and `CGAL::Eigen_sparse_matrix<T>` otherwise.
 #ifdef DOXYGEN_RUNNING
@@ -182,6 +186,16 @@ public:
   {
     CGAL_precondition(m_mat != NULL); // factor should have been called first
     X = solver().solve(B);
+    return solver().info() == Eigen::Success;
+  }
+  
+  /// Solve the sparse linear system \f$ A \times X = B\f$, with \f$ A \f$ being the matrix
+  /// provided in `factor()`.
+  /// \return `true` if the solver is successful and `false` otherwise.
+  bool linear_solver(const Matrix& B, Vector& X)
+  {
+    CGAL_precondition(m_mat != NULL); // factor should have been called first
+    X = solver().solve(B.eigen_object());
     return solver().info() == Eigen::Success;
   }
 

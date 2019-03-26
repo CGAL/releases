@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL$
-// $Id$
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14-beta1/Mesher_level/include/CGAL/Double_map.h $
+// $Id: Double_map.h a6b6fd6 %aI Andreas Fabri
 // SPDX-License-Identifier: LGPL-3.0+
 // 
 //
@@ -40,8 +40,15 @@
 #endif
 
 #ifdef CGAL_USE_BOOST_BIMAP
+#  if defined(BOOST_MSVC)
+#    pragma warning(push)
+#    pragma warning(disable: 4996)
+#  endif
 #include <CGAL/boost/bimap.hpp>
 #include <boost/bimap/multiset_of.hpp>
+#  if defined(BOOST_MSVC)
+#    pragma warning(pop)
+#  endif
 #endif
 
 namespace CGAL {

@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL$
-// $Id$
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14-beta1/Circular_kernel_3/include/CGAL/Circular_kernel_3/internal_functions_on_sphere_3.h $
+// $Id: internal_functions_on_sphere_3.h 0d3ac75 %aI Andreas Fabri
 // SPDX-License-Identifier: GPL-3.0+
 //
 // Author(s) : Monique Teillaud, Sylvain Pion, Pedro Machado
@@ -336,7 +336,7 @@ namespace CGAL {
          typename Intersection_traits<SK, Sphere_3, Sphere_3>::result_type v = 
            SK().intersect_3_object()(s1, s2);
          if(!v) return res;
-         if(const Point_3* p = CGAL::internal::intersect_get<Point_3>(v)) {
+         if(const Point_3* p = CGAL::Intersections::internal::intersect_get<Point_3>(v)) {
             if(SK().has_on_3_object()(s3, *p)) {
               #if CGAL_INTERSECTION_VERSION < 2
               *res++ = make_object(std::make_pair(Circular_arc_point_3(*p),2u));
@@ -346,7 +346,7 @@ namespace CGAL {
             }
              return res;
          }
-         if(const Circle_3* c = CGAL::internal::intersect_get<Circle_3>(v)) {
+         if(const Circle_3* c = CGAL::Intersections::internal::intersect_get<Circle_3>(v)) {
             if(SK().has_on_3_object()(s3, *c)) {
               #if CGAL_INTERSECTION_VERSION < 2
               *res++ = make_object(*c);

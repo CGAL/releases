@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL$
-// $Id$
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14-beta1/Circular_kernel_2/include/CGAL/Circular_kernel_intersections.h $
+// $Id: Circular_kernel_intersections.h 0d3ac75 %aI Andreas Fabri
 // SPDX-License-Identifier: GPL-3.0+
 //
 // Author(s)     : Monique Teillaud, Sylvain Pion, Pedro Machado
@@ -48,7 +48,8 @@ intersection(const A <K> &c1, const B <K> &c2, OutputIterator res) \
 { \
   return typename K::Intersect_2()(c1, c2, res); \
 } \
-namespace internal { \
+namespace Intersections { \
+  namespace internal { \
   template <class K> \
   inline \
   bool \
@@ -59,6 +60,7 @@ namespace internal { \
 		return !res.empty(); \
   } \
 } \
+  } \
 template <class K> \
 inline \
 bool \

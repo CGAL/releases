@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL$
-// $Id$
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14-beta1/Segment_Delaunay_graph_2/include/CGAL/Segment_Delaunay_graph_site_2.h $
+// $Id: Segment_Delaunay_graph_site_2.h 7a29f58 %aI Marc Glisse
 // SPDX-License-Identifier: GPL-3.0+
 // 
 //
@@ -289,8 +289,8 @@ protected:
     RT x3 = p3.x(), y3 = p3.y();
     RT x4 = p4.x(), y4 = p4.y();
 
-    RT D = determinant(x2 - x1, x4 - x3, y2 - y1, y4 - y3);
-    RT Dt = determinant(x3 - x1, x4 - x3, y3 - y1, y4 - y3);
+    RT D = determinant<RT>(x2 - x1, x4 - x3, y2 - y1, y4 - y3);
+    RT Dt = determinant<RT>(x3 - x1, x4 - x3, y3 - y1, y4 - y3);
 
     RT t = Dt / D;
 

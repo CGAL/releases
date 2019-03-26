@@ -16,8 +16,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL$
-// $Id$
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14-beta1/Polygon/include/CGAL/Polygon_2.h $
+// $Id: Polygon_2.h 27cfecc %aI Andreas Fabri
 // SPDX-License-Identifier: LGPL-3.0+
 // 
 //
@@ -49,7 +49,7 @@
 
 namespace CGAL {
 
-/// \ingroup PkgPolygon2
+/// \ingroup PkgPolygon2Ref
 /// The class Polygon_2 implements polygons. The Polygon_2 is
 /// parameterized by a traits class and a container class.  The latter
 /// can be any class that fulfills the requirements for an STL
@@ -164,7 +164,13 @@ class Polygon_2 {
       // Sun STL switches off member templates for binary backward compat.
       std::copy(first, last, std::back_inserter(d_container));
     }
-
+  
+#ifndef CGAL_CFG_NO_CPP0X_DELETED_AND_DEFAULT_FUNCTIONS
+#ifndef DOXYGEN_RUNNING
+  Polygon_2& operator=(const Polygon_2&)=default;
+#endif
+#endif
+  
     /// @}
 
     /// \name Modifiers

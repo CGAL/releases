@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL$
-// $Id$
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14-beta1/Cone_spanners_2/include/CGAL/Compute_cone_boundaries_2.h $
+// $Id: Compute_cone_boundaries_2.h 2f9408f %aI Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0+
 //
 //
@@ -44,7 +44,7 @@
 
 namespace CGAL {
 
-/*! \ingroup PkgConeBasedSpanners
+/*! \ingroup PkgConeSpanners2Ref
  *
  *  \brief The functor for computing the directions of cone boundaries with a given
  *  cone number and a given initial direction.

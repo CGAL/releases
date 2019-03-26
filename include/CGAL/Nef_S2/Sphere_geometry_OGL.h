@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL$
-// $Id$
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14-beta1/Nef_S2/include/CGAL/Nef_S2/Sphere_geometry_OGL.h $
+// $Id: Sphere_geometry_OGL.h 4d3b5ce %aI Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0+
 // 
 //
@@ -71,6 +71,23 @@ VVector convert(const CGAL::Vector_3<R>& v)
                  CGAL::to_double(v.y()),
                  CGAL::to_double(v.z())); }
 
+template <typename R>
+VVector normalize_and_convert(const CGAL::Vector_3<R>& v)
+{
+  typename R::FT xa = CGAL::abs(v.x());
+  typename R::FT ya = CGAL::abs(v.y());
+  typename R::FT za = CGAL::abs(v.z());
+  typename R::FT m = (std::max)((std::max)(xa,ya),za);
+  if (m==0) {
+      return VVector(0,0,0);
+  } else {
+      double xd = CGAL::to_double(v.x()/m);
+      double yd = CGAL::to_double(v.y()/m);
+      double zd = CGAL::to_double(v.z()/m);
+      VVector u(xd,yd,zd);
+      return u / CGAL_NTS sqrt(u*u) ; // normalize
+  }
+}
 
 const double refinement_angle = 0.1;
 const double shrink_fac = 0.995;
@@ -80,8 +97,7 @@ class Approximator {
 
  public:
   static VPoint approximate(const CGAL::Sphere_point<R>& p) {
-    VVector v = convert(p-CGAL::ORIGIN);
-    v = v / CGAL_NTS sqrt(v*v) ; // normalize
+    VVector v = normalize_and_convert(p-CGAL::ORIGIN);
     return CGAL::ORIGIN+v;
   }
    

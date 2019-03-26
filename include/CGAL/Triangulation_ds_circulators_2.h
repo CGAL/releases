@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL$
-// $Id$
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14-beta1/TDS_2/include/CGAL/Triangulation_ds_circulators_2.h $
+// $Id: Triangulation_ds_circulators_2.h bbec783 %aI Andreas Fabri
 // SPDX-License-Identifier: GPL-3.0+
 // 
 //
@@ -67,9 +67,6 @@ public:
   
   Triangulation_ds_face_circulator_2(Vertex_handle v, 
 				     Face_handle f = Face_handle());
-
-  // MK: added to satisfy the mips CC 7.40 compiler
-  Face_circulator& operator=(const Face_circulator& other);
 
   Face_circulator& operator++();
   Face_circulator operator++(int);
@@ -273,19 +270,8 @@ Triangulation_ds_face_circulator_2(Vertex_handle v, Face_handle f)
     _v =  Vertex_handle() ; pos = Face_handle(); return;}
   else CGAL_triangulation_precondition( pos->has_vertex(v));
 }
- 
-template < class Tds >
-Triangulation_ds_face_circulator_2<Tds>&
-Triangulation_ds_face_circulator_2<Tds> ::
-operator=(const Face_circulator& other)
-{
-   static_cast<Base_circulator &>(*this) =
-    static_cast<const Base_circulator &> (other);
-   _v = other._v;
-  pos = other.pos;
-  return *this;
-} 
-    
+
+  
 template < class Tds >
 Triangulation_ds_face_circulator_2<Tds>&
 Triangulation_ds_face_circulator_2<Tds> ::

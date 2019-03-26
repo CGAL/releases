@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL$
-// $Id$
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14-beta1/Surface_mesh_deformation/include/CGAL/Surface_mesh_deformation.h $
+// $Id: Surface_mesh_deformation.h a2e8a1c %aI Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0+
 //
 // Author(s)     : Yin Xu, Andreas Fabri and Ilker O. Yaz
@@ -52,7 +52,7 @@
 
 namespace CGAL {
 
-/// \ingroup PkgSurfaceMeshDeformation
+/// \ingroup PkgSurfaceMeshDeformationRef
 ///@brief Deformation algorithm type
 enum Deformation_algorithm_tag
 {
@@ -173,7 +173,7 @@ struct SC_on_the_fly_pmap: public Vertex_point_map{
 /// @endcond
 
  ///
- /// \ingroup PkgSurfaceMeshDeformation
+ /// \ingroup PkgSurfaceMeshDeformationRef
  /// @brief Class providing the functionalities for deforming a triangulated surface mesh
  ///
  /// @tparam TM a model of `HalfedgeGraph`

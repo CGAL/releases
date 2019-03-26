@@ -16,8 +16,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL$
-// $Id$
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14-beta1/Kernel_d/include/CGAL/Kernel_d/DirectionCd.h $
+// $Id: DirectionCd.h a48e367 %aI Andreas Fabri
 // SPDX-License-Identifier: LGPL-3.0+
 // 
 //
@@ -81,7 +81,6 @@ DirectionCd(const FT& x, const FT& y, const FT& z) :
   Base( Tuple(x,y,z) ) {}
 DirectionCd(int a, int b, int c) : Base( Tuple(FT(a),FT(b),FT(c), MatchHelper()) ) {}
 
-DirectionCd(const DirectionCd<FT,LA>& p) : Base(p)  {}
 ~DirectionCd() {}     
 
 int dimension() const { return ptr()->size(); }

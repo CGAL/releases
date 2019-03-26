@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL$
-// $Id$
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14-beta1/Periodic_2_triangulation_2/include/CGAL/internal/Static_filters/Periodic_2_side_of_oriented_circle_2.h $
+// $Id: Periodic_2_side_of_oriented_circle_2.h cbde108 %aI Mael Rouxel-Labbé
 // SPDX-License-Identifier: GPL-3.0+
 //
 // Author(s)     : Sylvain Pion <Sylvain.Pion@sophia.inria.fr>

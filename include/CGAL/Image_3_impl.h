@@ -13,8 +13,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL$
-// $Id$
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14-beta1/CGAL_ImageIO/include/CGAL/Image_3_impl.h $
+// $Id: Image_3_impl.h 166606c %aI Laurent Rineau
 // SPDX-License-Identifier: LGPL-3.0+
 //
 // Author(s)     : Laurent Rineau, Pierre Alliez
@@ -25,12 +25,12 @@
 #define CGAL_INLINE_FUNCTION
 #endif
 
-#include <CGAL/basic.h>
+#include <CGAL/assertions.h>
 
 namespace CGAL {
 
 CGAL_INLINE_FUNCTION
-bool Image_3::private_read(_image* im)
+bool Image_3::private_read(_image* im, Own own)
 {
   if(im != 0)
   {
@@ -38,7 +38,7 @@ bool Image_3::private_read(_image* im)
     {
       ::_freeImage(image());
     }
-    image_ptr = Image_shared_ptr(im, Image_deleter());
+    image_ptr = Image_shared_ptr(im, Image_deleter(own == OWN_THE_DATA));
 
 //     std::cerr << 
 //       boost::format("image=%1% (xdim=%2%, ydim=%3%, zdim=%4%)\n")

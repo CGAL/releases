@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL$
-// $Id$
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14-beta1/Point_set_shape_detection_3/include/CGAL/Shape_detection_3/Efficient_RANSAC_traits.h $
+// $Id: Efficient_RANSAC_traits.h a2e8a1c %aI Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0+
 //
 //
@@ -39,7 +39,7 @@
 namespace CGAL {
   namespace Shape_detection_3 {
     /*!
-      \ingroup PkgPointSetShapeDetection3
+      \ingroup PkgPointSetShapeDetection3Ref
       \brief %Default traits class to use the shape detection class `Efficient_RANSAC`.
       \cgalModels `Shape_detection_3::Traits`
 

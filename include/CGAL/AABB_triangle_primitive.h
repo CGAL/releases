@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL$
-// $Id$
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14-beta1/AABB_tree/include/CGAL/AABB_triangle_primitive.h $
+// $Id: AABB_triangle_primitive.h 3dd0aa1 %aI Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0+
 //
 //
@@ -56,7 +56,7 @@ namespace internal {
 
 
 /*!
- * \ingroup PkgAABB_tree
+ * \ingroup PkgAABBTreeRef
  * Primitive type that uses as identifier an iterator with a 3D triangle as `value_type`.
  * The iterator from which the primitive is built should not be invalided
  * while the AABB tree holding the primitive is in use.

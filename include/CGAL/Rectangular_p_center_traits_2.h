@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL$
-// $Id$
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14-beta1/Bounding_volumes/include/CGAL/Rectangular_p_center_traits_2.h $
+// $Id: Rectangular_p_center_traits_2.h f83053c %aI Laurent Rineau
 // SPDX-License-Identifier: GPL-3.0+
 // 
 //
@@ -68,6 +68,19 @@ struct I_Infinity_distance_2
 : public CGAL::cpp98::binary_function<
   Point_2< R >, Point_2< R >, typename R::FT >
 {
+  // Added as workaround for VC2017 with /arch:AVX to fix
+  // https://cgal.geometryfactory.com/CGAL/testsuite/CGAL-4.14-I-95/Rectangular_p_center_2_Examples/TestReport_afabri_x64_Cygwin-Windows10_MSVC2017-Release-64bits.gz
+  I_Infinity_distance_2()
+  {}
+  
+  I_Infinity_distance_2(const I_Infinity_distance_2&)
+  {}
+
+  I_Infinity_distance_2& operator=(const I_Infinity_distance_2&)
+  {
+    return *this;
+  }
+  
   typename R::FT
   operator()(const Point_2< R >& q1, const Point_2< R >& q2) const {
     return (std::max)(CGAL_NTS abs(q1.x() - q2.x()),

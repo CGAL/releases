@@ -16,8 +16,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL$
-// $Id$
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14-beta1/Circulator/include/CGAL/circulator.h $
+// $Id: circulator.h 805e019 %aI Andreas Fabri
 // SPDX-License-Identifier: LGPL-3.0+
 // 
 //
@@ -733,13 +733,6 @@ public:
     Circulator_from_container( Container* c) : ctnr(c), i(c->begin()) {}
     Circulator_from_container( Container* c, iterator j)  : ctnr(c), i(j) {}
 
-// Gnu-bug workaround: define operator= explicitly.
-    Self& operator=( const Self& c) {
-        ctnr = c.ctnr;
-        i    = c.i;
-        return *this;
-    }
-
 // OPERATIONS
 
     bool operator==( Nullptr_t p) const {
@@ -866,13 +859,6 @@ public:
         : ctnr(c), i(j) {}
     Const_circulator_from_container( const Mutable& c)
         : ctnr( c.container()), i( c.current_iterator()) {}
-
-// Gnu-bug workaround: define operator= explicitly.
-    Self& operator=( const Self& c) {
-        ctnr = c.ctnr;
-        i    = c.i;
-        return *this;
-    }
 
 // OPERATIONS
 

@@ -13,8 +13,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL$
-// $Id$
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14-beta1/Mesh_3/include/CGAL/Polyhedral_mesh_domain_with_features_3.h $
+// $Id: Polyhedral_mesh_domain_with_features_3.h 24bccaa %aI Laurent Rineau
 // SPDX-License-Identifier: GPL-3.0+
 //
 //
@@ -137,6 +137,7 @@ public:
   {
     stored_polyhedra.resize(1);
     stored_polyhedra[0] = p;
+    get(face_patch_id_t<Patch_id>(), stored_polyhedra[0]);
     this->add_primitives(stored_polyhedra[0]);
     this->build();
   }
@@ -171,6 +172,8 @@ public:
     stored_polyhedra.resize(2);
     stored_polyhedra[0] = p;
     stored_polyhedra[1] = bounding_p;
+    get(face_patch_id_t<Patch_id>(), stored_polyhedra[0]);
+    get(face_patch_id_t<Patch_id>(), stored_polyhedra[1]);
     this->add_primitives(stored_polyhedra[0]);
     this->add_primitives(stored_polyhedra[1]);
     if(CGAL::is_empty(bounding_p)) {
@@ -189,6 +192,7 @@ public:
     stored_polyhedra.reserve(std::distance(begin, end));
     for (; begin != end; ++begin) {
       stored_polyhedra.push_back(**begin);
+      get(face_patch_id_t<Patch_id>(), stored_polyhedra.back());
       this->add_primitives(stored_polyhedra.back());
     }
     this->set_surface_only();
@@ -206,11 +210,13 @@ public:
     if(begin != end) {
       for (; begin != end; ++begin) {
         stored_polyhedra.push_back(**begin);
+        get(face_patch_id_t<Patch_id>(), stored_polyhedra.back());
         this->add_primitives(stored_polyhedra.back());
       }
-      stored_polyhedra.push_back(bounding_polyhedron);
-      this->add_primitives(stored_polyhedra.back());
     }
+    stored_polyhedra.push_back(bounding_polyhedron);
+    get(face_patch_id_t<Patch_id>(), stored_polyhedra.back());
+    this->add_primitives(stored_polyhedra.back());
     if(bounding_polyhedron.empty()) {
       this->set_surface_only();
     } else {
@@ -246,6 +252,7 @@ private:
     std::ifstream input(filename);
     stored_polyhedra.resize(1);
     input >> stored_polyhedra[0];
+    get(face_patch_id_t<Patch_id>(), stored_polyhedra[0]);
     this->add_primitives(stored_polyhedra[0]);
     this->build();
   }

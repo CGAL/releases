@@ -14,8 +14,8 @@
 //You should have received a copy of the GNU General Public License
 //along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
-// $URL$
-// $Id$
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14-beta1/Scale_space_reconstruction_3/include/CGAL/Scale_space_reconstruction_3/Weighted_PCA_smoother.h $
+// $Id: Weighted_PCA_smoother.h 41d554f %aI Simon Giraudot
 // SPDX-License-Identifier: GPL-3.0+
 //
 // Author(s):      Thijs van Lankveld, Simon Giraudot

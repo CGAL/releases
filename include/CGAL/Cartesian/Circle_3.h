@@ -16,8 +16,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL$
-// $Id$
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14-beta1/Cartesian_kernel/include/CGAL/Cartesian/Circle_3.h $
+// $Id: Circle_3.h 7fb39a2 %aI Marc Glisse
 // SPDX-License-Identifier: LGPL-3.0+
 // 
 // Author(s)     : Monique Teillaud, Pedro Machado, Sebastien Loriot
@@ -81,7 +81,7 @@ public:
     CGAL_kernel_assertion((p.a() * center.x() +
                            p.b() * center.y() +
                            p.c() * center.z() +
-                           p.d()) == CGAL::ZERO);
+                           p.d()) == 0);
     CGAL_kernel_assertion(squared_r >= FT(0));
     base = Rep(Sphere_3(center,squared_r), p);
   }

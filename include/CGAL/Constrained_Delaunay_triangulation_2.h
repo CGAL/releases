@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL$
-// $Id$
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14-beta1/Triangulation_2/include/CGAL/Constrained_Delaunay_triangulation_2.h $
+// $Id: Constrained_Delaunay_triangulation_2.h 630066d %aI Andreas Fabri
 // SPDX-License-Identifier: GPL-3.0+
 // 
 //
@@ -127,9 +127,6 @@ public:
 
   Constrained_Delaunay_triangulation_2(const Geom_traits& gt=Geom_traits()) 
     : Ctr(gt) { }
-
-  Constrained_Delaunay_triangulation_2(const CDt& cdt)
-    : Ctr(cdt) {}
 
   Constrained_Delaunay_triangulation_2(const List_constraints& lc,
 				       const Geom_traits& gt=Geom_traits())

@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL$
-// $Id$
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14-beta1/Linear_cell_complex/include/CGAL/Linear_cell_complex_for_generalized_map.h $
+// $Id: Linear_cell_complex_for_generalized_map.h 0496d84 %aI Andreas Fabri
 // SPDX-License-Identifier: LGPL-3.0+
 //
 // Author(s)     : Guillaume Damiand <guillaume.damiand@liris.cnrs.fr>
@@ -105,9 +105,11 @@ namespace CGAL {
        *  @param alcc the linear cell complex to copy.
        *  @post *this is valid.
        */
+#ifdef DOXYGEN_RUNNING      
       Linear_cell_complex_for_generalized_map(const Self & alcc) : Base(alcc)
       {}
-
+#endif
+      
       template < class LCC2 >
       Linear_cell_complex_for_generalized_map(const LCC2& alcc) : Base(alcc)
       {}

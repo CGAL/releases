@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL$
-// $Id$
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14-beta1/Algebraic_kernel_d/include/CGAL/Algebraic_kernel_d/Algebraic_real_d_1.h $
+// $Id: Algebraic_real_d_1.h eaedab3 %aI Andreas Fabri
 // SPDX-License-Identifier: LGPL-3.0+
 // 
 //
@@ -114,9 +114,6 @@ public:
   //! Default constructor
   Algebraic_real_d_1() : Base(static_cast<const Base&>(get_default_instance())) {}
 
-  //! copy constructor: copy existing Algebraic_real_d_1 (shares rep)
-  Algebraic_real_d_1(const Self& p) : Base(static_cast<const Base&>(p)) {}
-  
   //! creates the algebraic real from \a i.
   Algebraic_real_d_1(int i ) : Base(Algebraic_real_rep_d_1(i)) { }
 

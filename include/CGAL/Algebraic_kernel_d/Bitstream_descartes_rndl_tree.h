@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL$
-// $Id$
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14-beta1/Algebraic_kernel_d/include/CGAL/Algebraic_kernel_d/Bitstream_descartes_rndl_tree.h $
+// $Id: Bitstream_descartes_rndl_tree.h 873416e %aI Andreas Fabri
 // SPDX-License-Identifier: LGPL-3.0+
 // 
 //
@@ -566,8 +566,10 @@ private:
         log_eps_       = n.log_eps_;
         log_C_eps_     = n.log_C_eps_;
     }
-
-    // const Self& operator= (const Self&); // assignment is forbidden
+  
+#ifndef CGAL_CFG_NO_CPP0X_DELETED_AND_DEFAULT_FUNCTIONS
+    Self& operator= (const Self&)=delete;
+#endif  
 }; // struct Bitstream_descartes_rndl_node
 
 
@@ -931,9 +933,11 @@ public:
     Bitstream_descartes_rndl_tree() : Base(Rep()) { }
 
     //! copy constructor
+#ifdef DOXYGEN_RUNNING
     Bitstream_descartes_rndl_tree(const Self& p)
         : Base(static_cast<const Base&>(p))
     { }
+#endif
 
     //! Internal function called by constructor. Avoids code duplication
     void init_tree() {

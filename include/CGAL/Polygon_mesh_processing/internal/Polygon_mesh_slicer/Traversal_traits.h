@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL$
-// $Id$
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14-beta1/Polygon_mesh_processing/include/CGAL/Polygon_mesh_processing/internal/Polygon_mesh_slicer/Traversal_traits.h $
+// $Id: Traversal_traits.h 2d5c726 %aI Andreas Fabri
 // SPDX-License-Identifier: GPL-3.0+
 //
 //
@@ -27,7 +27,7 @@
 
 
 #include <CGAL/Bbox_3.h>
-#include <CGAL/Triangle_3_Ray_3_do_intersect.h>
+#include <CGAL/Intersections_3/Ray_3_Triangle_3.h>
 #include <CGAL/internal/AABB_tree/Primitive_helper.h>
 #include <CGAL/enum.h>
 

@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL$
-// $Id$
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14-beta1/Polygon_mesh_processing/include/CGAL/Polygon_mesh_slicer.h $
+// $Id: Polygon_mesh_slicer.h 3dd0aa1 %aI Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0+
 //
 //
@@ -44,7 +44,7 @@
 
 namespace CGAL {
 
-/// \ingroup PkgPolygonMeshProcessing
+/// \ingroup PkgPolygonMeshProcessingRef
 /// Function object that computes the intersection of a plane with
 /// a triangulated surface mesh.
 ///
@@ -63,7 +63,7 @@ namespace CGAL {
 ///         orthogonal to a frame axis, the non-null coefficient being 1 or -1.
 ///         The default is `true`.
 ///
-/// The implemenation of this class depends on the package \ref PkgAABB_treeSummary.
+/// The implemenation of this class depends on the package \ref PkgAABBTree.
 /// \todo Shall we document more in details what is required?
 ///       `Traits` must provide:
 ///        - `Plane_3`

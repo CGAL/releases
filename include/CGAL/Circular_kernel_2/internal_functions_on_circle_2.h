@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL$
-// $Id$
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14-beta1/Circular_kernel_2/include/CGAL/Circular_kernel_2/internal_functions_on_circle_2.h $
+// $Id: internal_functions_on_circle_2.h 0d3ac75 %aI Andreas Fabri
 // SPDX-License-Identifier: GPL-3.0+
 //
 // Author(s)     : Monique Teillaud, Sylvain Pion, Pedro Machado
@@ -54,7 +54,7 @@ circle_intersect( const typename CK::Circle_2 & c1,
   // the circles intersect
   
   const std::pair<typename CK::Circular_arc_point_2, unsigned>*
-    result = internal::intersect_get<std::pair<typename CK::Circular_arc_point_2, unsigned> > (*it);
+    result = Intersections::internal::intersect_get<std::pair<typename CK::Circular_arc_point_2, unsigned> > (*it);
   
   if ( result->second == 2 ) // double solution
     return result->first;
@@ -63,7 +63,7 @@ circle_intersect( const typename CK::Circle_2 & c1,
     return result->first;
   
   ++it;
-  result = internal::intersect_get<std::pair<typename CK::Circular_arc_point_2, unsigned> > (*it);
+  result = Intersections::internal::intersect_get<std::pair<typename CK::Circular_arc_point_2, unsigned> > (*it);
   
   return result->first;
 }

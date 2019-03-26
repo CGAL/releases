@@ -12,15 +12,14 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL$
-// $Id$
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14-beta1/NewKernel_d/include/CGAL/NewKernel_d/Cartesian_LA_base.h $
+// $Id: Cartesian_LA_base.h ce0a5ef %aI Andreas Fabri
 // SPDX-License-Identifier: LGPL-3.0+
 //
 // Author(s)     : Marc Glisse
 
 #ifndef CGAL_KERNEL_D_CARTESIAN_LA_BASE_H
 #define CGAL_KERNEL_D_CARTESIAN_LA_BASE_H
-
 #include <CGAL/basic.h>
 #include <CGAL/Origin.h>
 #include <boost/type_traits/integral_constant.hpp>
@@ -28,8 +27,10 @@
 #include <CGAL/NewKernel_d/functor_tags.h>
 #include <CGAL/Uncertain.h>
 #include <CGAL/typeset.h>
+
 #include <CGAL/NewKernel_d/Dimension_base.h>
 #include <CGAL/NewKernel_d/Cartesian_LA_functors.h>
+
 #include <CGAL/NewKernel_d/Vector/array.h>
 #include <CGAL/NewKernel_d/Vector/vector.h>
 #include <CGAL/NewKernel_d/Vector/mix.h>

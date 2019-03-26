@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL$
-// $Id$
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14-beta1/Skin_surface_3/include/CGAL/Triangulated_mixed_complex_observer_3.h $
+// $Id: Triangulated_mixed_complex_observer_3.h 93cfd56 %aI Andreas Fabri
 // SPDX-License-Identifier: GPL-3.0+
 //
 //
@@ -128,7 +128,7 @@ public:
           break;
         }
         case 2: {
-          f = s;
+          f = Rt_Facet(s);
           Surface_weighted_point p0 =
             r2s_converter(f.first->vertex((f.second+1)&3)->point());
           Surface_weighted_point p1 =

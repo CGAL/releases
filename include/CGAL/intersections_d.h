@@ -16,8 +16,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL$
-// $Id$
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14-beta1/Kernel_d/include/CGAL/intersections_d.h $
+// $Id: intersections_d.h 06c42de %aI Andreas Fabri
 // SPDX-License-Identifier: LGPL-3.0+
 // 
 //
@@ -30,6 +30,7 @@
 #include <CGAL/Intersection_traits.h>
 
 namespace CGAL {
+namespace Intersections {
 namespace internal {
 
 template <class R>
@@ -358,6 +359,7 @@ inline bool do_intersect(const typename R::Hyperplane_d& h, const typename R::Se
 { return do_intersect(s,h,r); }
 
 } //namespace internal
+} // namespace Intersections
 
 template<typename T>
 class Hyperplane_d;

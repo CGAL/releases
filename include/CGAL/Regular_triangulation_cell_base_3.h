@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL$
-// $Id$
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14-beta1/Triangulation_3/include/CGAL/Regular_triangulation_cell_base_3.h $
+// $Id: Regular_triangulation_cell_base_3.h 88add6b %aI Andreas Fabri
 // SPDX-License-Identifier: GPL-3.0+
 //
 // Author(s)     : Christophe Delage <christophe.delage@sophia.inria.fr>
@@ -93,6 +93,11 @@ public:
   Point_const_iterator hidden_points_end() const
   { return hidden_points_end_internal<Memory_policy>(); }
 
+  const C& hidden_points() const
+  {
+    return _hidden;
+  }
+  
   void hide_point(const Point& p)
   { hide_point_internal<Memory_policy>(p); }
   void unhide_point(const Point_iterator pit)

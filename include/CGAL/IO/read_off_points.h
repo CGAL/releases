@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL$
-// $Id$
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14-beta1/Point_set_processing_3/include/CGAL/IO/read_off_points.h $
+// $Id: read_off_points.h 2f9408f %aI Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0+
 //
 // Author(s) : Pierre Alliez and Laurent Saboret
@@ -42,7 +42,7 @@ namespace CGAL {
 
 
 /**
-   \ingroup PkgPointSetProcessingIO
+   \ingroup PkgPointSetProcessing3IO
    Reads points (positions + normals, if available) from a .off ASCII stream.
    The function expects for each point a line with the x y z position,
    optionally followed by the nx ny nz normal.

@@ -16,8 +16,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL$
-// $Id$
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14-beta1/Bounding_volumes/include/CGAL/Min_sphere_annulus_d_traits_d.h $
+// $Id: Min_sphere_annulus_d_traits_d.h 156f4ff %aI Andreas Fabri
 // SPDX-License-Identifier: LGPL-3.0+
 // 
 //
@@ -64,10 +64,6 @@ class Min_sphere_annulus_d_traits_d {
                                         Access_coordinates_begin_d;
 
     typedef  CGAL::_Construct_point_d<K>       Construct_point_d;
-
-    // creation
-    Min_sphere_annulus_d_traits_d( ) { }
-    Min_sphere_annulus_d_traits_d( const Min_sphere_annulus_d_traits_d<K_,ET_,NT_>&) {}
 
     // operations
     Access_dimension_d

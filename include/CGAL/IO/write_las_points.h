@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL$
-// $Id$
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14-beta1/Point_set_processing_3/include/CGAL/IO/write_las_points.h $
+// $Id: write_las_points.h 2f9408f %aI Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0+
 //
 // Author(s) : Simon Giraudot
@@ -71,7 +71,7 @@ namespace CGAL {
 
 
   /**
-     \ingroup PkgPointSetProcessingIOLas
+     \ingroup PkgPointSetProcessing3IOLas
      
      Generates a %LAS property handler to write 3D points. 
 
@@ -170,7 +170,7 @@ namespace internal {
 
 
 /**
-   \ingroup PkgPointSetProcessingIOLas
+   \ingroup PkgPointSetProcessing3IOLas
    Saves the range of `points` with properties to a
    .las stream.
 
@@ -257,7 +257,7 @@ bool write_las_points_with_properties (std::ostream& stream,  ///< output stream
 }
 
 /**
-   \ingroup PkgPointSetProcessingIOLas
+   \ingroup PkgPointSetProcessing3IOLas
    Saves the range of `points` (positions only) to a
    .las stream. 
 

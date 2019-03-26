@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL$
-// $Id$
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14-beta1/Triangulation_2/include/CGAL/draw_triangulation_2.h $
+// $Id: draw_triangulation_2.h b45cf04 %aI Guillaume Damiand
 // SPDX-License-Identifier: GPL-3.0+
 //
 // Author(s)     : Guillaume Damiand <guillaume.damiand@liris.cnrs.fr>
@@ -47,11 +47,11 @@ struct DefaultColorFunctorT2
 template<class T2, class ColorFunctor>
 class SimpleTriangulation2ViewerQt : public Basic_viewer_qt
 {
-  typedef Basic_viewer_qt                     Base;
-  typedef typename T2::Vertex_handle          Vertex_const_handle;
+  typedef Basic_viewer_qt                    Base;
+  typedef typename T2::Vertex_handle         Vertex_const_handle;
   typedef typename T2::Finite_edges_iterator Edge_const_handle;
   typedef typename T2::Finite_faces_iterator Facet_const_handle;
-  typedef typename T2::Point                  Point;
+  typedef typename T2::Point                 Point;
  
 public:
   /// Construct the viewer.

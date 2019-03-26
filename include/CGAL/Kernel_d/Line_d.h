@@ -16,8 +16,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL$
-// $Id$
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14-beta1/Kernel_d/include/CGAL/Kernel_d/Line_d.h $
+// $Id: Line_d.h 0178843 %aI Andreas Fabri
 // SPDX-License-Identifier: LGPL-3.0+
 // 
 //
@@ -119,7 +119,6 @@ Line_d(const Ray_d<R>& r) : Base(r) {}
 /*{\Mcreate introduces a variable |\Mvar| of type |\Mname| and 
 initializes it to the line through |r.point(1)| and |r.point(2)|. }*/
 
-Line_d(const Line_d<R>& l) : Base(l) {}
 
 /*{\Moperations 3 3}*/
 

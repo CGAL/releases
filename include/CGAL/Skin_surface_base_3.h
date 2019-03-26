@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL$
-// $Id$
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14-beta1/Skin_surface_3/include/CGAL/Skin_surface_base_3.h $
+// $Id: Skin_surface_base_3.h 93cfd56 %aI Andreas Fabri
 // SPDX-License-Identifier: GPL-3.0+
 //
 //
@@ -782,7 +782,7 @@ get_weighted_circumcenter(const Simplex &s, Gt2 &traits)
     }
     case 2:
     {
-      f = s;
+      f = Facet(s);
       result = traits.construct_weighted_circumcenter_3_object()
                (converter(f.first->vertex((f.second+1)&3)->point()),
                 converter(f.first->vertex((f.second+2)&3)->point()),

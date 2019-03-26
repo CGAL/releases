@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL$
-// $Id$
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14-beta1/BGL/include/CGAL/boost/graph/iterator.h $
+// $Id: iterator.h 5d35c33 %aI Balázs Ludmány
 // SPDX-License-Identifier: LGPL-3.0+
 // 
 //
@@ -1281,7 +1281,7 @@ template <typename Graph>
 Iterator_range<Vertex_around_target_iterator<Graph> >
 adjacent_vertices(typename boost::graph_traits<Graph>::halfedge_descriptor h, const Graph& g)
 {
-  typedef Vertex_around_face_iterator<Graph> I;
+  typedef Vertex_around_target_iterator<Graph> I;
   return make_range(I(h,g), I(h,g,1));
 }
 
@@ -1290,7 +1290,7 @@ template <typename Graph>
 Iterator_range<Vertex_around_target_iterator<Graph> >
 adjacent_vertices(typename boost::graph_traits<Graph>::vertex_descriptor v, const Graph& g)
 {
-  typedef Vertex_around_face_iterator<Graph> I;
+  typedef Vertex_around_target_iterator<Graph> I;
   return make_range(I(halfedge(v,g),g), I(halfedge(v,g),g,1));
 }
 

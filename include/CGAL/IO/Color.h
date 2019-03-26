@@ -16,8 +16,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL$
-// $Id$
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14-beta1/Stream_support/include/CGAL/IO/Color.h $
+// $Id: Color.h 6183456 %aI Andreas Fabri
 // SPDX-License-Identifier: LGPL-3.0+
 //
 //
@@ -59,15 +59,6 @@ public:
   bool operator!=(const Color &c) const
   {
     return !( (*this) == c);
-  }
-
-  Color& operator=(const Color &c)
-  {
-    _red = c.red();
-    _green = c.green();
-    _blue = c.blue();
-    _alpha = c.alpha();
-    return *this;
   }
 
 private:
