@@ -12,7 +12,7 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14-beta1/Polyhedron/demo/Polyhedron/include/CGAL/Triangulation_file_input.h $
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14-beta2/Polyhedron/demo/Polyhedron/include/CGAL/Triangulation_file_input.h $
 // $Id: Triangulation_file_input.h d0e86aa %aI Mael Rouxel-Labbé
 //
 // Author(s)     : Laurent Rineau

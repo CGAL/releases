@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14-beta1/Surface_mesh_skeletonization/include/CGAL/Mean_curvature_flow_skeletonization.h $
-// $Id: Mean_curvature_flow_skeletonization.h e9065ae %aI Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14-beta2/Surface_mesh_skeletonization/include/CGAL/Mean_curvature_flow_skeletonization.h $
+// $Id: Mean_curvature_flow_skeletonization.h f5836b2 %aI Laurent Rineau
 // SPDX-License-Identifier: GPL-3.0+
 //
 // Author(s)     : Xiang Gao <gaox@ethz.ch>
@@ -463,6 +463,7 @@ public:
   /// \name Vertex Motion Parameters
   /// @{
 
+  /// \cgalAdvancedFunction
   /// \cgalAdvancedBegin
   /// Controls the velocity of movement and approximation quality:
   /// decreasing this value makes the mean curvature flow based contraction converge
@@ -482,7 +483,8 @@ public:
   {
     return m_is_medially_centered;
   }
-
+  
+  /// \cgalAdvancedFunction
   /// \cgalAdvancedBegin
   /// Controls the smoothness of the medial approximation:
   /// increasing this value results in a (less smooth) skeleton closer

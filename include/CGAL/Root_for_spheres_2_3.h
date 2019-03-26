@@ -18,7 +18,7 @@
 // and a STREP (FET Open) Project under Contract No  IST-006413 
 // (ACS -- Algorithms for Complex Shapes)
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14-beta1/Algebraic_kernel_for_spheres/include/CGAL/Root_for_spheres_2_3.h $
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14-beta2/Algebraic_kernel_for_spheres/include/CGAL/Root_for_spheres_2_3.h $
 // $Id: Root_for_spheres_2_3.h ee57fc2 %aI Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0+
 //

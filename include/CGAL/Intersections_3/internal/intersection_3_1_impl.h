@@ -16,7 +16,7 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14-beta1/Intersections_3/include/CGAL/Intersections_3/internal/intersection_3_1_impl.h $
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14-beta2/Intersections_3/include/CGAL/Intersections_3/internal/intersection_3_1_impl.h $
 // $Id: intersection_3_1_impl.h e65eba0 %aI Andreas Fabri
 // SPDX-License-Identifier: LGPL-3.0+
 // 

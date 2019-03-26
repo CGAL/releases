@@ -12,7 +12,7 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14-beta1/Point_set_processing_3/include/CGAL/IO/read_ply_points.h $
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14-beta2/Point_set_processing_3/include/CGAL/IO/read_ply_points.h $
 // $Id: read_ply_points.h aacd365 %aI Laurent Rineau
 // SPDX-License-Identifier: GPL-3.0+
 //

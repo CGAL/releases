@@ -13,7 +13,7 @@
 // http://www.boost.org/LICENSE_1_0.txt)
 //=======================================================================
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14-beta1/BGL/include/CGAL/boost/graph/dijkstra_shortest_paths.hpp $
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14-beta2/BGL/include/CGAL/boost/graph/dijkstra_shortest_paths.hpp $
 // $Id: dijkstra_shortest_paths.hpp 8cdfad0 %aI Sébastien Loriot
 // SPDX-License-Identifier: BSL-1.0
 //

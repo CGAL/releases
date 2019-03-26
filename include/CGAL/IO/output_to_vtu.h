@@ -14,7 +14,7 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14-beta1/Mesh_3/include/CGAL/IO/output_to_vtu.h $
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14-beta2/Mesh_3/include/CGAL/IO/output_to_vtu.h $
 // $Id: output_to_vtu.h 37cc9b0 %aI Maxime Gimeno
 // SPDX-License-Identifier: GPL-3.0+
 //

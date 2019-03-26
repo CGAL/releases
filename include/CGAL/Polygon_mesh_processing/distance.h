@@ -12,7 +12,7 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14-beta1/Polygon_mesh_processing/include/CGAL/Polygon_mesh_processing/distance.h $
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14-beta2/Polygon_mesh_processing/include/CGAL/Polygon_mesh_processing/distance.h $
 // $Id: distance.h 3a3bfcf %aI Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0+
 //

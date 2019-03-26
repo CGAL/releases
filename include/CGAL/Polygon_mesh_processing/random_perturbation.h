@@ -12,7 +12,7 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14-beta1/Polygon_mesh_processing/include/CGAL/Polygon_mesh_processing/random_perturbation.h $
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14-beta2/Polygon_mesh_processing/include/CGAL/Polygon_mesh_processing/random_perturbation.h $
 // $Id: random_perturbation.h 3b9464f %aI Mael Rouxel-Labbé
 // SPDX-License-Identifier: GPL-3.0+
 //

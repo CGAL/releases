@@ -11,7 +11,7 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14-beta1/Triangulation_2/include/CGAL/boost/graph/graph_traits_Constrained_Delaunay_triangulation_2.h $
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14-beta2/Triangulation_2/include/CGAL/boost/graph/graph_traits_Constrained_Delaunay_triangulation_2.h $
 // $Id: graph_traits_Constrained_Delaunay_triangulation_2.h 11b7085 %aI Mael Rouxel-Labbé
 // SPDX-License-Identifier: LGPL-3.0+
 // 

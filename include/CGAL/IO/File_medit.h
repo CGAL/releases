@@ -13,8 +13,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14-beta1/Mesh_3/include/CGAL/IO/File_medit.h $
-// $Id: File_medit.h 509594f %aI goran-w
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14-beta2/Mesh_3/include/CGAL/IO/File_medit.h $
+// $Id: File_medit.h b820b11 %aI goran-w
 // SPDX-License-Identifier: GPL-3.0+
 //
 //
@@ -818,8 +818,12 @@ output_to_medit(std::ostream& os,
     typename C3T3::Facet f = (*fit);
     
     // Apply priority among subdomains, to get consistent facet orientation per subdomain-pair interface.
-    if (f.first->subdomain_index() < f.first->neighbor(f.second)->subdomain_index())
-      f = tr.mirror_facet(f);
+    if ( print_each_facet_twice )
+    {
+      // NOTE: We mirror a facet when needed to make it consistent with No_patch_facet_pmap_first/second.
+      if (f.first->subdomain_index() > f.first->neighbor(f.second)->subdomain_index())
+        f = tr.mirror_facet(f);
+    }
     
     // Get facet vertices in CCW order.
     Vertex_handle vh1 = f.first->vertex((f.second + 1) % 4);
@@ -833,10 +837,10 @@ output_to_medit(std::ostream& os,
     os << V[vh1] << ' ' << V[vh2] << ' ' << V[vh3] << ' '; 
     os << get(facet_pmap, *fit) << '\n';
     
-    // Print triangle again if needed
+    // Print triangle again if needed, with opposite orientation
     if ( print_each_facet_twice )
     {
-      os << V[vh1] << ' ' << V[vh2] << ' ' << V[vh3] << ' '; 
+      os << V[vh3] << ' ' << V[vh2] << ' ' << V[vh1] << ' '; 
       os << get(facet_twice_pmap, *fit) << '\n';
     }
   }

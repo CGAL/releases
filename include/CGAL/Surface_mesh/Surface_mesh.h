@@ -11,8 +11,8 @@
 // Licensees holding a valid commercial license may use this file in
 // accordance with the commercial license agreement provided with the software.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14-beta1/Surface_mesh/include/CGAL/Surface_mesh/Surface_mesh.h $
-// $Id: Surface_mesh.h 2a49dfc %aI Maxime Gimeno
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14-beta2/Surface_mesh/include/CGAL/Surface_mesh/Surface_mesh.h $
+// $Id: Surface_mesh.h e08d85f %aI Andreas Fabri
 // SPDX-License-Identifier: GPL-3.0+
 //
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
@@ -2092,6 +2092,9 @@ private: //------------------------------------------------------- private data
   /// If an alternative vertex_point map is given through `np`, 
   /// then it  will be used instead of the default one.
   /// \pre `operator<<(std::ostream&,const P&)` must be defined.
+  /// \note The <A HREF="https://en.cppreference.com/w/cpp/io/ios_base/precision">`precision()`</A> 
+  ///       of the output stream might not be sufficient depending on the data to be written.
+   
   template <typename P, typename NamedParameters>
   bool write_off(std::ostream& os, const Surface_mesh<P>& sm, const NamedParameters& np) {
     typedef Surface_mesh<P> Mesh;

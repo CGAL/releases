@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14-beta1/Point_set_processing_3/include/CGAL/IO/write_off_points.h $
-// $Id: write_off_points.h 2f9408f %aI Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14-beta2/Point_set_processing_3/include/CGAL/IO/write_off_points.h $
+// $Id: write_off_points.h e08d85f %aI Andreas Fabri
 // SPDX-License-Identifier: GPL-3.0+
 //
 // Author(s) : Pierre Alliez and Laurent Saboret
@@ -41,6 +41,9 @@ namespace CGAL {
    The function writes for each point a line with the x y z position
    followed by the nx ny nz normal (if available).
 
+   \note The <A HREF="https://en.cppreference.com/w/cpp/io/ios_base/precision">`precision()`</A> 
+         of the output stream might not be sufficient depending on the data to be written.
+
    \tparam PointRange is a model of `ConstRange`. The value type of
    its iterator is the key type of the named parameter `point_map`.
 
@@ -57,7 +60,7 @@ namespace CGAL {
      \cgalParamBegin{geom_traits} an instance of a geometric traits class, model of `Kernel`\cgalParamEnd
    \cgalNamedParamsEnd
 
-   \return true on success.
+   \return `true` on success.
 */
 template <typename PointRange,
           typename NamedParameters

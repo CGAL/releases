@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14-beta1/TDS_2/include/CGAL/Triangulation_data_structure_2.h $
-// $Id: Triangulation_data_structure_2.h 54381db %aI Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14-beta2/TDS_2/include/CGAL/Triangulation_data_structure_2.h $
+// $Id: Triangulation_data_structure_2.h 7ddef3d %aI Laurent Rineau
 // SPDX-License-Identifier: GPL-3.0+
 // 
 //
@@ -2019,7 +2019,7 @@ namespace internal { namespace TDS_2{
   struct Default_vertex_converter
   {
     Vertex_tgt operator()(const Vertex_src& src) const {
-      return Vertex_src( src.point() );
+      return Vertex_tgt( src.point() );
     }
     
     void operator()(const Vertex_src&,Vertex_tgt&) const {}

@@ -10,7 +10,7 @@
 //=======================================================================
 // Copyright (c) 2007-2015  GeometryFactory (France).  All rights reserved.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14-beta1/BGL/include/CGAL/boost/graph/named_params_helper.h $
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14-beta2/BGL/include/CGAL/boost/graph/named_params_helper.h $
 // $Id: named_params_helper.h 0396dd1 %aI Simon Giraudot
 // SPDX-License-Identifier: BSL-1.0
 //

@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14-beta1/Polygon_mesh_processing/include/CGAL/Polygon_mesh_processing/internal/Isotropic_remeshing/remesh_impl.h $
-// $Id: remesh_impl.h 551be55 %aI Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14-beta2/Polygon_mesh_processing/include/CGAL/Polygon_mesh_processing/internal/Isotropic_remeshing/remesh_impl.h $
+// $Id: remesh_impl.h 664de7e %aI Jane Tournois
 // SPDX-License-Identifier: GPL-3.0+
 //
 //
@@ -817,9 +817,9 @@ namespace internal {
       CGAL_expensive_assertion(is_triangle_mesh(mesh_));
       debug_status_map();
       debug_self_intersections();
-      CGAL_assertion(0 == PMP::remove_degenerate_faces(mesh_,
-                                                       parameters::vertex_point_map(vpmap_)
-                                                                  .geom_traits(gt_)));
+      CGAL_assertion(PMP::remove_degenerate_faces(mesh_,
+                            parameters::vertex_point_map(vpmap_)
+                           .geom_traits(gt_)));
 #endif
     }
 
@@ -922,9 +922,9 @@ namespace internal {
 
 #ifdef CGAL_PMP_REMESHING_DEBUG
       debug_status_map();
-      CGAL_assertion(0 == PMP::remove_degenerate_faces(mesh_
-                            , PMP::parameters::vertex_point_map(vpmap_)
-                                              .geom_traits(gt_)));
+      CGAL_assertion(PMP::remove_degenerate_faces(mesh_,
+                             PMP::parameters::vertex_point_map(vpmap_)
+                            .geom_traits(gt_)));
       debug_self_intersections();
 #endif
 
