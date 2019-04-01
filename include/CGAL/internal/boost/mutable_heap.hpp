@@ -5,11 +5,11 @@
 //
 // Distributed under the Boost Software License, Version 1.0. (See
 // accompanying file LICENSE_1_0.txt or copy at
-// http://www.boost.org/LICENSE_1_0.txt)
+// https://www.boost.org/LICENSE_1_0.txt)
 //=======================================================================
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14-beta2/STL_Extension/include/CGAL/internal/boost/mutable_heap.hpp $
-// $Id: mutable_heap.hpp a05b134a %aI Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14/STL_Extension/include/CGAL/internal/boost/mutable_heap.hpp $
+// $Id: mutable_heap.hpp a472c24 %aI Andreas Fabri
 // SPDX-License-Identifier: BSL-1.0
 //
 // NOTE: this file have been taken from boost 1.46.1 for using

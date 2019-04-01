@@ -16,8 +16,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14-beta2/Intersections_2/include/CGAL/Intersections_2/Point_2_Point_2.h $
-// $Id: Point_2_Point_2.h 43f8490 %aI Andreas Fabri
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14/Intersections_2/include/CGAL/Intersections_2/Point_2_Point_2.h $
+// $Id: Point_2_Point_2.h fc04ed7 %aI Laurent Rineau
 // SPDX-License-Identifier: LGPL-3.0+
 // 
 //
@@ -39,7 +39,8 @@ namespace internal {
 template <class K>
 inline bool
 do_intersect(const typename K::Point_2 &pt1, 
-	     const typename K::Point_2 &pt2)
+	     const typename K::Point_2 &pt2,
+	     const K&)
 {
     return pt1 == pt2;
 }
@@ -48,7 +49,8 @@ template <class K>
 typename CGAL::Intersection_traits
 <K, typename K::Point_2, typename K::Point_2>::result_type
 intersection(const typename K::Point_2 &pt1, 
-	     const typename K::Point_2 &pt2)
+	     const typename K::Point_2 &pt2,
+	     const K&)
 {
     if (pt1 == pt2) {
       return intersection_return<typename K::Intersect_2, typename K::Point_2, typename K::Point_2>(pt1);

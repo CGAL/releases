@@ -12,7 +12,7 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14-beta2/Polygon_mesh_processing/include/CGAL/Rigid_triangle_mesh_collision_detection.h $
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14/Polygon_mesh_processing/include/CGAL/Rigid_triangle_mesh_collision_detection.h $
 // $Id: Rigid_triangle_mesh_collision_detection.h 10fd5a6 %aI Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0+
 //

@@ -12,7 +12,7 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14-beta2/Arrangement_on_surface_2/include/CGAL/graph_traits_dual_arrangement_2.h $
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14/Arrangement_on_surface_2/include/CGAL/graph_traits_dual_arrangement_2.h $
 // $Id: graph_traits_dual_arrangement_2.h e2fb25e %aI Efi Fogel
 // SPDX-License-Identifier: GPL-3.0+
 //

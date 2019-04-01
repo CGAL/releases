@@ -6,12 +6,12 @@
 //
 // Distributed under the Boost Software License, Version 1.0. (See
 // accompanying file LICENSE_1_0.txt or copy at
-// http://www.boost.org/LICENSE_1_0.txt)
+// https://www.boost.org/LICENSE_1_0.txt)
 //=======================================================================
 // Copyright (c) 2007-2015  GeometryFactory (France).  All rights reserved.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14-beta2/BGL/include/CGAL/boost/graph/named_params_helper.h $
-// $Id: named_params_helper.h 0396dd1 %aI Simon Giraudot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14/BGL/include/CGAL/boost/graph/named_params_helper.h $
+// $Id: named_params_helper.h a472c24 %aI Andreas Fabri
 // SPDX-License-Identifier: BSL-1.0
 //
 // Author(s)     : Andreas Fabri, Fernando Cacciola, Jane Tournois

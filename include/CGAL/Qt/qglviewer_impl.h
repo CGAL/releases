@@ -14,7 +14,7 @@
  WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 
 *****************************************************************************/
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14-beta2/GraphicsView/include/CGAL/Qt/qglviewer_impl.h $
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14/GraphicsView/include/CGAL/Qt/qglviewer_impl.h $
 // $Id: qglviewer_impl.h ceee4b8 %aI Maxime Gimeno
 // SPDX-License-Identifier: GPL-3.0
 

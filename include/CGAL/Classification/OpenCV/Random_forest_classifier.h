@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14-beta2/Classification/include/CGAL/Classification/OpenCV/Random_forest_classifier.h $
-// $Id: Random_forest_classifier.h fb63d96 %aI Simon Giraudot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14/Classification/include/CGAL/Classification/OpenCV/Random_forest_classifier.h $
+// $Id: Random_forest_classifier.h 7c2674a %aI Andreas Fabri
 // SPDX-License-Identifier: GPL-3.0+
 //
 // Author(s)     : Simon Giraudot
@@ -72,7 +72,7 @@ public:
 /*!
   \brief Instantiates the classifier using the sets of `labels` and `features`.
 
-  Parameters documentation is copy-pasted from [the official documentation of OpenCV](http://docs.opencv.org/2.4/modules/ml/doc/random_trees.html). For more details on this method, please refer to it.
+  Parameters documentation is copy-pasted from [the official documentation of OpenCV](https://docs.opencv.org/2.4/modules/ml/doc/random_trees.html). For more details on this method, please refer to it.
 
   \param labels label set used.
   \param features feature set used.

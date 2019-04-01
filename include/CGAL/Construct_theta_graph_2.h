@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14-beta2/Cone_spanners_2/include/CGAL/Construct_theta_graph_2.h $
-// $Id: Construct_theta_graph_2.h 2f9408f %aI Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14/Cone_spanners_2/include/CGAL/Construct_theta_graph_2.h $
+// $Id: Construct_theta_graph_2.h a472c24 %aI Andreas Fabri
 // SPDX-License-Identifier: GPL-3.0+
 //
 //
@@ -54,7 +54,7 @@ namespace CGAL {
                   or `CGAL::Exact_predicates_inexact_constructions_kernel`.
 
  \tparam Graph_   The graph type to store the constructed cone based spanner.
-                  It must be <A HREF="http://www.boost.org/libs/graph/doc/adjacency_list.html">`boost::adjacency_list`</A>
+                  It must be <A HREF="https://www.boost.org/libs/graph/doc/adjacency_list.html">`boost::adjacency_list`</A>
                   with `Traits_::Point_2` as `VertexProperties`.
  */
 template <typename Traits_, typename Graph_>

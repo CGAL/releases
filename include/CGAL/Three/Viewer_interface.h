@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14-beta2/Three/include/CGAL/Three/Viewer_interface.h $
-// $Id: Viewer_interface.h 5b62f06 %aI Andreas Fabri
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14/Three/include/CGAL/Three/Viewer_interface.h $
+// $Id: Viewer_interface.h 1bd785a %aI Maxime Gimeno
 // SPDX-License-Identifier: GPL-3.0+
 //
 //
@@ -276,6 +276,8 @@ public:
   virtual int currentPass()const = 0;
   virtual bool isDepthWriting()const = 0;
   virtual QOpenGLFramebufferObject* depthPeelingFbo() = 0;
+  virtual QVector4D* clipBox() const =0;
+  virtual bool isClipping() const = 0;
 }; // end class Viewer_interface
 }
 }

@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14-beta2/Kernel_23/include/CGAL/internal/Projection_traits_3.h $
-// $Id: Projection_traits_3.h aa38a02 %aI Laurent Rineau
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14/Kernel_23/include/CGAL/internal/Projection_traits_3.h $
+// $Id: Projection_traits_3.h 9cc37e1 %aI Andreas Fabri
 // SPDX-License-Identifier: LGPL-3.0+
 //
 // Author(s)     : Mariette Yvinec, Sebastien Loriot, Mael Rouxel-Labbé
@@ -248,6 +248,8 @@ public:
   typedef typename R::Point_2   Point_2; 
   typedef typename R::Line_3    Line_3; 
   typedef typename R::Line_2    Line_2;
+  typedef typename R::Segment_3 Segment_3;
+  typedef typename R::Segment_2 Segment_2;
   typedef typename R::FT        RT;
   typename R::FT x(const Point_3 &p) const { return Projector<R,dim>::x(p); }
   typename R::FT y(const Point_3 &p) const { return Projector<R,dim>::y(p); }
@@ -269,6 +271,13 @@ public:
     Point_2 p2(project(p));
     Line_2 l2(project(l.point(0)), project(l.point(1)));
     return squared_distance(p2, l2);
+  }
+  
+  RT operator()(const Segment_3& s, const Point_3& p) const
+  {
+    Point_2 p2(project(p));
+    Segment_2 s2(project(s.source()), project(s.target()));
+    return squared_distance(p2, s2);
   }
 };
 

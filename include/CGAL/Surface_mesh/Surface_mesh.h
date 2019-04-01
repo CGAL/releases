@@ -11,8 +11,8 @@
 // Licensees holding a valid commercial license may use this file in
 // accordance with the commercial license agreement provided with the software.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14-beta2/Surface_mesh/include/CGAL/Surface_mesh/Surface_mesh.h $
-// $Id: Surface_mesh.h e08d85f %aI Andreas Fabri
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14/Surface_mesh/include/CGAL/Surface_mesh/Surface_mesh.h $
+// $Id: Surface_mesh.h 27d47e5 %aI Laurent Rineau
 // SPDX-License-Identifier: GPL-3.0+
 //
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
@@ -932,6 +932,8 @@ public:
         --removed_edges_;
         eremoved_[Edge_index(Halfedge_index(idx))] = false;
         hprops_.reset(Halfedge_index(idx));
+        hprops_.reset(opposite(Halfedge_index(idx)));
+        eprops_.reset(Edge_index(Halfedge_index(idx)));
         return Halfedge_index(idx);
       } else {
         eprops_.push_back();

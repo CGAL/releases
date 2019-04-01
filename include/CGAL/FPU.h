@@ -16,8 +16,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14-beta2/Number_types/include/CGAL/FPU.h $
-// $Id: FPU.h e8e3a83 %aI Andreas Fabri
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14/Number_types/include/CGAL/FPU.h $
+// $Id: FPU.h 42cbce9 %aI Laurent Rineau
 // SPDX-License-Identifier: LGPL-3.0+
 //
 //
@@ -383,6 +383,22 @@ typedef unsigned int FPU_CW_t;
 #define CGAL_FE_TOWARDZERO   _RC_CHOP
 #define CGAL_FE_UPWARD       _RC_UP
 #define CGAL_FE_DOWNWARD     _RC_DOWN
+# elif defined __VFP_FP__ && !defined __SOFTFP__
+#define CGAL_IA_SETFPCW(CW) asm volatile ("VMSR FPSCR, %0" : :"r" (CW))
+#define CGAL_IA_GETFPCW(CW) asm volatile ("VMRS %0, FPSCR" : "=r" (CW)); CW &= CGAL_FE_TOWARDZERO
+typedef unsigned int FPU_CW_t;
+#define CGAL_FE_TONEAREST    (0x0)
+#define CGAL_FE_TOWARDZERO   (0xC00000)
+#define CGAL_FE_UPWARD       (0x400000)
+#define CGAL_FE_DOWNWARD     (0x800000)
+# elif defined  __aarch64__
+#define CGAL_IA_SETFPCW(CW) asm volatile ("MSR FPCR, %0" : :"r" (CW))
+#define CGAL_IA_GETFPCW(CW) asm volatile ("MRS %0, FPCR" : "=r" (CW))
+typedef unsigned int FPU_CW_t;
+#define CGAL_FE_TONEAREST    (0x0)
+#define CGAL_FE_TOWARDZERO   (0xC00000)
+#define CGAL_FE_UPWARD       (0x400000)
+#define CGAL_FE_DOWNWARD     (0x800000)
 
 #else
 // This is a version following the ISO C99 standard, which aims at portability.

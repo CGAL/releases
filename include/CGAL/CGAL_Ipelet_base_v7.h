@@ -12,7 +12,7 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14-beta2/CGAL_ipelets/include/CGAL/CGAL_Ipelet_base_v7.h $
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14/CGAL_ipelets/include/CGAL/CGAL_Ipelet_base_v7.h $
 // $Id: CGAL_Ipelet_base_v7.h d1ad2ff %aI Maxime Gimeno
 // SPDX-License-Identifier: LGPL-3.0+
 // 

@@ -9,14 +9,14 @@
 //  (C) Copyright John Maddock 2003.
 //  Use, modification and distribution are subject to the
 //  Boost Software License, Version 1.0. (See accompanying file
-//  LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
+//  LICENSE_1_0.txt or copy at https://www.boost.org/LICENSE_1_0.txt)
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14-beta2/Installation/include/CGAL/auto_link/auto_link.h $
-// $Id: auto_link.h 8cdfad0 %aI Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14/Installation/include/CGAL/auto_link/auto_link.h $
+// $Id: auto_link.h a472c24 %aI Andreas Fabri
 //  SPDX-License-Identifier: BSL-1.0
 //
  /*
-  *   LOCATION:    see http://www.boost.org for most recent version.
+  *   LOCATION:    see https://www.boost.org for most recent version.
   *   FILE         auto_link.hpp
   *   VERSION      see <boost/version.hpp>
   *   DESCRIPTION: Automatic library inclusion for Borland/Microsoft compilers.

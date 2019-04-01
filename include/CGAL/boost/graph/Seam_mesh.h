@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14-beta2/BGL/include/CGAL/boost/graph/Seam_mesh.h $
-// $Id: Seam_mesh.h 53816ff %aI Andreas Fabri
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14/BGL/include/CGAL/boost/graph/Seam_mesh.h $
+// $Id: Seam_mesh.h 0d5009e %aI Laurent Rineau
 // SPDX-License-Identifier: LGPL-3.0+
 //
 //
@@ -1057,8 +1057,8 @@ public:
   /// \tparam VdContainer must be a model of `SequenceContainer` (that is, provide
   ///         the functions: `operator[]` and `at()`).
   ///
-  /// \pre filename should be the name of a CGAL selection file: edges are
-  ///      described by pairs of integers, on the third line of the file.
+  /// \pre filename should be the name of a \cgal selection file with file extension "*.selection.txt":
+  ///      edges are described by pairs of integers, on the third line of the file.
   template<typename VdContainer>
   TM_halfedge_descriptor add_seams(const char* filename,
                                    const VdContainer& tm_vds)
@@ -1067,7 +1067,7 @@ public:
 
     // Check the file type
     std::string str = filename;
-    if(str.substr(str.length() - 14) != ".selection.txt") {
+    if( (str.length()) < 14 || (str.substr(str.length() - 14) != ".selection.txt") ) {
       std::cerr << "Error: seams must be given by a *.selection.txt file" << std::endl;
       return tmhd;
     }
@@ -1099,8 +1099,8 @@ public:
   ///
   /// \returns one of the halfedges of the seam mesh that is on a seam.
   ///
-  /// \pre filename should be the name of a CGAL selection file: edges are
-  ///      described by pairs of integers, on the third line of the file.
+  /// \pre filename should be the name of a \cgal selection file with file extension "*.selection.txt":
+  ///      edges are described by pairs of integers, on the third line of the file.
   TM_halfedge_descriptor add_seams(const char* filename)
   {
     std::vector<TM_vertex_descriptor> tm_vds;

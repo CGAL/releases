@@ -16,8 +16,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14-beta2/Polygon/include/CGAL/Polygon_2.h $
-// $Id: Polygon_2.h 27cfecc %aI Andreas Fabri
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14/Polygon/include/CGAL/Polygon_2.h $
+// $Id: Polygon_2.h b4a0ee0 %aI Mael Rouxel-Labbé
 // SPDX-License-Identifier: LGPL-3.0+
 // 
 //
@@ -489,7 +489,7 @@ class Polygon_2 {
 /// Test for equality: two polygons are equal iff there exists a
 /// cyclic permutation of the vertices of `p2` such that they are
 /// equal to the vertices of `p1`. Note that the template argument
-/// `Container` of `p1` and `p2` may be different.
+/// `%Container` of `p1` and `p2` may be different.
 /// \memberof Polygon_2
 template <class Traits_P, class Container1_P, class Container2_P>
 bool operator==( const Polygon_2<Traits_P,Container1_P> &p1,
@@ -516,18 +516,17 @@ transform(const Transformation& t, const Polygon_2<Traits_P,Container_P>& p);
 /// followed by the output of the coordinates of the vertices.
 /// @{
 
-/// Inserts the polygon `p` into the stream `os`. \pre The insert
-/// operator must be defined for `Point_2`.
+/// Reads a polygon from stream `is` and assigns it to `p`.
+/// \pre The extract operator must be defined for `Point_2`.
 /// \memberof Polygon_2
 template <class Traits_P, class Container_P>
 std::istream &operator>>(std::istream &is, Polygon_2<Traits_P,Container_P>& p);
 
-/// Reads a polygon from stream `is` and assigns it
-/// to `p`. \pre The extract operator must be defined for `Point_2`.
+/// Inserts the polygon `p` into the stream `os`.
+/// \pre The insert operator must be defined for `Point_2`.
 /// \memberof Polygon_2
 template <class Traits_P, class Container_P>
-std::ostream
-&operator<<(std::ostream &os, const Polygon_2<Traits_P,Container_P>& p);
+std::ostream &operator<<(std::ostream &os, const Polygon_2<Traits_P,Container_P>& p);
 
 /// @} // IO
 

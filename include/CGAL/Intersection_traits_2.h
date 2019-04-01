@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14-beta2/Intersections_2/include/CGAL/Intersection_traits_2.h $
-// $Id: Intersection_traits_2.h 0698f79 %aI Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14/Intersections_2/include/CGAL/Intersection_traits_2.h $
+// $Id: Intersection_traits_2.h fc04ed7 %aI Laurent Rineau
 // SPDX-License-Identifier: LGPL-3.0+
 // 
 //
@@ -97,6 +97,11 @@ struct Intersection_traits<K, A, typename K::Point_2> {
   typedef boost::optional<variant_type> result_type;
 };
 
+template<typename K>
+struct Intersection_traits<K, typename K::Point_2, typename K::Point_2> {
+  typedef typename boost::variant<typename K::Point_2> variant_type;
+  typedef boost::optional<variant_type> result_type;
+};
 
 template<typename K>
 struct Intersection_traits<K, typename K::Iso_rectangle_2, typename K::Triangle_2>

@@ -16,8 +16,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14-beta2/STL_Extension/include/CGAL/tags.h $
-// $Id: tags.h 0698f79 %aI Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14/STL_Extension/include/CGAL/tags.h $
+// $Id: tags.h a472c24 %aI Andreas Fabri
 // SPDX-License-Identifier: LGPL-3.0+
 // 
 //
@@ -35,7 +35,7 @@ namespace CGAL {
 struct Void {};
 
 // Boolean_tag<bool> is a model of the Boost Integral Constant concept.
-//   http://www.boost.org/libs/mpl/doc/refmanual/integral-constant.html
+//   https://www.boost.org/libs/mpl/doc/refmanual/integral-constant.html
 template <bool b>
 struct Boolean_tag {
   typedef boost::mpl::integral_c_tag tag;

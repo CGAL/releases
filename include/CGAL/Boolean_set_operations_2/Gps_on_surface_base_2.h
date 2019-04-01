@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14-beta2/Boolean_set_operations_2/include/CGAL/Boolean_set_operations_2/Gps_on_surface_base_2.h $
-// $Id: Gps_on_surface_base_2.h fb262e4 %aI Andreas Fabri
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14/Boolean_set_operations_2/include/CGAL/Boolean_set_operations_2/Gps_on_surface_base_2.h $
+// $Id: Gps_on_surface_base_2.h 6fc06ef %aI Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0+
 //
 // Author(s)     : Baruch Zukerman <baruchzu@post.tau.ac.il>
@@ -1112,6 +1112,15 @@ protected:
       }
     }
     while(something_was_updated);
+    // last loop, if some tags are not set it means that they are the only ccb
+    // of the face and that they have to be the outer ccb
+    BOOST_FOREACH(Halfedge_handle h, halfedges_that_was_on_an_outer_ccb)
+    {
+      if (h->flag()!=NOT_VISITED) continue;
+      std::size_t face_master_id=(*uf_faces.find(face_handles[h->face()->id()]))->id();
+      set_flag_of_halfedges_of_final_argt(h,ON_OUTER_CCB);
+      face_outer_ccb_set[face_master_id]=true;
+    }
     // at this position there might be some bits in face_outer_ccb_set not set
     // but they are corresponding to the unbounded face
   // End tagging ccbs

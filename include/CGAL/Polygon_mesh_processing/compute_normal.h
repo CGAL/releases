@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14-beta2/Polygon_mesh_processing/include/CGAL/Polygon_mesh_processing/compute_normal.h $
-// $Id: compute_normal.h c3ace2b %aI Mael Rouxel-Labbé
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14/Polygon_mesh_processing/include/CGAL/Polygon_mesh_processing/compute_normal.h $
+// $Id: compute_normal.h a508397 %aI Maxime Gimeno
 // SPDX-License-Identifier: GPL-3.0+
 // 
 //
@@ -49,7 +49,12 @@ namespace internal {
   {
     typename GT::FT norm = CGAL::approximate_sqrt(
         traits.compute_squared_length_3_object()(v));
-    v = traits.construct_divided_vector_3_object()(v, norm);
+    //If the vector is small enough, approx_sqrt might return 0, and then we get nan values. 
+    //To avoid that, we check the resulted norm. If it is 0, we don't normalize.
+    if(norm != 0)
+    {
+      v = traits.construct_divided_vector_3_object()(v, norm );
+    }
   }
 
   template<typename Point

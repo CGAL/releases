@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14-beta2/Triangulation_2/include/CGAL/Trivial_iterator.h $
-// $Id: Trivial_iterator.h ee57fc2 %aI Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14/Triangulation_2/include/CGAL/Trivial_iterator.h $
+// $Id: Trivial_iterator.h a472c24 %aI Andreas Fabri
 // SPDX-License-Identifier: GPL-3.0+
 // 
 //
@@ -33,7 +33,7 @@ namespace CGAL {
 // TODO :
 // - comparison operators should be global, but it causes problems...
 // - Have a look at Boost's concept_checking and archetypes :
-//   http://www.boost.org/libs/concept_check/concept_check.htm
+//   https://www.boost.org/libs/concept_check/concept_check.htm
 
 class Trivial_iterator_tag{};
 
