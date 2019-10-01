@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14/Polyline_simplification_2/demo/Polyline_simplification_2/include/CGAL/Qt/TriangulationArrangementGraphicsItem.h $
-// $Id: TriangulationArrangementGraphicsItem.h ebabf11 %aI Andreas Fabri
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Polyline_simplification_2/demo/Polyline_simplification_2/include/CGAL/Qt/TriangulationArrangementGraphicsItem.h $
+// $Id: TriangulationArrangementGraphicsItem.h 243c7b1 %aI Maxime Gimeno
 // 
 //
 // Author(s)     : Andreas Fabri <Andreas.Fabri@geometryfactory.com>
@@ -154,10 +154,10 @@ TriangulationArrangementGraphicsItem<T>::paintVertex(typename T::Vertex_handle v
     } else {
       this->m_painter->setPen(this->verticesPen());
     }
-    QMatrix matrix = this->m_painter->matrix();
-    this->m_painter->resetMatrix();
+    QTransform matrix = this->m_painter->worldTransform();
+    this->m_painter->resetTransform();
     this->m_painter->drawPoint(matrix.map(convert(vh->point())));
-    this->m_painter->setMatrix(matrix);
+    this->m_painter->setWorldTransform(matrix);
   }
 }
 
@@ -170,8 +170,8 @@ TriangulationArrangementGraphicsItem<T>::paintVertices(QPainter *painter)
   {
     Converter<Geom_traits> convert;
 
-    QMatrix matrix = painter->matrix();
-    painter->resetMatrix();
+    QTransform matrix = painter->worldTransform();
+    painter->resetTransform();
     for(typename T::Finite_vertices_iterator it = this->t->finite_vertices_begin();
         it != this->t->finite_vertices_end();
         it++)

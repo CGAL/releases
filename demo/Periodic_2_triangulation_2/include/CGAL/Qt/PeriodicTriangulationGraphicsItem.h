@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14/GraphicsView/demo/Periodic_2_triangulation_2/include/CGAL/Qt/PeriodicTriangulationGraphicsItem.h $
-// $Id: PeriodicTriangulationGraphicsItem.h e9e7ca0 %aI Maxime Gimeno
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/GraphicsView/demo/Periodic_2_triangulation_2/include/CGAL/Qt/PeriodicTriangulationGraphicsItem.h $
+// $Id: PeriodicTriangulationGraphicsItem.h 243c7b1 %aI Maxime Gimeno
 // 
 //
 // Author(s)     : Andreas Fabri <Andreas.Fabri@geometryfactory.com>
@@ -223,8 +223,8 @@ namespace CGAL {
         
         Converter<Geom_traits> convert;
 
-        QMatrix matrix = painter->matrix();
-        painter->resetMatrix();
+        QTransform matrix = painter->worldTransform();
+        painter->resetTransform();
 
         { // Faces
           painter->setPen(QPen());
@@ -254,7 +254,7 @@ namespace CGAL {
           }
         }
 
-        painter->setMatrix(matrix);
+        painter->setWorldTransform(matrix);
       }      
 
       if(visibleEdges()) {
@@ -272,8 +272,8 @@ namespace CGAL {
       if(visibleVertices()) {
         Converter<Geom_traits> convert;
         
-        QMatrix matrix = painter->matrix();
-        painter->resetMatrix();
+        QTransform matrix = painter->worldTransform();
+        painter->resetTransform();
 
         QPen pen = verticesPen();
         if (t->number_of_vertices() < 8) {
@@ -301,7 +301,7 @@ namespace CGAL {
             }
         }
 
-        painter->setMatrix(matrix);
+        painter->setWorldTransform(matrix);
       }
     }
     
@@ -312,10 +312,10 @@ namespace CGAL {
       Converter<Geom_traits> convert;
       
       m_painter->setPen(this->verticesPen());
-      QMatrix matrix = m_painter->matrix();
-      m_painter->resetMatrix();
+      QTransform matrix = m_painter->worldTransform();
+      m_painter->resetTransform();
       m_painter->drawPoint(matrix.map(convert(point)));
-      m_painter->setMatrix(matrix);
+      m_painter->setWorldTransform(matrix);
     }
     
     template <typename T>
@@ -325,10 +325,10 @@ namespace CGAL {
       Converter<Geom_traits> convert;
       
       m_painter->setPen(this->verticesPen());
-      QMatrix matrix = m_painter->matrix();
-      m_painter->resetMatrix();
+      QTransform matrix = m_painter->worldTransform();
+      m_painter->resetTransform();
       m_painter->drawPoint(matrix.map(convert(vh->point())));
-      m_painter->setMatrix(matrix);
+      m_painter->setWorldTransform(matrix);
     }
     
     template <typename T>

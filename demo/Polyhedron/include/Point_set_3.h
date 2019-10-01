@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14/Polyhedron/demo/Polyhedron/include/Point_set_3.h $
-// $Id: Point_set_3.h 962afbf %aI Laurent Rineau
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Polyhedron/demo/Polyhedron/include/Point_set_3.h $
+// $Id: Point_set_3.h 2f81a21 %aI Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0+
 //
 //
@@ -505,13 +505,13 @@ public:
   bool are_radii_uptodate() const { return m_radii_are_uptodate; }
   void set_radii_uptodate(bool /*on*/) { m_radii_are_uptodate = false; }
   
-  CGAL::cgal_bgl_named_params
+  CGAL::Named_function_parameters
   <Kernel,
    CGAL::internal_np::geom_traits_t,
-   CGAL::cgal_bgl_named_params
+   CGAL::Named_function_parameters
    <typename Base::template Property_map<Vector>,
     CGAL::internal_np::normal_t,
-    CGAL::cgal_bgl_named_params
+    CGAL::Named_function_parameters
     <typename Base::template Property_map<Point>,
      CGAL::internal_np::point_t> > >
   inline parameters() const
@@ -598,13 +598,13 @@ namespace Point_set_processing_3
   namespace parameters
   {
     template <typename Kernel>
-    cgal_bgl_named_params
+    Named_function_parameters
     <Kernel,
      internal_np::geom_traits_t,
-     cgal_bgl_named_params
+     Named_function_parameters
      <typename ::Point_set_3<Kernel>::template Property_map<typename Kernel::Vector_3>,
       internal_np::normal_t,
-      cgal_bgl_named_params
+      Named_function_parameters
       <typename ::Point_set_3<Kernel>::template Property_map<typename Kernel::Point_3>,
        internal_np::point_t> > >
     inline all_default(const ::Point_set_3<Kernel>& ps)

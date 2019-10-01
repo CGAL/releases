@@ -131,9 +131,6 @@ endif()
 if(CGAL_Qt5_FOUND AND Qt5_FOUND AND OPENGL_FOUND )
   include(${CGAL_USE_FILE})
 
-  set(Boost_USE_MULTITHREADED      ON)
-  find_package(Boost COMPONENTS thread system filesystem)
-
   qt5_wrap_ui( MainWindowUI_files MainWindow.ui)
   qt5_wrap_ui( statisticsUI_FILES Statistics_on_item_dialog.ui)
   qt5_wrap_ui( FileLoaderDialogUI_files FileLoaderDialog.ui )
@@ -148,9 +145,10 @@ if(CGAL_Qt5_FOUND AND Qt5_FOUND AND OPENGL_FOUND )
 
   qt5_add_resources ( CGAL_Qt5_RESOURCE_FILES Polyhedron_3.qrc )
   find_path(CGAL_THREE_HEADERS_PATH
-    NAME CGAL/Three/Scene_item.h
+    NAMES CGAL/Three/Scene_item.h
     HINTS ${CGAL_INCLUDE_DIRS}
     NO_DEFAULT_PATH
+    NO_CMAKE_FIND_ROOT_PATH
     DOC "Path to CGAL/Three/Scene_item.h")
   
   if(CGAL_THREE_HEADERS_PATH)
@@ -165,7 +163,7 @@ if(CGAL_Qt5_FOUND AND Qt5_FOUND AND OPENGL_FOUND )
     qt5_generate_moc( "${CGAL_THREE_HEADERS_PATH}/CGAL/Three/TextRenderer.h"
       "${CMAKE_CURRENT_BINARY_DIR}/TextRenderer_moc.cpp" )
   else()
-    message(FATAL_ERROR "Cannot find <CGAL/Three/Viewer_interface.h>")
+    message(FATAL_ERROR "Cannot find <CGAL/Three/Scene_item.h>")
   endif()
 
   unset(CGAL_THREE_HEADERS_PATH CACHE)
@@ -200,6 +198,7 @@ if(CGAL_Qt5_FOUND AND Qt5_FOUND AND OPENGL_FOUND )
   target_link_libraries(demo_framework
     PUBLIC Qt5::OpenGL Qt5::Widgets Qt5::Gui Qt5::Script
     )
+  cgal_add_compilation_test(demo_framework)
   # Let's define `three_EXPORT` during the compilation of `demo_framework`,
   # in addition of `demo_framework_EXPORT` (defined automatically by
   # CMake). That is to deal with the visibility of symbols of
@@ -228,12 +227,24 @@ if(CGAL_Qt5_FOUND AND Qt5_FOUND AND OPENGL_FOUND )
   target_link_libraries(point_dialog
     PUBLIC Qt5::OpenGL Qt5::Gui Qt5::Script Qt5::Widgets)
 
+  if(BUILD_TESTING)
+    add_custom_target(test_items)
+    cgal_add_compilation_test(test_items)
+    set_property(TEST compilation_of__test_items
+      APPEND PROPERTY DEPENDS compilation_of__demo_framework)
+    set_property(TEST compilation_of__test_items
+      APPEND PROPERTY TIMEOUT 1700)
+  endif(BUILD_TESTING)
+
   macro(add_item item_name)
     add_library(${item_name} SHARED ${ARGN})
     target_link_libraries(${item_name}
-      PUBLIC demo_framework ${CGAL_LIBRARIES} ${Boost_LIBRARIES}
+      PUBLIC demo_framework ${CGAL_LIBRARIES}
       Qt5::OpenGL Qt5::Gui Qt5::Script Qt5::Widgets)
-    cgal_add_compilation_test(${item_name})
+    if(BUILD_TESTING)
+      add_dependencies(test_items ${item_name})
+    endif()
+    add_to_cached_list( CGAL_EXECUTABLE_TARGETS ${item_name} )
   endmacro(add_item)
 
   add_item(scene_c3t3_item Scene_c3t3_item.cpp)
@@ -301,7 +312,6 @@ if(CGAL_Qt5_FOUND AND Qt5_FOUND AND OPENGL_FOUND )
     CGAL_target_use_TBB(scene_points_with_normal_item)
   endif()
 
-
   foreach( lib 
       demo_framework
       scene_basic_objects
@@ -323,7 +333,6 @@ if(CGAL_Qt5_FOUND AND Qt5_FOUND AND OPENGL_FOUND )
   add_executable  ( Polyhedron_3 Polyhedron_3.cpp )
   target_link_libraries( Polyhedron_3 PRIVATE polyhedron_demo )
   add_to_cached_list( CGAL_EXECUTABLE_TARGETS Polyhedron_3 )
-  cgal_add_compilation_test(polyhedron_demo)
 
   if( POLYHEDRON_QTSCRIPT_DEBUGGER )
     if(TARGET Qt5::ScriptTools)
@@ -369,8 +378,6 @@ add_to_cached_list( CGAL_EXECUTABLE_TARGETS CGAL_Classification )
 #
   if(TARGET CGAL_Qt5)
     export(TARGETS CGAL CGAL_Qt5 CGAL_ImageIO FILE polyhedron_demo_targets.cmake NAMESPACE Polyhedron_)
-  else()
-    export(TARGETS FILE polyhedron_demo_targets.cmake NAMESPACE Polyhedron_)
   endif()
   if(TARGET CGAL_Qt5_moc_and_resources)
     export(
@@ -393,10 +400,6 @@ add_to_cached_list( CGAL_EXECUTABLE_TARGETS CGAL_Classification )
     NAMESPACE Polyhedron_
     APPEND FILE polyhedron_demo_targets.cmake)
 
-  export(
-    TARGETS
-    NAMESPACE Polyhedron_
-    APPEND FILE polyhedron_demo_targets.cmake)
   configure_file(CGAL_polyhedron_demoConfig.cmake.in  CGAL_polyhedron_demoConfig.cmake)
 #TO DO script the activation of all the plugins.
 

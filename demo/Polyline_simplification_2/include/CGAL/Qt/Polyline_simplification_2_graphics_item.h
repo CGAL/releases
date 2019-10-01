@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14/Polyline_simplification_2/demo/Polyline_simplification_2/include/CGAL/Qt/Polyline_simplification_2_graphics_item.h $
-// $Id: Polyline_simplification_2_graphics_item.h d19915a %aI Andreas Fabri
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Polyline_simplification_2/demo/Polyline_simplification_2/include/CGAL/Qt/Polyline_simplification_2_graphics_item.h $
+// $Id: Polyline_simplification_2_graphics_item.h 243c7b1 %aI Maxime Gimeno
 // 
 //
 // Author(s)     : Andreas Fabri <Andreas.Fabri@geometryfactory.com>
@@ -175,10 +175,10 @@ PolylineSimplificationGraphicsItem<PCT>::paintVertex( typename PCT::Vertex_handl
   // } else {
     this->m_painter->setPen(this->verticesPen());
     //  }
-  QMatrix matrix = this->m_painter->matrix();
-  this->m_painter->resetMatrix();
+  QTransform matrix = this->m_painter->worldTransform();
+  this->m_painter->resetTransform();
   this->m_painter->drawPoint(matrix.map(convert(vh->point())));
-  this->m_painter->setMatrix(matrix);
+  this->m_painter->setWorldTransform(matrix);
 }
 
 
@@ -190,8 +190,8 @@ PolylineSimplificationGraphicsItem<PCT>::paintVertices(QPainter *painter)
   {
     Converter<Geom_traits> convert;
 
-    QMatrix matrix = painter->matrix();
-    painter->resetMatrix();
+    QTransform matrix = painter->worldTransform();
+    painter->resetTransform();
     for(Constraint_iterator cit = this->t->constraints_begin();
         cit != this->t->constraints_end();
         ++cit){
