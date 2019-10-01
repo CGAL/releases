@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Boolean_set_operations_2/include/CGAL/Boolean_set_operations_2/Gps_traits_decorator.h $
-// $Id: Gps_traits_decorator.h ee57fc2 %aI Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Boolean_set_operations_2/include/CGAL/Boolean_set_operations_2/Gps_traits_decorator.h $
+// $Id: Gps_traits_decorator.h 4581f1b %aI Andreas Fabri
 // SPDX-License-Identifier: GPL-3.0+
 // 
 //
@@ -483,7 +483,7 @@ public:
       {
         base_pt = object_cast<std::pair<Base_Point_2, Multiplicity> >(&(*oi));
 
-        if (base_pt != NULL)
+        if (base_pt != nullptr)
         {
           Point_2 point_plus (base_pt->first); // the extended point
           *oi = CGAL::make_object(std::make_pair(point_plus, 
@@ -492,7 +492,7 @@ public:
         else
         {
           overlap_cv = object_cast<Base_X_monotone_curve_2> (&(*oi));
-          CGAL_assertion(overlap_cv != NULL);
+          CGAL_assertion(overlap_cv != nullptr);
           *oi = CGAL::make_object (X_monotone_curve_2 (*overlap_cv));
         }
       }

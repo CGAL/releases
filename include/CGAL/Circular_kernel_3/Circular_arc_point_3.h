@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Circular_kernel_3/include/CGAL/Circular_kernel_3/Circular_arc_point_3.h $
-// $Id: Circular_arc_point_3.h ee57fc2 %aI Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Circular_kernel_3/include/CGAL/Circular_kernel_3/Circular_arc_point_3.h $
+// $Id: Circular_arc_point_3.h 4581f1b %aI Andreas Fabri
 // SPDX-License-Identifier: GPL-3.0+
 //
 // Author(s) : Monique Teillaud, Sylvain Pion, Pedro Machado, 
@@ -91,13 +91,13 @@ public:
       // the intersection must be a point
       const std::pair<typename SK::Circular_arc_point_3, unsigned>* pair=
         boost::get<std::pair<typename SK::Circular_arc_point_3, unsigned> >(&sols[0]);
-      CGAL_kernel_precondition(pair!=NULL);
+      CGAL_kernel_precondition(pair!=nullptr);
       *this = pair->first.rep();
     } else {
       // the intersections must be a point
       const std::pair<typename SK::Circular_arc_point_3, unsigned>* pair=
         boost::get<std::pair<typename SK::Circular_arc_point_3, unsigned> >(&sols[less_xyz?0:1]);
-      CGAL_kernel_precondition(pair!=NULL);
+      CGAL_kernel_precondition(pair!=nullptr);
       *this = pair->first.rep();
     } 
   }
@@ -114,13 +114,13 @@ public:
       // the intersection must be a point
       const std::pair<typename SK::Circular_arc_point_3, unsigned>* pair=
         boost::get<std::pair<typename SK::Circular_arc_point_3, unsigned> >(&sols[0]);
-      CGAL_kernel_precondition(pair!=NULL);
+      CGAL_kernel_precondition(pair!=nullptr);
       *this = pair->first.rep();
     } else {
       // the intersections must be a point
       const std::pair<typename SK::Circular_arc_point_3, unsigned>* pair=
         boost::get<std::pair<typename SK::Circular_arc_point_3, unsigned> >(&sols[less_xyz?0:1]);
-      CGAL_kernel_precondition(pair!=NULL);
+      CGAL_kernel_precondition(pair!=nullptr);
       *this = pair->first.rep();
     } 
   }
@@ -137,13 +137,13 @@ public:
       // the intersection must be a point
       const std::pair<typename SK::Circular_arc_point_3, unsigned>* pair=
         boost::get<std::pair<typename SK::Circular_arc_point_3, unsigned> >(&sols[0]);
-      CGAL_kernel_precondition(pair!=NULL);      
+      CGAL_kernel_precondition(pair!=nullptr);      
       *this = pair->first.rep();
     } else {
       // the intersections must be a point
       const std::pair<typename SK::Circular_arc_point_3, unsigned>* pair=
         boost::get<std::pair<typename SK::Circular_arc_point_3, unsigned> >(&sols[less_xyz?0:1]);
-      CGAL_kernel_precondition(pair!=NULL);            
+      CGAL_kernel_precondition(pair!=nullptr);            
       *this = pair->first.rep();
     }
   }
@@ -159,13 +159,13 @@ public:
       // the intersection must be a point
       const std::pair<typename SK::Circular_arc_point_3, unsigned>* pair=
         boost::get<std::pair<typename SK::Circular_arc_point_3, unsigned> >(&sols[0]);
-      CGAL_kernel_precondition(pair!=NULL);            
+      CGAL_kernel_precondition(pair!=nullptr);            
       *this = pair->first.rep();
     } else {
       // the intersections must be a point
       const std::pair<typename SK::Circular_arc_point_3, unsigned>* pair=
         boost::get<std::pair<typename SK::Circular_arc_point_3, unsigned> >(&sols[less_xyz?0:1]);
-      CGAL_kernel_precondition(pair!=NULL);            
+      CGAL_kernel_precondition(pair!=nullptr);            
       *this = pair->first.rep();
     }
   }
@@ -181,13 +181,13 @@ public:
       // the intersection must be a point
       const std::pair<typename SK::Circular_arc_point_3, unsigned>* pair=
         boost::get<std::pair<typename SK::Circular_arc_point_3, unsigned> >(&sols[0]);
-      CGAL_kernel_precondition(pair!=NULL);            
+      CGAL_kernel_precondition(pair!=nullptr);            
       *this = pair->first.rep();
     } else {
       // the intersections must be a point
       const std::pair<typename SK::Circular_arc_point_3, unsigned>* pair=
         boost::get<std::pair<typename SK::Circular_arc_point_3, unsigned> >(&sols[less_xyz?0:1]);
-      CGAL_kernel_precondition(pair!=NULL);            
+      CGAL_kernel_precondition(pair!=nullptr);            
       *this = pair->first.rep();
     }
   }
@@ -203,13 +203,13 @@ public:
       // the intersection must be a point
       const std::pair<typename SK::Circular_arc_point_3, unsigned>* pair=
         boost::get<std::pair<typename SK::Circular_arc_point_3, unsigned> >(&sols[0]);
-      CGAL_kernel_precondition(pair!=NULL);            
+      CGAL_kernel_precondition(pair!=nullptr);            
       *this = pair->first.rep();
     } else {
       // the intersections must be a point
       const std::pair<typename SK::Circular_arc_point_3, unsigned>* pair=
         boost::get<std::pair<typename SK::Circular_arc_point_3, unsigned> >(&sols[less_xyz?0:1]);
-      CGAL_kernel_precondition(pair!=NULL);            
+      CGAL_kernel_precondition(pair!=nullptr);            
       *this = pair->first.rep();
     }
   }

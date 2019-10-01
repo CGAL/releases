@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/TDS_2/include/CGAL/internal/TDS_2/edge_list.h $
-// $Id: edge_list.h ee57fc2 %aI Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/TDS_2/include/CGAL/internal/TDS_2/edge_list.h $
+// $Id: edge_list.h e2d19b0 %aI Andreas Fabri
 // SPDX-License-Identifier: GPL-3.0+
 // 
 //
@@ -132,7 +132,7 @@ namespace internal {
 
   public:
     Edge_list_circulator()
-      : l_(NULL), c_(List_item::sentinel_edge()) {}
+      : l_(nullptr), c_(List_item::sentinel_edge()) {}
 
     Edge_list_circulator(const List* l, const Edge& c)
       : l_(l), c_(/*const_cast<Edge&>(*/c/*)*/) {}
@@ -147,14 +147,14 @@ namespace internal {
     }
 
     Self& operator++() {
-      CGAL_precondition( l_ != NULL );
+      CGAL_precondition( l_ != nullptr );
       //      c_ = const_cast<Edge&>(l_->next(c_));
       c_ = l_->next(c_);
       return *this;
     }
 
     Self& operator--() {
-      CGAL_precondition( l_ != NULL );
+      CGAL_precondition( l_ != nullptr );
       //      c_ = const_cast<Edge&>(l_->previous(c_));
       c_ = l_->previous(c_);
       return *this;

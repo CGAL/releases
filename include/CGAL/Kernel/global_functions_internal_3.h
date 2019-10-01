@@ -16,8 +16,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Kernel_23/include/CGAL/Kernel/global_functions_internal_3.h $
-// $Id: global_functions_internal_3.h 0698f79 %aI Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Kernel_23/include/CGAL/Kernel/global_functions_internal_3.h $
+// $Id: global_functions_internal_3.h 42af962 %aI Andreas Fabri
 // SPDX-License-Identifier: LGPL-3.0+
 // 
 //
@@ -83,6 +83,25 @@ angle(const typename K::Point_3 &p,
   return k.angle_3_object()(p, q, r, v);
 }
 
+template < class K >
+inline
+typename K::FT
+approximate_angle(const typename K::Vector_3 &u,
+                  const typename K::Vector_3 &v , const K& k)
+{
+  return k.compute_approximate_angle_3_object()(u, v);
+}
+  
+template < class K >
+inline
+typename K::FT
+approximate_angle(const typename K::Point_3 &p,
+                  const typename K::Point_3 &q,
+                  const typename K::Point_3 &r, const K& k)
+{
+  return k.compute_approximate_angle_3_object()(p, q, r);
+}
+  
 template < class K >
 inline
 typename K::FT

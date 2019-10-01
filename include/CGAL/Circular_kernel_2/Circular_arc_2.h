@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Circular_kernel_2/include/CGAL/Circular_kernel_2/Circular_arc_2.h $
-// $Id: Circular_arc_2.h 0d3ac75 %aI Andreas Fabri
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Circular_kernel_2/include/CGAL/Circular_kernel_2/Circular_arc_2.h $
+// $Id: Circular_arc_2.h 4581f1b %aI Andreas Fabri
 // SPDX-License-Identifier: GPL-3.0+
 //
 // Author(s)     : Monique Teillaud, Sylvain Pion, Pedro Machado
@@ -745,49 +745,49 @@ class Filtered_bbox_circular_arc_2_base : public Base_CK::Circular_arc_2
 public:
   ///////////Construction/////////////
 
-  Filtered_bbox_circular_arc_2_base() : P_arc(), bb(NULL) {}
+  Filtered_bbox_circular_arc_2_base() : P_arc(), bb(nullptr) {}
     
-  Filtered_bbox_circular_arc_2_base(const P_arc& arc) : P_arc(arc), bb(NULL) {}
+  Filtered_bbox_circular_arc_2_base(const P_arc& arc) : P_arc(arc), bb(nullptr) {}
 
   // otherwise it will lead to ambiguos definitions
   explicit Filtered_bbox_circular_arc_2_base(const Circle_2 &c)
-    : P_arc(c),bb(NULL)
+    : P_arc(c),bb(nullptr)
   {}
 
   Filtered_bbox_circular_arc_2_base(const Circle_2 &support, 
                                     const Line_2 &l1, const bool b_l1,
                                     const Line_2 &l2, const bool b_l2)
-    : P_arc(support,l1,b_l1,l2,b_l2),bb(NULL)
+    : P_arc(support,l1,b_l1,l2,b_l2),bb(nullptr)
   {}
 
     
   Filtered_bbox_circular_arc_2_base(const Circle_2 &c, 
                                     const Circle_2 &c1, const bool b_1,
                                     const Circle_2 &c2, const bool b_2)
-    : P_arc(c,c1,b_1,c2,b_2),bb(NULL)
+    : P_arc(c,c1,b_1,c2,b_2),bb(nullptr)
   {}
 
     
   Filtered_bbox_circular_arc_2_base(const Point_2 &start,
                                     const Point_2 &middle,
                                     const Point_2 &end)
-    : P_arc(start, middle, end),bb(NULL)
+    : P_arc(start, middle, end),bb(nullptr)
   {}
 
   Filtered_bbox_circular_arc_2_base(const Point_2 &begin,
                                     const Point_2 &end,
                                     const FT &bulge) 
-    : P_arc(begin, end, bulge),bb(NULL)
+    : P_arc(begin, end, bulge),bb(nullptr)
   {}
 
   Filtered_bbox_circular_arc_2_base(const Circle_2 &support,
                                     const Circular_arc_point_2 &begin,
                                     const Circular_arc_point_2 &end)
-    : P_arc(support, begin, end),bb(NULL) 
+    : P_arc(support, begin, end),bb(nullptr) 
   {}
 
   Filtered_bbox_circular_arc_2_base(const Self &c) 
-    : P_arc(c), bb(c.bb ? new Bbox_2(*(c.bb)) : NULL)
+    : P_arc(c), bb(c.bb ? new Bbox_2(*(c.bb)) : nullptr)
   {}
 
   Filtered_bbox_circular_arc_2_base& operator=(const Self& c)
@@ -795,10 +795,10 @@ public:
     if(this != &c)
     {
       this->P_arc::operator=(c);
-      if (bb != NULL){
+      if (bb != nullptr){
         delete bb;
       }
-      bb = c.bb ? new Bbox_2(*(c.bb)) : NULL;
+      bb = c.bb ? new Bbox_2(*(c.bb)) : nullptr;
     }
     return *this;
   }
@@ -807,7 +807,7 @@ public:
 
   Bbox_2 bbox() const
   { 
-    if(bb==NULL)
+    if(bb==nullptr)
       bb=new Bbox_2(CGAL::CircularFunctors::circular_arc_bbox<CK>(*this));
     return *bb;
   }
@@ -815,7 +815,7 @@ public:
 			
   ///Specific check used for bbox construction///
   bool has_no_bbox() const
-  { return (bb==NULL);}
+  { return (bb==nullptr);}
 		
 private:
   mutable Bbox_2 *bb;

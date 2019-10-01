@@ -16,8 +16,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/STL_Extension/include/CGAL/Threetuple.h $
-// $Id: Threetuple.h 0698f79 %aI Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/STL_Extension/include/CGAL/Threetuple.h $
+// $Id: Threetuple.h 124012d %aI Sébastien Loriot
 // SPDX-License-Identifier: LGPL-3.0+
 // 
 //
@@ -29,7 +29,7 @@
 #include <CGAL/config.h>
 
 #define CGAL_DEPRECATED_HEADER "<CGAL/Threetuple.h>"
-#define CGAL_DEPRECATED_MESSAGE_DETAILS "Please use `CGAL::cpp11::array` instead."
+#define CGAL_DEPRECATED_MESSAGE_DETAILS "Please use `std::array` instead."
 #include <CGAL/internal/deprecation_warning.h>
 
 #ifndef CGAL_NO_DEPRECATED_CODE

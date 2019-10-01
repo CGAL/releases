@@ -13,8 +13,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Classification/include/CGAL/Classification/Planimetric_grid.h $
-// $Id: Planimetric_grid.h 1265179 %aI Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Classification/include/CGAL/Classification/Planimetric_grid.h $
+// $Id: Planimetric_grid.h 4581f1b %aI Andreas Fabri
 // SPDX-License-Identifier: GPL-3.0+
 //
 // Author(s)     : Simon Giraudot, Florent Lafarge
@@ -215,7 +215,7 @@ public:
                     const Iso_cuboid_3& bbox,
                     float grid_resolution)
     : m_points (&input), m_point_map (point_map)
-    , m_bbox (bbox), m_resolution (grid_resolution), m_lower_scale(NULL), m_current_scale(0)
+    , m_bbox (bbox), m_resolution (grid_resolution), m_lower_scale(nullptr), m_current_scale(0)
   {
     m_width = (std::size_t)((bbox.xmax() - bbox.xmin()) / grid_resolution) + 1;
     m_height = (std::size_t)((bbox.ymax() - bbox.ymin()) / grid_resolution) + 1;
@@ -349,7 +349,7 @@ public:
   */
   std::size_t x(std::size_t index) const
   {
-    if (m_lower_scale == NULL)
+    if (m_lower_scale == nullptr)
     {
       const Point_3& p = get(m_point_map, *(m_points->begin()+index));
       return (std::size_t)((p.x() - m_bbox.xmin()) / m_resolution);
@@ -363,7 +363,7 @@ public:
   */
   std::size_t y(std::size_t index) const
   {
-    if (m_lower_scale == NULL)
+    if (m_lower_scale == nullptr)
     {
       const Point_3& p = get(m_point_map, *(m_points->begin()+index));
       return (std::size_t)((p.y() - m_bbox.ymin()) / m_resolution);

@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Minkowski_sum_2/include/CGAL/Minkowski_sum_2/Minkowski_sum_conv_2.h $
-// $Id: Minkowski_sum_conv_2.h 8cdfad0 %aI Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Minkowski_sum_2/include/CGAL/Minkowski_sum_2/Minkowski_sum_conv_2.h $
+// $Id: Minkowski_sum_conv_2.h 4581f1b %aI Andreas Fabri
 // SPDX-License-Identifier: GPL-3.0+
 //
 // Author(s) : Ron Wein   <wein_r@yahoo.com>
@@ -142,9 +142,9 @@ public:
   ~Minkowski_sum_by_convolution_2()
   {
     if (m_own_kernel) {
-      if (m_kernel != NULL) {
+      if (m_kernel != nullptr) {
         delete m_kernel;
-        m_kernel = NULL;
+        m_kernel = nullptr;
       }
       m_own_kernel = false;
     }

@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Spatial_searching/include/CGAL/Weighted_Minkowski_distance.h $
-// $Id: Weighted_Minkowski_distance.h ee57fc2 %aI Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Spatial_searching/include/CGAL/Weighted_Minkowski_distance.h $
+// $Id: Weighted_Minkowski_distance.h 124012d %aI Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0+
 // 
 //
@@ -45,7 +45,7 @@ namespace CGAL {
       };
     template<class T, int D>
       struct Array_or_vector_selector<T, Dimension_tag<D> > {
-	typedef cpp11::array<T,D> type;
+	typedef std::array<T,D> type;
 	static void resize(type&, std::size_t CGAL_assertion_code(d)) { CGAL_assertion(d==D); }
       };
   }

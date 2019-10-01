@@ -14,8 +14,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Mesh_3/include/CGAL/IO/output_to_vtu.h $
-// $Id: output_to_vtu.h 7db6b5e %aI Laurent Rineau
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Mesh_3/include/CGAL/IO/output_to_vtu.h $
+// $Id: output_to_vtu.h c0ba28f %aI Laurent Rineau
 // SPDX-License-Identifier: GPL-3.0+
 //
 // Author(s)     : Laurent RINEAU, Stephane Tayeb, Maxime Gimeno
@@ -33,7 +33,6 @@
 #include <CGAL/IO/io.h>
 #include <CGAL/IO/write_vtk.h>
 #include <boost/variant.hpp>
-#include <boost/type_traits/is_floating_point.hpp>
 
 //todo try to factorize with functors
 namespace CGAL{
@@ -234,7 +233,7 @@ write_attribute_tag(std::ostream& os,
 {
   std::string format = binary ? "appended" : "ascii";
   std::string type = "";
-  if(boost::is_floating_point<T>::value)
+  if(std::is_floating_point<T>::value)
   {
     type = (sizeof(T) == 8) ? "Float64" : "Float32";
   }

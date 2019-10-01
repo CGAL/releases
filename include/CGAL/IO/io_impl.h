@@ -16,8 +16,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Stream_support/include/CGAL/IO/io_impl.h $
-// $Id: io_impl.h 0698f79 %aI Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Stream_support/include/CGAL/IO/io_impl.h $
+// $Id: io_impl.h 2559b79 %aI Laurent Rineau
 // SPDX-License-Identifier: LGPL-3.0+
 //
 //
@@ -29,7 +29,6 @@
 #define CGAL_INLINE_FUNCTION
 #endif
 
-#include <CGAL/basic.h>
 #include <CGAL/assertions.h>
 
 #include <sstream>

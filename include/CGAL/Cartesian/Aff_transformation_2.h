@@ -16,8 +16,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Cartesian_kernel/include/CGAL/Cartesian/Aff_transformation_2.h $
-// $Id: Aff_transformation_2.h 23d701c %aI Maxime Gimeno
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Cartesian_kernel/include/CGAL/Cartesian/Aff_transformation_2.h $
+// $Id: Aff_transformation_2.h 2540184 %aI Maxime Gimeno
 // SPDX-License-Identifier: LGPL-3.0+
 // 
 //
@@ -37,6 +37,7 @@ template < class R > class Aff_transformation_repC2;
 template < class R > class Translation_repC2;
 template < class R > class Rotation_repC2;
 template < class R > class Scaling_repC2;
+template < class R > class Reflection_repC2;
 
 } //namespace CGAL
 
@@ -44,6 +45,7 @@ template < class R > class Scaling_repC2;
 #include <CGAL/Cartesian/Translation_rep_2.h>
 #include <CGAL/Cartesian/Rotation_rep_2.h>
 #include <CGAL/Cartesian/Scaling_rep_2.h>
+#include <CGAL/Cartesian/Reflection_rep_2.h>
 
 namespace CGAL {
 
@@ -107,6 +109,11 @@ public:
     else
       initialize_with(Scaling_repC2<R>(s));
   }
+  
+  Aff_transformationC2(const Reflection, const Line_2& l)
+  {
+      initialize_with(Reflection_repC2<R>(l));
+  }
 
   // The general case:
   // a 3x2 matrix for the operations combining rotation, scaling, translation
@@ -128,6 +135,7 @@ public:
   {
     initialize_with(Aff_transformation_repC2<R>(m11/w, m12/w, m21/w, m22/w));
   }
+  
 
   Point_2
   transform(const Point_2 &p) const 

@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/NewKernel_d/include/CGAL/NewKernel_d/Types/Aff_transformation.h $
-// $Id: Aff_transformation.h 0698f79 %aI Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/NewKernel_d/include/CGAL/NewKernel_d/Types/Aff_transformation.h $
+// $Id: Aff_transformation.h 530238d %aI Marc Glisse
 // SPDX-License-Identifier: LGPL-3.0+
 //
 // Author(s)     : Marc Glisse
@@ -36,21 +36,8 @@ template<class R_> struct Construct_aff_transformation {
   CGAL_FUNCTOR_INIT_IGNORE(Construct_aff_transformation)
   typedef R_ R;
   typedef typename Get_type<R, Aff_transformation_tag>::type result_type;
-#ifdef CGAL_CXX11
   template<class...T>
   result_type operator()(T&&...)const{return result_type();}
-#else
-  result_type operator()()const{
-    return result_type();
-  }
-#define CGAL_CODE(Z,N,_) template<BOOST_PP_ENUM_PARAMS(N,class U)> \
-  result_type operator()(BOOST_PP_ENUM_BINARY_PARAMS(N,U,const& BOOST_PP_INTERCEPT))const{ \
-    return result_type(); \
-  }
-  BOOST_PP_REPEAT_FROM_TO(1, 9, CGAL_CODE, _ )
-#undef CGAL_CODE
-
-#endif
 };
 }
 CGAL_KD_DEFAULT_TYPE(Aff_transformation_tag,(CGAL::Aff_transformation<K>),(),());

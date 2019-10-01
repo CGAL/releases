@@ -16,8 +16,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Number_types/include/CGAL/float.h $
-// $Id: float.h 26c857a %aI Mael Rouxel-Labbé
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Number_types/include/CGAL/float.h $
+// $Id: float.h f95533f %aI Sébastien Loriot
 // SPDX-License-Identifier: LGPL-3.0+
 //
 //
@@ -124,10 +124,8 @@ public:
           Type f = x;
           IEEE_754_float* p = reinterpret_cast<IEEE_754_float*>(&f);
           return is_finite_by_mask_float( p->c );
-#elif !defined CGAL_CFG_NO_CPP0X_ISFINITE
-          return std::isfinite(x);
 #else
-          return (x == x) && (is_valid(x-x));
+          return std::isfinite(x);
 #endif
         }
     };

@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Point_set_2/include/CGAL/Point_set_2.h $
-// $Id: Point_set_2.h ee57fc2 %aI Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Point_set_2/include/CGAL/Point_set_2.h $
+// $Id: Point_set_2.h e2d19b0 %aI Andreas Fabri
 // SPDX-License-Identifier: GPL-3.0+
 // 
 //
@@ -126,7 +126,7 @@ public:
 
    Vertex_handle lookup(Point p) const
    { 
-     if (number_of_vertices() == 0) return NULL;   
+     if (number_of_vertices() == 0) return nullptr;   
      
      // locate ...
      Locate_type lt;
@@ -137,20 +137,20 @@ public:
         Face f = *fh;
 	return f.vertex(li);
      }
-     else return NULL;
+     else return nullptr;
    }
 
 
    Vertex_handle  nearest_neighbor(Point p)
     {
-     if (number_of_vertices() == 0) return NULL;
+     if (number_of_vertices() == 0) return nullptr;
      return nearest_vertex(p);
    }
      
 
    Vertex_handle  nearest_neighbor(Vertex_handle v) const
    {
-     if (number_of_vertices() <= 1) return NULL;    
+     if (number_of_vertices() <= 1) return nullptr;    
      Point p = v->point();
      
      Vertex_circulator vc = incident_vertices(v);
@@ -196,7 +196,7 @@ public:
     bool old_node = true;
     
     // we have to add a new vertex ...
-    if (vh == NULL){
+    if (vh == nullptr){
       vh = insert(p);
       old_node = false;
       k++;
@@ -379,7 +379,7 @@ public:
      Vertex_handle v = lookup(p);  
      bool new_v = false;     
 
-     if ( v == NULL )
+     if ( v == nullptr )
      { 
        new_v = true;
        v = insert(p); 

@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Arrangement_on_surface_2/include/CGAL/Arr_geometry_traits/Conic_x_monotone_arc_2.h $
-// $Id: Conic_x_monotone_arc_2.h ee57fc2 %aI Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Arrangement_on_surface_2/include/CGAL/Arr_geometry_traits/Conic_x_monotone_arc_2.h $
+// $Id: Conic_x_monotone_arc_2.h 4581f1b %aI Andreas Fabri
 // SPDX-License-Identifier: GPL-3.0+
 //
 //
@@ -522,7 +522,7 @@ public:
     }
     else if (this->_orient == COLLINEAR)
     {
-      CGAL_assertion (this->_extra_data_P != NULL);
+      CGAL_assertion (this->_extra_data_P != nullptr);
 
       // In this case the equation of the supporting line is given by the
       // extra data structure.

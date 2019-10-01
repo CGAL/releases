@@ -16,8 +16,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Homogeneous_kernel/include/CGAL/Homogeneous/PlaneH3.h $
-// $Id: PlaneH3.h 0698f79 %aI Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Homogeneous_kernel/include/CGAL/Homogeneous/PlaneH3.h $
+// $Id: PlaneH3.h 124012d %aI Sébastien Loriot
 // SPDX-License-Identifier: LGPL-3.0+
 // 
 //
@@ -45,7 +45,7 @@ class PlaneH3
    typedef typename R_::Plane_3              Plane_3;
    typedef typename R_::Aff_transformation_3 Aff_transformation_3;
 
-   typedef cpp11::array<RT, 4>               Rep;
+   typedef std::array<RT, 4>               Rep;
    typedef typename R_::template Handle<Rep>::type  Base;
 
    Base base;
@@ -120,7 +120,7 @@ protected:
 //      |  q.hx()   q.hy()  q.hz()  q.hw()  |
 //      |  r.hx()   r.hy()  r.hz()  r.hw()  |
 //
-//  cpp11::array<RT, 4> ( a(), b(), c(), d() )
+//  std::array<RT, 4> ( a(), b(), c(), d() )
 
 template < class R >
 inline

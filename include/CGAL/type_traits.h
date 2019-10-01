@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/STL_Extension/include/CGAL/type_traits.h $
-// $Id: type_traits.h 0698f79 %aI Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/STL_Extension/include/CGAL/type_traits.h $
+// $Id: type_traits.h ffce89c %aI Sébastien Loriot
 // SPDX-License-Identifier: LGPL-3.0+
 //
 // Author(s)     : Andreas Meyer
@@ -36,20 +36,5 @@ struct is_same_or_derived :
 {};
 
 }
-
-#if !defined(BOOST_NO_CXX11_HDR_TYPE_TRAITS) && !defined(BOOST_NO_0X_HDR_TYPE_TRAITS)
-#include <type_traits>
-namespace CGAL {
-namespace cpp11{
-  using std::is_enum;
-} }
-#else
-#include <boost/type_traits/is_enum.hpp>
-namespace CGAL {
-namespace cpp11 {
-  using boost::is_enum;
-}
-}
-#endif
 
 #endif // CGAL_TYPE_TRAITS_H

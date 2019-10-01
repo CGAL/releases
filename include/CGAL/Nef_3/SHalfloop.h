@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Nef_3/include/CGAL/Nef_3/SHalfloop.h $
-// $Id: SHalfloop.h ee57fc2 %aI Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Nef_3/include/CGAL/Nef_3/SHalfloop.h $
+// $Id: SHalfloop.h 4581f1b %aI Andreas Fabri
 // SPDX-License-Identifier: GPL-3.0+
 // 
 //
@@ -115,11 +115,11 @@ class SHalfloop_base {
       verr << "begin CGAL::SNC_items<...>::SHalfloop_base::is_valid( verb=true, "
 	"level = " << level << "):" << std::endl;
 
-      bool valid = (twin_  != SHalfloop_handle() && twin_  != NULL);
+      bool valid = (twin_  != SHalfloop_handle() && twin_  != nullptr);
       valid = valid && (incident_sface_ != SFace_handle() && 
-			incident_sface_ != NULL);
+			incident_sface_ != nullptr);
       valid = valid && (facet_ != Halffacet_handle() &&
-			facet_ != NULL);
+			facet_ != nullptr);
       valid = valid && (circle_.d() == 0);
       valid = valid && (circle_.a() != 0 || circle_.b() != 0 || circle_.c() !=0);
       

@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/NewKernel_d/include/CGAL/NewKernel_d/Wrapper/Weighted_point_d.h $
-// $Id: Weighted_point_d.h 21d53cd %aI Sebastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/NewKernel_d/include/CGAL/NewKernel_d/Wrapper/Weighted_point_d.h $
+// $Id: Weighted_point_d.h cde8190 %aI Marc Glisse
 // SPDX-License-Identifier: LGPL-3.0+
 //
 // Author(s)     : Marc Glisse
@@ -29,10 +29,6 @@
 #include <boost/type_traits.hpp>
 #include <CGAL/Kernel/Return_base_tag.h>
 #include <CGAL/Dimension.h>
-#ifndef CGAL_CXX11
-#include <boost/preprocessor/repetition.hpp>
-#endif
-#include <boost/utility/result_of.hpp>
 
 namespace CGAL {
 namespace Wrap {
@@ -70,7 +66,6 @@ public:
 
   typedef          R_                       R;
 
-#ifdef CGAL_CXX11
   template<class...U,class=typename std::enable_if<!std::is_same<std::tuple<typename std::decay<U>::type...>,std::tuple<Weighted_point_d> >::value>::type> explicit Weighted_point_d(U&&...u)
 	  : Rep(CWPBase()(std::forward<U>(u)...)){}
 
@@ -92,30 +87,6 @@ public:
   Weighted_point_d(Rep& v) : Rep(static_cast<Rep const&>(v)) {}
   Weighted_point_d(Rep&& v) : Rep(std::move(v)) {}
 
-#else
-
-  Weighted_point_d() : Rep(CWPBase()()) {}
-
-  Weighted_point_d(Rep const& v) : Rep(v) {} // try not to use it
-
-#define CGAL_CODE(Z,N,_) template<BOOST_PP_ENUM_PARAMS(N,class T)> \
-  explicit Weighted_point_d(BOOST_PP_ENUM_BINARY_PARAMS(N,T,const&t)) \
-  : Rep(CWPBase()( \
-	BOOST_PP_ENUM_PARAMS(N,t))) {} \
-  \
-  template<class F,BOOST_PP_ENUM_PARAMS(N,class T)> \
-  Weighted_point_d(Eval_functor,F const& f,BOOST_PP_ENUM_BINARY_PARAMS(N,T,const&t)) \
-  : Rep(f(BOOST_PP_ENUM_PARAMS(N,t))) {}
-  /*
-  template<BOOST_PP_ENUM_PARAMS(N,class T)> \
-  Point_d(Eval_functor,BOOST_PP_ENUM_BINARY_PARAMS(N,T,const&t)) \
-  : Rep(Eval_functor(), BOOST_PP_ENUM_PARAMS(N,t)) {}
-  */
-
-  BOOST_PP_REPEAT_FROM_TO(1,11,CGAL_CODE,_)
-#undef CGAL_CODE
-
-#endif
 
   //TODO: use references?
   Point_ point()const{

@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Arrangement_on_surface_2/include/CGAL/Arr_naive_point_location.h $
-// $Id: Arr_naive_point_location.h 18acb2e %aI Andreas Fabri
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Arrangement_on_surface_2/include/CGAL/Arr_naive_point_location.h $
+// $Id: Arr_naive_point_location.h 4581f1b %aI Andreas Fabri
 // SPDX-License-Identifier: GPL-3.0+
 // 
 //
@@ -78,9 +78,9 @@ protected:
 public:
   /*! Default constructor. */
   Arr_naive_point_location() : 
-    p_arr(NULL),
-    geom_traits(NULL),
-    top_traits(NULL)
+    p_arr(nullptr),
+    geom_traits(nullptr),
+    top_traits(nullptr)
   {}
         
   /*! Constructor given an arrangement. */
@@ -101,9 +101,9 @@ public:
   /*! Detach from the current arrangement object. */
   void detach()
   {
-    p_arr = NULL;
-    geom_traits = NULL;
-    top_traits = NULL;
+    p_arr = nullptr;
+    geom_traits = nullptr;
+    top_traits = nullptr;
   }
  
   /*!

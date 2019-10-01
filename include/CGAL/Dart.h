@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Combinatorial_map/include/CGAL/Dart.h $
-// $Id: Dart.h 0698f79 %aI Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Combinatorial_map/include/CGAL/Dart.h $
+// $Id: Dart.h f62624c %aI Sébastien Loriot
 // SPDX-License-Identifier: LGPL-3.0+
 //
 // Author(s)     : Guillaume Damiand <guillaume.damiand@liris.cnrs.fr>
@@ -186,7 +186,7 @@ namespace CGAL {
     {
       CGAL_static_assertion_msg(Helper::template Dimension_index<i>::value>=0,
                      "attribute<i> called but i-attributes are disabled.");
-      return CGAL::cpp11::get<Helper::template Dimension_index<i>::value>
+      return std::get<Helper::template Dimension_index<i>::value>
         (mattribute_handles);
     }
     template<int i>
@@ -194,7 +194,7 @@ namespace CGAL {
     {
       CGAL_static_assertion_msg(Helper::template Dimension_index<i>::value>=0,
                      "attribute<i> called but i-attributes are disabled.");
-      return CGAL::cpp11::get<Helper::template Dimension_index<i>::value>
+      return std::get<Helper::template Dimension_index<i>::value>
         (mattribute_handles);
     }
 
@@ -299,7 +299,7 @@ namespace CGAL {
     {
       CGAL_static_assertion_msg(Helper::template Dimension_index<i>::value>=0,
                      "attribute<i> called but i-attributes are disabled.");
-      return CGAL::cpp11::get<Helper::template Dimension_index<i>::value>
+      return std::get<Helper::template Dimension_index<i>::value>
         (mattribute_handles);
     }
     template<int i>
@@ -307,7 +307,7 @@ namespace CGAL {
     {
       CGAL_static_assertion_msg(Helper::template Dimension_index<i>::value>=0,
                      "attribute<i> called but i-attributes are disabled.");
-      return CGAL::cpp11::get<Helper::template Dimension_index<i>::value>
+      return std::get<Helper::template Dimension_index<i>::value>
         (mattribute_handles);
     }
   };

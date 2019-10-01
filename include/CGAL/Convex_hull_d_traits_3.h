@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Convex_hull_d/include/CGAL/Convex_hull_d_traits_3.h $
-// $Id: Convex_hull_d_traits_3.h 01af331 %aI Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Convex_hull_d/include/CGAL/Convex_hull_d_traits_3.h $
+// $Id: Convex_hull_d_traits_3.h 6425345 %aI Maxime Gimeno
 // SPDX-License-Identifier: GPL-3.0+
 // 
 //
@@ -38,6 +38,7 @@
 #include <CGAL/predicates_on_points_3.h>
 #include <CGAL/intersection_3.h>
 #include <vector>
+#include <CGAL/use.h>
 
 namespace CGAL {
 
@@ -62,6 +63,9 @@ template <class R_> struct Convex_hull_d_traits_3
   struct Orientation_d {
     template <class I>
     Orientation operator()(I s, I e) {
+
+      CGAL_USE(e);
+
       Point_d A[4];
       CGAL_assertion(s != e);
       A[0] = *s;

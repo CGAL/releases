@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Partition_2/include/CGAL/Partition_2/Rotation_tree_2.h $
-// $Id: Rotation_tree_2.h b33ab79 %aI Andreas Fabri
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Partition_2/include/CGAL/Partition_2/Rotation_tree_2.h $
+// $Id: Rotation_tree_2.h a22bc68 %aI Andreas Fabri
 // SPDX-License-Identifier: GPL-3.0+
 // 
 //
@@ -57,6 +57,7 @@ public:
    typedef typename Traits::Point_2                Point_2;
 
    using internal::vector< Rotation_tree_node_2<Traits_> >::push_back;
+      using internal::vector< Rotation_tree_node_2<Traits_> >::back;
 
    class Greater {
       typename Traits::Less_xy_2 less;
@@ -70,24 +71,33 @@ public:
       }
    };
 
+   struct Equal {
+      bool operator()(const Point_2& p, const Point_2& q) const
+      {
+         return p == q;
+      }
+   };
+   
    // constructor
    template<class ForwardIterator>
-   Rotation_tree_2(ForwardIterator first, ForwardIterator beyond)
+   Rotation_tree_2(ForwardIterator first, ForwardIterator beyond, const Traits& traits)
    {
       for (ForwardIterator it = first; it != beyond; it++)
          push_back(*it);
 
-      Greater greater (Traits().less_xy_2_object());
+      Greater greater (traits.less_xy_2_object());
+      Equal equal;
       std::sort(this->begin(), this->end(), greater);
-      std::unique(this->begin(), this->end());
+      std::unique(this->begin(), this->end(),equal);
    
       // front() is the point with the largest x coordinate
-   
+
+      // Add two auxiliary points that have a special role and whose coordinates are not used
       // push the point p_minus_infinity; the coordinates should never be used
-      push_back(Point_2( 1, -1));
+      push_back(back());
 
       // push the point p_infinity; the coordinates should never be used
-      push_back(Point_2(1, 1));
+      push_back(back());
    
       _p_inf = this->end();  // record the iterators to these extreme points
       _p_inf--;

@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Straight_skeleton_2/include/CGAL/Straight_skeleton_2/debug.h $
-// $Id: debug.h ee57fc2 %aI Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Straight_skeleton_2/include/CGAL/Straight_skeleton_2/debug.h $
+// $Id: debug.h e2d19b0 %aI Andreas Fabri
 // SPDX-License-Identifier: GPL-3.0+
 // 
 // Author(s)     : Fernando Cacciola <fernando_cacciola@ciudad.com.ar>
@@ -68,7 +68,7 @@ inline std::string ptr2str( boost::intrusive_ptr<T> const& ptr )
   std::ostringstream ss ; ss << std::setprecision(19)  ;
   if ( ptr )
        ss << *ptr ;
-  else ss << "·NULL·" ;
+  else ss << "·nullptr·" ;
   return ss.str();
 }
 

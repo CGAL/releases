@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Arrangement_on_surface_2/include/CGAL/IO/Fig_stream.h $
-// $Id: Fig_stream.h ee57fc2 %aI Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Arrangement_on_surface_2/include/CGAL/IO/Fig_stream.h $
+// $Id: Fig_stream.h 4581f1b %aI Andreas Fabri
 // SPDX-License-Identifier: GPL-3.0+
 // 
 // Author(s)     : Ron Wein           <wein@post.tau.ac.il>
@@ -514,7 +514,7 @@ public:
   }
 
   /*!
-   * Get the arrow drawing mode (this mode is relevent when drawing segments,
+   * Get the arrow drawing mode (this mode is relevant when drawing segments,
    * polylines, circular arcs or splines).
    */
   Fig_arrow_mode arrow_mode () const
@@ -1128,7 +1128,7 @@ public:
   {
     CGAL_precondition (_ofile.is_open());
 
-    if (text == NULL || strlen(text) == 0)
+    if (text == nullptr || strlen(text) == 0)
       return;
 
     _write_text (pos, 

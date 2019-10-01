@@ -34,8 +34,8 @@
  *      - Added SymmetricLinearSolverTraits
  *      - copied Jacobi preconditioner from Graphite 1.9 code
  *
- * $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/OpenNL/include/CGAL/OpenNL/linear_solver.h $
- * $Id: linear_solver.h 8cdfad0 %aI Sébastien Loriot
+ * $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/OpenNL/include/CGAL/OpenNL/linear_solver.h $
+ * $Id: linear_solver.h 4581f1b %aI Andreas Fabri
  * SPDX-License-Identifier: LGPL-3.0+
  */
 
@@ -228,9 +228,9 @@ public:
         least_squares_ = false ;
         nb_variables_ = nb_variables ;
         variable_ = new Variable[nb_variables] ;
-        A_ = NULL ;
-        x_ = NULL ;
-        b_ = NULL ;
+        A_ = nullptr ;
+        x_ = nullptr ;
+        b_ = nullptr ;
     }
 
     ~LinearSolver() {
@@ -392,9 +392,9 @@ public:
 
         transition(CONSTRUCTED, SOLVED) ;
 
-        delete A_ ; A_ = NULL ;
-        delete b_ ; b_ = NULL ;
-        delete x_ ; x_ = NULL ;
+        delete A_ ; A_ = nullptr ;
+        delete b_ ; b_ = nullptr ;
+        delete x_ ; x_ = nullptr ;
 
         return success;
     }

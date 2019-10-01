@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Arrangement_on_surface_2/include/CGAL/Arr_non_caching_segment_traits_2.h $
-// $Id: Arr_non_caching_segment_traits_2.h 18acb2e %aI Andreas Fabri
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Arrangement_on_surface_2/include/CGAL/Arr_non_caching_segment_traits_2.h $
+// $Id: Arr_non_caching_segment_traits_2.h 4581f1b %aI Andreas Fabri
 // SPDX-License-Identifier: GPL-3.0+
 //
 // Author(s)     : Efi Fogel    <efif@post.tau.ac.il>
@@ -241,7 +241,7 @@ public:
       // Chack if the intersection is a point:
       const Point_2             *ip;
 
-      if ((ip = object_cast<Point_2> (&res)) != NULL)
+      if ((ip = object_cast<Point_2> (&res)) != nullptr)
       {
         // Create a pair representing the point with its multiplicity,
         // which is always 1 for line segments for all practical purposes.
@@ -257,7 +257,7 @@ public:
         // The intersection is a segment.
 
         const X_monotone_curve_2 *ov = object_cast<X_monotone_curve_2>(&res);
-        CGAL_assertion (ov != NULL);
+        CGAL_assertion (ov != nullptr);
 
         Self self;
         Comparison_result cmp1 = self.compare_endpoints_xy_2_object()(cv1);

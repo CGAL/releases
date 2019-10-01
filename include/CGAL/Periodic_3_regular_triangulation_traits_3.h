@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Periodic_3_triangulation_3/include/CGAL/Periodic_3_regular_triangulation_traits_3.h $
-// $Id: Periodic_3_regular_triangulation_traits_3.h adfdc70 %aI Mael Rouxel-Labbé
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Periodic_3_triangulation_3/include/CGAL/Periodic_3_regular_triangulation_traits_3.h $
+// $Id: Periodic_3_regular_triangulation_traits_3.h a2d5ab8 %aI Mael Rouxel-Labbé
 // SPDX-License-Identifier: GPL-3.0+
 //
 //
@@ -77,7 +77,7 @@ public:
   typedef Functor_with_offset_weighted_points_adaptor_3<Self, typename Kernel::Compare_power_distance_3>
       Compare_power_distance_3;
 
-  // Undocumented, requried for Is_Gabriel (Alpha shapes)
+  // Undocumented, required for Is_Gabriel (Alpha shapes)
   typedef Functor_with_offset_weighted_points_adaptor_3<Self, typename Kernel::Power_side_of_bounded_power_sphere_3>
       Power_side_of_bounded_power_sphere_3;
 

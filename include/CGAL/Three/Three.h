@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Three/include/CGAL/Three/Three.h $
-// $Id: Three.h 6c6244d %aI Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Three/include/CGAL/Three/Three.h $
+// $Id: Three.h 4581f1b %aI Andreas Fabri
 // SPDX-License-Identifier: GPL-3.0+
 //
 //
@@ -28,6 +28,7 @@
 #include <QObject>
 #include <QDockWidget>
 #include <CGAL/Three/Scene_interface.h>
+#include <CGAL/Three/Viewer_interface.h>
 #include <QMainWindow>
 #include <QApplication>
 
@@ -46,6 +47,10 @@ public:
   Three();
   virtual ~Three(){}
   static QMainWindow* mainWindow();
+  static Viewer_interface* mainViewer();
+  static Viewer_interface* currentViewer();
+  static void setCurrentViewer(CGAL::Three::Viewer_interface* viewer);
+  static Viewer_interface* activeViewer();
   static Scene_interface* scene();
   static QObject* connectableScene();
   static RenderingMode defaultSurfaceMeshRenderingMode();
@@ -65,7 +70,7 @@ public:
   /*! \brief Gets an item of the templated type.
    * \returns the first `SceneType` item found in the scene's list of currently selected 
    * items;
-   * \returns NULL if there is no `SceneType` in the list.
+   * \returns nullptr if there is no `SceneType` in the list.
    */
   template<class SceneType>
   static SceneType* getSelectedItem();
@@ -88,6 +93,8 @@ public:
   static void error(QString);
 protected:
   static QMainWindow* s_mainwindow;
+  static Viewer_interface* s_mainviewer;
+  static Viewer_interface* s_currentviewer;
   static Scene_interface* s_scene;
   static QObject* s_connectable_scene;
   static Three* s_three;

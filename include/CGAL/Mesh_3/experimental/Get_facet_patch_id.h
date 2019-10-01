@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Mesh_3/include/CGAL/Mesh_3/experimental/Get_facet_patch_id.h $
-// $Id: Get_facet_patch_id.h 8c41669 %aI Andreas Fabri
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Mesh_3/include/CGAL/Mesh_3/experimental/Get_facet_patch_id.h $
+// $Id: Get_facet_patch_id.h 6795d4f %aI Maxime Gimeno
 // SPDX-License-Identifier: GPL-3.0+
 //
 //
@@ -122,9 +122,9 @@ get(const Get_facet_patch_id_sm<MeshDomain>,
        typename MeshDomain::Polyhedron,
        face_patch_id_t<typename MeshDomain::Patch_id> >::type Fpim;
   Fpim fpim = get(face_patch_id_t<typename MeshDomain::Patch_id>(),
-                  *(primitive_id.graph));
+                  *(primitive_id.second));
   typename MeshDomain::Patch_id patch_index = get(fpim,
-                                                  primitive_id.face_descriptor);
+                                                  primitive_id.first);
   return patch_index;
 }
 }} // end namespace CGAL::Mesh_3

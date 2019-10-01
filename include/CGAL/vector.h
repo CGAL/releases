@@ -16,8 +16,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/STL_Extension/include/CGAL/vector.h $
-// $Id: vector.h f0c1d3a %aI Andreas Fabri
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/STL_Extension/include/CGAL/vector.h $
+// $Id: vector.h c0edb5e %aI Sébastien Loriot
 // SPDX-License-Identifier: LGPL-3.0+
 // 
 //
@@ -158,19 +158,11 @@ public:
     // Note: the standard requires the following types to be equivalent
     // to T, T*, const T*, T&, const T&, size_t, and ptrdiff_t, respectively.
     // So we don't pass these types to the iterators explicitly.
-#ifdef CGAL_CXX11
   typedef typename std::allocator_traits<Allocator>::value_type            value_type;
   typedef typename std::allocator_traits<Allocator>::pointer               pointer;
   typedef typename std::allocator_traits<Allocator>::const_pointer         const_pointer;
   typedef typename std::allocator_traits<Allocator>::size_type             size_type;
   typedef typename std::allocator_traits<Allocator>::difference_type       difference_type;
-#else
-    typedef typename Allocator::value_type           value_type;
-    typedef typename Allocator::pointer              pointer;
-    typedef typename Allocator::const_pointer        const_pointer;
-    typedef typename Allocator::size_type            size_type;
-    typedef typename Allocator::difference_type      difference_type;
-#endif
 
     typedef value_type&                              reference;
     typedef const value_type&                        const_reference;
@@ -193,19 +185,11 @@ protected:
 
     // ALLOCATION AND CONSTRUCTION HELPERS
     void construct( iterator i, const T& x) {
-#ifdef CGAL_CXX11
       std::allocator_traits<Allocator>::construct(alloc,&*i, x);
-#else
-      alloc.construct(&*i, x);
-#endif
     }
   
     void destroy( iterator i) {
-#ifdef CGAL_CXX11
       std::allocator_traits<Allocator>::destroy(alloc,&*i);
-#else
-      alloc.destroy( &*i);
-#endif
     }
   
     void destroy( iterator first, iterator last) {

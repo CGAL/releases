@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/BGL/include/CGAL/boost/graph/Euler_operations.h $
-// $Id: Euler_operations.h c697c20 %aI Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/BGL/include/CGAL/boost/graph/Euler_operations.h $
+// $Id: Euler_operations.h d60f564 %aI Sébastien Loriot
 // SPDX-License-Identifier: LGPL-3.0+
 // 
 //
@@ -785,7 +785,7 @@ void fill_hole(typename boost::graph_traits<Graph>::halfedge_descriptor h,
   typedef typename Traits::halfedge_descriptor halfedge_descriptor;
 
   face_descriptor f = add_face(g);
-  BOOST_FOREACH(halfedge_descriptor hd, halfedges_around_face(h,g)){
+  for(halfedge_descriptor hd : halfedges_around_face(h,g)){
     set_face(hd, f,g);
   }
   set_halfedge(f,h,g);

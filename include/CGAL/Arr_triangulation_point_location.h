@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Arrangement_on_surface_2/include/CGAL/Arr_triangulation_point_location.h $
-// $Id: Arr_triangulation_point_location.h 18acb2e %aI Andreas Fabri
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Arrangement_on_surface_2/include/CGAL/Arr_triangulation_point_location.h $
+// $Id: Arr_triangulation_point_location.h 983645a %aI Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0+
 //
 // Author(s)     : Idit Haran   <haranidi@post.tau.ac.il>
@@ -129,7 +129,7 @@ protected:
 public:
   /*! Default constructor. */
   Arr_triangulation_point_location() :
-    m_traits(NULL),
+    m_traits(nullptr),
     m_ignore_notifications(false),
     m_ignore_remove_edge(false)
   {}
@@ -371,6 +371,8 @@ public:
       build_triangulation();
     }
   }
+
+  // @}
 
 protected:
   /*! Locate the arrangement feature containing the given point in the

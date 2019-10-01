@@ -16,8 +16,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Circulator/include/CGAL/Circulator/Circulator_concepts.h $
-// $Id: Circulator_concepts.h 0698f79 %aI Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Circulator/include/CGAL/Circulator/Circulator_concepts.h $
+// $Id: Circulator_concepts.h 4581f1b %aI Andreas Fabri
 // SPDX-License-Identifier: LGPL-3.0+
 //
 //
@@ -72,8 +72,8 @@ struct ForwardCirculator
     BOOST_CONCEPT_ASSERT((boost::SignedInteger<difference_type>)) CGAL_UNUSED;
     BOOST_CONCEPT_ASSERT((boost::Convertible<iterator_category, CGAL::Forward_circulator_tag>)) CGAL_UNUSED;
     
-    boost::require_boolean_expr(a == NULL);
-    boost::require_boolean_expr(a != NULL);
+    boost::require_boolean_expr(a == nullptr);
+    boost::require_boolean_expr(a != nullptr);
     ++a;
     a++;
     (void)*a; // suppress unused warning, don't check the return type

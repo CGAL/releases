@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Arrangement_on_surface_2/include/CGAL/Arr_geometry_traits/Bezier_x_monotone_2.h $
-// $Id: Bezier_x_monotone_2.h 8cdfad0 %aI Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Arrangement_on_surface_2/include/CGAL/Arr_geometry_traits/Bezier_x_monotone_2.h $
+// $Id: Bezier_x_monotone_2.h 2848158 %aI Mael Rouxel-Labbé
 // SPDX-License-Identifier: GPL-3.0+
 //
 // Author(s)     : Ron Wein     <wein@post.tau.ac.il>
@@ -590,7 +590,7 @@ private:
    * \param cache Caches the vertical tangency points and intersection points.
    * \param ipts Output: A vector of intersection points + multiplicities.
    * \param ovlp_cv Output: An overlapping subcurve (if exists).
-   * \return Whether an overlap has occured.
+   * \return Whether an overlap has occurred.
    */
   bool _intersect (const Self& cv,
                    Intersection_map& inter_map,
@@ -1488,14 +1488,14 @@ bool _Bezier_x_monotone_2<RatKer, AlgKer, NtTrt, BndTrt>::_is_in_range
 
   if ((p_gt_ps && p_lt_pt) || (p_lt_ps && p_gt_pt))
   {
-    // The point p is definately in the x-range of the subcurve, as its
+    // The point p is definitely in the x-range of the subcurve, as its
     // parameter is between the source and target parameters.
     return (true);
   }
 
   if ((p_lt_ps && p_lt_pt) || (p_gt_ps && p_gt_pt))
   {
-    // The point p is definately not in the x-range of the subcurve,
+    // The point p is definitely not in the x-range of the subcurve,
     // as its parameter is smaller than both source and target parameter
     // (or greater than both of them).
     return (false);
@@ -1562,14 +1562,14 @@ bool _Bezier_x_monotone_2<RatKer, AlgKer, NtTrt, BndTrt>::_is_in_range
 
     if ((p_gt_ps && p_lt_pt) || (p_lt_ps && p_gt_pt))
     {
-      // The point p is definately in the x-range of the subcurve, as its
+      // The point p is definitely in the x-range of the subcurve, as its
       // parameter is between the source and target parameters.
       return (true);
     }
 
     if ((p_lt_ps && p_lt_pt) || (p_gt_ps && p_gt_pt))
     {
-      // The point p is definately not in the x-range of the subcurve,
+      // The point p is definitely not in the x-range of the subcurve,
       // as its parameter is smaller than both source and target parameter
       // (or greater than both of them).
       return (false);

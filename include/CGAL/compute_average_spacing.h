@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Point_set_processing_3/include/CGAL/compute_average_spacing.h $
-// $Id: compute_average_spacing.h 2f81a21 %aI Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Point_set_processing_3/include/CGAL/compute_average_spacing.h $
+// $Id: compute_average_spacing.h 25a05e9 %aI Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0+
 //
 // Author(s) : Pierre Alliez and Laurent Saboret
@@ -31,7 +31,7 @@
 #include <CGAL/property_map.h>
 #include <CGAL/point_set_processing_assertions.h>
 #include <CGAL/assertions.h>
-#include <CGAL/function.h>
+#include <functional>
 
 #include <CGAL/boost/graph/Named_function_parameters.h>
 #include <CGAL/boost/graph/named_params_helper.h>
@@ -40,7 +40,7 @@
 #include <list>
 
 #ifdef CGAL_LINKED_WITH_TBB
-#include <CGAL/internal/Parallel_callback.h>
+#include <CGAL/Point_set_processing_3/internal/Parallel_callback.h>
 #include <tbb/parallel_for.h>
 #include <tbb/blocked_range.h>
 #include <tbb/scalable_allocator.h>
@@ -173,7 +173,7 @@ compute_average_spacing(const typename Kernel::Point_3& query, ///< 3D point who
      \cgalParamBegin{point_map} a model of `ReadablePropertyMap` with value type `geom_traits::Point_3`.
      If this parameter is omitted, `CGAL::Identity_property_map<geom_traits::Point_3>` is used.\cgalParamEnd
      \cgalParamBegin{callback} an instance of
-      `cpp11::function<bool(double)>`. It is called regularly when the
+      `std::function<bool(double)>`. It is called regularly when the
       algorithm is running: the current advancement (between 0. and
       1.) is passed as parameter. If it returns `true`, then the
       algorithm continues its execution normally; if it returns
@@ -211,8 +211,8 @@ compute_average_spacing(
   typedef typename Kernel::Point_3 Point;
 
   PointMap point_map = choose_parameter(get_parameter(np, internal_np::point_map), PointMap());
-  const cpp11::function<bool(double)>& callback = choose_parameter(get_parameter(np, internal_np::callback),
-                                                               cpp11::function<bool(double)>());
+  const std::function<bool(double)>& callback = choose_parameter(get_parameter(np, internal_np::callback),
+                                                                 std::function<bool(double)>());
   
   // types for K nearest neighbors search structure
   typedef typename Kernel::FT FT;
@@ -246,7 +246,7 @@ compute_average_spacing(
 #else
    if (boost::is_convertible<ConcurrencyTag,Parallel_tag>::value)
    {
-     internal::Point_set_processing_3::Parallel_callback
+     Point_set_processing_3::internal::Parallel_callback
        parallel_callback (callback, kd_tree_points.size());
      
      std::vector<FT> spacings (kd_tree_points.size (), -1);
@@ -297,65 +297,6 @@ compute_average_spacing(
   return compute_average_spacing<ConcurrencyTag>
     (points, k, CGAL::Point_set_processing_3::parameters::all_default(points));
 }
-
-
-#ifndef CGAL_NO_DEPRECATED_CODE
-// deprecated API
-template <typename ConcurrencyTag,
-	  typename InputIterator,
-          typename PointMap,
-          typename Kernel
->
-CGAL_DEPRECATED_MSG("you are using the deprecated V1 API of CGAL::compute_average_spacing(), please update your code")
-typename Kernel::FT
-compute_average_spacing(
-  InputIterator first,  ///< iterator over the first input point.
-  InputIterator beyond, ///< past-the-end iterator over the input points.
-  PointMap point_map, ///< property map: value_type of InputIterator -> Point_3
-  unsigned int k, ///< number of neighbors.
-  const Kernel& /*kernel*/) ///< geometric traits.
-{
-  return compute_average_spacing<ConcurrencyTag>(
-    CGAL::make_range (first,beyond),
-    k,
-    CGAL::parameters::point_map (point_map).geom_traits (Kernel()));
-}
-
-  
-
-// deprecated API
-template <typename ConcurrencyTag,
-	  typename InputIterator,
-          typename PointMap
->
-CGAL_DEPRECATED_MSG("you are using the deprecated V1 API of CGAL::compute_average_spacing(), please update your code")
-typename Kernel_traits<typename boost::property_traits<PointMap>::value_type>::Kernel::FT
-compute_average_spacing(
-  InputIterator first,    ///< iterator over the first input point.
-  InputIterator beyond,   ///< past-the-end iterator over the input points.
-  PointMap point_map, ///< property map: value_type of InputIterator -> Point_3
-  unsigned int k) ///< number of neighbors
-{
-  return compute_average_spacing<ConcurrencyTag>(
-    CGAL::make_range (first,beyond),
-    k,
-    CGAL::parameters::point_map (point_map));
-}
-
-// deprecated API
-template < typename ConcurrencyTag, typename InputIterator >
-typename Kernel_traits<typename std::iterator_traits<InputIterator>::value_type>::Kernel::FT
-CGAL_DEPRECATED_MSG("you are using the deprecated V1 API of CGAL::compute_average_spacing(), please update your code")
-compute_average_spacing(
-  InputIterator first,    ///< iterator over the first input point.
-  InputIterator beyond,   ///< past-the-end iterator over the input points.
-  unsigned int k) ///< number of neighbors.
-{
-  return compute_average_spacing<ConcurrencyTag>(
-    CGAL::make_range (first,beyond), k);
-}
-#endif // CGAL_NO_DEPRECATED_CODE
-  
 /// \endcond
 
 

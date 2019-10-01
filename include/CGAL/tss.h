@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Installation/include/CGAL/tss.h $
-// $Id: tss.h 0698f79 %aI Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Installation/include/CGAL/tss.h $
+// $Id: tss.h 2ce7800 %aI Laurent Rineau
 // SPDX-License-Identifier: LGPL-3.0+
 
 #ifndef CGAL_TSS_H
@@ -22,63 +22,21 @@
 #include <CGAL/config.h>
 
 #if defined( CGAL_HAS_THREADS )
-#  ifdef  CGAL_CAN_USE_CXX11_THREAD_LOCAL
-//#    pragma message ( "Use keyword thread_local" )
-#  else
-//#    pragma message ("Use thread_local from boost")
-#    define CGAL_USE_BOOST_THREAD
-#    include <boost/thread/tss.hpp>
-#  endif
 
+#  define CGAL_STATIC_THREAD_LOCAL_VARIABLE_0(TYPE, VAR)       \
+  static thread_local TYPE VAR
 
-#  ifdef CGAL_USE_BOOST_THREAD
-#    define CGAL_STATIC_THREAD_LOCAL_USE_BOOST 1
+#  define CGAL_STATIC_THREAD_LOCAL_VARIABLE(TYPE, VAR, ARG1)       \
+  static thread_local TYPE VAR(ARG1)
 
-#    define CGAL_STATIC_THREAD_LOCAL_VARIABLE_0(TYPE, VAR)               \
-       static boost::thread_specific_ptr<TYPE> VAR##_ptr;                   \
-       if(VAR##_ptr.get() == NULL) {VAR##_ptr.reset(new TYPE());} \
-       TYPE& VAR =  * VAR##_ptr.get()
-
-#    define CGAL_STATIC_THREAD_LOCAL_VARIABLE(TYPE, VAR, ARG1)               \
-       static boost::thread_specific_ptr<TYPE> VAR##_ptr;                   \
-       if(VAR##_ptr.get() == NULL) {VAR##_ptr.reset(new TYPE(ARG1));} \
-       TYPE& VAR =  * VAR##_ptr.get()
-
-#    define CGAL_STATIC_THREAD_LOCAL_VARIABLE_2(TYPE, VAR, ARG1, ARG2)       \
-       static boost::thread_specific_ptr<TYPE> VAR##_ptr;                   \
-       if(VAR##_ptr.get() == NULL) {VAR##_ptr.reset(new TYPE(ARG1,ARG2));}  \
-       TYPE& VAR =  * VAR##_ptr.get()
-
-#    define CGAL_STATIC_THREAD_LOCAL_VARIABLE_3(TYPE, VAR, ARG1, ARG2, ARG3)    \
-       static boost::thread_specific_ptr<TYPE> VAR##_ptr;                       \
-       if(VAR##_ptr.get() == NULL) {VAR##_ptr.reset(new TYPE(ARG1,ARG2,ARG3));} \
-       TYPE& VAR =  * VAR##_ptr.get()
-
-#    define CGAL_STATIC_THREAD_LOCAL_VARIABLE_4(TYPE, VAR, ARG1, ARG2, ARG3, ARG4)   \
-       static boost::thread_specific_ptr<TYPE> VAR##_ptr;                            \
-       if(VAR##_ptr.get() == NULL) {VAR##_ptr.reset(new TYPE(ARG1,ARG2,ARG3,ARG4));} \
-       TYPE& VAR =  * VAR##_ptr.get()
-
-
-
-#  else // not CGAL_USE_BOOST_THREAD, -> use C++11 thread_local
-
-#    define CGAL_STATIC_THREAD_LOCAL_VARIABLE_0(TYPE, VAR)       \
-       static thread_local TYPE VAR
-
-#    define CGAL_STATIC_THREAD_LOCAL_VARIABLE(TYPE, VAR, ARG1)       \
-       static thread_local TYPE VAR(ARG1)
-
-#    define CGAL_STATIC_THREAD_LOCAL_VARIABLE_2(TYPE, VAR, ARG1, ARG2)       \
+#  define CGAL_STATIC_THREAD_LOCAL_VARIABLE_2(TYPE, VAR, ARG1, ARG2)       \
   static thread_local TYPE VAR(ARG1,ARG2)
 
-#    define CGAL_STATIC_THREAD_LOCAL_VARIABLE_3(TYPE, VAR, ARG1, ARG2, ARG3) \
+#  define CGAL_STATIC_THREAD_LOCAL_VARIABLE_3(TYPE, VAR, ARG1, ARG2, ARG3) \
   static thread_local TYPE VAR(ARG1,ARG2,ARG3)
 
-#    define CGAL_STATIC_THREAD_LOCAL_VARIABLE_4(TYPE, VAR, ARG1, ARG2, ARG3, ARG4) \
+#  define CGAL_STATIC_THREAD_LOCAL_VARIABLE_4(TYPE, VAR, ARG1, ARG2, ARG3, ARG4) \
   static thread_local TYPE VAR(ARG1,ARG2,ARG3,ARG4)
-
-#  endif // not CGAL_USE_BOOST_THREAD
 
 #else // not CGAL_HAS_THREADS
 

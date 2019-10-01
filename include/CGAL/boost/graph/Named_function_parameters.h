@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/BGL/include/CGAL/boost/graph/Named_function_parameters.h $
-// $Id: Named_function_parameters.h 17df9b5 %aI Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/BGL/include/CGAL/boost/graph/Named_function_parameters.h $
+// $Id: Named_function_parameters.h 67ce5dd %aI Sébastien Loriot
 // SPDX-License-Identifier: LGPL-3.0+
 //
 //
@@ -231,7 +231,6 @@ bool is_default_parameter(const T&)
 
 } //namespace CGAL
 
-#ifndef CGAL_CFG_NO_CPP0X_DEFAULT_TEMPLATE_ARGUMENTS_FOR_FUNCTION_TEMPLATES
 // code added to avoid silent runtime issues in non-updated code
 namespace boost
 {
@@ -241,6 +240,5 @@ namespace boost
     CGAL_static_assertion(B && "You must use CGAL::parameters::get_parameter instead of boost::get_param");
   }
 }
-#endif
 
 #endif // CGAL_BOOST_GRAPH_NAMED_FUNCTION_PARAMS_HPP

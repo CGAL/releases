@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Algebraic_kernel_d/include/CGAL/Algebraic_kernel_d/LRU_hashed_map.h $
-// $Id: LRU_hashed_map.h 4c2b278 %aI Andreas Fabri
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Algebraic_kernel_d/include/CGAL/Algebraic_kernel_d/LRU_hashed_map.h $
+// $Id: LRU_hashed_map.h 983645a %aI Sébastien Loriot
 // SPDX-License-Identifier: LGPL-3.0+
 // 
 //
@@ -283,9 +283,6 @@ public:
 
 
 protected:
-    //!\name private members
-    //!@{
-
     
     Algebraic_kernel_with_analysis_2* _m_kernel;
 
@@ -309,6 +306,7 @@ public:
     //! specified key was found
     typedef typename Base::Find_result Find_result;
     
+    //!@}
 
     //!\name constructors and access functions
     //!@{
@@ -342,6 +340,8 @@ public:
         }
         return (p.first)->second;
     }
+    
+    //!@}
 
 }; // class LRU_hashed_map_with_kernel
 

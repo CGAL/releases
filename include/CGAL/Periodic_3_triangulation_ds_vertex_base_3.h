@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Periodic_3_triangulation_3/include/CGAL/Periodic_3_triangulation_ds_vertex_base_3.h $
-// $Id: Periodic_3_triangulation_ds_vertex_base_3.h 75e3107 %aI Mael Rouxel-Labbé
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Periodic_3_triangulation_3/include/CGAL/Periodic_3_triangulation_ds_vertex_base_3.h $
+// $Id: Periodic_3_triangulation_ds_vertex_base_3.h 2848158 %aI Mael Rouxel-Labbé
 // SPDX-License-Identifier: GPL-3.0+
 //
 //
@@ -107,7 +107,7 @@ public:
   // it will have been marked as already visited, and bugs appear...
 #ifdef CGAL_PERIODIC_TRIANGULATION_USE_VISITED_VERTEX_BOOLEAN
   // The typedef and the bool are used by Triangulation_data_structure::Vertex_extractor
-  // The names are choosen complicated so that we do not have to document them
+  // The names are chosen complicated so that we do not have to document them
   // (privacy by obfuscation)
   typedef bool Has_visited_for_vertex_extractor;
   bool visited_for_vertex_extractor;

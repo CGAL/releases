@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/AABB_tree/include/CGAL/internal/AABB_tree/AABB_traversal_traits.h $
-// $Id: AABB_traversal_traits.h ee57fc2 %aI Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/AABB_tree/include/CGAL/internal/AABB_tree/AABB_traversal_traits.h $
+// $Id: AABB_traversal_traits.h 1d908c1 %aI Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0+
 //
 //
@@ -78,11 +78,7 @@ class First_intersection_traits
 
 public:
   typedef
-  #if CGAL_INTERSECTION_VERSION < 2
-  boost::optional<Object_and_primitive_id> 
-  #else
   boost::optional< typename AABBTraits::template Intersection_and_primitive_id<Query>::Type >
-  #endif
   Result;
 public:
   First_intersection_traits(const AABBTraits& traits)
@@ -137,11 +133,7 @@ public:
 
   void intersection(const Query& query, const Primitive& primitive)
   {
-    #if CGAL_INTERSECTION_VERSION < 2
-    boost::optional<Object_and_primitive_id>
-    #else
     boost::optional< typename AABBTraits::template Intersection_and_primitive_id<Query>::Type >
-    #endif
     intersection = m_traits.intersection_object()(query, primitive);
 
     if(intersection)

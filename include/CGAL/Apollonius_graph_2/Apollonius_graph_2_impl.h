@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Apollonius_graph_2/include/CGAL/Apollonius_graph_2/Apollonius_graph_2_impl.h $
-// $Id: Apollonius_graph_2_impl.h a6c528c %aI Mael Rouxel-Labbé
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Apollonius_graph_2/include/CGAL/Apollonius_graph_2/Apollonius_graph_2_impl.h $
+// $Id: Apollonius_graph_2_impl.h 8535a3c %aI Laurent Rineau
 // SPDX-License-Identifier: GPL-3.0+
 // 
 //
@@ -689,7 +689,7 @@ insert(const Site_2& p, Vertex_handle vnear)
   // LIST OF FLIPPED EDGES AND WHAT IS DOES IS INITIALIZE THE CONFLICT 
   // REGION AND EXPANDS THE CONFLICT REGION.
   initialize_conflict_region(start_f, l);
-  expand_conflict_region(start_f, p, l, fm, vm, NULL);
+  expand_conflict_region(start_f, p, l, fm, vm, nullptr);
 
   //  retriangulate_conflict_region(v, l, fm, vm);
   Vertex_handle v = retriangulate_conflict_region(p, l, fm, vm);
@@ -882,7 +882,7 @@ expand_conflict_region(const Face_handle& in_f,
 
       l.remove(e);
 
-      if ( fe != NULL )
+      if ( fe != nullptr )
       {
         Vh_triple* vhq = new Vh_triple[1];
 

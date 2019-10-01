@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Mesh_3/include/CGAL/Mesh_3/Lloyd_move.h $
-// $Id: Lloyd_move.h c28e05b %aI Mael Rouxel-Labbé
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Mesh_3/include/CGAL/Mesh_3/Lloyd_move.h $
+// $Id: Lloyd_move.h 2848158 %aI Mael Rouxel-Labbé
 // SPDX-License-Identifier: GPL-3.0+
 //
 //
@@ -204,8 +204,8 @@ private:
       {
         const Vertex_handle& v1 = (*cit)->vertex((k+i)&3);
 
-        std::pair<VC_it, bool> is_insert_succesful = treated_vertices.insert(v1);
-        if ( ! is_insert_succesful.second ) // vertex has already been treated
+        std::pair<VC_it, bool> is_insert_successful = treated_vertices.insert(v1);
+        if ( ! is_insert_successful.second ) // vertex has already been treated
           continue;
 
         // Vertex has not been treated: turn around edge(v,v1)

@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Arrangement_on_surface_2/include/CGAL/Curved_kernel_via_analysis_2/gfx/Curve_renderer_internals.h $
-// $Id: Curve_renderer_internals.h ff26773 %aI Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Arrangement_on_surface_2/include/CGAL/Curved_kernel_via_analysis_2/gfx/Curve_renderer_internals.h $
+// $Id: Curve_renderer_internals.h 4581f1b %aI Andreas Fabri
 // SPDX-License-Identifier: LGPL-3.0+
 //
 // Author(s)     : Pavel Emeliyanenko <asm@mpi-sb.mpg.de>
@@ -321,11 +321,11 @@ public:
     
     //! \brief evalutates a polynomial at certain x-coordinate
     static NT evaluate(const Poly_1& poly, const NT& x, 
-        bool *error_bounds_ = NULL)
+        bool *error_bounds_ = nullptr)
     {
         typename Renderer_traits::Extract_eval extract;
         int n = poly.degree()+1, m = (n-1)>>1, odd = n&1;
-        if(error_bounds_ != NULL)
+        if(error_bounds_ != nullptr)
             *error_bounds_ = false;
         if(n == 1)
             return extract(poly.lcoeff(), error_bounds_);
@@ -479,7 +479,7 @@ bool setup(const CGAL::Bbox_2& box_, int res_w_, int res_h_)
     pixel_w = (x_max - x_min) / res_w;
     pixel_h = (y_max - y_min) / res_h;
 
-    //srand(time(NULL));
+    //srand(time(nullptr));
     // from 0.1 to 0.5
     double rmin = 0.1, rmax = 0.5;
     NT sx = pixel_w * static_cast<NT>(rmin + 

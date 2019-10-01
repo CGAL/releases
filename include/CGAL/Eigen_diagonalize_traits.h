@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Solver_interface/include/CGAL/Eigen_diagonalize_traits.h $
-// $Id: Eigen_diagonalize_traits.h 1dd7473 %aI albert-github
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Solver_interface/include/CGAL/Eigen_diagonalize_traits.h $
+// $Id: Eigen_diagonalize_traits.h db65bd8 %aI Sébastien Loriot
 // SPDX-License-Identifier: LGPL-3.0+
 //
 // Author(s) : Jocelyn Meyron and Quentin Mérigot
@@ -57,9 +57,9 @@ template <typename FT, unsigned int dim = 3>
 class Eigen_diagonalize_traits
 {
 public:
-  typedef cpp11::array<FT, dim>                  Vector;
-  typedef cpp11::array<FT, dim*dim>              Matrix;
-  typedef cpp11::array<FT, (dim * (dim+1) / 2)>  Covariance_matrix;
+  typedef std::array<FT, dim>                  Vector;
+  typedef std::array<FT, dim*dim>              Matrix;
+  typedef std::array<FT, (dim * (dim+1) / 2)>  Covariance_matrix;
 
 private:
   typedef Eigen::Matrix<FT, dim, dim>            EigenMatrix;

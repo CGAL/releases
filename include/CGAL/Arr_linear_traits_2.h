@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Arrangement_on_surface_2/include/CGAL/Arr_linear_traits_2.h $
-// $Id: Arr_linear_traits_2.h 18acb2e %aI Andreas Fabri
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Arrangement_on_surface_2/include/CGAL/Arr_linear_traits_2.h $
+// $Id: Arr_linear_traits_2.h 4581f1b %aI Andreas Fabri
 // SPDX-License-Identifier: GPL-3.0+
 //
 //
@@ -1519,7 +1519,7 @@ public:
       // Check whether we have a single intersection point.
       const Point_2  *ip = object_cast<Point_2> (&obj);
 
-      if (ip != NULL)
+      if (ip != nullptr)
       {
         // Check whether the intersection point ip lies on both segments.
         const bool    ip_on_cv1 = cv1.is_vertical() ? cv1.is_in_y_range(*ip) :

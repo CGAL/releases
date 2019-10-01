@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Combinatorial_map/include/CGAL/Cell_attribute.h $
-// $Id: Cell_attribute.h 0698f79 %aI Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Combinatorial_map/include/CGAL/Cell_attribute.h $
+// $Id: Cell_attribute.h 4581f1b %aI Andreas Fabri
 // SPDX-License-Identifier: LGPL-3.0+
 //
 // Author(s)     : Guillaume Damiand <guillaume.damiand@liris.cnrs.fr>
@@ -278,7 +278,7 @@ namespace CGAL {
     void set_dart(Dart_handle adart) { mdart = adart; }
 
     /// Test if the cell is valid.
-    /// A cell is valid if its dart is not NULL.
+    /// A cell is valid if its dart is not nullptr.
     bool is_valid() const
     { return mdart!=Refs::null_handle; }
 

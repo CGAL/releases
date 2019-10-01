@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Convex_hull_2/include/CGAL/Convex_hull_2/ch_graham_andrew_impl.h $
-// $Id: ch_graham_andrew_impl.h ee57fc2 %aI Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Convex_hull_2/include/CGAL/Convex_hull_2/ch_graham_andrew_impl.h $
+// $Id: ch_graham_andrew_impl.h ce126b8 %aI Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0+
 // 
 //
@@ -52,7 +52,7 @@ ch_graham_andrew_scan( BidirectionalIterator first,
   BidirectionalIterator              beta;
   BidirectionalIterator              iter;
   CGAL_ch_precondition( first != last );
-  CGAL_ch_precondition( cpp11::next(first) != last );
+  CGAL_ch_precondition( std::next(first) != last );
 
   --last;
   CGAL_ch_precondition( *first != *last );
@@ -146,7 +146,7 @@ ch__ref_graham_andrew_scan( BidirectionalIterator first,
   BidirectionalIterator              beta;
   BidirectionalIterator              iter;
   CGAL_ch_precondition( first != last );
-  CGAL_ch_precondition( cpp11::next(first) != last );
+  CGAL_ch_precondition( std::next(first) != last );
 
   --last;
   CGAL_ch_precondition(! equal_points(*first,*last) );

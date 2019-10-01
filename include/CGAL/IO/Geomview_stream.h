@@ -16,8 +16,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Geomview/include/CGAL/IO/Geomview_stream.h $
-// $Id: Geomview_stream.h 0698f79 %aI Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Geomview/include/CGAL/IO/Geomview_stream.h $
+// $Id: Geomview_stream.h 4581f1b %aI Andreas Fabri
 // SPDX-License-Identifier: LGPL-3.0+
 // 
 //
@@ -49,8 +49,8 @@ namespace CGAL {
 class CGAL_EXPORT Geomview_stream {
 public:
     Geomview_stream(const Bbox_3 &bbox = Bbox_3(0,0,0, 1,1,1),
-		    const char *machine = NULL,
-		    const char *login = NULL);
+		    const char *machine = nullptr,
+		    const char *login = nullptr);
 
     ~Geomview_stream();
 

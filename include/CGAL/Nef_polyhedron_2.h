@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Nef_2/include/CGAL/Nef_polyhedron_2.h $
-// $Id: Nef_polyhedron_2.h fa92aa4 %aI Andreas Fabri
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Nef_2/include/CGAL/Nef_polyhedron_2.h $
+// $Id: Nef_polyhedron_2.h 6425345 %aI Maxime Gimeno
 // SPDX-License-Identifier: GPL-3.0+
 // 
 //
@@ -38,6 +38,7 @@
 #include <CGAL/Nef_2/PM_overlayer.h>
 #include <CGAL/Nef_2/PM_point_locator.h>
 #include <CGAL/Nef_2/Bounding_box_2.h>
+#include <CGAL/use.h>
 #include <vector>
 #include <list>
 
@@ -454,6 +455,7 @@ public:
 		   Polygons, Operation op = JOIN) : Base(Nef_rep()) { 
 
     CGAL_assertion(op==JOIN);
+    CGAL_USE(op);
 
     typedef typename std::iterator_traits<Forward_iterator>::value_type
       iterator_pair;
@@ -946,7 +948,7 @@ public:
   converted to a |Vertex_/Halfedge_/Face_const_handle| as described
   above. The object returned is intersected by the ray starting in |p|
   with direction |d| and has minimal distance to |p|.  The operation
-  returns the null handle |NULL| if the ray shoot along |d| does not hit
+  returns the null handle |nullptr| if the ray shoot along |d| does not hit
   any object |h| of |\Mvar| with |\Mvar.contains(h)|. The location mode
   flag |m| allows one to choose between different point location
   strategies.}*/
@@ -986,7 +988,7 @@ public:
   |Vertex_/Halfedge_const_handle| as described above. The object
   returned is part of the $1$-skeleton of |\Mvar|, intersected by the
   ray starting in |p| with direction |d| and has minimal distance to
-  |p|.  The operation returns the null handle |NULL| if the ray shoot
+  |p|.  The operation returns the null handle |nullptr| if the ray shoot
   along |d| does not hit any $1$-skeleton object |h| of |\Mvar|. The
   location mode flag |m| allows one to choose between different point
   location strategies.}*/

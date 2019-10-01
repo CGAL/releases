@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Partition_2/include/CGAL/polygon_function_objects.h $
-// $Id: polygon_function_objects.h ee57fc2 %aI Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Partition_2/include/CGAL/polygon_function_objects.h $
+// $Id: polygon_function_objects.h 804184b %aI Andreas Fabri
 // SPDX-License-Identifier: GPL-3.0+
 // 
 //
@@ -47,28 +47,28 @@ template <class Traits>
 class Is_convex_2
 {
   public:
-     Is_convex_2(Traits t): traits(t) {}
+     Is_convex_2(const Traits& t): traits(t) {}
   
      template <class ForwardIterator>
      bool operator()(ForwardIterator first, ForwardIterator last)
      {  return is_convex_2(first, last, traits); }
 
   private:
-     Traits  traits;
+     const Traits& traits;
 };
 
 template <class Traits>
 class Is_y_monotone_2
 {
   public:
-     Is_y_monotone_2(Traits t): traits(t) {}
+     Is_y_monotone_2(const Traits& t): traits(t) {}
   
      template <class ForwardIterator>
      bool operator()(ForwardIterator first, ForwardIterator last)
      {  return is_y_monotone_2(first, last, traits); }
 
   private:
-     Traits  traits;
+     const Traits& traits;
 };
 
 }

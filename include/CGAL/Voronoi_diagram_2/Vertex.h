@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Voronoi_diagram_2/include/CGAL/Voronoi_diagram_2/Vertex.h $
-// $Id: Vertex.h ee57fc2 %aI Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Voronoi_diagram_2/include/CGAL/Voronoi_diagram_2/Vertex.h $
+// $Id: Vertex.h e2d19b0 %aI Andreas Fabri
 // SPDX-License-Identifier: GPL-3.0+
 // 
 //
@@ -66,7 +66,7 @@ class Vertex
 
   // CONSTRUCTORS
   //-------------
-  Vertex(const VDA* vda = NULL) : vda_(vda) {}
+  Vertex(const VDA* vda = nullptr) : vda_(vda) {}
   Vertex(const VDA* vda, Delaunay_face_handle f) : vda_(vda), f_(f) {
     CGAL_precondition( !vda_->dual().is_infinite(f_) );
   }
@@ -183,7 +183,7 @@ class Vertex
   // VALIDITY TESTING
   //-----------------
   bool is_valid() const {
-    if ( vda_ == NULL ) { return true; }
+    if ( vda_ == nullptr ) { return true; }
 
     bool valid = !vda_->dual().is_infinite(f_);
 
@@ -218,8 +218,8 @@ class Vertex
   // COMPARISON OPERATORS
   //---------------------
   bool operator==(const Self& other) const {
-    if ( vda_ == NULL ) { return other.vda_ == NULL; }
-    if ( other.vda_ == NULL ) { return vda_ == NULL; }
+    if ( vda_ == nullptr ) { return other.vda_ == nullptr; }
+    if ( other.vda_ == nullptr ) { return vda_ == nullptr; }
     return ( vda_ == other.vda_ && f_ == other.f_ );
   }
 
@@ -228,8 +228,8 @@ class Vertex
   }
 
   bool operator<(const Self& other) const {
-    if ( vda_ == NULL ) { return other.vda_ != NULL; }
-    if ( other.vda_ == NULL ) { return false; }
+    if ( vda_ == nullptr ) { return other.vda_ != nullptr; }
+    if ( other.vda_ == nullptr ) { return false; }
     if ( vda_ != other.vda_ ) { return vda_ < other.vda_; }
     return f_ < other.f_;
   }

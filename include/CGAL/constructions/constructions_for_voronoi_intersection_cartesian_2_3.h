@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Interpolation/include/CGAL/constructions/constructions_for_voronoi_intersection_cartesian_2_3.h $
-// $Id: constructions_for_voronoi_intersection_cartesian_2_3.h ee57fc2 %aI Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Interpolation/include/CGAL/constructions/constructions_for_voronoi_intersection_cartesian_2_3.h $
+// $Id: constructions_for_voronoi_intersection_cartesian_2_3.h a676b75 %aI Marc Glisse
 // SPDX-License-Identifier: GPL-3.0+
 //
 //
@@ -83,11 +83,11 @@ plane_centered_circumcenterC3(const RT &ax, const RT &ay, const RT &az,
   //precondition: p,q,r aren't collinear.
   //method:
   // - tranlation of p to the origin.
-  plane_centered_circumcenter_translateC3(ax-px, ay-py, az-pz,
-                                          nx, ny, nz,
-                                          qx-px, qy-py,qz-pz,
-                                          rx-px, ry-py,rz-pz,
-                                          x, y, z);
+  plane_centered_circumcenter_translateC3<RT>(ax-px, ay-py, az-pz,
+                                              nx, ny, nz,
+                                              qx-px, qy-py,qz-pz,
+                                              rx-px, ry-py,rz-pz,
+                                              x, y, z);
   x+=px;
   y+=py;
   z+=pz;

@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Partition_2/include/CGAL/Partition_2/partition_optimal_convex_2.h $
-// $Id: partition_optimal_convex_2.h f2391a3 %aI Laurent Rineau
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Partition_2/include/CGAL/Partition_2/partition_optimal_convex_2.h $
+// $Id: partition_optimal_convex_2.h ca161c5 %aI Andreas Fabri
 // SPDX-License-Identifier: GPL-3.0+
 // 
 //
@@ -457,7 +457,7 @@ void partition_opt_cvx_preprocessing(Polygon& polygon,
     typedef typename Traits::Point_2                      Point_2;
     typedef std::pair<Point_2, Point_2>                   Point_pair;
 
-    Vis_graph graph(polygon.begin(), polygon.end());
+    Vis_graph graph(polygon.begin(), polygon.end(), traits);
 
     size_type prev_i, i, next_i, next_next_i;
     size_type prev_j, j, next_j;
@@ -528,7 +528,7 @@ OutputIterator partition_optimal_convex_2(InputIterator first,
    Tee_for_output_iterator<OutputIterator, Polygon_2>      res(result);
 #endif // no postconditions
 
-   P_Polygon_2 polygon(first, beyond);
+   P_Polygon_2 polygon(first, beyond,traits);
    CGAL_partition_precondition(
     orientation_2(polygon.begin(), polygon.end(), traits) == COUNTERCLOCKWISE);
 

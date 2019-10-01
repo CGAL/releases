@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Mesh_3/include/CGAL/Mesh_3/Mesher_3.h $
-// $Id: Mesher_3.h 4ab183a %aI Laurent Rineau
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Mesh_3/include/CGAL/Mesh_3/Mesher_3.h $
+// $Id: Mesher_3.h aa339ce %aI Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0+
 //
 //
@@ -230,7 +230,7 @@ public:
   ~Mesher_3() 
   {
     // The lock data structure is going to be destroyed
-    r_c3t3_.triangulation().set_lock_data_structure(NULL);
+    r_c3t3_.triangulation().set_lock_data_structure(nullptr);
   }
 
   /// Launch mesh refinement

@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Segment_Delaunay_graph_2/include/CGAL/Segment_Delaunay_graph_simple_site_2.h $
-// $Id: Segment_Delaunay_graph_simple_site_2.h ee57fc2 %aI Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Segment_Delaunay_graph_2/include/CGAL/Segment_Delaunay_graph_simple_site_2.h $
+// $Id: Segment_Delaunay_graph_simple_site_2.h 6425345 %aI Maxime Gimeno
 // SPDX-License-Identifier: GPL-3.0+
 // 
 //
@@ -34,6 +34,7 @@
 #include <CGAL/Segment_Delaunay_graph_2/basic.h>
 
 #include <CGAL/Segment_Delaunay_graph_2/Constructions_C2.h>
+#include <CGAL/use.h>
 
 namespace CGAL {
 
@@ -141,11 +142,13 @@ public:
   }
 
   const Point_2& source_of_crossing_site(unsigned int i) const {
+    CGAL_USE(i);
     CGAL_precondition( is_segment() && !is_input(i) );
     return p_[0];
   }
 
   const Point_2& target_of_crossing_site(unsigned int i) const {
+    CGAL_USE(i);
     CGAL_precondition( is_segment() && !is_input(i) );
     return p_[0];
   }

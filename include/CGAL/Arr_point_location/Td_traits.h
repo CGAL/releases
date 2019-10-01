@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Arrangement_on_surface_2/include/CGAL/Arr_point_location/Td_traits.h $
-// $Id: Td_traits.h ee57fc2 %aI Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Arrangement_on_surface_2/include/CGAL/Arr_point_location/Td_traits.h $
+// $Id: Td_traits.h 2848158 %aI Mael Rouxel-Labbé
 // SPDX-License-Identifier: GPL-3.0+
 // 
 //
@@ -719,7 +719,7 @@ public:
                        m_traits->construct_min_vertex_2_object()( ce2.cv()) :
                        m_traits->construct_max_vertex_2_object()( ce2.cv())  ),
                        ce1.cv(),  ce1.ce());
-          //need to return the opposite because the function recieved 
+          //need to return the opposite because the function received 
           // the curve ends in a reverse order 
           if (res != EQUAL)
             return (res == SMALLER) ? LARGER : SMALLER;

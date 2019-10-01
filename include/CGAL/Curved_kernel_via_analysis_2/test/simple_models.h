@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Arrangement_on_surface_2/include/CGAL/Curved_kernel_via_analysis_2/test/simple_models.h $
-// $Id: simple_models.h 26c857a %aI Mael Rouxel-Labbé
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Arrangement_on_surface_2/include/CGAL/Curved_kernel_via_analysis_2/test/simple_models.h $
+// $Id: simple_models.h 983645a %aI Sébastien Loriot
 // SPDX-License-Identifier: LGPL-3.0+
 //
 //
@@ -486,6 +486,8 @@ public:
     Status_line_CA_1(Rep rep) : 
         Base(rep) {  
     }
+    
+    //!@}
     
     Algebraic_real_1 x() const {
         return Algebraic_real_1();
@@ -1019,6 +1021,8 @@ public:
     //! type of Coordinate_2
     typedef Algebraic_real_2 Coordinate_2;
 
+    //!@}
+
 public:
     //! \name types and functors for \c GPA_2< both >
     //!@{
@@ -1031,7 +1035,6 @@ public:
     
     //!@}
 
-    //!@}
     //! \name public functors and predicates
     //!@{
        

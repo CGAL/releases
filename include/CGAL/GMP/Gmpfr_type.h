@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Number_types/include/CGAL/GMP/Gmpfr_type.h $
-// $Id: Gmpfr_type.h a154aa1 %aI Laurent Rineau
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Number_types/include/CGAL/GMP/Gmpfr_type.h $
+// $Id: Gmpfr_type.h 4581f1b %aI Andreas Fabri
 // SPDX-License-Identifier: LGPL-3.0+
 //
 // Author: Luis Peñaranda <luis.penaranda@gmx.com>
@@ -1183,9 +1183,9 @@ std::ostream& operator<<(std::ostream& os,const Gmpfr &a){
         } else {
                 // human-readable format
                 mpfr_exp_t expptr;
-                char *str = mpfr_get_str(NULL, &expptr, 10, 0, a.fr(),
+                char *str = mpfr_get_str(nullptr, &expptr, 10, 0, a.fr(),
                                 mpfr_get_default_rounding_mode());
-                if (str == NULL) return os << "@err@";
+                if (str == nullptr) return os << "@err@";
                 std::string s(str);
                 mpfr_free_str(str);
                 int i = 0;

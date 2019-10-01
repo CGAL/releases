@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Arrangement_on_surface_2/include/CGAL/Arr_spherical_gaussian_map_3/Arr_transform_on_sphere.h $
-// $Id: Arr_transform_on_sphere.h ee57fc2 %aI Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Arrangement_on_surface_2/include/CGAL/Arr_spherical_gaussian_map_3/Arr_transform_on_sphere.h $
+// $Id: Arr_transform_on_sphere.h 4581f1b %aI Andreas Fabri
 // SPDX-License-Identifier: GPL-3.0+
 // 
 // Author(s)     : Naama mayer         <naamamay@post.tau.ac.il>
@@ -213,7 +213,7 @@ void Arr_transform_on_sphere(Arrangement & arr,
 		ind = ARR_MAX_END;
 
       // Check if it was already added.
-      if (topol_traits->discontinuity_vertex(havc->curve(), ind)== NULL &&
+      if (topol_traits->discontinuity_vertex(havc->curve(), ind)== nullptr &&
           topol_traits->south_pole() != &(*havc->target()) &&
           topol_traits->north_pole() != &(*havc->target()) )
       {

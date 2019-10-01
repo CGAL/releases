@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Nef_S2/include/CGAL/Nef_S2/SM_overlayer.h $
-// $Id: SM_overlayer.h d93eb58 %aI Maxime Gimeno
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Nef_S2/include/CGAL/Nef_S2/SM_overlayer.h $
+// $Id: SM_overlayer.h 695535c %aI Maxime Gimeno
 // SPDX-License-Identifier: GPL-3.0+
 // 
 //
@@ -2315,8 +2315,8 @@ void SM_overlayer<Map>::simplify()
   CGAL_NEF_TRACEN("simplifying"); 
 
   typedef typename CGAL::Union_find<SFace_handle>::handle Union_find_handle;
-  CGAL::Unique_hash_map< SFace_handle, Union_find_handle> Pitem(NULL);
-  CGAL::Unique_hash_map< SVertex_handle, Union_find_handle> Vitem(NULL);
+  CGAL::Unique_hash_map< SFace_handle, Union_find_handle> Pitem(nullptr);
+  CGAL::Unique_hash_map< SVertex_handle, Union_find_handle> Vitem(nullptr);
   CGAL::Union_find< SFace_handle> UF;
   
   SFace_iterator f;
@@ -2378,7 +2378,7 @@ void SM_overlayer<Map>::simplify()
     vn=v; ++vn;
     if ( is_isolated(v) ) {
     
-      if(Vitem[v] != NULL) {
+      if(Vitem[v] != nullptr) {
 	set_face(v,*(UF.find(Vitem[v])));
 	CGAL_NEF_TRACEN("incident face of " << PH(v) << " set to " << &*(v->incident_sface()));
       }

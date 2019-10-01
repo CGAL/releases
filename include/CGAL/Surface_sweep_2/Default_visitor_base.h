@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Surface_sweep_2/include/CGAL/Surface_sweep_2/Default_visitor_base.h $
-// $Id: Default_visitor_base.h 0b5353c %aI Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Surface_sweep_2/include/CGAL/Surface_sweep_2/Default_visitor_base.h $
+// $Id: Default_visitor_base.h e2d19b0 %aI Andreas Fabri
 // SPDX-License-Identifier: GPL-3.0+
 //
 // Author(s)     : Baruch Zukerman <baruchzu@post.tau.ac.il>
@@ -88,7 +88,7 @@ protected:
 
 public:
   /*! Constructor. */
-  Default_visitor_base () : m_surface_sweep(NULL) {}
+  Default_visitor_base () : m_surface_sweep(nullptr) {}
 
   /*! Destructor */
   virtual ~Default_visitor_base() {}

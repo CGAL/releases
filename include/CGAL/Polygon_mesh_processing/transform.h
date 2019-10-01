@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Polygon_mesh_processing/include/CGAL/Polygon_mesh_processing/transform.h $
-// $Id: transform.h 2f81a21 %aI Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Polygon_mesh_processing/include/CGAL/Polygon_mesh_processing/transform.h $
+// $Id: transform.h 25a05e9 %aI Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0+
 //
 //
@@ -57,7 +57,7 @@ void transform(const Transformation& transformation,
   VPMap vpm = parameters::choose_parameter(parameters::get_parameter(np, internal_np::vertex_point),
                                            get_property_map(vertex_point, mesh));
   
-  BOOST_FOREACH(typename boost::graph_traits<PolygonMesh>::vertex_descriptor vd, vertices(mesh))
+  for(typename boost::graph_traits<PolygonMesh>::vertex_descriptor vd : vertices(mesh))
   {
     put(vpm, vd, transformation(get(vpm, vd)));
   }

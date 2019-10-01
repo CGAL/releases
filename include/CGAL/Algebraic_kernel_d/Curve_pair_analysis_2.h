@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Algebraic_kernel_d/include/CGAL/Algebraic_kernel_d/Curve_pair_analysis_2.h $
-// $Id: Curve_pair_analysis_2.h 3ba6262 %aI Laurent Rineau
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Algebraic_kernel_d/include/CGAL/Algebraic_kernel_d/Curve_pair_analysis_2.h $
+// $Id: Curve_pair_analysis_2.h c0edb5e %aI Sébastien Loriot
 // SPDX-License-Identifier: LGPL-3.0+
 // 
 //
@@ -1435,13 +1435,9 @@ compute_event_x_coordinates_with_event_indices() const {
                 CGAL_ACK_DEBUG_PRINT << " one curve event" << std::endl;
 #endif
 */
-#if CGAL_CXX11
             // Fix a warning by using `emplace_back()` instead of
             // copying a non-initialized `optional
             this->ptr()->event_slices.emplace_back();
-#else
-            this->ptr()->event_slices.push_back(Lazy_status_line_CPA_1());
-#endif
             switch(*(one_curve_it++)) {
             case(CGAL::internal::ROOT_OF_FIRST_SET): {
                 event_indices.push_back(Event_indices(-1,f_count,-1));
@@ -1468,11 +1464,7 @@ compute_event_x_coordinates_with_event_indices() const {
             CGAL_ACK_DEBUG_PRINT << " two curve event" << std::endl;
 #endif
 */
-#if CGAL_CXX11
             this->ptr()->event_slices.emplace_back();
-#else
-            this->ptr()->event_slices.push_back(Lazy_status_line_CPA_1());
-#endif
             
             event_indices.push_back
                 (Event_indices(inter_count,-1,-1));
@@ -1486,12 +1478,7 @@ compute_event_x_coordinates_with_event_indices() const {
                                      << std::endl;
 #endif
 */
-#if CGAL_CXX11
             this->ptr()->event_slices.emplace_back();
-#else
-            this->ptr()->event_slices.push_back(Lazy_status_line_CPA_1());
-#endif
-            
             
             switch(*(one_curve_it++)) {
             case(CGAL::internal::ROOT_OF_FIRST_SET): {

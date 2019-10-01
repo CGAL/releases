@@ -16,8 +16,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Kernel_23/include/CGAL/Kernel/interface_macros.h $
-// $Id: interface_macros.h 0698f79 %aI Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Kernel_23/include/CGAL/Kernel/interface_macros.h $
+// $Id: interface_macros.h d62d881 %aI Andreas Fabri
 // SPDX-License-Identifier: LGPL-3.0+
 // 
 //
@@ -173,6 +173,8 @@ CGAL_Kernel_cons(Compute_c_3,
 		 compute_c_3_object)
 CGAL_Kernel_cons(Compute_d_3,
 		 compute_d_3_object)
+CGAL_Kernel_cons(Compute_approximate_angle_3,
+		 compute_approximate_angle_3_object)
 CGAL_Kernel_cons(Compute_approximate_dihedral_angle_3,
 		 compute_approximate_dihedral_angle_3_object)
 CGAL_Kernel_cons(Compute_approximate_area_3,

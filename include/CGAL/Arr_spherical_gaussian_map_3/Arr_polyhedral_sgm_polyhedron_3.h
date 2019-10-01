@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Arrangement_on_surface_2/include/CGAL/Arr_spherical_gaussian_map_3/Arr_polyhedral_sgm_polyhedron_3.h $
-// $Id: Arr_polyhedral_sgm_polyhedron_3.h ee57fc2 %aI Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Arrangement_on_surface_2/include/CGAL/Arr_spherical_gaussian_map_3/Arr_polyhedral_sgm_polyhedron_3.h $
+// $Id: Arr_polyhedral_sgm_polyhedron_3.h 4581f1b %aI Andreas Fabri
 // SPDX-License-Identifier: GPL-3.0+
 //
 //
@@ -148,7 +148,7 @@ public:
   typedef typename Base::Plane                        Plane;
 
   /*! Constructor */
-  Arr_polyhedral_sgm_polyhedron_3_face() : m_vertex(NULL), m_marked(false) {}
+  Arr_polyhedral_sgm_polyhedron_3_face() : m_vertex(nullptr), m_marked(false) {}
 
   /*! Obtain the mutable plane. Delegate */
   Plane & plane() { return Base::plane(); }

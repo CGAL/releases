@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Minkowski_sum_2/include/CGAL/minkowski_sum_2.h $
-// $Id: minkowski_sum_2.h 8cdfad0 %aI Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Minkowski_sum_2/include/CGAL/minkowski_sum_2.h $
+// $Id: minkowski_sum_2.h 2848158 %aI Mael Rouxel-Labbé
 // SPDX-License-Identifier: GPL-3.0+
 //
 // Author(s) : Ron Wein   <wein_r@yahoo.com>
@@ -321,7 +321,7 @@ minkowski_sum_2(const Polygon_2<Kernel_, Container_>& pgn1,
  *   const typename Minkowski_sum_by_decomposition_2<DecompositionStrategy1_,
  *                                                   DecompositionStrategy2_,
  *                                                   Container_>::Traits_2>
- * are exchangable except for in one case, where there is an ambiguity.
+ * are exchangeable except for in one case, where there is an ambiguity.
  * Thus, we use the former, even though it is less generic, as change to the
  * traits type in Minkowski_sum_by_decomposition_2 would require a similar
  * change here.

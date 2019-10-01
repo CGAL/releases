@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/NewKernel_d/include/CGAL/NewKernel_d/Cartesian_filter_K.h $
-// $Id: Cartesian_filter_K.h 0698f79 %aI Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/NewKernel_d/include/CGAL/NewKernel_d/Cartesian_filter_K.h $
+// $Id: Cartesian_filter_K.h c872a75 %aI Marc Glisse
 // SPDX-License-Identifier: LGPL-3.0+
 //
 // Author(s)     : Marc Glisse
@@ -33,12 +33,12 @@ template < typename Base_, typename AK_, typename EK_ >
 struct Cartesian_filter_K : public Base_,
   private Store_kernel<AK_>, private Store_kernel2<EK_>
 {
-    CGAL_CONSTEXPR Cartesian_filter_K(){}
-    CGAL_CONSTEXPR Cartesian_filter_K(int d):Base_(d){}
+    constexpr Cartesian_filter_K(){}
+    constexpr Cartesian_filter_K(int d):Base_(d){}
     //FIXME: or do we want an instance of AK and EK belonging to this kernel,
     //instead of a reference to external ones?
-    CGAL_CONSTEXPR Cartesian_filter_K(AK_ const&a,EK_ const&b):Base_(),Store_kernel<AK_>(a),Store_kernel2<EK_>(b){}
-    CGAL_CONSTEXPR Cartesian_filter_K(int d,AK_ const&a,EK_ const&b):Base_(d),Store_kernel<AK_>(a),Store_kernel2<EK_>(b){}
+    constexpr Cartesian_filter_K(AK_ const&a,EK_ const&b):Base_(),Store_kernel<AK_>(a),Store_kernel2<EK_>(b){}
+    constexpr Cartesian_filter_K(int d,AK_ const&a,EK_ const&b):Base_(d),Store_kernel<AK_>(a),Store_kernel2<EK_>(b){}
     typedef Base_ Kernel_base;
     typedef AK_ AK;
     typedef EK_ EK;

@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/BGL/include/CGAL/boost/graph/properties_OpenMesh.h $
-// $Id: properties_OpenMesh.h 915c3e7 %aI Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/BGL/include/CGAL/boost/graph/properties_OpenMesh.h $
+// $Id: properties_OpenMesh.h 4581f1b %aI Andreas Fabri
 // SPDX-License-Identifier: LGPL-3.0+
 //
 //
@@ -197,7 +197,7 @@ public:
   typedef typename boost::graph_traits<OpenMesh>::vertex_descriptor key_type;
 
   OM_point_pmap()
-    : sm_(NULL)
+    : sm_(nullptr)
   {}
 
   OM_point_pmap(const OpenMesh& sm)
@@ -213,7 +213,7 @@ public:
 #if defined(CGAL_USE_OM_POINTS)
     return sm_->point(v);
 #else
-    CGAL_assertion(sm_!=NULL);
+    CGAL_assertion(sm_!=nullptr);
     typename OpenMesh::Point const& omp = sm_->point(v);
     return value_type(omp[0], omp[1], omp[2]);
 #endif
@@ -221,11 +221,11 @@ public:
 
   inline friend reference get(const OM_point_pmap<OpenMesh,P>& pm, key_type v)
   {
-    CGAL_precondition(pm.sm_!=NULL);
+    CGAL_precondition(pm.sm_!=nullptr);
 #if defined(CGAL_USE_OM_POINTS)
     return pm.sm_->point(v);
 #else
-    CGAL_assertion(pm.sm_!=NULL);
+    CGAL_assertion(pm.sm_!=nullptr);
     typename OpenMesh::Point const& omp = pm.sm_->point(v);
     return value_type(omp[0], omp[1], omp[2]);
 #endif
@@ -233,7 +233,7 @@ public:
 
   inline friend void put(const OM_point_pmap<OpenMesh,P>& pm, key_type v, const value_type& p)
   {
-    CGAL_precondition(pm.sm_!=NULL);
+    CGAL_precondition(pm.sm_!=nullptr);
 #if defined(CGAL_USE_OM_POINTS)
     const_cast<OpenMesh&>(*pm.sm_).set_point(v,p);
 #else

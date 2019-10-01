@@ -13,8 +13,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Mesh_2/include/CGAL/Mesh_2/Lipschitz_sizing_field_2.h $
-// $Id: Lipschitz_sizing_field_2.h fb51a69 %aI Andreas Fabri
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Mesh_2/include/CGAL/Mesh_2/Lipschitz_sizing_field_2.h $
+// $Id: Lipschitz_sizing_field_2.h 4581f1b %aI Andreas Fabri
 // SPDX-License-Identifier: GPL-3.0+
 // 
 //
@@ -209,7 +209,7 @@ protected:
 	Face_circulator c = fc;
 	std::list<Point> vv;
 			    
-	if (fc != NULL)
+	if (fc != nullptr)
 	  {
 	    do
 	      {

@@ -16,8 +16,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Cartesian_kernel/include/CGAL/Cartesian/Triangle_2.h $
-// $Id: Triangle_2.h 0698f79 %aI Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Cartesian_kernel/include/CGAL/Cartesian/Triangle_2.h $
+// $Id: Triangle_2.h 124012d %aI Sébastien Loriot
 // SPDX-License-Identifier: LGPL-3.0+
 // 
 //
@@ -39,7 +39,7 @@ class TriangleC2
   typedef typename R_::Vector_2             Vector_2;
   typedef typename R_::Triangle_2           Triangle_2;
 
-  typedef cpp11::array<Point_2, 3>          Rep;
+  typedef std::array<Point_2, 3>          Rep;
   typedef typename R_::template Handle<Rep>::type  Base;
 
   Base base;

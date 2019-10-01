@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Polygon_mesh_processing/include/CGAL/Polygon_mesh_processing/internal/fair_impl.h $
-// $Id: fair_impl.h ee57fc2 %aI Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Polygon_mesh_processing/include/CGAL/Polygon_mesh_processing/internal/fair_impl.h $
+// $Id: fair_impl.h d60f564 %aI Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0+
 // 
 //
@@ -145,7 +145,7 @@ public:
 
     std::map<vertex_descriptor, std::size_t> vertex_id_map;
     std::size_t id = 0;
-    BOOST_FOREACH(vertex_descriptor vd, interior_vertices)
+    for(vertex_descriptor vd : interior_vertices)
     {
       if( !vertex_id_map.insert(std::make_pair(vd, id)).second ) {
         CGAL_warning(!"Duplicate vertex is found!");
@@ -156,7 +156,7 @@ public:
 
     Solver_matrix A(nb_vertices);
 
-    BOOST_FOREACH(vertex_descriptor vd, interior_vertices)
+    for(vertex_descriptor vd : interior_vertices)
     {
       int v_id = static_cast<int>(vertex_id_map[vd]);
       compute_row(vd, v_id, A, Bx[v_id], By[v_id], Bz[v_id], 1, vertex_id_map, depth);
@@ -199,7 +199,7 @@ public:
 
     // update 
     id = 0;
-    BOOST_FOREACH(vertex_descriptor vd, interior_vertices)
+    for(vertex_descriptor vd : interior_vertices)
     {
       put(ppmap, vd, Point_3(X[id], Y[id], Z[id]));
       ++id;

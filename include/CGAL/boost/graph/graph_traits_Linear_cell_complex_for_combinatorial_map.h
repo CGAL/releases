@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Linear_cell_complex/include/CGAL/boost/graph/graph_traits_Linear_cell_complex_for_combinatorial_map.h $
-// $Id: graph_traits_Linear_cell_complex_for_combinatorial_map.h a189c1b %aI Guillaume Damiand
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Linear_cell_complex/include/CGAL/boost/graph/graph_traits_Linear_cell_complex_for_combinatorial_map.h $
+// $Id: graph_traits_Linear_cell_complex_for_combinatorial_map.h 4581f1b %aI Andreas Fabri
 // SPDX-License-Identifier: LGPL-3.0+
 //
 // Author(s)     : Guillaume Damiand <guillaume.damiand@liris.cnrs.fr>
@@ -66,7 +66,7 @@ namespace internal
 template <typename Dart_handle>
 struct EdgeHandle : Dart_handle
 {
-  EdgeHandle() : Dart_handle(NULL){}
+  EdgeHandle() : Dart_handle(nullptr){}
   explicit EdgeHandle(Dart_handle h): Dart_handle(h)
   {}
 
@@ -75,14 +75,14 @@ struct EdgeHandle : Dart_handle
 
   Dart_handle second_halfedge() const
   {
-    assert(*this!=NULL);
+    assert(*this!=nullptr);
     return (*this)->get_f(2);
   }
   
   bool operator==(const EdgeHandle& h) const
   {
     return first_halfedge()==h.first_halfedge() ||
-        (h.first_halfedge()!=NULL &&
+        (h.first_halfedge()!=nullptr &&
         first_halfedge()==h.second_halfedge());
   }
 
@@ -106,7 +106,7 @@ struct EdgeHandle : Dart_handle
 
   friend std::size_t hash_value(const EdgeHandle& i)
   {
-    if (i.first_halfedge()==NULL) return 0;
+    if (i.first_halfedge()==nullptr) return 0;
     return hash_value(i.first_halfedge()<i.second_halfedge()?
                       i.first_halfedge():i.second_halfedge());
   }
@@ -215,9 +215,9 @@ public :
   typedef CGAL::Out_edge_iterator<CMap> out_edge_iterator;
 
   // nulls
-  static vertex_descriptor   null_vertex()   { return NULL; }
-  static face_descriptor     null_face()     { return NULL; }
-  static halfedge_descriptor null_halfedge() { return NULL; }
+  static vertex_descriptor   null_vertex()   { return nullptr; }
+  static face_descriptor     null_face()     { return nullptr; }
+  static halfedge_descriptor null_halfedge() { return nullptr; }
 };
 
 } //namespace CGAL
@@ -421,7 +421,7 @@ typename boost::graph_traits<CGAL_LCC_TYPE>::halfedge_descriptor
 halfedge(typename boost::graph_traits<CGAL_LCC_TYPE>::vertex_descriptor v,
          const CGAL_LCC_TYPE& lcc)
 {
-  if (v->dart()==NULL) return NULL;
+  if (v->dart()==nullptr) return nullptr;
   return const_cast<CGAL_LCC_TYPE&>(lcc).template beta<2>(v->dart());
 }
 
@@ -488,7 +488,7 @@ void set_halfedge(typename boost::graph_traits<CGAL_LCC_TYPE>::vertex_descriptor
                   typename boost::graph_traits<CGAL_LCC_TYPE>::halfedge_descriptor h,
                   CGAL_LCC_TYPE& lcc)
 {
-  if (h!=NULL)
+  if (h!=nullptr)
     lcc.template set_dart_of_attribute<0>(v, lcc.template beta<2>(h));
   else
     lcc.template set_dart_of_attribute<0>(v, h);

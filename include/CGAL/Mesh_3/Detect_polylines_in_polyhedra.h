@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Mesh_3/include/CGAL/Mesh_3/Detect_polylines_in_polyhedra.h $
-// $Id: Detect_polylines_in_polyhedra.h 1e9dc49 %aI Mael Rouxel-Labbé
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Mesh_3/include/CGAL/Mesh_3/Detect_polylines_in_polyhedra.h $
+// $Id: Detect_polylines_in_polyhedra.h d60f564 %aI Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0+
 //
 //
@@ -30,7 +30,6 @@
 #include <CGAL/Default.h>
 #include <CGAL/Hash_handles_with_or_without_timestamps.h>
 
-#include <boost/foreach.hpp>
 #include <boost/mpl/if.hpp>
 #include <boost/unordered_map.hpp>
 #include <boost/unordered_set.hpp>
@@ -84,7 +83,7 @@ struct Detect_polylines
   static 
   void display_set(std::ostream& stream, Set_of_indices set) {
     stream << "( ";
-    BOOST_FOREACH(typename Set_of_indices::value_type i, set) {
+    for(typename Set_of_indices::value_type i : set) {
       display_index(stream, i);
       stream << " ";
     }
@@ -185,12 +184,12 @@ struct Detect_polylines
 #ifdef CGAL_MESH_3_PROTECTION_DEBUG
         std::cerr << "New corner vertex " << v->point() << std::endl;
         std::cerr << "  indices were: ";
-        BOOST_FOREACH(typename Set_of_indices::value_type i,
+        for(typename Set_of_indices::value_type i :
                       set_of_indices_of_current_edge) {
           std::cerr << i << " ";
         }
         std::cerr << "\n           now: ";
-        BOOST_FOREACH(typename Set_of_indices::value_type i,
+        for(typename Set_of_indices::value_type i :
                       set_of_indices_of_next_edge) {
           std::cerr << i << " ";
         }

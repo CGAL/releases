@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Point_set_2/include/CGAL/range_search_delaunay_2.h $
-// $Id: range_search_delaunay_2.h ee57fc2 %aI Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Point_set_2/include/CGAL/range_search_delaunay_2.h $
+// $Id: range_search_delaunay_2.h e2d19b0 %aI Andreas Fabri
 // SPDX-License-Identifier: GPL-3.0+
 // 
 //
@@ -186,7 +186,7 @@ OutputIterator range_search(Dt& delau,
    bool new_v = false;     
 
    // we have to insert the center ...
-   if ( v == NULL )
+   if ( v == nullptr )
    { 
        new_v = true;
        v = delau.insert(p); 
@@ -337,7 +337,7 @@ OutputIterator range_search(Dt& delau,
    bool new_v = false;     
 
    // we have to insert the center ...
-   if ( v == NULL )
+   if ( v == nullptr )
    { 
        new_v = true;
        v = delau.insert(p); 

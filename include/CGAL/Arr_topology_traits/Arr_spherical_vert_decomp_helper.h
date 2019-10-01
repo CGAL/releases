@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Arrangement_on_surface_2/include/CGAL/Arr_topology_traits/Arr_spherical_vert_decomp_helper.h $
-// $Id: Arr_spherical_vert_decomp_helper.h 7936109 %aI Efi Fogel
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Arrangement_on_surface_2/include/CGAL/Arr_topology_traits/Arr_spherical_vert_decomp_helper.h $
+// $Id: Arr_spherical_vert_decomp_helper.h 4581f1b %aI Andreas Fabri
 // SPDX-License-Identifier: GPL-3.0+
 //
 // Author(s)     : Ron Wein <wein@post.tau.ac.il>
@@ -114,14 +114,14 @@ public:
   void Arr_spherical_vert_decomp_helper<Tr, Arr, Evnt, Sbcv>::before_sweep()
 {
   // Get the north pole and the face that intially contains it.
-  m_valid_north_pole = (m_top_traits->north_pole() != NULL);
+  m_valid_north_pole = (m_top_traits->north_pole() != nullptr);
   if (m_valid_north_pole)
     m_north_pole = Vertex_const_handle (m_top_traits->north_pole());
 
   m_north_face = Face_const_handle (m_top_traits->spherical_face());
 
   // Get the south pole and the face that intially contains it.
-  m_valid_south_pole = (m_top_traits->south_pole() != NULL);
+  m_valid_south_pole = (m_top_traits->south_pole() != nullptr);
   if (m_valid_south_pole)
     m_south_pole = Vertex_const_handle (m_top_traits->south_pole());
 

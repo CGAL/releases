@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Triangulation_3/include/CGAL/Delaunay_triangulation_cell_base_with_circumcenter_3.h $
-// $Id: Delaunay_triangulation_cell_base_with_circumcenter_3.h a0427ec %aI Mael Rouxel-Labbé
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Triangulation_3/include/CGAL/Delaunay_triangulation_cell_base_with_circumcenter_3.h $
+// $Id: Delaunay_triangulation_cell_base_with_circumcenter_3.h e2d19b0 %aI Andreas Fabri
 // SPDX-License-Identifier: GPL-3.0+
 //
 // Author(s)     : Monique Teillaud <Monique.Teillaud@sophia.inria.fr>
@@ -48,7 +48,7 @@ public:
   {
       if (circumcenter_) {
           delete circumcenter_;
-          circumcenter_ = NULL;
+          circumcenter_ = nullptr;
       }
   }
 
@@ -65,11 +65,11 @@ public:
   };
 
   Delaunay_triangulation_cell_base_with_circumcenter_3()
-    : Cb(), circumcenter_(NULL) {}
+    : Cb(), circumcenter_(nullptr) {}
 
   Delaunay_triangulation_cell_base_with_circumcenter_3
         (const Delaunay_triangulation_cell_base_with_circumcenter_3 &c)
-    : Cb(c), circumcenter_(c.circumcenter_ != NULL ? new Point(*(c.circumcenter_)) : NULL)
+    : Cb(c), circumcenter_(c.circumcenter_ != nullptr ? new Point(*(c.circumcenter_)) : nullptr)
   {}
 
   Delaunay_triangulation_cell_base_with_circumcenter_3&
@@ -83,14 +83,14 @@ public:
   Delaunay_triangulation_cell_base_with_circumcenter_3(
 	                    Vertex_handle v0, Vertex_handle v1,
                             Vertex_handle v2, Vertex_handle v3)
-    : Cb(v0, v1, v2, v3), circumcenter_(NULL) {}
+    : Cb(v0, v1, v2, v3), circumcenter_(nullptr) {}
 
   Delaunay_triangulation_cell_base_with_circumcenter_3(
 	                    Vertex_handle v0, Vertex_handle v1,
                             Vertex_handle v2, Vertex_handle v3,
                             Cell_handle   n0, Cell_handle   n1,
                             Cell_handle   n2, Cell_handle   n3)
-    : Cb(v0, v1, v2, v3, n0, n1, n2, n3), circumcenter_(NULL) {}
+    : Cb(v0, v1, v2, v3, n0, n1, n2, n3), circumcenter_(nullptr) {}
 
   ~Delaunay_triangulation_cell_base_with_circumcenter_3()
   {
@@ -121,7 +121,7 @@ public:
 
   const Point& circumcenter(const Geom_traits& gt = Geom_traits()) const
   {
-      if (circumcenter_ == NULL) {
+      if (circumcenter_ == nullptr) {
         circumcenter_ = new Point(this->Cb::circumcenter(gt));
       } else {
         CGAL_expensive_assertion(

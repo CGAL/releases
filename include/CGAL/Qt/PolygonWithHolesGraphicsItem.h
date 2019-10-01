@@ -12,7 +12,7 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/GraphicsView/include/CGAL/Qt/PolygonWithHolesGraphicsItem.h $
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/GraphicsView/include/CGAL/Qt/PolygonWithHolesGraphicsItem.h $
 // $Id: PolygonWithHolesGraphicsItem.h 243c7b1 %aI Maxime Gimeno
 // SPDX-License-Identifier: GPL-3.0+
 // 

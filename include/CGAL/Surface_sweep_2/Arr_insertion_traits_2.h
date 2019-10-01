@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Arrangement_on_surface_2/include/CGAL/Surface_sweep_2/Arr_insertion_traits_2.h $
-// $Id: Arr_insertion_traits_2.h f1483cf %aI Efi Fogel
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Arrangement_on_surface_2/include/CGAL/Surface_sweep_2/Arr_insertion_traits_2.h $
+// $Id: Arr_insertion_traits_2.h 4581f1b %aI Andreas Fabri
 // SPDX-License-Identifier: GPL-3.0+
 //
 //
@@ -127,7 +127,7 @@ public:
       // X_monotone_curve_2
       for(; oi != oi_end; ++oi) {
         base_overlap_cv = object_cast<Base_x_monotone_curve_2>(&(*oi));
-        if (base_overlap_cv != NULL) {
+        if (base_overlap_cv != nullptr) {
           // Add halfedge handles to the resulting curve.
           Halfedge_handle he;
 
@@ -144,7 +144,7 @@ public:
           intersect_p =
             object_cast<std::pair<Base_point_2, unsigned int> >(&(*oi));
 
-          CGAL_assertion (intersect_p != NULL);
+          CGAL_assertion (intersect_p != nullptr);
 
           *oi = make_object(std::make_pair(Point_2(intersect_p->first),
                                            intersect_p->second));

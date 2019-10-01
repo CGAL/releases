@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Mesh_3/include/CGAL/Mesh_3/experimental/Lipschitz_sizing_polyhedron.h $
-// $Id: Lipschitz_sizing_polyhedron.h ee57fc2 %aI Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Mesh_3/include/CGAL/Mesh_3/experimental/Lipschitz_sizing_polyhedron.h $
+// $Id: Lipschitz_sizing_polyhedron.h 4581f1b %aI Andreas Fabri
 // SPDX-License-Identifier: GPL-3.0+
 //
 //
@@ -82,7 +82,7 @@ private:
 
 public:
   Lipschitz_sizing(const MeshDomain& domain)
-    : m_ptree(NULL)
+    : m_ptree(nullptr)
     , m_own_ptree()
     , m_domain(domain)
     , m_params(domain)
@@ -150,7 +150,7 @@ private:
     m_params.get_parameters(index, k, size_min, size_max);
 
     FT sqdist = 0.;
-    if(m_ptree == NULL)
+    if(m_ptree == nullptr)
     {
       sqdist = m_own_ptree->squared_distance(p);
     }

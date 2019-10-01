@@ -12,15 +12,15 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Partition_2/include/CGAL/Partition_2/Matrix.h $
-// $Id: Matrix.h ee57fc2 %aI Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Partition_2/include/CGAL/Partition_2/Matrix.h $
+// $Id: Matrix.h a9bb23c %aI Andreas Fabri
 // SPDX-License-Identifier: GPL-3.0+
 // 
 //
 // Author(s)     : Susan Hert <hert@mpi-sb.mpg.de>
 
-#ifndef   CGAL_MATRIX_H
-#define   CGAL_MATRIX_H
+#ifndef   CGAL_PARTITION_MATRIX_H
+#define   CGAL_PARTITION_MATRIX_H
 
 #include <CGAL/license/Partition_2.h>
 
@@ -67,4 +67,4 @@ std::ostream& operator<<(std::ostream& os, const Matrix<T>& m)
 
 }
 
-#endif // CGAL_MATRIX_H
+#endif // CGAL_PARTITION_MATRIX_H

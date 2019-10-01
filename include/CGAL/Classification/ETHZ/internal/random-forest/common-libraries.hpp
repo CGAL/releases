@@ -18,8 +18,8 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Classification/include/CGAL/Classification/ETHZ/internal/random-forest/common-libraries.hpp $
-// $Id: common-libraries.hpp c81fbe4 %aI Simon Giraudot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Classification/include/CGAL/Classification/ETHZ/internal/random-forest/common-libraries.hpp $
+// $Id: common-libraries.hpp d60f564 %aI Sébastien Loriot
 // SPDX-License-Identifier: MIT
 //
 // Author(s)     : Stefan Walk
@@ -46,7 +46,6 @@
 #include <list>
 #include <boost/version.hpp>
 #include <boost/bind.hpp>
-#include <boost/foreach.hpp>
 #include <boost/ptr_container/ptr_vector.hpp>
 #include <boost/random/mersenne_twister.hpp>
 #if BOOST_VERSION >= 104700

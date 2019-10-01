@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Combinatorial_map/include/CGAL/internal/Combinatorial_map_copy_functors.h $
-// $Id: Combinatorial_map_copy_functors.h 7b9b04f %aI Guillaume Damiand
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Combinatorial_map/include/CGAL/internal/Combinatorial_map_copy_functors.h $
+// $Id: Combinatorial_map_copy_functors.h f62624c %aI Sébastien Loriot
 // SPDX-License-Identifier: LGPL-3.0+
 //
 // Author(s)     : Guillaume Damiand <guillaume.damiand@liris.cnrs.fr>
@@ -163,7 +163,7 @@ struct Get_convert_attribute_functor<Map1,Map2,i,Converters,false>
   run( const Map1& cmap1, Map2& cmap2, typename Map1::Dart_const_handle dh1,
        typename Map2::Dart_handle dh2, const Converters& converters)
   {
-    return CGAL::cpp11::get<i>(converters) (cmap1, cmap2, dh1, dh2);
+    return std::get<i>(converters) (cmap1, cmap2, dh1, dh2);
   }
 };
 // ****************************************************************************

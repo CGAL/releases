@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Arrangement_on_surface_2/include/CGAL/Surface_sweep_2/Arr_no_intersection_insertion_ss_visitor.h $
-// $Id: Arr_no_intersection_insertion_ss_visitor.h 7936109 %aI Efi Fogel
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Arrangement_on_surface_2/include/CGAL/Surface_sweep_2/Arr_no_intersection_insertion_ss_visitor.h $
+// $Id: Arr_no_intersection_insertion_ss_visitor.h 983645a %aI Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0+
 //
 //
@@ -174,7 +174,6 @@ public:
    */
   virtual Vertex_handle insert_isolated_vertex(const Point_2& pt,
                                                Status_line_iterator iter);
-  //@}
 
   /// \name Edge-split functions (to be overridden by the child visitor).
   //@{

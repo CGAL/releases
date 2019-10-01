@@ -16,8 +16,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Homogeneous_kernel/include/CGAL/Homogeneous/Iso_rectangleH2.h $
-// $Id: Iso_rectangleH2.h 0698f79 %aI Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Homogeneous_kernel/include/CGAL/Homogeneous/Iso_rectangleH2.h $
+// $Id: Iso_rectangleH2.h 124012d %aI Sébastien Loriot
 // SPDX-License-Identifier: LGPL-3.0+
 //
 //
@@ -38,7 +38,7 @@ class Iso_rectangleH2
   typedef typename R_::Point_2              Point_2;
   typedef typename R_::Iso_rectangle_2      Iso_rectangle_2;
 
-  typedef cpp11::array<Point_2, 2>          Rep;
+  typedef std::array<Point_2, 2>          Rep;
   typedef typename R_::template Handle<Rep>::type  Base;
 
   Base base;

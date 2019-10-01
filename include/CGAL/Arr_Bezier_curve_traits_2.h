@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Arrangement_on_surface_2/include/CGAL/Arr_Bezier_curve_traits_2.h $
-// $Id: Arr_Bezier_curve_traits_2.h 078aa22 %aI sarahanne
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Arrangement_on_surface_2/include/CGAL/Arr_Bezier_curve_traits_2.h $
+// $Id: Arr_Bezier_curve_traits_2.h 4581f1b %aI Andreas Fabri
 // SPDX-License-Identifier: GPL-3.0+
 //
 // Author(s)     : Ron Wein     <wein@post.tau.ac.il>
@@ -167,8 +167,8 @@ public:
       delete p_cache;
       delete p_inter_map;
     }
-    p_cache = NULL;
-    p_inter_map = NULL;
+    p_cache = nullptr;
+    p_inter_map = nullptr;
   }
   //@}
 

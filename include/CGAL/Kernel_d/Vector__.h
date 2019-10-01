@@ -16,8 +16,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Kernel_d/include/CGAL/Kernel_d/Vector__.h $
-// $Id: Vector__.h 095c27e %aI Laurent Rineau
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Kernel_d/include/CGAL/Kernel_d/Vector__.h $
+// $Id: Vector__.h c0edb5e %aI Sébastien Loriot
 // SPDX-License-Identifier: LGPL-3.0+
 // 
 //
@@ -120,11 +120,7 @@ protected:
 
     NT* p = vi + di - 1;
     while (p >= vi)  {
-#ifdef CGAL_CXX11
       std::allocator_traits<allocator_type>::destroy(allocator(),p);
-#else
-      allocator().destroy(p);
-#endif
       p--;
     }  //af:  as proposed by sylvain
     allocator().deallocate(vi, di);

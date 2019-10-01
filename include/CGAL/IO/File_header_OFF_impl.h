@@ -16,8 +16,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Stream_support/include/CGAL/IO/File_header_OFF_impl.h $
-// $Id: File_header_OFF_impl.h 0698f79 %aI Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Stream_support/include/CGAL/IO/File_header_OFF_impl.h $
+// $Id: File_header_OFF_impl.h 5d58bde %aI Andreas Fabri
 // SPDX-License-Identifier: LGPL-3.0+
 //
 //
@@ -377,13 +377,7 @@ std::istream& operator>>( std::istream& in, File_header_OFF& h) {
     }
     if ( n_h == 0)
         h.set_index_offset( 0);
-    if ( ! in || h.size_of_vertices() <= 0 ) {
-        in.clear( std::ios::badbit);
-        if ( h.verbose()) {
-            std::cerr << " " << std::endl;
-            std::cerr << "error: File_header_OFF(): File contains <= 0 vertices."
-                      << std::endl;
-        }
+    if ( ! in ) {
         return in;
     }
     if ( h.size_of_halfedges() == 0) {

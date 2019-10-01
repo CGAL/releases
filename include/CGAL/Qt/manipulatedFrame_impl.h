@@ -14,8 +14,8 @@
  WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 
 *****************************************************************************/
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/GraphicsView/include/CGAL/Qt/manipulatedFrame_impl.h $
-// $Id: manipulatedFrame_impl.h c4b28fd %aI Maxime Gimeno
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/GraphicsView/include/CGAL/Qt/manipulatedFrame_impl.h $
+// $Id: manipulatedFrame_impl.h 4581f1b %aI Andreas Fabri
 // SPDX-License-Identifier: GPL-3.0
 
 #ifdef CGAL_HEADER_ONLY
@@ -59,7 +59,7 @@ ManipulatedFrame::ManipulatedFrame()
   setZoomSensitivity(1.0);
 
   isSpinning_ = false;
-  previousConstraint_ = NULL;
+  previousConstraint_ = nullptr;
 
   connect(&spinningTimer_, SIGNAL(timeout()), SLOT(spinUpdate()));
 }
@@ -154,7 +154,7 @@ restored and are left unchanged.
 See Vec::initFromDOMElement() for a complete code example. */
 CGAL_INLINE_FUNCTION
 void ManipulatedFrame::initFromDOMElement(const QDomElement &element) {
-  // Not called since it would set constraint() and referenceFrame() to NULL.
+  // Not called since it would set constraint() and referenceFrame() to nullptr.
   // *this = ManipulatedFrame();
   Frame::initFromDOMElement(element);
 
@@ -230,10 +230,10 @@ void ManipulatedFrame::startAction(int ma, bool withConstraint) {
   // manipulatedCameraFrame::wheelEvent and mouseReleaseEvent() restore previous
   // constraint
   if (withConstraint)
-    previousConstraint_ = NULL;
+    previousConstraint_ = nullptr;
   else {
     previousConstraint_ = constraint();
-    setConstraint(NULL);
+    setConstraint(nullptr);
   }
 
   switch (action_) {

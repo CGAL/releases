@@ -16,8 +16,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Kernel_23/include/CGAL/basic.h $
-// $Id: basic.h 0698f79 %aI Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Kernel_23/include/CGAL/basic.h $
+// $Id: basic.h 82c13e6 %aI Sébastien Loriot
 // SPDX-License-Identifier: LGPL-3.0+
 // 
 //
@@ -35,9 +35,6 @@
 // This cannot be disabled for now until we have a clear idea which
 // compilers implement N3276.
 
-// #if !defined(CGAL_CFG_NO_CPP0X_DECLTYPE)
-//   #define BOOST_RESULT_OF_USE_DECLTYPE
-// #endif
 #include <CGAL/result_of.h>
 
 #include <CGAL/assertions.h>

@@ -16,8 +16,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Number_types/include/CGAL/long_double.h $
-// $Id: long_double.h 26c857a %aI Mael Rouxel-Labbé
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Number_types/include/CGAL/long_double.h $
+// $Id: long_double.h 2559b79 %aI Laurent Rineau
 // SPDX-License-Identifier: LGPL-3.0+
 //
 //
@@ -25,8 +25,6 @@
 
 #ifndef CGAL_LONG_DOUBLE_H
 #define CGAL_LONG_DOUBLE_H
-
-#include <CGAL/number_type_basic.h>
 
 #include <utility>
 #include <cmath>
@@ -36,6 +34,8 @@
 
 // #include <CGAL/FPU.h>
 #include <CGAL/Interval_nt.h>
+#include <CGAL/assertions.h>
+#include <CGAL/functional.h>
 
 namespace CGAL {
 

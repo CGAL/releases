@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Triangulation/include/CGAL/internal/Static_or_dynamic_array.h $
-// $Id: Static_or_dynamic_array.h ee57fc2 %aI Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Triangulation/include/CGAL/internal/Static_or_dynamic_array.h $
+// $Id: Static_or_dynamic_array.h 4581f1b %aI Andreas Fabri
 // SPDX-License-Identifier: GPL-3.0+
 //
 // Author(s)    : Samuel Hornus
@@ -60,9 +60,9 @@ template< typename Containee, typename D, bool WithCompactContainerHelper = fals
 // The case of static size:
 template< typename Containee, int D, bool WithCompactContainerHelper >
 struct S_or_D_array< Containee, Dimension_tag< D >, WithCompactContainerHelper >
-: public array<Containee, D>
+: public std::array<Containee, D>
 {
-    typedef array<Containee, D> Base;
+    typedef std::array<Containee, D> Base;
     S_or_D_array(const int)
     : Base()
     {}
@@ -103,10 +103,10 @@ struct S_or_D_array< Containee, Dynamic_dimension_tag, true >
 {
     typedef std::vector<Containee> Base;
     S_or_D_array(const int d)
-    : Base(d), fcc_(NULL)
+    : Base(d), fcc_(nullptr)
     {}
     S_or_D_array(const int d, const Containee & c)
-    : Base(d, c), fcc_(NULL)
+    : Base(d, c), fcc_(nullptr)
     {}
     void* fcc_;
     void*   for_compact_container() const { return fcc_; }

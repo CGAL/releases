@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/NewKernel_d/include/CGAL/transforming_pair_iterator.h $
-// $Id: transforming_pair_iterator.h 0698f79 %aI Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/STL_Extension/include/CGAL/transforming_pair_iterator.h $
+// $Id: transforming_pair_iterator.h 5826d19 %aI Marc Glisse
 // SPDX-License-Identifier: LGPL-3.0+
 //
 // Author(s)     : Marc Glisse
@@ -53,12 +53,7 @@ class transforming_pair_iterator_helper
 			::type iterator_category;
 
 	typedef typename Default::Get<Ref,
-#ifdef CGAL_CXX11
 		decltype(std::declval<F>()(std::declval<typename std::iterator_traits<It1>::reference>(),std::declval<typename std::iterator_traits<It2>::reference>()))
-#else
-		typename boost::result_of<F(typename std::iterator_traits<It1>::value_type,typename std::iterator_traits<It2>::value_type)>::type
-	// should be reference instead of value_type
-#endif
 			>::type reference;
 
 	typedef typename Default::Get<Val,typename boost::remove_cv<typename boost::remove_reference<reference>::type>::type>::type value_type;

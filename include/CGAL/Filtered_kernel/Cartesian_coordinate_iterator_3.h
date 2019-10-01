@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Filtered_kernel/include/CGAL/Filtered_kernel/Cartesian_coordinate_iterator_3.h $
-// $Id: Cartesian_coordinate_iterator_3.h 0698f79 %aI Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Filtered_kernel/include/CGAL/Filtered_kernel/Cartesian_coordinate_iterator_3.h $
+// $Id: Cartesian_coordinate_iterator_3.h 4581f1b %aI Andreas Fabri
 // SPDX-License-Identifier: LGPL-3.0+
 //
 //
@@ -53,7 +53,7 @@ public:
   typedef const value_type*               pointer;
 
   Cartesian_coordinate_iterator_3()
-    : var((const P*) NULL), index(0) {}
+    : var((const P*) nullptr), index(0) {}
 
   Cartesian_coordinate_iterator_3(const P *const p, int _index = 0)
     : var(p), index(_index) {}

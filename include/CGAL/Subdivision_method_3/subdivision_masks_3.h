@@ -13,8 +13,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Subdivision_method_3/include/CGAL/Subdivision_method_3/subdivision_masks_3.h $
-// $Id: subdivision_masks_3.h e4cbae5 %aI Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Subdivision_method_3/include/CGAL/Subdivision_method_3/subdivision_masks_3.h $
+// $Id: subdivision_masks_3.h 983645a %aI Sébastien Loriot
 // SPDX-License-Identifier: LGPL-3.0+
 //
 //
@@ -110,7 +110,7 @@ public:
   void face_node(face_descriptor facet, Point& pt) {
     int n = 0;
     Point p(0,0,0);
-    BOOST_FOREACH(vertex_descriptor vd,
+    for(vertex_descriptor vd :
                   vertices_around_face(halfedge(facet, *(this->pmesh)), *(this->pmesh)))
     {
       p = p + ( get(this->vpmap,vd) - ORIGIN);
@@ -513,6 +513,7 @@ public:
     }
     pt = CGAL::ORIGIN + cv;
   }
+/// @}
 };
 
 // ======================================================================
@@ -618,6 +619,7 @@ public:
     ept2 = CGAL::ORIGIN + denom * ( 10.*sv + 16.*tv + next_tv );
     vpt = CGAL::ORIGIN + 1./27. * ( 4*prev_sv + 19*sv + 4*tv );
   }
+/// @}
 };
 
 } // namespace CGAL

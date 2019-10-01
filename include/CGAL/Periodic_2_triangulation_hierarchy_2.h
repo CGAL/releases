@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Periodic_2_triangulation_2/include/CGAL/Periodic_2_triangulation_hierarchy_2.h $
-// $Id: Periodic_2_triangulation_hierarchy_2.h ee57fc2 %aI Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Periodic_2_triangulation_2/include/CGAL/Periodic_2_triangulation_hierarchy_2.h $
+// $Id: Periodic_2_triangulation_hierarchy_2.h e2d19b0 %aI Andreas Fabri
 // SPDX-License-Identifier: GPL-3.0+
 //
 // Author(s)     : Olivier Devillers <Olivivier.Devillers@sophia.inria.fr>
@@ -299,7 +299,7 @@ clear()
 {
   for(int i = 0; i < m_maxlevel; ++i) 
   {
-      CGAL_assertion(hierarchy[i] != NULL);
+      CGAL_assertion(hierarchy[i] != nullptr);
       hierarchy[i]->clear();
   }
 }
@@ -604,7 +604,7 @@ locate_in_all(const Point& p,
         {
           nearest = position->vertex(1);
         }
-      // compare to vertex 2, but only if the triangulation is 2D, because otherwise vertex(2) is  NULL
+      // compare to vertex 2, but only if the triangulation is 2D, because otherwise vertex(2) is  nullptr
       if ( (hierarchy[level]->dimension() == 2) && (!  hierarchy[level]->is_infinite(position->vertex(2))))
         {
           if ( closer( p,

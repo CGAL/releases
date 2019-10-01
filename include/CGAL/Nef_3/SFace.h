@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Nef_3/include/CGAL/Nef_3/SFace.h $
-// $Id: SFace.h ee57fc2 %aI Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Nef_3/include/CGAL/Nef_3/SFace.h $
+// $Id: SFace.h 4581f1b %aI Andreas Fabri
 // SPDX-License-Identifier: GPL-3.0+
 // 
 //
@@ -125,9 +125,9 @@ class SFace_base {
       verr << "begin CGAL::SNC_items<...>::SFace_base::is_valid( verb=true, "
 	"level = " << level << "):" << std::endl;
 
-      bool valid =(center_vertex_ != Vertex_handle() && center_vertex_ != NULL);
+      bool valid =(center_vertex_ != Vertex_handle() && center_vertex_ != nullptr);
       valid = valid && (volume_ != Volume_handle() &&
-			volume_ != NULL);
+			volume_ != nullptr);
 
       if(boundary_entry_objects_.empty()) {
 	valid = valid && 

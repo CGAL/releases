@@ -16,8 +16,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Kernel_d/include/CGAL/Kernel_d/function_objectsCd.h $
-// $Id: function_objectsCd.h 0698f79 %aI Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Kernel_d/include/CGAL/Kernel_d/function_objectsCd.h $
+// $Id: function_objectsCd.h 2848158 %aI Mael Rouxel-Labbé
 // SPDX-License-Identifier: LGPL-3.0+
 // 
 //
@@ -412,7 +412,7 @@ public:
 
 /* This predicates takes k+1 points defining a k-sphere in d-dim space, and a
  * point |x| (assumed to lie in the same affine subspace spanned by the
- * k-sphere). It tests wether the point |x| lies in the positive or negative
+ * k-sphere). It tests whether the point |x| lies in the positive or negative
  * side of the k-sphere.
  * The parameter |axis| contains the indices of k axis of the canonical base of
  * R^d, on which the affine subspace projects homeomorphically. We can thus

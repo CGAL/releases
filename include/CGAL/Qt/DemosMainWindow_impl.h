@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/GraphicsView/include/CGAL/Qt/DemosMainWindow_impl.h $
-// $Id: DemosMainWindow_impl.h 272b436 %aI Maxime Gimeno
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/GraphicsView/include/CGAL/Qt/DemosMainWindow_impl.h $
+// $Id: DemosMainWindow_impl.h 2e747dd %aI Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0+
 // 
 //
@@ -239,7 +239,7 @@ CGAL_INLINE_FUNCTION
 QMenu* 
 DemosMainWindow::getMenu(QString objectName, QString title)
 {
-  QMenu* menu = NULL;
+  QMenu* menu = nullptr;
 
   QString title2 = title;
   title2.remove('&');
@@ -257,7 +257,7 @@ DemosMainWindow::getMenu(QString objectName, QString title)
       }
     }
   }
-  return NULL;
+  return nullptr;
 }
 
 CGAL_INLINE_FUNCTION

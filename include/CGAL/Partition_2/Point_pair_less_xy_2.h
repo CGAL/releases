@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Partition_2/include/CGAL/Partition_2/Point_pair_less_xy_2.h $
-// $Id: Point_pair_less_xy_2.h ee57fc2 %aI Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Partition_2/include/CGAL/Partition_2/Point_pair_less_xy_2.h $
+// $Id: Point_pair_less_xy_2.h ca161c5 %aI Andreas Fabri
 // SPDX-License-Identifier: GPL-3.0+
 // 
 //
@@ -42,7 +42,7 @@ class Point_pair_less_xy_2
    typedef typename Traits::Less_xy_2         Less_xy_2;
 
    public:
-     Point_pair_less_xy_2() : _less_xy_2(Traits().less_xy_2_object())
+     Point_pair_less_xy_2(const Traits& traits) : _less_xy_2(traits.less_xy_2_object())
      { }
      
 

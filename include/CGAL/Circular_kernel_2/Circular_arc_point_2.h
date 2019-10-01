@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Circular_kernel_2/include/CGAL/Circular_kernel_2/Circular_arc_point_2.h $
-// $Id: Circular_arc_point_2.h ee57fc2 %aI Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Circular_kernel_2/include/CGAL/Circular_kernel_2/Circular_arc_point_2.h $
+// $Id: Circular_arc_point_2.h 4581f1b %aI Andreas Fabri
 // SPDX-License-Identifier: GPL-3.0+
 //
 // Author(s)     : Monique Teillaud, Sylvain Pion, Pedro Machado
@@ -105,23 +105,23 @@ public:
 
   ////Construction/////
   Filtered_bbox_circular_arc_point_2_base()
-    : P_point(), bb(NULL)
+    : P_point(), bb(nullptr)
   {}
 
   Filtered_bbox_circular_arc_point_2_base(const P_point& pt)
-    : P_point(pt), bb(NULL)
+    : P_point(pt), bb(nullptr)
   {}
 
   explicit Filtered_bbox_circular_arc_point_2_base(const Root_for_circles_2_2 & np)
-    : P_point(np), bb(NULL)
+    : P_point(np), bb(nullptr)
   {}
 
   explicit Filtered_bbox_circular_arc_point_2_base(const Point_2 & p)
-    : P_point(p), bb(NULL)
+    : P_point(p), bb(nullptr)
   {}
 
   Filtered_bbox_circular_arc_point_2_base(const Self &c) 
-    : P_point(c), bb(c.bb ? new Bbox_2(*(c.bb)) : NULL)
+    : P_point(c), bb(c.bb ? new Bbox_2(*(c.bb)) : nullptr)
   {}
 
   Filtered_bbox_circular_arc_point_2_base&
@@ -130,10 +130,10 @@ public:
     {
       this->P_point::operator=(c);
 
-      if (bb != NULL){ 
+      if (bb != nullptr){ 
         delete bb;
       }
-      bb = c.bb ? new Bbox_2(*(c.bb)) : NULL;
+      bb = c.bb ? new Bbox_2(*(c.bb)) : nullptr;
     }
     return *this;
   }
@@ -148,7 +148,7 @@ public:
   ////Bbox related accessors////
   
   bool has_no_bbox() const
-  { return (bb==NULL);}
+  { return (bb==nullptr);}
 
   Bbox_2  bbox() const
   { 

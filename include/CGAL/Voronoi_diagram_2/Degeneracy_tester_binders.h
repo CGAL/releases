@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Voronoi_diagram_2/include/CGAL/Voronoi_diagram_2/Degeneracy_tester_binders.h $
-// $Id: Degeneracy_tester_binders.h ee57fc2 %aI Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Voronoi_diagram_2/include/CGAL/Voronoi_diagram_2/Degeneracy_tester_binders.h $
+// $Id: Degeneracy_tester_binders.h e2d19b0 %aI Andreas Fabri
 // SPDX-License-Identifier: GPL-3.0+
 // 
 //
@@ -42,11 +42,11 @@ private:
 public:
   typedef typename ER::result_type               result_type;
 
-  Edge_rejector_binder(const VDA* vda = NULL) : vda_(vda) {}
+  Edge_rejector_binder(const VDA* vda = nullptr) : vda_(vda) {}
 
   template<class A>
   bool operator()(const A& a) const {
-    CGAL_precondition( vda_ != NULL );
+    CGAL_precondition( vda_ != nullptr );
     return vda_->edge_rejector()(vda_->dual(), a);
   }
 
@@ -65,11 +65,11 @@ private:
 public:
   typedef typename FR::result_type               result_type;
 
-  Face_rejector_binder(const VDA* vda = NULL) : vda_(vda) {}
+  Face_rejector_binder(const VDA* vda = nullptr) : vda_(vda) {}
 
   template<class A>
   bool operator()(const A& a) const {
-    CGAL_precondition( vda_ != NULL );
+    CGAL_precondition( vda_ != nullptr );
     return vda_->face_rejector()(vda_->dual(), a);
   }
 

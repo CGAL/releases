@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Mesh_3/include/CGAL/Mesh_3/Triangulation_helpers.h $
-// $Id: Triangulation_helpers.h c16c039 %aI Laurent Rineau
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Mesh_3/include/CGAL/Mesh_3/Triangulation_helpers.h $
+// $Id: Triangulation_helpers.h 4581f1b %aI Andreas Fabri
 // SPDX-License-Identifier: GPL-3.0+
 //
 //
@@ -154,14 +154,14 @@ public:
   FT get_sq_distance_to_closest_vertex(const Tr& tr,
                                        const Vertex_handle& vh,
                                        const Cell_vector& incident_cells,
-                                       typename boost::enable_if_c<Tag::value>::type* = NULL) const;
+                                       typename boost::enable_if_c<Tag::value>::type* = nullptr) const;
 
   // @todo are the two versions really worth it, I can't tell the difference from a time POV...
   template<typename Tag>
   FT get_sq_distance_to_closest_vertex(const Tr& tr,
                                        const Vertex_handle& vh,
                                        const Cell_vector& incident_cells,
-                                       typename boost::disable_if_c<Tag::value>::type* = NULL) const;
+                                       typename boost::disable_if_c<Tag::value>::type* = nullptr) const;
 
 private:
   /**
@@ -509,8 +509,8 @@ get_sq_distance_to_closest_vertex(const Tr& tr,
          tr.is_infinite(vn))
         continue;
 
-      std::pair<VC_it, bool> is_insert_succesful = treated_vertices.insert(vn);
-      if(! is_insert_succesful.second) // vertex has already been treated
+      std::pair<VC_it, bool> is_insert_successful = treated_vertices.insert(vn);
+      if(! is_insert_successful.second) // vertex has already been treated
         continue;
 
       const Point& wpvn = tr.point(c, n);

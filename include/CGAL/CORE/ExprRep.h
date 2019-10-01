@@ -32,8 +32,8 @@
  * WWW URL: http://cs.nyu.edu/exact/
  * Email: exact@cs.nyu.edu
  *
- * $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/CGAL_Core/include/CGAL/CORE/ExprRep.h $
- * $Id: ExprRep.h 3c6640b %aI Laurent Rineau
+ * $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/CGAL_Core/include/CGAL/CORE/ExprRep.h $
+ * $Id: ExprRep.h 4581f1b %aI Andreas Fabri
  * SPDX-License-Identifier: LGPL-3.0+
  ***************************************************************************/
 
@@ -168,7 +168,7 @@ public:
   ExprRep();
   /// virtual destructor for this base class
   virtual ~ExprRep() {
-    if (nodeInfo != NULL) // This check is only for optimization.
+    if (nodeInfo != nullptr) // This check is only for optimization.
       delete nodeInfo;
   }
   //@}

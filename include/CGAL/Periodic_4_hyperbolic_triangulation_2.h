@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Periodic_4_hyperbolic_triangulation_2/include/CGAL/Periodic_4_hyperbolic_triangulation_2.h $
-// $Id: Periodic_4_hyperbolic_triangulation_2.h 2dec5c9 %aI Andreas Fabri
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Periodic_4_hyperbolic_triangulation_2/include/CGAL/Periodic_4_hyperbolic_triangulation_2.h $
+// $Id: Periodic_4_hyperbolic_triangulation_2.h 124012d %aI Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0+
 //
 // Author(s)     : Iordan Iordanov  <Iordan.Iordanov@loria.fr>
@@ -75,9 +75,9 @@ public:
   typedef typename GT::Hyperbolic_segment_2                       Hyperbolic_segment;
   typedef typename GT::Hyperbolic_triangle_2                      Hyperbolic_triangle;
 
-  typedef std::pair<Point, Hyperbolic_translation>                Periodic_point;
-  typedef array< std::pair<Point, Hyperbolic_translation>, 2 >    Periodic_segment;
-  typedef array< std::pair<Point, Hyperbolic_translation>, 3 >    Periodic_triangle;
+  typedef std::pair<Point, Hyperbolic_translation>                     Periodic_point;
+  typedef std::array< std::pair<Point, Hyperbolic_translation>, 2 >    Periodic_segment;
+  typedef std::array< std::pair<Point, Hyperbolic_translation>, 3 >    Periodic_triangle;
 
   typedef typename TDS::Vertex                                    Vertex;
   typedef typename TDS::Edge                                      Edge;

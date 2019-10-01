@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/NewKernel_d/include/CGAL/transforming_iterator.h $
-// $Id: transforming_iterator.h 0698f79 %aI Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/STL_Extension/include/CGAL/transforming_iterator.h $
+// $Id: transforming_iterator.h 5826d19 %aI Marc Glisse
 // SPDX-License-Identifier: LGPL-3.0+
 //
 // Author(s)     : Marc Glisse
@@ -62,12 +62,7 @@ class transforming_iterator_helper
 	typedef std::iterator_traits<Iter> Iter_traits;
 	typedef typename Iter_traits::reference Iter_ref;
 	typedef typename Default::Get<Ref,
-#ifdef CGAL_CXX11
 		decltype(std::declval<F>()(std::declval<Iter_ref>()))
-#else
-		typename boost::result_of<F(typename Iter_traits::value_type)>::type
-	// should be reference instead of value_type
-#endif
 			>::type reference_;
 
 	typedef typename Default::Get<Val,typename boost::remove_cv<typename boost::remove_reference<reference_>::type>::type>::type value_type;

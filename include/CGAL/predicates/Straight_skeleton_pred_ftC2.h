@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Straight_skeleton_2/include/CGAL/predicates/Straight_skeleton_pred_ftC2.h $
-// $Id: Straight_skeleton_pred_ftC2.h ee57fc2 %aI Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Straight_skeleton_2/include/CGAL/predicates/Straight_skeleton_pred_ftC2.h $
+// $Id: Straight_skeleton_pred_ftC2.h 2848158 %aI Mael Rouxel-Labbé
 // SPDX-License-Identifier: GPL-3.0+
 //
 // Author(s)     : Fernando Cacciola <fernando_cacciola@ciudad.com.ar>
@@ -212,11 +212,11 @@ Uncertain<bool> exist_offset_lines_isec2 ( intrusive_ptr< Trisegment_2<K> > cons
         }
       }
       else{
-        CGAL_STSKEL_TRAITS_TRACE("\nDenominator is probably zero (but not exactly), event existance is indeterminate." ) ;
+        CGAL_STSKEL_TRAITS_TRACE("\nDenominator is probably zero (but not exactly), event existence is indeterminate." ) ;
       }
     }
     else{
-      CGAL_STSKEL_TRAITS_TRACE("\nEvent time overflowed, event existance is indeterminate." ) ;
+      CGAL_STSKEL_TRAITS_TRACE("\nEvent time overflowed, event existence is indeterminate." ) ;
     }
   }
   else

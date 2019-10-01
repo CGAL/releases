@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Polynomial/include/CGAL/Polynomial/Polynomial_type.h $
-// $Id: Polynomial_type.h f1dd633 %aI Andreas Fabri
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Polynomial/include/CGAL/Polynomial/Polynomial_type.h $
+// $Id: Polynomial_type.h 82c13e6 %aI Sébastien Loriot
 // SPDX-License-Identifier: LGPL-3.0+
 //
 //
@@ -362,10 +362,8 @@ public:
       { reduce(); simplify_coefficients(); }
 #endif // defined(CGAL_USE_LEDA) || defined(DOXYGEN_RUNNING)
     
-#ifndef CGAL_CFG_NO_CPP0X_DELETED_AND_DEFAULT_FUNCTIONS
      Polynomial&
      operator=(const Polynomial& p)=default;
-#endif
   
 //
 // Public member functions

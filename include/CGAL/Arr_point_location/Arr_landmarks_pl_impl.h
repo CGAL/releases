@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Arrangement_on_surface_2/include/CGAL/Arr_point_location/Arr_landmarks_pl_impl.h $
-// $Id: Arr_landmarks_pl_impl.h ee57fc2 %aI Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Arrangement_on_surface_2/include/CGAL/Arr_point_location/Arr_landmarks_pl_impl.h $
+// $Id: Arr_landmarks_pl_impl.h 4581f1b %aI Andreas Fabri
 // SPDX-License-Identifier: GPL-3.0+
 //
 // Author(s)     : Idit Haran   <haranidi@post.tau.ac.il>
@@ -169,7 +169,7 @@ _walk_from_vertex(Vertex_const_handle nearest_vertex,
       // We found a vertex closer to p; Continue using this vertex.
       const Vertex_const_handle* p_vh =
         Result().template assign<Vertex_const_handle>(obj);
-      CGAL_assertion(p_vh != NULL);
+      CGAL_assertion(p_vh != nullptr);
       vh = *p_vh;
       continue;
     }
@@ -504,7 +504,7 @@ _walk_from_face(Face_const_handle face,
 
   do {
     // Check whether p lies inside the current face (including its holes):
-    if (p_arr->topology_traits()->is_in_face(&(*face), p, NULL))
+    if (p_arr->topology_traits()->is_in_face(&(*face), p, nullptr))
     {
       // We know that p is located inside the current face, and we check
       // whether it lies inside one of its holes (or on the boundary of

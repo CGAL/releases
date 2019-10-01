@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/AABB_tree/include/CGAL/internal/AABB_tree/Has_nested_type_Shared_data.h $
-// $Id: Has_nested_type_Shared_data.h ee57fc2 %aI Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/AABB_tree/include/CGAL/internal/AABB_tree/Has_nested_type_Shared_data.h $
+// $Id: Has_nested_type_Shared_data.h 4581f1b %aI Andreas Fabri
 // SPDX-License-Identifier: GPL-3.0+
 //
 //
@@ -66,13 +66,13 @@ struct Cstr_shared_data<Graph, Base, ObjectPropertyMap, PointPropertyMap, ::CGAL
   typedef void* Shared_data;
   static Shared_data construct_shared_data(Graph&)
   {
-    return NULL;
+    return nullptr;
   }
 
   template <class VertexPmap>
   static Shared_data construct_shared_data(Graph&, VertexPmap)
   {
-    return NULL;
+    return nullptr;
   }
 };
 

@@ -16,8 +16,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/HalfedgeDS/include/CGAL/HalfedgeDS_iterator.h $
-// $Id: HalfedgeDS_iterator.h 0698f79 %aI Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/HalfedgeDS/include/CGAL/HalfedgeDS_iterator.h $
+// $Id: HalfedgeDS_iterator.h 5532b84 %aI Andreas Fabri
 // SPDX-License-Identifier: LGPL-3.0+
 // 
 //
@@ -61,11 +61,11 @@ public:
 
     // pointer  ptr() const { return & It::operator*();}
 
-    bool operator==( Nullptr_t CGAL_assertion_code(p)) const {
+    bool operator==( std::nullptr_t CGAL_assertion_code(p)) const {
         CGAL_assertion( p == 0);
         return It::operator==( It());
     }
-    bool operator!=( Nullptr_t p) const { return !(*this == p); }
+    bool operator!=( std::nullptr_t p) const { return !(*this == p); }
     bool operator==( const Self& i)    const { return  It::operator==(i); }
     bool operator!=( const Self& i)    const { return !(*this == i); }
 
@@ -121,11 +121,11 @@ public:
 
     // pointer  ptr() const { return & It::operator*();}
 
-    bool operator==( Nullptr_t CGAL_assertion_code(p)) const {
+    bool operator==( std::nullptr_t CGAL_assertion_code(p)) const {
         CGAL_assertion( p == 0);
         return It::operator==( It());
     }
-    bool operator!=( Nullptr_t p) const { return !(*this == p); }
+    bool operator!=( std::nullptr_t p) const { return !(*this == p); }
     bool operator==( const Self& i)    const { return  It::operator==(i); }
     bool operator!=( const Self& i)    const { return !(*this == i); }
 
@@ -199,12 +199,12 @@ public:
 
     pointer  ptr() const { return & It::operator*();}
 
-    bool operator==( Nullptr_t p) const {
+    bool operator==( std::nullptr_t p) const {
         CGAL_USE(p);
-        CGAL_assertion( p == NULL);
-        return It::operator==( It(NULL));
+        CGAL_assertion( p == nullptr);
+        return It::operator==( It(nullptr));
     }
-    bool operator!=( Nullptr_t p) const { return !(*this == p); }
+    bool operator!=( std::nullptr_t p) const { return !(*this == p); }
     bool operator==( const Self& i) const { return  It::operator==(i); }
     bool operator!=( const Self& i) const { return !(*this == i); }
 
@@ -263,12 +263,12 @@ public:
 
     pointer  ptr() const { return & It::operator*();}
 
-    bool operator==( Nullptr_t p) const {
+    bool operator==( std::nullptr_t p) const {
         CGAL_USE(p);
-        CGAL_assertion( p == NULL);
-        return It::operator==( It(NULL));
+        CGAL_assertion( p == nullptr);
+        return It::operator==( It(nullptr));
     }
-    bool operator!=( Nullptr_t p) const { return !(*this == p); }
+    bool operator!=( std::nullptr_t p) const { return !(*this == p); }
     bool operator==( const Self& i) const { return  It::operator==(i); }
     bool operator!=( const Self& i) const { return !(*this == i); }
 
@@ -322,12 +322,12 @@ public:
 
     pointer  ptr() const { return & It::operator*();}
 
-    bool operator==( Nullptr_t p) const {
+    bool operator==( std::nullptr_t p) const {
         CGAL_USE(p);
-        CGAL_assertion( p == NULL);
-        return It::operator==( It(NULL));
+        CGAL_assertion( p == nullptr);
+        return It::operator==( It(nullptr));
     }
-    bool operator!=( Nullptr_t p) const { return !(*this == p); }
+    bool operator!=( std::nullptr_t p) const { return !(*this == p); }
     bool operator==( const Self& i) const { return  It::operator==(i); }
     bool operator!=( const Self& i) const { return !(*this == i); }
 
@@ -386,12 +386,12 @@ public:
 
     pointer  ptr() const { return & It::operator*();}
 
-    bool operator==( Nullptr_t p) const {
+    bool operator==( std::nullptr_t p) const {
         CGAL_USE(p);
-        CGAL_assertion( p == NULL);
-        return It::operator==( It(NULL));
+        CGAL_assertion( p == nullptr);
+        return It::operator==( It(nullptr));
     }
-    bool operator!=( Nullptr_t p) const { return !(*this == p); }
+    bool operator!=( std::nullptr_t p) const { return !(*this == p); }
     bool operator==( const Self& i) const { return  It::operator==(i); }
     bool operator!=( const Self& i) const { return !(*this == i); }
 

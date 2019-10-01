@@ -17,8 +17,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Circulator/include/CGAL/Circulator/Safe_circulator_from_iterator.h $
-// $Id: Safe_circulator_from_iterator.h 0698f79 %aI Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Circulator/include/CGAL/Circulator/Safe_circulator_from_iterator.h $
+// $Id: Safe_circulator_from_iterator.h 6425345 %aI Maxime Gimeno
 // SPDX-License-Identifier: LGPL-3.0+
 // 
 //
@@ -32,6 +32,8 @@
 #include <CGAL/circulator.h>
 
 #include <boost/optional.hpp>
+
+#include <CGAL/use.h>
 
 namespace CGAL {
 
@@ -95,11 +97,12 @@ public:
 //
 // OPERATIONS
 
-    bool operator==( Nullptr_t p) const {
-        CGAL_assertion( p == NULL);
+    bool operator==( std::nullptr_t p) const {
+        CGAL_USE(p);
+        CGAL_assertion( p == nullptr);
         return m_empty;
     }
-    bool operator!=( Nullptr_t p) const { return !(*this == p); }
+    bool operator!=( std::nullptr_t p) const { return !(*this == p); }
     
     bool operator==( const Self& c) const
     {

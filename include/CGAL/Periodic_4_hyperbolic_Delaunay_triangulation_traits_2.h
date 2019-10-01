@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Periodic_4_hyperbolic_triangulation_2/include/CGAL/Periodic_4_hyperbolic_Delaunay_triangulation_traits_2.h $
-// $Id: Periodic_4_hyperbolic_Delaunay_triangulation_traits_2.h c143c65 %aI Maxime Gimeno
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Periodic_4_hyperbolic_triangulation_2/include/CGAL/Periodic_4_hyperbolic_Delaunay_triangulation_traits_2.h $
+// $Id: Periodic_4_hyperbolic_Delaunay_triangulation_traits_2.h d4e09c1 %aI Laurent Rineau
 // SPDX-License-Identifier: GPL-3.0+
 //
 // Author(s)     :   Iordan Iordanov
@@ -31,7 +31,6 @@
 
 #include <CGAL/Bbox_2.h>
 #include <CGAL/Cartesian.h>
-#include <CGAL/CORE_Expr.h>
 
 #include <boost/tuple/tuple.hpp>
 #include <boost/variant.hpp>

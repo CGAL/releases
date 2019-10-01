@@ -14,8 +14,8 @@
  WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 
 *****************************************************************************/
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/GraphicsView/include/CGAL/Qt/image_interface.h $
-// $Id: image_interface.h 1df3c3e %aI Laurent Rineau
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/GraphicsView/include/CGAL/Qt/image_interface.h $
+// $Id: image_interface.h 4581f1b %aI Andreas Fabri
 // SPDX-License-Identifier: GPL-3.0
 
 #ifndef CGAL_IMAGE_INTERFACE_H
@@ -36,7 +36,7 @@ public:
   ImageInterface(QWidget *parent, qreal ratio)
     : QDialog(parent), ratio(ratio)
   {
-    currentlyFocused = NULL;
+    currentlyFocused = nullptr;
     setupUi(this);
     connect(imgHeight, SIGNAL(valueChanged(int)),
             this, SLOT(imgHeightValueChanged(int)));

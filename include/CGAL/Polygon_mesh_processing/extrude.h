@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Polygon_mesh_processing/include/CGAL/Polygon_mesh_processing/extrude.h $
-// $Id: extrude.h 2f81a21 %aI Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Polygon_mesh_processing/include/CGAL/Polygon_mesh_processing/extrude.h $
+// $Id: extrude.h 25a05e9 %aI Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0+
 //
 //
@@ -66,7 +66,7 @@ void create_strip(const BorderHalfedgesRange& input_halfedges,
     halfedge_descriptor h = input_halfedges[i];
     face_descriptor nf = add_face(mesh);
 
-    CGAL::cpp11::array<halfedge_descriptor, 4> hedges;
+    std::array<halfedge_descriptor, 4> hedges;
     for (int k=0; k<4; ++k)
     {
       hedges[k]=h;

@@ -12,12 +12,12 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Circular_kernel_2/include/CGAL/Circular_kernel_2/Intersection_traits.h $
-// $Id: Intersection_traits.h ff26773 %aI Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Circular_kernel_2/include/CGAL/Circular_kernel_2/Intersection_traits.h $
+// $Id: Intersection_traits.h 1d908c1 %aI Sébastien Loriot
 // SPDX-License-Identifier: LGPL-3.0+
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Circular_kernel_2/include/CGAL/Circular_kernel_2/Intersection_traits.h $
-// $Id: Intersection_traits.h ff26773 %aI Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Circular_kernel_2/include/CGAL/Circular_kernel_2/Intersection_traits.h $
+// $Id: Intersection_traits.h 1d908c1 %aI Sébastien Loriot
 // SPDX-License-Identifier: LGPL-3.0+
 //
 //
@@ -26,10 +26,7 @@
 #ifndef CGAL_CIRCULAR_KERNEL_2_INTERSECTION_TRAITS_H
 #define CGAL_CIRCULAR_KERNEL_2_INTERSECTION_TRAITS_H
 
-//this include is needed to know the value of CGAL_INTERSECTION_VERSION
 #include <CGAL/Intersection_traits.h>
-
-#if !(CGAL_INTERSECTION_VERSION < 2)
 
 #include <boost/variant.hpp>
 
@@ -187,16 +184,6 @@ struct CK2_Intersection_traits<CK, typename CK::Line_2, typename CK::Line_2>
 
 } //end of namespace CGAL
 
-#else
-
-#include <CGAL/Object.h>
-
-template <typename CK, typename T1, typename T2>
-struct CK2_Intersection_traits
-{ typedef CGAL::Object type; };
-
-#endif
-
 namespace CGAL{
 namespace internal{
 
@@ -208,33 +195,12 @@ namespace internal{
 // _could_ come with conversion overhead and so we rather go for
 // the real type.
 // Overloads for empty returns are also provided.
-#if CGAL_INTERSECTION_VERSION < 2
-  #if defined(CGAL_CFG_NO_CPP0X_RVALUE_REFERENCE)
-    template<typename, typename T>
-    inline
-    CGAL::Object ck2_intersection_return(const T& t) { return CGAL::make_object(t); }
-  #else
-    template<typename, typename T>
-    inline
-    CGAL::Object ck2_intersection_return(T&& t) { return CGAL::make_object(std::forward<T>(t)); }
-  #endif // CGAL_CFG_NO_CPP0X_RVALUE_REFERENCE
-  template<typename>
-  inline
-  CGAL::Object ck2_intersection_return() { return CGAL::Object(); }
-#else
-  #if defined(CGAL_CFG_NO_CPP0X_RVALUE_REFERENCE)
-    template<typename RT, typename T>
-    inline RT
-    ck2_intersection_return(const T& t) { return RT(t); }
-  #else
-    template<typename RT, typename T>
-    inline RT
-    ck2_intersection_return(T&& t) { return RT(std::forward<T>(t)); }
-  #endif // CGAL_CFG_NO_CPP0X_RVALUE_REFERENCE
+  template<typename RT, typename T>
+  inline RT
+  ck2_intersection_return(T&& t) { return RT(std::forward<T>(t)); }
   template<typename RT>
   inline RT
   ck2_intersection_return() { return RT(); }
-#endif // CGAL_INTERSECTION_VERSION < 2
 
 } } //end of namespace CGAL::internal
 

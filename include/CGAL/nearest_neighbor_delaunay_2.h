@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Point_set_2/include/CGAL/nearest_neighbor_delaunay_2.h $
-// $Id: nearest_neighbor_delaunay_2.h ee57fc2 %aI Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Point_set_2/include/CGAL/nearest_neighbor_delaunay_2.h $
+// $Id: nearest_neighbor_delaunay_2.h e2d19b0 %aI Andreas Fabri
 // SPDX-License-Identifier: GPL-3.0+
 // 
 //
@@ -49,7 +49,7 @@ typename Dt::Vertex_handle  nearest_neighbor(const Dt& delau, typename Dt::Verte
   typedef typename Dt::Vertex_handle                  Vertex_handle;
   typedef typename Gt::Compare_distance_2             Compare_dist_2;
   
-  if (delau.number_of_vertices() <= 1) return NULL;    
+  if (delau.number_of_vertices() <= 1) return nullptr;    
   Point p = v->point();
      
   Vertex_circulator vc = delau.incident_vertices(v);  
@@ -85,7 +85,7 @@ typename Dt::Vertex_handle lookup(const Dt& delau, const typename Dt::Point& p)
  typedef typename Dt::Locate_type               Locate_type;
  typedef typename Dt::Face_handle               Face_handle;
   
- if (delau.number_of_vertices() == 0) return NULL;   
+ if (delau.number_of_vertices() == 0) return nullptr;   
      
  // locate ...
  Locate_type lt;
@@ -96,7 +96,7 @@ typename Dt::Vertex_handle lookup(const Dt& delau, const typename Dt::Point& p)
       Face f = *fh;
       return f.vertex(li);
  }
- else return NULL;
+ else return nullptr;
 }   
    
    
@@ -124,7 +124,7 @@ OutputIterator   nearest_neighbors(Dt& delau, const typename Dt::Point& p, std::
    bool old_node = true;
     
    // we have to add a new vertex ...
-   if (vh == NULL){
+   if (vh == nullptr){
       vh = delau.insert(p);
       old_node = false;
       k++;

@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Poisson_surface_reconstruction_3/include/CGAL/Poisson_reconstruction_function.h $
-// $Id: Poisson_reconstruction_function.h 2f9408f %aI Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Poisson_surface_reconstruction_3/include/CGAL/Poisson_reconstruction_function.h $
+// $Id: Poisson_reconstruction_function.h a207549 %aI Andreas Fabri
 // SPDX-License-Identifier: GPL-3.0+
 //
 // Author(s)     : Laurent Saboret, Pierre Alliez
@@ -37,7 +37,7 @@
 #include <cmath>
 #include <iterator>
 
-#include <CGAL/trace.h>
+#include <CGAL/IO/trace.h>
 #include <CGAL/Reconstruction_triangulation_3.h>
 #include <CGAL/spatial_sort.h>
 #ifdef CGAL_EIGEN3_ENABLED

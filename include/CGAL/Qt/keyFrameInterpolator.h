@@ -14,8 +14,8 @@
  WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 
 *****************************************************************************/
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/GraphicsView/include/CGAL/Qt/keyFrameInterpolator.h $
-// $Id: keyFrameInterpolator.h 1969ee9 %aI Andreas Fabri
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/GraphicsView/include/CGAL/Qt/keyFrameInterpolator.h $
+// $Id: keyFrameInterpolator.h 4581f1b %aI Andreas Fabri
 // SPDX-License-Identifier: GPL-3.0
 #ifndef QGLVIEWER_KEY_FRAME_INTERPOLATOR_H
 #define QGLVIEWER_KEY_FRAME_INTERPOLATOR_H
@@ -131,7 +131,7 @@ class CGAL_QT_EXPORT KeyFrameInterpolator : public QObject {
   Q_OBJECT
 
 public:
-  KeyFrameInterpolator(Frame *fr = NULL);
+  KeyFrameInterpolator(Frame *fr = nullptr);
   virtual ~KeyFrameInterpolator();
 
 Q_SIGNALS:

@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Nef_3/include/CGAL/Nef_3/K3_tree.h $
-// $Id: K3_tree.h fa92aa4 %aI Andreas Fabri
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Nef_3/include/CGAL/Nef_3/K3_tree.h $
+// $Id: K3_tree.h 4581f1b %aI Andreas Fabri
 // SPDX-License-Identifier: GPL-3.0+
 // 
 //
@@ -589,7 +589,7 @@ else {
       
 inline 
 const Node* get_child_by_side( const Node* node, Oriented_side side) {
-  CGAL_assertion( node != NULL);
+  CGAL_assertion( node != nullptr);
   CGAL_assertion( side != ON_ORIENTED_BOUNDARY);
   if( side == ON_NEGATIVE_SIDE) {
     return node->left();
@@ -756,7 +756,7 @@ class Objects_around_box {
       
     inline 
     const Node* get_child_by_side( const Node* node, Oriented_side side) {
-      CGAL_assertion( node != NULL);
+      CGAL_assertion( node != nullptr);
       CGAL_assertion( side != ON_ORIENTED_BOUNDARY);
       if( side == ON_NEGATIVE_SIDE) {
 	return node->left();
@@ -787,7 +787,7 @@ public:
     typedef typename SNC_structure::Halfedge_iterator Halfedge_iterator;
     typedef typename SNC_structure::Halffacet_iterator Halffacet_iterator;
 
-    CGAL_assertion( W != NULL);
+    CGAL_assertion( W != nullptr);
     Object_list objects;
     Vertex_iterator v;
     Halfedge_iterator e;

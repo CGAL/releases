@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/BGL/include/CGAL/boost/graph/parameters_interface.h $
-// $Id: parameters_interface.h 2f81a21 %aI Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/BGL/include/CGAL/boost/graph/parameters_interface.h $
+// $Id: parameters_interface.h 25a05e9 %aI Sébastien Loriot
 // SPDX-License-Identifier: LGPL-3.0+
 //
 //
@@ -84,6 +84,13 @@ CGAL_add_named_parameter(use_compact_clipper_t, use_compact_clipper, use_compact
 CGAL_add_named_parameter(output_iterator_t, output_iterator, output_iterator)
 CGAL_add_named_parameter(erase_all_duplicates_t, erase_all_duplicates, erase_all_duplicates)
 CGAL_add_named_parameter(require_same_orientation_t, require_same_orientation, require_same_orientation)
+CGAL_add_named_parameter(face_size_map_t, face_size_map, face_size_map)
+CGAL_add_named_parameter(snapping_tolerance_t, snapping_tolerance, snapping_tolerance)
+CGAL_add_named_parameter(use_safety_constraints_t, use_safety_constraints, use_safety_constraints)
+CGAL_add_named_parameter(use_angle_smoothing_t, use_angle_smoothing, use_angle_smoothing)
+CGAL_add_named_parameter(use_area_smoothing_t, use_area_smoothing, use_area_smoothing)
+CGAL_add_named_parameter(use_Delaunay_flips_t, use_Delaunay_flips, use_Delaunay_flips)
+CGAL_add_named_parameter(do_project_t, do_project, do_project)
 
 // List of named parameters that we use in the package 'Surface Mesh Simplification'
 CGAL_add_named_parameter(get_cost_policy_t, get_cost_policy, get_cost)
@@ -92,7 +99,7 @@ CGAL_add_named_parameter(get_placement_policy_t, get_placement_policy, get_place
 //to be documented
 CGAL_add_named_parameter(face_normal_t, face_normal, face_normal_map)
 CGAL_add_named_parameter(random_seed_t, random_seed, random_seed)
-CGAL_add_named_parameter(do_project_t, do_project, do_project)
+CGAL_add_named_parameter(tolerance_map_t, tolerance_map, tolerance_map)
 
 //internal
 CGAL_add_named_parameter(weight_calculator_t, weight_calculator, weight_calculator)

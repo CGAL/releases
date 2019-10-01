@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Convex_hull_2/include/CGAL/segment_intersection_points_2.h $
-// $Id: segment_intersection_points_2.h 97b5c37 %aI Andreas Fabri
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Convex_hull_2/include/CGAL/segment_intersection_points_2.h $
+// $Id: segment_intersection_points_2.h ce126b8 %aI Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0+
 // 
 //
@@ -66,7 +66,7 @@ si_brute_force_II(ForwardIterator first, ForwardIterator last,
   Orientation orientation = traits.orientation_2_object();
 
   for ( ForwardIterator outer = first; outer != last; ++outer)
-    for ( ForwardIterator inner = cpp11::next(outer); inner != last; ++inner)
+    for ( ForwardIterator inner = std::next(outer); inner != last; ++inner)
       {
           Point s1 = (*outer).source();
           Point e1 = (*outer).target();

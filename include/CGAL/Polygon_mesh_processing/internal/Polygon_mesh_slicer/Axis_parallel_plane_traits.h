@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Polygon_mesh_processing/include/CGAL/Polygon_mesh_processing/internal/Polygon_mesh_slicer/Axis_parallel_plane_traits.h $
-// $Id: Axis_parallel_plane_traits.h ee57fc2 %aI Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Polygon_mesh_processing/include/CGAL/Polygon_mesh_processing/internal/Polygon_mesh_slicer/Axis_parallel_plane_traits.h $
+// $Id: Axis_parallel_plane_traits.h 124012d %aI Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0+
 //
 //
@@ -123,10 +123,10 @@ public:
       const typename Traits::Point_3& src = m_source_3(s);
       const typename Traits::Point_3& tgt = m_target_3(s);
 
-      cpp11::array<FT,3> src_coords = {{ *m_coord_iterator(src),
+      std::array<FT,3> src_coords = {{ *m_coord_iterator(src),
                                          *(m_coord_iterator(src)+1),
                                          *(m_coord_iterator(src)+2) }};
-      cpp11::array<FT,3> tgt_coords = {{ *m_coord_iterator(tgt),
+      std::array<FT,3> tgt_coords = {{ *m_coord_iterator(tgt),
                                          *(m_coord_iterator(tgt)+1),
                                          *(m_coord_iterator(tgt)+2) }};
 

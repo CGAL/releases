@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Number_types/include/CGAL/gmpxx_coercion_traits.h $
-// $Id: gmpxx_coercion_traits.h 0698f79 %aI Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Number_types/include/CGAL/gmpxx_coercion_traits.h $
+// $Id: gmpxx_coercion_traits.h 2c5cc9a %aI Laurent Rineau
 // SPDX-License-Identifier: LGPL-3.0+
 //
 //
@@ -28,7 +28,6 @@
 #ifndef CGAL_GMPXX_COERCION_TRAITS_H
 #define CGAL_GMPXX_COERCION_TRAITS_H 1
 
-#include <CGAL/number_type_basic.h>
 #include <CGAL/Coercion_traits.h>
 
 #include <cstring> // needed by GMP 4.1.4 since <gmpxx.h> misses it.

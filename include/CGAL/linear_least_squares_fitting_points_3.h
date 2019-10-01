@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Principal_component_analysis/include/CGAL/linear_least_squares_fitting_points_3.h $
-// $Id: linear_least_squares_fitting_points_3.h ee57fc2 %aI Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Principal_component_analysis/include/CGAL/linear_least_squares_fitting_points_3.h $
+// $Id: linear_least_squares_fitting_points_3.h e2d19b0 %aI Andreas Fabri
 // SPDX-License-Identifier: GPL-3.0+
 //
 // Author(s) : Pierre Alliez and Sylvain Pion and Ankit Gupta
@@ -60,7 +60,7 @@ linear_least_squares_fitting_3(InputIterator first,
 
   // assemble covariance matrix
   typename DiagonalizeTraits::Covariance_matrix covariance = {{ 0., 0., 0., 0., 0., 0. }};
-  assemble_covariance_matrix_3(first,beyond,covariance,c,k,(Point*) NULL,tag, diagonalize_traits);
+  assemble_covariance_matrix_3(first,beyond,covariance,c,k,(Point*) nullptr,tag, diagonalize_traits);
 
   // compute fitting plane
   return fitting_plane_3(covariance,c,plane,k,diagonalize_traits);
@@ -93,7 +93,7 @@ linear_least_squares_fitting_3(InputIterator first,
 
   // assemble covariance matrix
   typename DiagonalizeTraits::Covariance_matrix covariance = {{ 0., 0., 0., 0., 0., 0. }};
-  assemble_covariance_matrix_3(first,beyond,covariance,c,k,(Point*) NULL,tag, diagonalize_traits);
+  assemble_covariance_matrix_3(first,beyond,covariance,c,k,(Point*) nullptr,tag, diagonalize_traits);
 
   // compute fitting line
   return fitting_line_3(covariance,c,line,k,diagonalize_traits);

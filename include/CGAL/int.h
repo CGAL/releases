@@ -16,8 +16,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Number_types/include/CGAL/int.h $
-// $Id: int.h 26c857a %aI Mael Rouxel-Labbé
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Number_types/include/CGAL/int.h $
+// $Id: int.h 2559b79 %aI Laurent Rineau
 // SPDX-License-Identifier: LGPL-3.0+
 //
 //
@@ -27,7 +27,7 @@
 #ifndef CGAL_INT_H
 #define CGAL_INT_H
 
-#include <CGAL/number_type_basic.h>
+#include <CGAL/Interval_nt.h>
 #include <CGAL/Modular_traits.h>
 #include <CGAL/Modular_arithmetic/Residue_type.h>
 

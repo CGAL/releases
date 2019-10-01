@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/STL_Extension/include/CGAL/Time_stamper.h $
-// $Id: Time_stamper.h 8993817 %aI Laurent Rineau
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/STL_Extension/include/CGAL/Time_stamper.h $
+// $Id: Time_stamper.h e2d19b0 %aI Andreas Fabri
 // SPDX-License-Identifier: LGPL-3.0+
 //
 // Author(s)     : Jane Tournois
@@ -76,22 +76,22 @@ struct Time_stamper
 
   static std::size_t time_stamp(const T* pt)
   {
-    if(pt == NULL){
+    if(pt == nullptr){
       return std::size_t(-1);
     }
     return pt->time_stamp();
   }
 
   static std::size_t hash_value(const T* p) {
-    if(NULL == p)
+    if(nullptr == p)
       return std::size_t(-1);
     else
       return p->time_stamp();
   }
 
   static bool less(const T* p_t1, const T* p_t2) {
-    if(p_t1 == NULL)      return (p_t2 != NULL);
-    else if(p_t2 == NULL) return false;
+    if(p_t1 == nullptr)      return (p_t2 != nullptr);
+    else if(p_t2 == nullptr) return false;
     else {
       CGAL_assertion((p_t1 == p_t2) == (time_stamp(p_t1) == time_stamp(p_t2)));
       return time_stamp(p_t1) < time_stamp(p_t2);

@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/SearchStructures/include/CGAL/Tree_base.h $
-// $Id: Tree_base.h ee57fc2 %aI Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/SearchStructures/include/CGAL/Tree_base.h $
+// $Id: Tree_base.h 4581f1b %aI Andreas Fabri
 // SPDX-License-Identifier: GPL-3.0+
 // 
 //
@@ -33,8 +33,8 @@
 #include <CGAL/assertions.h>
 #include <CGAL/Tree_assertions.h>
 
-#ifndef CGAL_TREE_BASE_NULL
-#define CGAL_TREE_BASE_NULL 0
+#ifndef CGAL_TREE_BASE_nullptr
+#define CGAL_TREE_BASE_nullptr 0
 #endif
 
 #define stlvector

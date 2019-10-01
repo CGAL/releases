@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Straight_skeleton_2/include/CGAL/IO/Dxf_writer.h $
-// $Id: Dxf_writer.h 182239d %aI Laurent Rineau
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Straight_skeleton_2/include/CGAL/IO/Dxf_writer.h $
+// $Id: Dxf_writer.h ce126b8 %aI Sébastien Loriot
 // SPDX-License-Identifier: LGPL-3.0+
 // 
 //
@@ -126,7 +126,7 @@ public:
         
         while ( lCurrVertex != aVerticesEnd )
         {
-          XY_Iterator lNextVertex = ( lCurrVertex == lLastVertex ? lFirstVertex : CGAL::cpp11::next(lCurrVertex) ) ;
+          XY_Iterator lNextVertex = ( lCurrVertex == lLastVertex ? lFirstVertex : std::next(lCurrVertex) ) ;
           
           add_segment_2 ( *lCurrVertex, *lNextVertex, aLayer, aColor ) ;
           

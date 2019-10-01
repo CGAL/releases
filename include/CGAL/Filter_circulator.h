@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Mesh_2/include/CGAL/Filter_circulator.h $
-// $Id: Filter_circulator.h ee57fc2 %aI Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Mesh_2/include/CGAL/Filter_circulator.h $
+// $Id: Filter_circulator.h 5532b84 %aI Andreas Fabri
 // SPDX-License-Identifier: GPL-3.0+
 // 
 //
@@ -73,11 +73,11 @@ public:
       CGAL_assertion(is_null || test(*this));
     }
 
-  bool operator==( Nullptr_t ) const {
+  bool operator==( std::nullptr_t ) const {
     return is_null;
   }
 
-  bool operator!=( Nullptr_t ) const {
+  bool operator!=( std::nullptr_t ) const {
     return !is_null;
   }
 

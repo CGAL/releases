@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Triangulation_2/include/CGAL/Triangulation_2_projection_traits_3.h $
-// $Id: Triangulation_2_projection_traits_3.h ee57fc2 %aI Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Triangulation_2/include/CGAL/Triangulation_2_projection_traits_3.h $
+// $Id: Triangulation_2_projection_traits_3.h 7009079 %aI Andreas Fabri
 // SPDX-License-Identifier: GPL-3.0+
 // 
 //
@@ -26,7 +26,7 @@
 #include <CGAL/license/Triangulation_2.h>
 
 
-#include <CGAL/internal/Triangulation_2_filtered_projection_traits_3.h>
+#include <CGAL/Triangulation_2/internal/Triangulation_2_filtered_projection_traits_3.h>
 
 namespace CGAL{
 

@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Arrangement_on_surface_2/include/CGAL/Arr_trapezoid_ric_point_location.h $
-// $Id: Arr_trapezoid_ric_point_location.h 18acb2e %aI Andreas Fabri
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Arrangement_on_surface_2/include/CGAL/Arr_trapezoid_ric_point_location.h $
+// $Id: Arr_trapezoid_ric_point_location.h 4581f1b %aI Andreas Fabri
 // SPDX-License-Identifier: GPL-3.0+
 // 
 //
@@ -148,7 +148,7 @@ public:
   Arr_trapezoid_ric_point_location (bool with_guarantees = true, 
                            double depth_thrs = CGAL_TD_DEFAULT_DEPTH_THRESHOLD, 
                            double size_thrs = CGAL_TD_DEFAULT_SIZE_THRESHOLD) 
-    : m_traits (NULL), m_with_guarantees(with_guarantees)
+    : m_traits (nullptr), m_with_guarantees(with_guarantees)
   {
     td.set_with_guarantees(with_guarantees);
     td.depth_threshold(depth_thrs);

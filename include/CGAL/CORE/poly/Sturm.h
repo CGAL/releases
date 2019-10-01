@@ -51,8 +51,8 @@
  * WWW URL: http://cs.nyu.edu/exact/
  * Email: exact@cs.nyu.edu
  *
- * $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/CGAL_Core/include/CGAL/CORE/poly/Sturm.h $
- * $Id: Sturm.h 6b568a8 %aI Sébastien Loriot
+ * $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/CGAL_Core/include/CGAL/CORE/poly/Sturm.h $
+ * $Id: Sturm.h 2848158 %aI Mael Rouxel-Labbé
  * SPDX-License-Identifier: LGPL-3.0+
  ***************************************************************************/
 
@@ -944,7 +944,7 @@ std::cout << "In newtonRefine, input J=" << J.first
 	// Newton might bring x very close to one endpoint, but it can be
 	// because the root is near there!  In any case,
 	// by setting x to the center of J, you only gain at most
-	// one bit of accuracy, but you stand to loose an
+  // one bit of accuracy, but you stand to lose an
 	// arbitrary amount of bits of accuracy if you are unlucky!
 	// So I will comment out the next line.  --Chee (Aug 9, 2004).
 	// 

@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Three/include/CGAL/Three/Scene_group_item.h $
-// $Id: Scene_group_item.h c8d5453 %aI Maxime Gimeno
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Three/include/CGAL/Three/Scene_group_item.h $
+// $Id: Scene_group_item.h a05e0f5 %aI Maxime Gimeno
 // SPDX-License-Identifier: GPL-3.0+
 //
 //
@@ -26,7 +26,7 @@
 #include <CGAL/license/Three.h>
 
 
-#include <CGAL/Three/Scene_item.h>
+#include <CGAL/Three/Scene_item_rendering_helper.h>
 #include <CGAL/Three/Scene_interface.h>
 using namespace CGAL::Three;
 
@@ -43,14 +43,12 @@ namespace Three {
 //! user to apply several actions to multiple items at the same time.
 //! A custom Scene_item can derive from it to have children. They appear
 //! hierarchically in the Geometric Objects list.
-class DEMO_FRAMEWORK_EXPORT Scene_group_item : public Scene_item
+class DEMO_FRAMEWORK_EXPORT Scene_group_item : public Scene_item_rendering_helper
 {
     Q_OBJECT
 public :
-    Scene_group_item(QString name = QString("New group"), int nb_vbos = 0, int nb_vaos = 0);
+    Scene_group_item(QString name = QString("New group"));
     ~Scene_group_item() {}
-    //!Sets the scene;
-    void setScene(Scene_interface* s) { scene = s; }
     //!Returns false to avoid disturbing the BBox of the scene.
     bool isFinite() const Q_DECL_OVERRIDE;
     //!Returns true to avoid disturbing the BBox of the scene.
@@ -237,7 +235,8 @@ public :
     void moveUp(int);
     //!Moves a child down in the list.
     void moveDown(int);
-
+    
+    void compute_bbox() const Q_DECL_OVERRIDE{};
 public Q_SLOTS:
     //!\brief Redraws children.
     //!

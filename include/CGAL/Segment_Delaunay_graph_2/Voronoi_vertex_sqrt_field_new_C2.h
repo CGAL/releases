@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Segment_Delaunay_graph_2/include/CGAL/Segment_Delaunay_graph_2/Voronoi_vertex_sqrt_field_new_C2.h $
-// $Id: Voronoi_vertex_sqrt_field_new_C2.h ee57fc2 %aI Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Segment_Delaunay_graph_2/include/CGAL/Segment_Delaunay_graph_2/Voronoi_vertex_sqrt_field_new_C2.h $
+// $Id: Voronoi_vertex_sqrt_field_new_C2.h e2d19b0 %aI Andreas Fabri
 // SPDX-License-Identifier: GPL-3.0+
 // 
 //
@@ -983,11 +983,11 @@ private:
 
 #ifndef CGAL_DISABLE_AM_CODE
     // code added in previous version by Andreas + Monique -- start
-    Site_2 const *pp1 = NULL;
+    Site_2 const *pp1 = nullptr;
     if ( end_pt ) pp1 = &p;
     else if ( end_qt ) pp1 = &q;
     else if ( end_rt ) pp1 = &r;
-    if ( pp1 != NULL ) {
+    if ( pp1 != nullptr ) {
       // As the Voronoi circle and the segment t touch in p1,
       // it is enough to check that the center and the non-touching
       // point of the segment

@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Arrangement_on_surface_2/include/CGAL/Curved_kernel_via_analysis_2/Filtered_curved_kernel_via_analysis_2_impl.h $
-// $Id: Filtered_curved_kernel_via_analysis_2_impl.h ff26773 %aI Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Arrangement_on_surface_2/include/CGAL/Curved_kernel_via_analysis_2/Filtered_curved_kernel_via_analysis_2_impl.h $
+// $Id: Filtered_curved_kernel_via_analysis_2_impl.h 983645a %aI Sébastien Loriot
 // SPDX-License-Identifier: LGPL-3.0+
 //
 //
@@ -511,7 +511,7 @@ public:
 };
 
 
-//! checks wether and how two arcs are intersection - with first filtering
+//! checks whether and how two arcs are intersection - with first filtering
 template < class CurvedKernelViaAnalysis_2, class FunctorBase >
 class Intersect_2 : 
         public FunctorBase::Intersect_2 {
@@ -712,7 +712,9 @@ public:
 
     //! type of curve analysis
     typedef typename Curve_kernel_2::Curve_analysis_2 Curve_analysis_2;
-    
+
+    //!@}
+
 public:
     //!\name embedded types  for \c Arrangement_2 package
     //!@{

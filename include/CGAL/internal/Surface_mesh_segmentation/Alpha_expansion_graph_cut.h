@@ -13,8 +13,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Surface_mesh_segmentation/include/CGAL/internal/Surface_mesh_segmentation/Alpha_expansion_graph_cut.h $
-// $Id: Alpha_expansion_graph_cut.h 560c77f %aI Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Surface_mesh_segmentation/include/CGAL/internal/Surface_mesh_segmentation/Alpha_expansion_graph_cut.h $
+// $Id: Alpha_expansion_graph_cut.h 25a05e9 %aI Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0+
 //
 // Author(s)     : Ilker O. Yaz
@@ -45,7 +45,7 @@
 #ifdef CGAL_SEGMENTATION_BENCH_GRAPHCUT
 #include <CGAL/Timer.h>
 #endif
-#include <CGAL/trace.h>
+#include <CGAL/IO/trace.h>
 
 #include <CGAL/boost/graph/Named_function_parameters.h>
 
@@ -276,7 +276,7 @@ public:
         edge_creation_time += timer.time();
         #endif
 
-        // initialize vertex indices, it is neccessary since we are using VertexList = listS
+        // initialize vertex indices, it is necessary since we are using VertexList = listS
         Vertex_iterator v_begin, v_end;
         Traits::vertices_size_type index = 0;
         for(boost::tie(v_begin, v_end) = vertices(graph); v_begin != v_end; ++v_begin) {

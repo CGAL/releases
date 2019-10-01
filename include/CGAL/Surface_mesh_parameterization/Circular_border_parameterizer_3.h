@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Surface_mesh_parameterization/include/CGAL/Surface_mesh_parameterization/Circular_border_parameterizer_3.h $
-// $Id: Circular_border_parameterizer_3.h 2f9408f %aI Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Surface_mesh_parameterization/include/CGAL/Surface_mesh_parameterization/Circular_border_parameterizer_3.h $
+// $Id: Circular_border_parameterizer_3.h d60f564 %aI Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0+
 //
 // Author(s)     : Laurent Saboret, Pierre Alliez, Bruno Levy
@@ -31,7 +31,6 @@
 #include <CGAL/boost/graph/iterator.h>
 #include <CGAL/number_utils.h>
 
-#include <boost/foreach.hpp>
 
 #include <cmath>
 
@@ -98,7 +97,7 @@ private:
                            halfedge_descriptor bhd) const
   {
     NT len = 0.0;
-    BOOST_FOREACH(halfedge_descriptor hd, halfedges_around_face(bhd, mesh)) {
+    for(halfedge_descriptor hd : halfedges_around_face(bhd, mesh)) {
       len += compute_edge_length(mesh, source(hd, mesh), target(hd, mesh));
     }
     return len;
@@ -152,7 +151,7 @@ public:
     const NT tmp = 2 * CGAL_PI / total_len;
     NT len = 0.0; // current position on circle in [0, total_len]
 
-    BOOST_FOREACH(halfedge_descriptor hd, halfedges_around_face(bhd, mesh)) {
+    for(halfedge_descriptor hd : halfedges_around_face(bhd, mesh)) {
       vertex_descriptor vd = source(hd, mesh);
       NT angle = len * tmp; // current position on the circle in radians
 

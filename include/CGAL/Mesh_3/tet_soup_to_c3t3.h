@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Mesh_3/include/CGAL/Mesh_3/tet_soup_to_c3t3.h $
-// $Id: tet_soup_to_c3t3.h c5fc0b6 %aI Mael Rouxel-Labbé
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Mesh_3/include/CGAL/Mesh_3/tet_soup_to_c3t3.h $
+// $Id: tet_soup_to_c3t3.h d60f564 %aI Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0+
 //
 //
@@ -34,7 +34,6 @@
 
 #include <boost/array.hpp>
 #include <boost/unordered_map.hpp>
-#include <boost/foreach.hpp>
 
 
 namespace CGAL
@@ -304,7 +303,7 @@ bool build_triangulation(Tr& tr,
   tr.tds().clear(); // not tr.clear() since it calls tr.init() which we don't want
 
   build_vertices<Tr>(tr, points, vertex_handle_vector);
-  BOOST_FOREACH(Vertex_handle vh, vertex_handle_vector)
+  for(Vertex_handle vh : vertex_handle_vector)
   {
     vh->set_dimension(-1);
   }

@@ -14,8 +14,8 @@
 //
 // SPDX-License-Identifier: GPL-3.0+
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Alpha_shapes_2/include/CGAL/Alpha_shape_2.h $
-// $Id: Alpha_shape_2.h ba3a59e %aI Mael Rouxel-Labbé
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Alpha_shapes_2/include/CGAL/Alpha_shape_2.h $
+// $Id: Alpha_shape_2.h 4588ba5 %aI Liangliang Nan
 // Author(s)     : Tran Kai Frank DA
 //                 Andreas Fabri <Andreas.Fabri@geometryfactory.com>
 
@@ -319,7 +319,7 @@ public:
       return n;
     }
 
-private :
+protected :
 
   //--------------------- INITIALIZATION OF PRIVATE MEMBERS -----------
 
@@ -1333,7 +1333,7 @@ Alpha_shape_2<Dt,EACT>::number_of_solid_components(const Type_of_alpha& alpha) c
        ++face_it) 
     {
       Face_handle pFace = face_it;
-      CGAL_triangulation_postcondition( pFace != NULL);
+      CGAL_triangulation_postcondition( pFace != nullptr);
       
       if (classify(pFace, alpha) == INTERIOR){
 	Data& data = marked_face_set[pFace];
@@ -1367,7 +1367,7 @@ Alpha_shape_2<Dt,EACT>::traverse(const Face_handle& pFace,
     for (int i=0; i<3; i++)
       {
 	pNeighbor = fh->neighbor(i);
-	 CGAL_triangulation_assertion(pNeighbor != NULL);
+	 CGAL_triangulation_assertion(pNeighbor != nullptr);
 	if (classify(pNeighbor, alpha) == INTERIOR){
 	  Data& data = marked_face_set[pNeighbor];
 	  if(data == false){

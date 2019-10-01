@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Point_set_processing_3/include/CGAL/radial_orient_normals.h $
-// $Id: radial_orient_normals.h e34529a %aI Andreas Fabri
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Point_set_processing_3/include/CGAL/radial_orient_normals.h $
+// $Id: radial_orient_normals.h a207549 %aI Andreas Fabri
 // SPDX-License-Identifier: GPL-3.0+
 //
 // Author(s) : Laurent Saboret
@@ -26,7 +26,7 @@
 #include <CGAL/disable_warnings.h>
 
 #include <CGAL/Origin.h>
-#include <CGAL/trace.h>
+#include <CGAL/IO/trace.h>
 #include <CGAL/property_map.h>
 #include <CGAL/point_set_processing_assertions.h>
 

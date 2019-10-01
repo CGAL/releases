@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Alpha_shapes_3/include/CGAL/internal/Lazy_alpha_nt_3.h $
-// $Id: Lazy_alpha_nt_3.h 45505a3 %aI Marc Glisse
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Alpha_shapes_3/include/CGAL/internal/Lazy_alpha_nt_3.h $
+// $Id: Lazy_alpha_nt_3.h 4581f1b %aI Andreas Fabri
 // SPDX-License-Identifier: GPL-3.0+
 //
 // Author(s)     : Sébastien Loriot <sebastien.loriot@geometryfactory.com>
@@ -253,29 +253,29 @@ public:
    : exact_(Exact_nt(0)),approx_(0)
   {
     data().nbpts=0;
-    data().p0=NULL;
-    data().p1=NULL;
-    data().p2=NULL;
-    data().p3=NULL;
+    data().p0=nullptr;
+    data().p1=nullptr;
+    data().p2=nullptr;
+    data().p3=nullptr;
   }
   
   Lazy_alpha_nt_3(double d)
    : exact_(Exact_nt(d)),approx_(d)
   {
     data().nbpts=0;
-    data().p0=NULL;
-    data().p1=NULL;
-    data().p2=NULL;
-    data().p3=NULL;
+    data().p0=nullptr;
+    data().p1=nullptr;
+    data().p2=nullptr;
+    data().p3=nullptr;
   }
   
   Lazy_alpha_nt_3(const Input_point& wp1)
   {
     data().nbpts=1;
     data().p0=&wp1;
-    data().p1=NULL;
-    data().p2=NULL;
-    data().p3=NULL;
+    data().p1=nullptr;
+    data().p2=nullptr;
+    data().p3=nullptr;
     set_approx();
   }
 
@@ -285,8 +285,8 @@ public:
     data().nbpts=2;
     data().p0=&wp1;
     data().p1=&wp2;
-    data().p2=NULL;
-    data().p3=NULL;
+    data().p2=nullptr;
+    data().p3=nullptr;
     set_approx();
   }
 
@@ -298,7 +298,7 @@ public:
     data().p0=&wp1;
     data().p1=&wp2;
     data().p2=&wp3;
-    data().p3=NULL;
+    data().p3=nullptr;
     set_approx();
   }
 

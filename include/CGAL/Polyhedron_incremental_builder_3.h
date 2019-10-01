@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Polyhedron/include/CGAL/Polyhedron_incremental_builder_3.h $
-// $Id: Polyhedron_incremental_builder_3.h 22bd281 %aI Andreas Fabri
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Polyhedron/include/CGAL/Polyhedron_incremental_builder_3.h $
+// $Id: Polyhedron_incremental_builder_3.h e2d19b0 %aI Andreas Fabri
 // SPDX-License-Identifier: GPL-3.0+
 // 
 //
@@ -362,7 +362,7 @@ protected:
     }
 
     size_type find_vertex( Vertex_handle v) {
-        // Returns 0 if v == NULL.
+        // Returns 0 if v == nullptr.
         if ( v == Vertex_handle() )
             return 0;
         size_type n = 0;
@@ -377,7 +377,7 @@ protected:
     }
 
     size_type find_facet( Face_handle f) {
-        // Returns 0 if f == NULL.
+        // Returns 0 if f == nullptr.
         if ( f == Face_handle())
             return 0;
         size_type n = 0;

@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/NewKernel_d/include/CGAL/NewKernel_d/Types/Sphere.h $
-// $Id: Sphere.h dcf909d %aI Andreas Fabri
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/NewKernel_d/include/CGAL/NewKernel_d/Types/Sphere.h $
+// $Id: Sphere.h 78db3f6 %aI Maxime Gimeno
 // SPDX-License-Identifier: LGPL-3.0+
 //
 // Author(s)     : Marc Glisse
@@ -30,6 +30,7 @@ template <class R_> class Sphere {
 	FT_ r2_;
 
 	public:
+	Sphere(){}
 	Sphere(Point_ const&p, FT_ const&r2): c_(p), r2_(r2) {}
 	// TODO: Add a piecewise constructor?
 
@@ -66,7 +67,7 @@ template <class R_> struct Construct_sphere : Store_kernel<R_> {
     // It should be possible to avoid copying the center by moving this code to a constructor.
     Point center = cc(f, e);
     FT const& r2 = sd(center, *f);
-    return this->operator()(CGAL_MOVE(center), r2);
+    return this->operator()(std::move(center), r2);
   }
 };
 

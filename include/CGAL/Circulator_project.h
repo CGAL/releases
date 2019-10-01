@@ -16,8 +16,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/STL_Extension/include/CGAL/Circulator_project.h $
-// $Id: Circulator_project.h 0698f79 %aI Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/STL_Extension/include/CGAL/Circulator_project.h $
+// $Id: Circulator_project.h 5532b84 %aI Andreas Fabri
 // SPDX-License-Identifier: LGPL-3.0+
 // 
 //
@@ -65,11 +65,11 @@ public:
     return &(fct(*nt));
   }
 
-  bool operator==( Nullptr_t CGAL_assertion_code(p) ) const {
+  bool operator==( std::nullptr_t CGAL_assertion_code(p) ) const {
     CGAL_assertion( p == 0);
     return ( nt == 0);
   }
-  bool  operator!=( Nullptr_t p) const { return !(*this == p); }
+  bool  operator!=( std::nullptr_t p) const { return !(*this == p); }
   bool  operator==( const Self& i) const { return ( nt == i.nt); }
   bool  operator!=( const Self& i) const { return !(*this == i); }
   Ref   operator*()  const { return *ptr(); }

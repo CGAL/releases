@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Nef_3/include/CGAL/Nef_3/SNC_SM_overlayer.h $
-// $Id: SNC_SM_overlayer.h ee57fc2 %aI Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Nef_3/include/CGAL/Nef_3/SNC_SM_overlayer.h $
+// $Id: SNC_SM_overlayer.h 4581f1b %aI Andreas Fabri
 // SPDX-License-Identifier: GPL-3.0+
 // 
 //
@@ -100,8 +100,8 @@ public:
     CGAL_NEF_TRACEN("simplifying"); 
     
     typedef typename CGAL::Union_find<SFace_handle>::handle Union_find_handle;
-    CGAL::Unique_hash_map< SFace_handle, Union_find_handle> Pitem(NULL);
-    CGAL::Unique_hash_map< SVertex_handle, Union_find_handle> Vitem(NULL);
+    CGAL::Unique_hash_map< SFace_handle, Union_find_handle> Pitem(nullptr);
+    CGAL::Unique_hash_map< SVertex_handle, Union_find_handle> Vitem(nullptr);
     CGAL::Union_find< SFace_handle> UF;
     
     SFace_iterator f;
@@ -164,7 +164,7 @@ public:
     for(v = this->svertices_begin(); v != this->svertices_end(); v=vn) {
       vn=v; ++vn;
       if ( is_isolated(v) ) {
-	if(Vitem[v] != NULL) {
+	if(Vitem[v] != nullptr) {
 	  set_face(v,*(UF.find(Vitem[v])));
 	  CGAL_NEF_TRACEN("incident face of " << PH(v) << " set to " << &*(v->incident_sface()));
 	}
@@ -367,8 +367,8 @@ class SNC_SM_overlayer<SNC_indexed_items, SM_decorator_>
     CGAL_NEF_TRACEN("simplifying"); 
     
     typedef typename CGAL::Union_find<SFace_handle>::handle Union_find_handle;
-    CGAL::Unique_hash_map< SFace_handle, Union_find_handle> Pitem(NULL);
-    CGAL::Unique_hash_map< SVertex_handle, Union_find_handle> Vitem(NULL);
+    CGAL::Unique_hash_map< SFace_handle, Union_find_handle> Pitem(nullptr);
+    CGAL::Unique_hash_map< SVertex_handle, Union_find_handle> Vitem(nullptr);
     CGAL::Union_find< SFace_handle> UF;
     
     SFace_iterator f;
@@ -431,7 +431,7 @@ class SNC_SM_overlayer<SNC_indexed_items, SM_decorator_>
     for(v = this->svertices_begin(); v != this->svertices_end(); v=vn) {
       vn=v; ++vn;
       if ( is_isolated(v) ) {
-	if(Vitem[v] != NULL) {
+	if(Vitem[v] != nullptr) {
 	  set_face(v,*(UF.find(Vitem[v])));
 	  CGAL_NEF_TRACEN("incident face of " << PH(v) << " set to " << &*(v->incident_sface()));
 	}

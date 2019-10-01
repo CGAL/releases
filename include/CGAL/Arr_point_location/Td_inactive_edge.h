@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Arrangement_on_surface_2/include/CGAL/Arr_point_location/Td_inactive_edge.h $
-// $Id: Td_inactive_edge.h ee57fc2 %aI Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Arrangement_on_surface_2/include/CGAL/Arr_point_location/Td_inactive_edge.h $
+// $Id: Td_inactive_edge.h 4581f1b %aI Andreas Fabri
 // SPDX-License-Identifier: GPL-3.0+
 //
 // Author(s)	 : Oren Nechushtan <theoren@math.tau.ac.il>
@@ -168,7 +168,7 @@ public:
   //@{
 
   /*! Constructor given Vertex & Halfedge handles. */
-  Td_inactive_edge (boost::shared_ptr<X_monotone_curve_2>& cv, Dag_node* node = NULL)
+  Td_inactive_edge (boost::shared_ptr<X_monotone_curve_2>& cv, Dag_node* node = nullptr)
   {
     PTR = new Data(cv,node);
   }
@@ -230,7 +230,7 @@ public:
   inline X_monotone_curve_2& curve() const  
   {
     X_monotone_curve_2* cv_ptr = (ptr()->cv).get();
-    CGAL_assertion(cv_ptr != NULL);
+    CGAL_assertion(cv_ptr != nullptr);
     return *cv_ptr;
   }
 

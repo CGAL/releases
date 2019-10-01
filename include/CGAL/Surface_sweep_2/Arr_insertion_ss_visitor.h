@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Arrangement_on_surface_2/include/CGAL/Surface_sweep_2/Arr_insertion_ss_visitor.h $
-// $Id: Arr_insertion_ss_visitor.h 0b5353c %aI Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Arrangement_on_surface_2/include/CGAL/Surface_sweep_2/Arr_insertion_ss_visitor.h $
+// $Id: Arr_insertion_ss_visitor.h 4581f1b %aI Andreas Fabri
 // SPDX-License-Identifier: GPL-3.0+
 //
 // Author(s)     : Baruch Zukerman <baruchzu@post.tau.ac.il>
@@ -116,7 +116,7 @@ template <typename Hlpr, typename Vis>
 bool Arr_insertion_ss_visitor<Hlpr, Vis>::
 is_split_event(Subcurve* sc, Event* event)
 {
-  if (sc->last_curve().halfedge_handle() == Halfedge_handle(NULL)) return false;
+  if (sc->last_curve().halfedge_handle() == Halfedge_handle(nullptr)) return false;
 
   if (! sc->originating_subcurve1())
     return (sc->left_event() != this->current_event());

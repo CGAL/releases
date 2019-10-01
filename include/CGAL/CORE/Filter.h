@@ -31,8 +31,8 @@
  * WWW URL: http://cs.nyu.edu/exact/
  * Email: exact@cs.nyu.edu
  *
- * $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/CGAL_Core/include/CGAL/CORE/Filter.h $
- * $Id: Filter.h cbe02d4 %aI Sébastien Loriot
+ * $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/CGAL_Core/include/CGAL/CORE/Filter.h $
+ * $Id: Filter.h 5bac189 %aI Sébastien Loriot
  * SPDX-License-Identifier: LGPL-3.0+
  ***************************************************************************/
 
@@ -45,16 +45,8 @@
 #include <cmath>
 #include <limits>
 
-#if !defined CGAL_CFG_NO_CPP0X_ISFINITE
-  #define CGAL_CORE_finite(x)	std::isfinite(x)
-  #define CGAL_CORE_ilogb(x)	ilogb(x)
-#elif defined (_MSC_VER) || defined (__MINGW32__) // add support for MinGW
-  #define CGAL_CORE_finite(x)	_finite(x)
-  #define CGAL_CORE_ilogb(x)	(int)_logb(x)
-#else
-  #define CGAL_CORE_finite(x)	finite(x)
-  #define CGAL_CORE_ilogb(x)	ilogb(x)
-#endif
+#define CGAL_CORE_finite(x)	std::isfinite(x)
+#define CGAL_CORE_ilogb(x)	ilogb(x)
 
 #if defined(sun) || defined(__sun)
   #include <ieeefp.h>

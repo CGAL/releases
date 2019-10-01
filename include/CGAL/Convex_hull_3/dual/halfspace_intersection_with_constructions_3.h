@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Convex_hull_3/include/CGAL/Convex_hull_3/dual/halfspace_intersection_with_constructions_3.h $
-// $Id: halfspace_intersection_with_constructions_3.h e34529a %aI Andreas Fabri
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Convex_hull_3/include/CGAL/Convex_hull_3/dual/halfspace_intersection_with_constructions_3.h $
+// $Id: halfspace_intersection_with_constructions_3.h d60f564 %aI Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0+
 //
 //
@@ -35,7 +35,6 @@
 #include <CGAL/Convex_hull_3/dual/interior_polyhedron_3.h>
 #include <CGAL/internal/Exact_type_selector.h>
 
-#include <boost/foreach.hpp>
 #include <boost/unordered_map.hpp>
 #include <list>
 #include <vector>
@@ -63,7 +62,7 @@ namespace CGAL
         // from primal faces
         boost::unordered_map<face_descriptor, vertex_descriptor> extreme_points;
 
-        BOOST_FOREACH (face_descriptor fd , faces( primal)){
+        for(face_descriptor fd : faces( primal)){
           halfedge_descriptor h = halfedge(fd,primal);
           Plane_3 p (get(vpm_primal, target(h, primal)),
                      get(vpm_primal, target(next(h, primal), primal)),
@@ -79,11 +78,11 @@ namespace CGAL
         }
         
         // build faces
-        BOOST_FOREACH (vertex_descriptor vd , vertices(primal)) {
+        for(vertex_descriptor vd : vertices(primal)) {
           //CGAL_assertion (it->is_bivalent() == false);
           
           std::list<vertex_descriptor> vertices;
-          BOOST_FOREACH(face_descriptor fd, faces_around_target(halfedge(vd,primal),primal)){
+          for(face_descriptor fd : faces_around_target(halfedge(vd,primal),primal)){
             vertices.push_front(extreme_points[fd]);
           }
         Euler::add_face(vertices,dual);

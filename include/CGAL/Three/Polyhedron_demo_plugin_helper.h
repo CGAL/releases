@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Three/include/CGAL/Three/Polyhedron_demo_plugin_helper.h $
-// $Id: Polyhedron_demo_plugin_helper.h ee57fc2 %aI Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Three/include/CGAL/Three/Polyhedron_demo_plugin_helper.h $
+// $Id: Polyhedron_demo_plugin_helper.h 4581f1b %aI Andreas Fabri
 // SPDX-License-Identifier: GPL-3.0+
 //
 //
@@ -53,14 +53,14 @@ public:
   /*! \brief Gets an item of the templated type.
    * \returns The currently selected `SceneType` item
    * \returns the first `SceneType` item found in the scene's list of items if the selected item is not a `SceneType`
-   * \returns NULL if there is no `SceneType` in the list.
+   * \returns nullptr if there is no `SceneType` in the list.
    */
   template<class SceneType>
   SceneType* getSelectedItem() const{
    int item_id = scene->mainSelectionIndex();
    SceneType* scene_item = qobject_cast<SceneType*>(scene->item(item_id));
    if(!scene_item) {
-     // no selected SceneType - if there is only one in list return it, otherwise NULL
+     // no selected SceneType - if there is only one in list return it, otherwise nullptr
      int counter = 0;
      int last_selected = 0;
      for(CGAL::Three::Scene_interface::Item_id i = 0, end = scene->numberOfEntries(); i < end && counter < 2; ++i) {
@@ -70,7 +70,7 @@ public:
          last_selected=i;
        }
      }
-     if(counter != 1) { return NULL; }
+     if(counter != 1) { return nullptr; }
      scene->setSelectedItem(last_selected);
    }
    return scene_item;

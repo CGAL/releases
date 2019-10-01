@@ -16,8 +16,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/STL_Extension/include/CGAL/Circulator_identity.h $
-// $Id: Circulator_identity.h 0698f79 %aI Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/STL_Extension/include/CGAL/Circulator_identity.h $
+// $Id: Circulator_identity.h 5532b84 %aI Andreas Fabri
 // SPDX-License-Identifier: LGPL-3.0+
 // 
 //
@@ -60,12 +60,12 @@ public:
 
   Circulator  current_circulator() const { return nt;}
 
-  bool operator==( Nullptr_t p) const {
+  bool operator==( std::nullptr_t p) const {
     CGAL_assertion( p == 0);
     CGAL_USE(p);
     return ( nt == 0);                                    //###//
   }
-  bool operator!=( Nullptr_t p) const {
+  bool operator!=( std::nullptr_t p) const {
     return !(*this == p);
   }
   bool operator==( const Self& i) const {

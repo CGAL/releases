@@ -16,8 +16,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/STL_Extension/include/CGAL/Handle_for_virtual.h $
-// $Id: Handle_for_virtual.h 0698f79 %aI Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/STL_Extension/include/CGAL/Handle_for_virtual.h $
+// $Id: Handle_for_virtual.h e2d19b0 %aI Andreas Fabri
 // SPDX-License-Identifier: LGPL-3.0+
 // 
 //
@@ -48,7 +48,7 @@ class Ref_counted_virtual
     { return typeid(void); }
 
     virtual const void * object_ptr() const
-    { return NULL; }
+    { return nullptr; }
 
     virtual ~Ref_counted_virtual() {}
 
@@ -77,7 +77,7 @@ class Handle_for_virtual
 
     Handle_for_virtual()
     {
-      ptr = NULL;
+      ptr = nullptr;
     }
 
     Handle_for_virtual( const Handle_for_virtual& h)
@@ -104,14 +104,12 @@ class Handle_for_virtual
       return *this;
     }
 
-#ifndef CGAL_CFG_NO_CPP0X_RVALUE_REFERENCE
     Handle_for_virtual&
     operator=( Handle_for_virtual && h)
     {
       swap(h);
       return *this;
     }
-#endif
 
 // protected:
     typedef RefCounted element_type;

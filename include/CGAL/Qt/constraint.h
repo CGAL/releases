@@ -14,8 +14,8 @@
  WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 
 *****************************************************************************/
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/GraphicsView/include/CGAL/Qt/constraint.h $
-// $Id: constraint.h 1969ee9 %aI Andreas Fabri
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/GraphicsView/include/CGAL/Qt/constraint.h $
+// $Id: constraint.h 4581f1b %aI Andreas Fabri
 // SPDX-License-Identifier: GPL-3.0
 #ifndef QGLVIEWER_CONSTRAINT_H
 #define QGLVIEWER_CONSTRAINT_H
@@ -33,7 +33,7 @@ class Camera;
 
   This class defines the interface for the Constraints that can be applied to a
   Frame to limit its motion. Use Frame::setConstraint() to associate a
-  Constraint to a Frame (default is a \c NULL Frame::constraint()).
+  Constraint to a Frame (default is a \c nullptr Frame::constraint()).
 
   <h3>How does it work ?</h3>
 

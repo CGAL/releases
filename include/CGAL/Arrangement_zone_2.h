@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Arrangement_on_surface_2/include/CGAL/Arrangement_zone_2.h $
-// $Id: Arrangement_zone_2.h 2187738 %aI Efi Fogel
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Arrangement_on_surface_2/include/CGAL/Arrangement_zone_2.h $
+// $Id: Arrangement_zone_2.h 4581f1b %aI Andreas Fabri
 // SPDX-License-Identifier: GPL-3.0+
 //
 //
@@ -186,7 +186,7 @@ public:
     m_invalid_he()
   {
     m_geom_traits = static_cast<const Traits_adaptor_2*>(arr.geometry_traits());
-    CGAL_assertion(visitor != NULL);
+    CGAL_assertion(visitor != nullptr);
 
     // Initialize the visitor.
     visitor->init(&arr);

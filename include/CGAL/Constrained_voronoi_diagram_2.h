@@ -13,8 +13,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Mesh_2/include/CGAL/Constrained_voronoi_diagram_2.h $
-// $Id: Constrained_voronoi_diagram_2.h ee57fc2 %aI Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Mesh_2/include/CGAL/Constrained_voronoi_diagram_2.h $
+// $Id: Constrained_voronoi_diagram_2.h f62624c %aI Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0+
 // 
 // Author(s) : Jane Tournois, Raul Gallegos, Pierre Alliez
@@ -44,8 +44,8 @@ public:
   typedef typename Cdt::Geom_traits::Ray_2        Ray;
   typedef typename Cdt::Geom_traits::Point_2      Point;
   typedef CGAL::Dispatch_output_iterator<
-    CGAL::cpp11::tuple<Segment, Ray>,
-    CGAL::cpp11::tuple<std::back_insert_iterator<std::vector<Segment> >,
+    std::tuple<Segment, Ray>,
+    std::tuple<std::back_insert_iterator<std::vector<Segment> >,
                        std::back_insert_iterator<std::vector<Ray> > >
     > Construction_dispatcher;
 

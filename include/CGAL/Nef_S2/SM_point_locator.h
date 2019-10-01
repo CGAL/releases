@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Nef_S2/include/CGAL/Nef_S2/SM_point_locator.h $
-// $Id: SM_point_locator.h ee57fc2 %aI Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Nef_S2/include/CGAL/Nef_S2/SM_point_locator.h $
+// $Id: SM_point_locator.h 4581f1b %aI Andreas Fabri
 // SPDX-License-Identifier: GPL-3.0+
 // 
 //
@@ -341,7 +341,7 @@ public:
   SVertex_/SHalfedge_/SHalfloop_/SFace_handle&)|.\\ The object
   returned is intersected by |d.circle()|, has minimal distance to
   |p|, and |M(h)| holds on the converted object. The operation returns
-  the null handle |NULL| if the ray shoot along |s| does not hit any
+  the null handle |nullptr| if the ray shoot along |s| does not hit any
   object |h| of |M| with |M(h)|.}*/
   { 
     Sphere_circle c(d.circle());

@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Poisson_surface_reconstruction_3/include/CGAL/poisson_refine_triangulation.h $
-// $Id: poisson_refine_triangulation.h ee57fc2 %aI Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Poisson_surface_reconstruction_3/include/CGAL/poisson_refine_triangulation.h $
+// $Id: poisson_refine_triangulation.h a207549 %aI Andreas Fabri
 // SPDX-License-Identifier: GPL-3.0+
 //
 // Author(s)     : Laurent RINEAU, Laurent Saboret
@@ -25,7 +25,7 @@
 
 
 // CGAL
-#include <CGAL/trace.h>
+#include <CGAL/IO/trace.h>
 #include <CGAL/Mesher_level.h>
 #include <CGAL/Mesh_3/Poisson_refine_cells_3.h>
 #include <CGAL/Poisson_mesh_cell_criteria_3.h>

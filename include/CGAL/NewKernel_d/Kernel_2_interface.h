@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/NewKernel_d/include/CGAL/NewKernel_d/Kernel_2_interface.h $
-// $Id: Kernel_2_interface.h 0698f79 %aI Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/NewKernel_d/include/CGAL/NewKernel_d/Kernel_2_interface.h $
+// $Id: Kernel_2_interface.h f62624c %aI Sébastien Loriot
 // SPDX-License-Identifier: LGPL-3.0+
 //
 // Author(s)     : Marc Glisse
@@ -43,7 +43,7 @@ template <class Base_> struct Kernel_2_interface : public Base_ {
 	typedef typename Get_type<Base, Point_tag>::type  Point_2;
 	typedef typename Get_type<Base, Vector_tag>::type Vector_2;
 	typedef typename Get_type<Base, Segment_tag>::type Segment_2;
-	typedef cpp0x::tuple<Point_2,Point_2,Point_2> Triangle_2; // triangulation insists...
+	typedef std::tuple<Point_2,Point_2,Point_2> Triangle_2; // triangulation insists...
 	template <class T,int i> struct Help_2p_i {
 		typedef typename Get_functor<Base, T>::type LT;
 		typedef typename LT::result_type result_type;

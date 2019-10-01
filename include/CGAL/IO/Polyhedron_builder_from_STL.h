@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Polyhedron_IO/include/CGAL/IO/Polyhedron_builder_from_STL.h $
-// $Id: Polyhedron_builder_from_STL.h ff26773 %aI Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Polyhedron_IO/include/CGAL/IO/Polyhedron_builder_from_STL.h $
+// $Id: Polyhedron_builder_from_STL.h 2848158 %aI Mael Rouxel-Labbé
 // SPDX-License-Identifier: LGPL-3.0+
 //
 // Author(s)     : Andreas Fabri
@@ -31,8 +31,8 @@ namespace CGAL{
 template <class HDS>
 class Polyhedron_builder_from_STL : public CGAL::Modifier_base<HDS> {
   typedef typename HDS::Vertex::Point Point_3;
-  typedef std::vector<cpp11::array<double, 3> > Points_3;
-  typedef cpp11::array<int,3> Facet;
+  typedef std::vector<std::array<double, 3> > Points_3;
+  typedef std::array<int,3> Facet;
   typedef std::vector<Facet> Surface;
 
   std::istream& is;
@@ -67,7 +67,7 @@ public:
     }
     if(B.error())
       {
-        std::cerr << "An error occured while creating a Polyhedron" << std::endl;
+        std::cerr << "An error occurred while creating a Polyhedron" << std::endl;
         B.rollback();
       }
 

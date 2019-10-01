@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Spatial_searching/include/CGAL/Kd_tree_rectangle.h $
-// $Id: Kd_tree_rectangle.h 5a2857d %aI Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Spatial_searching/include/CGAL/Kd_tree_rectangle.h $
+// $Id: Kd_tree_rectangle.h e2d19b0 %aI Andreas Fabri
 // SPDX-License-Identifier: GPL-3.0+
 // 
 //
@@ -68,8 +68,8 @@ namespace CGAL {
   private:
     
     //int dim;
-    CGAL::cpp11::array<T,D::value> lower_;
-    CGAL::cpp11::array<T,D::value> upper_;
+    std::array<T,D::value> lower_;
+    std::array<T,D::value> upper_;
     int max_span_coord_;
     
   public:
@@ -352,7 +352,7 @@ namespace CGAL {
     inline FT 
     min_coord(int i) const 
     {
-      CGAL_assertion(coords_ != NULL);
+      CGAL_assertion(coords_ != nullptr);
       return lower()[i];
     }
     

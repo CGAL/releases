@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Minkowski_sum_2/include/CGAL/Minkowski_sum_2/Decomposition_strategy_adapter.h $
-// $Id: Decomposition_strategy_adapter.h 8cdfad0 %aI Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Minkowski_sum_2/include/CGAL/Minkowski_sum_2/Decomposition_strategy_adapter.h $
+// $Id: Decomposition_strategy_adapter.h 4581f1b %aI Andreas Fabri
 // SPDX-License-Identifier: GPL-3.0+
 //
 // Author(s) : Ron Wein   <wein_r@yahoo.com>
@@ -62,7 +62,7 @@ protected:
 public:
   /*! Default constructor. */
   Polygon_decomposition_strategy_adapter() :
-    m_traits(NULL),
+    m_traits(nullptr),
     m_own_traits(false)
   { init(); }
 
@@ -76,9 +76,9 @@ public:
   ~Polygon_decomposition_strategy_adapter()
   {
     if (m_own_traits) {
-      if (m_traits != NULL) {
+      if (m_traits != nullptr) {
         delete m_traits;
-        m_traits = NULL;
+        m_traits = nullptr;
       }
       m_own_traits = false;
     }
@@ -88,7 +88,7 @@ public:
   void init()
   {
     // Allocate the traits if not provided.
-    if (m_traits == NULL) {
+    if (m_traits == nullptr) {
       m_traits = new Traits_2;
       m_own_traits = true;
     }

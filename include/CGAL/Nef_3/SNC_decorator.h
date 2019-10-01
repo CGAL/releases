@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESISGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Nef_3/include/CGAL/Nef_3/SNC_decorator.h $
-// $Id: SNC_decorator.h ee57fc2 %aI Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Nef_3/include/CGAL/Nef_3/SNC_decorator.h $
+// $Id: SNC_decorator.h 4581f1b %aI Andreas Fabri
 // SPDX-License-Identifier: GPL-3.0+
 // 
 //
@@ -176,7 +176,7 @@ class SNC_decorator : public SNC_const_decorator<Map> {
     : Base(*(S.sncp_)), sncp_(S.sncp_) {}
 
   SNC_structure* sncp() const { 
-    CGAL_assertion( sncp_ != NULL);
+    CGAL_assertion( sncp_ != nullptr);
     return sncp_; 
   }
 
@@ -705,7 +705,7 @@ class SNC_decorator : public SNC_const_decorator<Map> {
 	SM_decorator S2(&*he->twin()->source());
 	SHalfedge_handle se1(S1.first_out_edge(he));
 	SHalfedge_handle se2(S2.first_out_edge(he->twin()));
-	if(se1 != NULL && se2 != NULL) {
+	if(se1 != nullptr && se2 != nullptr) {
 	  SHalfedge_handle start1(se1);
 	  SHalfedge_handle start2(se2->twin()->snext());
 	  while(se1->facet() != se2->twin()->facet() && se2 != start2)
@@ -777,7 +777,7 @@ class SNC_decorator : public SNC_const_decorator<Map> {
       CGAL_forall_shells_of(si,voli) {
 	//	valid = valid && (si != Shell_entry_iterator() &&
 	valid = valid && (SFace_handle(si) != SFace_handle() && 
-			  SFace_handle(si) != NULL);
+			  SFace_handle(si) != nullptr);
 	valid = valid && (++count <= max);
       }
       valid = valid && (++count <= max);

@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Voronoi_diagram_2/include/CGAL/Voronoi_diagram_2/Validity_testers.h $
-// $Id: Validity_testers.h ee57fc2 %aI Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Voronoi_diagram_2/include/CGAL/Voronoi_diagram_2/Validity_testers.h $
+// $Id: Validity_testers.h e2d19b0 %aI Andreas Fabri
 // SPDX-License-Identifier: GPL-3.0+
 // 
 //
@@ -54,7 +54,7 @@ class Edge_validity_tester
   typedef typename VDA::Delaunay_graph::Vertex_handle  Delaunay_vertex_handle;
 
  public:
-  Edge_validity_tester(const VDA* vda = NULL) : vda_(vda) {}
+  Edge_validity_tester(const VDA* vda = nullptr) : vda_(vda) {}
 
   bool operator()(const Edges_iterator_base& eit) const {
     CGAL_assertion( !vda_->edge_rejector()(vda_->dual(), eit->dual()) );
@@ -96,7 +96,7 @@ class Vertex_validity_tester
   Delaunay_faces_iterator;
 
  public:
-  Vertex_validity_tester(const VDA* vda = NULL) : vda_(vda) {}
+  Vertex_validity_tester(const VDA* vda = nullptr) : vda_(vda) {}
 
   bool operator()(const Delaunay_faces_iterator& fit) const {
     Delaunay_face_handle f(fit);

@@ -50,8 +50,8 @@
  * WWW URL: http://cs.nyu.edu/exact/
  * Email: exact@cs.nyu.edu
  *
- * $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/CGAL_Core/include/CGAL/CORE/poly/Poly.h $
- * $Id: Poly.h aa0a9c8 %aI Laurent Rineau
+ * $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/CGAL_Core/include/CGAL/CORE/poly/Poly.h $
+ * $Id: Poly.h c0ba28f %aI Laurent Rineau
  * SPDX-License-Identifier: LGPL-3.0+
  ***************************************************************************/
 
@@ -178,7 +178,7 @@ public:
   const NT & getTailCoeff() const;      // get last non-zero coefficient
   NT** getCoeffs() ;		// get all coefficients
   const NT& getCoeff(int i) const;      // Get single coefficient of X^i
-                                        // NULL pointer if invalid i
+                                        // nullptr pointer if invalid i
   // Set functions
   bool setCoeff(int i, const NT & cc);  // Make cc the coefficient of X^i
                                         // Return FALSE if invalid i
@@ -407,7 +407,7 @@ NT** Polynomial<NT>::getCoeffs() {
 template < class NT >
 CORE_INLINE
 const NT& Polynomial<NT>::getCoeff(int i) const {
-  //if (i > degree) return NULL;
+  //if (i > degree) return nullptr;
   CGAL_assertion(i <= degree);
   return coeff[i];
 }

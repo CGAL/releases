@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Nef_3/include/CGAL/Nef_3/Halffacet.h $
-// $Id: Halffacet.h ee57fc2 %aI Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Nef_3/include/CGAL/Nef_3/Halffacet.h $
+// $Id: Halffacet.h 4581f1b %aI Andreas Fabri
 // SPDX-License-Identifier: GPL-3.0+
 // 
 //
@@ -123,8 +123,8 @@ class Halffacet_base  {
 	verr << "begin CGAL::SNC_items<...>::Halffacet_base::is_valid( verb=true, "
 	  "level = " << level << "):" << std::endl;
 
-	bool valid = (twin_ != NULL && twin_ != Halffacet_handle());
-	valid = valid && (volume_ != NULL && volume_ != Volume_handle());
+	bool valid = (twin_ != nullptr && twin_ != Halffacet_handle());
+	valid = valid && (volume_ != nullptr && volume_ != Volume_handle());
       
 	valid = valid && (supporting_plane_.a() != 0 || 
 			  supporting_plane_.b() != 0 ||

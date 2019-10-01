@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/NewKernel_d/include/CGAL/NewKernel_d/Vector/v2int.h $
-// $Id: v2int.h 0698f79 %aI Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/NewKernel_d/include/CGAL/NewKernel_d/Vector/v2int.h $
+// $Id: v2int.h 124012d %aI Sébastien Loriot
 // SPDX-License-Identifier: LGPL-3.0+
 //
 // Author(s)     : Marc Glisse
@@ -88,7 +88,7 @@ namespace CGAL {
     //  : boost::true_type {};
     // Advertise somehow that the sign_of_determinant* are exact?
 
-    typedef cpp0x::array<NT1,2> Vector;
+    typedef std::array<NT1,2> Vector;
     struct Construct_vector {
       struct Dimension {
 	Vector operator()(unsigned d) const {

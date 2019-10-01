@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Arrangement_on_surface_2/include/CGAL/Arr_curve_data_traits_2.h $
-// $Id: Arr_curve_data_traits_2.h 78e7060 %aI Laurent Rineau
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Arrangement_on_surface_2/include/CGAL/Arr_curve_data_traits_2.h $
+// $Id: Arr_curve_data_traits_2.h 4581f1b %aI Andreas Fabri
 // SPDX-License-Identifier: GPL-3.0+
 // 
 // Author(s)     : Ron Wein          <wein@post.tau.ac.il>
@@ -137,13 +137,13 @@ public:
              base_objects.begin(); it != base_objects.end(); ++it)
       {
         base_x_curve = object_cast<Base_x_monotone_curve_2>(&(*it));
-        if (base_x_curve != NULL) {
+        if (base_x_curve != nullptr) {
           // Current object is an x-monotone curve: Attach data to it.
           *oi++ = make_object(X_monotone_curve_2(*base_x_curve, xdata));
         }
         else {
           // Current object is an isolated point: Leave it as is.
-          CGAL_assertion(object_cast<Point_2>(&(*it)) != NULL);
+          CGAL_assertion(object_cast<Point_2>(&(*it)) != nullptr);
           *oi++ = *it;
         }
       }
@@ -219,7 +219,7 @@ public:
       for (typename std::list<CGAL::Object>::const_iterator it =
              base_objects.begin(); it != base_objects.end(); ++it)
       {
-        if ((base_cv = object_cast<Base_x_monotone_curve_2>(&(*it))) != NULL) {
+        if ((base_cv = object_cast<Base_x_monotone_curve_2>(&(*it))) != nullptr) {
           // The current intersection object is an overlapping x-monotone
           // curve: Merge the data fields of both intersecting curves and
           // associate the result with the overlapping curve.

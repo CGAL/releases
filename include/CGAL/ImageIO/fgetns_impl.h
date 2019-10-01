@@ -13,8 +13,8 @@
 // These files are provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/CGAL_ImageIO/include/CGAL/ImageIO/fgetns_impl.h $
-// $Id: fgetns_impl.h 0698f79 %aI Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/CGAL_ImageIO/include/CGAL/ImageIO/fgetns_impl.h $
+// $Id: fgetns_impl.h 4581f1b %aI Andreas Fabri
 // SPDX-License-Identifier: LGPL-3.0+
 //
 //
@@ -36,7 +36,7 @@ char *fgetns(char *str, int n,  _image *im ) {
   memset( str, 0, n );
   char* ret = ImageIO_gets( im, str, n );
 
-  if(!ret) return NULL;
+  if(!ret) return nullptr;
 
   std::size_t l = strlen(str);
   if(l > 0 && str[l-1] == '\n') str[l-1] = '\0';

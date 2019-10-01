@@ -14,8 +14,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Surface_mesh/include/CGAL/Surface_mesh/IO.h $
-// $Id: IO.h 6d0cca9 %aI Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Surface_mesh/include/CGAL/Surface_mesh/IO.h $
+// $Id: IO.h 35bbb4c %aI Maxime Gimeno
 // SPDX-License-Identifier: GPL-3.0+
 //
 
@@ -404,7 +404,6 @@ bool write_mesh(const Surface_mesh<K>& mesh, const std::string& filename)
 }
 
 /// group io
-/// @}
 template <class P, class Writer>
 void
 generic_print_surface_mesh( std::ostream&   out,
@@ -432,6 +431,19 @@ generic_print_surface_mesh( std::ostream&   out,
                          ::CGAL::to_double( get(map, *vi).z()));
 
     hint = index_map.insert(hint, std::make_pair(*vi, id++));
+  }
+  typedef typename boost::property_traits<VPmap>::value_type Point_3;
+  typedef typename Kernel_traits<Point_3>::Kernel K;
+  typename Surface_mesh<P>::template Property_map<typename Surface_mesh<P>::Vertex_index, typename K::Vector_3 > vnormals;
+  bool has_normals = false;
+  boost::tie(vnormals, has_normals) = M.template property_map<typename Surface_mesh<P>::Vertex_index, typename K::Vector_3>("v:normal");
+  if(has_normals)
+  {
+    for( VCI vi = vertices(M).begin(); vi != vertices(M).end(); ++vi) {
+      writer.write_vertex_normal( ::CGAL::to_double( get(vnormals, *vi).x()),
+                                  ::CGAL::to_double( get(vnormals, *vi).y()),
+                                  ::CGAL::to_double( get(vnormals, *vi).z()));
+    }
   }
 
   writer.write_facet_header();

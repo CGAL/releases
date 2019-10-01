@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/AABB_tree/include/CGAL/internal/AABB_tree/AABB_search_tree.h $
-// $Id: AABB_search_tree.h 81d4227 %aI Andreas Fabri
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/AABB_tree/include/CGAL/internal/AABB_tree/AABB_search_tree.h $
+// $Id: AABB_search_tree.h 4581f1b %aI Andreas Fabri
 // SPDX-License-Identifier: GPL-3.0+
 //
 //
@@ -65,9 +65,7 @@ namespace CGAL
                           m_id = rhs.m_id;
                     }
 
-#ifndef CGAL_CFG_NO_CPP0X_DELETED_AND_DEFAULT_FUNCTIONS
                   Decorated_point& operator=(const Decorated_point&)=default;
-#endif
                 private:
                     Id m_id;
 
@@ -109,7 +107,7 @@ namespace CGAL
         public:
                 template <class ConstPointIterator>
                 AABB_search_tree(ConstPointIterator begin, ConstPointIterator beyond)
-                    : m_p_tree(NULL)
+                    : m_p_tree(nullptr)
                 {
                         typedef typename Add_decorated_point<Traits, typename Traits::Primitive::Id>::Point_3 Decorated_point;
                         std::vector<Decorated_point> points;
@@ -119,7 +117,7 @@ namespace CGAL
                                 ++begin;
                         }
                         m_p_tree = new Tree(points.begin(), points.end());
-                        if(m_p_tree != NULL)
+                        if(m_p_tree != nullptr)
                                 m_p_tree->build();
                         else
                                 std::cerr << "unable to build the search tree!" << std::endl;

@@ -16,8 +16,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Homogeneous_kernel/include/CGAL/Homogeneous/Aff_transformationH2.h $
-// $Id: Aff_transformationH2.h 23d701c %aI Maxime Gimeno
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Homogeneous_kernel/include/CGAL/Homogeneous/Aff_transformationH2.h $
+// $Id: Aff_transformationH2.h 2540184 %aI Maxime Gimeno
 // SPDX-License-Identifier: LGPL-3.0+
 // 
 //
@@ -453,14 +453,12 @@ class Reflection_repH2 : public Aff_transformation_rep_baseH2<R>
 
     virtual  Direction_2
              transform(const Direction_2 & d) const
-             { return transform( Vector_2(d) ).direction(); }
+             { return transform( d.vector() ).direction(); }
 
     virtual  Aff_transformationH2<R>
              inverse() const
              {
-               return Aff_transformationH2<R>(
-                   static_cast< Aff_transformation_rep_baseH2<R>* >
-                   ( const_cast< Reflection_repH2<R>*> (this) )  );
+               return Aff_transformationH2<R>(REFLECTION, l);
              }
 
     virtual  bool

@@ -16,8 +16,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Number_types/include/CGAL/double.h $
-// $Id: double.h 26c857a %aI Mael Rouxel-Labbé
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Number_types/include/CGAL/double.h $
+// $Id: double.h f95533f %aI Sébastien Loriot
 // SPDX-License-Identifier: LGPL-3.0+
 //
 //
@@ -174,14 +174,8 @@ template <> class Real_embeddable_traits< double >
           Type d = x;
           IEEE_754_double* p = reinterpret_cast<IEEE_754_double*>(&d);
           return is_finite_by_mask_double( p->c.H );
-#elif !defined CGAL_CFG_NO_CPP0X_ISFINITE
-          return std::isfinite(x);
-#elif defined CGAL_CFG_NUMERIC_LIMITS_BUG
-          return (x == x) && (is_valid(x-x));
 #else
-          return (x != std::numeric_limits<Type>::infinity())
-              && (-x != std::numeric_limits<Type>::infinity())
-              && is_valid(x);
+          return std::isfinite(x);
 #endif
       }
     };

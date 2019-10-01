@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Arrangement_on_surface_2/include/CGAL/Arr_geometry_traits/Bezier_cache.h $
-// $Id: Bezier_cache.h e0cb4e4 %aI Andreas Fabri
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Arrangement_on_surface_2/include/CGAL/Arr_geometry_traits/Bezier_cache.h $
+// $Id: Bezier_cache.h 983645a %aI Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0+
 // 
 //
@@ -86,6 +86,8 @@ public:
   typedef
     typename Intersection_list::const_iterator       Intersection_iter;
 
+  //@}
+  
 private:
 
   typedef std::map<Curve_id,

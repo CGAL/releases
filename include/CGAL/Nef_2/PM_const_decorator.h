@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Nef_2/include/CGAL/Nef_2/PM_const_decorator.h $
-// $Id: PM_const_decorator.h e34ddae %aI Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Nef_2/include/CGAL/Nef_2/PM_const_decorator.h $
+// $Id: PM_const_decorator.h 7a5ffd0 %aI Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0+
 // 
 //
@@ -39,6 +39,8 @@
 #ifndef CGAL_I_DO_WANT_TO_USE_GENINFO
 #include <boost/any.hpp>
 #endif
+
+#include <CGAL/use.h>
 
 namespace CGAL {
 
@@ -492,6 +494,9 @@ check_integrity_and_topological_planarity(bool faces) const
   std::size_t e_num = number_of_edges();
   std::size_t c_num = number_of_connected_components() - iso_vert_num;
   std::size_t f_num = number_of_face_cycles() - c_num + 1;
+  CGAL_USE(v_num);
+  CGAL_USE(e_num);
+  CGAL_USE(f_num);
   CGAL_NEF_TRACEV(fc_num);CGAL_NEF_TRACEV(iv_num);CGAL_NEF_TRACEV(iso_vert_num);
   CGAL_NEF_TRACEV(v_num);CGAL_NEF_TRACEV(e_num);CGAL_NEF_TRACEV(c_num);CGAL_NEF_TRACEV(f_num);
   // CGAL_assertion(fc_num == f_num && iv_num == iso_vert_num);

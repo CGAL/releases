@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Voronoi_diagram_2/include/CGAL/Voronoi_diagram_2/Unbounded_edges.h $
-// $Id: Unbounded_edges.h ee57fc2 %aI Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Voronoi_diagram_2/include/CGAL/Voronoi_diagram_2/Unbounded_edges.h $
+// $Id: Unbounded_edges.h e2d19b0 %aI Andreas Fabri
 // SPDX-License-Identifier: GPL-3.0+
 // 
 //
@@ -46,7 +46,7 @@ class Bounded_edge_tester
   typedef typename VDA::Delaunay_graph::Face_handle   Delaunay_face_handle;
 
  public:
-  Bounded_edge_tester(const VDA* vda = NULL) : vda_(vda) {}
+  Bounded_edge_tester(const VDA* vda = nullptr) : vda_(vda) {}
 
   bool operator()(const Base_iterator& it) const {
     if ( vda_->dual().dimension() < 2 ) { return false; }
@@ -77,7 +77,7 @@ class Unbounded_edge_tester
   typedef typename VDA::Delaunay_graph::Face_handle   Delaunay_face_handle;
 
  public:
-  Unbounded_edge_tester(const VDA* vda = NULL) : vda_(vda) {}
+  Unbounded_edge_tester(const VDA* vda = nullptr) : vda_(vda) {}
 
   bool operator()(const Base_iterator& it) const {
     if ( vda_->dual().dimension() < 2 ) { return true; }

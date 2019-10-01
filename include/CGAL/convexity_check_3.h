@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Convex_hull_3/include/CGAL/convexity_check_3.h $
-// $Id: convexity_check_3.h 7fa4b38 %aI Maxime Gimeno
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Convex_hull_3/include/CGAL/convexity_check_3.h $
+// $Id: convexity_check_3.h d60f564 %aI Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0+
 // 
 //
@@ -28,7 +28,6 @@
 
 #include <CGAL/intersections.h>
 #include <CGAL/boost/graph/iterator.h>
-#include <boost/foreach.hpp>
 #include <CGAL/boost/graph/property_maps.h>
 
 namespace CGAL {
@@ -97,7 +96,7 @@ bool is_strongly_convex_3(const Polyhedron& P, const Traits& traits)
 
   if (v_it == v_it_e) return false;
   
-  BOOST_FOREACH(face_descriptor fd , faces(P))
+  for(face_descriptor fd : faces(P))
     if (!is_locally_convex(P, vpmap, fd, traits)) 
 	return false;
 
@@ -224,7 +223,7 @@ bool all_points_inside( ForwardIterator first,
 
    for (ForwardIterator p_it = first; p_it != last; p_it++)
    {
-      BOOST_FOREACH(face_descriptor fd, faces(P))
+      for(face_descriptor fd : faces(P))
       {
 	Plane_3 plane;
 	get_plane2(P,plane, fd);

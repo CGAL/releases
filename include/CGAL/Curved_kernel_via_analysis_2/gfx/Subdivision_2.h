@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Arrangement_on_surface_2/include/CGAL/Curved_kernel_via_analysis_2/gfx/Subdivision_2.h $
-// $Id: Subdivision_2.h ff26773 %aI Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Arrangement_on_surface_2/include/CGAL/Curved_kernel_via_analysis_2/gfx/Subdivision_2.h $
+// $Id: Subdivision_2.h 4581f1b %aI Andreas Fabri
 // SPDX-License-Identifier: LGPL-3.0+
 //
 // Author(s)     : Pavel Emeliyanenko <asm@mpi-sb.mpg.de>
@@ -243,7 +243,7 @@ private:
 template <class NT, class Algebraic_curve_2_>
 void Subdivision_2<NT, Algebraic_curve_2_>::draw(QPainter *painter_)
 {
-	if(!initialized||!polynomial_set||painter_==NULL)
+	if(!initialized||!polynomial_set||painter_==nullptr)
 		return;
 	painter = painter_;
 	//std::cout << " P(x(y)): " << coeffs_x << std::endl; 

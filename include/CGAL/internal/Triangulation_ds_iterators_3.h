@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/TDS_3/include/CGAL/internal/Triangulation_ds_iterators_3.h $
-// $Id: Triangulation_ds_iterators_3.h 3c70f8b %aI Laurent Rineau
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/TDS_3/include/CGAL/internal/Triangulation_ds_iterators_3.h $
+// $Id: Triangulation_ds_iterators_3.h e2d19b0 %aI Andreas Fabri
 // SPDX-License-Identifier: GPL-3.0+
 //
 // Author(s)     : Monique Teillaud <Monique.Teillaud@sophia.inria.fr>
@@ -203,7 +203,7 @@ public:
   typedef internal::Triangulation_ds_cell_circulator_3<Tds> Cell_circulator;
 
   Triangulation_ds_edge_iterator_3()
-    : _tds(NULL)
+    : _tds(nullptr)
     {
       edge.second = 0;
       edge.third = 1;

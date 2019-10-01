@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Minkowski_sum_2/include/CGAL/Minkowski_sum_2/AABB_node_with_join.h $
-// $Id: AABB_node_with_join.h a764322 %aI Maxime Gimeno
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Minkowski_sum_2/include/CGAL/Minkowski_sum_2/AABB_node_with_join.h $
+// $Id: AABB_node_with_join.h 4581f1b %aI Andreas Fabri
 // SPDX-License-Identifier: GPL-3.0+
 //
 //
@@ -47,8 +47,8 @@ public:
   /// Constructor
   AABB_node_with_join()
     : m_bbox()
-    , m_p_left_child(NULL)
-    , m_p_right_child(NULL)      { };
+    , m_p_left_child(nullptr)
+    , m_p_right_child(nullptr)      { };
 
   /// Non virtual Destructor
   /// Do not delete children because the tree hosts and delete them

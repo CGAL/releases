@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Convex_hull_2/include/CGAL/Convex_hull_2/convexity_check_2_impl.h $
-// $Id: convexity_check_2_impl.h ee57fc2 %aI Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Convex_hull_2/include/CGAL/Convex_hull_2/convexity_check_2_impl.h $
+// $Id: convexity_check_2_impl.h ce126b8 %aI Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0+
 // 
 //
@@ -159,7 +159,7 @@ ch_brute_force_check_2(ForwardIterator1 first1, ForwardIterator1 last1,
 
   if ( first2 == last2) return false;
 
-  if ( cpp11::next(first2) == last2 )
+  if ( std::next(first2) == last2 )
   {
       while (first1 != last1)
       {
@@ -204,7 +204,7 @@ ch_brute_force_chain_check_2(ForwardIterator1 first1,
 
   if ( first2 == last2) return false;
 
-  if ( cpp11::next(first2) == last2 ) return true;
+  if ( std::next(first2) == last2 ) return true;
 
   Left_turn_2  left_turn = ch_traits.left_turn_2_object();
   iter22 = first2;

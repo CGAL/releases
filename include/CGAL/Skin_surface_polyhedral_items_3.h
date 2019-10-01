@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Skin_surface_3/include/CGAL/Skin_surface_polyhedral_items_3.h $
-// $Id: Skin_surface_polyhedral_items_3.h ee57fc2 %aI Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Skin_surface_3/include/CGAL/Skin_surface_polyhedral_items_3.h $
+// $Id: Skin_surface_polyhedral_items_3.h e2d19b0 %aI Andreas Fabri
 // SPDX-License-Identifier: GPL-3.0+
 //
 //
@@ -39,7 +39,7 @@ struct Skin_Surface_polyhedral_face: public CGAL::HalfedgeDS_face_base<Refs>
 
   typename SkinSurface3::Simplex containing_simplex()
   {
-    CGAL_assertion(tmc_ch != NULL);
+    CGAL_assertion(tmc_ch != nullptr);
     return tmc_ch->info().first;
   }
 

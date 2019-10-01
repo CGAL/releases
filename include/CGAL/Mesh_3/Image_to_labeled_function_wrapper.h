@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Mesh_3/include/CGAL/Mesh_3/Image_to_labeled_function_wrapper.h $
-// $Id: Image_to_labeled_function_wrapper.h a140ed0 %aI Laurent Rineau
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Mesh_3/include/CGAL/Mesh_3/Image_to_labeled_function_wrapper.h $
+// $Id: Image_to_labeled_function_wrapper.h 5a30e88 %aI Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0+
 //
 //
@@ -34,7 +34,7 @@
 
 #include <CGAL/Image_3.h>
 #include <CGAL/function_objects.h>
-#include <CGAL/function.h>
+#include <functional>
 #include <boost/mpl/if.hpp>
 
 namespace CGAL {
@@ -56,7 +56,7 @@ template<typename Image_word_type = unsigned char,
 class Image_to_labeled_function_wrapper
 {
 public:
-  typedef CGAL::cpp11::function<Return_type(Interpolation_type)>
+  typedef std::function<Return_type(Interpolation_type)>
                                                     Image_values_to_labels;
 
   // Types

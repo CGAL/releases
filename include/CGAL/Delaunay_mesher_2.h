@@ -12,10 +12,10 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Mesh_2/include/CGAL/Delaunay_mesher_2.h $
-// $Id: Delaunay_mesher_2.h fb51a69 %aI Andreas Fabri
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Mesh_2/include/CGAL/Delaunay_mesher_2.h $
+// $Id: Delaunay_mesher_2.h 4581f1b %aI Andreas Fabri
 // SPDX-License-Identifier: GPL-3.0+
-// 
+//
 //
 // Author(s)     : Laurent RINEAU
 
@@ -85,6 +85,7 @@ public:
       edges_level(tr, clusters_, null_level),
       faces_level(tr, criteria, edges_level),
       visitor(faces_level, edges_level, null_visitor),
+      seeds_mark(false),
       initialized(false)
   {
   }
@@ -99,6 +100,7 @@ public:
       edges_level(edges_level_),
       faces_level(tr, criteria, edges_level),
       visitor(faces_level, null_visitor),
+      seeds_mark(false),
       initialized(false)
   {
   }
@@ -173,7 +175,7 @@ public:
         for(Seeds_it sit=begin; sit!=end; ++sit)
           {
             Face_handle fh=tr.locate(*sit);
-            if(fh!=NULL)
+            if(fh!=nullptr)
               propagate_marks(fh, mark);
           }
 	propagate_marks(tr.infinite_face(), false);

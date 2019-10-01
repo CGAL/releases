@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Triangulation_3/include/CGAL/Triangulation_hierarchy_3.h $
-// $Id: Triangulation_hierarchy_3.h bfdb89e %aI Mael Rouxel-Labbé
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Triangulation_3/include/CGAL/Triangulation_hierarchy_3.h $
+// $Id: Triangulation_hierarchy_3.h e2d19b0 %aI Andreas Fabri
 // SPDX-License-Identifier: GPL-3.0+
 //
 // Author(s)     : Olivier Devillers <Olivier.Devillers@sophia.inria.fr>
@@ -163,7 +163,7 @@ public:
                 typename std::iterator_traits<InputIterator>::value_type,
                 Point
             >
-          >::type* = NULL
+          >::type* = nullptr
   )
 #else
   template < class InputIterator >
@@ -299,7 +299,7 @@ public:
             boost::is_convertible<
               typename std::iterator_traits<InputIterator>::value_type,
               std::pair<Point,typename internal::Info_check<Vertex>::type>
-            > >::type* =NULL
+            > >::type* =nullptr
   )
   {
     return insert_with_info< std::pair<Point,typename internal::Info_check<Vertex>::type> >(first,last);
@@ -314,7 +314,7 @@ public:
               boost::is_convertible< typename std::iterator_traits<InputIterator_1>::value_type, Point >,
               boost::is_convertible< typename std::iterator_traits<InputIterator_2>::value_type, typename internal::Info_check<Vertex>::type >
             >
-          >::type* =NULL
+          >::type* =nullptr
   )
   {
     return insert_with_info< boost::tuple<Point,typename internal::Info_check<Vertex>::type> >(first,last);

@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Periodic_3_triangulation_3/include/CGAL/internal/Periodic_3_triangulation_iterators_3.h $
-// $Id: Periodic_3_triangulation_iterators_3.h 3e48f65 %aI Mael Rouxel-Labbé
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Periodic_3_triangulation_3/include/CGAL/internal/Periodic_3_triangulation_iterators_3.h $
+// $Id: Periodic_3_triangulation_iterators_3.h e2d19b0 %aI Andreas Fabri
 // SPDX-License-Identifier: GPL-3.0+
 //
 //
@@ -66,7 +66,7 @@ public:
   typedef typename T::Iterator_type                       Iterator_type;
 
   Periodic_3_triangulation_tetrahedron_iterator_3(Iterator_type it = T::STORED)
-    : _t(NULL), _it(it), _off(0) {}
+    : _t(nullptr), _it(it), _off(0) {}
 
   Periodic_3_triangulation_tetrahedron_iterator_3(const T * t,
                                                   Iterator_type it = T::STORED)
@@ -372,7 +372,7 @@ public:
   typedef typename T::Iterator_type                       Iterator_type;
 
   Periodic_3_triangulation_triangle_iterator_3(Iterator_type it = T::STORED)
-    : _t(NULL), _it(it), _off(0) {}
+    : _t(nullptr), _it(it), _off(0) {}
 
   Periodic_3_triangulation_triangle_iterator_3(const T * t,
                                                Iterator_type it = T::STORED)
@@ -662,7 +662,7 @@ public:
   typedef typename T::Iterator_type                       Iterator_type;
 
   Periodic_3_triangulation_segment_iterator_3(Iterator_type it = T::STORED)
-    : _t(NULL), _it(it), _off(0) {}
+    : _t(nullptr), _it(it), _off(0) {}
 
   Periodic_3_triangulation_segment_iterator_3(const T * t,
                                               Iterator_type it = T::STORED)
@@ -921,7 +921,7 @@ public:
   typedef typename T::Iterator_type                       Iterator_type;
 
   Periodic_3_triangulation_point_iterator_3(Iterator_type it = T::STORED)
-    : _t(NULL), _it(it) {}
+    : _t(nullptr), _it(it) {}
 
   Periodic_3_triangulation_point_iterator_3(const T * t,
                                             Iterator_type it = T::STORED)

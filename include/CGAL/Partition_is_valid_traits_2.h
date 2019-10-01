@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Partition_2/include/CGAL/Partition_is_valid_traits_2.h $
-// $Id: Partition_is_valid_traits_2.h ee57fc2 %aI Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Partition_2/include/CGAL/Partition_is_valid_traits_2.h $
+// $Id: Partition_is_valid_traits_2.h 804184b %aI Andreas Fabri
 // SPDX-License-Identifier: GPL-3.0+
 // 
 //
@@ -38,7 +38,14 @@ public:
    typedef typename Traits::Orientation_2   Orientation_2;
 
    typedef PolygonIsValid                   Is_valid;
-   
+
+  Partition_is_valid_traits_2()
+  {}
+
+  Partition_is_valid_traits_2(const Traits& traits)
+    : Traits(traits)
+  {}
+public:   
    Is_valid
    is_valid_object(const Traits& traits) const
    {  return Is_valid(traits); }

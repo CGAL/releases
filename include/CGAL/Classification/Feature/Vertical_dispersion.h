@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Classification/include/CGAL/Classification/Feature/Vertical_dispersion.h $
-// $Id: Vertical_dispersion.h e4b373e %aI Simon Giraudot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Classification/include/CGAL/Classification/Feature/Vertical_dispersion.h $
+// $Id: Vertical_dispersion.h 2f8eeb0 %aI Laurent Rineau
 // SPDX-License-Identifier: GPL-3.0+
 //
 // Author(s)     : Simon Giraudot
@@ -32,6 +32,7 @@
 #include <boost/algorithm/minmax_element.hpp>
 #include <CGAL/Classification/Feature_base.h>
 #include <CGAL/int.h>
+#include <CGAL/float.h>
 #include <boost/tuple/tuple.hpp>
 
 namespace CGAL {

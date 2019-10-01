@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Boolean_set_operations_2/include/CGAL/Boolean_set_operations_2/Gps_agg_op_surface_sweep_2.h $
-// $Id: Gps_agg_op_surface_sweep_2.h 4aaf2bb %aI Andreas Fabri
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Boolean_set_operations_2/include/CGAL/Boolean_set_operations_2/Gps_agg_op_surface_sweep_2.h $
+// $Id: Gps_agg_op_surface_sweep_2.h c0edb5e %aI Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0+
 //
 // Author(s)     : Baruch Zukerman <baruchzu@post.tau.ac.il>
@@ -203,14 +203,9 @@ public:
       }
 
       // Create the subcurve object.
-#ifdef CGAL_CXX11
       typedef decltype(this->m_subCurveAlloc) Subcurve_alloc;
       std::allocator_traits<Subcurve_alloc>::construct(this->m_subCurveAlloc, this->m_subCurves + index,
                                       this->m_masterSubcurve);
-#else                                                    
-      this->m_subCurveAlloc.construct(this->m_subCurves + index,
-                                      this->m_masterSubcurve);
-#endif
       (this->m_subCurves + index)->init(*iter);
       (this->m_subCurves + index)->set_left_event(e_left);
       (this->m_subCurves + index)->set_right_event(e_right);

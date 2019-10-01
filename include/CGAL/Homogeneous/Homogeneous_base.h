@@ -16,8 +16,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Homogeneous_kernel/include/CGAL/Homogeneous/Homogeneous_base.h $
-// $Id: Homogeneous_base.h 0698f79 %aI Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Homogeneous_kernel/include/CGAL/Homogeneous/Homogeneous_base.h $
+// $Id: Homogeneous_base.h 124012d %aI Sébastien Loriot
 // SPDX-License-Identifier: LGPL-3.0+
 // 
 //
@@ -147,8 +147,8 @@ struct Homogeneous_base
     typedef Aff_transformationH3<Kernel>            Aff_transformation_3;
     typedef Weighted_pointH3<Kernel>                Weighted_point_3;
 
-    typedef Cartesian_const_iterator_d<typename cpp11::array<RT, 3>::const_iterator> Cartesian_const_iterator_2;
-    typedef Cartesian_const_iterator_d<typename cpp11::array<RT, 4>::const_iterator> Cartesian_const_iterator_3;
+    typedef Cartesian_const_iterator_d<typename std::array<RT, 3>::const_iterator> Cartesian_const_iterator_2;
+    typedef Cartesian_const_iterator_d<typename std::array<RT, 4>::const_iterator> Cartesian_const_iterator_3;
 
     typedef FT_                                     Cartesian_coordinate_type;
     typedef const RT_&                              Homogeneous_coordinate_type;

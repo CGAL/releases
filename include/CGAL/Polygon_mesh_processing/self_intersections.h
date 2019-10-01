@@ -13,8 +13,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Polygon_mesh_processing/include/CGAL/Polygon_mesh_processing/self_intersections.h $
-// $Id: self_intersections.h 2f81a21 %aI Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Polygon_mesh_processing/include/CGAL/Polygon_mesh_processing/self_intersections.h $
+// $Id: self_intersections.h 25a05e9 %aI Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0+
 //
 //
@@ -38,7 +38,6 @@
 
 #include <vector>
 #include <exception>
-#include <boost/foreach.hpp>
 #include <boost/range.hpp>
 
 #include <boost/function_output_iterator.hpp>
@@ -344,7 +343,7 @@ self_intersections( const FaceRange& face_range,
   VertexPointMap vpmap = parameters::choose_parameter(parameters::get_parameter(np, internal_np::vertex_point),
                                                       get_const_property_map(boost::vertex_point, tmesh));
 
-  BOOST_FOREACH(face_descriptor f, face_range)
+  for(face_descriptor f : face_range)
   {
     typename boost::property_traits<VertexPointMap>::reference
       p = get(vpmap, target(halfedge(f,tmesh),tmesh)),
@@ -360,7 +359,7 @@ self_intersections( const FaceRange& face_range,
   std::vector<const Box*> box_ptr;
   box_ptr.reserve(num_faces(tmesh));
 
-  BOOST_FOREACH(Box& b, boxes)
+  for(Box& b : boxes)
     box_ptr.push_back(&b);
 
   // compute self-intersections filtered out by boxes

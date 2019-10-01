@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Visibility_2/include/CGAL/Triangular_expansion_visibility_2.h $
-// $Id: Triangular_expansion_visibility_2.h 6269309 %aI Simon Giraudot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Visibility_2/include/CGAL/Triangular_expansion_visibility_2.h $
+// $Id: Triangular_expansion_visibility_2.h e2d19b0 %aI Andreas Fabri
 // SPDX-License-Identifier: GPL-3.0+
 //
 //
@@ -169,7 +169,7 @@ private:
 
 
 public: 
-  Triangular_expansion_visibility_2() : p_arr(NULL){}
+  Triangular_expansion_visibility_2() : p_arr(nullptr){}
 
   /*! Constructor given an arrangement. */
   Triangular_expansion_visibility_2 (const Arrangement_2& arr)
@@ -183,7 +183,7 @@ public:
 
   bool is_attached() const {
     //std::cout << "is_attached" << std::endl;
-    return (p_arr != NULL);
+    return (p_arr != nullptr);
   }
 
   void attach(const Arrangement_2& arr) {
@@ -199,7 +199,7 @@ public:
   void detach() {
     //std::cout << "detach" << std::endl;
     observer.detach();
-    p_arr = NULL; 
+    p_arr = nullptr; 
     p_cdt.reset();
   }
 

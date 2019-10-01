@@ -12,8 +12,8 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
 
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Straight_skeleton_2/include/CGAL/arrange_offset_polygons_2.h $
-// $Id: arrange_offset_polygons_2.h ee57fc2 %aI Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Straight_skeleton_2/include/CGAL/arrange_offset_polygons_2.h $
+// $Id: arrange_offset_polygons_2.h e2d19b0 %aI Andreas Fabri
 // SPDX-License-Identifier: GPL-3.0+
 //
 // Author(s)     : Fernando Cacciola <fernando_cacciola@ciudad.com.ar> 
@@ -39,7 +39,7 @@ namespace CGAL {
 //  Every hole is contained in one and only one outer polygon
 //
 template<class K, class InputPolygonPtrIterator, class OutputPolygonWithHolesPtrIterator>
-void arrange_offset_polygons_2 ( InputPolygonPtrIterator           aBegin
+bool arrange_offset_polygons_2 ( InputPolygonPtrIterator           aBegin
                                , InputPolygonPtrIterator           aEnd
                                , OutputPolygonWithHolesPtrIterator rOut
                                , K const&
@@ -95,23 +95,34 @@ void arrange_offset_polygons_2 ( InputPolygonPtrIterator           aBegin
               lParent = lOuter ;
       }
       
-      CGAL_assertion(lParent != NULL);
+      if (lParent == nullptr)
+        return false;
       
       lParent->add_hole(*lPoly);
     }
   }  
+  return true;
 }
 
 template<class K, class C>
 std::vector< boost::shared_ptr< Polygon_with_holes_2<K,C> > >
 inline
-arrange_offset_polygons_2 ( std::vector< boost::shared_ptr< Polygon_2<K,C> > > const& aPolygons )
+arrange_offset_polygons_2 ( std::vector< boost::shared_ptr< Polygon_2<K,C> > > const& aPolygons, bool& no_error)
 {
   std::vector< boost::shared_ptr< Polygon_with_holes_2<K,C> > > rResult ;
   
-  arrange_offset_polygons_2(aPolygons.begin(), aPolygons.end(), std::back_inserter(rResult), K() ) ;
+  no_error = arrange_offset_polygons_2(aPolygons.begin(), aPolygons.end(), std::back_inserter(rResult), K() ) ;
   
   return rResult ;
+}
+
+template<class K, class C>
+std::vector< boost::shared_ptr< Polygon_with_holes_2<K,C> > >
+inline
+arrange_offset_polygons_2 ( std::vector< boost::shared_ptr< Polygon_2<K,C> > > const& aPolygons)
+{
+  bool no_error;
+  return arrange_offset_polygons_2(aPolygons, no_error);
 }
 
 } // end namespace CGAL

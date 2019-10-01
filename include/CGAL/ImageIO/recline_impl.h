@@ -13,8 +13,8 @@
 // These files are provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/CGAL_ImageIO/include/CGAL/ImageIO/recline_impl.h $
-// $Id: recline_impl.h 0698f79 %aI Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/CGAL_ImageIO/include/CGAL/ImageIO/recline_impl.h $
+// $Id: recline_impl.h 4581f1b %aI Andreas Fabri
 // SPDX-License-Identifier: LGPL-3.0+
 //
 //
@@ -23,7 +23,7 @@
 /*************************************************************************
  * recline.c - tools for recursive filtering of 1D lines
  *
- * $Id: recline_impl.h 0698f79 %aI Sébastien Loriot
+ * $Id: recline_impl.h 4581f1b %aI Andreas Fabri
  *
  * Copyright©INRIA 1999
  *
@@ -105,12 +105,12 @@ RFcoefficientType * InitRecursiveCoefficients( double x,
   double cos0, sin0, cos1, sin1;
   double sumA=0.0, sumC=0.0, aux;
 
-  RFcoefficientType *RFC = NULL;
+  RFcoefficientType *RFC = nullptr;
   RFC = (RFcoefficientType *)malloc( sizeof(RFcoefficientType) );
-  if ( RFC == NULL ) {
+  if ( RFC == nullptr ) {
     if ( get_static_verbose_recline() != 0 ) 
       fprintf( stderr, "%s: allocation failed\n", proc );
-    return( NULL );
+    return( nullptr );
   }
   
   RFC->sd1 = RFC->sd2 = RFC->sd3 = RFC->sd4 = 0.0;
@@ -137,7 +137,7 @@ RFcoefficientType * InitRecursiveCoefficients( double x,
 	fprintf( stderr, "%s: improper value of coefficient (should be >= 0.1).\n", proc );
       }
       free( RFC );
-      return( NULL );
+      return( nullptr );
     }
 
     switch ( derivative ) {
@@ -146,7 +146,7 @@ RFcoefficientType * InitRecursiveCoefficients( double x,
 	fprintf( stderr, "%s: improper value of derivative order.\n", proc );
       }
       free( RFC );
-      return( NULL );
+      return( nullptr );
     case DERIVATIVE_0 :
       a0 =  0.6570033214 / x;
       a1 =  1.978946687  / x;
@@ -217,7 +217,7 @@ RFcoefficientType * InitRecursiveCoefficients( double x,
 	fprintf( stderr, "%s: improper value of derivative order.\n", proc );
       }
       free( RFC );
-      return( NULL );
+      return( nullptr );
     case DERIVATIVE_0 :
     case DERIVATIVE_2 :
       RFC->sn1 =   RFC->sp1 - RFC->sd1 * RFC->sp0;
@@ -245,7 +245,7 @@ RFcoefficientType * InitRecursiveCoefficients( double x,
 	fprintf( stderr, "%s: improper value of coefficient (should be >= 0.1).\n", proc );
       }
       free( RFC );
-      return( NULL );
+      return( nullptr );
     }
 
     switch ( derivative ) {
@@ -444,7 +444,7 @@ RFcoefficientType * InitRecursiveCoefficients( double x,
 	fprintf( stderr, "%s: improper value of coefficient (should be >= 0.1 and <= 1.9).\n", proc );
       }
       free( RFC );
-      return( NULL );
+      return( nullptr );
     }
     ex = exp( (-x) );
     

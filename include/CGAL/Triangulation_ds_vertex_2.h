@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/TDS_2/include/CGAL/Triangulation_ds_vertex_2.h $
-// $Id: Triangulation_ds_vertex_2.h ee57fc2 %aI Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/TDS_2/include/CGAL/Triangulation_ds_vertex_2.h $
+// $Id: Triangulation_ds_vertex_2.h e2d19b0 %aI Andreas Fabri
 // SPDX-License-Identifier: GPL-3.0+
 // 
 //
@@ -115,7 +115,7 @@ is_valid(bool verbose, int level)
 {
   bool result = Vb::is_valid(verbose, level);
   CGAL_triangulation_assertion(result);
-  if (this->face() != Face_handle()) { // face==NULL if dim <0
+  if (this->face() != Face_handle()) { // face==nullptr if dim <0
     result = result && ( &*this->face()->vertex(0) == this ||
 			 &*this->face()->vertex(1) == this ||
 			 &*this->face()->vertex(2) == this );

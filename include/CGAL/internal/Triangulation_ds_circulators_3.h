@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/TDS_3/include/CGAL/internal/Triangulation_ds_circulators_3.h $
-// $Id: Triangulation_ds_circulators_3.h 3c70f8b %aI Laurent Rineau
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/TDS_3/include/CGAL/internal/Triangulation_ds_circulators_3.h $
+// $Id: Triangulation_ds_circulators_3.h 5532b84 %aI Andreas Fabri
 // SPDX-License-Identifier: GPL-3.0+
 //
 // Author(s)     : Monique Teillaud <Monique.Teillaud@sophia.inria.fr>
@@ -149,13 +149,13 @@ public:
     return ch != pos;
   }
 
-  bool operator==(Nullptr_t CGAL_triangulation_assertion_code(n)) const
+  bool operator==(std::nullptr_t CGAL_triangulation_assertion_code(n)) const
   {
-    CGAL_triangulation_assertion( n == NULL);
+    CGAL_triangulation_assertion( n == nullptr);
     return pos == Cell_handle();
   }
 
-  bool operator!=(Nullptr_t n) const
+  bool operator!=(std::nullptr_t n) const
   {
     return ! (*this == n);
   }
@@ -368,13 +368,13 @@ public:
     return ! (*this == ccir);
   }
 
-  bool operator==(Nullptr_t CGAL_triangulation_assertion_code(c)) const
+  bool operator==(std::nullptr_t CGAL_triangulation_assertion_code(c)) const
   {
-    CGAL_triangulation_assertion(c == NULL);
+    CGAL_triangulation_assertion(c == nullptr);
     return pos == Cell_handle();
   }
 
-  bool operator!=(Nullptr_t c) const
+  bool operator!=(std::nullptr_t c) const
   {
     return ! (*this == c);
   }
@@ -468,13 +468,13 @@ public:
     return ! (*this == ccir);
   }
 
-  bool operator==(Nullptr_t CGAL_triangulation_assertion_code(c)) const
+  bool operator==(std::nullptr_t CGAL_triangulation_assertion_code(c)) const
   {
-    CGAL_triangulation_assertion(c == NULL);
+    CGAL_triangulation_assertion(c == nullptr);
     return pos == Cell_handle();
   }
 
-  bool operator!=(Nullptr_t c) const
+  bool operator!=(std::nullptr_t c) const
   {
     return ! (*this == c);
   }

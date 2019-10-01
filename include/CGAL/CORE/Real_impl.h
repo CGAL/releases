@@ -31,8 +31,8 @@
  * WWW URL: http://cs.nyu.edu/exact/
  * Email: exact@cs.nyu.edu
  *
- * $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/CGAL_Core/include/CGAL/CORE/Real_impl.h $
- * $Id: Real_impl.h c9728ab %aI Andreas Fabri
+ * $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/CGAL_Core/include/CGAL/CORE/Real_impl.h $
+ * $Id: Real_impl.h 4581f1b %aI Andreas Fabri
  * SPDX-License-Identifier: LGPL-3.0+
  ***************************************************************************/
 
@@ -134,7 +134,7 @@ void Real::constructFromString(const char *str, const extLong& prec )
   //		Moreover, the value of prec is ignored (basically
   //		assumed to be infinity).
 
-  if (std::strchr(str, '/') != NULL) {	// this is a rational number
+  if (std::strchr(str, '/') != nullptr) {	// this is a rational number
     rep = new RealBigRat(BigRat(str));
     return;
   }
@@ -142,7 +142,7 @@ void Real::constructFromString(const char *str, const extLong& prec )
   const char *e = std::strchr(str, 'e');
   int dot = 0;
   long e10 = 0;
-  if (e != NULL)
+  if (e != nullptr)
     e10 = std::atol(e+1);	// e10 is decimal precision of the input string
   // i.e., input is A/10^{e10}.
   else {

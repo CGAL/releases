@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Filtered_kernel/include/CGAL/Robust_construction.h $
-// $Id: Robust_construction.h 0698f79 %aI Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Filtered_kernel/include/CGAL/Robust_construction.h $
+// $Id: Robust_construction.h 82c13e6 %aI Sébastien Loriot
 // SPDX-License-Identifier: LGPL-3.0+
 //
 // Author(s)     : Sylvain Pion, Mariette Yvinec, Laurent Rineau
@@ -59,82 +59,10 @@ public:
   typedef A2E   Approximate_to_exact_converter;
   typedef E2A   Exact_to_approximate_converter;
 
-#ifndef CGAL_CFG_NO_CPP0X_VARIADIC_TEMPLATES
   template <typename... Args>
   result_type
   operator()(const Args&... args) const
   { return e2a(ec(a2e(args)...)); }
-#else
-
-  template <class A1>
-  result_type
-  operator()(const A1 &a1) const
-  { return e2a(ec(a2e(a1))); }
-
-  template <class A1, class A2>
-  result_type
-  operator()(const A1 &a1, const A2 &a2) const
-  { return e2a(ec(a2e(a1), a2e(a2))); }
-
-  template <class A1, class A2, class A3>
-  result_type
-  operator()(const A1 &a1, const A2 &a2, const A3 &a3) const
-  { return e2a(ec(a2e(a1), a2e(a2), a2e(a3))); }
-
-  template <class A1, class A2, class A3, class A4>
-  result_type
-  operator()(const A1 &a1, const A2 &a2, const A3 &a3, const A4 &a4) const
-  { return e2a(ec(a2e(a1), a2e(a2), a2e(a3), a2e(a4))); }
-
-  template <class A1, class A2, class A3, class A4, class A5>
-  result_type
-  operator()(const A1 &a1, const A2 &a2, const A3 &a3, const A4 &a4,
-	     const A5 &a5) const
-  { return e2a(ec(a2e(a1), a2e(a2), a2e(a3), a2e(a4), a2e(a5))); }
-
-  template <class A1, class A2, class A3, class A4, class A5, class A6>
-  result_type
-  operator()(const A1 &a1, const A2 &a2, const A3 &a3, const A4 &a4,
-	     const A5 &a5, const A6 &a6) const
-  { return e2a(ec(a2e(a1), a2e(a2), a2e(a3), a2e(a4), a2e(a5), a2e(a6))); }
-
-  template <class A1, class A2, class A3, class A4, class A5, class A6,
-            class A7>
-  result_type
-  operator()(const A1 &a1, const A2 &a2, const A3 &a3, const A4 &a4,
-	     const A5 &a5, const A6 &a6, const A7 &a7) const
-  { return e2a(ec(a2e(a1), a2e(a2), a2e(a3), a2e(a4), a2e(a5),
-		  a2e(a6), a2e(a7))); }
-
-  template <class A1, class A2, class A3, class A4, class A5, class A6,
-            class A7, class A8>
-  result_type
-  operator()(const A1 &a1, const A2 &a2, const A3 &a3, const A4 &a4,
-             const A5 &a5, const A6 &a6, const A7 &a7, const A8 &a8) const
-  { return e2a(ec(a2e(a1), a2e(a2), a2e(a3), a2e(a4), a2e(a5),
-		  a2e(a6), a2e(a7), a2e(a8))); }
-
-  template <class A1, class A2, class A3, class A4, class A5, class A6,
-            class A7, class A8, class A9>
-  result_type
-  operator()(const A1 &a1, const A2 &a2, const A3 &a3, const A4 &a4,
-             const A5 &a5, const A6 &a6, const A7 &a7, const A8 &a8,
-             const A9 &a9) const
-  { return e2a(ec(a2e(a1), a2e(a2), a2e(a3), a2e(a4), a2e(a5),
-		  a2e(a6), a2e(a7), a2e(a8), a2e(a9))); }
-
-  template <class A1, class A2, class A3, class A4, class A5, class A6,
-            class A7, class A8, class A9, class A10>
-  result_type
-  operator()(const A1 &a1, const A2 &a2, const A3 &a3, const A4 &a4,
-             const A5 &a5, const A6 &a6, const A7 &a7, const A8 &a8,
-             const A9 &a9, const A10 &a10) const
-  { return e2a(ec(a2e(a1), a2e(a2), a2e(a3), a2e(a4), a2e(a5),
-		  a2e(a6), a2e(a7), a2e(a8), a2e(a9), a2e(a10))); }
-
-  // Idem for more than 10 arguments.  Do it on demand (or use C++0x).
-
-#endif
 };
 
 } //namespace CGAL

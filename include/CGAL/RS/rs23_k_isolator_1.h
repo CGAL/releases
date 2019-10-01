@@ -13,8 +13,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Algebraic_kernel_d/include/CGAL/RS/rs23_k_isolator_1.h $
-// $Id: rs23_k_isolator_1.h 0698f79 %aI Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Algebraic_kernel_d/include/CGAL/RS/rs23_k_isolator_1.h $
+// $Id: rs23_k_isolator_1.h 6425345 %aI Maxime Gimeno
 // SPDX-License-Identifier: LGPL-3.0+
 //
 // Author: Luis Peñaranda <luis.penaranda@gmx.com>
@@ -56,7 +56,7 @@ class RS23_k_isolator_1{
 
 template <class Polynomial_,class Bound_>
 RS23_k_isolator_1<Polynomial_,Bound_>::
-RS23_k_isolator_1(const Polynomial_ &p){
+RS23_k_isolator_1(const Polynomial_ &){
         CGAL_error_msg("not implemented for these polynomial/bound types");
 }
 

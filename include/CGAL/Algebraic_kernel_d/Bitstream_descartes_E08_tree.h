@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Algebraic_kernel_d/include/CGAL/Algebraic_kernel_d/Bitstream_descartes_E08_tree.h $
-// $Id: Bitstream_descartes_E08_tree.h 5c4e0a3 %aI Andreas Fabri
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Algebraic_kernel_d/include/CGAL/Algebraic_kernel_d/Bitstream_descartes_E08_tree.h $
+// $Id: Bitstream_descartes_E08_tree.h 82c13e6 %aI Sébastien Loriot
 // SPDX-License-Identifier: LGPL-3.0+
 // 
 //
@@ -476,9 +476,7 @@ private:
         log_C_eps_        = n.log_C_eps_;
     }
 
-#ifndef CGAL_CFG_NO_CPP0X_DELETED_AND_DEFAULT_FUNCTIONS
     Self& operator= (const Self&) = delete;
-#endif
 }; // struct Bitstream_descartes_E08_node
 
 

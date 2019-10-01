@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Arrangement_on_surface_2/include/CGAL/Arr_topology_traits/Arr_bounded_planar_topology_traits_2_impl.h $
-// $Id: Arr_bounded_planar_topology_traits_2_impl.h 7936109 %aI Efi Fogel
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Arrangement_on_surface_2/include/CGAL/Arr_topology_traits/Arr_bounded_planar_topology_traits_2_impl.h $
+// $Id: Arr_bounded_planar_topology_traits_2_impl.h 4581f1b %aI Andreas Fabri
 // SPDX-License-Identifier: GPL-3.0+
 //
 //
@@ -71,7 +71,7 @@ void Arr_bounded_planar_topology_traits_2<GeometryTraits_2, Dcel_>::
 dcel_updated()
 {
   // Go over the DCEL faces and locate the unbounded face.
-  unb_face = NULL;
+  unb_face = nullptr;
   typename Dcel::Face_iterator fit = this->m_dcel.faces_begin();
   for (; fit != this->m_dcel.faces_end(); ++fit) {
     if (fit->is_unbounded()) {
@@ -79,7 +79,7 @@ dcel_updated()
       break;
     }
   }
-  CGAL_assertion(unb_face != NULL);
+  CGAL_assertion(unb_face != nullptr);
 }
 
 } // namespace CGAL

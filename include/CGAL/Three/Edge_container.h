@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Three/include/CGAL/Three/Edge_container.h $
-// $Id: Edge_container.h 5b4cf63 %aI Maxime Gimeno
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Three/include/CGAL/Three/Edge_container.h $
+// $Id: Edge_container.h 665c258 %aI Maxime Gimeno
 // SPDX-License-Identifier: GPL-3.0+
 //
 // Author(s)     : Maxime Gimeno
@@ -55,7 +55,8 @@ struct DEMO_FRAMEWORK_EXPORT Edge_container :public Primitive_container
     Normals,      //!< Designates the buffer that contains the normal coordinates.
     Colors,       //!< Designates the buffer that contains the color components.
     Radius,       //!< Designates the buffer that contains the radius of wire spheres.
-    Barycenters,  //!< Designates the buffer that contains the barycenter of c3t3 facets or the center of wire spheres, for example.
+    Centers,  //!< Designates the buffer that contains the center of c3t3 facets or the center of wire spheres, for example.
+    Texture_map,        //!< Designates the buffer that contains the UV map for the texture.
     NbOfVbos      //!< Designates the size of the VBOs vector for `Edge_container`s
   };
 
@@ -97,11 +98,21 @@ struct DEMO_FRAMEWORK_EXPORT Edge_container :public Primitive_container
   QVector4D getPlane()const;
   //! getter for the "f_matrix" parameter
   QMatrix4x4 getFrameMatrix()const;
+  //! getter for the "viewport" parameter
+  QVector2D getViewport()const;
+  //! getter for the "width" parameter
+  GLfloat getWidth()const;
 
   //! setter for the "plane" parameter
   void setPlane(const QVector4D&);
   //! setter for the "f_matrix" parameter
   void setFrameMatrix(const QMatrix4x4&);
+  //! setter for the "viewport" parameter
+  void setViewport(const QVector2D&);
+  //! setter for the "width" parameter
+  void setWidth(const GLfloat&);
+  //! setter for the "is_surface" attribute. Used in PROGRAM_C3T3_EDGES
+  void setIsSurface  (const bool);
   ///@}
 
 private:

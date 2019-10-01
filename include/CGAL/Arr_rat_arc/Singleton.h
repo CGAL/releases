@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Arrangement_on_surface_2/include/CGAL/Arr_rat_arc/Singleton.h $
-// $Id: Singleton.h ee57fc2 %aI Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Arrangement_on_surface_2/include/CGAL/Arr_rat_arc/Singleton.h $
+// $Id: Singleton.h 4581f1b %aI Andreas Fabri
 // SPDX-License-Identifier: GPL-3.0+
 //
 // Author(s)     : Oren Salzman <orenzalz@post.tau.ac.il >
@@ -39,14 +39,14 @@ public:
   {
     if(!m_pInstance) 
       m_pInstance = new T;
-    CGAL_assertion(m_pInstance !=NULL);
+    CGAL_assertion(m_pInstance !=nullptr);
     return m_pInstance;
   }
       
   static void DestroyInstance()
   {
     delete m_pInstance;
-    m_pInstance = NULL;
+    m_pInstance = nullptr;
   };
 private:
   Singleton();          // ctor hidden
@@ -55,7 +55,7 @@ private:
   static T* m_pInstance;
 };
 
-template <class T> T* Singleton<T>::m_pInstance=NULL;
+template <class T> T* Singleton<T>::m_pInstance=nullptr;
 
 }   // namespace Arr_rational_arc
 }   //namespace CGAL { 

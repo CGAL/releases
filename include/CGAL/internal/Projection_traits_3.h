@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Kernel_23/include/CGAL/internal/Projection_traits_3.h $
-// $Id: Projection_traits_3.h 9cc37e1 %aI Andreas Fabri
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Kernel_23/include/CGAL/internal/Projection_traits_3.h $
+// $Id: Projection_traits_3.h 4581f1b %aI Andreas Fabri
 // SPDX-License-Identifier: LGPL-3.0+
 //
 // Author(s)     : Mariette Yvinec, Sebastien Loriot, Mael Rouxel-Labbé
@@ -322,9 +322,9 @@ public:
     //We know that none of the segment is degenerate
     Object o = intersection(s1_2,s2_2);
     const Point_2* pi=CGAL::object_cast<Point_2>(&o);
-    if (pi==NULL) { //case of segment or empty
+    if (pi==nullptr) { //case of segment or empty
       const Segment_2* si=CGAL::object_cast<Segment_2>(&o);
-      if (si==NULL) return Object();
+      if (si==nullptr) return Object();
       FT src[3],tgt[3];
       //the third coordinate is the midpoint between the points on s1 and s2
       FT z1 = s1.source()[dim] + ( alpha(si->source(), s1_source, s1_target) * ( s1.target()[dim] - s1.source()[dim] ));

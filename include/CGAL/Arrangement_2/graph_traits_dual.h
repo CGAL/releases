@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Arrangement_on_surface_2/include/CGAL/Arrangement_2/graph_traits_dual.h $
-// $Id: graph_traits_dual.h 7a4e740 %aI Efi Fogel
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Arrangement_on_surface_2/include/CGAL/Arrangement_2/graph_traits_dual.h $
+// $Id: graph_traits_dual.h 4581f1b %aI Andreas Fabri
 // SPDX-License-Identifier: GPL-3.0+
 //
 //
@@ -247,7 +247,7 @@ public:
   typedef Face_neighbor_iterator            Incident_edge_iterator;
 
   /*! Default constructor. */
-  Dual_arrangement_on_surface() : p_arr(NULL) {}
+  Dual_arrangement_on_surface() : p_arr(nullptr) {}
 
   /*! Constructor from an arrangement. */
   Dual_arrangement_on_surface(const Arrangement& arr) :

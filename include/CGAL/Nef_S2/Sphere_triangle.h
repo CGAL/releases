@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Nef_S2/include/CGAL/Nef_S2/Sphere_triangle.h $
-// $Id: Sphere_triangle.h ee57fc2 %aI Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Nef_S2/include/CGAL/Nef_S2/Sphere_triangle.h $
+// $Id: Sphere_triangle.h 124012d %aI Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0+
 // 
 //
@@ -36,8 +36,8 @@ template <class R_> class Sphere_triangle_rep
   typedef Sphere_circle<R_> Circle;
   typedef Sphere_triangle_rep<R_> Rep;
 
-  cpp11::array<Point,3>  points_; 
-  cpp11::array<Circle,3> circles_;
+  std::array<Point,3>  points_; 
+  std::array<Circle,3> circles_;
 
   friend class Sphere_triangle<R_>;
  

@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Polyhedron_IO/include/CGAL/IO/Polyhedron_iostream.h $
-// $Id: Polyhedron_iostream.h 560c77f %aI Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Polyhedron_IO/include/CGAL/IO/Polyhedron_iostream.h $
+// $Id: Polyhedron_iostream.h 25a05e9 %aI Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0+
 // 
 //
@@ -85,7 +85,7 @@ read_off(std::istream& in,
       typedef typename boost::graph_traits<Polyhedron_3<Traits,Items,HDS,Alloc> >::vertex_descriptor Vertex;
       typename property_map_selector<Polyhedron_3<Traits,Items,HDS,Alloc>, boost::vertex_point_t>::type
           def_vpm = get_property_map(CGAL::vertex_point, P);
-      BOOST_FOREACH(Vertex v, vertices(P))
+      for(Vertex v : vertices(P))
       {
         put(vpm, v, get(def_vpm, v));
       }

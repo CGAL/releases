@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Polyhedron_IO/include/CGAL/IO/OBJ_reader.h $
-// $Id: OBJ_reader.h 8d9abf3 %aI Maxime Gimeno
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Polyhedron_IO/include/CGAL/IO/OBJ_reader.h $
+// $Id: OBJ_reader.h 41ef56f %aI Sébastien Loriot
 // SPDX-License-Identifier: LGPL-3.0+
 //
 // Author(s)     : Andreas Fabri and Maxime Gimeno
@@ -21,6 +21,7 @@
 #define CGAL_IO_OBJ_READER_H
 
 #include <istream>
+#include <sstream>
 #include <vector>
 
 
@@ -57,6 +58,11 @@ read_OBJ( std::istream& input,
         }
         iss.ignore(256, ' ');
       }
+    }
+    else
+    {
+      //std::cerr<<"ERROR : Cannnot read line beginning with "<<line[0]<<std::endl;
+     continue;
     }
   }
   return true;

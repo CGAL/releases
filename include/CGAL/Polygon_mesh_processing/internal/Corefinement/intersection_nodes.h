@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Polygon_mesh_processing/include/CGAL/Polygon_mesh_processing/internal/Corefinement/intersection_nodes.h $
-// $Id: intersection_nodes.h 3ab9482 %aI Laurent Rineau
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Polygon_mesh_processing/include/CGAL/Polygon_mesh_processing/internal/Corefinement/intersection_nodes.h $
+// $Id: intersection_nodes.h e2d19b0 %aI Andreas Fabri
 // SPDX-License-Identifier: GPL-3.0+
 //
 //
@@ -262,7 +262,7 @@ public:
     CGAL_assertion(inter_res != boost::none);
     const Exact_kernel::Point_3* pt =
       boost::get<Exact_kernel::Point_3>(&(*inter_res));
-    CGAL_assertion(pt!=NULL);
+    CGAL_assertion(pt!=nullptr);
     add_new_node(*pt);
   }
 
@@ -379,7 +379,7 @@ public:
     CGAL_assertion(inter_res != boost::none);
     const Point_3* pt =
       boost::get<Point_3>(&(*inter_res));
-    CGAL_assertion(pt!=NULL);
+    CGAL_assertion(pt!=nullptr);
     add_new_node(*pt);
   }
 

@@ -13,8 +13,8 @@
 //You should have received a copy of the GNU General Public License
 //along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Scale_space_reconstruction_3/include/CGAL/Scale_space_reconstruction_3/Shape_construction_3.h $
-// $Id: Shape_construction_3.h a0427ec %aI Mael Rouxel-Labbé
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Scale_space_reconstruction_3/include/CGAL/Scale_space_reconstruction_3/Shape_construction_3.h $
+// $Id: Shape_construction_3.h e2d19b0 %aI Andreas Fabri
 // SPDX-License-Identifier: GPL-3.0+
 //
 // Author(s):      Thijs van Lankveld
@@ -114,7 +114,7 @@ public:
      *  the object after use.
      *
      *  \param shape points to the shape to base the new shape on.
-     *  If `shape` is NULL, the new shape will not contain any vertices.
+     *  If `shape` is nullptr, the new shape will not contain any vertices.
      *  Otherwise, the new shape will clone the vertices.
      *  \param squared_radius is the squared scale parameter of the shape.
      *  \return a pointer to the new shape.
@@ -148,10 +148,10 @@ public:
      *
      *  \param shape points to the shape to adjust.
      *  \param squared_radius is the new squared scale parameter of the shape.
-     *  \pre `shape` is not NULL.
+     *  \pre `shape` is not nullptr.
      */
     void change_scale( Shape* shape, const FT& squared_radius ) const {
-        CGAL_assertion( shape != NULL );
+        CGAL_assertion( shape != nullptr );
         shape->set_alpha( squared_radius );
     }
 /// \}
@@ -207,7 +207,7 @@ public:
      *  replace it by a new shape.
      */
     void change_scale( Shape*& shape, const FT& squared_radius ) const {
-        CGAL_assertion( shape != NULL );
+        CGAL_assertion( shape != nullptr );
         Shape* tmp = construct( shape, squared_radius );
         delete shape;
         shape = tmp;

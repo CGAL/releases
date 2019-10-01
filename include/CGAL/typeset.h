@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/NewKernel_d/include/CGAL/typeset.h $
-// $Id: typeset.h 0698f79 %aI Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/NewKernel_d/include/CGAL/typeset.h $
+// $Id: typeset.h 530238d %aI Marc Glisse
 // SPDX-License-Identifier: LGPL-3.0+
 //
 // Author(s)     : Marc Glisse
@@ -21,17 +21,12 @@
 #ifndef CGAL_TYPESET_H
 #define CGAL_TYPESET_H
 #include <CGAL/config.h>
-#ifdef CGAL_CXX11
 #include <type_traits>
-#else
-#include <boost/type_traits.hpp>
-#endif
 
 // Sometimes using tuple just to list types is overkill (takes forever to
 // instantiate).
 
 namespace CGAL {
-#ifdef CGAL_CXX11
   template<class...> struct typeset;
   template<class H,class...U> struct typeset<H,U...> {
     typedef H head;
@@ -55,33 +50,6 @@ namespace CGAL {
     template<class X> using contains = std::false_type;
     template<class X> using add = typeset<X>;
   };
-#else
-  template<class,class> struct typeset;
-  template<class H=void, class T=typename
-    boost::mpl::if_<boost::is_same<H,void>, void, typeset<void, void> >::type >
-  struct typeset {
-    typedef typeset type;
-    typedef H head;
-    typedef T tail;
-    template<class X> struct contains :
-      boost::mpl::if_<boost::is_same<H,X>,boost::true_type,typename tail::template contains<X> >::type
-    {};
-    template<class X,class=void> struct add;
-      //boost::mpl::if_<boost::is_same<H,X>,typeset,typeset<X,typeset> >::type
-  };
-  template<> struct typeset<> {
-    typedef typeset type;
-    template<class X> struct contains : boost::false_type {};
-    template<class X> struct add : CGAL::typeset<X> {};
-  };
-
-  template<class H,class T>
-    template<class X,class>
-    struct typeset<H,T>::add : typeset<H,typename T::template add<X>::type> {};
-  template<class H,class T>
-    template<class V>
-    struct typeset<H,T>::add<H,V> : typeset<H,T> {};
-#endif
 
   template<class T1, class T2> struct typeset_union_ :
     typeset_union_<typename T1::template add<typename T2::head>::type, typename T2::tail>
@@ -93,26 +61,15 @@ namespace CGAL {
       typedef typename T1::head H;
       typedef typename typeset_intersection_<typename T1::tail,T2>::type U;
       typedef typename
-#ifdef CGAL_CXX11
 	std::conditional<T2::template contains<H>::value,
-#else
-	boost::mpl::if_<typename T2::template contains<H>,
-#endif
 	typename U::template add<H>::type, U>::type type;
     };
   template<class T>
     struct typeset_intersection_<typeset<>,T> : typeset<> {};
 
-#ifdef CGAL_CXX11
   template<class T1, class T2>
     using typeset_union = typename typeset_union_<T1,T2>::type;
   template<class T1, class T2>
     using typeset_intersection = typename typeset_intersection_<T1,T2>::type;
-#else
-  template<class T1, class T2>
-    struct typeset_union : typeset_union_<T1,T2>::type {};
-  template<class T1, class T2>
-    struct typeset_intersection : typeset_intersection_<T1,T2>::type {};
-#endif
 }
 #endif

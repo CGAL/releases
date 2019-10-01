@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Polygon_mesh_processing/include/CGAL/Polygon_mesh_processing/random_perturbation.h $
-// $Id: random_perturbation.h 2f81a21 %aI Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Polygon_mesh_processing/include/CGAL/Polygon_mesh_processing/random_perturbation.h $
+// $Id: random_perturbation.h 25a05e9 %aI Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0+
 //
 //
@@ -37,7 +37,6 @@
 
 #include <CGAL/Random.h>
 
-#include <boost/foreach.hpp>
 
 #ifdef CGAL_PMP_RANDOM_PERTURBATION_VERBOSE
 #include <CGAL/Timer.h>
@@ -89,7 +88,7 @@ namespace internal {
     typename GT::Construct_translated_point_3 translate
       = gt.construct_translated_point_3_object();
 
-    BOOST_FOREACH(vertex_descriptor v, vrange)
+    for(vertex_descriptor v : vrange)
     {
       if (!get(vcmap, v) && !is_border(v, tmesh))
       {

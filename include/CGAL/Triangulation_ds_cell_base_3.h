@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/TDS_3/include/CGAL/Triangulation_ds_cell_base_3.h $
-// $Id: Triangulation_ds_cell_base_3.h f9c9cfa %aI Laurent Rineau
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/TDS_3/include/CGAL/Triangulation_ds_cell_base_3.h $
+// $Id: Triangulation_ds_cell_base_3.h 2ce16d1 %aI Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0+
 //
 // Author(s)     : Monique Teillaud <Monique.Teillaud@sophia.inria.fr>
@@ -57,7 +57,6 @@ public:
 
   Triangulation_ds_cell_base_3(Vertex_handle v0, Vertex_handle v1,
                                Vertex_handle v2, Vertex_handle v3)
-#ifndef CGAL_CFG_NO_CPP0X_UNIFIED_INITIALIZATION_SYNTAX
     : V{v0, v1, v2, v3}
   {
 #ifdef SHOW_REMAINING_BAD_ELEMENT_IN_RED
@@ -65,32 +64,12 @@ public:
     mark2 = -1;
 #endif
   }
-#else
-  {
-    set_vertices(v0, v1, v2, v3);
-#ifdef SHOW_REMAINING_BAD_ELEMENT_IN_RED
-    mark = -1;
-    mark2 = -1;
-#endif
-  }
-#endif
 
   Triangulation_ds_cell_base_3(Vertex_handle v0, Vertex_handle v1,
                                Vertex_handle v2, Vertex_handle v3,
                                Cell_handle   n0, Cell_handle   n1,
                                Cell_handle   n2, Cell_handle   n3)
-#ifndef CGAL_CFG_NO_CPP0X_UNIFIED_INITIALIZATION_SYNTAX
     : N{n0, n1, n2, n3}, V{v0, v1, v2, v3} {}
-#else
-  {
-    set_neighbors(n0, n1, n2, n3);
-    set_vertices(v0, v1, v2, v3);
-#ifdef SHOW_REMAINING_BAD_ELEMENT_IN_RED
-    mark = -1;
-    mark2 = -1;
-#endif
-  }
-#endif
 
   // ACCESS FUNCTIONS
 

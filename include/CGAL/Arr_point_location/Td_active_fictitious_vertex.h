@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Arrangement_on_surface_2/include/CGAL/Arr_point_location/Td_active_fictitious_vertex.h $
-// $Id: Td_active_fictitious_vertex.h 06d2fc7 %aI Efi Fogel
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Arrangement_on_surface_2/include/CGAL/Arr_point_location/Td_active_fictitious_vertex.h $
+// $Id: Td_active_fictitious_vertex.h 4581f1b %aI Andreas Fabri
 // SPDX-License-Identifier: GPL-3.0+
 //
 // Author(s): Oren Nechushtan   <theoren@math.tau.ac.il>
@@ -189,7 +189,7 @@ public:
 
   Td_active_fictitious_vertex()
   {
-    PTR = new Data(Traits::empty_vtx_handle(), Traits::empty_he_handle(), NULL);
+    PTR = new Data(Traits::empty_vtx_handle(), Traits::empty_he_handle(), nullptr);
   }
 
   /*! Constructor given Vertex & Halfedge handles. */

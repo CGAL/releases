@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Arrangement_on_surface_2/include/CGAL/Curved_kernel_via_analysis_2/Point_2.h $
-// $Id: Point_2.h cc23699 %aI Andreas Fabri
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Arrangement_on_surface_2/include/CGAL/Curved_kernel_via_analysis_2/Point_2.h $
+// $Id: Point_2.h 983645a %aI Sébastien Loriot
 // SPDX-License-Identifier: LGPL-3.0+
 //
 //
@@ -241,6 +241,8 @@ public:
             return Self(rep);
         }
     };
+    
+    //!@}
     
 public:
     //!\name Standard constructors
@@ -504,7 +506,7 @@ public:
 
         CGAL_CKvA_2_GRAB_CK_FUNCTOR_FOR_POINT(Compare_x_2, compare_x_2)
         CGAL_precondition(Kernel_point_2_equals_Point_2 ||
-                          dynamic_cast< const Kernel_point_2* >(this) != NULL);
+                          dynamic_cast< const Kernel_point_2* >(this) != nullptr);
         return compare_x_2(*dynamic_cast< const Kernel_point_2* >(this), q);
     }
 
@@ -527,7 +529,7 @@ public:
 
         CGAL_CKvA_2_GRAB_CK_FUNCTOR_FOR_POINT(Compare_xy_2, compare_xy_2)
         CGAL_precondition(Kernel_point_2_equals_Point_2 ||
-                          dynamic_cast< const Kernel_point_2* >(this) != NULL);
+                          dynamic_cast< const Kernel_point_2* >(this) != nullptr);
         return compare_xy_2(
                 *dynamic_cast< const Kernel_point_2* >(this), q, equal_x
         );
@@ -547,7 +549,7 @@ public:
 
         CGAL_CKvA_2_GRAB_CK_FUNCTOR_FOR_POINT(Is_on_2, is_on_2)
         CGAL_precondition(Kernel_point_2_equals_Point_2 ||
-                          dynamic_cast< const Kernel_point_2* >(this) != NULL);
+                          dynamic_cast< const Kernel_point_2* >(this) != nullptr);
         return is_on_2(*dynamic_cast< const Kernel_point_2* >(this), curve);
     }
 
@@ -610,7 +612,7 @@ public:
       return *(this->ptr()->_m_doubles);
     }
   
-    //!}
+    //!@}
 
 
 public:
@@ -783,8 +785,7 @@ public:
     *this = Point_2< Curved_kernel_via_analysis_2, Rep >(rep);
   }
   
-  //!@}
-  
+  //! @}
     // friends ////////////////////////////////////////////////////////////////
 
     //! befriending arc classes

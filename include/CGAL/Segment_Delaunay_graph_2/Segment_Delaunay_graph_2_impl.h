@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Segment_Delaunay_graph_2/include/CGAL/Segment_Delaunay_graph_2/Segment_Delaunay_graph_2_impl.h $
-// $Id: Segment_Delaunay_graph_2_impl.h 5133321 %aI Mael Rouxel-Labbé
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Segment_Delaunay_graph_2/include/CGAL/Segment_Delaunay_graph_2/Segment_Delaunay_graph_2_impl.h $
+// $Id: Segment_Delaunay_graph_2_impl.h 8535a3c %aI Laurent Rineau
 // SPDX-License-Identifier: GPL-3.0+
 // 
 //
@@ -2266,7 +2266,7 @@ nearest_neighbor(const Site_2& p,
     start_vertex = finite_vertex();
   }
 
-  //  if ( start_vertex == NULL ) { return start_vertex; }
+  //  if ( start_vertex == nullptr ) { return start_vertex; }
 
   Vertex_handle vclosest;
   Vertex_handle v = start_vertex;

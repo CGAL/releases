@@ -16,8 +16,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Polygon/include/CGAL/Polygon_2/Polygon_2_algorithms_impl.h $
-// $Id: Polygon_2_algorithms_impl.h 47e97bb %aI Mael Rouxel-Labbé
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Polygon/include/CGAL/Polygon_2/Polygon_2_algorithms_impl.h $
+// $Id: Polygon_2_algorithms_impl.h ce126b8 %aI Sébastien Loriot
 // SPDX-License-Identifier: LGPL-3.0+
 // 
 //
@@ -74,7 +74,7 @@ OutputForwardIterator filter_collinear_points(InputForwardIterator first,
   typedef typename K::FT                              FT;
   typedef typename K::Point_2                         Point;
 
-  InputForwardIterator last = cpp11::prev(beyond);
+  InputForwardIterator last = std::prev(beyond);
 
   InputForwardIterator vit = first, vit_next = vit, vit_next_2 = vit, vend = vit;
   ++vit_next;

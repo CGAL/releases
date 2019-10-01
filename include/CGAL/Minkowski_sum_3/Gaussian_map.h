@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Minkowski_sum_3/include/CGAL/Minkowski_sum_3/Gaussian_map.h $
-// $Id: Gaussian_map.h ee57fc2 %aI Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Minkowski_sum_3/include/CGAL/Minkowski_sum_3/Gaussian_map.h $
+// $Id: Gaussian_map.h 4581f1b %aI Andreas Fabri
 // SPDX-License-Identifier: GPL-3.0+
 // 
 //
@@ -1022,7 +1022,7 @@ class Gaussian_map :
 	  CGAL_NEF_TRACEN("simplify");
     
 	  typedef typename CGAL::Union_find<SFace_handle>::handle Union_find_handle;
-	  CGAL::Unique_hash_map< SFace_handle, Union_find_handle> Pitem(NULL);
+	  CGAL::Unique_hash_map< SFace_handle, Union_find_handle> Pitem(nullptr);
 	  CGAL::Union_find< SFace_handle> UF;
     
 	  SFace_iterator f;

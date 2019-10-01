@@ -32,8 +32,8 @@
  *      - Added OpenNL namespace
  *      - SparseMatrix is now a model of the SparseLinearAlgebraTraits_d::Matrix concept
  *
- * $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/OpenNL/include/CGAL/OpenNL/sparse_matrix.h $
- * $Id: sparse_matrix.h 8cdfad0 %aI Sébastien Loriot
+ * $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/OpenNL/include/CGAL/OpenNL/sparse_matrix.h $
+ * $Id: sparse_matrix.h 4581f1b %aI Andreas Fabri
  * SPDX-License-Identifier: LGPL-3.0+
 */
 
@@ -163,7 +163,7 @@ public:
 
     ~SparseMatrix() {
         delete[] row_ ;
-        row_ = NULL ;
+        row_ = nullptr ;
     }
 
     //___________ access ________________________

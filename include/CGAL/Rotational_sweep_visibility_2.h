@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Visibility_2/include/CGAL/Rotational_sweep_visibility_2.h $
-// $Id: Rotational_sweep_visibility_2.h 26c857a %aI Mael Rouxel-Labbé
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Visibility_2/include/CGAL/Rotational_sweep_visibility_2.h $
+// $Id: Rotational_sweep_visibility_2.h e2d19b0 %aI Andreas Fabri
 // SPDX-License-Identifier: GPL-3.0+
 //
 //
@@ -289,7 +289,7 @@ private:
                                           //visibility_cone is greater than pi.
 
 public:
-  Rotational_sweep_visibility_2(): p_arr(NULL), geom_traits(NULL) {}
+  Rotational_sweep_visibility_2(): p_arr(nullptr), geom_traits(nullptr) {}
   Rotational_sweep_visibility_2(const Arrangement_2& arr): p_arr(&arr) {
     geom_traits = p_arr->geometry_traits();
   }
@@ -429,7 +429,7 @@ public:
   }
 
 bool is_attached() const {
-  return (p_arr != NULL);
+  return (p_arr != nullptr);
 }
 
 void attach(const Arrangement_2& arr) {
@@ -438,8 +438,8 @@ void attach(const Arrangement_2& arr) {
 }
 
 void detach() {
-  p_arr = NULL;
-  geom_traits = NULL;
+  p_arr = nullptr;
+  geom_traits = nullptr;
 }
 
 const Arrangement_2& arrangement_2() const {

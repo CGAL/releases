@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Arrangement_on_surface_2/include/CGAL/Arr_topology_traits/Arr_spherical_construction_helper.h $
-// $Id: Arr_spherical_construction_helper.h 7936109 %aI Efi Fogel
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Arrangement_on_surface_2/include/CGAL/Arr_topology_traits/Arr_spherical_construction_helper.h $
+// $Id: Arr_spherical_construction_helper.h 4581f1b %aI Andreas Fabri
 // SPDX-License-Identifier: GPL-3.0+
 //
 //
@@ -114,7 +114,7 @@ public:
   Arr_spherical_construction_helper(Arrangement_2* arr) :
     m_top_traits(arr->topology_traits()),
     m_arr_access(*arr),
-    m_he_ind_map_p(NULL)
+    m_he_ind_map_p(nullptr)
   {}
 
   /*! Destructor. */
@@ -172,7 +172,7 @@ public:
    */
   void splice_indices_list(Halfedge_handle he)
   {
-    CGAL_assertion(m_he_ind_map_p != NULL);
+    CGAL_assertion(m_he_ind_map_p != nullptr);
     Indices_list& list_ref = (*m_he_ind_map_p)[he];
     list_ref.splice(list_ref.end(), m_subcurves_at_nf);
   }

@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Polyhedron/include/CGAL/boost/graph/properties_Polyhedron_3_features.h $
-// $Id: properties_Polyhedron_3_features.h 598fd59 %aI Andreas Fabri
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Polyhedron/include/CGAL/boost/graph/properties_Polyhedron_3_features.h $
+// $Id: properties_Polyhedron_3_features.h d60f564 %aI Sébastien Loriot
 // SPDX-License-Identifier: LGPL-3.0+
 //
 //
@@ -227,7 +227,7 @@ void put(Polyhedron_incident_patches_pmap<Patch_id>,
          Handle_type h, const std::set<Patch_id>& v)
 {
   h->clear_incident_patches();
-  BOOST_FOREACH(Patch_id n, v)
+  for(Patch_id n : v)
     h->add_incident_patch(n);
 }
 

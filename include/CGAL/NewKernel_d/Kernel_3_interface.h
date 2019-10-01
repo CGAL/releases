@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/NewKernel_d/include/CGAL/NewKernel_d/Kernel_3_interface.h $
-// $Id: Kernel_3_interface.h 0698f79 %aI Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/NewKernel_d/include/CGAL/NewKernel_d/Kernel_3_interface.h $
+// $Id: Kernel_3_interface.h f62624c %aI Sébastien Loriot
 // SPDX-License-Identifier: LGPL-3.0+
 //
 // Author(s)     : Marc Glisse
@@ -43,8 +43,8 @@ template <class Base_> struct Kernel_3_interface : public Base_ {
 	typedef typename Get_type<Base, Point_tag>::type	Point_3;
 	typedef typename Get_type<Base, Vector_tag>::type	Vector_3;
 	typedef typename Get_type<Base, Segment_tag>::type	Segment_3;
-	typedef cpp0x::tuple<Point_3,Point_3,Point_3>		Triangle_3; // placeholder
-	typedef cpp0x::tuple<Point_3,Point_3,Point_3,Point_3>	Tetrahedron_3; // placeholder
+	typedef std::tuple<Point_3,Point_3,Point_3>		Triangle_3; // placeholder
+	typedef std::tuple<Point_3,Point_3,Point_3,Point_3>	Tetrahedron_3; // placeholder
 	struct Compare_xyz_3 {
 		typedef typename Get_functor<Base, Compare_lexicographically_tag>::type CL;
 		typedef typename CL::result_type result_type;

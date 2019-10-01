@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Point_set_processing_3/include/CGAL/edge_aware_upsample_point_set.h $
-// $Id: edge_aware_upsample_point_set.h 2f81a21 %aI Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Point_set_processing_3/include/CGAL/edge_aware_upsample_point_set.h $
+// $Id: edge_aware_upsample_point_set.h 25a05e9 %aI Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0+
 //
 // Author(s) : Shihao Wu, Clement Jamin, Pierre Alliez 
@@ -600,117 +600,6 @@ edge_aware_upsample_point_set(
   return edge_aware_upsample_point_set<ConcurrencyTag>
     (points, output, CGAL::Point_set_processing_3::parameters::all_default(points));
 }
-
-
-#ifndef CGAL_NO_DEPRECATED_CODE  
-// deprecated API
-template <typename ConcurrencyTag,
-	  typename OutputIterator,
-          typename ForwardIterator, 
-          typename PointMap, 
-          typename NormalMap,
-          typename Kernel>
-CGAL_DEPRECATED_MSG("you are using the deprecated V1 API of CGAL::edge_aware_upsample_point_set(), please update your code")
-OutputIterator
-edge_aware_upsample_point_set(
-  ForwardIterator first,  ///< forward iterator on the first input point.
-  ForwardIterator beyond, ///< past-the-end iterator.
-  OutputIterator output,  ///< output iterator where output points and normals 
-                          ///< are put.
-  PointMap point_map,   ///< point property map.
-  NormalMap normal_map, ///< vector property map.
-  const typename Kernel::FT sharpness_angle,  ///< 
-                    ///< controls the preservation of sharp features. 
-                    ///< The larger the value is,
-                    ///< the smoother the result will be.
-                    ///< The range of possible values is `[0, 90]`.
-                    ///< See section \ref Point_set_processing_3Upsample_Parameter2
-                    ///< for an example.
-  typename Kernel::FT edge_sensitivity,  ///<  
-                    ///< larger values of edge-sensitivity give higher priority 
-                    ///< to inserting points along sharp features.
-                    ///< The range of possible values is `[0, 1]`.
-                    ///< See section \ref Point_set_processing_3Upsample_Parameter1
-                    ///< for an example.
-  typename Kernel::FT neighbor_radius, ///< 
-                    ///< indicates the radius of the largest hole that should be filled.
-                    ///< The default value is set to 3 times the average spacing of the point set.
-                    ///< If the value given by user is smaller than the average spacing, 
-                    ///< the function will use the default value instead.
-  const std::size_t number_of_output_points,///< number of output
-                                             ///< points to generate.
-  const Kernel& /*kernel*/ ///< geometric traits.
-)
-{
-  return edge_aware_upsample_point_set<ConcurrencyTag>
-    (CGAL::make_range (first, beyond), output,
-     CGAL::parameters::point_map (point_map).
-     normal_map (normal_map).
-     sharpness_angle (sharpness_angle).
-     edge_sensitivity (edge_sensitivity).
-     neighbor_radius (neighbor_radius).
-     number_of_output_points (number_of_output_points).
-     geom_traits (Kernel()));
-}
-  
-
-// deprecated API
-template <typename ConcurrencyTag,
-	  typename OutputIterator,
-          typename ForwardIterator,
-          typename PointMap,
-          typename NormalMap>
-CGAL_DEPRECATED_MSG("you are using the deprecated V1 API of CGAL::edge_aware_upsample_point_set(), please update your code")
-OutputIterator
-edge_aware_upsample_point_set(
-  ForwardIterator first,    ///< forward iterator to the first input point.
-  ForwardIterator beyond,   ///< past-the-end iterator.
-  OutputIterator output, ///< output iterator over points.
-  PointMap point_map, ///< property map: `ForwardIterator` -> Point_3.
-  NormalMap normal_map, ///< property map: `ForwardIterator` -> Vector_3.
-  double sharpness_angle,  ///< control sharpness(0-90)
-  double edge_sensitivity,  ///< edge sensitivity(0-5)
-  double neighbor_radius, ///< initial size of neighbors.
-  const std::size_t number_of_output_points///< number of iterations.   
-  )
-{
-  return edge_aware_upsample_point_set<ConcurrencyTag>
-    (CGAL::make_range (first, beyond), output,
-     CGAL::parameters::point_map (point_map).
-     normal_map (normal_map).
-     sharpness_angle (sharpness_angle).
-     edge_sensitivity (edge_sensitivity).
-     neighbor_radius (neighbor_radius).
-     number_of_output_points (number_of_output_points));
-}
-
-// deprecated API
-template <typename ConcurrencyTag,
-	  typename OutputIterator,
-          typename ForwardIterator,
-          typename NormalMap>
-CGAL_DEPRECATED_MSG("you are using the deprecated V1 API of CGAL::edge_aware_upsample_point_set(), please update your code")
-OutputIterator
-edge_aware_upsample_point_set(
-  ForwardIterator first, ///< iterator over the first input point
-  ForwardIterator beyond, ///< past-the-end iterator
-  OutputIterator output, ///< output iterator over points.
-  NormalMap normal_map, ///< property map:  OutputIterator -> Vector_3.
-  double sharpness_angle = 30,  ///< control sharpness(0-90)
-  double edge_sensitivity = 1,  ///< edge sensitivity(0-5)
-  double neighbor_radius = -1, ///< initial size of neighbors.
-  const std::size_t number_of_output_points = 1000///< number of output points.     
-  )
-{
-  return edge_aware_upsample_point_set<ConcurrencyTag>
-    (CGAL::make_range (first, beyond), output,
-     CGAL::parameters::normal_map (normal_map).
-     sharpness_angle (sharpness_angle).
-     edge_sensitivity (edge_sensitivity).
-     neighbor_radius (neighbor_radius).
-     number_of_output_points (number_of_output_points));
-}
-#endif // CGAL_NO_DEPRECATED_CODE
 /// \endcond
 
 } //namespace CGAL

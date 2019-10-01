@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Mesh_3/include/CGAL/Implicit_mesh_domain_3.h $
-// $Id: Implicit_mesh_domain_3.h d685751 %aI Mael Rouxel-Labbé
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Mesh_3/include/CGAL/Implicit_mesh_domain_3.h $
+// $Id: Implicit_mesh_domain_3.h 4581f1b %aI Andreas Fabri
 // SPDX-License-Identifier: GPL-3.0+
 //
 //
@@ -73,7 +73,7 @@ public:
   Implicit_mesh_domain_3(Function_ f,
                          const Sphere_3& bounding_sphere,
                          const FT& error_bound = FT(1e-6),
-                         CGAL::Random* p_rng = NULL)
+                         CGAL::Random* p_rng = nullptr)
     : Base(Wrapper(f), bounding_sphere, error_bound,
            Null_subdomain_index(), p_rng)  {}
 

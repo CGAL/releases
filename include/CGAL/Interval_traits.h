@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Interval_support/include/CGAL/Interval_traits.h $
-// $Id: Interval_traits.h 0698f79 %aI Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Interval_support/include/CGAL/Interval_traits.h $
+// $Id: Interval_traits.h 4581f1b %aI Andreas Fabri
 // SPDX-License-Identifier: LGPL-3.0+
 // 
 //
@@ -203,7 +203,7 @@ template<typename Interval> inline
 typename Interval_traits<Interval>::Intersection::result_type
 intersection(Interval interval1, Interval interval2, typename boost::enable_if<
              typename Interval_traits<Interval>::Is_interval
-             >::type* = NULL
+             >::type* = nullptr
 ) {
     typename Interval_traits<Interval>::Intersection intersection;
     return intersection(interval1, interval2);
@@ -214,7 +214,7 @@ typename Interval_traits<Interval>::Hull::result_type
 hull(Interval interval1, Interval interval2, typename boost::enable_if<
                                                        boost::is_same<
                                                           typename Interval_traits<Interval>::Is_interval,
-                                                          Tag_true > >::type* = NULL) 
+                                                          Tag_true > >::type* = nullptr) 
 {
     typename Interval_traits<Interval>::Hull hull;
     return hull(interval1, interval2);

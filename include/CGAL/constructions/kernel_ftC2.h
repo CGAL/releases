@@ -16,8 +16,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Cartesian_kernel/include/CGAL/constructions/kernel_ftC2.h $
-// $Id: kernel_ftC2.h 0d7fd46 %aI Laurent Rineau
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Cartesian_kernel/include/CGAL/constructions/kernel_ftC2.h $
+// $Id: kernel_ftC2.h 3e4b177 %aI Laurent Rineau
 // SPDX-License-Identifier: LGPL-3.0+
 // 
 //
@@ -64,7 +64,7 @@ circumcenter_translateC2(const FT &dqx, const FT &dqy,
   CGAL_kernel_assertion ( ! CGAL_NTS is_zero(den) );
 
   // One possible optimization here is to precompute 1/den, to avoid one
-  // division.  However, we loose precision, and it's maybe not worth it (?).
+  // division.  However, we lose precision, and it's maybe not worth it (?).
   dcx =   determinant (dry, dqy, r2, q2) / den;
   dcy = - determinant (drx, dqx, r2, q2) / den;
 }
@@ -440,7 +440,7 @@ weighted_circumcenter_translateC2(const RT &dqx, const RT &dqy, const RT &dqw,
   CGAL_assertion ( den != RT(0) );
 
   // One possible optimization here is to precompute 1/den, to avoid one
-  // division.  However, we loose precision, and it's maybe not worth it (?).
+  // division.  However, we lose precision, and it's maybe not worth it (?).
   dcx =   determinant (dry, dqy, r2, q2) / den;
   dcy = - determinant (drx, dqx, r2, q2) / den;
 }

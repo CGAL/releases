@@ -16,8 +16,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Cartesian_kernel/include/CGAL/Cartesian/Scaling_rep_2.h $
-// $Id: Scaling_rep_2.h 0698f79 %aI Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Cartesian_kernel/include/CGAL/Cartesian/Scaling_rep_2.h $
+// $Id: Scaling_rep_2.h f9ff07d %aI Maxime Gimeno
 // SPDX-License-Identifier: LGPL-3.0+
 // 
 //
@@ -34,6 +34,7 @@ class Scaling_repC2: public Aff_transformation_rep_baseC2<R>
 friend class Aff_transformation_repC2<R>;
 friend class Translation_repC2<R>;
 friend class Rotation_repC2<R>;
+friend class Reflection_repC2<R>;
 
 public:
   typedef Aff_transformation_rep_baseC2<R> Aff_t_base;
@@ -45,6 +46,7 @@ public:
   typedef Aff_transformation_repC2<R>      Transformation;
   typedef Translation_repC2<R>             Translation;
   typedef Rotation_repC2<R>                Rotation;
+  typedef Reflection_repC2<R>              Reflection;
   typedef Scaling_repC2<R>                 Scaling;
 
   Scaling_repC2()
@@ -96,6 +98,12 @@ public:
                                 scalefactor_ * t.cosinus_);
   }
 
+  Aff_transformation_2 compose(const Reflection &r) const
+  {
+    return Aff_transformation_2(scalefactor_*r.cosinus_, scalefactor_*r.sinus_,-r.cosinus_*r.t.x()-r.sinus_*r.t.y()+r.t.x(),
+                                scalefactor_*r.sinus_, -scalefactor_*r.cosinus_, -r.sinus_*r.t.x()+r.cosinus_*r.t.y()-r.t.y());
+  }
+  
   Aff_transformation_2 compose(const Scaling &t) const
   {
     return Aff_transformation_2(SCALING, scalefactor_*t.scalefactor_);

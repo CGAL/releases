@@ -16,8 +16,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Cartesian_kernel/include/CGAL/Cartesian/Ray_3.h $
-// $Id: Ray_3.h 6c8a8f3 %aI Mael Rouxel-Labbé
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Cartesian_kernel/include/CGAL/Cartesian/Ray_3.h $
+// $Id: Ray_3.h 3e4b177 %aI Laurent Rineau
 // SPDX-License-Identifier: LGPL-3.0+
 // 
 //
@@ -41,7 +41,7 @@ class RayC3
   typedef typename R_::Line_3               Line_3;
   typedef typename R_::Ray_3                Ray_3;
 
-  typedef cpp11::array<Point_3, 2>          Rep;
+  typedef std::array<Point_3, 2>          Rep;
   typedef typename R_::template Handle<Rep>::type  Base;
 
   Base base;

@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Polyhedron/include/CGAL/Polyhedron_3.h $
-// $Id: Polyhedron_3.h 76ccc9a %aI Andreas Fabri
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Polyhedron/include/CGAL/Polyhedron_3.h $
+// $Id: Polyhedron_3.h 2848158 %aI Mael Rouxel-Labbé
 // SPDX-License-Identifier: GPL-3.0+
 //
 //
@@ -1423,7 +1423,7 @@ public:
         // number of border halfedges. An edge with no incident facet
         // counts as two border halfedges. Precondition: `normalize_border
         // ()' has been called and no halfedge insertion or removal and no
-        // change in border status of the halfedges have occured since
+        // change in border status of the halfedges have occurred since
         // then.
         return hds_.size_of_border_halfedges();
     }
@@ -1434,7 +1434,7 @@ public:
         // facet on one side and to a hole on the other side.
         // Precondition: `normalize_border()' has been called and no
         // halfedge insertion or removal and no change in border status of
-        // the halfedges have occured since then.
+        // the halfedges have occurred since then.
         return hds_.size_of_border_edges();
     }
 
@@ -1445,7 +1445,7 @@ public:
         // halfedges_end()') denotes all border edges. Precondition:
         // `normalize_border()' has been called and no halfedge insertion
         // or removal and no change in border status of the halfedges have
-        // occured since then.
+        // occurred since then.
         return hds_.border_halfedges_begin();
     }
     Halfedge_const_iterator border_halfedges_begin() const {

@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Polygon_mesh_processing/include/CGAL/Polygon_mesh_processing/internal/Corefinement/intersection_of_coplanar_triangles_3.h $
-// $Id: intersection_of_coplanar_triangles_3.h 3c382ac %aI Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Polygon_mesh_processing/include/CGAL/Polygon_mesh_processing/internal/Corefinement/intersection_of_coplanar_triangles_3.h $
+// $Id: intersection_of_coplanar_triangles_3.h d60f564 %aI Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0+
 //
 //
@@ -242,7 +242,7 @@ struct Intersect_coplanar_faces_3{
     typedef typename std::list<Inter_pt_info>::iterator Iterator;
 
     std::map<Inter_pt_info*,Orientation> orientations;
-    BOOST_FOREACH(Inter_pt_info& ipt, inter_pts)
+    for(Inter_pt_info& ipt : inter_pts)
       orientations[ &ipt ]=get_orientation_and_update_info_2(h2,ipt);
 
     CGAL_assertion_code(int pt_added=0;)

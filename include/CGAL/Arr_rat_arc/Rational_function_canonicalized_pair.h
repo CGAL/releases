@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Arrangement_on_surface_2/include/CGAL/Arr_rat_arc/Rational_function_canonicalized_pair.h $
-// $Id: Rational_function_canonicalized_pair.h ee57fc2 %aI Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Arrangement_on_surface_2/include/CGAL/Arr_rat_arc/Rational_function_canonicalized_pair.h $
+// $Id: Rational_function_canonicalized_pair.h 4581f1b %aI Andreas Fabri
 // SPDX-License-Identifier: GPL-3.0+
 //
 // Author(s)     : Oren Salzman <orenzalz@post.tau.ac.il >
@@ -59,7 +59,7 @@ public:
                                            Algebraic_kernel_d_1* ak_ptr)
     :_f(f),_g(g),_ak_ptr(ak_ptr)
   {
-    CGAL_precondition(_ak_ptr != NULL);
+    CGAL_precondition(_ak_ptr != nullptr);
     //canonicalized representation
     if ( !(f.id() < g.id()) ) 
       std::swap(_f,_g);

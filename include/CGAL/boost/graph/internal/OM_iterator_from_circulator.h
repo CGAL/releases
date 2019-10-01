@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/BGL/include/CGAL/boost/graph/internal/OM_iterator_from_circulator.h $
-// $Id: OM_iterator_from_circulator.h 0698f79 %aI Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/BGL/include/CGAL/boost/graph/internal/OM_iterator_from_circulator.h $
+// $Id: OM_iterator_from_circulator.h 4581f1b %aI Andreas Fabri
 // SPDX-License-Identifier: LGPL-3.0+
 // 
 //
@@ -161,7 +161,7 @@ public:
   }
 
   bool operator<( const Self& i) const {
-    CGAL_assertion( m_anchor  != NULL);
+    CGAL_assertion( m_anchor  != nullptr);
     CGAL_assertion( m_anchor  == i.m_anchor);
     return (     (m_winding < i.m_winding)
                  || (    (m_winding == i.m_winding)

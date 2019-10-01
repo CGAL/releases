@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Nef_S2/include/CGAL/Nef_S2/SM_triangulator.h $
-// $Id: SM_triangulator.h ee57fc2 %aI Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Nef_S2/include/CGAL/Nef_S2/SM_triangulator.h $
+// $Id: SM_triangulator.h 4581f1b %aI Andreas Fabri
 // SPDX-License-Identifier: GPL-3.0+
 // 
 //
@@ -83,18 +83,18 @@ void halfedge_below(Vertex_handle v, Halfedge_handle e) const
 { T.halfedge_below(v) = e; }
 
 /* the following operation associates segment support with
-   halfedges, we only update if non-NULL; this prevents 
-   artificial sphere subdivision segments that have NULL 
-   support to overwrite non-NULL support */
+   halfedges, we only update if non-nullptr; this prevents 
+   artificial sphere subdivision segments that have nullptr 
+   support to overwrite non-nullptr support */
 
 void supporting_segment(Halfedge_handle e, IT it) const
 { T.is_forward(e) = true; 
   if ( ! M[it].empty() ) T.support(e) = M[it]; }
 
 /* the following operation associate segment support with
-   vertices, we only update if non-NULL; this prevents 
-   artificial segments that have NULL support to overwrite
-   non-NULL support */
+   vertices, we only update if non-nullptr; this prevents 
+   artificial segments that have nullptr support to overwrite
+   non-nullptr support */
 
 void trivial_segment(Vertex_handle v, IT it) const
 { if ( ! M[it].empty() ) T.support(v) = M[it]; }

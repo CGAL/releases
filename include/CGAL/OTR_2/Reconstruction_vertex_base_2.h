@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Optimal_transportation_reconstruction_2/include/CGAL/OTR_2/Reconstruction_vertex_base_2.h $
-// $Id: Reconstruction_vertex_base_2.h ee57fc2 %aI Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Optimal_transportation_reconstruction_2/include/CGAL/OTR_2/Reconstruction_vertex_base_2.h $
+// $Id: Reconstruction_vertex_base_2.h e2d19b0 %aI Andreas Fabri
 // SPDX-License-Identifier: GPL-3.0+
 //
 // Author(s)     : Fernando de Goes, Pierre Alliez, Ivo Vigan, Clément Jamin
@@ -69,7 +69,7 @@ public:
   : Base(),
     m_id(-1),
     m_pinned(false),
-    m_sample(NULL),
+    m_sample(nullptr),
     m_relevance(0)
 {
 }
@@ -78,7 +78,7 @@ public:
   : Base(p),
     m_id(-1),
     m_pinned(false),
-    m_sample(NULL),
+    m_sample(nullptr),
     m_relevance(0)
   {
   }
@@ -87,7 +87,7 @@ public:
   : Base(f),
     m_id(-1),
     m_pinned(false),
-    m_sample(NULL),
+    m_sample(nullptr),
     m_relevance(0)
   {
   }
@@ -96,7 +96,7 @@ public:
   : Base(p, f),
     m_id(-1),
     m_pinned(false),
-    m_sample(NULL),
+    m_sample(nullptr),
     m_relevance(0)
   {
   }
@@ -118,7 +118,7 @@ public:
   const Point& relocated() const { return m_relocated; }
   Point& relocated() { return m_relocated; }
 
-  bool  has_sample_assigned() const { return sample() != NULL; }
+  bool  has_sample_assigned() const { return sample() != nullptr; }
 };
 //---------------STRUCT LESS VERTEX_HANDLE---------------------
 template <class T>

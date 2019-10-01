@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Nef_2/include/CGAL/Nef_2/gen_point_location.h $
-// $Id: gen_point_location.h ee57fc2 %aI Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Nef_2/include/CGAL/Nef_2/gen_point_location.h $
+// $Id: gen_point_location.h 2848158 %aI Mael Rouxel-Labbé
 // SPDX-License-Identifier: GPL-3.0+
 // 
 //
@@ -332,7 +332,7 @@ class PointLocator {
    |PLocTraits| which widely controls its behaviour.
    The traits may even change the return type of a query and its semantics.
    There are predined traits classes for the LEDA graph types, which are
-   described below in a seperate section.
+   described below in a separate section.
 }*/
 public:
   // copied types from PLocTraits

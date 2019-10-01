@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Voronoi_diagram_2/include/CGAL/Voronoi_diagram_2/Default_site_removers.h $
-// $Id: Default_site_removers.h ee57fc2 %aI Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Voronoi_diagram_2/include/CGAL/Voronoi_diagram_2/Default_site_removers.h $
+// $Id: Default_site_removers.h e2d19b0 %aI Andreas Fabri
 // SPDX-License-Identifier: GPL-3.0+
 // 
 //
@@ -69,7 +69,7 @@ public:
   typedef typename Site_remover::result_type           result_type;
 
 public:
-  Default_caching_site_remover(const Adaptation_traits* at = NULL) : at_(at) {}
+  Default_caching_site_remover(const Adaptation_traits* at = nullptr) : at_(at) {}
 
   result_type operator()(Delaunay_graph& dg, const Vertex_handle& v) const
   {

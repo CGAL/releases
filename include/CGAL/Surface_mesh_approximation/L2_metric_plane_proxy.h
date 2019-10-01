@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Surface_mesh_approximation/include/CGAL/Surface_mesh_approximation/L2_metric_plane_proxy.h $
-// $Id: L2_metric_plane_proxy.h 24e83fc %aI Lingjie Zhu
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Surface_mesh_approximation/include/CGAL/Surface_mesh_approximation/L2_metric_plane_proxy.h $
+// $Id: L2_metric_plane_proxy.h d60f564 %aI Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0+
 //
 //
@@ -83,7 +83,7 @@ public:
   L2_metric_plane_proxy(const TriangleMesh &tm, const VertexPointMap &vpmap)
     : m_tm(&tm), m_vpmap(vpmap), m_famap( get(Face_area_tag(), const_cast<TriangleMesh &>(*m_tm)) )
   {
-    BOOST_FOREACH(face_descriptor f, faces(*m_tm)) {
+    for(face_descriptor f : faces(*m_tm)) {
       const halfedge_descriptor he = halfedge(f, *m_tm);
       const Point_3 &p0 = m_vpmap[source(he, *m_tm)];
       const Point_3 &p1 = m_vpmap[target(he, *m_tm)];
@@ -134,7 +134,7 @@ public:
     CGAL_assertion(!faces.empty());
 
     std::list<Triangle_3> tris;
-    BOOST_FOREACH(const face_descriptor f, faces) {
+    for(const face_descriptor f : faces) {
       const halfedge_descriptor he = halfedge(f, *m_tm);
       const Point_3 &p0 = m_vpmap[source(he, *m_tm)];
       const Point_3 &p1 = m_vpmap[target(he, *m_tm)];

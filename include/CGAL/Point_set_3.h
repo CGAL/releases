@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Point_set_3/include/CGAL/Point_set_3.h $
-// $Id: Point_set_3.h 2f81a21 %aI Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Point_set_3/include/CGAL/Point_set_3.h $
+// $Id: Point_set_3.h 25a05e9 %aI Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0+
 //
 //
@@ -1029,7 +1029,8 @@ public:
     return this->range<Vector> (m_normals);
   }
   
-
+  /// @}
+  
   /*!
     \name Push Property Maps and Inserters (Advanced)
 
@@ -1109,8 +1110,8 @@ public:
     Property* prop;
     mutable Index ind;
 
-    Push_property_map(Point_set* ps = NULL,
-                      Property* prop = NULL,
+    Push_property_map(Point_set* ps = nullptr,
+                      Property* prop = nullptr,
                       Index ind=Index())
       : ps(ps), prop(prop), ind(ind) {}
 

@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Apollonius_graph_2/include/CGAL/Apollonius_graph_2/Apollonius_graph_hierarchy_2_impl.h $
-// $Id: Apollonius_graph_hierarchy_2_impl.h ee57fc2 %aI Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Apollonius_graph_2/include/CGAL/Apollonius_graph_2/Apollonius_graph_hierarchy_2_impl.h $
+// $Id: Apollonius_graph_hierarchy_2_impl.h e2d19b0 %aI Andreas Fabri
 // SPDX-License-Identifier: GPL-3.0+
 // 
 //
@@ -269,7 +269,7 @@ insert(const Site_2 &p)
   }
 
   initialize_conflict_region(start_f, l);
-  expand_conflict_region(start_f, p, l, fm, v_hidden, NULL);
+  expand_conflict_region(start_f, p, l, fm, v_hidden, nullptr);
   n_hidden = v_hidden.size();
 
   if ( n_hidden != 0 ) {

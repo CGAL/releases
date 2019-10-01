@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Arrangement_on_surface_2/include/CGAL/Arr_circle_segment_traits_2.h $
-// $Id: Arr_circle_segment_traits_2.h b984dce %aI Andreas Fabri
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Arrangement_on_surface_2/include/CGAL/Arr_circle_segment_traits_2.h $
+// $Id: Arr_circle_segment_traits_2.h 983645a %aI Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0+
 //
 // Author(s)     : Ron Wein          <wein@post.tau.ac.il>
@@ -751,6 +751,9 @@ public:
 
   /*! Obtain a Trim_2 functor object. */
   Trim_2 trim_2_object() const { return Trim_2(*this); }
+
+  // @}
+
 };
 
 } //namespace CGAL

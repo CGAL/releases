@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Algebraic_kernel_d/include/CGAL/Algebraic_kernel_d/Xy_coordinate_2.h $
-// $Id: Xy_coordinate_2.h 8e4a74d %aI Andreas Fabri
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Algebraic_kernel_d/include/CGAL/Algebraic_kernel_d/Xy_coordinate_2.h $
+// $Id: Xy_coordinate_2.h 983645a %aI Sébastien Loriot
 // SPDX-License-Identifier: LGPL-3.0+
 // 
 //
@@ -677,8 +677,6 @@ public:
     friend std::size_t hash_value(const Self& x) {
         return static_cast<std::size_t>(x.id());
     }
-
-    //!@}
 
 }; // class Xy_coordinate_2
 

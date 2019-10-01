@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/NewKernel_d/include/CGAL/NewKernel_d/LA_eigen/LA.h $
-// $Id: LA.h 0698f79 %aI Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/NewKernel_d/include/CGAL/NewKernel_d/LA_eigen/LA.h $
+// $Id: LA.h 530238d %aI Marc Glisse
 // SPDX-License-Identifier: LGPL-3.0+
 //
 // Author(s)     : Marc Glisse
@@ -58,11 +58,7 @@ template<class NT_,class Dim_,class Max_dim_=Dim_> struct LA_eigen {
 #if (EIGEN_WORLD_VERSION>=3)
 	typedef NT const* Vector_const_iterator;
 #else
-	typedef Iterator_from_indices<const type,const NT
-#ifndef CGAL_CXX11
-	  ,NT
-#endif
-	  > Vector_const_iterator;
+	typedef Iterator_from_indices<const type,const NT> Vector_const_iterator;
 #endif
 
 	template<class Vec_>static Vector_const_iterator vector_begin(Vec_ const&a){

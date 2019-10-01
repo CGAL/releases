@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Boolean_set_operations_2/include/CGAL/Boolean_set_operations_2/Gps_agg_meta_traits.h $
-// $Id: Gps_agg_meta_traits.h 7936109 %aI Efi Fogel
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Boolean_set_operations_2/include/CGAL/Boolean_set_operations_2/Gps_agg_meta_traits.h $
+// $Id: Gps_agg_meta_traits.h 4581f1b %aI Andreas Fabri
 // SPDX-License-Identifier: GPL-3.0+
 //
 //
@@ -50,7 +50,7 @@ protected:
 public:
   Gps_agg_curve_data() :
     Base(),
-    m_arr(NULL),
+    m_arr(nullptr),
     m_bc(0),
     m_twin_bc(0)
   {}
@@ -195,7 +195,7 @@ public:
       for (; oi != oi_end; ++oi) {
         base_pt = object_cast<std::pair<Base_Point_2, Multiplicity> >(&(*oi));
 
-        if (base_pt != NULL) {
+        if (base_pt != nullptr) {
           Point_2 point_plus(base_pt->first); // the extended point
           *oi = CGAL::make_object(std::make_pair(point_plus,
                                                  base_pt->second));
@@ -203,7 +203,7 @@ public:
         else {
           overlap_cv = object_cast<Base_X_monotone_curve_2>(&(*oi));
 
-          if (overlap_cv != NULL) {
+          if (overlap_cv != nullptr) {
             unsigned int ov_bc;
             unsigned int ov_twin_bc;
             if (m_base_cmp_endpoints(cv1) == m_base_cmp_endpoints(cv2)) {

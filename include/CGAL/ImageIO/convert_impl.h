@@ -13,8 +13,8 @@
 // These files are provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/CGAL_ImageIO/include/CGAL/ImageIO/convert_impl.h $
-// $Id: convert_impl.h 0698f79 %aI Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/CGAL_ImageIO/include/CGAL/ImageIO/convert_impl.h $
+// $Id: convert_impl.h 4581f1b %aI Andreas Fabri
 // SPDX-License-Identifier: LGPL-3.0+
 //
 //
@@ -23,7 +23,7 @@
 /*************************************************************************
  * convert.c - conversion between types
  *
- * $Id: convert_impl.h 0698f79 %aI Sébastien Loriot
+ * $Id: convert_impl.h 4581f1b %aI Andreas Fabri
  *
  * Copyright©INRIA 1999
  *
@@ -73,8 +73,8 @@ void ConvertBuffer( void *bufferIn,
 	     proc );
     return;
   }
-  if ( (bufferIn == (void*)NULL) || (bufferOut == (void*)NULL) ) {
-    fprintf( stderr, " Fatal error in %s: NULL buffer(s).\n", 
+  if ( (bufferIn == (void*)nullptr) || (bufferOut == (void*)nullptr) ) {
+    fprintf( stderr, " Fatal error in %s: nullptr buffer(s).\n", 
 	     proc );
     return;
   }

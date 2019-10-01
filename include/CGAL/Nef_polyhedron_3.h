@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Nef_3/include/CGAL/Nef_polyhedron_3.h $
-// $Id: Nef_polyhedron_3.h 30e2fe0 %aI Jane Tournois
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Nef_3/include/CGAL/Nef_polyhedron_3.h $
+// $Id: Nef_polyhedron_3.h 4581f1b %aI Andreas Fabri
 // SPDX-License-Identifier: GPL-3.0+
 // 
 //
@@ -637,7 +637,7 @@ protected:
                            const FaceIndexMap& fim,
                            typename boost::disable_if <
                               boost::is_same<FaceIndexMap, bool>
-                           >::type* = NULL // disambiguate with another constructor
+                           >::type* = nullptr // disambiguate with another constructor
   )
   {
     CGAL_NEF_TRACEN("construction from PolygonMesh");
@@ -1952,7 +1952,7 @@ protected:
   interior. The point |p| is contained in the set represented by |\Mvar| if 
   |\Mvar.contains(h)| is true.}*/ {
     CGAL_NEF_TRACEN( "locating point...");
-    CGAL_assertion( pl() != NULL);
+    CGAL_assertion( pl() != nullptr);
 
     Object_handle o = pl()->locate(p);
     

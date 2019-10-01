@@ -16,8 +16,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Inventor/include/CGAL/IO/VRML_2_ostream.h $
-// $Id: VRML_2_ostream.h 0698f79 %aI Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Inventor/include/CGAL/IO/VRML_2_ostream.h $
+// $Id: VRML_2_ostream.h c0edb5e %aI Sébastien Loriot
 // SPDX-License-Identifier: LGPL-3.0+
 //
 // Author(s)     : Andreas Fabri
@@ -44,20 +44,9 @@ public:
             footer();
         m_os = 0;
     }
-    #if defined BOOST_NO_EXPLICIT_CONVERSION_OPERATORS \
-        || defined BOOST_NO_CXX11_EXPLICIT_CONVERSION_OPERATORS
-    typedef const void* Const_void_ptr;
-    operator Const_void_ptr () const {
-      if ( m_os->fail() )
-        return 0;
-      else
-        return static_cast<Const_void_ptr>(m_os);
-    }
-    #else
     explicit operator bool () {
       return m_os && !m_os->fail();
     }
-    #endif
     std::ostream& os() {
         // The behaviour if m_os == 0 could be changed to return
         // cerr or a file handle to /dev/null. The latter one would
@@ -82,7 +71,7 @@ private:
                 "                Appearance {\n"
                 "                    material DEF Material Material {}\n"
                 "                }\n"
-                "            geometry NULL\n"
+                "            geometry nullptr\n"
                 "        }\n"
                 "        #-- End of file header" << std::endl;
     }

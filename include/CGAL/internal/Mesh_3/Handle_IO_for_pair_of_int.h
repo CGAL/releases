@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Mesh_3/include/CGAL/internal/Mesh_3/Handle_IO_for_pair_of_int.h $
-// $Id: Handle_IO_for_pair_of_int.h 5efce45 %aI Andreas Fabri
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Mesh_3/include/CGAL/internal/Mesh_3/Handle_IO_for_pair_of_int.h $
+// $Id: Handle_IO_for_pair_of_int.h ed9dffe %aI Laurent Rineau
 // SPDX-License-Identifier: GPL-3.0+
 //
 //
@@ -40,13 +40,6 @@ struct Get_io_signature<std::pair<int, int> > {
     return std::string("std::pair<i,i>");
   }
 }; // end Get_io_signature<std::pair<int, int> >
-
-inline std::ostream& operator<<(std::ostream& out, const std::pair<int, int>& id) {
-  return out << id.first << " " << id.second;
-}
-inline std::istream& operator>>(std::istream& in, std::pair<int, int>& id) {
-  return in >> id.first >> id.second;
-}
 
 template <>
 class Output_rep<std::pair<int, int> > : public IO_rep_is_specialized {

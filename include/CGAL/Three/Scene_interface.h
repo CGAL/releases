@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Three/include/CGAL/Three/Scene_interface.h $
-// $Id: Scene_interface.h f3e4183 %aI Maxime Gimeno
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Three/include/CGAL/Three/Scene_interface.h $
+// $Id: Scene_interface.h 850d609 %aI Laurent Rineau
 // SPDX-License-Identifier: GPL-3.0+
 //
 //
@@ -41,6 +41,7 @@ enum RenderingMode
   Flat, //!Renders only faces, with a lighting per face.
   FlatPlusEdges, //!Renders flat faces and edges.
   Gouraud, //!Renders only faces, with a lighting per vertex.
+  GouraudPlusEdges, //!Renders faces with a lighting per vertex, and edges.
   ShadedPoints, //!Renders only points with lighting.
   NumberOfRenderingMode //!Number of values in this enum.
 };
@@ -78,6 +79,8 @@ public:
   //!Adds an item to the Geometric Objects list.
   //!@returns the index of the new item.
   virtual Item_id addItem(CGAL::Three::Scene_item* item) = 0;
+  //!Adds a CGAL::Three::Scene_item* to the list of children.
+  virtual void addChild(Scene_item* item)=0;
   //! \brief Replaces an item by a new one in the scene.
   //! The item which id is `id` is replaced by `item`.
   //! The first one is deleted and gives its index to the second one.

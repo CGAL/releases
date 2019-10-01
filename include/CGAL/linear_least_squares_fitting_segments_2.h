@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Principal_component_analysis/include/CGAL/linear_least_squares_fitting_segments_2.h $
-// $Id: linear_least_squares_fitting_segments_2.h f3baef9 %aI Simon Giraudot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Principal_component_analysis/include/CGAL/linear_least_squares_fitting_segments_2.h $
+// $Id: linear_least_squares_fitting_segments_2.h e2d19b0 %aI Andreas Fabri
 // SPDX-License-Identifier: GPL-3.0+
 //
 // Author(s) : Pierre Alliez and Sylvain Pion and Ankit Gupta
@@ -165,7 +165,7 @@ linear_least_squares_fitting_2(InputIterator first,
     points.push_back(s[0]);
     points.push_back(s[1]);
   } 
-  return linear_least_squares_fitting_2(points.begin(),points.end(),line,c,k,(Point*)NULL,tag,
+  return linear_least_squares_fitting_2(points.begin(),points.end(),line,c,k,(Point*)nullptr,tag,
 					diagonalize_traits);
 
 } // end linear_least_squares_fitting_2 for segment set with 1D tag

@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Circular_kernel_2/include/CGAL/IO/Dxf_variant_reader.h $
-// $Id: Dxf_variant_reader.h 204033d %aI Laurent Rineau
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Circular_kernel_2/include/CGAL/IO/Dxf_variant_reader.h $
+// $Id: Dxf_variant_reader.h 124012d %aI Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0+
 //
 // Author(s)     : Monique Teillaud, Sylvain Pion
@@ -48,7 +48,7 @@ template<class CK,class Circular_arc_2, class Line_arc_2, class OutputIterator>
   OutputIterator variant_load(std::istream& is, OutputIterator res)
 {
 
-  typedef cpp11::array<double, 3> Triplet;
+  typedef std::array<double, 3> Triplet;
   typedef typename CK::FT FT;
   typedef typename CK::Circular_arc_point_2 Circular_arc_point_2;    
   typedef typename CK::Root_of_2 Root_of_2;

@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Segment_Delaunay_graph_2/include/CGAL/Segment_Delaunay_graph_2.h $
-// $Id: Segment_Delaunay_graph_2.h 5133321 %aI Mael Rouxel-Labbé
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Segment_Delaunay_graph_2/include/CGAL/Segment_Delaunay_graph_2.h $
+// $Id: Segment_Delaunay_graph_2.h 8535a3c %aI Laurent Rineau
 // SPDX-License-Identifier: GPL-3.0+
 // 
 //
@@ -344,7 +344,7 @@ private:
   }
 
   void setup_if_intersecting_pointer_with_tag(Tag_false) {
-    insert_point_on_segment_ptr = NULL;
+    insert_point_on_segment_ptr = nullptr;
   }
 
   void setup_if_intersecting_pointer_with_tag(Tag_true) {

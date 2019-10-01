@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Generalized_map/include/CGAL/internal/Generalized_map_internal_functors.h $
-// $Id: Generalized_map_internal_functors.h 0698f79 %aI Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Generalized_map/include/CGAL/internal/Generalized_map_internal_functors.h $
+// $Id: Generalized_map_internal_functors.h 6e8e4a4 %aI Sébastien Loriot
 // SPDX-License-Identifier: LGPL-3.0+
 //
 // Author(s)     : Guillaume Damiand <guillaume.damiand@liris.cnrs.fr>
@@ -40,7 +40,6 @@ namespace internal
 {
 // ****************************************************************************
 // Alpha functor, used to combine several alpha.
-#ifndef CGAL_CFG_NO_CPP0X_VARIADIC_TEMPLATES
 template<typename GMap, typename Dart_handle, typename ... Alphas>
 struct Alpha_functor;
 
@@ -92,7 +91,6 @@ struct Alpha_functor_static<GMap, Dart_handle, B, Alphas...>
   { return Alpha_functor_static<GMap, Dart_handle, Alphas...>::
         run(AMap, AMap.template get_alpha<B>(ADart)); }
 };
-#endif //CGAL_CFG_NO_CPP0X_VARIADIC_TEMPLATES
 // ****************************************************************************
 } // namespace internal
 } // namespace CGAL

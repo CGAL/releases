@@ -13,8 +13,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/CGAL_ImageIO/include/CGAL/Image_3.h $
-// $Id: Image_3.h e79bfd5 %aI Laurent Rineau
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/CGAL_ImageIO/include/CGAL/Image_3.h $
+// $Id: Image_3.h 64bc3bc %aI Laurent Rineau
 // SPDX-License-Identifier: LGPL-3.0+
 //
 //
@@ -267,9 +267,9 @@ Image_3::trilinear_interpolation(const Coord_type& x,
   if ( x < 0 || y < 0 || z < 0 )
     return value_outside;
   
-  const Coord_type lx = x / image()->vx;
-  const Coord_type ly = y / image()->vy;
-  const Coord_type lz = z / image()->vz;
+  const Coord_type lx = static_cast<Coord_type>(x / image()->vx);
+  const Coord_type ly = static_cast<Coord_type>(y / image()->vy);
+  const Coord_type lz = static_cast<Coord_type>(z / image()->vz);
   const std::size_t dimx = xdim();
   const std::size_t dimy = ydim();
   const std::size_t dimz = zdim();
@@ -483,7 +483,7 @@ Image_3::labellized_trilinear_interpolation
   const int i2 = i1 + 1;
   const int j2 = j1 + 1;
 
-  CGAL::cpp11::array<std::size_t,8> index;
+  std::array<std::size_t,8> index;
   index[0] = (i1 * dimy + j1) * dimx + k1;
   index[1] = index[0] + 1;
   index[2] = (i1 * dimy + j2) * dimx + k1;
@@ -493,7 +493,7 @@ Image_3::labellized_trilinear_interpolation
   index[6] = (i2 * dimy + j2) * dimx + k1;
   index[7] = index[6] + 1;
 
-  CGAL::cpp11::array<Image_word_type,8> labels;
+  std::array<Image_word_type,8> labels;
   
   labels[0] = ((Image_word_type*)image()->data)[index[0]];
   int lc = 1;

@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Surface_mesh_approximation/include/CGAL/Surface_mesh_approximation/L21_metric_plane_proxy.h $
-// $Id: L21_metric_plane_proxy.h 0a52d10 %aI Lingjie Zhu
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Surface_mesh_approximation/include/CGAL/Surface_mesh_approximation/L21_metric_plane_proxy.h $
+// $Id: L21_metric_plane_proxy.h d60f564 %aI Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0+
 //
 //
@@ -95,7 +95,7 @@ public:
     m_collinear_functor = traits.collinear_3_object();
 
     // construct internal face normal & area map
-    BOOST_FOREACH(face_descriptor f, faces(tm)) {
+    for(face_descriptor f : faces(tm)) {
       const halfedge_descriptor he = halfedge(f, tm);
       const Point_3 &p0 = vpmap[source(he, tm)];
       const Point_3 &p1 = vpmap[target(he, tm)];
@@ -136,7 +136,7 @@ public:
 
     // fitting normal
     Vector_3 norm = CGAL::NULL_VECTOR;
-    BOOST_FOREACH(const face_descriptor f, faces) {
+    for(const face_descriptor f : faces) {
       norm = m_sum_functor(norm,
         m_scale_functor(get(m_fnmap, f), get(m_famap, f)));
     }

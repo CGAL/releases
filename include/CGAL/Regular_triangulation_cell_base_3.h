@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Triangulation_3/include/CGAL/Regular_triangulation_cell_base_3.h $
-// $Id: Regular_triangulation_cell_base_3.h 88add6b %aI Andreas Fabri
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Triangulation_3/include/CGAL/Regular_triangulation_cell_base_3.h $
+// $Id: Regular_triangulation_cell_base_3.h e2d19b0 %aI Andreas Fabri
 // SPDX-License-Identifier: GPL-3.0+
 //
 // Author(s)     : Christophe Delage <christophe.delage@sophia.inria.fr>
@@ -105,47 +105,47 @@ public:
 
   // Memory_policy is Tag_true -------------------------------------------------
   template<typename Tag>
-  Point_iterator hidden_points_begin_internal(typename boost::enable_if_c<Tag::value>::type* = NULL)
+  Point_iterator hidden_points_begin_internal(typename boost::enable_if_c<Tag::value>::type* = nullptr)
   {  return _hidden.begin(); }
   template<typename Tag>
-  Point_iterator hidden_points_end_internal(typename boost::enable_if_c<Tag::value>::type* = NULL)
+  Point_iterator hidden_points_end_internal(typename boost::enable_if_c<Tag::value>::type* = nullptr)
   { return _hidden.end(); }
 
   template<typename Tag>
-  Point_const_iterator hidden_points_begin_internal(typename boost::enable_if_c<Tag::value>::type* = NULL) const
+  Point_const_iterator hidden_points_begin_internal(typename boost::enable_if_c<Tag::value>::type* = nullptr) const
   { return _hidden.begin(); }
   template<typename Tag>
-  Point_const_iterator hidden_points_end_internal(typename boost::enable_if_c<Tag::value>::type* = NULL) const
+  Point_const_iterator hidden_points_end_internal(typename boost::enable_if_c<Tag::value>::type* = nullptr) const
   { return _hidden.end(); }
 
   template<typename Tag>
-  void hide_point_internal(const Point& p, typename boost::enable_if_c<Tag::value>::type* = NULL)
+  void hide_point_internal(const Point& p, typename boost::enable_if_c<Tag::value>::type* = nullptr)
   { _hidden.push_back(p); }
   template<typename Tag>
-  void unhide_point_internal(const Point_iterator pit, typename boost::enable_if_c<Tag::value>::type* = NULL)
+  void unhide_point_internal(const Point_iterator pit, typename boost::enable_if_c<Tag::value>::type* = nullptr)
   { _hidden.erase(pit); }
 
   // Memory_policy is Tag_false ------------------------------------------------
   template<typename Tag>
-  Point_iterator hidden_points_begin_internal(typename boost::disable_if_c<Tag::value>::type* = NULL)
+  Point_iterator hidden_points_begin_internal(typename boost::disable_if_c<Tag::value>::type* = nullptr)
   { return hidden_points_end(); }
   template<typename Tag>
-  Point_iterator hidden_points_end_internal(typename boost::disable_if_c<Tag::value>::type* = NULL)
+  Point_iterator hidden_points_end_internal(typename boost::disable_if_c<Tag::value>::type* = nullptr)
   { return _hidden.end(); }
 
     // const versions
   template<typename Tag>
-  Point_const_iterator hidden_points_begin_internal(typename boost::disable_if_c<Tag::value>::type* = NULL) const
+  Point_const_iterator hidden_points_begin_internal(typename boost::disable_if_c<Tag::value>::type* = nullptr) const
   { return hidden_points_end(); }
   template<typename Tag>
-  Point_const_iterator hidden_points_end_internal(typename boost::disable_if_c<Tag::value>::type* = NULL) const
+  Point_const_iterator hidden_points_end_internal(typename boost::disable_if_c<Tag::value>::type* = nullptr) const
   { return _hidden.end(); }
 
   template<typename Tag>
-  void hide_point_internal(const Point&, typename boost::disable_if_c<Tag::value>::type* = NULL)
+  void hide_point_internal(const Point&, typename boost::disable_if_c<Tag::value>::type* = nullptr)
   { }
   template<typename Tag>
-  void unhide_point_internal(const Point_iterator, typename boost::disable_if_c<Tag::value>::type* = NULL)
+  void unhide_point_internal(const Point_iterator, typename boost::disable_if_c<Tag::value>::type* = nullptr)
   { }
 
   template<typename GT_>

@@ -13,8 +13,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Mesh_3/include/CGAL/internal/Mesh_3/helpers.h $
-// $Id: helpers.h 27b6e03 %aI Mael Rouxel-Labbé
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Mesh_3/include/CGAL/internal/Mesh_3/helpers.h $
+// $Id: helpers.h d60f564 %aI Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0+
 //
 //
@@ -36,7 +36,6 @@
 #include <CGAL/Kernel/global_functions.h>
 #include <CGAL/property_map.h>
 
-#include <boost/foreach.hpp>
 #include <boost/graph/graph_traits.hpp>
 
 #include <iostream>
@@ -55,7 +54,7 @@ void dump_graph_edges(std::ostream& out, const Graph& g)
   typedef typename boost::graph_traits<Graph>::edge_descriptor edge_descriptor;
 
   out.precision(17);
-  BOOST_FOREACH(edge_descriptor e, edges(g))
+  for(edge_descriptor e : edges(g))
   {
     vertex_descriptor s = source(e, g);
     vertex_descriptor t = target(e, g);

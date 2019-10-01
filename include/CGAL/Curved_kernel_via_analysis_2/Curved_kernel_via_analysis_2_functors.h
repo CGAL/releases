@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Arrangement_on_surface_2/include/CGAL/Curved_kernel_via_analysis_2/Curved_kernel_via_analysis_2_functors.h $
-// $Id: Curved_kernel_via_analysis_2_functors.h 6283291 %aI Mael Rouxel-Labbé
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Arrangement_on_surface_2/include/CGAL/Curved_kernel_via_analysis_2/Curved_kernel_via_analysis_2_functors.h $
+// $Id: Curved_kernel_via_analysis_2_functors.h 983645a %aI Sébastien Loriot
 // SPDX-License-Identifier: LGPL-3.0+
 //
 //
@@ -93,7 +93,7 @@ public:
     Curved_kernel_via_analysis_2_functor_base(
             Curved_kernel_via_analysis_2 *kernel) :
         _m_curved_kernel(kernel) {
-        CGAL_precondition(kernel != NULL);
+        CGAL_precondition(kernel != nullptr);
     }
 
     //!@}
@@ -458,6 +458,8 @@ public:
         Arc_2 arc(x, c);
         return arc;
     }
+
+    //!@}
 };
 
 /*!\brief
@@ -2668,7 +2670,7 @@ public:
     
     //! this instance's first template parameter
     typedef CurvedKernelViaAnalysis_2 Curved_kernel_via_analysis_2;
-
+    //!@}
 //     typedef Curved_kernel_via_analysis_2_functors<
 //         CurvedKernelViaAnalysis_2 > Functor_base;
    

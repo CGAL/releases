@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Surface_mesh_parameterization/include/CGAL/Surface_mesh_parameterization/orbifold_shortest_path.h $
-// $Id: orbifold_shortest_path.h 82103c8 %aI Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Surface_mesh_parameterization/include/CGAL/Surface_mesh_parameterization/orbifold_shortest_path.h $
+// $Id: orbifold_shortest_path.h a5ff701 %aI Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0+
 //
 // Author(s)     : Mael Rouxel-Labbé
@@ -27,7 +27,6 @@
 
 #include <CGAL/assertions.h>
 
-#include <boost/foreach.hpp>
 #include <boost/graph/dijkstra_shortest_paths.hpp>
 #include <boost/graph/graph_traits.hpp>
 #include <boost/unordered_map.hpp>
@@ -67,13 +66,13 @@ void output_shortest_paths_to_selection_file(const TriangleMesh& mesh,
   boost::unordered_map<vertex_descriptor, int> index_map;
 
   int counter = 0;
-  BOOST_FOREACH(vertex_descriptor vd, vertices(mesh)) {
+  for(vertex_descriptor vd : vertices(mesh)) {
     index_map[vd] = counter++;
   }
 
   os << std::endl /* vertices */ << std::endl /* faces */;
 
-  BOOST_FOREACH(edge_descriptor ed, seams) {
+  for(edge_descriptor ed : seams) {
     // could be made more efficient...
     os << index_map[source(ed, mesh)] << " " << index_map[target(ed, mesh)] << " ";
   }

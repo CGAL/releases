@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Spatial_searching/include/CGAL/internal/K_neighbor_search.h $
-// $Id: K_neighbor_search.h 6269309 %aI Simon Giraudot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Spatial_searching/include/CGAL/internal/K_neighbor_search.h $
+// $Id: K_neighbor_search.h e2d19b0 %aI Andreas Fabri
 // SPDX-License-Identifier: GPL-3.0+
 // 
 //
@@ -90,7 +90,7 @@ protected:
     typedef Point_with_transformed_distance result_type;
     
     result_type operator()(const Point_ptr_with_transformed_distance& pair) const {
-      CGAL_precondition(pair.first!=NULL);
+      CGAL_precondition(pair.first!=nullptr);
       return std::make_pair(*(pair.first),pair.second);
     }
   };

@@ -16,8 +16,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Union_find/include/CGAL/Union_find.h $
-// $Id: Union_find.h 97ac4d5 %aI Andreas Fabri
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Union_find/include/CGAL/Union_find.h $
+// $Id: Union_find.h c0edb5e %aI Sébastien Loriot
 // SPDX-License-Identifier: LGPL-3.0+
 // 
 //
@@ -222,11 +222,7 @@ template <typename T, typename A>
 typename Union_find<T,A>::handle Union_find<T,A>::make_set(const T& x) {
     pointer tmp = m_first;
     m_first = alloc.allocate(1);
-#ifdef CGAL_CXX11
     std::allocator_traits<allocator>::construct(alloc, m_first, tmp, x);
-#else
-    alloc.construct( m_first, Union_find_struct(tmp,x));
-#endif
     ++sets;
     ++values;
     return handle( m_first);
@@ -236,11 +232,7 @@ template <typename T, typename A>
 void Union_find<T,A>::clear() {
     while (m_first) { 
         pointer tmp = m_first->next;
-#ifdef CGAL_CXX11
         std::allocator_traits<allocator>::destroy(alloc, m_first);
-#else
-        alloc.destroy(m_first);
-#endif
         alloc.deallocate(m_first,1);
         m_first = tmp;
     }

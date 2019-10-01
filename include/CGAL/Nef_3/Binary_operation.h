@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESISGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Nef_3/include/CGAL/Nef_3/Binary_operation.h $
-// $Id: Binary_operation.h 8cdfad0 %aI Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Nef_3/include/CGAL/Nef_3/Binary_operation.h $
+// $Id: Binary_operation.h 4581f1b %aI Andreas Fabri
 // SPDX-License-Identifier: GPL-3.0+
 // 
 //
@@ -287,7 +287,7 @@ class Binary_operation : public CGAL::SNC_decorator<Map> {
   {
     //    CGAL_NEF_SETDTHREAD(23);
     CGAL_assertion( this->sncp()->is_empty());
-    CGAL_assertion( pl1 != NULL && pl2 != NULL);
+    CGAL_assertion( pl1 != nullptr && pl2 != nullptr);
     //    CGAL_NEF_SETDTHREAD(19*13*43*37);
 
 #ifdef CGAL_NEF3_TIMER_BINARY_OPERATION

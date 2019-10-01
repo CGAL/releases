@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Ridges_3/include/CGAL/Umbilics.h $
-// $Id: Umbilics.h 1c2e9df %aI Laurent Rineau
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Ridges_3/include/CGAL/Umbilics.h $
+// $Id: Umbilics.h 2848158 %aI Mael Rouxel-Labbé
 // SPDX-License-Identifier: GPL-3.0+
 //
 // Author(s)     : Marc Pouget and Frédéric Cazals
@@ -89,7 +89,7 @@ operator<<(std::ostream& out_stream, const Umbilic<TriangleMesh>& umbilic)
     case CGAL::NON_GENERIC_UMBILIC: out_stream << "non generic" << std::endl; break;
     case CGAL::ELLIPTIC_UMBILIC: out_stream << "elliptic" << std::endl; break;
     case CGAL::HYPERBOLIC_UMBILIC: out_stream << "hyperbolic" << std::endl; break;
-    default : out_stream << "Something wrong occured for sure..." << std::endl; break;
+    default : out_stream << "Something wrong occurred for sure..." << std::endl; break;
     }
   return out_stream;
 }

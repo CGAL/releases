@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Circular_kernel_3/include/CGAL/Circular_kernel_3/internal_functions_on_circle_3.h $
-// $Id: internal_functions_on_circle_3.h 0d3ac75 %aI Andreas Fabri
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Circular_kernel_3/include/CGAL/Circular_kernel_3/internal_functions_on_circle_3.h $
+// $Id: internal_functions_on_circle_3.h 4581f1b %aI Andreas Fabri
 // SPDX-License-Identifier: GPL-3.0+
 //
 // Author(s) : Monique Teillaud, Sylvain Pion, Pedro Machado, 
@@ -129,11 +129,11 @@ namespace CGAL {
       
       intersect_3<SK>(circle,plane,std::back_inserter(inters));      
       CGAL_kernel_precondition(inters.size()==2);
-      const std::pair<typename SK::Circular_arc_point_3,unsigned>* pt[2]={NULL,NULL};
+      const std::pair<typename SK::Circular_arc_point_3,unsigned>* pt[2]={nullptr,nullptr};
       pt[0]=CGAL::Intersections::internal::intersect_get<std::pair<typename SK::Circular_arc_point_3,unsigned> >(inters[0]);
       pt[1]=CGAL::Intersections::internal::intersect_get<std::pair<typename SK::Circular_arc_point_3,unsigned> >(inters[1]);
-      CGAL_kernel_precondition(pt[0]!=NULL);
-      CGAL_kernel_precondition(pt[1]!=NULL);
+      CGAL_kernel_precondition(pt[0]!=nullptr);
+      CGAL_kernel_precondition(pt[1]!=nullptr);
       
       if ( compare_theta_of_pts<SK>(pt[0]->first,pt[1]->first,sphere) == SMALLER){
         *out_it++=pt[0]->first;

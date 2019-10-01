@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Arrangement_on_surface_2/include/CGAL/Arr_topology_traits/Arr_inc_insertion_zone_visitor.h $
-// $Id: Arr_inc_insertion_zone_visitor.h ee57fc2 %aI Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Arrangement_on_surface_2/include/CGAL/Arr_topology_traits/Arr_inc_insertion_zone_visitor.h $
+// $Id: Arr_inc_insertion_zone_visitor.h 4581f1b %aI Andreas Fabri
 // SPDX-License-Identifier: GPL-3.0+
 // 
 //
@@ -79,8 +79,8 @@ public:
 
   /*! Constructor. */
   Arr_inc_insertion_zone_visitor () :
-    p_arr (NULL),
-    geom_traits (NULL),
+    p_arr (nullptr),
+    geom_traits (nullptr),
     invalid_v (),
     invalid_he ()
   {}

@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/GraphicsView/include/CGAL/Qt/GraphicsViewPolylineInput_impl.h $
-// $Id: GraphicsViewPolylineInput_impl.h ee57fc2 %aI Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/GraphicsView/include/CGAL/Qt/GraphicsViewPolylineInput_impl.h $
+// $Id: GraphicsViewPolylineInput_impl.h 4581f1b %aI Andreas Fabri
 // SPDX-License-Identifier: GPL-3.0+
 // 
 //
@@ -48,7 +48,7 @@ GraphicsViewPolylineInput_non_templated_base(QObject* parent,
                                    QGraphicsScene* s,
                                    int n,
                                    bool closed)
-  : GraphicsViewInput(parent), closed_(closed), path_item(NULL), b(NULL), e(NULL), n_(n), scene_(s)
+  : GraphicsViewInput(parent), closed_(closed), path_item(nullptr), b(nullptr), e(nullptr), n_(n), scene_(s)
 {}
 
 
@@ -67,7 +67,7 @@ GraphicsViewPolylineInput_non_templated_base::mousePressEvent(QGraphicsSceneMous
   if(path_item){
     scene_->removeItem(path_item);
     delete path_item;
-    path_item = NULL;
+    path_item = nullptr;
   }
   if( (event->button() == ::Qt::RightButton) || (polygon.size() == n_) ){
     // call the virtual function generate_polygon(), that emit a
@@ -77,12 +77,12 @@ GraphicsViewPolylineInput_non_templated_base::mousePressEvent(QGraphicsSceneMous
     if(b){
       scene_->removeItem(b);
       delete b;
-      b = NULL;
+      b = nullptr;
     }
     if(e){
       scene_->removeItem(e);
       delete e;
-      e = NULL;
+      e = nullptr;
     }
     return true;
   }
@@ -157,19 +157,19 @@ GraphicsViewPolylineInput_non_templated_base::keyPressEvent ( QKeyEvent * event 
     if(b){
       scene_->removeItem(b);
       delete b;
-      b = NULL;
+      b = nullptr;
     }
     if(e){
       scene_->removeItem(e);
       delete e;
-      e = NULL;
+      e = nullptr;
     }
     return true;
   }
   if(path_item){
     scene_->removeItem(path_item);
     delete path_item;
-    path_item = NULL;
+    path_item = nullptr;
   }
   QPainterPath qpp;
   qpp.addPolygon(polygon);

@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Voronoi_diagram_2/include/CGAL/Voronoi_diagram_2/Face.h $
-// $Id: Face.h ee57fc2 %aI Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Voronoi_diagram_2/include/CGAL/Voronoi_diagram_2/Face.h $
+// $Id: Face.h e2d19b0 %aI Andreas Fabri
 // SPDX-License-Identifier: GPL-3.0+
 // 
 //
@@ -62,7 +62,7 @@ class Face
 
   // CONSTRUCTORS
   //-------------
-  Face(const VDA* vda = NULL) : vda_(vda) {}
+  Face(const VDA* vda = nullptr) : vda_(vda) {}
   Face(const VDA* vda, Delaunay_vertex_handle v) : vda_(vda), v_(v)
   {
     //    CGAL_precondition( !vda_->face_rejector()(v_) );
@@ -152,7 +152,7 @@ class Face
   // VALIDITY TESTING
   //-----------------
   bool is_valid() const {
-    if ( vda_ == NULL ) { return true; }
+    if ( vda_ == nullptr ) { return true; }
 
     if ( vda_->dual().dimension() < 1 ) { return true; }
 
@@ -175,8 +175,8 @@ class Face
   // COMPARISON OPERATORS
   //---------------------
   bool operator==(const Self& other) const {
-    if ( vda_ == NULL ) { return other.vda_ == NULL; }
-    if ( other.vda_ == NULL ) { return vda_ == NULL; }
+    if ( vda_ == nullptr ) { return other.vda_ == nullptr; }
+    if ( other.vda_ == nullptr ) { return vda_ == nullptr; }
     return ( vda_ == other.vda_ && v_ == other.v_ );
   }
 
@@ -185,8 +185,8 @@ class Face
   }
 
   bool operator<(const Self& other) const {
-    if ( vda_ == NULL ) { return other.vda_ != NULL; }
-    if ( other.vda_ == NULL ) { return false; }
+    if ( vda_ == nullptr ) { return other.vda_ != nullptr; }
+    if ( other.vda_ == nullptr ) { return false; }
     if ( vda_ != other.vda_ ) { return vda_ < other.vda_; }
     return v_ < other.v_;
   }

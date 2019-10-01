@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Modular_arithmetic/include/CGAL/Residue.h $
-// $Id: Residue.h 0698f79 %aI Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Modular_arithmetic/include/CGAL/Residue.h $
+// $Id: Residue.h df76165 %aI Laurent Rineau
 // SPDX-License-Identifier: LGPL-3.0+
 //
 // Author(s)     : Michael Hemmer
@@ -28,9 +28,10 @@
 #ifndef CGAL_RESIDUE_H
 #define CGAL_RESIDUE_H 1
 
-#include <CGAL/basic.h>
 #include <CGAL/Modular_arithmetic/Residue_type.h>
 #include <CGAL/Coercion_traits.h>
+#include <CGAL/int.h>
+#include <CGAL/Algebraic_structure_traits.h>
 
 namespace CGAL {
 

@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Apollonius_graph_2/include/CGAL/Apollonius_graph_2/Finite_edge_test_C2.h $
-// $Id: Finite_edge_test_C2.h ee57fc2 %aI Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Apollonius_graph_2/include/CGAL/Apollonius_graph_2/Finite_edge_test_C2.h $
+// $Id: Finite_edge_test_C2.h 2848158 %aI Mael Rouxel-Labbé
 // SPDX-License-Identifier: GPL-3.0+
 // 
 //
@@ -383,7 +383,7 @@ public:
 
     // both circles exist
 
-    // check whether the shadow region is connected, i.e., wether it is
+    // check whether the shadow region is connected, i.e., whether it is
     // of the form (a, b) or (-oo, a) U (b, +oo)
     Bitangent_line bl_12(p1, p2);
 
@@ -507,7 +507,7 @@ public:
 
     // both circles exist
 
-    // check whether the shadow region is connected, i.e., wether it is
+    // check whether the shadow region is connected, i.e., whether it is
     // of the form (a, b) or (-oo, a) U (b, +oo)
     Bitangent_line bl_12(p1, p2);
 
@@ -581,7 +581,7 @@ public:
 
     // both circles exist
     
-    // check whether the shadow region is connected, i.e., wether it is
+    // check whether the shadow region is connected, i.e., whether it is
     // of the form (a, b) or (-oo, a) U (b, +oo)
 
     return !b;

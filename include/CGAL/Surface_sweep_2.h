@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Surface_sweep_2/include/CGAL/Surface_sweep_2.h $
-// $Id: Surface_sweep_2.h f0c1d3a %aI Andreas Fabri
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Surface_sweep_2/include/CGAL/Surface_sweep_2.h $
+// $Id: Surface_sweep_2.h e2d19b0 %aI Andreas Fabri
 // SPDX-License-Identifier: GPL-3.0+
 //
 // Author(s) : Baruch Zukerman <baruchzu@post.tau.ac.il>
@@ -208,7 +208,7 @@ protected:
    * \param curve1 The first curve.
    * \param curve2 The second curve.
    */
-  void _intersect(Subcurve* c1, Subcurve* c2, Event* event_for_overlap = NULL);
+  void _intersect(Subcurve* c1, Subcurve* c2, Event* event_for_overlap = nullptr);
 
   /*! When a curve is removed from the status line for good, its top and
    * bottom neighbors become neighbors. This method finds these cases and

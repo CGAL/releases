@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Mesh_3/include/CGAL/Labeled_image_mesh_domain_3.h $
-// $Id: Labeled_image_mesh_domain_3.h e4aaf24 %aI Laurent Rineau
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Mesh_3/include/CGAL/Labeled_image_mesh_domain_3.h $
+// $Id: Labeled_image_mesh_domain_3.h c0ba28f %aI Laurent Rineau
 // SPDX-License-Identifier: GPL-3.0+
 //
 //
@@ -83,7 +83,7 @@ public:
                               const FT& error_bound = FT(1e-3),
                               Subdomain_index value_outside = 0,
                               Null null = Null(),
-                              CGAL::Random* p_rng = NULL)
+                              CGAL::Random* p_rng = nullptr)
     : Base(Wrapper(image, Identity(), value_outside),
            compute_bounding_box(image),
            error_bound,

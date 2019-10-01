@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Arrangement_on_surface_2/include/CGAL/Arrangement_2/Arr_traits_adaptor_2.h $
-// $Id: Arr_traits_adaptor_2.h 9223c1b %aI Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Arrangement_on_surface_2/include/CGAL/Arrangement_2/Arr_traits_adaptor_2.h $
+// $Id: Arr_traits_adaptor_2.h 2848158 %aI Mael Rouxel-Labbé
 // SPDX-License-Identifier: GPL-3.0+
 // $Date$
 //
@@ -251,7 +251,7 @@ public:
       if (is_vertical(xcv1)) return (is_vertical(xcv2)) ? EQUAL : SMALLER;
       else if (is_vertical(xcv2)) return (LARGER);
 
-      // Perform the comparison based on the existance of bounded left
+      // Perform the comparison based on the existence of bounded left
       // endpoints.
       if (has_left1 && has_left2) {
         // Obtain the left endpoints of xcv1 and xcv2.

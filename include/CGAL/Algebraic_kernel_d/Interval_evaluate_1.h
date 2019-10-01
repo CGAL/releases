@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Algebraic_kernel_d/include/CGAL/Algebraic_kernel_d/Interval_evaluate_1.h $
-// $Id: Interval_evaluate_1.h 26c857a %aI Mael Rouxel-Labbé
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Algebraic_kernel_d/include/CGAL/Algebraic_kernel_d/Interval_evaluate_1.h $
+// $Id: Interval_evaluate_1.h 124012d %aI Sébastien Loriot
 // SPDX-License-Identifier: LGPL-3.0+
 // 
 //
@@ -62,7 +62,7 @@ struct Interval_evaluate_1 : public CGAL::cpp98::binary_function
   }
   
   result_type operator()(const Polynomial_1& p,
-                         const CGAL::cpp11::array< Bound, 2 >& b) const {
+                         const std::array< Bound, 2 >& b) const {
     
     typename CT::Cast cast;
   
@@ -79,7 +79,7 @@ struct Interval_evaluate_1 : public CGAL::cpp98::binary_function
     Coefficient_const_iterator_range range = 
       typename PT_1::Construct_coefficient_const_iterator_range()(p);
     
-    Coefficient_const_iterator it = CGAL::cpp11::prev(range.second);
+    Coefficient_const_iterator it = std::prev(range.second);
     
     Coercion_interval res(cast(*it));
     

@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Boolean_set_operations_2/include/CGAL/Boolean_set_operations_2/Gps_polygon_simplifier.h $
-// $Id: Gps_polygon_simplifier.h 7936109 %aI Efi Fogel
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Boolean_set_operations_2/include/CGAL/Boolean_set_operations_2/Gps_polygon_simplifier.h $
+// $Id: Gps_polygon_simplifier.h 4581f1b %aI Andreas Fabri
 // SPDX-License-Identifier: GPL-3.0+
 //
 //
@@ -115,9 +115,9 @@ public:
   /*! Destructor. */
   ~Gps_polygon_simplifier()
   {
-    if (m_own_traits && (m_traits != NULL)) {
+    if (m_own_traits && (m_traits != nullptr)) {
       delete m_traits;
-      m_traits = NULL;
+      m_traits = nullptr;
     }
   }
 

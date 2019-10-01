@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Polyhedron_IO/include/CGAL/IO/STL_reader.h $
-// $Id: STL_reader.h ef6a6af %aI Mael Rouxel-Labbé
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Polyhedron_IO/include/CGAL/IO/STL_reader.h $
+// $Id: STL_reader.h 1a1f336 %aI Andreas Fabri
 // SPDX-License-Identifier: LGPL-3.0+
 //
 // Author(s)     : Andreas Fabri,
@@ -299,7 +299,7 @@ bool read_STL(std::istream& input,
   int pos = 0;
 
   // Ignore all initial whitespace
-  char c;
+  unsigned char c;
 
   while(input.read(reinterpret_cast<char*>(&c), sizeof(c)))
   {

@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Optimal_transportation_reconstruction_2/include/CGAL/OTR_2/Reconstruction_triangulation_2.h $
-// $Id: Reconstruction_triangulation_2.h a231468 %aI Simon Giraudot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Optimal_transportation_reconstruction_2/include/CGAL/OTR_2/Reconstruction_triangulation_2.h $
+// $Id: Reconstruction_triangulation_2.h e2d19b0 %aI Andreas Fabri
 // SPDX-License-Identifier: GPL-3.0+
 //
 // Author(s)     : Fernando de Goes, Pierre Alliez, Ivo Vigan, Clément Jamin
@@ -373,7 +373,7 @@ public:
     if (sample)
       samples.push_back(sample);
     if (cleanup)
-      vertex->set_sample(NULL);
+      vertex->set_sample(nullptr);
   }
 
   void collect_all_samples(Sample_vector& samples) const {
@@ -400,7 +400,7 @@ public:
     }
     for (Finite_vertices_iterator vi = Base::finite_vertices_begin();
         vi != Base::finite_vertices_end(); ++vi) {
-      vi->set_sample(NULL);
+      vi->set_sample(nullptr);
     }
   }
 
@@ -1075,7 +1075,7 @@ public:
         return false;
       }
 
-      FT value = Dbc <= 0 ? 1 : 2*Dbc; // value used if Dbd or Dac are +infinity
+      FT value = Dbc <= 0 ? FT(1) : 2*Dbc; // value used if Dbd or Dac are +infinity
       if ( !is_infinity(Dac) )
       {
         if ( !is_infinity(Dbd))

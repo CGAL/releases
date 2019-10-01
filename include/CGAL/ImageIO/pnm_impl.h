@@ -13,8 +13,8 @@
 // These files are provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/CGAL_ImageIO/include/CGAL/ImageIO/pnm_impl.h $
-// $Id: pnm_impl.h 0698f79 %aI Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/CGAL_ImageIO/include/CGAL/ImageIO/pnm_impl.h $
+// $Id: pnm_impl.h 4581f1b %aI Andreas Fabri
 // SPDX-License-Identifier: LGPL-3.0+
 //
 //
@@ -263,7 +263,7 @@ int writePpmImage( char *name,_image *im )
     */
     unsigned short *buf = (unsigned short *)im->data;
     unsigned char *tmp = (unsigned char *)ImageIO_alloc( im->xdim*im->ydim*3 );
-    if ( tmp == NULL ) {
+    if ( tmp == nullptr ) {
       fprintf( stderr, "writePpmImage: unable to allocate auxiliary buffer\n" );
       return -1; 
     }
@@ -377,12 +377,12 @@ int readPgmAsciiImage(const char *name,_image *im)
       case WK_FIXED :
 	if ( sscanf( tmp, "%d", &iv ) != 1 ) {
 	  fprintf( stderr, "readAsciiPgmImage: error in reading ascii data\n" );
-	  ImageIO_free( im->data ); im->data = NULL;
+	  ImageIO_free( im->data ); im->data = nullptr;
 	  return 0;
 	}
 	break;
       default :
-	ImageIO_free( im->data ); im->data = NULL;
+	ImageIO_free( im->data ); im->data = nullptr;
 	return 0;
       }
 	  
@@ -404,7 +404,7 @@ int readPgmAsciiImage(const char *name,_image *im)
       }
       else {
 	fprintf( stderr, "readAsciiPgmImage: word im not handled\n" );
-	ImageIO_free( im->data ); im->data = NULL;
+	ImageIO_free( im->data ); im->data = nullptr;
 	return 0;
       }
       
@@ -624,7 +624,7 @@ int writePgmImage(char *name,_image *im  )
       */
       unsigned short *buf = (unsigned short *)im->data;
       unsigned char *tmp = (unsigned char *)ImageIO_alloc( im->xdim*im->ydim );
-      if ( tmp == NULL ) {
+      if ( tmp == nullptr ) {
 	fprintf( stderr, "writePgmImage: unable to allocate auxiliary buffer\n" );
 	return -1; 
       }

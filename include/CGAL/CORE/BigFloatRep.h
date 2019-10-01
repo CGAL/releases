@@ -28,8 +28,8 @@
  * WWW URL: http://cs.nyu.edu/exact/
  * Email: exact@cs.nyu.edu
  *
- * $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/CGAL_Core/include/CGAL/CORE/BigFloatRep.h $
- * $Id: BigFloatRep.h 2d7dcb0 %aI Laurent Rineau
+ * $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/CGAL_Core/include/CGAL/CORE/BigFloatRep.h $
+ * $Id: BigFloatRep.h 4581f1b %aI Andreas Fabri
  * SPDX-License-Identifier: LGPL-3.0+
  ***************************************************************************/
 
@@ -422,7 +422,7 @@ inline std::ostream& BigFloatRep::operator<<(std::ostream& o) const {
 
 /* Returns a std::string with precision and format specified
    Works as cout << with the exception that if the output
-   contains any error it returns a NULL
+   contains any error it returns a nullptr
    Joaquin Grech 31/5/03
    */
 inline std::string BigFloatRep::toString(long prec, bool sci) const {
@@ -434,7 +434,7 @@ inline std::string BigFloatRep::toString(long prec, bool sci) const {
     else
       return r.rep;
   }
-  return NULL;
+  return nullptr;
 }
 
 inline void BigFloatRep::dump() const {

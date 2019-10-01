@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Periodic_2_triangulation_2/include/CGAL/Periodic_2_triangulation_iterators_2.h $
-// $Id: Periodic_2_triangulation_iterators_2.h ee57fc2 %aI Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Periodic_2_triangulation_2/include/CGAL/Periodic_2_triangulation_iterators_2.h $
+// $Id: Periodic_2_triangulation_iterators_2.h e2d19b0 %aI Andreas Fabri
 // SPDX-License-Identifier: GPL-3.0+
 //
 // Author(s)     : Nico Kruithof <Nico@nghk.nl>
@@ -67,7 +67,7 @@ public:
   typedef typename T::Iterator_type                       Iterator_type;
 
   Periodic_2_triangulation_triangle_iterator_2(Iterator_type it = T::STORED)
-    : _t(NULL), _it(it), _off(0) {}
+    : _t(nullptr), _it(it), _off(0) {}
 
   Periodic_2_triangulation_triangle_iterator_2(const T * t,
       Iterator_type it = T::STORED)
@@ -386,7 +386,7 @@ public:
   typedef typename T::Iterator_type                       Iterator_type;
 
   Periodic_2_triangulation_segment_iterator_2(Iterator_type it = T::STORED)
-    : _t(NULL), _it(it), _off(0) {}
+    : _t(nullptr), _it(it), _off(0) {}
 
   Periodic_2_triangulation_segment_iterator_2(const T * t,
       Iterator_type it = T::STORED)
@@ -682,7 +682,7 @@ public:
   typedef typename T::Iterator_type                       Iterator_type;
 
   Periodic_2_triangulation_point_iterator_2(Iterator_type it = T::STORED)
-    : _t(NULL), _it(it) {}
+    : _t(nullptr), _it(it) {}
 
   Periodic_2_triangulation_point_iterator_2(const T * t,
       Iterator_type it = T::STORED)

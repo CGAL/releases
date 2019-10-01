@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Polygon_mesh_processing/include/CGAL/Polygon_mesh_processing/internal/Hole_filling/Triangulate_hole_polyline.h $
-// $Id: Triangulate_hole_polyline.h 7ea3a80 %aI Mael Rouxel-Labbé
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Polygon_mesh_processing/include/CGAL/Polygon_mesh_processing/internal/Hole_filling/Triangulate_hole_polyline.h $
+// $Id: Triangulate_hole_polyline.h be0d07d %aI Laurent Rineau
 // SPDX-License-Identifier: GPL-3.0+
 // 
 //
@@ -42,6 +42,7 @@
 #include <map>
 
 #include <CGAL/boost/iterator/transform_iterator.hpp>
+#include <boost/next_prior.hpp>
 #include <boost/unordered_set.hpp>
 
 namespace CGAL {
@@ -1106,9 +1107,10 @@ private:
     
     if(W.get(0, n-1) == Weight::NOT_VALID()) {
       #ifndef CGAL_TEST_SUITE
-      CGAL_warning(!"Returning no output. Filling hole with extra triangles is not successful!");
+      CGAL_warning(!"Returning no output using Delaunay triangulation.\n Falling back to the general Triangulation framework.");
       #else
-      std::cerr << "W: Returning no output. Filling hole with extra triangles is not successful!\n";
+      std::cerr << "W: Returning no output using Delaunay triangulation.\n"
+                << "Falling back to the general Triangulation framework.\n";
       #endif
       return Weight::NOT_VALID();
     }
@@ -1242,6 +1244,13 @@ triangulate_hole_polyline(const PointRange1& points,
     use_delaunay_triangulation ? Fill_DT().operator()(P,Q,tracer,WC) :
   #endif
     Fill().operator()(P,Q,tracer,WC);
+
+#ifndef CGAL_HOLE_FILLING_DO_NOT_USE_DT3
+  if (use_delaunay_triangulation
+      && w == WeightCalculator::Weight::NOT_VALID())
+    w = Fill().operator()(P, Q, tracer, WC);
+#endif
+
   #ifdef CGAL_PMP_HOLE_FILLING_DEBUG
   std::cerr << w << std::endl;
   #endif

@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Circular_kernel_3/include/CGAL/Circular_kernel_3/Line_arc_3.h $
-// $Id: Line_arc_3.h ee57fc2 %aI Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Circular_kernel_3/include/CGAL/Circular_kernel_3/Line_arc_3.h $
+// $Id: Line_arc_3.h 4581f1b %aI Andreas Fabri
 // SPDX-License-Identifier: GPL-3.0+
 //
 // Author(s) : Monique Teillaud, Sylvain Pion, Pedro Machado, 
@@ -145,8 +145,8 @@ namespace CGAL {
          Intersection i2 = SK().intersect_3_object()(l, p2);
          const typename SK::Point_3* point1=boost::get<typename SK::Point_3>( & *i1 );
          const typename SK::Point_3* point2=boost::get<typename SK::Point_3>( & *i2 );
-         CGAL_assertion(point1!=NULL);
-         CGAL_assertion(point2!=NULL);
+         CGAL_assertion(point1!=nullptr);
+         CGAL_assertion(point2!=nullptr);
          // the source and target must be different
          CGAL_kernel_precondition(*point1 != *point2);
          *this = Line_arc_3(l, *point1, *point2);

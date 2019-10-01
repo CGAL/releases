@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Hyperbolic_triangulation_2/include/CGAL/Hyperbolic_Delaunay_triangulation_2.h $
-// $Id: Hyperbolic_Delaunay_triangulation_2.h 8e1dfa3 %aI Iordan Iordanov
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Hyperbolic_triangulation_2/include/CGAL/Hyperbolic_Delaunay_triangulation_2.h $
+// $Id: Hyperbolic_Delaunay_triangulation_2.h 4581f1b %aI Andreas Fabri
 // SPDX-License-Identifier: GPL-3.0+
 //
 // Author(s)     : Mikhail Bogdanov
@@ -448,7 +448,7 @@ public:
   std::ptrdiff_t insert(InputIterator first, InputIterator last,
                         typename boost::enable_if<
                           boost::is_base_of<Point, typename std::iterator_traits<InputIterator>::value_type>
-                        >::type* = NULL)
+                        >::type* = nullptr)
 #else
   template < class InputIterator >
   std::ptrdiff_t insert(InputIterator first, InputIterator last)

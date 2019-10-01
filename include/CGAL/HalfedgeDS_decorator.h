@@ -16,8 +16,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/HalfedgeDS/include/CGAL/HalfedgeDS_decorator.h $
-// $Id: HalfedgeDS_decorator.h 0698f79 %aI Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/HalfedgeDS/include/CGAL/HalfedgeDS_decorator.h $
+// $Id: HalfedgeDS_decorator.h 4581f1b %aI Andreas Fabri
 // SPDX-License-Identifier: LGPL-3.0+
 //
 //
@@ -819,7 +819,7 @@ public:
           // Removes component from list
           components.erase(components.begin());
 
-          if (vertex->halfedge() != NULL) // if not isolated vertex
+          if (vertex->halfedge() != nullptr) // if not isolated vertex
           {
             erase_connected_component(vertex->halfedge());
             nb_erased_components++;
@@ -935,7 +935,7 @@ private:
                 return it;
         }
 
-        return NULL;
+        return nullptr;
     }
 
     /// Helper method for keep_largest_connected_components():
@@ -1015,8 +1015,8 @@ private:
         }
 
         // Record each component
-        Vertex_handle seed_vertex = NULL;
-        while((seed_vertex = get_any_free_vertex(tags)) != NULL)
+        Vertex_handle seed_vertex = nullptr;
+        while((seed_vertex = get_any_free_vertex(tags)) != nullptr)
         {
             // Tag it as "done" and compute its size (number of vertices)
             unsigned int number_of_vertices = tag_component(seed_vertex, tags);

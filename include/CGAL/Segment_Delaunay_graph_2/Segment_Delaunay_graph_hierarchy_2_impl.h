@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Segment_Delaunay_graph_2/include/CGAL/Segment_Delaunay_graph_2/Segment_Delaunay_graph_hierarchy_2_impl.h $
-// $Id: Segment_Delaunay_graph_hierarchy_2_impl.h 4e15225 %aI Mael Rouxel-Labbé
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Segment_Delaunay_graph_2/include/CGAL/Segment_Delaunay_graph_2/Segment_Delaunay_graph_hierarchy_2_impl.h $
+// $Id: Segment_Delaunay_graph_hierarchy_2_impl.h 8535a3c %aI Laurent Rineau
 // SPDX-License-Identifier: GPL-3.0+
 // 
 //
@@ -180,7 +180,7 @@ insert_point(const Point_2& p, const Storage_site_2& ss, int level,
 
   CGAL_assertion( vertex != Vertex_handle() );
 
-  if ( vertices != NULL ) { vertices[0] = vertex; }
+  if ( vertices != nullptr ) { vertices[0] = vertex; }
 
   // insert at other levels
   Vertex_handle previous = vertex;
@@ -237,7 +237,7 @@ insert_point(const Point_2& p, const Storage_site_2& ss, int level,
 
     CGAL_assertion( vertex != Vertex_handle() );
 
-    if ( vertices != NULL ) { vertices[k] = vertex; }
+    if ( vertices != nullptr ) { vertices[k] = vertex; }
 
     vertex->set_down(previous); // link with other levels
     previous->set_up(vertex);
@@ -298,7 +298,7 @@ insert_point(const Site_2& t, const Storage_site_2& ss,
 
     CGAL_assertion( vertex != Vertex_handle() );
 
-    if ( vertices != NULL ) { vertices[k] = vertex; }
+    if ( vertices != nullptr ) { vertices[k] = vertex; }
 
     vertex->set_down(previous); // link with other levels
     previous->set_up(vertex);
@@ -521,7 +521,7 @@ insert_segment_in_upper_levels(const Site_2& t, const Storage_site_2& ss,
 			       const Vertex_handle* vertices,
 			       int level, Tag_true /* stag */)
 {
-  CGAL_precondition( vertices != NULL );
+  CGAL_precondition( vertices != nullptr );
   CGAL_precondition( vbelow != Vertex_handle() );
 
   // insert at all upper levels

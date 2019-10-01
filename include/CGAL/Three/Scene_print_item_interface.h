@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Three/include/CGAL/Three/Scene_print_item_interface.h $
-// $Id: Scene_print_item_interface.h cba9061 %aI Maxime Gimeno
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Three/include/CGAL/Three/Scene_print_item_interface.h $
+// $Id: Scene_print_item_interface.h 32de514 %aI Maxime Gimeno
 // SPDX-License-Identifier: GPL-3.0+
 //
 // Author(s)     : Maxime GIMENO
@@ -41,18 +41,18 @@ public:
   //! Prints all the vertices ids if their number is not too high. The limit is
   //! editable in the View menu of the application.
   //! \returns `false` if the number of ids is too high to be displayed.
-  virtual bool printVertexIds(CGAL::Three::Viewer_interface*) const= 0;
+  virtual bool printVertexIds() const= 0;
   //! Prints all the edges ids if their number is not too high. The limit is
   //! editable in the View menu of the application.
   //! \returns `false` if the number of ids is too high to be displayed.
-  virtual bool printEdgeIds(CGAL::Three::Viewer_interface*) const= 0;
+  virtual bool printEdgeIds() const= 0;
   //! Prints all the faces ids if their number is not too high. The limit is
   //! editable in the View menu of the application.
   //! \returns `false` if the number of ids is too high to be displayed.
-  virtual bool printFaceIds(CGAL::Three::Viewer_interface*) const= 0;
+  virtual bool printFaceIds() const= 0;
   //! Prints all the primitive ids if their number is not too high. The limit is
   //! editable in the View menu of the application.
-  virtual void printAllIds(CGAL::Three::Viewer_interface*) = 0;
+  virtual void printAllIds() = 0;
   //! \brief Tests if an id should be displayed or not.
   //!
   //! \returns true if the Id should be displayed

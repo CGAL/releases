@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/NewKernel_d/include/CGAL/NewKernel_d/Cartesian_static_filters.h $
-// $Id: Cartesian_static_filters.h 0698f79 %aI Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/NewKernel_d/include/CGAL/NewKernel_d/Cartesian_static_filters.h $
+// $Id: Cartesian_static_filters.h c872a75 %aI Marc Glisse
 // SPDX-License-Identifier: LGPL-3.0+
 //
 // Author(s)     : Marc Glisse
@@ -69,14 +69,14 @@ template <class Base_,class R_> struct Orientation_of_points_2 : private Store_k
 
 template <class Dim_ /* should be implicit */, class R_, class Derived_=Default>
 struct Cartesian_static_filters : public R_ {
-  CGAL_CONSTEXPR Cartesian_static_filters(){}
-  CGAL_CONSTEXPR Cartesian_static_filters(int d):R_(d){}
+  constexpr Cartesian_static_filters(){}
+  constexpr Cartesian_static_filters(int d):R_(d){}
 };
 
 template <class R_, class Derived_>
 struct Cartesian_static_filters<Dimension_tag<2>, R_, Derived_> : public R_ {
-  CGAL_CONSTEXPR Cartesian_static_filters(){}
-  CGAL_CONSTEXPR Cartesian_static_filters(int d):R_(d){}
+  constexpr Cartesian_static_filters(){}
+  constexpr Cartesian_static_filters(int d):R_(d){}
 	typedef Cartesian_static_filters<Dimension_tag<2>, R_, Derived_> Self;
 	typedef typename Default::Get<Derived_,Self>::type Derived;
 	template <class T, class=void> struct Functor : Inherit_functor<R_, T> {};

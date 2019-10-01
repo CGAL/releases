@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Arrangement_on_surface_2/include/CGAL/Arrangement_2/Arr_with_history_accessor.h $
-// $Id: Arr_with_history_accessor.h 1e1025e %aI Laurent Rineau
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Arrangement_on_surface_2/include/CGAL/Arrangement_2/Arr_with_history_accessor.h $
+// $Id: Arr_with_history_accessor.h 2a426bb %aI Sebastien Loriot
 // SPDX-License-Identifier: GPL-3.0+
 // 
 //
@@ -131,12 +131,8 @@ public:
     // and store it in the curves' list.
     typename Arrangement_with_history_2::Curve_halfedges  *p_cv = 
                                            p_arr->m_curves_alloc.allocate (1);
-#ifdef CGAL_CXX11
     typedef decltype(p_arr->m_curves_alloc) M_Curves_alloc;
     std::allocator_traits<M_Curves_alloc>::construct(p_arr->m_curves_alloc, p_cv, cv);
-#else
-    p_arr->m_curves_alloc.construct (p_cv, cv);
-#endif
     p_arr->m_curves.push_back (*p_cv);
     
     // Return a handle to the inserted curve (the last in the list).
@@ -159,7 +155,10 @@ public:
     he->curve().data().insert (&cv);
   
     return;
-  }  
+  }
+
+  //@}
+
 };
 
 } //namespace CGAL

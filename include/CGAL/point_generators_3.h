@@ -16,8 +16,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Generator/include/CGAL/point_generators_3.h $
-// $Id: point_generators_3.h 43d2ecb %aI Andreas Fabri
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Generator/include/CGAL/point_generators_3.h $
+// $Id: point_generators_3.h 2848158 %aI Mael Rouxel-Labbé
 // SPDX-License-Identifier: LGPL-3.0+
 // 
 //
@@ -65,7 +65,7 @@ template < class P, class Creator >
 void
 Random_points_in_sphere_3<P,Creator>::
 generate_point() {
-  // A strip between z and z+dz has an area independant of z
+  // A strip between z and z+dz has an area independent of z
     typedef typename Creator::argument_type T;
     double alpha = this->_rnd.get_double() * 2.0 * CGAL_PI;
     double z     = 2 * this->_rnd.get_double() - 1.0;
@@ -104,7 +104,7 @@ template < class P, class Creator >
 void
 Random_points_on_sphere_3<P,Creator>::
 generate_point() {
-  // A strip between z and z+dz has an area independant of z
+  // A strip between z and z+dz has an area independent of z
     typedef typename Creator::argument_type T;
     double alpha = this->_rnd.get_double() * 2.0 * CGAL_PI;
     double z     = 2 * this->_rnd.get_double() - 1.0;

@@ -13,8 +13,8 @@
 // These files are provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/CGAL_ImageIO/include/CGAL/ImageIO/iris_impl.h $
-// $Id: iris_impl.h 0698f79 %aI Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/CGAL_ImageIO/include/CGAL/ImageIO/iris_impl.h $
+// $Id: iris_impl.h 4581f1b %aI Andreas Fabri
 // SPDX-License-Identifier: LGPL-3.0+
 //
 //
@@ -357,7 +357,7 @@ static byte *getimagedata(const _image *im, unsigned short type, int xsize, int 
 			  int zsize)
 {
   /* read in a B/W RGB or RGBA iris image file and return a 
-     pointer to an array of 4-byte pixels, arranged ABGR, NULL on error */
+     pointer to an array of 4-byte pixels, arranged ABGR, nullptr on error */
 
   byte   *base, *lptr;
   byte   *verdat;
@@ -372,7 +372,7 @@ static byte *getimagedata(const _image *im, unsigned short type, int xsize, int 
   bpp     = BPP(type);
 
   if (bpp != 1) {
-    return (byte *) NULL;
+    return (byte *) nullptr;
   }
 
   if (rle) {
@@ -392,7 +392,7 @@ static byte *getimagedata(const _image *im, unsigned short type, int xsize, int 
 
     if ( ImageIO_error(im) ) {
       ImageIO_free(starttab);  ImageIO_free(lengthtab);  ImageIO_free(rledat);
-      return (byte *) NULL;
+      return (byte *) nullptr;
     }
 
 
@@ -427,7 +427,7 @@ static byte *getimagedata(const _image *im, unsigned short type, int xsize, int 
 
 	  if (lengthtab[y+z*ysize]>(unsigned long)rlebuflen) {
 	    ImageIO_free(starttab); ImageIO_free(lengthtab); ImageIO_free(rledat); ImageIO_free(base);
-	    return (byte *) NULL;
+	    return (byte *) nullptr;
 	  }
 	  ImageIO_read(im, rledat, (size_t) lengthtab[y+z*ysize]);
 	  cur += lengthtab[y+z*ysize];

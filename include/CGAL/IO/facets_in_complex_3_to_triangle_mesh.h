@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Mesh_3/include/CGAL/IO/facets_in_complex_3_to_triangle_mesh.h $
-// $Id: facets_in_complex_3_to_triangle_mesh.h d940632 %aI Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Mesh_3/include/CGAL/IO/facets_in_complex_3_to_triangle_mesh.h $
+// $Id: facets_in_complex_3_to_triangle_mesh.h 124012d %aI Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0+
 //
 //
@@ -52,7 +52,7 @@ void resize(Polygon& p, std::size_t size)
 }
 
 template <std::size_t N, class INT>
-void resize(CGAL::cpp11::array<INT, N>&, std::size_t CGAL_assertion_code(size))
+void resize(std::array<INT, N>&, std::size_t CGAL_assertion_code(size))
 {
   CGAL_assertion(size == N);
 }
@@ -175,7 +175,7 @@ void facets_in_complex_3_to_triangle_mesh(const C3T3& c3t3, TriangleMesh& graph)
   typedef typename boost::property_map<TriangleMesh, boost::vertex_point_t>::type  VertexPointMap;
   typedef typename boost::property_traits<VertexPointMap>::value_type              Point_3;
 
-  typedef CGAL::cpp11::array<std::size_t, 3>                                       Face;
+  typedef std::array<std::size_t, 3>                                       Face;
 
   std::vector<Face> faces;
   std::vector<Point_3> points;

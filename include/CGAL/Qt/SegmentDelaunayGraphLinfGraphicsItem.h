@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/GraphicsView/include/CGAL/Qt/SegmentDelaunayGraphLinfGraphicsItem.h $
-// $Id: SegmentDelaunayGraphLinfGraphicsItem.h 243c7b1 %aI Maxime Gimeno
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/GraphicsView/include/CGAL/Qt/SegmentDelaunayGraphLinfGraphicsItem.h $
+// $Id: SegmentDelaunayGraphLinfGraphicsItem.h 2e747dd %aI Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0+
 // 
 //
@@ -208,9 +208,9 @@ SegmentDelaunayGraphLinfGraphicsItem<T>::drawAll(QPainter *painter, const QStyle
 	   vit != t->finite_vertices_end(); ++vit) {
 	typename T::Site_2 s = vit->site();
 	if ( s.is_input() ) {
-	  //*widget << CGAL::RED;
+	  //*widget << CGAL::red();
 	} else {
-	  //*widget << CGAL::YELLOW;
+	  //*widget << CGAL::yellow();
 	}
 	if ( s.is_point() ) {
           QPointF point = matrix.map(convert(s.point()));

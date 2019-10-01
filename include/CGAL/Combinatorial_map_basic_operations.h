@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Combinatorial_map/include/CGAL/Combinatorial_map_basic_operations.h $
-// $Id: Combinatorial_map_basic_operations.h 241a9f3 %aI Guillaume Damiand
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Combinatorial_map/include/CGAL/Combinatorial_map_basic_operations.h $
+// $Id: Combinatorial_map_basic_operations.h 4581f1b %aI Andreas Fabri
 // SPDX-License-Identifier: LGPL-3.0+
 //
 // Author(s)     : Guillaume Damiand <guillaume.damiand@liris.cnrs.fr>
@@ -268,7 +268,7 @@ namespace CGAL
   typename Map::size_type degree(const Map & amap, 
                                  typename Map::Dart_const_handle adart)
   {
-    CGAL_assertion(adart != NULL);
+    CGAL_assertion(adart != nullptr);
   
     typename Map::size_type nbIncident = 0;
     typename Map::size_type mark;
@@ -317,7 +317,7 @@ namespace CGAL
   typename Map::size_type codegree(const Map & amap, 
                                    typename Map::Dart_const_handle adart)
   {
-    CGAL_assertion(adart != NULL);
+    CGAL_assertion(adart != nullptr);
   
     typename Map::size_type nbIncident = 0;
     typename Map::size_type mark;

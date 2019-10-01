@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Stream_lines_2/include/CGAL/Stream_lines_2.h $
-// $Id: Stream_lines_2.h ee57fc2 %aI Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Stream_lines_2/include/CGAL/Stream_lines_2.h $
+// $Id: Stream_lines_2.h e2d19b0 %aI Andreas Fabri
 // SPDX-License-Identifier: GPL-3.0+
 // 
 //
@@ -647,7 +647,7 @@ insert_streamline(const Vector_field_2 & vector_field_2,
       stl_vertices)
 {
   stl_container.push_back(stl);
-  Vertex_handle m_Vertex_handle = NULL;
+  Vertex_handle m_Vertex_handle = nullptr;
   int i = 1;
   unsigned int size_ = (int) (stl_vertices.size());
   ir = il = 0;

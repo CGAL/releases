@@ -16,8 +16,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Stream_support/include/CGAL/IO/io_tags.h $
-// $Id: io_tags.h 0698f79 %aI Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Stream_support/include/CGAL/IO/io_tags.h $
+// $Id: io_tags.h 82c13e6 %aI Sébastien Loriot
 // SPDX-License-Identifier: LGPL-3.0+
 // 
 //
@@ -53,10 +53,8 @@ template<> struct Io_traits<unsigned short> { typedef io_Read_write Io_tag; };
 template<> struct Io_traits<unsigned int> { typedef io_Read_write Io_tag; };
 template<> struct Io_traits<unsigned long> { typedef io_Read_write Io_tag; };
 
-#ifndef CGAL_CFG_NO_CPP0X_LONG_LONG
 template<> struct Io_traits<long long> { typedef io_Read_write Io_tag; };
 template<> struct Io_traits<unsigned long long> { typedef io_Read_write Io_tag; };
-#endif
 
 template<> struct Io_traits<float> { typedef io_Read_write Io_tag; };
 template<> struct Io_traits<double> { typedef io_Read_write Io_tag; };

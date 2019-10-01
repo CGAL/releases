@@ -16,8 +16,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Cartesian_kernel/include/CGAL/Cartesian/Circle_3.h $
-// $Id: Circle_3.h 7fb39a2 %aI Marc Glisse
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Cartesian_kernel/include/CGAL/Cartesian/Circle_3.h $
+// $Id: Circle_3.h 4581f1b %aI Andreas Fabri
 // SPDX-License-Identifier: LGPL-3.0+
 // 
 // Author(s)     : Monique Teillaud, Pedro Machado, Sebastien Loriot
@@ -91,11 +91,11 @@ public:
     // s1,s2 must intersect
     CGAL_kernel_precondition(!(obj.is_empty()));
     const typename R::Circle_3* circle_ptr=object_cast<typename R::Circle_3>(&obj);
-    if(circle_ptr!=NULL)
+    if(circle_ptr!=nullptr)
       base = Rep(circle_ptr->diametral_sphere(), circle_ptr->supporting_plane());
     else {
       const typename R::Point_3* point=object_cast<typename R::Point_3>(&obj);
-      CGAL_kernel_precondition(point!=NULL);
+      CGAL_kernel_precondition(point!=nullptr);
       CircleC3 circle = CircleC3(*point, FT(0), Vector_3(FT(1),FT(0),FT(0)));
       base = Rep(circle.diametral_sphere(), circle.supporting_plane());
     }
@@ -108,11 +108,11 @@ public:
     // s1,s2 must intersect
     CGAL_kernel_precondition(!(obj.is_empty()));
     const typename R::Circle_3* circle_ptr=object_cast<typename R::Circle_3>(&obj);
-    if(circle_ptr!=NULL)
+    if(circle_ptr!=nullptr)
       base = Rep(circle_ptr->diametral_sphere(), circle_ptr->supporting_plane());
     else {
       const typename R::Point_3* point=object_cast<typename R::Point_3>(&obj);
-      CGAL_kernel_precondition(point!=NULL);
+      CGAL_kernel_precondition(point!=nullptr);
       CircleC3 circle = CircleC3(*point, FT(0), Vector_3(FT(1),FT(0),FT(0)));
       base = Rep(circle.diametral_sphere(), circle.supporting_plane());
     }

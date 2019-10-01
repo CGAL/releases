@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Polygon_mesh_processing/include/CGAL/Polygon_mesh_processing/compute_normal.h $
-// $Id: compute_normal.h 2f81a21 %aI Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Polygon_mesh_processing/include/CGAL/Polygon_mesh_processing/compute_normal.h $
+// $Id: compute_normal.h 25a05e9 %aI Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0+
 // 
 //
@@ -192,8 +192,7 @@ compute_face_normals(const PolygonMesh& pmesh
 {
   typedef typename GetGeomTraits<PolygonMesh,NamedParameters>::type Kernel;
 
-  typename boost::graph_traits<PolygonMesh>::face_descriptor f;
-  BOOST_FOREACH(f, faces(pmesh)){
+  for(typename boost::graph_traits<PolygonMesh>::face_descriptor f : faces(pmesh)){
     typename Kernel::Vector_3 vec = compute_face_normal(f, pmesh, np);
     put(fnm, f, vec);
   }
@@ -312,8 +311,7 @@ compute_vertex_normals(const PolygonMesh& pmesh
 {
   typedef typename GetGeomTraits<PolygonMesh,NamedParameters>::type Kernel;
 
-  typename boost::graph_traits<PolygonMesh>::vertex_descriptor v;
-  BOOST_FOREACH(v, vertices(pmesh)){
+  for(typename boost::graph_traits<PolygonMesh>::vertex_descriptor v : vertices(pmesh)){
     typename Kernel::Vector_3 vec = compute_vertex_normal(v, pmesh, np);
     put(vnm, v, vec);
   }

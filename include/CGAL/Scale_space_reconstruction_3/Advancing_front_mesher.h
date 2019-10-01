@@ -13,8 +13,8 @@
 //You should have received a copy of the GNU General Public License
 //along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Scale_space_reconstruction_3/include/CGAL/Scale_space_reconstruction_3/Advancing_front_mesher.h $
-// $Id: Advancing_front_mesher.h 8cdfad0 %aI Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Scale_space_reconstruction_3/include/CGAL/Scale_space_reconstruction_3/Advancing_front_mesher.h $
+// $Id: Advancing_front_mesher.h 124012d %aI Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0+
 //
 // Author(s):      Simon Giraudot
@@ -57,7 +57,7 @@ class Advancing_front_mesher
   typedef typename Geom_traits::FT FT;
   typedef typename Geom_traits::Point_3                        Point;          ///< defines the point type.
   
-  typedef CGAL::cpp11::array< unsigned int, 3 >       Facet;
+  typedef std::array< unsigned int, 3 >       Facet;
 private:
 
   class Priority

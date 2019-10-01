@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Arrangement_on_surface_2/include/CGAL/Curved_kernel_via_analysis_2/Curve_renderer_facade.h $
-// $Id: Curve_renderer_facade.h faa2866 %aI Andreas Fabri
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Arrangement_on_surface_2/include/CGAL/Curved_kernel_via_analysis_2/Curve_renderer_facade.h $
+// $Id: Curve_renderer_facade.h 4581f1b %aI Andreas Fabri
 // SPDX-License-Identifier: LGPL-3.0+
 //
 // Author(s)     : Pavel Emeliyanenko <asm@mpi-sb.mpg.de>
@@ -262,8 +262,8 @@ public:
         class Allocator >
     inline void draw(const Arc_2& arc, 
             Container< std::vector< Coord_2 >, Allocator >& pts,
-            boost::optional< Coord_2 > *end_pt1 = NULL, 
-            boost::optional< Coord_2 > *end_pt2 = NULL) {
+            boost::optional< Coord_2 > *end_pt1 = nullptr, 
+            boost::optional< Coord_2 > *end_pt2 = nullptr) {
 
 #ifndef CGAL_CKVA_DUMMY_RENDERER
         Bbox_2 bbox;

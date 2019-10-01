@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Arrangement_on_surface_2/include/CGAL/Arr_topology_traits/Arr_planar_topology_traits_base_2.h $
-// $Id: Arr_planar_topology_traits_base_2.h 7936109 %aI Efi Fogel
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Arrangement_on_surface_2/include/CGAL/Arr_topology_traits/Arr_planar_topology_traits_base_2.h $
+// $Id: Arr_planar_topology_traits_base_2.h 4581f1b %aI Andreas Fabri
 // SPDX-License-Identifier: GPL-3.0+
 //
 //
@@ -110,9 +110,9 @@ public:
     // Clear the DCEL.
     m_dcel.delete_all();
 
-    if (m_own_geom_traits && (m_geom_traits != NULL)) {
+    if (m_own_geom_traits && (m_geom_traits != nullptr)) {
       delete m_geom_traits;
-      m_geom_traits = NULL;
+      m_geom_traits = nullptr;
     }
   }
   //@}
@@ -247,9 +247,9 @@ Arr_planar_topology_traits_base_2<GeomTraits, Dcel_>::assign(const Self& other)
   m_dcel.assign(other.m_dcel);
 
   // Take care of the traits object.
-  if (m_own_geom_traits && (m_geom_traits != NULL)) {
+  if (m_own_geom_traits && (m_geom_traits != nullptr)) {
     delete m_geom_traits;
-    m_geom_traits = NULL;
+    m_geom_traits = nullptr;
   }
 
   if (other.m_own_geom_traits) m_geom_traits = new Traits_adaptor_2;
@@ -265,8 +265,8 @@ template <typename GeomTraits, typename Dcel_>
 bool Arr_planar_topology_traits_base_2<GeomTraits, Dcel_>::
 is_in_face(const Face* f, const Point_2& p, const Vertex* v) const
 {
-  CGAL_precondition((v == NULL) || ! v->has_null_point());
-  CGAL_precondition((v == NULL) ||
+  CGAL_precondition((v == nullptr) || ! v->has_null_point());
+  CGAL_precondition((v == nullptr) ||
                     m_geom_traits->equal_2_object()(p, v->point()));
 
   // In case the face is unbounded and has no outer ccbs, this is the single
@@ -310,7 +310,7 @@ is_in_face(const Face* f, const Point_2& p, const Vertex* v) const
 
   do {
     // Compare p to the target vertex of the current halfedge.
-    // If the vertex v associated with p (if v is given and is not NULL)
+    // If the vertex v associated with p (if v is given and is not nullptr)
     // on the boundary of the component, p is obviously not in the interior
     // the component.
     if (curr->vertex() == v) return false;

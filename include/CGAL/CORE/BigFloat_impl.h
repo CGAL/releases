@@ -37,8 +37,8 @@
  * WWW URL: http://cs.nyu.edu/exact/
  * Email: exact@cs.nyu.edu
  *
- * $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/CGAL_Core/include/CGAL/CORE/BigFloat_impl.h $
- * $Id: BigFloat_impl.h 78e7060 %aI Laurent Rineau
+ * $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/CGAL_Core/include/CGAL/CORE/BigFloat_impl.h $
+ * $Id: BigFloat_impl.h 4581f1b %aI Andreas Fabri
  * SPDX-License-Identifier: LGPL-3.0+
  ***************************************************************************/
 
@@ -1017,7 +1017,7 @@ void BigFloatRep :: fromString(const char *str, extLong prec ) {
   const char *e = strchr(str, 'e');
   int dot = 0;
   long e10 = 0;
-  if (e != NULL)
+  if (e != nullptr)
     e10 = atol(e+1);    // e10 is decimal precision of the input string
   // i.e., input is A/10^{e10}.
   else {

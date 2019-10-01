@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Polyhedron_IO/include/CGAL/IO/generic_print_polyhedron.h $
-// $Id: generic_print_polyhedron.h 560c77f %aI Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Polyhedron_IO/include/CGAL/IO/generic_print_polyhedron.h $
+// $Id: generic_print_polyhedron.h 25a05e9 %aI Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0+
 // 
 //
@@ -50,7 +50,7 @@ generic_print_polyhedron( std::ostream&     out,
                          P.size_of_vertices(),
                          P.size_of_halfedges(),
                          P.size_of_facets());
-    BOOST_FOREACH(typename boost::graph_traits<Polyhedron>::vertex_descriptor vi, vertices(P)) {
+    for(typename boost::graph_traits<Polyhedron>::vertex_descriptor vi : vertices(P)) {
         writer.write_vertex( ::CGAL::to_double( get(vpm, vi).x()),
                              ::CGAL::to_double( get(vpm, vi).y()),
                              ::CGAL::to_double( get(vpm, vi).z()));

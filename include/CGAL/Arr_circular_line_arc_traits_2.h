@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Arrangement_on_surface_2/include/CGAL/Arr_circular_line_arc_traits_2.h $
-// $Id: Arr_circular_line_arc_traits_2.h 18acb2e %aI Andreas Fabri
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Arrangement_on_surface_2/include/CGAL/Arr_circular_line_arc_traits_2.h $
+// $Id: Arr_circular_line_arc_traits_2.h 2f8eeb0 %aI Laurent Rineau
 // SPDX-License-Identifier: GPL-3.0+
 //
 // Author(s)     : Monique Teillaud, Sylvain Pion, Julien Hazebrouck
@@ -42,6 +42,8 @@
 #include <CGAL/basic.h>
 #include <boost/variant.hpp>
 #include <CGAL/Arr_tags.h>
+
+#include <vector>
 
 namespace CGAL {
   namespace VariantFunctors{

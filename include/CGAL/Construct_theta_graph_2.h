@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Cone_spanners_2/include/CGAL/Construct_theta_graph_2.h $
-// $Id: Construct_theta_graph_2.h a472c24 %aI Andreas Fabri
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Cone_spanners_2/include/CGAL/Construct_theta_graph_2.h $
+// $Id: Construct_theta_graph_2.h 4581f1b %aI Andreas Fabri
 // SPDX-License-Identifier: GPL-3.0+
 //
 //
@@ -223,7 +223,7 @@ protected:
                 it = S.begin(); it != S.end(); ++it) {
             pst.add(*it, *it);
             const typename Graph_::vertex_descriptor *const ri = pst.minAbove(*it);
-            if ( ri != NULL ) {
+            if ( ri != nullptr ) {
                 typename Graph_::edge_descriptor existing_e;
                 bool                    existing;
                 // check whether the edge already exists

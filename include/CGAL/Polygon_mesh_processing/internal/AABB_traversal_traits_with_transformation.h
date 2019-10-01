@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Polygon_mesh_processing/include/CGAL/Polygon_mesh_processing/internal/AABB_traversal_traits_with_transformation.h $
-// $Id: AABB_traversal_traits_with_transformation.h a1bcbd4 %aI Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Polygon_mesh_processing/include/CGAL/Polygon_mesh_processing/internal/AABB_traversal_traits_with_transformation.h $
+// $Id: AABB_traversal_traits_with_transformation.h e2d19b0 %aI Andreas Fabri
 // SPDX-License-Identifier: GPL-3.0+
 //
 //
@@ -141,7 +141,7 @@ class Do_intersect_traversal_traits_with_transformation
 
 public:
   Do_intersect_traversal_traits_with_transformation():
-    m_traits_ptr(NULL)
+    m_traits_ptr(nullptr)
   {}
 
   Do_intersect_traversal_traits_with_transformation(const AABBTraits& traits)

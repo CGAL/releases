@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Boolean_set_operations_2/include/CGAL/Boolean_set_operations_2/Gps_simplifier_traits.h $
-// $Id: Gps_simplifier_traits.h ee57fc2 %aI Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Boolean_set_operations_2/include/CGAL/Boolean_set_operations_2/Gps_simplifier_traits.h $
+// $Id: Gps_simplifier_traits.h 4581f1b %aI Andreas Fabri
 // SPDX-License-Identifier: GPL-3.0+
 //
 //
@@ -233,7 +233,7 @@ public:
       {
         base_pt = object_cast<std::pair<Base_Point_2, Multiplicity> >(&(*oi));
 
-        if (base_pt != NULL)
+        if (base_pt != nullptr)
         {
           Point_data pt_data(m_self_tr->invalid_index());
           Point_2 point_plus (base_pt->first, pt_data); // the extended point
@@ -244,7 +244,7 @@ public:
         {
           overlap_cv = object_cast<Base_X_monotone_curve_2> (&(*oi));
 
-          if (overlap_cv != NULL)
+          if (overlap_cv != nullptr)
           {
             unsigned int ov_bc;
             unsigned int ov_twin_bc;

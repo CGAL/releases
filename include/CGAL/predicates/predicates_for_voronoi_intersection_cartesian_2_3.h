@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Interpolation/include/CGAL/predicates/predicates_for_voronoi_intersection_cartesian_2_3.h $
-// $Id: predicates_for_voronoi_intersection_cartesian_2_3.h ee57fc2 %aI Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Interpolation/include/CGAL/predicates/predicates_for_voronoi_intersection_cartesian_2_3.h $
+// $Id: predicates_for_voronoi_intersection_cartesian_2_3.h 5c2df20 %aI Laurent Rineau
 // SPDX-License-Identifier: GPL-3.0+
 // 
 //
@@ -26,6 +26,7 @@
 
 
 #include <CGAL/number_utils.h>
+#include <CGAL/predicates/sign_of_determinant.h>
 
 namespace CGAL {
 
@@ -76,13 +77,13 @@ side_of_plane_centered_sphereC3(const RT &ax, const RT &ay, const RT &az,
   //
   //method:
   // - tranlation of p to the origin.
-  // - seperate computation of det and norm of the expression
+  // - separate computation of det and norm of the expression
 
-  return side_of_plane_centered_sphere_translateC3(ax-px, ay-py, az-pz,
-                                                   nx, ny, nz,
-                                                   qx-px, qy-py,qz-pz,
-                                                   rx-px, ry-py,rz-pz,
-                                                   tx-px, ty-py,tz-pz);
+  return side_of_plane_centered_sphere_translateC3<RT>(ax-px, ay-py, az-pz,
+                                                       nx, ny, nz,
+                                                       qx-px, qy-py,qz-pz,
+                                                       rx-px, ry-py,rz-pz,
+                                                       tx-px, ty-py,tz-pz);
 }
 
 template < class RT>
@@ -100,25 +101,25 @@ side_of_plane_centered_sphere_translateC3(
   RT na =nx*ax + ny*ay + nz*az;
   na *= RT(2.0);
 
-  Sign num = sign_of_determinant(qx, qy, qz, q2,
-                                 ny, -nx, RT(0), RT(0),
-                                 nx, ny, nz, na,
-                                 rx, ry, rz, r2);
+  Sign num = sign_of_determinant<RT>(qx, qy, qz, q2,
+                                     ny, -nx, 0, 0,
+                                     nx, ny, nz, na,
+                                     rx, ry, rz, r2);
   //denumerator:
-  Sign  den = sign_of_determinant(nx,ny,nz,
-                                  ny,-nx, RT(0),
-                                  qx,qy,qz);
+  Sign  den = sign_of_determinant<RT>(nx,ny,nz,
+                                      ny,-nx, 0,
+                                      qx,qy,qz);
   if (den==ZERO) {
     // bad choice: (ny,-nx,0) is coplanar with n,q.
     // by precondition: q and n may not be collinear
     // => the cross product q*n is orthogonal to q, n and not coplanar
-    num = sign_of_determinant(qx, qy, qz, q2,
-                              ny*qz-nz*qy, nz*qx-nx*qz,nx*qy-ny*qx, RT(0),
-                              nx, ny, nz, na,
-                              rx, ry, rz, r2);
-    den = sign_of_determinant(nx,ny,nz,
-                              ny*qz-nz*qy, nz*qx - nx*qz,nx*qy-ny*qx,
-                              qx,qy,qz);
+    num = sign_of_determinant<RT>(qx, qy, qz, q2,
+                                  ny*qz-nz*qy, nz*qx-nx*qz,nx*qy-ny*qx, 0,
+                                  nx, ny, nz, na,
+                                  rx, ry, rz, r2);
+    den = sign_of_determinant<RT>(nx,ny,nz,
+                                  ny*qz-nz*qy, nz*qx - nx*qz,nx*qy-ny*qx,
+                                  qx,qy,qz);
   }
   CGAL_assertion(den != ZERO);
   return den * num;
@@ -145,12 +146,12 @@ side_of_plane_centered_sphereC3(const RT &ax, const RT &ay, const RT &az,
   //
   //method:
   // - tranlation of p to the origin.
-  // - seperate computation of det and nom of the expression
+  // - separate computation of det and nom of the expression
 
-  return side_of_plane_centered_sphere_translateC3(ax-px, ay-py, az-pz,
-                                                   nx, ny, nz,
-                                                   qx-px, qy-py,qz-pz,
-                                                   rx-px, ry-py,rz-pz);
+  return side_of_plane_centered_sphere_translateC3<RT>(ax-px, ay-py, az-pz,
+                                                       nx, ny, nz,
+                                                       qx-px, qy-py,qz-pz,
+                                                       rx-px, ry-py,rz-pz);
 }
 
 } //namespace CGAL

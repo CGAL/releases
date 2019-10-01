@@ -13,8 +13,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Algebraic_kernel_d/include/CGAL/RS/functors_z_1.h $
-// $Id: functors_z_1.h 26c857a %aI Mael Rouxel-Labbé
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Algebraic_kernel_d/include/CGAL/RS/functors_z_1.h $
+// $Id: functors_z_1.h 6425345 %aI Maxime Gimeno
 // SPDX-License-Identifier: LGPL-3.0+
 //
 // Author: Luis Peñaranda <luis.penaranda@gmx.com>
@@ -182,7 +182,7 @@ struct Solve_z_1{
 
         template <class OutputIterator>
         OutputIterator operator()(const Polynomial_1 &p,
-                                  bool known_to_be_square_free,
+                                  bool,
                                   OutputIterator res)const{
                 ZPolynomial_1 zp=PolConverter()(p);
                 Isolator isol(zp);

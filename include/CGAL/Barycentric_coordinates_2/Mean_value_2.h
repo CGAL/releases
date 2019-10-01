@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY, AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Barycentric_coordinates_2/include/CGAL/Barycentric_coordinates_2/Mean_value_2.h $
-// $Id: Mean_value_2.h 3dd0aa1 %aI Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Barycentric_coordinates_2/include/CGAL/Barycentric_coordinates_2/Mean_value_2.h $
+// $Id: Mean_value_2.h a676b75 %aI Marc Glisse
 // SPDX-License-Identifier: GPL-3.0+
 //
 // Author(s) : Dmitry Anisimov, David Bommes, Kai Hormann, and Pierre Alliez.
@@ -336,8 +336,8 @@ private:
         // Following section 4.2 from [2] we denote P_j = r_j*r_{j+1} + dot_product(d_j, d_{j+1}).
         // Vector s_i from [1] corresponds to that one with the name d_i in [2].
         for(int j = 0; j < n-1; ++j)
-            P[j] = (CGAL::max)(r[j]*r[j+1] + scalar_product_2(s[j], s[j+1]), FT(0));
-        P[n-1] = (CGAL::max)(r[n-1]*r[0] + scalar_product_2(s[n-1], s[0]), FT(0));
+            P[j] = CGAL::max<FT>(r[j]*r[j+1] + scalar_product_2(s[j], s[j+1]), 0);
+        P[n-1] = CGAL::max<FT>(r[n-1]*r[0] + scalar_product_2(s[n-1], s[0]), 0);
 
         // Compute mean value weights using the formula (16) from [2].
         // Since the formula (16) always gives positive values, we have to add a proper sign to all the weight functions.

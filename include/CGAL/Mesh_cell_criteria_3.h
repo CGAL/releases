@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Mesh_3/include/CGAL/Mesh_cell_criteria_3.h $
-// $Id: Mesh_cell_criteria_3.h 0fcc6c0 %aI Mael Rouxel-Labbé
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Mesh_3/include/CGAL/Mesh_cell_criteria_3.h $
+// $Id: Mesh_cell_criteria_3.h 22d6d9e %aI Laurent Rineau
 // SPDX-License-Identifier: GPL-3.0+
 // 
 //
@@ -27,6 +27,14 @@
 
 
 #include <CGAL/Mesh_3/mesh_standard_cell_criteria.h>
+#include <CGAL/Mesh_3/Is_mesh_domain_field_3.h>
+
+#include <boost/config.hpp>
+#if BOOST_VERSION >= 106600
+#  include <boost/callable_traits/is_invocable.hpp>
+#endif
+
+#include <type_traits>
 
 namespace CGAL {
   
@@ -65,13 +73,16 @@ public:
       init_radius_edge(radius_edge_bound);
   }
   
-  // Nb: SFINAE (dummy) to avoid wrong matches with built-in numerical types
+  // Nb: SFINAE to avoid wrong matches with built-in numerical types
   // as int.
   template <typename Sizing_field>
   Mesh_cell_criteria_3(const FT& radius_edge_bound,
                        const Sizing_field& radius_bound,
-                       typename Sizing_field::FT /*dummy*/ = 0)
-  { 
+                       typename std::enable_if<
+                         Mesh_3::Is_mesh_domain_field_3<Tr,Sizing_field>::value
+                       >::type* = 0
+                       )
+  {
     init_radius(radius_bound);
 
     if ( FT(0) != radius_edge_bound )

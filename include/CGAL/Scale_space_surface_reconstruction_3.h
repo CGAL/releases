@@ -14,8 +14,8 @@
 //You should have received a copy of the GNU General Public License
 //along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Scale_space_reconstruction_3/include/CGAL/Scale_space_surface_reconstruction_3.h $
-// $Id: Scale_space_surface_reconstruction_3.h 8cdfad0 %aI Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Scale_space_reconstruction_3/include/CGAL/Scale_space_surface_reconstruction_3.h $
+// $Id: Scale_space_surface_reconstruction_3.h 124012d %aI Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0+
 //
 // Author(s):      Thijs van Lankveld, Simon Giraudot
@@ -61,7 +61,7 @@ public:
 
   typedef typename Geom_traits::FT              FT;                              ///< defines the field number type.
   typedef typename Geom_traits::Point_3         Point;                           ///< defines the point type.
-  typedef cpp11::array<std::size_t, 3> Facet;                           ///< defines a facet of the surface (triple of point indices).
+  typedef std::array<std::size_t, 3> Facet;                           ///< defines a facet of the surface (triple of point indices).
 
 #ifdef DOXYGEN_RUNNING
   typedef unspecified_type                      Point_iterator;         ///< defines an iterator over the points.
@@ -305,13 +305,13 @@ std::ostream& operator<< (std::ostream& os, const CGAL::Scale_space_surface_reco
 
 template< typename T >
 std::ostream&
-operator<<( std::ostream& os, const CGAL::cpp11::array< T, 3 >& t ) {
+operator<<( std::ostream& os, const std::array< T, 3 >& t ) {
     return os << t[0] << " " << t[1] << " " << t[2];
 }
 
 template< typename T >
 std::istream&
-operator>>( std::istream& is, CGAL::cpp11::array< T, 3 >& t ) {
+operator>>( std::istream& is, std::array< T, 3 >& t ) {
     return is >> get<0>(t) >> get<1>(t) >> get<2>(t);
 }
 

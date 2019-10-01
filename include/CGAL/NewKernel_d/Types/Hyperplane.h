@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/NewKernel_d/include/CGAL/NewKernel_d/Types/Hyperplane.h $
-// $Id: Hyperplane.h dcf909d %aI Andreas Fabri
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/NewKernel_d/include/CGAL/NewKernel_d/Types/Hyperplane.h $
+// $Id: Hyperplane.h 78db3f6 %aI Maxime Gimeno
 // SPDX-License-Identifier: LGPL-3.0+
 //
 // Author(s)     : Marc Glisse
@@ -33,6 +33,7 @@ template <class R_> class Hyperplane {
 	FT_ s_;
 
 	public:
+	Hyperplane(){}
 	Hyperplane(Vector_ const&v, FT_ const&s): v_(v), s_(s) {}
 	// TODO: Add a piecewise constructor?
 

@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Nef_3/include/CGAL/Nef_3/SM_visualizor.h $
-// $Id: SM_visualizor.h ee57fc2 %aI Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Nef_3/include/CGAL/Nef_3/SM_visualizor.h $
+// $Id: SM_visualizor.h 2c1ca1e %aI Simon Giraudot
 // SPDX-License-Identifier: GPL-3.0+
 // 
 //
@@ -48,11 +48,11 @@ class SNC_SM_BooleColor
   typedef typename Refs_::Mark Mark;   
 public:
   Color color(SVertex_const_handle, Mark m) const
-  { return ( m ? CGAL::BLACK : CGAL::WHITE ); }
+  { return ( m ? CGAL::black() : CGAL::white() ); }
   Color color(SHalfedge_const_handle, Mark m) const
-  { return ( m ? CGAL::BLACK : CGAL::WHITE ); }
+  { return ( m ? CGAL::black() : CGAL::white() ); }
   Color color(SHalfloop_const_handle, Mark m) const
-  { return ( m ? CGAL::BLACK : CGAL::WHITE ); }
+  { return ( m ? CGAL::black() : CGAL::white() ); }
   Color color(SFace_const_handle, Mark m) const
   { return ( m ? CGAL_NEF3_DGREY : CGAL_NEF3_LGREY ); }
 };

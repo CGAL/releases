@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Classification/include/CGAL/Classification/Feature_set.h $
-// $Id: Feature_set.h 7b323a5 %aI Simon Giraudot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Classification/include/CGAL/Classification/Feature_set.h $
+// $Id: Feature_set.h 4581f1b %aI Andreas Fabri
 // SPDX-License-Identifier: GPL-3.0+
 //
 // Author(s)     : Simon Giraudot
@@ -76,7 +76,7 @@ public:
   */
   Feature_set()
 #ifdef CGAL_LINKED_WITH_TBB
-    : m_tasks(NULL)
+    : m_tasks(nullptr)
 #endif
   { }
 
@@ -86,7 +86,7 @@ public:
   virtual ~Feature_set()
   {
 #ifdef CGAL_LINKED_WITH_TBB
-    if (m_tasks != NULL)
+    if (m_tasks != nullptr)
       delete m_tasks;
     for (std::size_t i = 0; i < m_adders.size(); ++ i)
       delete m_adders[i];
@@ -122,7 +122,7 @@ public:
   Feature_handle add (T&& ... t)
   {
 #ifdef CGAL_LINKED_WITH_TBB
-    if (m_tasks != NULL)
+    if (m_tasks != nullptr)
     {
       m_features.push_back (Feature_handle());
     
@@ -145,7 +145,7 @@ public:
   Feature_handle add_with_scale_id (std::size_t i, T&& ... t)
   {
 #ifdef CGAL_LINKED_WITH_TBB
-    if (m_tasks != NULL)
+    if (m_tasks != nullptr)
     {
       m_features.push_back (Feature_handle());
     
@@ -241,7 +241,7 @@ public:
   {
     m_tasks->wait();
     delete m_tasks;
-    m_tasks = NULL;
+    m_tasks = nullptr;
     
     for (std::size_t i = 0; i < m_adders.size(); ++ i)
       delete m_adders[i];

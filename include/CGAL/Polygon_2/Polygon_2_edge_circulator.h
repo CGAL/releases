@@ -16,8 +16,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Polygon/include/CGAL/Polygon_2/Polygon_2_edge_circulator.h $
-// $Id: Polygon_2_edge_circulator.h 0698f79 %aI Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Polygon/include/CGAL/Polygon_2/Polygon_2_edge_circulator.h $
+// $Id: Polygon_2_edge_circulator.h 5532b84 %aI Andreas Fabri
 // SPDX-License-Identifier: LGPL-3.0+
 // 
 //
@@ -65,12 +65,12 @@ class Polygon_2_const_edge_circulator {
     Polygon_2_const_edge_circulator(Vertex_const_circulator f)
       : first_vertex(f) {}
 
-  bool operator==( Nullptr_t CGAL_assertion_code(p) ) const {
+  bool operator==( std::nullptr_t CGAL_assertion_code(p) ) const {
       CGAL_polygon_assertion( p == 0);
       return (first_vertex == 0);
     }
 
-    bool operator!=( Nullptr_t p ) const
+    bool operator!=( std::nullptr_t p ) const
     {
       return !(*this == p);
     }

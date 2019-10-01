@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Intersections_3/include/CGAL/Intersection_traits_3.h $
-// $Id: Intersection_traits_3.h 4111e3e %aI Andreas Fabri
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Intersections_3/include/CGAL/Intersection_traits_3.h $
+// $Id: Intersection_traits_3.h 1d908c1 %aI Sébastien Loriot
 // SPDX-License-Identifier: LGPL-3.0+
 // 
 //
@@ -24,8 +24,6 @@
 
 #include <CGAL/Intersection_traits.h>
 #include <vector>
-
-#if !(CGAL_INTERSECTION_VERSION < 2)
 
 namespace CGAL  {
 
@@ -283,8 +281,6 @@ struct Intersection_traits<K, typename K::Sphere_3, typename K::Point_3>  {
   typedef typename boost::optional< variant_type > result_type;
 };
 } // namespace
-
-#endif // !(CGAL_INTERSECTION_VERSION < 2)
 
 #endif /* CGAL_INTERSECTION_TRAITS_3_H */
 

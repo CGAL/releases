@@ -16,8 +16,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Stream_support/include/CGAL/IO/File_writer_wavefront.h $
-// $Id: File_writer_wavefront.h 0698f79 %aI Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Stream_support/include/CGAL/IO/File_writer_wavefront.h $
+// $Id: File_writer_wavefront.h 2698704 %aI Maxime Gimeno
 // SPDX-License-Identifier: LGPL-3.0+
 // 
 //
@@ -46,6 +46,9 @@ public:
     }
     void write_vertex( const double& x, const double& y, const double& z) {
         out() << "v " << x << ' ' << y << ' ' << z << '\n';
+    }
+    void write_vertex_normal( const double& x, const double& y, const double& z) {
+        out() << "vn " << x << ' ' << y << ' ' << z << '\n';
     }
     void write_facet_header() {
         out() << "\n# " << m_facets << " facets\n";

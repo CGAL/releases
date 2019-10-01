@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Arrangement_on_surface_2/include/CGAL/Arr_point_location/Arr_trapezoid_ric_pl_impl.h $
-// $Id: Arr_trapezoid_ric_pl_impl.h ee57fc2 %aI Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Arrangement_on_surface_2/include/CGAL/Arr_point_location/Arr_trapezoid_ric_pl_impl.h $
+// $Id: Arr_trapezoid_ric_pl_impl.h 4581f1b %aI Andreas Fabri
 // SPDX-License-Identifier: GPL-3.0+
 // 
 //
@@ -193,7 +193,7 @@ _get_unbounded_face(const Td_map_item& item,const Point_2& p,
     Td_map_item& left_v_item = td.locate(tr.left(),td_lt);
     CGAL_assertion(td_lt == TD::POINT);
     Halfedge_const_handle he;
-    if (boost::get<Td_active_vertex>(&left_v_item) != NULL) {
+    if (boost::get<Td_active_vertex>(&left_v_item) != nullptr) {
       Td_active_vertex v(boost::get<Td_active_vertex>(left_v_item));
       he = v.cw_he();
     }
@@ -225,7 +225,7 @@ _get_unbounded_face(const Td_map_item& item,const Point_2& p,
     Td_map_item& right_v_item = td.locate(tr.right(),td_lt);
     CGAL_assertion(td_lt == TD::POINT);
     Halfedge_const_handle he;
-    if (boost::get<Td_active_vertex>(&right_v_item)!= NULL) {
+    if (boost::get<Td_active_vertex>(&right_v_item)!= nullptr) {
       Td_active_vertex v(boost::get<Td_active_vertex>(right_v_item));
       he = v.cw_he();
     }

@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Optimal_transportation_reconstruction_2/include/CGAL/Optimal_transportation_reconstruction_2.h $
-// $Id: Optimal_transportation_reconstruction_2.h 5cc356a %aI Laurent Rineau
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Optimal_transportation_reconstruction_2/include/CGAL/Optimal_transportation_reconstruction_2.h $
+// $Id: Optimal_transportation_reconstruction_2.h e2d19b0 %aI Andreas Fabri
 // SPDX-License-Identifier: GPL-3.0+
 //
 // Author(s)     : Fernando de Goes, Pierre Alliez, Ivo Vigan, Clément Jamin
@@ -686,7 +686,7 @@ public:
   {
     if (m_tolerance == (FT)(-1.))
       return false;
-    FT cost = CGAL::approximate_sqrt (pedge.after() / pedge.total_weight());
+    FT cost = CGAL::approximate_sqrt (FT(pedge.after() / pedge.total_weight()));
     return cost > m_tolerance;
   }
 
@@ -1098,7 +1098,7 @@ public:
       m_dt.collect_samples_from_edge(twin, samples);
       copy_twin.first->samples(copy_twin.second) = samples;
     }
-    copy_vertex->set_sample(NULL);
+    copy_vertex->set_sample(nullptr);
   }
 
   Edge get_copy_edge(
@@ -1678,7 +1678,7 @@ public:
     typename PointOutputIterator,
     typename IndexOutputIterator,
     typename IndexPairOutputIterator>
-  CGAL::cpp11::tuple<
+  std::tuple<
     PointOutputIterator, 
     IndexOutputIterator,
     IndexPairOutputIterator>
@@ -1736,7 +1736,7 @@ public:
       *segments++ = std::make_pair(pos_a, pos_b);
     }
 
-    return CGAL::cpp11::make_tuple(points, isolated_points, segments);
+    return std::make_tuple(points, isolated_points, segments);
   }
 
   /*!

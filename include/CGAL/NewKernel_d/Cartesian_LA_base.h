@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/NewKernel_d/include/CGAL/NewKernel_d/Cartesian_LA_base.h $
-// $Id: Cartesian_LA_base.h ce0a5ef %aI Andreas Fabri
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/NewKernel_d/include/CGAL/NewKernel_d/Cartesian_LA_base.h $
+// $Id: Cartesian_LA_base.h 78db3f6 %aI Maxime Gimeno
 // SPDX-License-Identifier: LGPL-3.0+
 //
 // Author(s)     : Marc Glisse
@@ -89,6 +89,7 @@ struct Cartesian_LA_base_d : public Dimension_base<Dim_>
       ::add<Hyperplane_tag>::type
       ::add<Sphere_tag>::type
       ::add<Weighted_point_tag>::type
+      ::add<Iso_box_tag>::type
       Object_list;
 
     typedef typeset< Point_cartesian_const_iterator_tag>::type
@@ -170,8 +171,8 @@ struct Cartesian_LA_base_d : public Dimension_base<Dim_>
 	    typedef CartesianDVectorBase::Identity_functor<Self> type;
     };
 
-    CGAL_CONSTEXPR Cartesian_LA_base_d(){}
-    CGAL_CONSTEXPR Cartesian_LA_base_d(int d):Dimension_base<Dim_>(d){}
+    constexpr Cartesian_LA_base_d(){}
+    constexpr Cartesian_LA_base_d(int d):Dimension_base<Dim_>(d){}
 };
 
 } //namespace CGAL

@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Kernel_23/include/CGAL/Dimension.h $
-// $Id: Dimension.h 0698f79 %aI Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Kernel_23/include/CGAL/Dimension.h $
+// $Id: Dimension.h c0edb5e %aI Sébastien Loriot
 // SPDX-License-Identifier: LGPL-3.0+
 //
 // Author(s)     : Sylvain Pion
@@ -33,10 +33,8 @@ namespace CGAL {
 
 #ifdef CGAL_EIGEN3_ENABLED
 const int UNKNOWN_DIMENSION=Eigen::Dynamic;
-#elif defined CGAL_CXX11
-const int UNKNOWN_DIMENSION=std::numeric_limits<int>::max();
 #else
-const int UNKNOWN_DIMENSION=(unsigned)-1/2;
+const int UNKNOWN_DIMENSION=std::numeric_limits<int>::max();
 #endif
 
 // Check that dimension d1 is fine for a kernel of dimension d2.

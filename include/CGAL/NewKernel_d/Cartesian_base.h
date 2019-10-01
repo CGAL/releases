@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/NewKernel_d/include/CGAL/NewKernel_d/Cartesian_base.h $
-// $Id: Cartesian_base.h 0698f79 %aI Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/NewKernel_d/include/CGAL/NewKernel_d/Cartesian_base.h $
+// $Id: Cartesian_base.h c872a75 %aI Marc Glisse
 // SPDX-License-Identifier: LGPL-3.0+
 //
 // Author(s)     : Marc Glisse
@@ -31,8 +31,8 @@ namespace CGAL {
 template < typename FT_, typename Dim_, typename Derived_=Default>
 struct Cartesian_base_d : public CGAL_BASE
 {
-    CGAL_CONSTEXPR Cartesian_base_d(){}
-    CGAL_CONSTEXPR Cartesian_base_d(int d):CGAL_BASE(d){}
+    constexpr Cartesian_base_d(){}
+    constexpr Cartesian_base_d(int d):CGAL_BASE(d){}
 };
 #undef CGAL_BASE
 

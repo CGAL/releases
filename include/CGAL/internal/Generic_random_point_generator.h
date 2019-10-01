@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Generator/include/CGAL/internal/Generic_random_point_generator.h $
-// $Id: Generic_random_point_generator.h 0cd5d3f %aI Laurent Rineau
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Generator/include/CGAL/internal/Generic_random_point_generator.h $
+// $Id: Generic_random_point_generator.h d60f564 %aI Sébastien Loriot
 // SPDX-License-Identifier: LGPL-3.0+
 //
 //
@@ -28,7 +28,6 @@
 #include <CGAL/Random.h>
 #include <CGAL/property_map.h>
 
-#include <boost/foreach.hpp>
 
 #include <vector>
 
@@ -67,7 +66,7 @@ public:
 
     // fill the weights
     double total_weight = 0;
-    BOOST_FOREACH(Id id, input)
+    for(Id id : input)
     {
       //create a geometric object
       Geometric_object object = object_from_id_map(id);

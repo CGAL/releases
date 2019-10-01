@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Classification/include/CGAL/Classification.h $
-// $Id: Classification.h c81fbe4 %aI Simon Giraudot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Classification/include/CGAL/Classification.h $
+// $Id: Classification.h 7518d56 %aI Simon Giraudot
 // SPDX-License-Identifier: GPL-3.0+
 //
 // Author(s)     : Simon Giraudot
@@ -36,7 +36,6 @@
 #endif
 
 #include <CGAL/Classification/Cluster.h>
-#include <CGAL/Classification/Color.h>
 #include <CGAL/Classification/Evaluation.h>
 #include <CGAL/Classification/Feature_base.h>
 #include <CGAL/Classification/Feature_set.h>

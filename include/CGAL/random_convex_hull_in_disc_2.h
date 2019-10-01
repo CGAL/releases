@@ -16,8 +16,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Generator/include/CGAL/random_convex_hull_in_disc_2.h $
-// $Id: random_convex_hull_in_disc_2.h 0698f79 %aI Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Generator/include/CGAL/random_convex_hull_in_disc_2.h $
+// $Id: random_convex_hull_in_disc_2.h ce126b8 %aI Sébastien Loriot
 // SPDX-License-Identifier: LGPL-3.0+
 //
 //
@@ -273,7 +273,7 @@ void random_convex_hull_in_disc_2(std::size_t n, double radius, Generator& gen,
   typedef typename Traits::Point_2 Points;
   std::list<Points> l;
   internal::random_convex_hull_in_disc_2(n, radius, l, gen, traits, fast);
-  cpp11::copy_n(l.begin(),l.size(),it);
+  std::copy_n(l.begin(),l.size(),it);
 }
 
 }  // namespace CGAL

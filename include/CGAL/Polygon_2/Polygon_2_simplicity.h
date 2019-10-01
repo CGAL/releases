@@ -1,4 +1,4 @@
-// Copyright (c) 2001  
+// Copyright (c) 2001
 // Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland),
 // INRIA Sophia-Antipolis (France),
@@ -16,10 +16,10 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Polygon/include/CGAL/Polygon_2/Polygon_2_simplicity.h $
-// $Id: Polygon_2_simplicity.h e5118d1 %aI Andreas Fabri
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Polygon/include/CGAL/Polygon_2/Polygon_2_simplicity.h $
+// $Id: Polygon_2_simplicity.h f758ab3 %aI Michael Hemmer
 // SPDX-License-Identifier: LGPL-3.0+
-// 
+//
 //
 // Author(s)     : Geert-Jan Giezeman <geert@cs.uu.nl>
 
@@ -211,7 +211,12 @@ template <class VertexData>
 bool Less_segments<VertexData>::
 operator()(Vertex_index i, Vertex_index j) const
 {
-    if (m_vertex_data->edges[j.as_int()].is_in_tree) {
+   if (i.as_int() == j.as_int()) {
+        // Some STL implementations may call comparator(x, x)
+        // to verify irreflexivity.  Don't violate less_than_in_tree's
+        // preconditions in such an environment.
+        return false;
+    } else if (m_vertex_data->edges[j.as_int()].is_in_tree) {
         return less_than_in_tree(i,j);
     } else {
         return !less_than_in_tree(j,i);

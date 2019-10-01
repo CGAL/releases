@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Three/include/CGAL/Three/Point_container.h $
-// $Id: Point_container.h 5b4cf63 %aI Maxime Gimeno
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Three/include/CGAL/Three/Point_container.h $
+// $Id: Point_container.h b0bf4e3 %aI Maxime Gimeno
 // SPDX-License-Identifier: GPL-3.0+
 //
 // Author(s)     : Maxime Gimeno
@@ -53,6 +53,7 @@ struct DEMO_FRAMEWORK_EXPORT Point_container :public Primitive_container
     Vertices = 0, //!< Designates the buffer that contains the vertex coordinates.
     Indices,      //!< Designates the buffer that contains the vertex indices.
     Colors,       //!< Designates the buffer that contains the color components.
+    Normals,      //!<  Designates the buffer that contains the normals components (for shaded points).
     NbOfVbos      //!< Designates the size of the VBOs vector for `Point_container`s
   };
 
@@ -94,6 +95,10 @@ struct DEMO_FRAMEWORK_EXPORT Point_container :public Primitive_container
   QMatrix4x4 getFrameMatrix()const;
 //! setter for the "f_matrix" parameter
   void setFrameMatrix(const QMatrix4x4&);
+  //! setter for the "plane" parameter
+  void setPlane(const QVector4D&);
+  //! setter for the "is_surface" attribute. Used in PROGRAM_C3T3_EDGES
+  void setIsSurface  (const bool);
   ///@}
 
 private:

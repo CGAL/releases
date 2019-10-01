@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Surface_sweep_2/include/CGAL/Surface_sweep_2/Surface_sweep_2_utils.h $
-// $Id: Surface_sweep_2_utils.h 7936109 %aI Efi Fogel
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Surface_sweep_2/include/CGAL/Surface_sweep_2/Surface_sweep_2_utils.h $
+// $Id: Surface_sweep_2_utils.h e2d19b0 %aI Andreas Fabri
 // SPDX-License-Identifier: GPL-3.0+
 //
 //
@@ -79,7 +79,7 @@ void make_x_monotone(CurveInputIter begin, CurveInputIter end,
   for (i = 0 ; i < object_vec.size() ; ++i) {
     xcv = object_cast<X_monotone_curve_2> (&(object_vec[i]));
 
-    if (xcv != NULL) {
+    if (xcv != nullptr) {
       // The object is an x-monotone curve.
       *x_curves = *xcv;
       ++x_curves;
@@ -87,7 +87,7 @@ void make_x_monotone(CurveInputIter begin, CurveInputIter end,
     else {
       // The object is an isolated point.
       pt = object_cast<Point_2> (&(object_vec[i]));
-      CGAL_assertion (pt != NULL);
+      CGAL_assertion (pt != nullptr);
 
       *iso_points = *pt;
       ++iso_points;

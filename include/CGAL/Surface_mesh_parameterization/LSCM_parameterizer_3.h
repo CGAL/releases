@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Surface_mesh_parameterization/include/CGAL/Surface_mesh_parameterization/LSCM_parameterizer_3.h $
-// $Id: LSCM_parameterizer_3.h 2f9408f %aI Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Surface_mesh_parameterization/include/CGAL/Surface_mesh_parameterization/LSCM_parameterizer_3.h $
+// $Id: LSCM_parameterizer_3.h d60f564 %aI Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0+
 //
 // Author(s)     : Laurent Saboret, Pierre Alliez, Bruno Levy
@@ -40,7 +40,6 @@
 #endif
 #include <CGAL/OpenNL/linear_solver.h>
 
-#include <boost/foreach.hpp>
 #include <boost/function_output_iterator.hpp>
 #include <boost/unordered_set.hpp>
 
@@ -242,7 +241,7 @@ public:
     // Fill the matrix for the other vertices
     solver.begin_system();
 
-    BOOST_FOREACH(face_descriptor fd, ccfaces) {
+    for(face_descriptor fd : ccfaces) {
       // Create two lines in the linear system per triangle (one for u, one for v)
       status = setup_triangle_relations(solver, mesh, fd, vimap);
       if (status != OK)
@@ -261,7 +260,7 @@ public:
     // Copy X coordinates into the (u,v) pair of each vertex
     //set_mesh_uv_from_system(mesh, solver, uvmap);
 
-    BOOST_FOREACH(vertex_descriptor vd, ccvertices) {
+    for(vertex_descriptor vd : ccvertices) {
       int index = get(vimap,vd);
       NT u = solver.variable(2 * index).value();
       NT v = solver.variable(2 * index + 1).value();
@@ -285,7 +284,7 @@ private:
                                           VertexIndexMap vimap,
                                           VertexParameterizedMap vpmap) const
   {
-    BOOST_FOREACH(vertex_descriptor v, ccvertices) {
+    for(vertex_descriptor v : ccvertices) {
       // Get vertex index in sparse linear system
       int index = get(vimap, v);
 

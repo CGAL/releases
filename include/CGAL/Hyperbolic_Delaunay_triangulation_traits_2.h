@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Hyperbolic_triangulation_2/include/CGAL/Hyperbolic_Delaunay_triangulation_traits_2.h $
-// $Id: Hyperbolic_Delaunay_triangulation_traits_2.h 9792b24 %aI Iordan Iordanov
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Hyperbolic_triangulation_2/include/CGAL/Hyperbolic_Delaunay_triangulation_traits_2.h $
+// $Id: Hyperbolic_Delaunay_triangulation_traits_2.h 9061510 %aI Andreas Fabri
 // SPDX-License-Identifier: GPL-3.0+
 //
 // Author(s)     : Iordan Iordanov
@@ -463,7 +463,6 @@ private:
 
 } // end namespace internal
 
-//template<typename Kernel = CGAL::Cartesian<CORE::Expr> >
 
 template<typename Kernel = Exact_predicates_exact_constructions_kernel_with_sqrt>
 class Hyperbolic_Delaunay_triangulation_traits_2

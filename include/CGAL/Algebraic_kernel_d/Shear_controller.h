@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Algebraic_kernel_d/include/CGAL/Algebraic_kernel_d/Shear_controller.h $
-// $Id: Shear_controller.h 84d912d %aI Andreas Fabri
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Algebraic_kernel_d/include/CGAL/Algebraic_kernel_d/Shear_controller.h $
+// $Id: Shear_controller.h 2848158 %aI Mael Rouxel-Labbé
 // SPDX-License-Identifier: LGPL-3.0+
 // 
 //
@@ -110,7 +110,7 @@ namespace CGAL {
 
         int pos_next_factor;
 	
-	// Unsuccessfull shear factors
+  // Unsuccessful shear factors
 	std::set<Int> bad_shears;
 	
     };

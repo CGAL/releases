@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Straight_skeleton_2/include/CGAL/Straight_skeleton_2/Straight_skeleton_builder_2_impl.h $
-// $Id: Straight_skeleton_builder_2_impl.h 599e201 %aI Andreas Fabri
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Straight_skeleton_2/include/CGAL/Straight_skeleton_2/Straight_skeleton_builder_2_impl.h $
+// $Id: Straight_skeleton_builder_2_impl.h ce126b8 %aI Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0+
 //
 // Author(s)     : Fernando Cacciola <fernando_cacciola@ciudad.com.ar>
@@ -1492,7 +1492,7 @@ void Straight_skeleton_builder_2<Gt,Ss,V>::RelinkBisectorsAroundMultinode( Verte
   
   first_he->HBase_base::set_vertex(v0);
   
-  for ( typename Halfedge_handle_vector::iterator i = cpp11::next(aLinks.begin()), ei = aLinks.end(); i != ei ; ++ i )
+  for ( typename Halfedge_handle_vector::iterator i = std::next(aLinks.begin()), ei = aLinks.end(); i != ei ; ++ i )
   {
     Halfedge_handle he = *i ;
 

@@ -13,8 +13,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/STL_Extension/include/CGAL/exceptions.h $
-// $Id: exceptions.h 9be7c9d %aI Andreas Fabri
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/STL_Extension/include/CGAL/exceptions.h $
+// $Id: exceptions.h 983645a %aI Sébastien Loriot
 // SPDX-License-Identifier: LGPL-3.0+
 // 
 //
@@ -73,7 +73,6 @@ namespace CGAL {
          \c CGAL_error_msg for an unconditional error message that cannot 
          be disabled with macros.
 */
-//@{
 
 // Failure types and exceptions
 // ============================

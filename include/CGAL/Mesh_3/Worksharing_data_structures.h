@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Mesh_3/include/CGAL/Mesh_3/Worksharing_data_structures.h $
-// $Id: Worksharing_data_structures.h 49d526c %aI Jane Tournois
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Mesh_3/include/CGAL/Mesh_3/Worksharing_data_structures.h $
+// $Id: Worksharing_data_structures.h a0ea4f0 %aI Laurent Rineau
 // SPDX-License-Identifier: GPL-3.0+
 //
 // Author(s)     : Clement Jamin
@@ -841,19 +841,19 @@ protected:
 inline tbb::task* TokenTask::execute()
 {
   m_worksharing_ds->run_next_work_item();
-  return NULL;
+  return nullptr;
 }
 
 inline tbb::task* WorkItemTask::execute()
 {
   m_pwi->run();
-  return NULL;
+  return nullptr;
 }
 
 inline tbb::task* WorkBatchTask::execute()
 {
   m_wb.run();
-  return NULL;
+  return nullptr;
 }
 
 } } //namespace CGAL::Mesh_3

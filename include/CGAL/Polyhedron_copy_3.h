@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Polyhedron/include/CGAL/Polyhedron_copy_3.h $
-// $Id: Polyhedron_copy_3.h ee57fc2 %aI Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Polyhedron/include/CGAL/Polyhedron_copy_3.h $
+// $Id: Polyhedron_copy_3.h e2d19b0 %aI Andreas Fabri
 // SPDX-License-Identifier: GPL-3.0+
 // 
 //
@@ -83,7 +83,7 @@ Polyhedron_copy_3<Poly,HDS,clear_target_before>::operator()(HDS& target) {
             Halfedge_around_facet_const_circulator;
         Halfedge_around_facet_const_circulator hc = fi->facet_begin();
         Halfedge_around_facet_const_circulator hc_end = hc;
-        CGAL_assertion( hc != NULL);
+        CGAL_assertion( hc != nullptr);
         do {
             B.add_vertex_to_facet( index[ hc->vertex()]);
             ++hc;

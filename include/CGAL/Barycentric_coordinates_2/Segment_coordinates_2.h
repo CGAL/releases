@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY, AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Barycentric_coordinates_2/include/CGAL/Barycentric_coordinates_2/Segment_coordinates_2.h $
-// $Id: Segment_coordinates_2.h 3dd0aa1 %aI Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Barycentric_coordinates_2/include/CGAL/Barycentric_coordinates_2/Segment_coordinates_2.h $
+// $Id: Segment_coordinates_2.h 124012d %aI Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0+
 //
 // Author(s) : Dmitry Anisimov, David Bommes, Kai Hormann, and Pierre Alliez.
@@ -217,7 +217,7 @@ private:
 */
 
 template<class Traits>
-    inline CGAL::cpp11::array<typename Traits::FT,2> compute_segment_coordinates_2(const typename Traits::Point_2 &first_vertex, const typename Traits::Point_2 &second_vertex, const typename Traits::Point_2 &query_point, const Traits &barycentric_traits = Traits())
+    inline std::array<typename Traits::FT,2> compute_segment_coordinates_2(const typename Traits::Point_2 &first_vertex, const typename Traits::Point_2 &second_vertex, const typename Traits::Point_2 &query_point, const Traits &barycentric_traits = Traits())
 {
     // Some predefined functions.
     typename Traits::Compute_scalar_product_2 scalar_product_2 = barycentric_traits.compute_scalar_product_2_object();
@@ -230,7 +230,7 @@ template<class Traits>
     const FT opposite_scalar_product = scalar_product_2(query_point - second_vertex, first_vertex - second_vertex);
     const FT b_first = opposite_scalar_product / squared_distance_2(first_vertex, second_vertex);
 
-    // Return the CGAL::cpp11::array<FT,2> type of coordinates.
+    // Return the std::array<FT,2> type of coordinates.
     return CGAL::make_array(b_first, FT(1) - b_first);
 }
 

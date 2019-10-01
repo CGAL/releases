@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Interpolation/include/CGAL/regular_neighbor_coordinates_2.h $
-// $Id: regular_neighbor_coordinates_2.h bfaa3b7 %aI Andreas Fabri
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Interpolation/include/CGAL/regular_neighbor_coordinates_2.h $
+// $Id: regular_neighbor_coordinates_2.h 48185ac %aI Mael Rouxel-Labbé
 // SPDX-License-Identifier: GPL-3.0+
 //
 // Author(s)     : Julia Floetotto
@@ -131,9 +131,12 @@ regular_neighbor_coordinates_vertex_2(const Rt& rt,
     *vor_vertices++ = vor[2];
 
     area += polygon_area_2(vor.begin(), vor.end(), rt.geom_traits());
-    *out++= std::make_pair(current, area);
 
-    area_sum += area;
+    if(area > 0)
+    {
+      *out++= std::make_pair(current, area);
+      area_sum += area;
+    }
 
     //update prev and hit:
     prev = current;
@@ -163,8 +166,11 @@ regular_neighbor_coordinates_vertex_2(const Rt& rt,
       ++fc;
     }
 
-    *out++ = std::make_pair((*hidden_vertices_begin), area);
-    area_sum += area;
+    if(area > 0)
+    {
+      *out++ = std::make_pair((*hidden_vertices_begin), area);
+      area_sum += area;
+    }
   }
 
   return make_triple(out, area_sum, true);

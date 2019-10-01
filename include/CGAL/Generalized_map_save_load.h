@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Generalized_map/include/CGAL/Generalized_map_save_load.h $
-// $Id: Generalized_map_save_load.h 0698f79 %aI Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Generalized_map/include/CGAL/Generalized_map_save_load.h $
+// $Id: Generalized_map_save_load.h d60f564 %aI Sébastien Loriot
 // SPDX-License-Identifier: LGPL-3.0+
 //
 // Author(s)     : Guillaume Damiand <guillaume.damiand@liris.cnrs.fr>
@@ -21,7 +21,6 @@
 #ifndef CGAL_GENERALIZED_MAP_SAVE_LOAD_H
 #define CGAL_GENERALIZED_MAP_SAVE_LOAD_H
 
-#include <boost/foreach.hpp>
 #include <boost/property_tree/xml_parser.hpp>
 #include <boost/property_tree/ptree.hpp>
 #include <boost/lexical_cast.hpp>
@@ -161,7 +160,7 @@ namespace CGAL {
     using boost::property_tree::ptree;
 
     // make darts
-    BOOST_FOREACH( const ptree::value_type &v, pt.get_child("data.darts") )
+    for(const ptree::value_type& v : pt.get_child("data.darts") )
     {
       if( v.first == "d" )
         myDarts.push_back(amap.create_dart());
@@ -172,11 +171,11 @@ namespace CGAL {
     unsigned int currentDartInt = 0;
     unsigned int nextDartInt;
 
-    BOOST_FOREACH( const ptree::value_type &v, pt.get_child("data.darts") )
+    for(const ptree::value_type& v : pt.get_child("data.darts") )
     {
       if( v.first == "d" ) // d for dart
       {
-        BOOST_FOREACH( const ptree::value_type &v2, v.second )
+        for(const ptree::value_type& v2 : v.second )
         {
           if (v2.first == "a") // a for alpha
           {

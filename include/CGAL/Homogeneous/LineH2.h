@@ -16,8 +16,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Homogeneous_kernel/include/CGAL/Homogeneous/LineH2.h $
-// $Id: LineH2.h 0698f79 %aI Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Homogeneous_kernel/include/CGAL/Homogeneous/LineH2.h $
+// $Id: LineH2.h 124012d %aI Sébastien Loriot
 // SPDX-License-Identifier: LGPL-3.0+
 // 
 //
@@ -43,7 +43,7 @@ class LineH2
     typedef typename R_::Ray_2                Ray_2;
     typedef typename R_::Line_2               Line_2;
 
-    typedef cpp11::array<RT, 3>               Rep;
+    typedef std::array<RT, 3>               Rep;
     typedef typename R_::template Handle<Rep>::type  Base;
 
     Base base;

@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Circular_kernel_3/include/CGAL/Circular_kernel_3/internal_functions_on_circular_arc_point_3.h $
-// $Id: internal_functions_on_circular_arc_point_3.h ee57fc2 %aI Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Circular_kernel_3/include/CGAL/Circular_kernel_3/internal_functions_on_circular_arc_point_3.h $
+// $Id: internal_functions_on_circular_arc_point_3.h 2f8eeb0 %aI Laurent Rineau
 // SPDX-License-Identifier: GPL-3.0+
 //
 // Author(s) : Monique Teillaud, Sylvain Pion, Pedro Machado, 
@@ -27,7 +27,7 @@
 #define CGAL_SPHERICAL_KERNEL_PREDICATES_ON_CIRCULAR_ARC_POINT_3_H
 
 #include <CGAL/license/Circular_kernel_3.h>
-
+#include <CGAL/float.h>
 
 namespace CGAL {
   namespace SphericalFunctors {

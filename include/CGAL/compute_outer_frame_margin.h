@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Straight_skeleton_2/include/CGAL/compute_outer_frame_margin.h $
-// $Id: compute_outer_frame_margin.h ee57fc2 %aI Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Straight_skeleton_2/include/CGAL/compute_outer_frame_margin.h $
+// $Id: compute_outer_frame_margin.h ce126b8 %aI Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0+
 //
 // Author(s)     : Fernando Cacciola <fernando_cacciola@ciudad.com.ar>
@@ -58,14 +58,14 @@ boost::optional< typename Traits::FT > compute_outer_frame_margin ( ForwardPoint
   
   FT lMaxSDist(0.0) ;
   
-  ForwardPointIterator lLast = CGAL::cpp11::prev(aEnd) ;
+  ForwardPointIterator lLast = std::prev(aEnd) ;
   
   bool lOverflow = false ;
 
   for ( ForwardPointIterator lCurr = aBegin ; lCurr != aEnd ; ++ lCurr )
   {
-    ForwardPointIterator lPrev = ( lCurr == aBegin ? lLast  : CGAL::cpp11::prev  (lCurr) ) ;
-    ForwardPointIterator lNext = ( lCurr == lLast  ? aBegin : CGAL::cpp11::next  (lCurr) ) ;
+    ForwardPointIterator lPrev = ( lCurr == aBegin ? lLast  : std::prev  (lCurr) ) ;
+    ForwardPointIterator lNext = ( lCurr == lLast  ? aBegin : std::next  (lCurr) ) ;
     
     if ( !equal(*lPrev,*lCurr) && !equal(*lCurr,*lNext) && !collinear(*lPrev,*lCurr,*lNext) )
     {

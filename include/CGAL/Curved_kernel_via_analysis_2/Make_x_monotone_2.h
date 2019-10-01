@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Arrangement_on_surface_2/include/CGAL/Curved_kernel_via_analysis_2/Make_x_monotone_2.h $
-// $Id: Make_x_monotone_2.h 26c857a %aI Mael Rouxel-Labbé
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Arrangement_on_surface_2/include/CGAL/Curved_kernel_via_analysis_2/Make_x_monotone_2.h $
+// $Id: Make_x_monotone_2.h 4581f1b %aI Andreas Fabri
 // SPDX-License-Identifier: LGPL-3.0+
 //
 //
@@ -108,7 +108,7 @@ struct Make_x_monotone_2 :
      */
     Make_x_monotone_2(Curved_kernel_via_analysis_2 *kernel) :
         _m_curved_kernel(kernel) {
-        CGAL_assertion(kernel != NULL);
+        CGAL_assertion(kernel != nullptr);
     }
 
     //!@}

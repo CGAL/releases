@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Arrangement_on_surface_2/include/CGAL/Arr_point_location/Arr_simple_point_location_impl.h $
-// $Id: Arr_simple_point_location_impl.h ee57fc2 %aI Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Arrangement_on_surface_2/include/CGAL/Arr_point_location/Arr_simple_point_location_impl.h $
+// $Id: Arr_simple_point_location_impl.h 4581f1b %aI Andreas Fabri
 // SPDX-License-Identifier: GPL-3.0+
 //
 //
@@ -135,9 +135,9 @@ _base_vertical_ray_shoot(const Point_2& p, bool shoot_up) const
   Comparison_result               res = EQUAL;
   Comparison_result               y_res;
   bool                            in_x_range;
-  const typename Dcel::Halfedge*  closest_he = NULL; // The closest so far.
-  const typename Dcel::Vertex*    cl_vs = NULL;      // Its source.
-  const typename Dcel::Vertex*    cl_vt = NULL;      // Its target.
+  const typename Dcel::Halfedge*  closest_he = nullptr; // The closest so far.
+  const typename Dcel::Vertex*    cl_vs = nullptr;      // Its source.
+  const typename Dcel::Vertex*    cl_vt = nullptr;      // Its target.
 
   while (eit != e_end) {
     // Get the current edge and its source and target vertices.
@@ -158,7 +158,7 @@ _base_vertical_ray_shoot(const Point_2& p, bool shoot_up) const
       res = m_topol_traits->compare_y_at_x(p, he);
 
     if (in_x_range && (res == point_above_under)) {
-      if (closest_he == NULL) {
+      if (closest_he == nullptr) {
         // If no other x-monotone curve containing p in its x-range has been
         // found yet, take the current one as the vertically closest to p.
         closest_he = he;
@@ -242,7 +242,7 @@ _base_vertical_ray_shoot(const Point_2& p, bool shoot_up) const
   }
 
   // If we did not locate a closest halfedge, return an empty object.
-  if (closest_he == NULL)
+  if (closest_he == nullptr)
     return make_optional_result();
 
   // If we found a fictitious edge, return it now.
@@ -305,7 +305,7 @@ Arr_simple_point_location<Arrangement>::_vertical_ray_shoot(const Point_2& p,
     else {
       const Halfedge_const_handle* p_hh =
         Result().template assign<Halfedge_const_handle>(obj);
-      CGAL_assertion(p_hh != NULL);
+      CGAL_assertion(p_hh != nullptr);
       found_halfedge = true;
       closest_he = *p_hh;
     }

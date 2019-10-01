@@ -16,8 +16,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Kernel_d/include/CGAL/Kernel_d/Matrix__.h $
-// $Id: Matrix__.h c6db241 %aI Andreas Fabri
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Kernel_d/include/CGAL/Kernel_d/Matrix__.h $
+// $Id: Matrix__.h c0edb5e %aI Sébastien Loriot
 // SPDX-License-Identifier: LGPL-3.0+
 // 
 //
@@ -165,12 +165,7 @@ vector_pointer* v_; int dm_,dn_;
 
 NT& elem(int i, int j) const { return v_[i]->v_[j]; }
 
-#ifdef CGAL_CXX11
   typedef typename std::allocator_traits<AL_>:: template rebind_alloc<vector_pointer> allocator_type;
-#else  
-typedef typename AL_::template rebind<vector_pointer>::other 
-        allocator_type;
-#endif
   
 allocator_type& allocator()
 {

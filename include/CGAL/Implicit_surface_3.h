@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Surface_mesher/include/CGAL/Implicit_surface_3.h $
-// $Id: Implicit_surface_3.h 26c857a %aI Mael Rouxel-Labbé
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Surface_mesher/include/CGAL/Implicit_surface_3.h $
+// $Id: Implicit_surface_3.h 5a30e88 %aI Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0+
 //
 // Author(s)     : Laurent RINEAU
@@ -29,13 +29,13 @@
 #include <CGAL/Surface_mesher/Implicit_surface_oracle_3.h>
 
 #include <functional>
-#include <CGAL/function.h>
+#include <functional>
 
 namespace CGAL {
 
   template<
     typename GT,
-    typename Function_ = cpp11::function<typename GT::FT(typename GT::Point_3)>
+    typename Function_ = std::function<typename GT::FT(typename GT::Point_3)>
     // The type of the argument `Function` will be ignored anyway.
     // The parameter is here only for backward-compatibility.
     >
@@ -46,7 +46,7 @@ namespace CGAL {
     typedef typename Geom_traits::Sphere_3 Sphere_3;
     typedef typename Geom_traits::FT FT;
     typedef typename Geom_traits::Point_3 Point;
-    typedef cpp11::function<FT(Point)> Function;
+    typedef std::function<FT(Point)> Function;
     typedef Implicit_surface_3<Geom_traits, Function_> Self;
 
     Function& function() { return func; }

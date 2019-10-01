@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Bounding_volumes/include/CGAL/Approximate_min_ellipsoid_d/Khachiyan_approximation_impl.h $
-// $Id: Khachiyan_approximation_impl.h ee57fc2 %aI Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Bounding_volumes/include/CGAL/Approximate_min_ellipsoid_d/Khachiyan_approximation_impl.h $
+// $Id: Khachiyan_approximation_impl.h 2848158 %aI Mael Rouxel-Labbé
 // SPDX-License-Identifier: GPL-3.0+
 // 
 //
@@ -183,7 +183,7 @@ namespace CGAL {
     // Since the transformations we apply do not change the solution
     // space of the intermediate systems, we can say: The system t x =
     // e_j has, for any i in {1,...,d}, the same solution space as I x
-    // = n_i (with n_i being the i-th colum of N); it follows that
+    // = n_i (with n_i being the i-th column of N); it follows that
     // x=n_i.
 
     // store the identity matrix in mi:

@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Classification/include/CGAL/Classification/Image.h $
-// $Id: Image.h 826fb15 %aI Simon Giraudot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Classification/include/CGAL/Classification/Image.h $
+// $Id: Image.h 4581f1b %aI Andreas Fabri
 // SPDX-License-Identifier: GPL-3.0+
 //
 // Author(s)     : Simon Giraudot
@@ -54,7 +54,7 @@ class Image
   
 public:
 
-  Image () : m_width(0), m_height(0), m_depth(0), m_raw (NULL)
+  Image () : m_width(0), m_height(0), m_depth(0), m_raw (nullptr)
   {
   }
   

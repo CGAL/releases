@@ -16,8 +16,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Stream_support/include/CGAL/IO/io.h $
-// $Id: io.h 78e7060 %aI Laurent Rineau
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Stream_support/include/CGAL/IO/io.h $
+// $Id: io.h 9a2953d %aI Simon Giraudot
 // SPDX-License-Identifier: LGPL-3.0+
 //
 //
@@ -393,39 +393,45 @@ std::ostream& operator<<( std::ostream& out, const Color& col)
     switch(get_mode(out)) {
     case IO::ASCII :
         return out << static_cast<int>(col.red())   << ' '
-		   << static_cast<int>(col.green()) << ' '
-		   << static_cast<int>(col.blue());
+                  << static_cast<int>(col.green()) << ' '
+                  << static_cast<int>(col.blue()) << ' '
+                  << static_cast<int>(col.alpha());
     case IO::BINARY :
-        write(out, static_cast<int>(col.red()));
-        write(out, static_cast<int>(col.green()));
-        write(out, static_cast<int>(col.blue()));
+        out.write(reinterpret_cast<const char*>(col.to_rgba().data()), 4);
         return out;
     default:
         return out << "Color(" << static_cast<int>(col.red()) << ", "
-		   << static_cast<int>(col.green()) << ", "
-                   << static_cast<int>(col.blue()) << ')';
+                  << static_cast<int>(col.green()) << ", "
+                  << static_cast<int>(col.blue()) << ", "
+                  << static_cast<int>(col.alpha()) << ")";
     }
 }
 
 inline
 std::istream &operator>>(std::istream &is, Color& col)
 {
-    int r = 0, g = 0, b = 0;
+    unsigned char r = 0, g = 0, b = 0, a = 0;
+    int ir = 0, ig = 0, ib = 0, ia = 0;
     switch(get_mode(is)) {
     case IO::ASCII :
-        is >> r >> g >> b;
+        is >> ir >> ig >> ib >> ia;
+        r = (unsigned char)ir;
+        g = (unsigned char)ig;
+        b = (unsigned char)ib;
+        a = (unsigned char)ia;
         break;
     case IO::BINARY :
         read(is, r);
         read(is, g);
         read(is, b);
+        read(is, a);
         break;
     default:
         std::cerr << "" << std::endl;
         std::cerr << "Stream must be in ascii or binary mode" << std::endl;
         break;
     }
-    col = Color((unsigned char)r,(unsigned char)g,(unsigned char)b);
+    col = Color(r,g,b,a);
     return is;
 }
 

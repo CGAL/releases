@@ -16,8 +16,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Cartesian_kernel/include/CGAL/Cartesian/Cartesian_base.h $
-// $Id: Cartesian_base.h 0698f79 %aI Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Cartesian_kernel/include/CGAL/Cartesian/Cartesian_base.h $
+// $Id: Cartesian_base.h 124012d %aI Sébastien Loriot
 // SPDX-License-Identifier: LGPL-3.0+
 // 
 //
@@ -143,8 +143,8 @@ struct Cartesian_base
     typedef Aff_transformationC3<Kernel>                Aff_transformation_3;
     typedef Weighted_pointC3<Kernel>                    Weighted_point_3;
 
-    typedef typename cpp11::array<FT_, 2>::const_iterator Cartesian_const_iterator_2;
-    typedef typename cpp11::array<FT_, 3>::const_iterator Cartesian_const_iterator_3;
+    typedef typename std::array<FT_, 2>::const_iterator Cartesian_const_iterator_2;
+    typedef typename std::array<FT_, 3>::const_iterator Cartesian_const_iterator_3;
 
     // Undocumented stuff.
     typedef Data_accessorC2<Kernel>                     Data_accessor_2;

@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Nef_3/include/CGAL/Nef_3/Vertex.h $
-// $Id: Vertex.h ee57fc2 %aI Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Nef_3/include/CGAL/Nef_3/Vertex.h $
+// $Id: Vertex.h 4581f1b %aI Andreas Fabri
 // SPDX-License-Identifier: GPL-3.0+
 // 
 //
@@ -343,14 +343,14 @@ class Vertex_base {
 	verr << "begin CGAL::SNC_items<...>::Vertex_base::is_valid( verb=true, "
 	  "level = " << level << "):" << std::endl;
       
-	bool valid = (sncp_ != NULL);
-	valid = valid && (svertices_begin_ != NULL && svertices_begin_ != SVertex_iterator());
-	valid = valid && (svertices_last_  != NULL && svertices_last_  != SVertex_iterator());
-	valid = valid && (shalfedges_begin_ != NULL && shalfedges_begin_ != SHalfedge_iterator());
-	valid = valid && (shalfedges_last_  != NULL && shalfedges_last_  != SHalfedge_iterator());
-	valid = valid && (sfaces_begin_ != NULL && sfaces_begin_ != SFace_iterator());
-	valid = valid && (sfaces_last_  != NULL && sfaces_last_  != SFace_iterator());
-	valid = valid && (shalfloop_ != NULL && shalfloop_ != SHalfloop_iterator());
+	bool valid = (sncp_ != nullptr);
+	valid = valid && (svertices_begin_ != nullptr && svertices_begin_ != SVertex_iterator());
+	valid = valid && (svertices_last_  != nullptr && svertices_last_  != SVertex_iterator());
+	valid = valid && (shalfedges_begin_ != nullptr && shalfedges_begin_ != SHalfedge_iterator());
+	valid = valid && (shalfedges_last_  != nullptr && shalfedges_last_  != SHalfedge_iterator());
+	valid = valid && (sfaces_begin_ != nullptr && sfaces_begin_ != SFace_iterator());
+	valid = valid && (sfaces_last_  != nullptr && sfaces_last_  != SFace_iterator());
+	valid = valid && (shalfloop_ != nullptr && shalfloop_ != SHalfloop_iterator());
 
 	if(shalfedges_begin_ == sncp()->shalfedges_end()) {         // point in volume or on plane, which is either isolated or has one outgoing edge
 	  if(shalfloop_ != sncp()->shalfloops_end())

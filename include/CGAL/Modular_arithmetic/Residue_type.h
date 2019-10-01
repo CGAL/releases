@@ -13,8 +13,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Modular_arithmetic/include/CGAL/Modular_arithmetic/Residue_type.h $
-// $Id: Residue_type.h 0698f79 %aI Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Modular_arithmetic/include/CGAL/Modular_arithmetic/Residue_type.h $
+// $Id: Residue_type.h 2f8eeb0 %aI Laurent Rineau
 // SPDX-License-Identifier: LGPL-3.0+
 //
 // Author(s)     : Sylvain Pion, Michael Hemmer, Alexander Kobel
@@ -22,10 +22,14 @@
 #ifndef CGAL_RESIDUE_TYPE_H
 #define CGAL_RESIDUE_TYPE_H
 
-#include <CGAL/basic.h>
 #include <CGAL/tss.h>
+#include <CGAL/FPU.h>
+#include <CGAL/Real_embeddable_traits.h>
+#include <CGAL/double.h>
+#include <iostream>
 
 #include <cfloat>
+#include <cmath>
 
 #include <boost/operators.hpp>
 

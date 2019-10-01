@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Algebraic_foundations/include/CGAL/Scalar_factor_traits.h $
-// $Id: Scalar_factor_traits.h 0698f79 %aI Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Algebraic_foundations/include/CGAL/Scalar_factor_traits.h $
+// $Id: Scalar_factor_traits.h a160935 %aI Andreas Fabri
 // SPDX-License-Identifier: LGPL-3.0+
 //
 //
@@ -27,6 +27,7 @@
 #ifndef CGAL_SCALAR_FACTOR_TRAITS_H
 #define CGAL_SCALAR_FACTOR_TRAITS_H
 
+#include <CGAL/assertions.h>
 #include <CGAL/Algebraic_structure_traits.h>
 
 /*! \file NiX/Scalar_factor_traits.h
