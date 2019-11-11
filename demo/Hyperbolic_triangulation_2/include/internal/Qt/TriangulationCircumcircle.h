@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Hyperbolic_triangulation_2/demo/Hyperbolic_triangulation_2/include/internal/Qt/TriangulationCircumcircle.h $
-// $Id: TriangulationCircumcircle.h 650fbdd %aI Iordan Iordanov
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.2/Hyperbolic_triangulation_2/demo/Hyperbolic_triangulation_2/include/internal/Qt/TriangulationCircumcircle.h $
+// $Id: TriangulationCircumcircle.h 650fbdd 2018-12-30T17:47:55+01:00 Iordan Iordanov
 // SPDX-License-Identifier: GPL-3.0+
 //
 // Author(s)     : Andreas Fabri <Andreas.Fabri@geometryfactory.com>

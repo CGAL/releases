@@ -14,8 +14,8 @@
  WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 
 *****************************************************************************/
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/GraphicsView/include/CGAL/Qt/frame_impl.h $
-// $Id: frame_impl.h 1df3c3e %aI Laurent Rineau
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.2/GraphicsView/include/CGAL/Qt/frame_impl.h $
+// $Id: frame_impl.h 1df3c3e 2018-06-12T17:34:14+02:00 Laurent Rineau
 // SPDX-License-Identifier: GPL-3.0
 
 #ifdef CGAL_HEADER_ONLY

@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Convex_decomposition_3/include/CGAL/Convex_decomposition_3/Edge_sorter.h $
-// $Id: Edge_sorter.h 54a45c6 %aI Andreas Fabri
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.2/Convex_decomposition_3/include/CGAL/Convex_decomposition_3/Edge_sorter.h $
+// $Id: Edge_sorter.h 54a45c6 2018-03-08T14:37:20+00:00 Andreas Fabri
 // SPDX-License-Identifier: GPL-3.0+
 // 
 //

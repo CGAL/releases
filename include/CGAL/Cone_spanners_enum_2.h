@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Cone_spanners_2/include/CGAL/Cone_spanners_enum_2.h $
-// $Id: Cone_spanners_enum_2.h 2f9408f %aI Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.2/Cone_spanners_2/include/CGAL/Cone_spanners_enum_2.h $
+// $Id: Cone_spanners_enum_2.h 2f9408f 2018-09-04T12:01:27+02:00 Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0+
 //
 //

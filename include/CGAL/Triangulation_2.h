@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Triangulation_2/include/CGAL/Triangulation_2.h $
-// $Id: Triangulation_2.h 483f697 %aI Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.2/Triangulation_2/include/CGAL/Triangulation_2.h $
+// $Id: Triangulation_2.h 483f697 2018-02-12T22:21:38+01:00 Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0+
 //
 // Author(s)     : Olivier Devillers, Mariette Yvinec

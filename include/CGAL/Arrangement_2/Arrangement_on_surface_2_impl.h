@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Arrangement_on_surface_2/include/CGAL/Arrangement_2/Arrangement_on_surface_2_impl.h $
-// $Id: Arrangement_on_surface_2_impl.h 6bbfed5 %aI Sebastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.2/Arrangement_on_surface_2/include/CGAL/Arrangement_2/Arrangement_on_surface_2_impl.h $
+// $Id: Arrangement_on_surface_2_impl.h 6bbfed5 2017-12-22T22:32:15+01:00 Sebastien Loriot
 // SPDX-License-Identifier: GPL-3.0+
 //
 //

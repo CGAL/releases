@@ -13,8 +13,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Classification/include/CGAL/Classification/Feature/Distance_to_plane.h $
-// $Id: Distance_to_plane.h 7fa4b38 %aI Maxime Gimeno
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.2/Classification/include/CGAL/Classification/Feature/Distance_to_plane.h $
+// $Id: Distance_to_plane.h 7fa4b38 2018-01-26T12:49:27+01:00 Maxime Gimeno
 // SPDX-License-Identifier: GPL-3.0+
 //
 // Author(s)     : Simon Giraudot, Florent Lafarge

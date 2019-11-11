@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Periodic_4_hyperbolic_triangulation_2/demo/Periodic_4_hyperbolic_triangulation_2/include/internal/hyperbolic_free_motion_animation.h $
-// $Id: hyperbolic_free_motion_animation.h 8e1dfa3 %aI Iordan Iordanov
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.2/Periodic_4_hyperbolic_triangulation_2/demo/Periodic_4_hyperbolic_triangulation_2/include/internal/hyperbolic_free_motion_animation.h $
+// $Id: hyperbolic_free_motion_animation.h 8e1dfa3 2019-01-16T16:46:56+01:00 Iordan Iordanov
 // SPDX-License-Identifier: GPL-3.0+
 //
 // Author(s)     : Iordan Iordanov <iordan.iordanov@loria.fr>

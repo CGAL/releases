@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Arithmetic_kernel/include/CGAL/BOOST_MP_arithmetic_kernel.h $
-// $Id: BOOST_MP_arithmetic_kernel.h 455d93d %aI Marc Glisse
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.2/Arithmetic_kernel/include/CGAL/BOOST_MP_arithmetic_kernel.h $
+// $Id: BOOST_MP_arithmetic_kernel.h 455d93d 2018-11-07T14:19:39+01:00 Marc Glisse
 // SPDX-License-Identifier: LGPL-3.0+
 //
 // Author: Marc Glisse <marc.glisse@inria.fr>

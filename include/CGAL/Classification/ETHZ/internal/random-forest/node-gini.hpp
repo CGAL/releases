@@ -18,8 +18,8 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Classification/include/CGAL/Classification/ETHZ/internal/random-forest/node-gini.hpp $
-// $Id: node-gini.hpp 1dd7473 %aI albert-github
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.2/Classification/include/CGAL/Classification/ETHZ/internal/random-forest/node-gini.hpp $
+// $Id: node-gini.hpp 1dd7473 2019-03-31T22:09:24+02:00 albert-github
 // SPDX-License-Identifier: MIT
 //
 // Author(s)     : Stefan Walk

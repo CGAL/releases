@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Polygon_mesh_processing/include/CGAL/Polygon_mesh_slicer.h $
-// $Id: Polygon_mesh_slicer.h 19e1dd8 %aI Laurent Rineau
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.2/Polygon_mesh_processing/include/CGAL/Polygon_mesh_slicer.h $
+// $Id: Polygon_mesh_slicer.h 19e1dd8 2019-06-17T13:51:38+02:00 Laurent Rineau
 // SPDX-License-Identifier: GPL-3.0+
 //
 //

@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Convex_hull_3/include/CGAL/convex_hull_3_to_polyhedron_3.h $
-// $Id: convex_hull_3_to_polyhedron_3.h 4a4c77c %aI Andreas Fabri
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.2/Convex_hull_3/include/CGAL/convex_hull_3_to_polyhedron_3.h $
+// $Id: convex_hull_3_to_polyhedron_3.h 4a4c77c 2018-03-28T17:23:06+01:00 Andreas Fabri
 // SPDX-License-Identifier: GPL-3.0+
 // 
 //

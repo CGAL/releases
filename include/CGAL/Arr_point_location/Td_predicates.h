@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Arrangement_on_surface_2/include/CGAL/Arr_point_location/Td_predicates.h $
-// $Id: Td_predicates.h 26c857a %aI Mael Rouxel-Labbé
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.2/Arrangement_on_surface_2/include/CGAL/Arr_point_location/Td_predicates.h $
+// $Id: Td_predicates.h 26c857a 2018-06-13T15:11:45+02:00 Mael Rouxel-Labbé
 // SPDX-License-Identifier: GPL-3.0+
 // 
 //

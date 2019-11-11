@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Classification/include/CGAL/Classification/Feature/Gradient_of_feature.h $
-// $Id: Gradient_of_feature.h 155e9c8 %aI Simon Giraudot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.2/Classification/include/CGAL/Classification/Feature/Gradient_of_feature.h $
+// $Id: Gradient_of_feature.h 155e9c8 2018-03-19T11:36:04+01:00 Simon Giraudot
 // SPDX-License-Identifier: GPL-3.0+
 //
 // Author(s)     : Simon Giraudot

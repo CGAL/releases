@@ -16,8 +16,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Installation/include/CGAL/version_macros.h $
-// $Id: version_macros.h e318a89 %aI Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.2/Installation/include/CGAL/version_macros.h $
+// $Id: version_macros.h e318a89 2018-01-03T11:13:19+01:00 Sébastien Loriot
 // SPDX-License-Identifier: LGPL-3.0+
 // 
 //

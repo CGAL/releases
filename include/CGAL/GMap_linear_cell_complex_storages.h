@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Linear_cell_complex/include/CGAL/GMap_linear_cell_complex_storages.h $
-// $Id: GMap_linear_cell_complex_storages.h 095c27e %aI Laurent Rineau
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.2/Linear_cell_complex/include/CGAL/GMap_linear_cell_complex_storages.h $
+// $Id: GMap_linear_cell_complex_storages.h 095c27e 2018-04-17T16:42:25+02:00 Laurent Rineau
 // SPDX-License-Identifier: LGPL-3.0+
 //
 // Author(s)     : Guillaume Damiand <guillaume.damiand@liris.cnrs.fr>

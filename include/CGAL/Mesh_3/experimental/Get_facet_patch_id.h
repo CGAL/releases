@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Mesh_3/include/CGAL/Mesh_3/experimental/Get_facet_patch_id.h $
-// $Id: Get_facet_patch_id.h 8c41669 %aI Andreas Fabri
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.2/Mesh_3/include/CGAL/Mesh_3/experimental/Get_facet_patch_id.h $
+// $Id: Get_facet_patch_id.h 8c41669 2018-03-22T16:37:37+01:00 Andreas Fabri
 // SPDX-License-Identifier: GPL-3.0+
 //
 //

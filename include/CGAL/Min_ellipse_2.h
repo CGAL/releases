@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Bounding_volumes/include/CGAL/Min_ellipse_2.h $
-// $Id: Min_ellipse_2.h 82d4479 %aI Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.2/Bounding_volumes/include/CGAL/Min_ellipse_2.h $
+// $Id: Min_ellipse_2.h 82d4479 2018-11-24T14:48:37+01:00 Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0+
 // 
 //

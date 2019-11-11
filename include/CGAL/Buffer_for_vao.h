@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/GraphicsView/include/CGAL/Buffer_for_vao.h $
-// $Id: Buffer_for_vao.h 4b8bd40 %aI Guillaume Damiand
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.2/GraphicsView/include/CGAL/Buffer_for_vao.h $
+// $Id: Buffer_for_vao.h 4b8bd40 2018-11-27T18:21:57+01:00 Guillaume Damiand
 // SPDX-License-Identifier: GPL-3.0+
 // 
 //

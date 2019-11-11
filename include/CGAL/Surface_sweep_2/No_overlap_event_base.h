@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Surface_sweep_2/include/CGAL/Surface_sweep_2/No_overlap_event_base.h $
-// $Id: No_overlap_event_base.h 18acb2e %aI Andreas Fabri
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.2/Surface_sweep_2/include/CGAL/Surface_sweep_2/No_overlap_event_base.h $
+// $Id: No_overlap_event_base.h 18acb2e 2018-01-18T15:05:34+00:00 Andreas Fabri
 // SPDX-License-Identifier: GPL-3.0+
 //
 // Author(s) : Tali Zvi        <talizvi@post.tau.ac.il>,

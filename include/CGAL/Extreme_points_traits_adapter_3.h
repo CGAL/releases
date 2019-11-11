@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Convex_hull_3/include/CGAL/Extreme_points_traits_adapter_3.h $
-// $Id: Extreme_points_traits_adapter_3.h e54c24f %aI Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.2/Convex_hull_3/include/CGAL/Extreme_points_traits_adapter_3.h $
+// $Id: Extreme_points_traits_adapter_3.h e54c24f 2019-04-15T16:58:22+02:00 Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0+
 //
 //

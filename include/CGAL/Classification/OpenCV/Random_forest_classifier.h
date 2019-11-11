@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Classification/include/CGAL/Classification/OpenCV/Random_forest_classifier.h $
-// $Id: Random_forest_classifier.h 0b66eb0 %aI Laurent Rineau
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.2/Classification/include/CGAL/Classification/OpenCV/Random_forest_classifier.h $
+// $Id: Random_forest_classifier.h 96f6bdc 2019-09-30T09:11:11+02:00 Maxime GIMENO
 // SPDX-License-Identifier: GPL-3.0+
 //
 // Author(s)     : Simon Giraudot
@@ -39,7 +39,7 @@
   #endif
 #else
   #include <opencv2/ml.hpp>
-#endif`
+#endif
 
 
 

@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Solver_interface/include/CGAL/Eigen_solver_traits.h $
-// $Id: Eigen_solver_traits.h 1dd7473 %aI albert-github
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.2/Solver_interface/include/CGAL/Eigen_solver_traits.h $
+// $Id: Eigen_solver_traits.h 1dd7473 2019-03-31T22:09:24+02:00 albert-github
 // SPDX-License-Identifier: LGPL-3.0+
 //
 // Author(s)     : Gael Guennebaud

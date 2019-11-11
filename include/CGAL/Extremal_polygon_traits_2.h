@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Inscribed_areas/include/CGAL/Extremal_polygon_traits_2.h $
-// $Id: Extremal_polygon_traits_2.h a879cb0 %aI Andreas Fabri
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.2/Inscribed_areas/include/CGAL/Extremal_polygon_traits_2.h $
+// $Id: Extremal_polygon_traits_2.h a879cb0 2019-01-18T12:30:37+01:00 Andreas Fabri
 // SPDX-License-Identifier: GPL-3.0+
 // 
 //

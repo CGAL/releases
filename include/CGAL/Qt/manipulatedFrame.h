@@ -14,8 +14,8 @@
  WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 
 *****************************************************************************/
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/GraphicsView/include/CGAL/Qt/manipulatedFrame.h $
-// $Id: manipulatedFrame.h 1969ee9 %aI Andreas Fabri
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.2/GraphicsView/include/CGAL/Qt/manipulatedFrame.h $
+// $Id: manipulatedFrame.h 1969ee9 2018-05-31T10:05:46+01:00 Andreas Fabri
 // SPDX-License-Identifier: GPL-3.0
 
 #ifndef QGLVIEWER_MANIPULATED_FRAME_H

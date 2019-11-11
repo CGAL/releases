@@ -28,8 +28,8 @@
  * WWW URL: http://cs.nyu.edu/exact/
  * Email: exact@cs.nyu.edu
  *
- * $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/CGAL_Core/include/CGAL/CORE/MemoryPool.h $
- * $Id: MemoryPool.h 5e65027 %aI Laurent Rineau
+ * $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.2/CGAL_Core/include/CGAL/CORE/MemoryPool.h $
+ * $Id: MemoryPool.h 5e65027 2019-04-29T09:52:14+02:00 Laurent Rineau
  * SPDX-License-Identifier: LGPL-3.0+
  ***************************************************************************/
 #ifndef _CORE_MEMORYPOOL_H_

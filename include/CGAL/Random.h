@@ -16,8 +16,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Random_numbers/include/CGAL/Random.h $
-// $Id: Random.h fc4e723 %aI Andreas Fabri
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.2/Random_numbers/include/CGAL/Random.h $
+// $Id: Random.h fc4e723 2018-02-21T15:29:16+00:00 Andreas Fabri
 // SPDX-License-Identifier: LGPL-3.0+
 // 
 //

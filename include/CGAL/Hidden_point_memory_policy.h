@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/STL_Extension/include/CGAL/Hidden_point_memory_policy.h $
-// $Id: Hidden_point_memory_policy.h 8cdfad0 %aI Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.2/STL_Extension/include/CGAL/Hidden_point_memory_policy.h $
+// $Id: Hidden_point_memory_policy.h 8cdfad0 2017-11-15T22:58:57+01:00 Sébastien Loriot
 // SPDX-License-Identifier: LGPL-3.0+
 //
 // Author(s)     : Mael Rouxel-Labbé

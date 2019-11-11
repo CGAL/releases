@@ -18,8 +18,8 @@
 // and a STREP (FET Open) Project under Contract No  IST-006413 
 // (ACS -- Algorithms for Complex Shapes)
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Algebraic_kernel_for_spheres/include/CGAL/Polynomials_for_line_3.h $
-// $Id: Polynomials_for_line_3.h ee57fc2 %aI Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.2/Algebraic_kernel_for_spheres/include/CGAL/Polynomials_for_line_3.h $
+// $Id: Polynomials_for_line_3.h ee57fc2 2017-10-21T01:03:14+02:00 Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0+
 //
 // Author(s) : Monique Teillaud <Monique.Teillaud@sophia.inria.fr>

@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Convex_hull_3/include/CGAL/Convex_hull_3/dual/predicates.h $
-// $Id: predicates.h ee57fc2 %aI Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.2/Convex_hull_3/include/CGAL/Convex_hull_3/dual/predicates.h $
+// $Id: predicates.h ee57fc2 2017-10-21T01:03:14+02:00 Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0+
 //
 //

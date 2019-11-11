@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY, AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Barycentric_coordinates_2/include/CGAL/Barycentric_coordinates_2/Triangle_coordinates_2.h $
-// $Id: Triangle_coordinates_2.h 1dd7473 %aI albert-github
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.2/Barycentric_coordinates_2/include/CGAL/Barycentric_coordinates_2/Triangle_coordinates_2.h $
+// $Id: Triangle_coordinates_2.h 1dd7473 2019-03-31T22:09:24+02:00 albert-github
 // SPDX-License-Identifier: GPL-3.0+
 //
 // Author(s) : Dmitry Anisimov, David Bommes, Kai Hormann, and Pierre Alliez.

@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Algebraic_kernel_d/include/CGAL/Algebraic_kernel_d/Event_line_builder.h $
-// $Id: Event_line_builder.h 05152f6 %aI Andreas Fabri
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.2/Algebraic_kernel_d/include/CGAL/Algebraic_kernel_d/Event_line_builder.h $
+// $Id: Event_line_builder.h 05152f6 2018-01-25T14:06:13+00:00 Andreas Fabri
 // SPDX-License-Identifier: LGPL-3.0+
 // 
 //

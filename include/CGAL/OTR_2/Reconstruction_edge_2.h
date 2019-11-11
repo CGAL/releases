@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Optimal_transportation_reconstruction_2/include/CGAL/OTR_2/Reconstruction_edge_2.h $
-// $Id: Reconstruction_edge_2.h 7843436 %aI Simon Giraudot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.2/Optimal_transportation_reconstruction_2/include/CGAL/OTR_2/Reconstruction_edge_2.h $
+// $Id: Reconstruction_edge_2.h 7843436 2016-08-01T11:24:25+02:00 Simon Giraudot
 // SPDX-License-Identifier: GPL-3.0+
 //
 // Author(s)     : Fernando de Goes, Pierre Alliez, Ivo Vigan, Clément Jamin

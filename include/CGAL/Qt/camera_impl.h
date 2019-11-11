@@ -14,8 +14,8 @@
  WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 
 *****************************************************************************/
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/GraphicsView/include/CGAL/Qt/camera_impl.h $
-// $Id: camera_impl.h 93d9e8e %aI Jane
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.2/GraphicsView/include/CGAL/Qt/camera_impl.h $
+// $Id: camera_impl.h 93d9e8e 2018-06-29T14:39:19+01:00 Jane
 // SPDX-License-Identifier: GPL-3.0
 
 #ifdef CGAL_HEADER_ONLY

@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Intersections_2/include/CGAL/Intersections_2/internal/Triangle_2_Triangle_2_do_intersect_impl.h $
-// $Id: Triangle_2_Triangle_2_do_intersect_impl.h 43f8490 %aI Andreas Fabri
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.2/Intersections_2/include/CGAL/Intersections_2/internal/Triangle_2_Triangle_2_do_intersect_impl.h $
+// $Id: Triangle_2_Triangle_2_do_intersect_impl.h 43f8490 2018-03-04T17:27:28+00:00 Andreas Fabri
 // SPDX-License-Identifier: LGPL-3.0+
 // 
 //

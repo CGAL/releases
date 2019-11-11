@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Triangulation_2/include/CGAL/Constrained_Delaunay_triangulation_2.h $
-// $Id: Constrained_Delaunay_triangulation_2.h 630066d %aI Andreas Fabri
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.2/Triangulation_2/include/CGAL/Constrained_Delaunay_triangulation_2.h $
+// $Id: Constrained_Delaunay_triangulation_2.h 630066d 2019-01-10T17:31:54+01:00 Andreas Fabri
 // SPDX-License-Identifier: GPL-3.0+
 // 
 //

@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Intersections_3/include/CGAL/Intersections_3/Iso_cuboid_3_Tetrahedron_3.h $
-// $Id: Iso_cuboid_3_Tetrahedron_3.h 057f4ea %aI Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.2/Intersections_3/include/CGAL/Intersections_3/Iso_cuboid_3_Tetrahedron_3.h $
+// $Id: Iso_cuboid_3_Tetrahedron_3.h 057f4ea 2018-11-02T14:17:16+01:00 Sébastien Loriot
 // SPDX-License-Identifier: LGPL-3.0+
 //
 //

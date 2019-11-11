@@ -16,8 +16,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Arrangement_on_surface_2/include/CGAL/Arr_polyline_traits_2.h $
-// $Id: Arr_polyline_traits_2.h c0fc218 %aI Efi Fogel
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.2/Arrangement_on_surface_2/include/CGAL/Arr_polyline_traits_2.h $
+// $Id: Arr_polyline_traits_2.h c0fc218 2018-09-09T16:51:55+03:00 Efi Fogel
 // SPDX-License-Identifier: GPL-3.0+
 //
 // Author(s)     : Waqar Khan <wkhan@mpi-inf.mpg.de>

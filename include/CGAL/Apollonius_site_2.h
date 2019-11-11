@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Apollonius_graph_2/include/CGAL/Apollonius_site_2.h $
-// $Id: Apollonius_site_2.h f4faff2 %aI Andreas Fabri
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.2/Apollonius_graph_2/include/CGAL/Apollonius_site_2.h $
+// $Id: Apollonius_site_2.h f4faff2 2019-01-10T17:14:12+01:00 Andreas Fabri
 // SPDX-License-Identifier: GPL-3.0+
 // 
 //

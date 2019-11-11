@@ -16,8 +16,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/HalfedgeDS/include/CGAL/HalfedgeDS_const_decorator.h $
-// $Id: HalfedgeDS_const_decorator.h 153bc0c %aI Maxime Gimeno
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.2/HalfedgeDS/include/CGAL/HalfedgeDS_const_decorator.h $
+// $Id: HalfedgeDS_const_decorator.h 153bc0c 2018-01-22T15:48:21+01:00 Maxime Gimeno
 // SPDX-License-Identifier: LGPL-3.0+
 // 
 //

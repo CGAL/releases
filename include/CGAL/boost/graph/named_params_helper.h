@@ -10,8 +10,8 @@
 //=======================================================================
 // Copyright (c) 2007-2015  GeometryFactory (France).  All rights reserved.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/BGL/include/CGAL/boost/graph/named_params_helper.h $
-// $Id: named_params_helper.h aa47744 %aI Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.2/BGL/include/CGAL/boost/graph/named_params_helper.h $
+// $Id: named_params_helper.h aa47744 2019-07-28T22:30:17+02:00 Sébastien Loriot
 // SPDX-License-Identifier: BSL-1.0
 //
 // Author(s)     : Andreas Fabri, Fernando Cacciola, Jane Tournois

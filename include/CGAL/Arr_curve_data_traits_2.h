@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Arrangement_on_surface_2/include/CGAL/Arr_curve_data_traits_2.h $
-// $Id: Arr_curve_data_traits_2.h 78e7060 %aI Laurent Rineau
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.2/Arrangement_on_surface_2/include/CGAL/Arr_curve_data_traits_2.h $
+// $Id: Arr_curve_data_traits_2.h 78e7060 2018-02-19T14:27:06+01:00 Laurent Rineau
 // SPDX-License-Identifier: GPL-3.0+
 // 
 // Author(s)     : Ron Wein          <wein@post.tau.ac.il>

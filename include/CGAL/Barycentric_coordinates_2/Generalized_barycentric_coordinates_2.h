@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY, AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Barycentric_coordinates_2/include/CGAL/Barycentric_coordinates_2/Generalized_barycentric_coordinates_2.h $
-// $Id: Generalized_barycentric_coordinates_2.h 3dd0aa1 %aI Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.2/Barycentric_coordinates_2/include/CGAL/Barycentric_coordinates_2/Generalized_barycentric_coordinates_2.h $
+// $Id: Generalized_barycentric_coordinates_2.h 3dd0aa1 2018-09-04T11:26:30+02:00 Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0+
 //
 // Author(s) : Dmitry Anisimov, David Bommes, Kai Hormann, and Pierre Alliez.

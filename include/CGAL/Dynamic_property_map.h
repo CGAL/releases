@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Property_map/include/CGAL/Dynamic_property_map.h $
-// $Id: Dynamic_property_map.h 1fe5100 %aI Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.2/Property_map/include/CGAL/Dynamic_property_map.h $
+// $Id: Dynamic_property_map.h 1fe5100 2019-04-30T09:43:32+02:00 Sébastien Loriot
 // SPDX-License-Identifier: LGPL-3.0+
 //
 //

@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Periodic_3_mesh_3/include/CGAL/optimize_periodic_3_mesh_3.h $
-// $Id: optimize_periodic_3_mesh_3.h c5fb10f %aI Andreas Fabri
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.2/Periodic_3_mesh_3/include/CGAL/optimize_periodic_3_mesh_3.h $
+// $Id: optimize_periodic_3_mesh_3.h c5fb10f 2018-12-06T12:39:04+01:00 Andreas Fabri
 // SPDX-License-Identifier: GPL-3.0+
 //
 // Author(s)     :  Stephane Tayeb,

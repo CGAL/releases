@@ -13,8 +13,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/STL_Extension/include/CGAL/exceptions.h $
-// $Id: exceptions.h 9be7c9d %aI Andreas Fabri
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.2/STL_Extension/include/CGAL/exceptions.h $
+// $Id: exceptions.h 9be7c9d 2018-06-06T09:42:44+01:00 Andreas Fabri
 // SPDX-License-Identifier: LGPL-3.0+
 // 
 //

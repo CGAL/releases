@@ -18,8 +18,8 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Classification/include/CGAL/Classification/ETHZ/internal/dataview.h $
-// $Id: dataview.h c81fbe4 %aI Simon Giraudot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.2/Classification/include/CGAL/Classification/ETHZ/internal/dataview.h $
+// $Id: dataview.h c81fbe4 2019-01-07T11:50:02+01:00 Simon Giraudot
 // SPDX-License-Identifier: MIT
 //
 // Author(s)     : Stefan Walk

@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Partition_2/include/CGAL/Partition_2/Vertex_visibility_graph_2.h $
-// $Id: Vertex_visibility_graph_2.h 955b6a8 %aI Andreas Fabri
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.2/Partition_2/include/CGAL/Partition_2/Vertex_visibility_graph_2.h $
+// $Id: Vertex_visibility_graph_2.h 955b6a8 2018-03-05T15:04:32+00:00 Andreas Fabri
 // SPDX-License-Identifier: GPL-3.0+
 // 
 //

@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Periodic_4_hyperbolic_triangulation_2/include/CGAL/internal/Hyperbolic_octagon_translation_word.h $
-// $Id: Hyperbolic_octagon_translation_word.h 626ad00 %aI Iordan Iordanov
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.2/Periodic_4_hyperbolic_triangulation_2/include/CGAL/internal/Hyperbolic_octagon_translation_word.h $
+// $Id: Hyperbolic_octagon_translation_word.h 626ad00 2019-01-22T09:46:39+01:00 Iordan Iordanov
 // SPDX-License-Identifier: GPL-3.0+
 //
 // Author(s)     : Iordan Iordanov <iordan.iordanov@loria.fr>

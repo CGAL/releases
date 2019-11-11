@@ -16,8 +16,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Number_types/include/CGAL/GMP/Gmpq_type.h $
-// $Id: Gmpq_type.h cbf3a16 %aI Andreas Fabri
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.2/Number_types/include/CGAL/GMP/Gmpq_type.h $
+// $Id: Gmpq_type.h cbf3a16 2018-01-17T15:02:32+00:00 Andreas Fabri
 // SPDX-License-Identifier: LGPL-3.0+
 //
 //

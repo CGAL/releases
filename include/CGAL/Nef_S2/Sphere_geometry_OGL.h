@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Nef_S2/include/CGAL/Nef_S2/Sphere_geometry_OGL.h $
-// $Id: Sphere_geometry_OGL.h 4d3b5ce %aI Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.2/Nef_S2/include/CGAL/Nef_S2/Sphere_geometry_OGL.h $
+// $Id: Sphere_geometry_OGL.h 4d3b5ce 2018-12-03T10:32:59+01:00 Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0+
 // 
 //

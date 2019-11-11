@@ -16,8 +16,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Kernel_23/include/CGAL/Kernel/function_objects.h $
-// $Id: function_objects.h 0d7fd46 %aI Laurent Rineau
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.2/Kernel_23/include/CGAL/Kernel/function_objects.h $
+// $Id: function_objects.h 0d7fd46 2019-08-19T12:53:59+02:00 Laurent Rineau
 // SPDX-License-Identifier: LGPL-3.0+
 //
 //

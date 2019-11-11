@@ -15,8 +15,8 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR
 // PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/CGAL_ImageIO/include/CGAL/ImageIO_impl.h $
-// $Id: ImageIO_impl.h 99883c4 %aI Laurent Rineau
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.2/CGAL_ImageIO/include/CGAL/ImageIO_impl.h $
+// $Id: ImageIO_impl.h 99883c4 2019-02-08T09:26:16+01:00 Laurent Rineau
 // SPDX-License-Identifier: LGPL-3.0+
 //
 

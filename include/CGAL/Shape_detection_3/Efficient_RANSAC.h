@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Point_set_shape_detection_3/include/CGAL/Shape_detection_3/Efficient_RANSAC.h $
-// $Id: Efficient_RANSAC.h a2e8a1c %aI Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.2/Point_set_shape_detection_3/include/CGAL/Shape_detection_3/Efficient_RANSAC.h $
+// $Id: Efficient_RANSAC.h a2e8a1c 2018-09-04T11:11:41+02:00 Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0+
 //
 //

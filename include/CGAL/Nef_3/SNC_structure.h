@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Nef_3/include/CGAL/Nef_3/SNC_structure.h $
-// $Id: SNC_structure.h d8f608f %aI Andreas Fabri
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.2/Nef_3/include/CGAL/Nef_3/SNC_structure.h $
+// $Id: SNC_structure.h d8f608f 2019-01-15T18:20:36+01:00 Andreas Fabri
 // SPDX-License-Identifier: GPL-3.0+
 // 
 //

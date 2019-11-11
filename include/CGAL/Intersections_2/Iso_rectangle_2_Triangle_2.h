@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Intersections_2/include/CGAL/Intersections_2/Iso_rectangle_2_Triangle_2.h $
-// $Id: Iso_rectangle_2_Triangle_2.h 47b14e6 %aI Mael Rouxel-Labbé
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.2/Intersections_2/include/CGAL/Intersections_2/Iso_rectangle_2_Triangle_2.h $
+// $Id: Iso_rectangle_2_Triangle_2.h 47b14e6 2019-05-24T08:14:12+02:00 Mael Rouxel-Labbé
 // SPDX-License-Identifier: LGPL-3.0+
 // 
 //

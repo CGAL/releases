@@ -13,8 +13,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Surface_mesher/include/CGAL/Surface_mesher/Surface_mesher_manifold.h $
-// $Id: Surface_mesher_manifold.h df2e978 %aI Andreas Fabri
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.2/Surface_mesher/include/CGAL/Surface_mesher/Surface_mesher_manifold.h $
+// $Id: Surface_mesher_manifold.h df2e978 2018-02-13T14:02:40+00:00 Andreas Fabri
 // SPDX-License-Identifier: GPL-3.0+
 //
 //

@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Advancing_front_surface_reconstruction/include/CGAL/Advancing_front_surface_reconstruction_cell_base_3.h $
-// $Id: Advancing_front_surface_reconstruction_cell_base_3.h a2e8a1c %aI Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.2/Advancing_front_surface_reconstruction/include/CGAL/Advancing_front_surface_reconstruction_cell_base_3.h $
+// $Id: Advancing_front_surface_reconstruction_cell_base_3.h a2e8a1c 2018-09-04T11:11:41+02:00 Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0+
 //
 // Author(s)     : Frank Da, David Cohen-Steiner, Andreas Fabri

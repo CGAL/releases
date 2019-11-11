@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/GraphicsView/include/CGAL/Qt/debug_impl.h $
-// $Id: debug_impl.h 2156017 %aI Maxime Gimeno
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.2/GraphicsView/include/CGAL/Qt/debug_impl.h $
+// $Id: debug_impl.h 2156017 2018-02-28T08:59:59+01:00 Maxime Gimeno
 // SPDX-License-Identifier: GPL-3.0+
 // 
 //

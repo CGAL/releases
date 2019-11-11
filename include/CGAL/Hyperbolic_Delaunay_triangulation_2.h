@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Hyperbolic_triangulation_2/include/CGAL/Hyperbolic_Delaunay_triangulation_2.h $
-// $Id: Hyperbolic_Delaunay_triangulation_2.h 8e1dfa3 %aI Iordan Iordanov
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.2/Hyperbolic_triangulation_2/include/CGAL/Hyperbolic_Delaunay_triangulation_2.h $
+// $Id: Hyperbolic_Delaunay_triangulation_2.h 8e1dfa3 2019-01-16T16:46:56+01:00 Iordan Iordanov
 // SPDX-License-Identifier: GPL-3.0+
 //
 // Author(s)     : Mikhail Bogdanov

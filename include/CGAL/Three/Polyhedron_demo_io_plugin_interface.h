@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Three/include/CGAL/Three/Polyhedron_demo_io_plugin_interface.h $
-// $Id: Polyhedron_demo_io_plugin_interface.h 93d9e8e %aI Jane
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.2/Three/include/CGAL/Three/Polyhedron_demo_io_plugin_interface.h $
+// $Id: Polyhedron_demo_io_plugin_interface.h 93d9e8e 2018-06-29T14:39:19+01:00 Jane
 // SPDX-License-Identifier: GPL-3.0+
 //
 //

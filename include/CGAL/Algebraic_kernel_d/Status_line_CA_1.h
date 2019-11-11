@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Algebraic_kernel_d/include/CGAL/Algebraic_kernel_d/Status_line_CA_1.h $
-// $Id: Status_line_CA_1.h cc23699 %aI Andreas Fabri
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.2/Algebraic_kernel_d/include/CGAL/Algebraic_kernel_d/Status_line_CA_1.h $
+// $Id: Status_line_CA_1.h cc23699 2019-01-28T09:14:59+01:00 Andreas Fabri
 // SPDX-License-Identifier: LGPL-3.0+
 // 
 //

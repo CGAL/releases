@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Partition_2/include/CGAL/Partition_2/Partitioned_polygon_2.h $
-// $Id: Partitioned_polygon_2.h 561d689 %aI Andreas Fabri
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.2/Partition_2/include/CGAL/Partition_2/Partitioned_polygon_2.h $
+// $Id: Partitioned_polygon_2.h 561d689 2019-01-18T16:07:32+01:00 Andreas Fabri
 // SPDX-License-Identifier: GPL-3.0+
 // 
 //

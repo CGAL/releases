@@ -16,8 +16,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Number_types/include/CGAL/Exact_integer.h $
-// $Id: Exact_integer.h 469d63f %aI Marc Glisse
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.2/Number_types/include/CGAL/Exact_integer.h $
+// $Id: Exact_integer.h 469d63f 2017-11-29T18:16:18+01:00 Marc Glisse
 // SPDX-License-Identifier: LGPL-3.0+
 //
 //

@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Surface_sweep_2/include/CGAL/Surface_sweep_2.h $
-// $Id: Surface_sweep_2.h f0c1d3a %aI Andreas Fabri
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.2/Surface_sweep_2/include/CGAL/Surface_sweep_2.h $
+// $Id: Surface_sweep_2.h 7b4de1e 2019-10-20T12:09:18+02:00 Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0+
 //
 // Author(s) : Baruch Zukerman <baruchzu@post.tau.ac.il>
@@ -167,6 +167,12 @@ protected:
   /*! Handle the subcurves to the left of the current event point. */
   virtual void _handle_left_curves();
 
+  /*! Handle the overlap on the right curves of the current event point. */
+  void _handle_overlaps_in_right_curves();
+
+  /*! clip the last curve of a subcurve if it is not in the status line and with a left end not being the current event*/
+  void _clip_non_active_curve_at_current_event(Subcurve*);
+
   /*! Handle the subcurves to the right of the current event point. */
   virtual void _handle_right_curves();
 
@@ -180,9 +186,6 @@ protected:
    * or updated.
    */
   void _add_curve(Event* e, Subcurve* sc, Attribute type);
-
-  /*! Fix overlapping subcurves before handling the current event. */
-  void _fix_overlap_subcurves();
 
   /*! create an overlap subcurve from overlap_cv between c1 and c2.
    * \param overlap_cv the overlapping curve.
@@ -229,11 +232,6 @@ protected:
                                   unsigned int mult,
                                   Subcurve*& c1,
                                   Subcurve*& c2);
-
-  /*! Fix a subcurve that represents an overlap.
-   * \param sc The subcurve.
-   */
-  void _fix_finished_overlap_subcurve(Subcurve* sc);
 };
 
 } // namespace Surface_sweep_2

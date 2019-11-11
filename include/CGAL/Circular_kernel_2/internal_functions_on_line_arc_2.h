@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Circular_kernel_2/include/CGAL/Circular_kernel_2/internal_functions_on_line_arc_2.h $
-// $Id: internal_functions_on_line_arc_2.h 0d3ac75 %aI Andreas Fabri
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.2/Circular_kernel_2/include/CGAL/Circular_kernel_2/internal_functions_on_line_arc_2.h $
+// $Id: internal_functions_on_line_arc_2.h 0d3ac75 2018-02-17T12:37:15+00:00 Andreas Fabri
 // SPDX-License-Identifier: GPL-3.0+
 //
 // Author(s)     : Monique Teillaud, Sylvain Pion, Pedro Machado

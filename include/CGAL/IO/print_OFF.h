@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Polyhedron_IO/include/CGAL/IO/print_OFF.h $
-// $Id: print_OFF.h 1cba5df %aI Maxime Gimeno
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.2/Polyhedron_IO/include/CGAL/IO/print_OFF.h $
+// $Id: print_OFF.h 1cba5df 2018-06-20T08:38:04+02:00 Maxime Gimeno
 // SPDX-License-Identifier: GPL-3.0+
 // 
 //

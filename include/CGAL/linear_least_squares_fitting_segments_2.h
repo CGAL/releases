@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Principal_component_analysis/include/CGAL/linear_least_squares_fitting_segments_2.h $
-// $Id: linear_least_squares_fitting_segments_2.h f3baef9 %aI Simon Giraudot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.2/Principal_component_analysis/include/CGAL/linear_least_squares_fitting_segments_2.h $
+// $Id: linear_least_squares_fitting_segments_2.h f3baef9 2018-07-06T10:10:19+02:00 Simon Giraudot
 // SPDX-License-Identifier: GPL-3.0+
 //
 // Author(s) : Pierre Alliez and Sylvain Pion and Ankit Gupta

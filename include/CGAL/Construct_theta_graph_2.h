@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Cone_spanners_2/include/CGAL/Construct_theta_graph_2.h $
-// $Id: Construct_theta_graph_2.h a472c24 %aI Andreas Fabri
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.2/Cone_spanners_2/include/CGAL/Construct_theta_graph_2.h $
+// $Id: Construct_theta_graph_2.h a472c24 2019-03-20T08:59:22+01:00 Andreas Fabri
 // SPDX-License-Identifier: GPL-3.0+
 //
 //

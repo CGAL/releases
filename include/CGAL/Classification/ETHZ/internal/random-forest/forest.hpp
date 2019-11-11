@@ -18,8 +18,8 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Classification/include/CGAL/Classification/ETHZ/internal/random-forest/forest.hpp $
-// $Id: forest.hpp 48dda04 %aI Simon Giraudot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.2/Classification/include/CGAL/Classification/ETHZ/internal/random-forest/forest.hpp $
+// $Id: forest.hpp 48dda04 2019-05-24T15:00:48+02:00 Simon Giraudot
 // SPDX-License-Identifier: MIT
 //
 // Author(s)     : Stefan Walk

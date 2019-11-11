@@ -14,8 +14,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Surface_mesh/include/CGAL/Surface_mesh/Properties.h $
-// $Id: Properties.h ea25094 %aI Simon Giraudot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.2/Surface_mesh/include/CGAL/Surface_mesh/Properties.h $
+// $Id: Properties.h ea25094 2018-08-14T14:18:24+02:00 Simon Giraudot
 // SPDX-License-Identifier: GPL-3.0+
 //
 

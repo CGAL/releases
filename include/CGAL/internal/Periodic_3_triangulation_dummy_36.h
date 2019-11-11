@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Periodic_3_triangulation_3/include/CGAL/internal/Periodic_3_triangulation_dummy_36.h $
-// $Id: Periodic_3_triangulation_dummy_36.h 99617c3 %aI Andreas Fabri
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.2/Periodic_3_triangulation_3/include/CGAL/internal/Periodic_3_triangulation_dummy_36.h $
+// $Id: Periodic_3_triangulation_dummy_36.h 99617c3 2017-12-07T16:58:47+00:00 Andreas Fabri
 // SPDX-License-Identifier: GPL-3.0+
 //
 //

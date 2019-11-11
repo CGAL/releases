@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/GraphicsView/include/CGAL/Qt/PointsInKdTreeGraphicsItem.h $
-// $Id: PointsInKdTreeGraphicsItem.h 6e1e8e9 %aI Maxime Gimeno
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.2/GraphicsView/include/CGAL/Qt/PointsInKdTreeGraphicsItem.h $
+// $Id: PointsInKdTreeGraphicsItem.h 6e1e8e9 2019-07-09T10:22:30+02:00 Maxime Gimeno
 // SPDX-License-Identifier: GPL-3.0+
 // 
 //

@@ -13,8 +13,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Mesh_3/include/CGAL/Mesh_3/Protect_edges_sizing_field.h $
-// $Id: Protect_edges_sizing_field.h 1b1f0a6 %aI Laurent Rineau
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.2/Mesh_3/include/CGAL/Mesh_3/Protect_edges_sizing_field.h $
+// $Id: Protect_edges_sizing_field.h 1b1f0a6 2019-05-03T16:24:50+02:00 Laurent Rineau
 // SPDX-License-Identifier: GPL-3.0+
 //
 //

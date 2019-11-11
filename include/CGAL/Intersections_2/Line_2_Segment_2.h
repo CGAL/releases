@@ -16,8 +16,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Intersections_2/include/CGAL/Intersections_2/Line_2_Segment_2.h $
-// $Id: Line_2_Segment_2.h bfa1273 %aI Maxime Gimeno
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.2/Intersections_2/include/CGAL/Intersections_2/Line_2_Segment_2.h $
+// $Id: Line_2_Segment_2.h bfa1273 2019-02-13T15:18:32+01:00 Maxime Gimeno
 // SPDX-License-Identifier: LGPL-3.0+
 // 
 //

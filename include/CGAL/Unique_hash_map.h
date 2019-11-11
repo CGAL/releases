@@ -16,8 +16,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Hash_map/include/CGAL/Unique_hash_map.h $
-// $Id: Unique_hash_map.h c493359 %aI Andreas Fabri
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.2/Hash_map/include/CGAL/Unique_hash_map.h $
+// $Id: Unique_hash_map.h c493359 2018-01-18T10:11:33+00:00 Andreas Fabri
 // SPDX-License-Identifier: LGPL-3.0+
 // 
 //

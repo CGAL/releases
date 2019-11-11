@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Triangulation/include/CGAL/Triangulation_ds_full_cell.h $
-// $Id: Triangulation_ds_full_cell.h 257b180 %aI Andreas Fabri
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.2/Triangulation/include/CGAL/Triangulation_ds_full_cell.h $
+// $Id: Triangulation_ds_full_cell.h 257b180 2018-01-18T13:56:10+00:00 Andreas Fabri
 // SPDX-License-Identifier: GPL-3.0+
 //
 // Author(s)    : Samuel Hornus

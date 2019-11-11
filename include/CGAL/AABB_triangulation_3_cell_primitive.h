@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/AABB_tree/include/CGAL/AABB_triangulation_3_cell_primitive.h $
-// $Id: AABB_triangulation_3_cell_primitive.h 0241fdc %aI Laurent Rineau
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.2/AABB_tree/include/CGAL/AABB_triangulation_3_cell_primitive.h $
+// $Id: AABB_triangulation_3_cell_primitive.h 0241fdc 2019-02-11T13:46:06+01:00 Laurent Rineau
 // SPDX-License-Identifier: GPL-3.0+
 //
 //

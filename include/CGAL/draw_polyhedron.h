@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Polyhedron/include/CGAL/draw_polyhedron.h $
-// $Id: draw_polyhedron.h ae5b6e0 %aI Guillaume Damiand
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.2/Polyhedron/include/CGAL/draw_polyhedron.h $
+// $Id: draw_polyhedron.h ae5b6e0 2018-10-15T14:58:52+02:00 Guillaume Damiand
 // SPDX-License-Identifier: GPL-3.0+
 //
 // Author(s)     : Guillaume Damiand <guillaume.damiand@liris.cnrs.fr>

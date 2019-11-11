@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Visibility_2/include/CGAL/Triangular_expansion_visibility_2.h $
-// $Id: Triangular_expansion_visibility_2.h 6269309 %aI Simon Giraudot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.2/Visibility_2/include/CGAL/Triangular_expansion_visibility_2.h $
+// $Id: Triangular_expansion_visibility_2.h 6269309 2018-01-23T11:09:52+01:00 Simon Giraudot
 // SPDX-License-Identifier: GPL-3.0+
 //
 //

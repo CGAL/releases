@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Interpolation/include/CGAL/Interpolation_gradient_fitting_traits_2.h $
-// $Id: Interpolation_gradient_fitting_traits_2.h de57959 %aI Mael Rouxel-Labbé
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.2/Interpolation/include/CGAL/Interpolation_gradient_fitting_traits_2.h $
+// $Id: Interpolation_gradient_fitting_traits_2.h de57959 2018-01-16T17:30:15+01:00 Mael Rouxel-Labbé
 // SPDX-License-Identifier: GPL-3.0+
 //
 // Author(s)     : Julia Floetotto

@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Surface_sweep_2/include/CGAL/Surface_sweep_2/No_overlap_subcurve.h $
-// $Id: No_overlap_subcurve.h f1483cf %aI Efi Fogel
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.2/Surface_sweep_2/include/CGAL/Surface_sweep_2/No_overlap_subcurve.h $
+// $Id: No_overlap_subcurve.h 90b199b 2019-10-18T09:40:01+02:00 Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0+
 //
 // Author(s) : Tali Zvi <talizvi@post.tau.ac.il>,
@@ -199,7 +199,7 @@ public:
   /*! Get the last intersecing curve so far (non-const version). */
   X_monotone_curve_2& last_curve() { return m_last_curve; }
 
-  /*! Set the last intersecing curve so far.
+  /*! Set the last intersecting curve so far.
    */
   void set_last_curve(const X_monotone_curve_2& cv) { m_last_curve = cv; }
 

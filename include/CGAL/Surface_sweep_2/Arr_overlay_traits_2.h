@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Arrangement_on_surface_2/include/CGAL/Surface_sweep_2/Arr_overlay_traits_2.h $
-// $Id: Arr_overlay_traits_2.h 5690cc4 %aI Andreas Fabri
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.2/Arrangement_on_surface_2/include/CGAL/Surface_sweep_2/Arr_overlay_traits_2.h $
+// $Id: Arr_overlay_traits_2.h 5690cc4 2018-05-02T15:40:49+01:00 Andreas Fabri
 // SPDX-License-Identifier: GPL-3.0+
 //
 //

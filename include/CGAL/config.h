@@ -16,8 +16,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Installation/include/CGAL/config.h $
-// $Id: config.h b84f54a %aI Andreas Fabri
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.2/Installation/include/CGAL/config.h $
+// $Id: config.h 856b772 2019-10-15T09:03:13+02:00 Maxime Gimeno
 // SPDX-License-Identifier: LGPL-3.0+
 //
 //
@@ -132,7 +132,7 @@
 
 // workaround for the bug https://svn.boost.org/trac10/ticket/12534
 // That bug was introduced in Boost 1.62 and fixed in 1.63.
-#if BOOST_VERSION >= 106200 && BOOSTS_VERSION < 106300
+#if BOOST_VERSION >= 106200 && BOOST_VERSION < 106300
 #  include <boost/container/flat_map.hpp>
 #endif
 

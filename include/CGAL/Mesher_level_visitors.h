@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Mesher_level/include/CGAL/Mesher_level_visitors.h $
-// $Id: Mesher_level_visitors.h 5efce45 %aI Andreas Fabri
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.2/Mesher_level/include/CGAL/Mesher_level_visitors.h $
+// $Id: Mesher_level_visitors.h 5efce45 2018-01-18T08:49:52+00:00 Andreas Fabri
 // SPDX-License-Identifier: LGPL-3.0+
 // 
 //

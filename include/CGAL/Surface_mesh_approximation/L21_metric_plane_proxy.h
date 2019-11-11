@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Surface_mesh_approximation/include/CGAL/Surface_mesh_approximation/L21_metric_plane_proxy.h $
-// $Id: L21_metric_plane_proxy.h 0a52d10 %aI Lingjie Zhu
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.2/Surface_mesh_approximation/include/CGAL/Surface_mesh_approximation/L21_metric_plane_proxy.h $
+// $Id: L21_metric_plane_proxy.h 0a52d10 2019-02-28T20:10:58+08:00 Lingjie Zhu
 // SPDX-License-Identifier: GPL-3.0+
 //
 //

@@ -13,8 +13,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Subdivision_method_3/include/CGAL/Subdivision_method_3/subdivision_hosts_3.h $
-// $Id: subdivision_hosts_3.h 2f81a21 %aI Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.2/Subdivision_method_3/include/CGAL/Subdivision_method_3/subdivision_hosts_3.h $
+// $Id: subdivision_hosts_3.h 2f81a21 2019-07-28T18:38:59+02:00 Sébastien Loriot
 // SPDX-License-Identifier: LGPL-3.0+
 //
 //

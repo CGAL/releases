@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Surface_mesher/include/CGAL/Multi_surface_3.h $
-// $Id: Multi_surface_3.h 07b0ddf %aI Andreas Fabri
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.2/Surface_mesher/include/CGAL/Multi_surface_3.h $
+// $Id: Multi_surface_3.h 07b0ddf 2018-02-13T14:15:38+00:00 Andreas Fabri
 // SPDX-License-Identifier: GPL-3.0+
 //
 // Author(s)     : Laurent RINEAU

@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Installation/include/CGAL/internal/disable_deprecation_warnings_and_errors.h $
-// $Id: disable_deprecation_warnings_and_errors.h b41f1d6 %aI Mael Rouxel-Labbé
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.2/Installation/include/CGAL/internal/disable_deprecation_warnings_and_errors.h $
+// $Id: disable_deprecation_warnings_and_errors.h b41f1d6 2018-05-18T16:47:54+02:00 Mael Rouxel-Labbé
 // SPDX-License-Identifier: LGPL-3.0+
 //
 // Author: Mael Rouxel-Labbé

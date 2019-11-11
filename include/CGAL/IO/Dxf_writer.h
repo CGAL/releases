@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Straight_skeleton_2/include/CGAL/IO/Dxf_writer.h $
-// $Id: Dxf_writer.h 182239d %aI Laurent Rineau
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.2/Straight_skeleton_2/include/CGAL/IO/Dxf_writer.h $
+// $Id: Dxf_writer.h 182239d 2018-03-06T16:49:30+01:00 Laurent Rineau
 // SPDX-License-Identifier: LGPL-3.0+
 // 
 //

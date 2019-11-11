@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Arrangement_on_surface_2/include/CGAL/Surface_sweep_2/Arr_insertion_ss_visitor.h $
-// $Id: Arr_insertion_ss_visitor.h 0b5353c %aI Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.2/Arrangement_on_surface_2/include/CGAL/Surface_sweep_2/Arr_insertion_ss_visitor.h $
+// $Id: Arr_insertion_ss_visitor.h 90b199b 2019-10-18T09:40:01+02:00 Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0+
 //
 // Author(s)     : Baruch Zukerman <baruchzu@post.tau.ac.il>
@@ -158,7 +158,7 @@ add_subcurve(const X_monotone_curve_2& cv, Subcurve* sc)
   if (Base::add_subcurve_(cv, sc)) return;
 
   // sc is an overlap Subcurve of existing edge and new curve,
-  // which means that the edeg will have to be modified
+  // which means that the edge will have to be modified
   if (sc->originating_subcurve1()) {
     this->m_arr->modify_edge
       (this->current_event()->halfedge_handle()->next()->twin(), cv.base());

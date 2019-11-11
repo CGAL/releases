@@ -13,8 +13,8 @@
 // These files are provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/CGAL_ImageIO/include/CGAL/ImageIO/bmp.h $
-// $Id: bmp.h 0698f79 %aI Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.2/CGAL_ImageIO/include/CGAL/ImageIO/bmp.h $
+// $Id: bmp.h 0698f79 2017-10-20T23:34:14+02:00 Sébastien Loriot
 // SPDX-License-Identifier: LGPL-3.0+
 //
 //
@@ -23,7 +23,7 @@
 /*************************************************************************
  * iobmp.h - I procedures for BMP raw images
  *
- * $Id: bmp.h 0698f79 %aI Sébastien Loriot
+ * $Id: bmp.h 0698f79 2017-10-20T23:34:14+02:00 Sébastien Loriot
  *
  * Copyright INRIA
  *

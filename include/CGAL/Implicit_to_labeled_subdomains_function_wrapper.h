@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Periodic_3_mesh_3/include/CGAL/Implicit_to_labeled_subdomains_function_wrapper.h $
-// $Id: Implicit_to_labeled_subdomains_function_wrapper.h d685751 %aI Mael Rouxel-Labbé
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.2/Periodic_3_mesh_3/include/CGAL/Implicit_to_labeled_subdomains_function_wrapper.h $
+// $Id: Implicit_to_labeled_subdomains_function_wrapper.h d685751 2018-06-20T12:35:19+02:00 Mael Rouxel-Labbé
 // SPDX-License-Identifier: GPL-3.0+
 //
 // Author(s)     : Mikhail Bogdanov

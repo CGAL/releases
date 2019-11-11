@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/HalfedgeDS/include/CGAL/HalfedgeDS_vertex_max_base_with_id.h $
-// $Id: HalfedgeDS_vertex_max_base_with_id.h 0698f79 %aI Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.2/HalfedgeDS/include/CGAL/HalfedgeDS_vertex_max_base_with_id.h $
+// $Id: HalfedgeDS_vertex_max_base_with_id.h 0698f79 2017-10-20T23:34:14+02:00 Sébastien Loriot
 // SPDX-License-Identifier: LGPL-3.0+
 // 
 //

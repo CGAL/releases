@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/GraphicsView/include/CGAL/Qt/DemosMainWindow_impl.h $
-// $Id: DemosMainWindow_impl.h 272b436 %aI Maxime Gimeno
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.2/GraphicsView/include/CGAL/Qt/DemosMainWindow_impl.h $
+// $Id: DemosMainWindow_impl.h 272b436 2019-07-11T10:23:39+02:00 Maxime Gimeno
 // SPDX-License-Identifier: GPL-3.0+
 // 
 //

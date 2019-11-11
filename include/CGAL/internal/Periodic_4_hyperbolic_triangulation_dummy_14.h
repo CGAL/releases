@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Periodic_4_hyperbolic_triangulation_2/include/CGAL/internal/Periodic_4_hyperbolic_triangulation_dummy_14.h $
-// $Id: Periodic_4_hyperbolic_triangulation_dummy_14.h 2b56bc6 %aI Mael Rouxel-Labbé
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.2/Periodic_4_hyperbolic_triangulation_2/include/CGAL/internal/Periodic_4_hyperbolic_triangulation_dummy_14.h $
+// $Id: Periodic_4_hyperbolic_triangulation_dummy_14.h 2b56bc6 2018-12-19T22:35:20+01:00 Mael Rouxel-Labbé
 // SPDX-License-Identifier: GPL-3.0+
 //
 // Author(s)     : Iordan Iordanov

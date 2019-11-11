@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Nef_2/include/CGAL/Nef_2/PM_const_decorator.h $
-// $Id: PM_const_decorator.h e34ddae %aI Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.2/Nef_2/include/CGAL/Nef_2/PM_const_decorator.h $
+// $Id: PM_const_decorator.h e34ddae 2019-01-22T19:04:41+01:00 Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0+
 // 
 //

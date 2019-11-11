@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Surface_sweep_2/include/CGAL/Surface_sweep_2/Default_event_base.h $
-// $Id: Default_event_base.h f1483cf %aI Efi Fogel
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.2/Surface_sweep_2/include/CGAL/Surface_sweep_2/Default_event_base.h $
+// $Id: Default_event_base.h 0970a30 2019-10-24T11:05:24+02:00 Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0+
 //
 // Author(s) : Tali Zvi <talizvi@post.tau.ac.il>,
@@ -166,13 +166,28 @@ public:
     return std::make_pair(false, --iter);
   }
 
+  Subcurve_iterator
+  get_curve_after_on_right(Subcurve* curve)
+  {
+    Subcurve_iterator iter = this->right_curves_begin();
+    for (Subcurve_iterator end = this->right_curves_end(); iter!=end; ++iter)
+    {
+      // TODO refine the condition
+      if ( (*iter)->is_leaf(curve) || curve->is_leaf(*iter) || curve->has_common_leaf(*iter) )
+        break;
+    }
+    CGAL_assertion( iter!=this->right_curves_end() );
+    ++iter;
+    return iter;
+  }
+
   /*! Remove a curve from the set of left curves. */
   void remove_curve_from_left(Subcurve* curve)
   {
     for (Subcurve_iterator iter = this->left_curves_begin();
          iter != this->left_curves_end(); ++iter)
     {
-      if ((curve == *iter) || curve->are_all_leaves_contained(*iter)) {
+      if (curve == *iter) {
         this->left_curves_erase(iter);
         return;
       }
@@ -217,6 +232,8 @@ public:
     return tr->compare_y_at_x_right_2_object()
       (c1->last_curve(), c2->last_curve(), this->point()) == LARGER;
   }
+
+  std::vector< std::pair<Subcurve*, Subcurve*> > overlaps_on_right;
 };
 
 } // namespace Surface_sweep_2

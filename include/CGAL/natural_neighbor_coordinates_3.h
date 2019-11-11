@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Interpolation/include/CGAL/natural_neighbor_coordinates_3.h $
-// $Id: natural_neighbor_coordinates_3.h 67f99cc %aI Mael Rouxel-Labbé
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.2/Interpolation/include/CGAL/natural_neighbor_coordinates_3.h $
+// $Id: natural_neighbor_coordinates_3.h 67f99cc 2018-01-10T15:51:05+01:00 Mael Rouxel-Labbé
 // SPDX-License-Identifier: GPL-3.0+
 //
 //

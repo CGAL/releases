@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Segment_Delaunay_graph_Linf_2/include/CGAL/Segment_Delaunay_graph_Linf_2/Segment_Delaunay_graph_Linf_hierarchy_2_impl.h $
-// $Id: Segment_Delaunay_graph_Linf_hierarchy_2_impl.h 4e15225 %aI Mael Rouxel-Labbé
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.2/Segment_Delaunay_graph_Linf_2/include/CGAL/Segment_Delaunay_graph_Linf_2/Segment_Delaunay_graph_Linf_hierarchy_2_impl.h $
+// $Id: Segment_Delaunay_graph_Linf_hierarchy_2_impl.h 4e15225 2019-06-18T11:04:09+02:00 Mael Rouxel-Labbé
 // SPDX-License-Identifier: GPL-3.0+
 // 
 //

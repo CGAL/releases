@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Polynomial/include/CGAL/Exponent_vector.h $
-// $Id: Exponent_vector.h d2eb07b %aI Laurent Rineau
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.2/Polynomial/include/CGAL/Exponent_vector.h $
+// $Id: Exponent_vector.h d2eb07b 2019-01-17T10:11:42+01:00 Laurent Rineau
 // SPDX-License-Identifier: LGPL-3.0+
 // 
 //

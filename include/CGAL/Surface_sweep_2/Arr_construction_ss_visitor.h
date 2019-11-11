@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Arrangement_on_surface_2/include/CGAL/Surface_sweep_2/Arr_construction_ss_visitor.h $
-// $Id: Arr_construction_ss_visitor.h f1483cf %aI Efi Fogel
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.2/Arrangement_on_surface_2/include/CGAL/Surface_sweep_2/Arr_construction_ss_visitor.h $
+// $Id: Arr_construction_ss_visitor.h f1483cf 2017-12-07T15:56:00+02:00 Efi Fogel
 // SPDX-License-Identifier: GPL-3.0+
 //
 //

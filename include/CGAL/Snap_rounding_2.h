@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Snap_rounding_2/include/CGAL/Snap_rounding_2.h $
-// $Id: Snap_rounding_2.h e5118d1 %aI Andreas Fabri
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.2/Snap_rounding_2/include/CGAL/Snap_rounding_2.h $
+// $Id: Snap_rounding_2.h e5118d1 2018-02-23T15:34:15+00:00 Andreas Fabri
 // SPDX-License-Identifier: GPL-3.0+
 //
 //

@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Polyhedron_IO/include/CGAL/IO/PLY_reader.h $
-// $Id: PLY_reader.h 1cfcb1b %aI Simon Giraudot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.2/Polyhedron_IO/include/CGAL/IO/PLY_reader.h $
+// $Id: PLY_reader.h 1cfcb1b 2018-12-18T15:28:02+01:00 Simon Giraudot
 // SPDX-License-Identifier: LGPL-3.0+
 //
 // Author(s)     : Simon Giraudot

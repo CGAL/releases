@@ -13,8 +13,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Periodic_3_mesh_3/include/CGAL/refine_periodic_3_mesh_3.h $
-// $Id: refine_periodic_3_mesh_3.h afc3de2 %aI Laurent Rineau
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.2/Periodic_3_mesh_3/include/CGAL/refine_periodic_3_mesh_3.h $
+// $Id: refine_periodic_3_mesh_3.h afc3de2 2019-01-23T09:37:08+01:00 Laurent Rineau
 // SPDX-License-Identifier: GPL-3.0+
 //
 // Author(s)     : Stephane Tayeb,

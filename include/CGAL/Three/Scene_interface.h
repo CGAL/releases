@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Three/include/CGAL/Three/Scene_interface.h $
-// $Id: Scene_interface.h f3e4183 %aI Maxime Gimeno
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.2/Three/include/CGAL/Three/Scene_interface.h $
+// $Id: Scene_interface.h f3e4183 2018-11-19T12:00:00+01:00 Maxime Gimeno
 // SPDX-License-Identifier: GPL-3.0+
 //
 //

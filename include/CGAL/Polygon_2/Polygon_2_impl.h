@@ -16,8 +16,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Polygon/include/CGAL/Polygon_2/Polygon_2_impl.h $
-// $Id: Polygon_2_impl.h 8030667 %aI Andreas Fabri
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.2/Polygon/include/CGAL/Polygon_2/Polygon_2_impl.h $
+// $Id: Polygon_2_impl.h 8030667 2019-02-19T14:20:39+01:00 Andreas Fabri
 // SPDX-License-Identifier: LGPL-3.0+
 // 
 //

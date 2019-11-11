@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Heat_method_3/include/CGAL/Heat_method_3/internal/V2V.h $
-// $Id: V2V.h 470ce56 %aI Andreas Fabri
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.2/Heat_method_3/include/CGAL/Heat_method_3/internal/V2V.h $
+// $Id: V2V.h 470ce56 2018-10-30T22:31:24+01:00 Andreas Fabri
 // SPDX-License-Identifier: GPL-3.0+
 //
 //

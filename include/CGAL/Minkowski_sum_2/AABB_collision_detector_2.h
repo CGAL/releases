@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Minkowski_sum_2/include/CGAL/Minkowski_sum_2/AABB_collision_detector_2.h $
-// $Id: AABB_collision_detector_2.h dbc45fa %aI Efi Fogel
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.2/Minkowski_sum_2/include/CGAL/Minkowski_sum_2/AABB_collision_detector_2.h $
+// $Id: AABB_collision_detector_2.h dbc45fa 2018-11-27T16:32:07+02:00 Efi Fogel
 // SPDX-License-Identifier: GPL-3.0+
 //
 // Author(s): Sebastian Morr    <sebastian@morr.cc>

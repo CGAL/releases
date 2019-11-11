@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Polyhedron/include/CGAL/Polyhedron_3_to_lcc.h $
-// $Id: Polyhedron_3_to_lcc.h 7fa4b38 %aI Maxime Gimeno
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.2/Polyhedron/include/CGAL/Polyhedron_3_to_lcc.h $
+// $Id: Polyhedron_3_to_lcc.h 7fa4b38 2018-01-26T12:49:27+01:00 Maxime Gimeno
 // SPDX-License-Identifier: LGPL-3.0+
 //
 // Author(s)     : Guillaume Damiand <guillaume.damiand@liris.cnrs.fr>

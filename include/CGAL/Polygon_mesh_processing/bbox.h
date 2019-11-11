@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Polygon_mesh_processing/include/CGAL/Polygon_mesh_processing/bbox.h $
-// $Id: bbox.h 2f81a21 %aI Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.2/Polygon_mesh_processing/include/CGAL/Polygon_mesh_processing/bbox.h $
+// $Id: bbox.h 2edcf7b 2019-10-18T14:17:19+02:00 Laurent Rineau
 // SPDX-License-Identifier: GPL-3.0+
 //
 //
@@ -33,6 +33,11 @@
 #include <CGAL/Polygon_mesh_processing/internal/named_params_helper.h>
 
 #include <boost/foreach.hpp>
+
+#ifdef DOXYGEN_RUNNING
+#define CGAL_PMP_NP_TEMPLATE_PARAMETERS NamedParameters
+#define CGAL_PMP_NP_CLASS NamedParameters
+#endif
 
 namespace CGAL {
 

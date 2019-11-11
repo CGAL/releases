@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Apollonius_graph_2/include/CGAL/Parabola_segment_2.h $
-// $Id: Parabola_segment_2.h ee57fc2 %aI Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.2/Apollonius_graph_2/include/CGAL/Parabola_segment_2.h $
+// $Id: Parabola_segment_2.h c80abc7 2019-10-25T10:20:30+02:00 Mael Rouxel-Labbé
 // SPDX-License-Identifier: GPL-3.0+
 // 
 //
@@ -75,9 +75,9 @@ public:
     return int(CGAL::sqrt(CGAL::to_double(tt) / 2));
   }
 
-  void generate_points(std::vector<Point_2>& p) const
+  void generate_points(std::vector<Point_2>& p,
+                       const FT STEP = FT(2)) const
   {
-    const FT STEP(2);
     FT s0, s1;
 
     s0 = t(p1);

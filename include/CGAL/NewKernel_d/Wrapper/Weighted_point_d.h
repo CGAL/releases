@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/NewKernel_d/include/CGAL/NewKernel_d/Wrapper/Weighted_point_d.h $
-// $Id: Weighted_point_d.h 21d53cd %aI Sebastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.2/NewKernel_d/include/CGAL/NewKernel_d/Wrapper/Weighted_point_d.h $
+// $Id: Weighted_point_d.h 21d53cd 2018-11-12T09:58:14+01:00 Sebastien Loriot
 // SPDX-License-Identifier: LGPL-3.0+
 //
 // Author(s)     : Marc Glisse

@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Triangulation_2/include/CGAL/draw_triangulation_2.h $
-// $Id: draw_triangulation_2.h b45cf04 %aI Guillaume Damiand
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.2/Triangulation_2/include/CGAL/draw_triangulation_2.h $
+// $Id: draw_triangulation_2.h b45cf04 2018-10-15T14:20:30+02:00 Guillaume Damiand
 // SPDX-License-Identifier: GPL-3.0+
 //
 // Author(s)     : Guillaume Damiand <guillaume.damiand@liris.cnrs.fr>

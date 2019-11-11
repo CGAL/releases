@@ -13,8 +13,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Number_types/include/CGAL/Mpzf.h $
-// $Id: Mpzf.h f1821f2 %aI Laurent Rineau
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.2/Number_types/include/CGAL/Mpzf.h $
+// $Id: Mpzf.h d715ddd 2019-10-25T14:38:26+02:00 Marc Glisse
 // SPDX-License-Identifier: LGPL-3.0+
 //
 // Author(s)	:  Marc Glisse
@@ -672,7 +672,7 @@ struct Mpzf {
 	  rdata=Mpzf_impl::fill_n_ptr(rdata,xexp-absysize,-1);
 	  mpn_sub_1(rdata, xdata, absxsize, 1);
 	  res.size=absxsize+xexp;
-	  if(res.data()[res.size-1]==0) --res.size;
+	  while(/*res.size>0&&*/res.data()[res.size-1]==0) --res.size;
 	  if(xsize<0) res.size=-res.size;
 	  return res;
 	} else {

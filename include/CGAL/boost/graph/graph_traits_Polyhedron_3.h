@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Polyhedron/include/CGAL/boost/graph/graph_traits_Polyhedron_3.h $
-// $Id: graph_traits_Polyhedron_3.h 132cf69 %aI Maxime Gimeno
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.2/Polyhedron/include/CGAL/boost/graph/graph_traits_Polyhedron_3.h $
+// $Id: graph_traits_Polyhedron_3.h 132cf69 2018-02-15T12:56:24+01:00 Maxime Gimeno
 // SPDX-License-Identifier: LGPL-3.0+
 //
 //

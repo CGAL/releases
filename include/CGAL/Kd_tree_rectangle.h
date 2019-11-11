@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Spatial_searching/include/CGAL/Kd_tree_rectangle.h $
-// $Id: Kd_tree_rectangle.h 5a2857d %aI Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.2/Spatial_searching/include/CGAL/Kd_tree_rectangle.h $
+// $Id: Kd_tree_rectangle.h 5a2857d 2018-12-06T09:23:06+01:00 Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0+
 // 
 //

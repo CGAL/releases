@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Alpha_shapes_2/include/CGAL/Weighted_alpha_shape_euclidean_traits_2.h $
-// $Id: Weighted_alpha_shape_euclidean_traits_2.h 8cdfad0 %aI Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.2/Alpha_shapes_2/include/CGAL/Weighted_alpha_shape_euclidean_traits_2.h $
+// $Id: Weighted_alpha_shape_euclidean_traits_2.h 8cdfad0 2017-11-15T22:58:57+01:00 Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0+
 //
 // Author(s)     : Tran Kai Frank DA <Frank.Da@sophia.inria.fr>

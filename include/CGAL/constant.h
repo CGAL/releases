@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Number_types/include/CGAL/constant.h $
-// $Id: constant.h 2e1a15b %aI Andreas Fabri
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.2/Number_types/include/CGAL/constant.h $
+// $Id: constant.h 2e1a15b 2018-02-22T07:51:00+00:00 Andreas Fabri
 // SPDX-License-Identifier: LGPL-3.0+
 //
 //

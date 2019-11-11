@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Nef_S2/include/CGAL/Nef_polyhedron_S2.h $
-// $Id: Nef_polyhedron_S2.h 1f51c8a %aI Andreas Fabri
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.2/Nef_S2/include/CGAL/Nef_polyhedron_S2.h $
+// $Id: Nef_polyhedron_S2.h 1f51c8a 2018-11-26T15:44:17+01:00 Andreas Fabri
 // SPDX-License-Identifier: GPL-3.0+
 // 
 //

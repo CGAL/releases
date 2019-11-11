@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Number_types/include/CGAL/MP_Float.h $
-// $Id: MP_Float.h 3c08d12 %aI Marc Glisse
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.2/Number_types/include/CGAL/MP_Float.h $
+// $Id: MP_Float.h 3c08d12 2017-12-29T18:45:35+01:00 Marc Glisse
 // SPDX-License-Identifier: LGPL-3.0+
 //
 //

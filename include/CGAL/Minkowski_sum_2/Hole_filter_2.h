@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Minkowski_sum_2/include/CGAL/Minkowski_sum_2/Hole_filter_2.h $
-// $Id: Hole_filter_2.h 8cdfad0 %aI Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.2/Minkowski_sum_2/include/CGAL/Minkowski_sum_2/Hole_filter_2.h $
+// $Id: Hole_filter_2.h 8cdfad0 2017-11-15T22:58:57+01:00 Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0+
 //
 // Author(s): Sebastian Morr    <sebastian@morr.cc>

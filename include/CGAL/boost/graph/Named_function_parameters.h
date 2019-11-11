@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/BGL/include/CGAL/boost/graph/Named_function_parameters.h $
-// $Id: Named_function_parameters.h 17df9b5 %aI Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.2/BGL/include/CGAL/boost/graph/Named_function_parameters.h $
+// $Id: Named_function_parameters.h 17df9b5 2019-09-09T10:48:05+02:00 Sébastien Loriot
 // SPDX-License-Identifier: LGPL-3.0+
 //
 //

@@ -16,8 +16,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/STL_Extension/include/CGAL/In_place_list.h $
-// $Id: In_place_list.h cd7ae28 %aI Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.2/STL_Extension/include/CGAL/In_place_list.h $
+// $Id: In_place_list.h cd7ae28 2018-11-24T13:42:07+01:00 Sébastien Loriot
 // SPDX-License-Identifier: LGPL-3.0+
 // 
 //

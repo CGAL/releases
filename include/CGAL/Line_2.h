@@ -16,8 +16,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Kernel_23/include/CGAL/Line_2.h $
-// $Id: Line_2.h 8bd7364 %aI Mael Rouxel-Labbé
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.2/Kernel_23/include/CGAL/Line_2.h $
+// $Id: Line_2.h 8bd7364 2019-07-27T13:59:52+02:00 Mael Rouxel-Labbé
 // SPDX-License-Identifier: LGPL-3.0+
 //
 //

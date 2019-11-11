@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Principal_component_analysis/include/CGAL/PCA_util_Eigen.h $
-// $Id: PCA_util_Eigen.h d3e42be %aI Simon Giraudot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.2/Principal_component_analysis/include/CGAL/PCA_util_Eigen.h $
+// $Id: PCA_util_Eigen.h d3e42be 2019-07-17T15:36:30+02:00 Simon Giraudot
 // SPDX-License-Identifier: GPL-3.0+
 //
 // Author(s) : Pierre Alliez and Sylvain Pion and Ankit Gupta and Simon Giraudot

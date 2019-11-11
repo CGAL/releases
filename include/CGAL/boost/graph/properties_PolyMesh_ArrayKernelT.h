@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/BGL/include/CGAL/boost/graph/properties_PolyMesh_ArrayKernelT.h $
-// $Id: properties_PolyMesh_ArrayKernelT.h 86c1cfb %aI Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.2/BGL/include/CGAL/boost/graph/properties_PolyMesh_ArrayKernelT.h $
+// $Id: properties_PolyMesh_ArrayKernelT.h 86c1cfb 2017-12-19T15:48:07+01:00 Sébastien Loriot
 // SPDX-License-Identifier: LGPL-3.0+
 //
 // Author(s)     : Philipp Möller

@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Envelope_2/include/CGAL/Envelope_diagram_1.h $
-// $Id: Envelope_diagram_1.h 32a6b1b %aI Andreas Fabri
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.2/Envelope_2/include/CGAL/Envelope_diagram_1.h $
+// $Id: Envelope_diagram_1.h 32a6b1b 2018-04-20T09:06:59+01:00 Andreas Fabri
 // SPDX-License-Identifier: GPL-3.0+
 //
 // Author(s)     : Ron Wein   <wein@post.tau.ac.il>

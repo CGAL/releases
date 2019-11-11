@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/STL_Extension/include/CGAL/Hash_handles_with_or_without_timestamps.h $
-// $Id: Hash_handles_with_or_without_timestamps.h 10b096f %aI Mael Rouxel-Labbé
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.2/STL_Extension/include/CGAL/Hash_handles_with_or_without_timestamps.h $
+// $Id: Hash_handles_with_or_without_timestamps.h 10b096f 2017-12-08T10:00:08+01:00 Mael Rouxel-Labbé
 // SPDX-License-Identifier: LGPL-3.0+
 //
 // Author(s)     : Laurent Rineau,

@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/AABB_tree/include/CGAL/internal/AABB_tree/AABB_drawing_traits.h $
-// $Id: AABB_drawing_traits.h bc2410d %aI Maxime Gimeno
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.2/AABB_tree/include/CGAL/internal/AABB_tree/AABB_drawing_traits.h $
+// $Id: AABB_drawing_traits.h bc2410d 2018-02-28T11:40:49+01:00 Maxime Gimeno
 // SPDX-License-Identifier: GPL-3.0+
 //
 //

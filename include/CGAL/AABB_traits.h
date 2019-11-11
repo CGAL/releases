@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/AABB_tree/include/CGAL/AABB_traits.h $
-// $Id: AABB_traits.h cdbe19b %aI Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.2/AABB_tree/include/CGAL/AABB_traits.h $
+// $Id: AABB_traits.h cdbe19b 2018-10-30T15:49:38+01:00 Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0+
 //
 //

@@ -13,8 +13,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Generator/include/CGAL/Combination_enumerator.h $
-// $Id: Combination_enumerator.h dc2f37a %aI Andreas Fabri
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.2/Generator/include/CGAL/Combination_enumerator.h $
+// $Id: Combination_enumerator.h dc2f37a 2018-01-24T08:59:20+00:00 Andreas Fabri
 // SPDX-License-Identifier: LGPL-3.0+
 //
 // Author(s)    : Samuel Hornus

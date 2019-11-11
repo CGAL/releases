@@ -8,8 +8,8 @@
 // Licensees holding a valid commercial license may use this file in
 // accordance with the commercial license agreement provided with the software.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Number_types/include/CGAL/FPU_msvc.h $
-// $Id: FPU_msvc.h c651514 %aI Andreas Fabri
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.2/Number_types/include/CGAL/FPU_msvc.h $
+// $Id: FPU_msvc.h c651514 2018-01-17T21:21:32+00:00 Andreas Fabri
 // SPDX-License-Identifier: LGPL-3.0+
 //
 //

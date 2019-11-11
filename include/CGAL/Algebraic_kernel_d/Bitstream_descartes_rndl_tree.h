@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Algebraic_kernel_d/include/CGAL/Algebraic_kernel_d/Bitstream_descartes_rndl_tree.h $
-// $Id: Bitstream_descartes_rndl_tree.h 873416e %aI Andreas Fabri
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.2/Algebraic_kernel_d/include/CGAL/Algebraic_kernel_d/Bitstream_descartes_rndl_tree.h $
+// $Id: Bitstream_descartes_rndl_tree.h 873416e 2019-02-07T16:10:42+01:00 Andreas Fabri
 // SPDX-License-Identifier: LGPL-3.0+
 // 
 //

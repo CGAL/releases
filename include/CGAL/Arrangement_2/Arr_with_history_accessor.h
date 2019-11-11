@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Arrangement_on_surface_2/include/CGAL/Arrangement_2/Arr_with_history_accessor.h $
-// $Id: Arr_with_history_accessor.h 1e1025e %aI Laurent Rineau
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.2/Arrangement_on_surface_2/include/CGAL/Arrangement_2/Arr_with_history_accessor.h $
+// $Id: Arr_with_history_accessor.h 1e1025e 2018-04-23T13:09:34+00:00 Laurent Rineau
 // SPDX-License-Identifier: GPL-3.0+
 // 
 //

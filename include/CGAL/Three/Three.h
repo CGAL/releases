@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Three/include/CGAL/Three/Three.h $
-// $Id: Three.h 6c6244d %aI Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.2/Three/include/CGAL/Three/Three.h $
+// $Id: Three.h 6c6244d 2019-01-31T11:41:58+01:00 Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0+
 //
 //

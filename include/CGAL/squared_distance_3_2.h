@@ -16,8 +16,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Distance_3/include/CGAL/squared_distance_3_2.h $
-// $Id: squared_distance_3_2.h 0698f79 %aI Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.2/Distance_3/include/CGAL/squared_distance_3_2.h $
+// $Id: squared_distance_3_2.h 8251bb9 2019-10-25T11:21:05+02:00 Maxime Gimeno
 // SPDX-License-Identifier: LGPL-3.0+
 // 
 //
@@ -398,6 +398,20 @@ squared_distance(const Triangle_3<K> & t,
   return internal::squared_distance(pt, t, K());
 }
 
+
+template <class K>
+inline
+typename K::FT
+squared_distance(const Plane_3<K> & p1,
+                 const Plane_3<K> & p2) {
+  K k;
+  typename K::Construct_orthogonal_vector_3 ortho_vec =
+      k.construct_orthogonal_vector_3_object();
+  if (!internal::is_null(internal::wcross(ortho_vec(p1), ortho_vec(p2), k), k))
+    return typename K::FT(0);
+  else
+    return internal::squared_distance(p1.point(), p2, k);
+}
 
 } //namespace CGAL
 

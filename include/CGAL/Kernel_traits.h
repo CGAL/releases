@@ -16,8 +16,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Kernel_23/include/CGAL/Kernel_traits.h $
-// $Id: Kernel_traits.h 8bc315c %aI Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.2/Kernel_23/include/CGAL/Kernel_traits.h $
+// $Id: Kernel_traits.h 8bc315c 2018-05-03T15:05:47+02:00 Sébastien Loriot
 // SPDX-License-Identifier: LGPL-3.0+
 // 
 //

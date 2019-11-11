@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Segment_Delaunay_graph_2/include/CGAL/Segment_Delaunay_graph_2/Finite_edge_interior_conflict_C2.h $
-// $Id: Finite_edge_interior_conflict_C2.h cd4554b %aI Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.2/Segment_Delaunay_graph_2/include/CGAL/Segment_Delaunay_graph_2/Finite_edge_interior_conflict_C2.h $
+// $Id: Finite_edge_interior_conflict_C2.h cd4554b 2019-05-15T08:28:31+02:00 Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0+
 // 
 //

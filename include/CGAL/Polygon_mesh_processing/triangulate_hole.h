@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Polygon_mesh_processing/include/CGAL/Polygon_mesh_processing/triangulate_hole.h $
-// $Id: triangulate_hole.h cebf065 %aI Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.2/Polygon_mesh_processing/include/CGAL/Polygon_mesh_processing/triangulate_hole.h $
+// $Id: triangulate_hole.h 9e3b59e 2019-10-03T12:07:47+02:00 Maxime Gimeno
 // SPDX-License-Identifier: GPL-3.0+
 // 
 // Author(s)     : Ilker O. Yaz
@@ -38,6 +38,11 @@
 #include <boost/tuple/tuple.hpp>
 
 #include <vector>
+
+#ifdef DOXYGEN_RUNNING
+#define CGAL_PMP_NP_TEMPLATE_PARAMETERS NamedParameters
+#define CGAL_PMP_NP_CLASS NamedParameters
+#endif
 
 namespace CGAL {
 

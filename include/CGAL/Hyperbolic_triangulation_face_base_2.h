@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Hyperbolic_triangulation_2/include/CGAL/Hyperbolic_triangulation_face_base_2.h $
-// $Id: Hyperbolic_triangulation_face_base_2.h 42e1513 %aI Mael Rouxel-Labbé
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.2/Hyperbolic_triangulation_2/include/CGAL/Hyperbolic_triangulation_face_base_2.h $
+// $Id: Hyperbolic_triangulation_face_base_2.h 42e1513 2018-12-19T19:36:37+01:00 Mael Rouxel-Labbé
 // SPDX-License-Identifier: GPL-3.0+
 //
 // Author(s)     : Monique Teillaud <Monique.Teillaud@inria.fr>

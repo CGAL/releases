@@ -14,8 +14,8 @@
  WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 
 *****************************************************************************/
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/GraphicsView/include/CGAL/Qt/vec.h $
-// $Id: vec.h f627339 %aI Andreas Fabri
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.2/GraphicsView/include/CGAL/Qt/vec.h $
+// $Id: vec.h f627339 2019-01-15T18:32:48+01:00 Andreas Fabri
 // SPDX-License-Identifier: GPL-3.0
 
 #ifndef QGLVIEWER_VEC_H

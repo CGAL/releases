@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Installation/include/CGAL/Polyhedron_3_fwd.h $
-// $Id: Polyhedron_3_fwd.h 9c69ac4 %aI Andreas Fabri
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.2/Installation/include/CGAL/Polyhedron_3_fwd.h $
+// $Id: Polyhedron_3_fwd.h 9c69ac4 2018-03-28T17:33:28+01:00 Andreas Fabri
 // SPDX-License-Identifier: LGPL-3.0+
 //
 

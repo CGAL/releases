@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Polygon_mesh_processing/include/CGAL/Side_of_triangle_mesh.h $
-// $Id: Side_of_triangle_mesh.h 3dd0aa1 %aI Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.2/Polygon_mesh_processing/include/CGAL/Side_of_triangle_mesh.h $
+// $Id: Side_of_triangle_mesh.h 3dd0aa1 2018-09-04T11:26:30+02:00 Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0+
 // 
 //

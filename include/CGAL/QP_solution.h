@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/QP_solver/include/CGAL/QP_solution.h $
-// $Id: QP_solution.h d0b8fc5 %aI Andreas Fabri
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.2/QP_solver/include/CGAL/QP_solution.h $
+// $Id: QP_solution.h d0b8fc5 2019-01-24T18:17:46+01:00 Andreas Fabri
 // SPDX-License-Identifier: GPL-3.0+
 // 
 //

@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Triangulation_3/include/CGAL/Regular_triangulation_cell_base_3.h $
-// $Id: Regular_triangulation_cell_base_3.h 88add6b %aI Andreas Fabri
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.2/Triangulation_3/include/CGAL/Regular_triangulation_cell_base_3.h $
+// $Id: Regular_triangulation_cell_base_3.h 88add6b 2019-02-07T15:24:00+01:00 Andreas Fabri
 // SPDX-License-Identifier: GPL-3.0+
 //
 // Author(s)     : Christophe Delage <christophe.delage@sophia.inria.fr>

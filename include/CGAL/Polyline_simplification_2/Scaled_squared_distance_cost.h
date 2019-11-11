@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Polyline_simplification_2/include/CGAL/Polyline_simplification_2/Scaled_squared_distance_cost.h $
-// $Id: Scaled_squared_distance_cost.h 09f3236 %aI Andreas Fabri
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.2/Polyline_simplification_2/include/CGAL/Polyline_simplification_2/Scaled_squared_distance_cost.h $
+// $Id: Scaled_squared_distance_cost.h 09f3236 2018-01-17T22:08:12+00:00 Andreas Fabri
 // SPDX-License-Identifier: GPL-3.0+
 //
 // Author(s)     : Andreas Fabri, Fernando Cacciola

@@ -14,8 +14,8 @@
  WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 
 *****************************************************************************/
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/GraphicsView/include/CGAL/Qt/constraint_impl.h $
-// $Id: constraint_impl.h c4b28fd %aI Maxime Gimeno
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.2/GraphicsView/include/CGAL/Qt/constraint_impl.h $
+// $Id: constraint_impl.h c4b28fd 2018-06-06T16:15:55+02:00 Maxime Gimeno
 // SPDX-License-Identifier: GPL-3.0
 
 #ifdef CGAL_HEADER_ONLY

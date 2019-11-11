@@ -16,8 +16,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Number_types/include/CGAL/FPU.h $
-// $Id: FPU.h 42cbce9 %aI Laurent Rineau
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.2/Number_types/include/CGAL/FPU.h $
+// $Id: FPU.h 42cbce9 2019-03-28T08:55:49+01:00 Laurent Rineau
 // SPDX-License-Identifier: LGPL-3.0+
 //
 //

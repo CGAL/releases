@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Periodic_2_triangulation_2/include/CGAL/Periodic_2_Delaunay_triangulation_2.h $
-// $Id: Periodic_2_Delaunay_triangulation_2.h c8183ab %aI Andreas Fabri
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.2/Periodic_2_triangulation_2/include/CGAL/Periodic_2_Delaunay_triangulation_2.h $
+// $Id: Periodic_2_Delaunay_triangulation_2.h c8183ab 2019-01-23T10:23:47+01:00 Andreas Fabri
 // SPDX-License-Identifier: GPL-3.0+
 //
 // Author(s)     : Nico Kruithof <Nico@nghk.nl>

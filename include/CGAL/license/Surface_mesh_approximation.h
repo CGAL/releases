@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Installation/include/CGAL/license/Surface_mesh_approximation.h $
-// $Id: Surface_mesh_approximation.h 73c2a41 %aI Lingjie Zhu
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.2/Installation/include/CGAL/license/Surface_mesh_approximation.h $
+// $Id: Surface_mesh_approximation.h 73c2a41 2018-11-07T11:17:20+08:00 Lingjie Zhu
 // SPDX-License-Identifier: LGPL-3.0+
 //
 // Author(s) : Andreas Fabri

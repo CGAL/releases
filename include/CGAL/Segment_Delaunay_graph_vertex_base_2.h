@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Segment_Delaunay_graph_2/include/CGAL/Segment_Delaunay_graph_vertex_base_2.h $
-// $Id: Segment_Delaunay_graph_vertex_base_2.h 341d2bb %aI Andreas Fabri
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.2/Segment_Delaunay_graph_2/include/CGAL/Segment_Delaunay_graph_vertex_base_2.h $
+// $Id: Segment_Delaunay_graph_vertex_base_2.h 341d2bb 2018-01-18T10:27:53+00:00 Andreas Fabri
 // SPDX-License-Identifier: GPL-3.0+
 // 
 //

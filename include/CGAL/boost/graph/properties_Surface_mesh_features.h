@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Surface_mesh/include/CGAL/boost/graph/properties_Surface_mesh_features.h $
-// $Id: properties_Surface_mesh_features.h d76c163 %aI Maxime Gimeno
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.2/Surface_mesh/include/CGAL/boost/graph/properties_Surface_mesh_features.h $
+// $Id: properties_Surface_mesh_features.h d76c163 2019-02-11T09:39:26+01:00 Maxime Gimeno
 // SPDX-License-Identifier: LGPL-3.0+
 //
 //

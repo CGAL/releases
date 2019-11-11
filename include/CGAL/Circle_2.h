@@ -16,8 +16,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Kernel_23/include/CGAL/Circle_2.h $
-// $Id: Circle_2.h 2e14ff9 %aI Andreas Fabri
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.2/Kernel_23/include/CGAL/Circle_2.h $
+// $Id: Circle_2.h 2e14ff9 2018-01-17T19:59:11+00:00 Andreas Fabri
 // SPDX-License-Identifier: LGPL-3.0+
 //
 //

@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Installation/include/CGAL/MSVC_compiler_config.h $
-// $Id: MSVC_compiler_config.h 6018fd5 %aI Laurent Rineau
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.2/Installation/include/CGAL/MSVC_compiler_config.h $
+// $Id: MSVC_compiler_config.h 6018fd5 2017-12-06T13:10:11+01:00 Laurent Rineau
 // SPDX-License-Identifier: LGPL-3.0+
 //
 //

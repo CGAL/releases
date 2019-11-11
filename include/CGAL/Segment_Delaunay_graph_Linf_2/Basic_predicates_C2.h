@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Segment_Delaunay_graph_Linf_2/include/CGAL/Segment_Delaunay_graph_Linf_2/Basic_predicates_C2.h $
-// $Id: Basic_predicates_C2.h 3006595 %aI Laurent Rineau
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.2/Segment_Delaunay_graph_Linf_2/include/CGAL/Segment_Delaunay_graph_Linf_2/Basic_predicates_C2.h $
+// $Id: Basic_predicates_C2.h 3006595 2019-02-05T12:55:28+01:00 Laurent Rineau
 // SPDX-License-Identifier: GPL-3.0+
 // 
 //

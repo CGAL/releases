@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Nef_3/include/CGAL/Nef_polyhedron_3.h $
-// $Id: Nef_polyhedron_3.h 30e2fe0 %aI Jane Tournois
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.2/Nef_3/include/CGAL/Nef_polyhedron_3.h $
+// $Id: Nef_polyhedron_3.h 30e2fe0 2018-03-02T10:39:57+01:00 Jane Tournois
 // SPDX-License-Identifier: GPL-3.0+
 // 
 //

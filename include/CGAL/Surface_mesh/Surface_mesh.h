@@ -11,8 +11,8 @@
 // Licensees holding a valid commercial license may use this file in
 // accordance with the commercial license agreement provided with the software.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Surface_mesh/include/CGAL/Surface_mesh/Surface_mesh.h $
-// $Id: Surface_mesh.h 2f81a21 %aI Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.2/Surface_mesh/include/CGAL/Surface_mesh/Surface_mesh.h $
+// $Id: Surface_mesh.h 2f81a21 2019-07-28T18:38:59+02:00 Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0+
 //
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE

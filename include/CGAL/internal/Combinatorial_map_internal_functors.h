@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Combinatorial_map/include/CGAL/internal/Combinatorial_map_internal_functors.h $
-// $Id: Combinatorial_map_internal_functors.h 53769e9 %aI Guillaume Damiand
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.2/Combinatorial_map/include/CGAL/internal/Combinatorial_map_internal_functors.h $
+// $Id: Combinatorial_map_internal_functors.h 53769e9 2018-02-13T11:31:21+01:00 Guillaume Damiand
 // SPDX-License-Identifier: LGPL-3.0+
 //
 // Author(s)     : Guillaume Damiand <guillaume.damiand@liris.cnrs.fr>

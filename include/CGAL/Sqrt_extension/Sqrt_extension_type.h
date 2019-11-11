@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Number_types/include/CGAL/Sqrt_extension/Sqrt_extension_type.h $
-// $Id: Sqrt_extension_type.h 1ec37a7 %aI Andreas Fabri
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.2/Number_types/include/CGAL/Sqrt_extension/Sqrt_extension_type.h $
+// $Id: Sqrt_extension_type.h 1ec37a7 2019-01-10T13:54:38+01:00 Andreas Fabri
 // SPDX-License-Identifier: LGPL-3.0+
 //
 //

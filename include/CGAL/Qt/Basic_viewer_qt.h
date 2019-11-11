@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/GraphicsView/include/CGAL/Qt/Basic_viewer_qt.h $
-// $Id: Basic_viewer_qt.h d069b6f %aI Maxime Gimeno
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.2/GraphicsView/include/CGAL/Qt/Basic_viewer_qt.h $
+// $Id: Basic_viewer_qt.h d069b6f 2019-01-30T11:15:51+01:00 Maxime Gimeno
 // SPDX-License-Identifier: GPL-3.0+
 // 
 //

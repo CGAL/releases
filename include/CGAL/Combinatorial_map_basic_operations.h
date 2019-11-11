@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Combinatorial_map/include/CGAL/Combinatorial_map_basic_operations.h $
-// $Id: Combinatorial_map_basic_operations.h 241a9f3 %aI Guillaume Damiand
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.2/Combinatorial_map/include/CGAL/Combinatorial_map_basic_operations.h $
+// $Id: Combinatorial_map_basic_operations.h 241a9f3 2018-09-04T16:11:22+02:00 Guillaume Damiand
 // SPDX-License-Identifier: LGPL-3.0+
 //
 // Author(s)     : Guillaume Damiand <guillaume.damiand@liris.cnrs.fr>

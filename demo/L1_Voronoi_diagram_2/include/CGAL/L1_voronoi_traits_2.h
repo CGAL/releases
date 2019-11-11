@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/GraphicsView/demo/L1_Voronoi_diagram_2/include/CGAL/L1_voronoi_traits_2.h $
-// $Id: L1_voronoi_traits_2.h 962ff6e %aI Marc Glisse
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.2/GraphicsView/demo/L1_Voronoi_diagram_2/include/CGAL/L1_voronoi_traits_2.h $
+// $Id: L1_voronoi_traits_2.h 962ff6e 2018-10-15T17:02:27+02:00 Marc Glisse
 // SPDX-License-Identifier: GPL-3.0+
 //
 // Author(s)     : Ophir Setter

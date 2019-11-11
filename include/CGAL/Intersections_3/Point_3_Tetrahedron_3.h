@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Intersections_3/include/CGAL/Intersections_3/Point_3_Tetrahedron_3.h $
-// $Id: Point_3_Tetrahedron_3.h aac8ac4 %aI Andreas Fabri
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.2/Intersections_3/include/CGAL/Intersections_3/Point_3_Tetrahedron_3.h $
+// $Id: Point_3_Tetrahedron_3.h aac8ac4 2018-11-29T15:58:34+01:00 Andreas Fabri
 // SPDX-License-Identifier: LGPL-3.0+
 //
 //

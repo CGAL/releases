@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Nef_S2/include/CGAL/Nef_S2/Sphere_segment.h $
-// $Id: Sphere_segment.h d8f608f %aI Andreas Fabri
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.2/Nef_S2/include/CGAL/Nef_S2/Sphere_segment.h $
+// $Id: Sphere_segment.h d8f608f 2019-01-15T18:20:36+01:00 Andreas Fabri
 // SPDX-License-Identifier: GPL-3.0+
 // 
 //

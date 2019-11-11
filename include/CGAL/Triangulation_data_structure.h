@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/Triangulation/include/CGAL/Triangulation_data_structure.h $
-// $Id: Triangulation_data_structure.h 21d53cd %aI Sebastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.2/Triangulation/include/CGAL/Triangulation_data_structure.h $
+// $Id: Triangulation_data_structure.h 21d53cd 2018-11-12T09:58:14+01:00 Sebastien Loriot
 // SPDX-License-Identifier: GPL-3.0+
 //
 // Author(s)    : Samuel Hornus

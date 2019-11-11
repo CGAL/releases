@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.1/STL_Extension/include/CGAL/Iterator_range.h $
-// $Id: Iterator_range.h 68f321c %aI Laurent Rineau
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-4.14.2/STL_Extension/include/CGAL/Iterator_range.h $
+// $Id: Iterator_range.h 68f321c 2019-04-08T15:58:27+02:00 Laurent Rineau
 // SPDX-License-Identifier: LGPL-3.0+
 // 
 //
