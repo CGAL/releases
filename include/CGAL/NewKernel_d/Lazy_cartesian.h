@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta2/NewKernel_d/include/CGAL/NewKernel_d/Lazy_cartesian.h $
-// $Id: Lazy_cartesian.h 52164b1 2019-10-19T15:34:59+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0/NewKernel_d/include/CGAL/NewKernel_d/Lazy_cartesian.h $
+// $Id: Lazy_cartesian.h b9a079b 2019-11-04T11:34:53+01:00 Sébastien Loriot
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Marc Glisse
@@ -30,7 +30,7 @@ struct Nth_iterator_element : private Store_kernel<K> {
   typedef typename Get_type<K, typename iterator_tag_traits<T>::value_tag>::type result_type;
   template<class U> result_type operator()(U&& u, int i) const {
     typename Get_functor<K, Construct_ttag<T> >::type ci(this->kernel());
-    return *cpp0x::next(ci(std::forward<U>(u),Begin_tag()),i);
+    return *std::next(ci(std::forward<U>(u),Begin_tag()),i);
   }
 };
       //typedef typename Functor<typename iterator_tag_traits<T>::nth_element>::type nth_elem;

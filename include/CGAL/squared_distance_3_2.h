@@ -7,8 +7,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta2/Distance_3/include/CGAL/squared_distance_3_2.h $
-// $Id: squared_distance_3_2.h 52164b1 2019-10-19T15:34:59+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0/Distance_3/include/CGAL/squared_distance_3_2.h $
+// $Id: squared_distance_3_2.h 97ba3ec 2019-11-06T17:45:34+01:00 Laurent Rineau
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 // 
 //
@@ -389,6 +389,20 @@ squared_distance(const Triangle_3<K> & t,
   return internal::squared_distance(pt, t, K());
 }
 
+
+template <class K>
+inline
+typename K::FT
+squared_distance(const Plane_3<K> & p1,
+                 const Plane_3<K> & p2) {
+  K k;
+  typename K::Construct_orthogonal_vector_3 ortho_vec =
+      k.construct_orthogonal_vector_3_object();
+  if (!internal::is_null(internal::wcross(ortho_vec(p1), ortho_vec(p2), k), k))
+    return typename K::FT(0);
+  else
+    return internal::squared_distance(p1.point(), p2, k);
+}
 
 } //namespace CGAL
 

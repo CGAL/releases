@@ -17,7 +17,7 @@
  * WWW URL: http://cs.nyu.edu/exact/
  * Email: exact@cs.nyu.edu
  *
- * $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta2/CGAL_Core/include/CGAL/CORE/CoreDefs_impl.h $
+ * $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0/CGAL_Core/include/CGAL/CORE/CoreDefs_impl.h $
  * $Id: CoreDefs_impl.h 26fb266 2019-10-19T16:28:33+02:00 Sébastien Loriot
  * SPDX-License-Identifier: LGPL-3.0-or-later
  ***************************************************************************/

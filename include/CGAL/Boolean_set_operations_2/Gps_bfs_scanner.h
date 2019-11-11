@@ -3,7 +3,7 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta2/Boolean_set_operations_2/include/CGAL/Boolean_set_operations_2/Gps_bfs_scanner.h $
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0/Boolean_set_operations_2/include/CGAL/Boolean_set_operations_2/Gps_bfs_scanner.h $
 // $Id: Gps_bfs_scanner.h 254d60f 2019-10-19T15:23:19+02:00 Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 // 

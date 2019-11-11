@@ -2,7 +2,7 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta2/Straight_skeleton_2/include/CGAL/IO/Dxf_stream.h $
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0/Straight_skeleton_2/include/CGAL/IO/Dxf_stream.h $
 // $Id: Dxf_stream.h 52164b1 2019-10-19T15:34:59+02:00 Sébastien Loriot
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 // 

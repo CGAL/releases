@@ -3,7 +3,7 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta2/Minkowski_sum_3/include/CGAL/Minkowski_sum_3/bipartite_nary_union_sorted_combined.h $
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0/Minkowski_sum_3/include/CGAL/Minkowski_sum_3/bipartite_nary_union_sorted_combined.h $
 // $Id: bipartite_nary_union_sorted_combined.h 254d60f 2019-10-19T15:23:19+02:00 Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 // 

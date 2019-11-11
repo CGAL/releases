@@ -9,7 +9,7 @@
 // and a STREP (FET Open) Project under Contract No  IST-006413 
 // (ACS -- Algorithms for Complex Shapes)
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta2/Kernel_23/include/CGAL/Circle_3.h $
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0/Kernel_23/include/CGAL/Circle_3.h $
 // $Id: Circle_3.h 52164b1 2019-10-19T15:34:59+02:00 Sébastien Loriot
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //

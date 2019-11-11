@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta2/Classification/include/CGAL/Classification/Feature/Color_channel.h $
-// $Id: Color_channel.h 254d60f 2019-10-19T15:23:19+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0/Classification/include/CGAL/Classification/Feature/Color_channel.h $
+// $Id: Color_channel.h b9a079b 2019-11-04T11:34:53+01:00 Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Simon Giraudot
@@ -99,7 +99,7 @@ public:
   /// \cond SKIP_IN_MANUAL
   virtual float value (std::size_t pt_index)
   {
-    cpp11::array<double, 3> c = get(color_map, *(input.begin()+pt_index)).to_hsv();
+    std::array<double, 3> c = get(color_map, *(input.begin()+pt_index)).to_hsv();
     return float(c[std::size_t(m_channel)]);
   }
   /// \endcond

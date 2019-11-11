@@ -1,17 +1,8 @@
 // Copyright (c) 2012  GeometryFactory Sarl (France)
 // All rights reserved.
 //
-// Distributed under the Boost Software License, Version 1.0. (See accompanying
-// file LICENSE_1_0.txt or copy at https://www.boost.org/LICENSE_1_0.txt)
-//
-// Licensees holding a valid commercial license may use this file in
-// accordance with the commercial license agreement provided with the software.
-//
-// This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
-// WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
-//
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta2/STL_Extension/include/CGAL/is_streamable.h $
-// $Id: is_streamable.h a472c24 2019-03-20T08:59:22+01:00 Andreas Fabri
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0/STL_Extension/include/CGAL/is_streamable.h $
+// $Id: is_streamable.h bff5db6 2019-10-31T14:17:20+01:00 Sébastien Loriot
 // SPDX-License-Identifier: BSL-1.0
 //
 // Author(s)     : Laurent Rineau, Philipp Moeller

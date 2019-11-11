@@ -3,7 +3,7 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta2/Nef_3/include/CGAL/Nef_3/SFace.h $
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0/Nef_3/include/CGAL/Nef_3/SFace.h $
 // $Id: SFace.h 254d60f 2019-10-19T15:23:19+02:00 Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 // 

@@ -3,7 +3,7 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta2/Hyperbolic_triangulation_2/demo/Hyperbolic_triangulation_2/include/internal/Qt/TriangulationGraphicsItem.h $
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0/Hyperbolic_triangulation_2/demo/Hyperbolic_triangulation_2/include/internal/Qt/TriangulationGraphicsItem.h $
 // $Id: TriangulationGraphicsItem.h b13e116 2019-10-19T17:00:08+02:00 Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 // 

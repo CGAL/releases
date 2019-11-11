@@ -3,7 +3,7 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta2/Spatial_searching/include/CGAL/Kd_tree.h $
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0/Spatial_searching/include/CGAL/Kd_tree.h $
 // $Id: Kd_tree.h 254d60f 2019-10-19T15:23:19+02:00 Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //

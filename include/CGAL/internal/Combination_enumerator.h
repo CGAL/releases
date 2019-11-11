@@ -3,7 +3,7 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta2/Triangulation/include/CGAL/internal/Combination_enumerator.h $
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0/Triangulation/include/CGAL/internal/Combination_enumerator.h $
 // $Id: Combination_enumerator.h 254d60f 2019-10-19T15:23:19+02:00 Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //

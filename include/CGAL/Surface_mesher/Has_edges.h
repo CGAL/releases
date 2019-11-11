@@ -3,7 +3,7 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta2/Surface_mesher/include/CGAL/Surface_mesher/Has_edges.h $
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0/Surface_mesher/include/CGAL/Surface_mesher/Has_edges.h $
 // $Id: Has_edges.h 254d60f 2019-10-19T15:23:19+02:00 Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 // 

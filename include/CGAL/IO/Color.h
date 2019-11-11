@@ -7,8 +7,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta2/Stream_support/include/CGAL/IO/Color.h $
-// $Id: Color.h 52164b1 2019-10-19T15:34:59+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0/Stream_support/include/CGAL/IO/Color.h $
+// $Id: Color.h b9a079b 2019-11-04T11:34:53+01:00 Sébastien Loriot
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -48,7 +48,7 @@ class Color
 {
 private:
 
-  cpp11::array<unsigned char, 4> m_data;
+  std::array<unsigned char, 4> m_data;
   
 public:
 
@@ -159,21 +159,21 @@ public:
   /*!
     returns the array with rgba values.
   */ 
-  const cpp11::array<unsigned char, 4>& to_rgba() const { return m_data; }
+  const std::array<unsigned char, 4>& to_rgba() const { return m_data; }
 
   /*!
     returns the array with rgb values.
   */ 
-  const cpp11::array<unsigned char, 3>& to_rgb() const
+  const std::array<unsigned char, 3>& to_rgb() const
   {
-    return reinterpret_cast<const cpp11::array<unsigned char, 3>&>(m_data);
+    return reinterpret_cast<const std::array<unsigned char, 3>&>(m_data);
   }
 
   /*!  
     computes the hsv (hue, saturation, value) values and returns an
     array representing them as float values between 0 and 1.
   */ 
-  cpp11::array<double, 3> to_hsv() const
+  std::array<double, 3> to_hsv() const
   {
     double r = (double)(m_data[0]) / 255.;
     double g = (double)(m_data[1]) / 255.;
