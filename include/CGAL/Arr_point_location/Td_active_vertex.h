@@ -2,19 +2,10 @@
 // All rights reserved.
 //
 // This file is part of CGAL (www.cgal.org).
-// You can redistribute it and/or modify it under the terms of the GNU
-// General Public License as published by the Free Software Foundation,
-// either version 3 of the License, or (at your option) any later version.
 //
-// Licensees holding a valid commercial license may use this file in
-// accordance with the commercial license agreement provided with the software.
-//
-// This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
-// WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
-//
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Arrangement_on_surface_2/include/CGAL/Arr_point_location/Td_active_vertex.h $
-// $Id: Td_active_vertex.h 4581f1b %aI Andreas Fabri
-// SPDX-License-Identifier: GPL-3.0+
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta2/Arrangement_on_surface_2/include/CGAL/Arr_point_location/Td_active_vertex.h $
+// $Id: Td_active_vertex.h 254d60f 2019-10-19T15:23:19+02:00 Sébastien Loriot
+// SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s): Oren Nechushtan   <theoren@math.tau.ac.il>
 //            Michal Balas      <balasmic@post.tau.ac.il>
@@ -129,7 +120,10 @@ public:
     Data(Vertex_const_handle _v, Halfedge_const_handle _cw_he,
          Dag_node* _p_node) :
       v(_v), cw_he(_cw_he), p_node(_p_node)
-    {}
+    {
+      CGAL_assertion( _cw_he==Halfedge_const_handle()
+                     || _cw_he->source() == v );
+    }
 
     ~Data() {}
 
@@ -176,9 +170,8 @@ public:
    */
   inline void set_cw_he(Halfedge_const_handle he)
   {
-    ptr()->cw_he = ((cw_he() != Traits::empty_he_handle()) &&
-                    (cw_he()->direction() != he->direction())) ?
-      he->twin() : he;
+    ptr()->cw_he = he->twin()->source()==ptr()->v ? he->twin() : he;
+    CGAL_assertion( ptr()->v == ptr()->cw_he->source() );
   }
 
   /*! Reset the first he going clockwise starting at 12 o'clock.

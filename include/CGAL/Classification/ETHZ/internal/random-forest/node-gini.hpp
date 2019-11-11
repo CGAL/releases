@@ -1,26 +1,11 @@
 // Copyright (c) 2014 Stefan Walk
 //
-// Permission is hereby granted, free of charge, to any person obtaining a copy of
-// this software and associated documentation files (the "Software"), to deal in
-// the Software without restriction, including without limitation the rights to
-// use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies
-// of the Software, and to permit persons to whom the Software is furnished to do
-// so, subject to the following conditions:
+// This file is part of CGAL (www.cgal.org).
 //
-// The above copyright notice and this permission notice shall be included in all
-// copies or substantial portions of the Software.
-//
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-// SOFTWARE.
-//
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Classification/include/CGAL/Classification/ETHZ/internal/random-forest/node-gini.hpp $
-// $Id: node-gini.hpp 1dd7473 %aI albert-github
-// SPDX-License-Identifier: MIT
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta2/Classification/include/CGAL/Classification/ETHZ/internal/random-forest/node-gini.hpp $
+// $Id: node-gini.hpp 0228f1e 2019-10-20T10:43:11+02:00 Sébastien Loriot
+// SPDX-License-Identifier: LicenseRef-RFL
+// License notice in Installation/LICENSE.RFL
 //
 // Author(s)     : Stefan Walk
 

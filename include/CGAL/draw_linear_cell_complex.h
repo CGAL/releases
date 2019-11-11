@@ -1,20 +1,11 @@
 // Copyright (c) 2018 CNRS and LIRIS' Establishments (France).
 // All rights reserved.
 //
-// This file is part of CGAL (www.cgal.org); you can redistribute it and/or
-// modify it under the terms of the GNU Lesser General Public License as
-// published by the Free Software Foundation; either version 3 of the License,
-// or (at your option) any later version.
+// This file is part of CGAL (www.cgal.org)
 //
-// Licensees holding a valid commercial license may use this file in
-// accordance with the commercial license agreement provided with the software.
-//
-// This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
-// WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
-//
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Linear_cell_complex/include/CGAL/draw_linear_cell_complex.h $
-// $Id: draw_linear_cell_complex.h 67307dc %aI Guillaume Damiand
-// SPDX-License-Identifier: LGPL-3.0+
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta2/Linear_cell_complex/include/CGAL/draw_linear_cell_complex.h $
+// $Id: draw_linear_cell_complex.h 52164b1 2019-10-19T15:34:59+02:00 Sébastien Loriot
+// SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Guillaume Damiand <guillaume.damiand@liris.cnrs.fr>
 
@@ -127,29 +118,30 @@ struct DefaultDrawingFunctorLCC
   }
 };
 
-template<class LCC, class Kernel, int dim=LCC::ambient_dimension>
+template<class LCC, class Local_kernel, int dim=LCC::ambient_dimension>
 struct LCC_geom_utils;
 
-template<class LCC, class Kernel>
-struct LCC_geom_utils<LCC, Kernel, 3>
+template<class LCC, class Local_kernel>
+struct LCC_geom_utils<LCC, Local_kernel, 3>
 {
-  static typename Kernel::Vector_3
+  static typename Local_kernel::Vector_3
   get_vertex_normal(const LCC& lcc, typename LCC::Dart_const_handle dh)
   {
-    typename Kernel::Vector_3 n = internal::Geom_utils<typename LCC::Traits>::
+    typename Local_kernel::Vector_3 n = internal::Geom_utils
+      <typename LCC::Traits, Local_kernel>::
       get_local_vector(CGAL::compute_normal_of_cell_0<LCC>(lcc,dh));
     n = n/(CGAL::sqrt(n*n));
     return n;
   }
 };
 
-template<class LCC, class Kernel>
-struct LCC_geom_utils<LCC, Kernel, 2>
+template<class LCC, class Local_kernel>
+struct LCC_geom_utils<LCC, Local_kernel, 2>
 {
-  static typename Kernel::Vector_3
+  static typename Local_kernel::Vector_3
   get_vertex_normal(const LCC&, typename LCC::Dart_const_handle)
   {
-    typename Kernel::Vector_3 n=CGAL::NULL_VECTOR;
+    typename Local_kernel::Vector_3 n=CGAL::NULL_VECTOR;
     return n;
   }
 };

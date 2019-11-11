@@ -1,17 +1,11 @@
 // Copyright (c) 2009  INRIA Sophia-Antipolis (France).
 // All rights reserved.
 //
-// This file is part of CGAL (www.cgal.org); you can redistribute it and/or
-// modify it under the terms of the GNU Lesser General Public License as
-// published by the Free Software Foundation; either version 3 of the License,
-// or (at your option) any later version.
+// This file is part of CGAL (www.cgal.org)
 //
-// This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
-// WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
-//
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Filtered_kernel/include/CGAL/internal/Static_filters/Power_side_of_oriented_power_sphere_3.h $
-// $Id: Power_side_of_oriented_power_sphere_3.h 0698f79 %aI Sébastien Loriot
-// SPDX-License-Identifier: LGPL-3.0+
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta2/Filtered_kernel/include/CGAL/internal/Static_filters/Power_side_of_oriented_power_sphere_3.h $
+// $Id: Power_side_of_oriented_power_sphere_3.h 52164b1 2019-10-19T15:34:59+02:00 Sébastien Loriot
+// SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Sebastien Loriot
 // This predicates was generated using the fpg tool written by Andreas Meyer.

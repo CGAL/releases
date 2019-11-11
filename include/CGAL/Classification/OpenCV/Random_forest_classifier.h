@@ -2,19 +2,10 @@
 // All rights reserved.
 //
 // This file is part of CGAL (www.cgal.org).
-// You can redistribute it and/or modify it under the terms of the GNU
-// General Public License as published by the Free Software Foundation,
-// either version 3 of the License, or (at your option) any later version.
 //
-// Licensees holding a valid commercial license may use this file in
-// accordance with the commercial license agreement provided with the software.
-//
-// This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
-// WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
-//
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Classification/include/CGAL/Classification/OpenCV/Random_forest_classifier.h $
-// $Id: Random_forest_classifier.h 983645a %aI Sébastien Loriot
-// SPDX-License-Identifier: GPL-3.0+
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta2/Classification/include/CGAL/Classification/OpenCV/Random_forest_classifier.h $
+// $Id: Random_forest_classifier.h 254d60f 2019-10-19T15:23:19+02:00 Sébastien Loriot
+// SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Simon Giraudot
 
@@ -25,13 +16,23 @@
 
 #include <CGAL/Classification/Feature_set.h>
 #include <CGAL/Classification/Label_set.h>
-#if (CV_MAJOR_VERSION < 3)
-#include <cv.h>
-#include <ml.h>
+
+#include <opencv2/opencv.hpp>
+
+//In opencv version 2.X the first digit is named EPOCH,
+//until version 3.0 where EPOCH disappears and it becomes MAJOR. Hence this
+//weird condition
+#ifdef CV_VERSION_EPOCH
+  #if  CV_VERSION_MAJOR == 4 && CV_VERSION_MINOR>= 11
+    #include <opencv2/ml.hpp>
+  #else
+    #include <opencv2/ml/ml.hpp>
+  #endif
 #else
-#include <opencv/cv.h>
-#include <opencv/ml.h>
+  #include <opencv2/ml.hpp>
 #endif
+
+
 
 namespace CGAL {
 

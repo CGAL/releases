@@ -11,9 +11,9 @@
 //  Boost Software License, Version 1.0. (See accompanying file
 //  LICENSE_1_0.txt or copy at https://www.boost.org/LICENSE_1_0.txt)
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Installation/include/CGAL/auto_link/auto_link.h $
-// $Id: auto_link.h 2848158 %aI Mael Rouxel-Labbé
-//  SPDX-License-Identifier: BSL-1.0
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta2/Installation/include/CGAL/auto_link/auto_link.h $
+// $Id: auto_link.h 1c829dc 2019-10-18T22:04:37+02:00 Sébastien Loriot
+// SPDX-License-Identifier: BSL-1.0
 //
  /*
   *   LOCATION:    see https://www.boost.org for most recent version.
@@ -173,13 +173,20 @@ CGAL_VERSION:        Defined in <CGAL/version.h>
 
 #  elif defined(BOOST_MSVC) && (BOOST_MSVC < 1900)
 
+
      // vc12:
 #    define CGAL_LIB_TOOLSET "vc120"
 
-# elif defined(BOOST_MSVC)
-
+#  elif defined(BOOST_MSVC) && (BOOST_MSVC < 1910)
    // vc14:
 #  define CGAL_LIB_TOOLSET "vc140"
+
+#  elif defined(BOOST_MSVC) && (BOOST_MSVC < 1920)
+// vc141:
+#  define CGAL_LIB_TOOLSET "vc141"
+#  elif defined(BOOST_MSVC)
+// vc142:
+#  define CGAL_LIB_TOOLSET "vc142"
 
 #  elif defined(__BORLANDC__)
 

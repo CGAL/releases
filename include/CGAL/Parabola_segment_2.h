@@ -2,19 +2,10 @@
 // All rights reserved.
 //
 // This file is part of CGAL (www.cgal.org).
-// You can redistribute it and/or modify it under the terms of the GNU
-// General Public License as published by the Free Software Foundation,
-// either version 3 of the License, or (at your option) any later version.
 //
-// Licensees holding a valid commercial license may use this file in
-// accordance with the commercial license agreement provided with the software.
-//
-// This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
-// WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
-//
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Apollonius_graph_2/include/CGAL/Parabola_segment_2.h $
-// $Id: Parabola_segment_2.h ee57fc2 %aI Sébastien Loriot
-// SPDX-License-Identifier: GPL-3.0+
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta2/Apollonius_graph_2/include/CGAL/Parabola_segment_2.h $
+// $Id: Parabola_segment_2.h 144f3a1 2019-10-29T15:23:33+01:00 Laurent Rineau
+// SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 // 
 //
 // Author(s)     : Menelaos Karavelas <mkaravel@iacm.forth.gr>
@@ -75,9 +66,9 @@ public:
     return int(CGAL::sqrt(CGAL::to_double(tt) / 2));
   }
 
-  void generate_points(std::vector<Point_2>& p) const
+  void generate_points(std::vector<Point_2>& p,
+                       const FT STEP = FT(2)) const
   {
-    const FT STEP(2);
     FT s0, s1;
 
     s0 = t(p1);

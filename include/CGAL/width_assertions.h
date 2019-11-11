@@ -2,19 +2,10 @@
 // All rights reserved.
 //
 // This file is part of CGAL (www.cgal.org).
-// You can redistribute it and/or modify it under the terms of the GNU
-// General Public License as published by the Free Software Foundation,
-// either version 3 of the License, or (at your option) any later version.
 //
-// Licensees holding a valid commercial license may use this file in
-// accordance with the commercial license agreement provided with the software.
-//
-// This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
-// WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
-//
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/Polytope_distance_d/include/CGAL/width_assertions.h $
-// $Id: width_assertions.h 60423a6 %aI Andreas Fabri
-// SPDX-License-Identifier: GPL-3.0+
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta2/Polytope_distance_d/include/CGAL/width_assertions.h $
+// $Id: width_assertions.h 254d60f 2019-10-19T15:23:19+02:00 Sébastien Loriot
+// SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 // 
 //
 // Author(s)     : Thomas Herrmann
@@ -23,7 +14,6 @@
 #define CGAL_WIDTH_ASSERTIONS_H 1
 
 #include <CGAL/license/Polytope_distance_d.h>
-
 
 #ifdef SIMPLIFY
 #define GCD_COMPUTATION 1
@@ -98,16 +88,16 @@
  #include<iostream>
 
  #define DEBUGENDL(doit,msg,var)\
- if(doit!=0) std::cout << msg << " " << var << endl;
+ if(doit!=0) std::cout << msg << " " << var << std::endl;
 
  #define DEBUGPRINT(doit,msg,var)\
  if(doit!=0) std::cout << msg << " " << var;
 
  #define DEBUGMSG(doit,msg)\
- if(doit!=0) std::cout << msg << endl;
+ if(doit!=0) std::cout << msg << std::endl;
 
  #define INFOMSG(doit,msg)\
- if(doit!=0) std::cerr<<msg<<endl;
+ if(doit!=0) std::cerr<<msg<<std::endl;
 
 #else
  #define DEBUGENDL(doit,msg,var)

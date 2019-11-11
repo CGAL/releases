@@ -1,21 +1,11 @@
 // Copyright (c) 2005-2008 ASCLEPIOS Project, INRIA Sophia-Antipolis (France)
 // All rights reserved.
 //
-// This file is part of the ImageIO Library, and as been adapted for
-// CGAL (www.cgal.org).
-// You can redistribute it and/or  modify it under the terms of the
-// GNU Lesser General Public License as published by the Free Software Foundation;
-// either version 3 of the License, or (at your option) any later version.
+// This file is part of the ImageIO Library, and as been adapted for CGAL (www.cgal.org).
 //
-// Licensees holding a valid commercial license may use this file in
-// accordance with the commercial license agreement provided with the software.
-//
-// These files are provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
-// WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
-//
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/CGAL_ImageIO/include/CGAL/ImageIO/recline.h $
-// $Id: recline.h 0698f79 %aI Sébastien Loriot
-// SPDX-License-Identifier: LGPL-3.0+
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta2/CGAL_ImageIO/include/CGAL/ImageIO/recline.h $
+// $Id: recline.h 5d1704b 2019-10-24T09:29:16+02:00 Laurent Rineau
+// SPDX-License-Identifier: LGPL-3.0-or-later
 //
 //
 // Author(s)     :  ASCLEPIOS Project (INRIA Sophia-Antipolis), Laurent Rineau
@@ -23,7 +13,7 @@
 /*************************************************************************
  * recline.h - tools for recursive filtering of 1D lines
  *
- * $Id: recline.h 0698f79 %aI Sébastien Loriot
+ * $Id: recline.h 5d1704b 2019-10-24T09:29:16+02:00 Laurent Rineau
  *
  * Copyright©INRIA 1998
  *

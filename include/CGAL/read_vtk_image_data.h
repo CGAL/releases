@@ -2,20 +2,11 @@
 //               2008 GeometryFactory
 // All rights reserved.
 //
-// This file is part of CGAL (www.cgal.org); you can redistribute it and/or
-// modify it under the terms of the GNU Lesser General Public License as
-// published by the Free Software Foundation; either version 3 of the License,
-// or (at your option) any later version.
+// This file is part of CGAL (www.cgal.org)
 //
-// Licensees holding a valid commercial license may use this file in
-// accordance with the commercial license agreement provided with the software.
-//
-// This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
-// WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
-//
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta1/CGAL_ImageIO/include/CGAL/read_vtk_image_data.h $
-// $Id: read_vtk_image_data.h 084d534 %aI Laurent Rineau
-// SPDX-License-Identifier: LGPL-3.0+
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0-beta2/CGAL_ImageIO/include/CGAL/read_vtk_image_data.h $
+// $Id: read_vtk_image_data.h 52164b1 2019-10-19T15:34:59+02:00 Sébastien Loriot
+// SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
 // Author(s)     : Laurent Rineau, Pierre Alliez
@@ -69,9 +60,9 @@ read_vtk_image_data(vtkImageData* vtk_image, Image_3::Own owning = Image_3::OWN_
   image->ydim = dims[1];
   image->zdim = dims[2];
   image->vdim = 1;
-  image->vx = spacing[0];
-  image->vy = spacing[1];
-  image->vz = spacing[2];
+  image->vx = (spacing[0] == 0) ? 1 : spacing[0];
+  image->vy = (spacing[1] == 0) ? 1 : spacing[1];
+  image->vz = (spacing[2] == 0) ? 1 : spacing[2];
   image->tx = static_cast<float>(offset[0]);
   image->ty = static_cast<float>(offset[1]);
   image->tz = static_cast<float>(offset[2]);
