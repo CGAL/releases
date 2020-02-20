@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0/Polygon_mesh_processing/include/CGAL/Polygon_mesh_processing/internal/Hole_filling/Triangulate_hole_polygon_mesh.h $
-// $Id: Triangulate_hole_polygon_mesh.h 254d60f 2019-10-19T15:23:19+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.1/Polygon_mesh_processing/include/CGAL/Polygon_mesh_processing/internal/Hole_filling/Triangulate_hole_polygon_mesh.h $
+// $Id: Triangulate_hole_polygon_mesh.h 2c5826d 2020-01-17T16:29:49+01:00 Laurent Rineau
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 // 
 //
@@ -120,7 +120,7 @@ triangulate_hole_polygon_mesh(PolygonMesh& pmesh,
     P_edges.push_back(*circ);
     if(!vertex_map.insert(std::make_pair(target(*circ,pmesh), id++)).second) {
       #ifndef CGAL_TEST_SUITE
-      CGAL_warning(!"Returning no output. Non-manifold vertex is found on boundary!");
+      CGAL_warning_msg(false, "Returning no output. Non-manifold vertex is found on boundary!");
       #else
       std::cerr << "W: Returning no output. Non-manifold vertex is found on boundary!\n";
       #endif

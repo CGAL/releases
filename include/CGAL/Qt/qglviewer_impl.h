@@ -6,8 +6,8 @@
  This file is part of a fork of the QGLViewer library version 2.7.0.
 
 *****************************************************************************/
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0/GraphicsView/include/CGAL/Qt/qglviewer_impl.h $
-// $Id: qglviewer_impl.h 1ef976e 2019-10-19T16:09:56+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.1/GraphicsView/include/CGAL/Qt/qglviewer_impl.h $
+// $Id: qglviewer_impl.h 1968f2c 2020-01-02T10:00:05+01:00 Maxime Gimeno
 // SPDX-License-Identifier: GPL-3.0-only
 
 #ifdef CGAL_HEADER_ONLY
@@ -46,6 +46,7 @@
 #include <QColorDialog>
 #include <QOpenGLFramebufferObject>
 #include <QFileDialog>
+#include <QElapsedTimer>
 
 namespace CGAL{
 // Static private variable
@@ -2244,7 +2245,7 @@ void CGAL::QGLViewer::keyPressEvent(QKeyEvent *e) {
     unsigned int index = pathIndex_[::Qt::Key(key)];
 
     // not safe, but try to double press on two viewers at the same time !
-    static QTime doublePress;
+    static QElapsedTimer doublePress;
 
     if (modifiers == playPathKeyboardModifiers()) {
       int elapsed = doublePress.restart();

@@ -3,7 +3,7 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0/Arrangement_on_surface_2/include/CGAL/Arr_geodesic_arc_on_sphere_partition_traits_2.h $
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.1/Arrangement_on_surface_2/include/CGAL/Arr_geodesic_arc_on_sphere_partition_traits_2.h $
 // $Id: Arr_geodesic_arc_on_sphere_partition_traits_2.h 254d60f 2019-10-19T15:23:19+02:00 Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 // 
@@ -314,7 +314,7 @@ public:
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0/Arrangement_on_surface_2/include/CGAL/Arr_geodesic_arc_on_sphere_partition_traits_2.h $ 
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.1/Arrangement_on_surface_2/include/CGAL/Arr_geodesic_arc_on_sphere_partition_traits_2.h $ 
 // $Id: Arr_geodesic_arc_on_sphere_partition_traits_2.h 254d60f 2019-10-19T15:23:19+02:00 Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 // 

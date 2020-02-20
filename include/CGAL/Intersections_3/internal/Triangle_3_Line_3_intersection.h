@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0/Intersections_3/include/CGAL/Intersections_3/internal/Triangle_3_Line_3_intersection.h $
-// $Id: Triangle_3_Line_3_intersection.h 52164b1 2019-10-19T15:34:59+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.1/Intersections_3/include/CGAL/Intersections_3/internal/Triangle_3_Line_3_intersection.h $
+// $Id: Triangle_3_Line_3_intersection.h 530fa6b 2019-12-20T09:48:05+01:00 Sébastien Loriot
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -15,8 +15,7 @@
 #ifndef CGAL_INTERNAL_INTERSECTIONS_3_TRIANGLE_3_LINE_3_INTERSECTION_H
 #define CGAL_INTERNAL_INTERSECTIONS_3_TRIANGLE_3_LINE_3_INTERSECTION_H
 
-#include <CGAL/kernel_basic.h>
-#include <CGAL/intersections.h>
+#include <CGAL/Intersections_3/Line_3_Plane_3.h>
 
 namespace CGAL {
   

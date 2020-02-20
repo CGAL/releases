@@ -5,8 +5,8 @@
 //
 // This file is part of the ImageIO Library, and as been adapted for CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0/CGAL_ImageIO/include/CGAL/ImageIO_impl.h $
-// $Id: ImageIO_impl.h 07c4ada 2019-10-19T15:50:09+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.1/CGAL_ImageIO/include/CGAL/ImageIO_impl.h $
+// $Id: ImageIO_impl.h adeb6b3 2019-12-05T16:29:11+01:00 Jane Tournois
 // SPDX-License-Identifier: LGPL-3.0-or-later
 //
 
@@ -497,14 +497,19 @@ void _openWriteImage(_image* im, const char *name)
 #endif
 	im->openMode = OM_GZ;
       }
-#if CGAL_USE_GZFWRITE
-    else 
+    else
     {
+#if CGAL_USE_GZFWRITE
       im->fd = (_ImageIO_file) gzopen(name, "wb");
       im->openMode = OM_FILE;
-    }
-#endif// CGAL_USE_GZFWRITE
 #else
+      fprintf(stderr, "_openWriteImage: error: zlib version 1.2.9 or later\n"
+                      "is required to save in non-compressed files\n");
+      return; 
+#endif// CGAL_USE_GZFWRITE
+    }
+
+#else //CGAL_USE_ZLIB
     {
       im->fd = (_ImageIO_file) fopen(name, "wb");
       im->openMode = OM_FILE;

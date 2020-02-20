@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0/STL_Extension/include/CGAL/Time_stamper.h $
-// $Id: Time_stamper.h 52164b1 2019-10-19T15:34:59+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.1/STL_Extension/include/CGAL/Time_stamper.h $
+// $Id: Time_stamper.h c08c632 2019-12-10T13:02:24+01:00 Laurent Rineau
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Jane Tournois
@@ -16,6 +16,14 @@
 #include <CGAL/atomic.h>
 
 namespace CGAL {
+
+namespace internal {
+
+constexpr size_t rounded_down_log2(size_t n)
+{
+  return ( (n<2) ? 0 : 1+rounded_down_log2(n/2));
+}
+} // namespace internal
 
 template <typename T>
 struct Time_stamper
@@ -118,7 +126,9 @@ public:
   }
 
   static std::size_t hash_value(const T* p) {
-    return reinterpret_cast<std::size_t>(p)/sizeof(T);
+
+    constexpr std::size_t shift = internal::rounded_down_log2(sizeof(T));
+    return reinterpret_cast<std::size_t>(p) >> shift;
   }
 
   void reset()                {}

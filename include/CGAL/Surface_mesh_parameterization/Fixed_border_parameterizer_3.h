@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0/Surface_mesh_parameterization/include/CGAL/Surface_mesh_parameterization/Fixed_border_parameterizer_3.h $
-// $Id: Fixed_border_parameterizer_3.h 254d60f 2019-10-19T15:23:19+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.1/Surface_mesh_parameterization/include/CGAL/Surface_mesh_parameterization/Fixed_border_parameterizer_3.h $
+// $Id: Fixed_border_parameterizer_3.h e872a79 2020-01-15T17:31:47+01:00 Laurent Rineau
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Laurent Saboret, Pierre Alliez, Bruno Levy
@@ -34,6 +34,7 @@
 #endif
 
 #include <boost/function_output_iterator.hpp>
+#include <boost/type_traits/is_same.hpp>
 #include <boost/unordered_set.hpp>
 
 /// \file Fixed_border_parameterizer_3.h
@@ -104,6 +105,11 @@ public:
     BorderParameterizer_,
     Circular_border_arc_length_parameterizer_3<TriangleMesh_> >::type  Border_parameterizer;
 
+  #if !defined(CGAL_EIGEN3_ENABLED)
+  CGAL_static_assertion_msg(!(boost::is_same<SolverTraits_, Default>::value),
+                            "Error: You must either provide 'SolverTraits_' or link CGAL with the Eigen library");
+  #endif
+
   typedef typename Default::Get<
     SolverTraits_,
   #if defined(CGAL_EIGEN3_ENABLED)
@@ -111,7 +117,6 @@ public:
       Eigen::BiCGSTAB<Eigen_sparse_matrix<double>::EigenType,
                       Eigen::IncompleteLUT<double> > >
   #else
-    #pragma message("Error: You must either provide 'SolverTraits_' or link CGAL with the Eigen library");
     SolverTraits_ // no parameter provided, and Eigen is not enabled: so don't compile!
   #endif
   >::type                                                     Solver_traits;

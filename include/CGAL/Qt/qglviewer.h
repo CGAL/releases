@@ -6,8 +6,8 @@
  This file is part of a fork of the QGLViewer library version 2.7.0.
 
 *****************************************************************************/
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0/GraphicsView/include/CGAL/Qt/qglviewer.h $
-// $Id: qglviewer.h 1ef976e 2019-10-19T16:09:56+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.1/GraphicsView/include/CGAL/Qt/qglviewer.h $
+// $Id: qglviewer.h 1968f2c 2020-01-02T10:00:05+01:00 Maxime Gimeno
 // SPDX-License-Identifier: GPL-3.0-only
 
 #ifndef QGLVIEWER_QGLVIEWER_H
@@ -28,7 +28,7 @@
 #include <QOpenGLBuffer>
 #include <QMap>
 #include <QVector>
-#include <QTime>
+#include <QElapsedTimer>
 #include <QTimer>
 #include <QGLContext>
 #include <QOpenGLWidget>
@@ -1038,7 +1038,7 @@ protected:
   int animationTimerId_;
 
   // F P S    d i s p l a y
-  QTime fpsTime_;
+  QElapsedTimer fpsTime_;
   unsigned int fpsCounter_;
   QString fpsString_;
   qreal f_p_s_;

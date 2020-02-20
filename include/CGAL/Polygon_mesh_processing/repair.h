@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0/Polygon_mesh_processing/include/CGAL/Polygon_mesh_processing/repair.h $
-// $Id: repair.h 254d60f 2019-10-19T15:23:19+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.1/Polygon_mesh_processing/include/CGAL/Polygon_mesh_processing/repair.h $
+// $Id: repair.h 2c5826d 2020-01-17T16:29:49+01:00 Laurent Rineau
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -1856,7 +1856,7 @@ bool remove_degenerate_faces(const FaceRange& face_range,
           if ( target(next(opposite(h_side1, tmesh), tmesh), tmesh) ==
                target(next(opposite(h_side2, tmesh), tmesh), tmesh) )
           {
-            CGAL_assertion(!"Forbidden simplification");
+            CGAL_error_msg("Forbidden simplification");
           }
 
           h_side2 = prev(h_side2, tmesh);

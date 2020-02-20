@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0/Linear_cell_complex/include/CGAL/draw_linear_cell_complex.h $
-// $Id: draw_linear_cell_complex.h 52164b1 2019-10-19T15:34:59+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.1/Linear_cell_complex/include/CGAL/draw_linear_cell_complex.h $
+// $Id: draw_linear_cell_complex.h 055d6fd 2019-11-29T08:45:52+01:00 Guillaume Damiand
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Guillaume Damiand <guillaume.damiand@liris.cnrs.fr>
@@ -168,7 +168,7 @@ public:
                     bool anofaces=false,
                     const DrawingFunctorLCC& drawing_functor=DrawingFunctorLCC()) :
     // First draw: vertices; edges, faces; multi-color; inverse normal
-    Base(parent, title, true, true, true, false, true), 
+    Base(parent, title, true, true, true, false, false), 
     lcc(alcc),
     m_nofaces(anofaces),
     m_random_face_color(false),

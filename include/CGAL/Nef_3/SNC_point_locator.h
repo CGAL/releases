@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0/Nef_3/include/CGAL/Nef_3/SNC_point_locator.h $
-// $Id: SNC_point_locator.h 254d60f 2019-10-19T15:23:19+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.1/Nef_3/include/CGAL/Nef_3/SNC_point_locator.h $
+// $Id: SNC_point_locator.h 2c5826d 2020-01-17T16:29:49+01:00 Laurent Rineau
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 // 
 //
@@ -884,7 +884,7 @@ public:
       else CGAL_error_msg( "wrong handle type");
     }
 
-    CGAL_warning("altered code in SNC_point_locator");
+    //CGAL_warning("altered code in SNC_point_locator");
     /*
       Halffacet_iterator fc;
       CGAL_forall_facets(fc, *this->sncp()) {
@@ -907,7 +907,7 @@ public:
     if( CGAL::assign( v, result)) {
       _CGAL_NEF_TRACEN("vertex hit, obtaining volume..." << v->point());
 
-      CGAL_warning("altered code in SNC_point_locator");
+      //CGAL_warning("altered code in SNC_point_locator");
       SM_point_locator L(&*v);
       //      Object_handle so = L.locate(s.source()-s.target(), true);
       Object_handle so = L.locate(s.source()-s.target());

@@ -6,8 +6,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0/Stream_support/include/CGAL/IO/WKT.h $
-// $Id: WKT.h 52164b1 2019-10-19T15:34:59+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.1/Stream_support/include/CGAL/IO/WKT.h $
+// $Id: WKT.h b59e557 2020-01-13T10:30:33+01:00 Maxime Gimeno
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Maxime Gimeno
@@ -39,6 +39,28 @@
 
 namespace CGAL{
 
+namespace internal {
+
+  template <typename K>
+  void pop_back_if_equal_to_front(CGAL::Polygon_2<K>& poly)
+  {
+    typename CGAL::Polygon_2<K>::iterator it = poly.end();
+    --it;
+    if( (*poly.begin()) == *it){
+      poly.erase(it);
+    }
+  }
+
+  template <typename K>
+  void pop_back_if_equal_to_front(CGAL::Polygon_with_holes_2<K>& pwh)
+  {
+    pop_back_if_equal_to_front(pwh.outer_boundary());
+    for(auto i = pwh.holes_begin(); i!= pwh.holes_end(); ++i){
+      pop_back_if_equal_to_front(*i);
+    }
+  }
+}
+  
 template<typename Point>
 std::istream&
 read_point_WKT( std::istream& in,
@@ -177,7 +199,13 @@ read_polygon_WKT( std::istream& in,
     
     if(type.substr(0, 7).compare("POLYGON")==0)
     {
-      boost::geometry::read_wkt(line, polygon);
+      try {
+        boost::geometry::read_wkt(line, polygon);
+      } catch( ...){
+        in.setstate(std::ios::failbit);
+        return in;
+      };
+      internal::pop_back_if_equal_to_front(polygon);
       break;
     }
   }
@@ -205,7 +233,18 @@ read_multi_polygon_WKT( std::istream& in,
     
     if(type.substr(0, 12).compare("MULTIPOLYGON")==0)
     {
-      boost::geometry::read_wkt(line, gc);
+      try {
+              boost::geometry::read_wkt(line, gc);
+            } catch( ...){
+              in.setstate(std::ios::failbit);
+              return in;
+            };
+      for( typename
+           internal::Geometry_container<MultiPolygon, boost::geometry::multi_polygon_tag>::iterator it
+          = gc.begin(); it != gc.end(); ++it)
+      {
+        internal::pop_back_if_equal_to_front(*it);
+      }
       break;
     }
   }

@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0/Surface_sweep_2/include/CGAL/Surface_sweep_2/Surface_sweep_2_impl.h $
-// $Id: Surface_sweep_2_impl.h b9a079b 2019-11-04T11:34:53+01:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.1/Surface_sweep_2/include/CGAL/Surface_sweep_2/Surface_sweep_2_impl.h $
+// $Id: Surface_sweep_2_impl.h 4b7a97c 2019-12-05T11:01:08+01:00 Laurent Rineau
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s) : Baruch Zukerman <baruchzu@post.tau.ac.il>
@@ -904,7 +904,7 @@ _create_overlapping_curve(const X_monotone_curve_2& overlap_cv,
   // Get the left end of overlap_cv.
   Event* left_event;
 
-  if (event_on_overlap!=nullptr)
+  if (event_on_overlap!=NULL)
   {
     CGAL_SS_PRINT_EVENT_INFO(event_on_overlap);
     CGAL_SS_PRINT_EOL();

@@ -4,8 +4,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0/Surface_mesh_segmentation/include/CGAL/internal/Surface_mesh_segmentation/Surface_mesh_segmentation.h $
-// $Id: Surface_mesh_segmentation.h 254d60f 2019-10-19T15:23:19+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.1/Surface_mesh_segmentation/include/CGAL/internal/Surface_mesh_segmentation/Surface_mesh_segmentation.h $
+// $Id: Surface_mesh_segmentation.h 2c5826d 2020-01-17T16:29:49+01:00 Laurent Rineau
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Ilker O. Yaz
@@ -146,7 +146,7 @@ public:
     boost::tie(min_sdf, max_sdf) = min_max_value(mesh, sdf_values);
 
     if(min_sdf == max_sdf) {
-      CGAL_warning(min_sdf == max_sdf && !"Linear normalization is not applicable!");
+      CGAL_warning_msg(min_sdf == max_sdf, "Linear normalization is not applicable!");
       return std::make_pair(min_sdf, max_sdf);
     }
 

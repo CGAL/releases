@@ -3,7 +3,7 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0/Classification/include/CGAL/Classification/Feature/Color_channel.h $
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.1/Classification/include/CGAL/Classification/Feature/Color_channel.h $
 // $Id: Color_channel.h b9a079b 2019-11-04T11:34:53+01:00 Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //

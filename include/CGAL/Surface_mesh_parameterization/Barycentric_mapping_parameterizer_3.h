@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0/Surface_mesh_parameterization/include/CGAL/Surface_mesh_parameterization/Barycentric_mapping_parameterizer_3.h $
-// $Id: Barycentric_mapping_parameterizer_3.h 254d60f 2019-10-19T15:23:19+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.1/Surface_mesh_parameterization/include/CGAL/Surface_mesh_parameterization/Barycentric_mapping_parameterizer_3.h $
+// $Id: Barycentric_mapping_parameterizer_3.h e872a79 2020-01-15T17:31:47+01:00 Laurent Rineau
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Laurent Saboret, Pierre Alliez, Bruno Levy
@@ -88,7 +88,6 @@ class Barycentric_mapping_parameterizer_3
           Eigen::BiCGSTAB<Eigen_sparse_matrix<double>::EigenType,
                           Eigen::IncompleteLUT<double> > > >::type >
 #else
-  #pragma message("Error: You must either provide 'SolverTraits_' or link CGAL with the Eigen library")
         SolverTraits_>::type > // no parameter provided, and Eigen is not enabled: so don't compile!
 #endif
 {

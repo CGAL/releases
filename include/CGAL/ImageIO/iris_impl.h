@@ -3,7 +3,7 @@
 //
 // This file is part of the ImageIO Library, and as been adapted for CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0/CGAL_ImageIO/include/CGAL/ImageIO/iris_impl.h $
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.1/CGAL_ImageIO/include/CGAL/ImageIO/iris_impl.h $
 // $Id: iris_impl.h 436d5cb 2019-11-06T17:45:28+01:00 Laurent Rineau
 // SPDX-License-Identifier: LGPL-3.0-or-later
 //

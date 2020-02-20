@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0/Mesh_3/include/CGAL/Mesh_3/Mesher_3.h $
-// $Id: Mesher_3.h 254d60f 2019-10-19T15:23:19+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.1/Mesh_3/include/CGAL/Mesh_3/Mesher_3.h $
+// $Id: Mesher_3.h 455f8c6 2020-01-15T17:31:44+01:00 Laurent Rineau
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -288,6 +288,24 @@ private:
   CGAL::cpp11::atomic<bool>* const stop_ptr;
 #endif
 
+#ifdef CGAL_LINKED_WITH_TBB
+  std::size_t approximate_number_of_vertices(CGAL::Parallel_tag) const {
+#  if CGAL_CONCURRENT_COMPACT_CONTAINER_APPROXIMATE_SIZE
+    return r_c3t3_.triangulation().tds().vertices().approximate_size();
+#  else // not CGAL_CONCURRENT_COMPACT_CONTAINER_APPROXIMATE_SIZE
+    CGAL_error_msg(
+      "If you want to use the Mesh_3 feature \"maximal_number_of_vertices\"\n"
+      "with CGAL::Parallel_tag then you need to recompile the code with the\n"
+      "preprocessor macro CGAL_CONCURRENT_COMPACT_CONTAINER_APPROXIMATE_SIZE\n"
+      "set to 1. That will induce a performance loss of 3%.\n");
+#  endif // not CGAL_CONCURRENT_COMPACT_CONTAINER_APPROXIMATE_SIZE
+  }
+#endif // CGAL_LINKED_WITH_TBB
+
+  std::size_t approximate_number_of_vertices(CGAL::Sequential_tag) const {
+    return r_c3t3_.triangulation().number_of_vertices();
+  }
+
   bool forced_stop() const {
 #ifndef CGAL_NO_ATOMIC
     if(stop_ptr != 0 &&
@@ -298,8 +316,7 @@ private:
     }
 #endif // not defined CGAL_NO_ATOMIC
     if(maximal_number_of_vertices_ != 0 &&
-       r_c3t3_.triangulation().number_of_vertices() >=
-       maximal_number_of_vertices_)
+       approximate_number_of_vertices(Concurrency_tag()) >= maximal_number_of_vertices_)
     {
       if(error_code_ != 0) {
         *error_code_ = CGAL_MESH_3_MAXIMAL_NUMBER_OF_VERTICES_REACHED;
@@ -502,15 +519,15 @@ refine_mesh(std::string dump_after_refine_surface_prefix)
     % r_tr.number_of_vertices()
     % nbsteps % cells_mesher_.debug_info()
     % (nbsteps / timer.time());
-    if(! forced_stop() &&
-       refinement_stage == REFINE_FACETS &&
+    if(refinement_stage == REFINE_FACETS &&
+       ! forced_stop() &&
        facets_mesher_.is_algorithm_done())
     {
       facets_mesher_.scan_edges();
       refinement_stage = REFINE_FACETS_AND_EDGES;
     }
-    if(! forced_stop() &&
-       refinement_stage == REFINE_FACETS_AND_EDGES &&
+    if(refinement_stage == REFINE_FACETS_AND_EDGES &&
+       ! forced_stop() &&
        facets_mesher_.is_algorithm_done())
     {
       facets_mesher_.scan_vertices();
@@ -800,7 +817,13 @@ status() const
   if(boost::is_convertible<Concurrency_tag, Parallel_tag>::value) {
     const WorksharingDataStructureType* ws_ds =
       this->get_worksharing_data_structure();
-    return Mesher_status(r_c3t3_.triangulation().number_of_vertices(),
+    return Mesher_status(
+#  if CGAL_CONCURRENT_COMPACT_CONTAINER_APPROXIMATE_SIZE
+                         approximate_number_of_vertices(Concurrency_tag()),
+#else
+                         // not thread-safe, but that is not important
+                         approximate_number_of_vertices(CGAL::Sequential_tag()),
+#endif
                          0,
                          ws_ds->approximate_number_of_enqueued_element());
   }

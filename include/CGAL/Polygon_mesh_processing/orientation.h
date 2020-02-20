@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0/Polygon_mesh_processing/include/CGAL/Polygon_mesh_processing/orientation.h $
-// $Id: orientation.h 254d60f 2019-10-19T15:23:19+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.1/Polygon_mesh_processing/include/CGAL/Polygon_mesh_processing/orientation.h $
+// $Id: orientation.h 2c5826d 2020-01-17T16:29:49+01:00 Laurent Rineau
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -168,8 +168,11 @@ bool is_outward_oriented(const PolygonMesh& pmesh,
   CGAL_warning(CGAL::is_closed(pmesh));
   CGAL_precondition(CGAL::is_valid_polygon_mesh(pmesh));
 
+#ifdef CGAL_PMP_DEBUG_CODE
   //check for empty pmesh
   CGAL_warning(faces(pmesh).first != faces(pmesh).second);
+#endif
+
   if (faces(pmesh).first == faces(pmesh).second)
     return true;
 

@@ -10,7 +10,7 @@
 #include <CGAL/Three/Point_container.h>
 #include <CGAL/Qt/constraint.h>
 #include <algorithm>
-#include <QTime>
+#include <QElapsedTimer>
 
 #include <QApplication>
 
@@ -909,6 +909,8 @@ bool Scene_edit_polyhedron_item::eventFilter(QObject* /*target*/, QEvent *event)
   // check state changes between old and current state
   bool ctrl_pressed_now = d->state.ctrl_pressing && !old_state.ctrl_pressing;
   bool ctrl_released_now = !d->state.ctrl_pressing && old_state.ctrl_pressing;
+  if(ctrl_released_now) //to avoid moving the control vertices next time ctrl is pressed
+    d->state.left_button_pressing = false;
   if(ctrl_pressed_now || ctrl_released_now || event->type() == QEvent::HoverMove)
   {// activate a handle manipulated frame
     CGAL::QGLViewer* viewer = Three::mainViewer();

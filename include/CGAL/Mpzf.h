@@ -4,7 +4,7 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0/Number_types/include/CGAL/Mpzf.h $
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.1/Number_types/include/CGAL/Mpzf.h $
 // $Id: Mpzf.h c6d9dd6 2019-10-29T15:23:30+01:00 Laurent Rineau
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //

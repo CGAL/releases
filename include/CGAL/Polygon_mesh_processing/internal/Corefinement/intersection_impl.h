@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0/Polygon_mesh_processing/include/CGAL/Polygon_mesh_processing/internal/Corefinement/intersection_impl.h $
-// $Id: intersection_impl.h 254d60f 2019-10-19T15:23:19+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.1/Polygon_mesh_processing/include/CGAL/Polygon_mesh_processing/internal/Corefinement/intersection_impl.h $
+// $Id: intersection_impl.h 2c5826d 2020-01-17T16:29:49+01:00 Laurent Rineau
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -704,7 +704,7 @@ class Intersection_of_triangle_meshes
         switch(type){
           case COPLANAR_TRIANGLES:
             #ifndef DO_NOT_HANDLE_COPLANAR_FACES
-            assert(!"COPLANAR_TRIANGLES : this point should never be reached!");
+            CGAL_error_msg("COPLANAR_TRIANGLES : this point should never be reached!");
             #else
             //nothing needs to be done, cf. comments at the beginning of the file
             #endif

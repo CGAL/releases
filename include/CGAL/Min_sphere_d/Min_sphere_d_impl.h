@@ -3,7 +3,7 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0/Bounding_volumes/include/CGAL/Min_sphere_d/Min_sphere_d_impl.h $
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.1/Bounding_volumes/include/CGAL/Min_sphere_d/Min_sphere_d_impl.h $
 // $Id: Min_sphere_d_impl.h 254d60f 2019-10-19T15:23:19+02:00 Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 // 

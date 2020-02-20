@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0/GraphicsView/include/CGAL/Qt/DemosMainWindow_impl.h $
-// $Id: DemosMainWindow_impl.h 254d60f 2019-10-19T15:23:19+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.1/GraphicsView/include/CGAL/Qt/DemosMainWindow_impl.h $
+// $Id: DemosMainWindow_impl.h 8b30d9c 2020-01-13T15:52:36+01:00 Maxime Gimeno
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 // 
 //
@@ -195,7 +195,6 @@ void
 DemosMainWindow::setUseAntialiasing(bool checked)
 {
   view->setRenderHint(QPainter::Antialiasing, checked);
-  view->setRenderHint(QPainter::HighQualityAntialiasing, checked);
 
   statusBar()->showMessage(tr("Antialiasing %1activated").arg(checked?"":"de-"),
                            1000);

@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0/Polygon_mesh_processing/include/CGAL/Polygon_mesh_processing/Weights.h $
-// $Id: Weights.h 254d60f 2019-10-19T15:23:19+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.1/Polygon_mesh_processing/include/CGAL/Polygon_mesh_processing/Weights.h $
+// $Id: Weights.h 2c5826d 2020-01-17T16:29:49+01:00 Laurent Rineau
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 // 
 //
@@ -55,8 +55,8 @@ struct Cotangent_value_Meyer_impl
     if(divider == 0 /*|| divider != divider*/) 
     {
       CGAL::collinear(get(ppmap, v0), get(ppmap, v1), get(ppmap, v2)) ? 
-        CGAL_warning(!"Infinite Cotangent value with degenerate triangle!") :
-        CGAL_warning(!"Infinite Cotangent value due to floating point arithmetic!");
+        CGAL_warning_msg(false, "Infinite Cotangent value with degenerate triangle!") :
+        CGAL_warning_msg(false, "Infinite Cotangent value due to floating point arithmetic!");
       
 
       return dot_ab > 0 ? (std::numeric_limits<double>::max)() :
@@ -341,7 +341,7 @@ public:
         }
       }
     }
-    CGAL_warning(voronoi_area != 0 && "Zero voronoi area!");
+    CGAL_warning_msg(voronoi_area != 0, "Zero voronoi area!");
     return voronoi_area;
   }
 };
@@ -806,7 +806,7 @@ public:
     Vector v = target(he, pmesh())->point() - source(he, pmesh())->point();
     double divider = CGAL::sqrt(v.squared_length());
     if(divider == 0.0) {
-      CGAL_warning(!"Scale dependent weight - zero length edge.");
+      CGAL_warning_msg(false, "Scale dependent weight - zero length edge.");
       return (std::numeric_limits<double>::max)();
     }
     return 1.0 / divider;

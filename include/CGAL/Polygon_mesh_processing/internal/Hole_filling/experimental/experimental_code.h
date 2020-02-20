@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0/Polygon_mesh_processing/include/CGAL/Polygon_mesh_processing/internal/Hole_filling/experimental/experimental_code.h $
-// $Id: experimental_code.h 254d60f 2019-10-19T15:23:19+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.1/Polygon_mesh_processing/include/CGAL/Polygon_mesh_processing/internal/Hole_filling/experimental/experimental_code.h $
+// $Id: experimental_code.h 2c5826d 2020-01-17T16:29:49+01:00 Laurent Rineau
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 // 
 //
@@ -163,7 +163,7 @@ triangulate_hole_polyline_incomplete(InputIterator pbegin, InputIterator pend,
       if(new_facets.empty()) {
         // if no patch facets created and also we are using brute force approach, then there is nothing to do,
         // leave `out` intact and return
-        CGAL_warning(!"Returning no output. Filling hole with incomplete patches is not successful!");
+        CGAL_warning_msg(false, "Returning no output. Filling hole with incomplete patches is not successful!");
         return out;
       }
     }
@@ -212,7 +212,7 @@ triangulate_hole_Polyhedron_incomplete(Polyhedron& polyhedron,
       if(patch_facets_before == patch_facets.size()) {
         // if no patch facets created and also we are using brute force approach, then there is nothing to do,
         // leave `out` intact and return
-        CGAL_warning(!"Returning no output. Filling hole with incomplete patches is not successful!");
+        CGAL_warning_msg(false, "Returning no output. Filling hole with incomplete patches is not successful!");
         return std::make_pair(out, Weight_min_max_dihedral_and_area::NOT_VALID());
       }
     }

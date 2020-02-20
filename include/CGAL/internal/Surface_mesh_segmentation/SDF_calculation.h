@@ -4,8 +4,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0/Surface_mesh_segmentation/include/CGAL/internal/Surface_mesh_segmentation/SDF_calculation.h $
-// $Id: SDF_calculation.h 254d60f 2019-10-19T15:23:19+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.1/Surface_mesh_segmentation/include/CGAL/internal/Surface_mesh_segmentation/SDF_calculation.h $
+// $Id: SDF_calculation.h 2c5826d 2020-01-17T16:29:49+01:00 Laurent Rineau
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Ilker O. Yaz
@@ -280,7 +280,7 @@ public:
     bool accept_if_acute,
     const Disk_samples_list& disk_samples) const {
     if(cone_angle < 0.0 || cone_angle > CGAL_PI) {
-      CGAL_warning(false && "Cone angle is clamped between [0, CGAL_PI].");
+      CGAL_warning_msg(false, "Cone angle is clamped between [0, CGAL_PI].");
       cone_angle = (std::min)(CGAL_PI, (std::max)(0.0, cone_angle));
     }
 
@@ -319,7 +319,7 @@ public:
         Segment segment(center, target_point);
 
         if(traits.is_degenerate_3_object()(segment)) {
-          CGAL_warning(false &&
+          CGAL_warning_msg(false, 
                        "A degenerate segment is constructed. Most probable reason is using CGAL_PI as cone_angle parameter and also picking center of disk as a sample.");
         }
 
@@ -329,7 +329,7 @@ public:
         Ray ray(center, ray_direction);
 
         if(traits.is_degenerate_3_object()(ray)) {
-          CGAL_warning(false &&
+          CGAL_warning_msg(false,
                        "A degenerate ray is constructed. Most probable reason is using CGAL_PI as cone_angle parameter and also picking center of disk as a sample.");
         }
 

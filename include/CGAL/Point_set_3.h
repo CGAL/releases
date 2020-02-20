@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0/Point_set_3/include/CGAL/Point_set_3.h $
-// $Id: Point_set_3.h 254d60f 2019-10-19T15:23:19+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.1/Point_set_3/include/CGAL/Point_set_3.h $
+// $Id: Point_set_3.h 57779dd 2020-01-15T17:31:52+01:00 Laurent Rineau
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -230,6 +230,18 @@ public:
     m_nb_removed = ps.m_nb_removed;
     return *this;
   }
+
+  /// \cond SKIP_IN_MANUAL
+  // copy constructor (same as assignment)
+  Point_set_3 (const Point_set_3& ps)
+  {
+    m_base = ps.m_base;
+    m_indices = this->property_map<Index> ("index").first;
+    m_points = this->property_map<Point> ("point").first;
+    m_normals = this->property_map<Vector> ("normal").first;
+    m_nb_removed = ps.m_nb_removed;
+  }
+  /// \endcond
 
   /// @}
 

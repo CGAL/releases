@@ -9,7 +9,7 @@
 //  (C) Copyright John Maddock 2003.
 //
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0/Installation/include/CGAL/auto_link/auto_link.h $
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.1/Installation/include/CGAL/auto_link/auto_link.h $
 // $Id: auto_link.h bff5db6 2019-10-31T14:17:20+01:00 Sébastien Loriot
 // SPDX-License-Identifier: BSL-1.0
 //

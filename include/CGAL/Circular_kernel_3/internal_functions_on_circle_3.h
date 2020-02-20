@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0/Circular_kernel_3/include/CGAL/Circular_kernel_3/internal_functions_on_circle_3.h $
-// $Id: internal_functions_on_circle_3.h 254d60f 2019-10-19T15:23:19+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.1/Circular_kernel_3/include/CGAL/Circular_kernel_3/internal_functions_on_circle_3.h $
+// $Id: internal_functions_on_circle_3.h 2c5826d 2020-01-17T16:29:49+01:00 Laurent Rineau
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s) : Monique Teillaud, Sylvain Pion, Pedro Machado, 
@@ -179,7 +179,7 @@ namespace CGAL {
         }
         break;
         case BIPOLAR:
-          CGAL_kernel_precondition(!"This function does not accept bipolar circle as input.");
+          CGAL_kernel_precondition_msg(false, "This function does not accept bipolar circle as input.");
       }
       return out_it;
     }

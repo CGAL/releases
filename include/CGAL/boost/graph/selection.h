@@ -2,8 +2,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0/BGL/include/CGAL/boost/graph/selection.h $
-// $Id: selection.h 52164b1 2019-10-19T15:34:59+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.1/BGL/include/CGAL/boost/graph/selection.h $
+// $Id: selection.h 3b66031 2020-01-15T17:31:55+01:00 Laurent Rineau
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Sebastien Loriot
@@ -578,7 +578,7 @@ void expand_face_selection_for_removal(const FaceRange& faces_to_be_deleted,
       next_around_vertex = opposite( next(hd, tm), tm);
       if (hd==start) break;
     }
-    if ( get(is_selected, face(next_around_vertex, tm) ) ) continue; //all incident faces will be removed
+    if ( is_border(next_around_vertex,tm) || get(is_selected, face(next_around_vertex, tm) ) ) continue; //all incident faces will be removed
 
     while( true )
     {
@@ -600,7 +600,7 @@ void expand_face_selection_for_removal(const FaceRange& faces_to_be_deleted,
           break;
         next_around_vertex = opposite( next(next_around_vertex, tm), tm);
       }
-      while( get(is_selected, face(next_around_vertex, tm) ) );
+      while(is_border(next_around_vertex,tm) || get(is_selected, face(next_around_vertex, tm) ) );
 
       if (next_around_vertex==start)
         break;

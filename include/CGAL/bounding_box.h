@@ -3,7 +3,7 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0/Principal_component_analysis_LGPL/include/CGAL/bounding_box.h $
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.1/Principal_component_analysis_LGPL/include/CGAL/bounding_box.h $
 // $Id: bounding_box.h 52164b1 2019-10-19T15:34:59+02:00 Sébastien Loriot
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 // 
