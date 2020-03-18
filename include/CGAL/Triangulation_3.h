@@ -3,7 +3,7 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.1/Triangulation_3/include/CGAL/Triangulation_3.h $
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.2/Triangulation_3/include/CGAL/Triangulation_3.h $
 // $Id: Triangulation_3.h 8a48be1 2019-12-12T13:10:25+01:00 Mael
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //

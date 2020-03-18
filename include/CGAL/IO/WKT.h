@@ -6,7 +6,7 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.1/Stream_support/include/CGAL/IO/WKT.h $
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.2/Stream_support/include/CGAL/IO/WKT.h $
 // $Id: WKT.h b59e557 2020-01-13T10:30:33+01:00 Maxime Gimeno
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //

@@ -4,8 +4,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.1/Classification/include/CGAL/Classification/Sum_of_weighted_features_classifier.h $
-// $Id: Sum_of_weighted_features_classifier.h 254d60f 2019-10-19T15:23:19+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.2/Classification/include/CGAL/Classification/Sum_of_weighted_features_classifier.h $
+// $Id: Sum_of_weighted_features_classifier.h 85712ba 2020-01-14T15:03:20+01:00 Maxime Gimeno
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Simon Giraudot, Florent Lafarge
@@ -33,7 +33,7 @@
 #include <tbb/parallel_for.h>
 #include <tbb/blocked_range.h>
 #include <tbb/scalable_allocator.h>
-#include <tbb/mutex.h>
+#include <mutex>
 #endif // CGAL_LINKED_WITH_TBB
 
 #define CLASSIFICATION_TRAINING_QUICK_ESTIMATION
@@ -72,9 +72,9 @@ private:
     std::vector<std::size_t>& m_true_positives;
     std::vector<std::size_t>& m_false_positives;
     std::vector<std::size_t>& m_false_negatives;
-    std::vector<tbb::mutex>& m_tp_mutex;
-    std::vector<tbb::mutex>& m_fp_mutex;
-    std::vector<tbb::mutex>& m_fn_mutex;
+    std::vector<std::mutex>& m_tp_mutex;
+    std::vector<std::mutex>& m_fp_mutex;
+    std::vector<std::mutex>& m_fn_mutex;
 
     
   public:
@@ -85,9 +85,9 @@ private:
                  std::vector<std::size_t>& true_positives,
                  std::vector<std::size_t>& false_positives,
                  std::vector<std::size_t>& false_negatives,
-                 std::vector<tbb::mutex>& tp_mutex,
-                 std::vector<tbb::mutex>& fp_mutex,
-                 std::vector<tbb::mutex>& fn_mutex)
+                 std::vector<std::mutex>& tp_mutex,
+                 std::vector<std::mutex>& fp_mutex,
+                 std::vector<std::mutex>& fn_mutex)
       : m_training_set (training_set)
       , m_classifier (classifier)
       , m_label (label)
@@ -901,9 +901,9 @@ private:
 #else
       if (boost::is_convertible<ConcurrencyTag,Parallel_tag>::value)
       {
-        std::vector<tbb::mutex> tp_mutex (m_labels.size());
-        std::vector<tbb::mutex> fp_mutex (m_labels.size());
-        std::vector<tbb::mutex> fn_mutex (m_labels.size());
+        std::vector<std::mutex> tp_mutex (m_labels.size());
+        std::vector<std::mutex> fp_mutex (m_labels.size());
+        std::vector<std::mutex> fn_mutex (m_labels.size());
         Compute_iou f(training_sets[j], *this, j,
                       true_positives, false_positives, false_negatives,
                       tp_mutex, fp_mutex, fn_mutex);

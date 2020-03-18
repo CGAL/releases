@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.1/Mesh_3/include/CGAL/Mesh_3/C3T3_helpers.h $
-// $Id: C3T3_helpers.h 254d60f 2019-10-19T15:23:19+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.2/Mesh_3/include/CGAL/Mesh_3/C3T3_helpers.h $
+// $Id: C3T3_helpers.h 85712ba 2020-01-14T15:03:20+01:00 Maxime Gimeno
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -47,7 +47,7 @@
 
 #ifdef CGAL_LINKED_WITH_TBB
 # include <tbb/parallel_do.h>
-# include <tbb/mutex.h>
+# include <mutex>
 #endif
 
 #include <functional>
@@ -595,7 +595,7 @@ public:
 protected:
   Lock_data_structure *m_lock_ds;
 
-  typedef tbb::mutex  Mutex_type;
+  typedef std::mutex  Mutex_type;
   mutable Mutex_type  m_mut_outdated_cells;
   mutable Mutex_type  m_mut_moving_vertices;
   mutable Mutex_type  m_mut_vertex_to_proj;

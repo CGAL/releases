@@ -2,7 +2,7 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.1/Scale_space_reconstruction_3/include/CGAL/Scale_space_reconstruction_3/Advancing_front_mesher.h $
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.2/Scale_space_reconstruction_3/include/CGAL/Scale_space_reconstruction_3/Advancing_front_mesher.h $
 // $Id: Advancing_front_mesher.h 8c4f590 2019-10-19T16:20:43+02:00 Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //

@@ -2,8 +2,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.1/Polyhedron_IO/include/CGAL/IO/OFF_reader.h $
-// $Id: OFF_reader.h 52164b1 2019-10-19T15:34:59+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.2/Polyhedron_IO/include/CGAL/IO/OFF_reader.h $
+// $Id: OFF_reader.h 61453c6 2020-02-14T14:46:35+01:00 Laurent Rineau
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Laurent Rineau and Sebastien Loriot
@@ -76,19 +76,35 @@ namespace CGAL {
     polygons.resize(scanner.size_of_facets());
     if(scanner.has_colors())
       vcolors.resize(scanner.size_of_vertices());
+    bool vcolored = false;
     for (std::size_t i = 0; i < scanner.size_of_vertices(); ++i) {
         double x, y, z, w;
         scanner.scan_vertex( x, y, z, w);
         CGAL_assertion(w!=0);
         IO::internal::fill_point( x/w, y/w, z/w, points[i] );
-        if(scanner.has_colors())
+        if(i == 0)
         {
-            unsigned char r=0, g=0, b=0;
-            scanner.scan_color( r, g, b);
-            vcolors[i] = Color_rgb(r,g,b);
+          std::string col;
+          char ci;
+          std::getline(in, col);
+          std::istringstream iss(col);
+          if(iss >> ci){
+            std::istringstream iss2(col);
+            vcolors[i] = scanner.get_color_from_line(iss2);
+            vcolored = true;
+          }
         }
         else
-            scanner.skip_to_next_vertex(i);
+        {
+          if(vcolored){
+            //stores the RGB value
+            std::string col;
+            std::getline(in, col);
+            std::istringstream iss(col);
+            vcolors[i] = scanner.get_color_from_line(iss);
+          }
+        }
+        
         if(!in)
           return false;
     }

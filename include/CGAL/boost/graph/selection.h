@@ -2,7 +2,7 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.1/BGL/include/CGAL/boost/graph/selection.h $
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.2/BGL/include/CGAL/boost/graph/selection.h $
 // $Id: selection.h 3b66031 2020-01-15T17:31:55+01:00 Laurent Rineau
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //

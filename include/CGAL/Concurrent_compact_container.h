@@ -3,7 +3,7 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.1/STL_Extension/include/CGAL/Concurrent_compact_container.h $
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.2/STL_Extension/include/CGAL/Concurrent_compact_container.h $
 // $Id: Concurrent_compact_container.h e9f1cb4 2019-12-04T15:42:54+01:00 Laurent Rineau
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //

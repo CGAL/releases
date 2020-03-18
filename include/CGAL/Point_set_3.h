@@ -3,7 +3,7 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.1/Point_set_3/include/CGAL/Point_set_3.h $
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.2/Point_set_3/include/CGAL/Point_set_3.h $
 // $Id: Point_set_3.h 57779dd 2020-01-15T17:31:52+01:00 Laurent Rineau
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //

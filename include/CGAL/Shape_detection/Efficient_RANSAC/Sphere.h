@@ -3,7 +3,7 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.1/Shape_detection/include/CGAL/Shape_detection/Efficient_RANSAC/Sphere.h $
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.2/Shape_detection/include/CGAL/Shape_detection/Efficient_RANSAC/Sphere.h $
 // $Id: Sphere.h 254d60f 2019-10-19T15:23:19+02:00 Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //

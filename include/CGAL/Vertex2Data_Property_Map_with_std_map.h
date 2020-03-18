@@ -3,7 +3,7 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.1/Ridges_3/include/CGAL/Vertex2Data_Property_Map_with_std_map.h $
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.2/Ridges_3/include/CGAL/Vertex2Data_Property_Map_with_std_map.h $
 // $Id: Vertex2Data_Property_Map_with_std_map.h 254d60f 2019-10-19T15:23:19+02:00 Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //

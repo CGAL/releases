@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.1/Classification/include/CGAL/Classification/Mesh_feature_generator.h $
-// $Id: Mesh_feature_generator.h 254d60f 2019-10-19T15:23:19+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.2/Classification/include/CGAL/Classification/Mesh_feature_generator.h $
+// $Id: Mesh_feature_generator.h 85712ba 2020-01-14T15:03:20+01:00 Maxime Gimeno
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Simon Giraudot
@@ -45,7 +45,7 @@
 
 #ifdef CGAL_LINKED_WITH_TBB
 #include <tbb/task_group.h>
-#include <tbb/mutex.h>
+#include <mutex>
 #endif // CGAL_LINKED_WITH_TBB
 
 namespace CGAL {

@@ -7,7 +7,7 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.1/STL_Extension/include/CGAL/assertions_impl.h $
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.2/STL_Extension/include/CGAL/assertions_impl.h $
 // $Id: assertions_impl.h 01f69b5 2019-12-08T01:25:41-08:00 Fritz Mueller
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //

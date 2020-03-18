@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.1/Mesh_3/include/CGAL/Mesh_3/Mesh_surface_cell_base_3.h $
-// $Id: Mesh_surface_cell_base_3.h 254d60f 2019-10-19T15:23:19+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.2/Mesh_3/include/CGAL/Mesh_3/Mesh_surface_cell_base_3.h $
+// $Id: Mesh_surface_cell_base_3.h 85712ba 2020-01-14T15:03:20+01:00 Maxime Gimeno
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -27,7 +27,7 @@
 #include <CGAL/Mesh_3/io_signature.h>
 
 #ifdef CGAL_LINKED_WITH_TBB
-# include <tbb/atomic.h>
+# include <atomic>
 #endif
 
 #ifdef _MSC_VER
@@ -123,7 +123,7 @@ public:
 
 protected:
   /// Stores visited facets (4 first bits)
-  tbb::atomic<char> bits_;
+  std::atomic<char> bits_;
 };
 #endif // CGAL_LINKED_WITH_TBB
 

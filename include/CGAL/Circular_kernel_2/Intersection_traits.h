@@ -3,11 +3,11 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.1/Circular_kernel_2/include/CGAL/Circular_kernel_2/Intersection_traits.h $
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.2/Circular_kernel_2/include/CGAL/Circular_kernel_2/Intersection_traits.h $
 // $Id: Intersection_traits.h 52164b1 2019-10-19T15:34:59+02:00 Sébastien Loriot
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.1/Circular_kernel_2/include/CGAL/Circular_kernel_2/Intersection_traits.h $
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.2/Circular_kernel_2/include/CGAL/Circular_kernel_2/Intersection_traits.h $
 // $Id: Intersection_traits.h 52164b1 2019-10-19T15:34:59+02:00 Sébastien Loriot
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //

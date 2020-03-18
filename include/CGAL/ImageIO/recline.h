@@ -3,7 +3,7 @@
 //
 // This file is part of the ImageIO Library, and as been adapted for CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.1/CGAL_ImageIO/include/CGAL/ImageIO/recline.h $
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.2/CGAL_ImageIO/include/CGAL/ImageIO/recline.h $
 // $Id: recline.h 5d1704b 2019-10-24T09:29:16+02:00 Laurent Rineau
 // SPDX-License-Identifier: LGPL-3.0-or-later
 //

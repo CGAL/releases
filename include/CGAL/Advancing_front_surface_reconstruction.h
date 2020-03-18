@@ -3,7 +3,7 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.1/Advancing_front_surface_reconstruction/include/CGAL/Advancing_front_surface_reconstruction.h $
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.2/Advancing_front_surface_reconstruction/include/CGAL/Advancing_front_surface_reconstruction.h $
 // $Id: Advancing_front_surface_reconstruction.h 06151ee 2019-12-05T11:01:14+01:00 Laurent Rineau
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //

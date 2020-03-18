@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.1/Polygon_mesh_processing/include/CGAL/Polygon_mesh_processing/clip.h $
-// $Id: clip.h 254d60f 2019-10-19T15:23:19+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.2/Polygon_mesh_processing/include/CGAL/Polygon_mesh_processing/clip.h $
+// $Id: clip.h 034bc95 2020-02-14T14:46:32+01:00 Laurent Rineau
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -307,8 +307,8 @@ clip_to_bbox(const Plane_3& plane,
   *      the volume \link coref_def_subsec bounded \endlink by `tm` rather than on its surface
   *      (i.e. `tm` will be kept closed).
   *   \cgalParamEnd
-  *   \cgalParamBegin{use_compact_clipper} if `false` and `clip_volume` is `false` and `tm` is open, the parts of `tm` coplanar with `clipper`
-  *                                        will not be part of the output.
+  *   \cgalParamBegin{use_compact_clipper} if `false`, the parts of `tm` coplanar with `clipper` will not be part of the output.
+  *                                        This option has an effect only if a surface and not a volume is clipped (i.e. if `clip_volume` is `false` or if `tm` is open).
   *   \cgalParamEnd
   * \cgalNamedParamsEnd
   *

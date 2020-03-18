@@ -3,7 +3,7 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.1/Intersections_3/include/CGAL/Intersection_traits_3.h $
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.2/Intersections_3/include/CGAL/Intersection_traits_3.h $
 // $Id: Intersection_traits_3.h ee357fd 2019-10-29T15:19:24+01:00 Laurent Rineau
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 // 

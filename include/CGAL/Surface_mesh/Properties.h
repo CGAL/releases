@@ -5,8 +5,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.1/Surface_mesh/include/CGAL/Surface_mesh/Properties.h $
-// $Id: Properties.h 254d60f 2019-10-19T15:23:19+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.2/Surface_mesh/include/CGAL/Surface_mesh/Properties.h $
+// $Id: Properties.h 76fe174 2020-01-29T16:29:47+01:00 Laurent Rineau
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 
@@ -236,7 +236,7 @@ class Property_container
 public:
 
     // default constructor
-    Property_container() : size_(0) {}
+    Property_container() : size_(0), capacity_(0) {}
 
     // destructor (deletes all property arrays)
     virtual ~Property_container() { clear(); }
@@ -252,6 +252,7 @@ public:
             clear();
             parrays_.resize(_rhs.n_properties());
             size_ = _rhs.size();
+            capacity_ = _rhs.capacity();
             for (std::size_t i=0; i<parrays_.size(); ++i)
                 parrays_[i] = _rhs.parrays_[i]->clone();
         }
@@ -287,6 +288,7 @@ public:
           continue;
 
         parrays_.push_back (_rhs.parrays_[i]->empty_clone());
+        parrays_.back()->reserve(capacity_);
         parrays_.back()->resize(size_);
       }
     }
@@ -304,6 +306,9 @@ public:
 
     // returns the current size of the property arrays
     size_t size() const { return size_; }
+
+    // returns the current capacity of the property arrays
+    size_t capacity() const { return capacity_; }
 
     // returns the number of property arrays
     size_t n_properties() const { return parrays_.size(); }
@@ -353,6 +358,7 @@ public:
 
         // otherwise add the property
         Property_array<T>* p = new Property_array<T>(name, t);
+        p->reserve(capacity_);
         p->resize(size_);
         parrays_.push_back(p);
         return std::make_pair(Pmap(p), true);
@@ -430,10 +436,11 @@ public:
 
 
     // reserve memory for n entries in all arrays
-    void reserve(size_t n) const
+    void reserve(size_t n)
     {
         for (std::size_t i=0; i<parrays_.size(); ++i)
             parrays_[i]->reserve(n);
+        capacity_ = std::max(n, capacity_);
     }
 
     // resize all arrays to size n
@@ -445,10 +452,11 @@ public:
     }
 
     // free unused space in all arrays
-    void shrink_to_fit() const
+    void shrink_to_fit()
     {
         for (std::size_t i=0; i<parrays_.size(); ++i)
             parrays_[i]->shrink_to_fit();
+        capacity_ = size_;
     }
 
     // add a new element to each vector
@@ -457,6 +465,7 @@ public:
         for (std::size_t i=0; i<parrays_.size(); ++i)
             parrays_[i]->push_back();
         ++size_;
+        capacity_ = (std::max(size_, capacity_));
     }
 
     // reset element to its default property values
@@ -482,6 +491,7 @@ public:
 private:
     std::vector<Base_property_array*>  parrays_;
     size_t  size_;
+    size_t  capacity_;
 };
 
   /// @endcond

@@ -3,7 +3,7 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.1/Nef_S2/include/CGAL/Nef_S2/SM_decorator_traits.h $
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.2/Nef_S2/include/CGAL/Nef_S2/SM_decorator_traits.h $
 // $Id: SM_decorator_traits.h 254d60f 2019-10-19T15:23:19+02:00 Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 // 

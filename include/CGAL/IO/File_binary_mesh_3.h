@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.1/Mesh_3/include/CGAL/IO/File_binary_mesh_3.h $
-// $Id: File_binary_mesh_3.h 254d60f 2019-10-19T15:23:19+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.2/Mesh_3/include/CGAL/IO/File_binary_mesh_3.h $
+// $Id: File_binary_mesh_3.h 85e2c79 2020-01-29T16:29:44+01:00 Laurent Rineau
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -60,7 +60,10 @@ bool load_binary_file(std::istream& is, C3T3& c3t3)
     return false;
   }
   std::getline(is, s);
-  if(s != "") {
+  if(!s.empty()) {
+    if(s[s.size()-1] == '\r') { // deal with Windows EOL
+      s.resize(s.size() - 1);
+    }
     if(s != std::string(" ") + CGAL::Get_io_signature<C3T3>()()) {
       std::cerr << "load_binary_file:"
                 << "\n  expected format: " << CGAL::Get_io_signature<C3T3>()()

@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.1/Surface_mesh_shortest_path/include/CGAL/Surface_mesh_shortest_path/Surface_mesh_shortest_path.h $
-// $Id: Surface_mesh_shortest_path.h 254d60f 2019-10-19T15:23:19+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.2/Surface_mesh_shortest_path/include/CGAL/Surface_mesh_shortest_path/Surface_mesh_shortest_path.h $
+// $Id: Surface_mesh_shortest_path.h 296caae 2020-02-07T16:27:38+01:00 Laurent Rineau
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Stephen Kiazyk
@@ -56,13 +56,18 @@ Refer to those respective papers for the details of the implementation.
 
 \tparam Traits a model of `SurfaceMeshShortestPathTraits`.
 \tparam VIM a model of `ReadablePropertyMap` with `vertex_descriptor` as key and `unsigned int` as value type.
-            The default is `boost::property_map<HG, boost::%vertex_index_t>::%type`.
+            The default is `boost::property_map<HG, boost::%vertex_index_t>::%const_type`.
 \tparam HIM a model of `ReadablePropertyMap` with `halfedge_descriptor` as key and `unsigned int` as value type.
-            The default is `boost::property_map<HG, boost::%halfedge_index_t>::%type`.
+            The default is `boost::property_map<HG, boost::%halfedge_index_t>::%const_type`.
 \tparam FIM a model of `ReadablePropertyMap` with `face_descriptor` as key and `unsigned int` as value type.
-            The default is `boost::property_map<HG, boost::%face_index_t>::%type`.
+            The default is `boost::property_map<HG, boost::%face_index_t>::%const_type`.
 \tparam VPM a model of `ReadablePropertyMap` with `vertex_descriptor` as key and `Traits::Point_3` as value type.
-            The default is `boost::property_map<HG, CGAL::vertex_point_t>::%type`.
+            The default is `boost::property_map<HG, CGAL::vertex_point_t>::%const_type`.
+
+If index property maps are not provided through the constructor of the class, internal property maps must
+be available and initialized.
+
+\sa \link PkgBGLHelper `CGAL::set_halfedgeds_items_id()`\endlink
 */
 
 template<class Traits,
@@ -95,22 +100,22 @@ public:
 
   typedef typename Default::Get<
     VIM,
-    typename boost::property_map<Triangle_mesh, boost::vertex_index_t>::type
+    typename boost::property_map<Triangle_mesh, boost::vertex_index_t>::const_type
       >::type Vertex_index_map;
 
   typedef typename Default::Get<
     HIM,
-    typename boost::property_map<Triangle_mesh, boost::halfedge_index_t>::type
+    typename boost::property_map<Triangle_mesh, boost::halfedge_index_t>::const_type
       >::type Halfedge_index_map;
 
   typedef typename Default::Get<
     FIM,
-    typename boost::property_map<Triangle_mesh, boost::face_index_t>::type
+    typename boost::property_map<Triangle_mesh, boost::face_index_t>::const_type
       >::type Face_index_map;
 
   typedef typename Default::Get<
     VPM,
-    typename boost::property_map<Triangle_mesh, CGAL::vertex_point_t>::type
+    typename boost::property_map<Triangle_mesh, CGAL::vertex_point_t>::const_type
       >::type Vertex_point_map;
 
 #else
@@ -327,7 +332,7 @@ private:
 
 private:
   const Traits& m_traits;
-  Triangle_mesh& m_graph;
+  const Triangle_mesh& m_graph;
 
   Vertex_index_map m_vertexIndexMap;
   Halfedge_index_map m_halfedgeIndexMap;
@@ -2187,11 +2192,15 @@ public:
 
   Equivalent to `Surface_mesh_shortest_path(tm, get(boost::vertex_index, tm), get(boost::halfedge_index, tm),
                                             get(boost::face_index, tm), get(CGAL::vertex_point, tm), traits)`.
+
+  Internal property maps must be available and initialized.
+
+  \sa \link PkgBGLHelper `CGAL::set_halfedgeds_items_id()`\endlink
   */
-  Surface_mesh_shortest_path(Triangle_mesh& tm,
+  Surface_mesh_shortest_path(const Triangle_mesh& tm,
                              const Traits& traits = Traits())
     : m_traits(traits)
-    , m_graph(const_cast<Triangle_mesh&>(tm))
+    , m_graph(tm)
     , m_vertexIndexMap(get(boost::vertex_index, tm))
     , m_halfedgeIndexMap(get(boost::halfedge_index, tm))
     , m_faceIndexMap(get(boost::face_index, tm))
@@ -2225,7 +2234,7 @@ public:
                              Vertex_point_map vertexPointMap,
                              const Traits& traits = Traits())
     : m_traits(traits)
-    , m_graph(const_cast<Triangle_mesh&>(tm))
+    , m_graph(tm)
     , m_vertexIndexMap(vertexIndexMap)
     , m_halfedgeIndexMap(halfedgeIndexMap)
     , m_faceIndexMap(faceIndexMap)

@@ -21,7 +21,7 @@
  *      - FullVector is now a model of the SparseLinearAlgebraTraits_d::Vector concept
  *      - Coefficients are initialized with zeros
  *
- * $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.1/OpenNL/include/CGAL/OpenNL/full_vector.h $
+ * $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.2/OpenNL/include/CGAL/OpenNL/full_vector.h $
  * $Id: full_vector.h fcd0529 2019-10-20T00:47:56+02:00 Sébastien Loriot
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */

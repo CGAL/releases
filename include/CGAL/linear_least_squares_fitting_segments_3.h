@@ -3,7 +3,7 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.1/Principal_component_analysis/include/CGAL/linear_least_squares_fitting_segments_3.h $
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.2/Principal_component_analysis/include/CGAL/linear_least_squares_fitting_segments_3.h $
 // $Id: linear_least_squares_fitting_segments_3.h 254d60f 2019-10-19T15:23:19+02:00 Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //

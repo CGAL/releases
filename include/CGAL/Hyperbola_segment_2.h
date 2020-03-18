@@ -3,7 +3,7 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.1/Apollonius_graph_2/include/CGAL/Hyperbola_segment_2.h $
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.2/Apollonius_graph_2/include/CGAL/Hyperbola_segment_2.h $
 // $Id: Hyperbola_segment_2.h 99c93d0 2020-01-15T17:31:58+01:00 Laurent Rineau
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 // 

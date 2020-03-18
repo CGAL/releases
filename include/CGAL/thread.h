@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.1/STL_Extension/include/CGAL/thread.h $
-// $Id: thread.h 52164b1 2019-10-19T15:34:59+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.2/STL_Extension/include/CGAL/thread.h $
+// $Id: thread.h 85712ba 2020-01-14T15:03:20+01:00 Maxime Gimeno
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Simon Giraudot
@@ -34,7 +34,7 @@
 #  include <tbb/tbb_config.h>
 #  if TBB_IMPLEMENT_CPP0X
 #    include <tbb/compat/thread>
-#    include <tbb/atomic.h>
+#    include <atomic>
 #    include <tbb/tick_count.h>
 #    define CGAL_USE_TBB_THREADS 1
 #  else
@@ -83,8 +83,8 @@ namespace cpp11 {
 
 #if defined(CGAL_NO_ATOMIC) && defined(CGAL_LINKED_WITH_TBB)
   // If <CGAL/atomic.h> did not defined CGAL::cpp11::atomic, then use
-  // tbb::atomic as a fallback.
-  using tbb::atomic;
+  // std::atomic as a fallback.
+  using std::atomic;
 #endif
 
 } // cpp11

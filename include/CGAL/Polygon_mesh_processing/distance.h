@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.1/Polygon_mesh_processing/include/CGAL/Polygon_mesh_processing/distance.h $
-// $Id: distance.h 254d60f 2019-10-19T15:23:19+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.2/Polygon_mesh_processing/include/CGAL/Polygon_mesh_processing/distance.h $
+// $Id: distance.h 85712ba 2020-01-14T15:03:20+01:00 Maxime Gimeno
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -34,7 +34,7 @@
 #ifdef CGAL_LINKED_WITH_TBB
 #include <tbb/parallel_for.h>
 #include <tbb/blocked_range.h>
-#include <tbb/atomic.h>
+#include <atomic>
 #endif // CGAL_LINKED_WITH_TBB
 
 #include <boost/unordered_set.hpp>
@@ -78,13 +78,13 @@ struct Distance_computation{
   const AABB_tree& tree;
   const PointRange& sample_points;
   Point_3 initial_hint;
-  tbb::atomic<double>* distance;
+  std::atomic<double>* distance;
 
   Distance_computation(
           const AABB_tree& tree,
           const Point_3& p,
           const PointRange& sample_points,
-          tbb::atomic<double>* d)
+          std::atomic<double>* d)
     : tree(tree)
     , sample_points(sample_points)
     , initial_hint(p)
@@ -108,7 +108,8 @@ struct Distance_computation{
     double current_value = *distance;
     while( current_value < hdist )
     {
-      current_value = distance->compare_and_swap(hdist, current_value);
+      if(distance->compare_exchange_weak(current_value, hdist))
+        current_value = hdist;
     }
   }
 };
@@ -129,7 +130,7 @@ double approximate_Hausdorff_distance_impl(
 #else
   if (boost::is_convertible<Concurrency_tag,Parallel_tag>::value)
   {
-    tbb::atomic<double> distance;
+    std::atomic<double> distance;
     distance=0;
     Distance_computation<AABBTree, PointRange> f(tree, hint, sample_points, &distance);
     tbb::parallel_for(tbb::blocked_range<std::size_t>(0, sample_points.size()), f);
