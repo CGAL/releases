@@ -3,10 +3,10 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.2/Apollonius_graph_2/include/CGAL/Parabola_segment_2.h $
-// $Id: Parabola_segment_2.h 2927175 2020-01-29T16:34:53+01:00 Laurent Rineau
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.3/Apollonius_graph_2/include/CGAL/Parabola_segment_2.h $
+// $Id: Parabola_segment_2.h 0779373 2020-03-26T13:31:46+01:00 Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
-// 
+//
 //
 // Author(s)     : Menelaos Karavelas <mkaravel@iacm.forth.gr>
 
@@ -47,7 +47,7 @@ public:
 
   template<class ApolloniusSite>
   Parabola_segment_2(const ApolloniusSite &p, const Line_2 &l,
-		     const Point_2 &p1, const Point_2 &p2)
+                     const Point_2 &p1, const Point_2 &p2)
     : Parabola_2< Gt >(p, l)
   {
     this->p1 = p1;
@@ -55,7 +55,7 @@ public:
   }
 
   Parabola_segment_2(const Point_2 &p, const Line_2 &l,
-		     const Point_2 &p1, const Point_2 &p2)
+                     const Point_2 &p1, const Point_2 &p2)
     : Parabola_2< Gt >(p, l)
   {
     this->p1 = p1;

@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.2/Mesh_3/include/CGAL/Mesh_3/Refine_cells_3.h $
-// $Id: Refine_cells_3.h 254d60f 2019-10-19T15:23:19+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.3/Mesh_3/include/CGAL/Mesh_3/Refine_cells_3.h $
+// $Id: Refine_cells_3.h 0779373 2020-03-26T13:31:46+01:00 Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Laurent Rineau, Stéphane Tayeb
@@ -478,7 +478,7 @@ public:
 
     return sstr.str();
   }
-  
+
   /// Adds \c cell to the refinement queue if needed
   void treat_new_cell(const Cell_handle& cell);
 
@@ -520,7 +520,7 @@ private:
     }
   };
 #endif // CGAL_LINKED_WITH_TBB
-  
+
   // -----------------------------------
   // -----------------------------------
   // -----------------------------------
@@ -668,7 +668,7 @@ scan_triangulation_impl()
     std::cerr << "Scanning triangulation for bad cells (in parallel)";
 # endif
     add_to_TLS_lists(true);
-    
+
     typedef typename Tr::All_cells_iterator All_cells_iterator;
 
     // WITH PARALLEL_FOR
@@ -794,7 +794,7 @@ conflicts_zone_impl(const Weighted_point& point
 
   facet_is_in_its_cz = true; // Always true
 
-  CGAL_HISTOGRAM_PROFILER("Mesh_3::Refine_cells::conflict zone", 
+  CGAL_HISTOGRAM_PROFILER("Mesh_3::Refine_cells::conflict zone",
                           static_cast<unsigned int>(zone.cells.size()));
   return zone;
 }

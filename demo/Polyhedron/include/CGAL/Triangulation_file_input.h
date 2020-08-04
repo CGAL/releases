@@ -12,8 +12,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.2/Polyhedron/demo/Polyhedron/include/CGAL/Triangulation_file_input.h $
-// $Id: Triangulation_file_input.h d0e86aa 2017-04-11T17:06:45+02:00 Mael Rouxel-Labbé
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.3/Polyhedron/demo/Polyhedron/include/CGAL/Triangulation_file_input.h $
+// $Id: Triangulation_file_input.h 590612a 2020-03-26T13:25:16+01:00 Sébastien Loriot
 //
 // Author(s)     : Laurent Rineau
 //
@@ -28,7 +28,7 @@
 
 namespace CGAL {
 
-template <typename Tr1, 
+template <typename Tr1,
           typename Tr2,
           typename Update_vertex,
           typename Update_cell>

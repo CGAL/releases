@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.2/Mesh_3/include/CGAL/IO/File_binary_mesh_3.h $
-// $Id: File_binary_mesh_3.h 85e2c79 2020-01-29T16:29:44+01:00 Laurent Rineau
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.3/Mesh_3/include/CGAL/IO/File_binary_mesh_3.h $
+// $Id: File_binary_mesh_3.h 0779373 2020-03-26T13:31:46+01:00 Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -55,7 +55,7 @@ bool load_binary_file(std::istream& is, C3T3& c3t3)
   }
   if (s != "CGAL" ||
       !(is >> s) ||
-      s != "c3t3") 
+      s != "c3t3")
   {
     return false;
   }

@@ -3,10 +3,10 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.2/Polygon_mesh_processing/include/CGAL/Polygon_mesh_processing/compute_normal.h $
-// $Id: compute_normal.h 254d60f 2019-10-19T15:23:19+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.3/Polygon_mesh_processing/include/CGAL/Polygon_mesh_processing/compute_normal.h $
+// $Id: compute_normal.h 0779373 2020-03-26T13:31:46+01:00 Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
-// 
+//
 //
 // Author(s)     : Jane Tournois
 
@@ -40,7 +40,7 @@ namespace internal {
   {
     typename GT::FT norm = CGAL::approximate_sqrt(
         traits.compute_squared_length_3_object()(v));
-    //If the vector is small enough, approx_sqrt might return 0, and then we get nan values. 
+    //If the vector is small enough, approx_sqrt might return 0, and then we get nan values.
     //To avoid that, we check the resulted norm. If it is 0, we don't normalize.
     if(norm != 0)
     {
@@ -58,7 +58,7 @@ namespace internal {
       traits.construct_vector_3_object()(p1, p2),
       traits.construct_vector_3_object()(p1, p0));
 
-    //cross-product(AB, AC)'s norm is the area of the parallelogram 
+    //cross-product(AB, AC)'s norm is the area of the parallelogram
     //formed by these 2 vectors.
     //the triangle's area is half of it
     return traits.construct_scaled_vector_3_object()(n, 0.5);

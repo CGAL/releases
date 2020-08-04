@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.2/Polygon_mesh_processing/include/CGAL/Polygon_mesh_processing/polygon_soup_to_polygon_mesh.h $
-// $Id: polygon_soup_to_polygon_mesh.h 254d60f 2019-10-19T15:23:19+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.3/Polygon_mesh_processing/include/CGAL/Polygon_mesh_processing/polygon_soup_to_polygon_mesh.h $
+// $Id: polygon_soup_to_polygon_mesh.h 0779373 2020-03-26T13:31:46+01:00 Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -192,11 +192,11 @@ public:
   * @pre the input polygon soup describes a consistently oriented
   * polygon mesh.
   *
-  * @tparam PolygonMesh a model of `MutableFaceGraph` with an internal point 
+  * @tparam PolygonMesh a model of `MutableFaceGraph` with an internal point
   * property map
-  * @tparam PointRange a model of the concepts `RandomAccessContainer` and 
+  * @tparam PointRange a model of the concepts `RandomAccessContainer` and
   * `BackInsertionSequence` whose value type is the point type
-  * @tparam PolygonRange a model of the concept `RandomAccessContainer` whose 
+  * @tparam PolygonRange a model of the concept `RandomAccessContainer` whose
   * `value_type` is a model of the concept `RandomAccessContainer` whose `value_type` is `std::size_t`.
 
   *

@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.2/Polygon_mesh_processing/include/CGAL/Polygon_mesh_processing/connected_components.h $
-// $Id: connected_components.h 254d60f 2019-10-19T15:23:19+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.3/Polygon_mesh_processing/include/CGAL/Polygon_mesh_processing/connected_components.h $
+// $Id: connected_components.h 0779373 2020-03-26T13:31:46+01:00 Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -57,7 +57,7 @@ namespace internal {
     }
   };
 
-    // A property map 
+    // A property map
     template <typename G>
     struct No_constraint {
       friend bool get(No_constraint<G>, typename boost::graph_traits<G>::edge_descriptor)
@@ -173,7 +173,7 @@ connected_component(typename boost::graph_traits<PolygonMesh>::face_descriptor s
  * \ingroup keep_connected_components_grp
  *  computes for each face the index of the corresponding connected component.
  *
- *  A property map for `CGAL::face_index_t` must be either available as an internal property map 
+ *  A property map for `CGAL::face_index_t` must be either available as an internal property map
  *  to `pmesh` or provided as one of the \ref pmp_namedparameters "Named Parameters".
  *
  *  \tparam PolygonMesh a model of `FaceListGraph`

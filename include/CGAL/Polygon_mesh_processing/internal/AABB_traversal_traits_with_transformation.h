@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.2/Polygon_mesh_processing/include/CGAL/Polygon_mesh_processing/internal/AABB_traversal_traits_with_transformation.h $
-// $Id: AABB_traversal_traits_with_transformation.h 254d60f 2019-10-19T15:23:19+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.3/Polygon_mesh_processing/include/CGAL/Polygon_mesh_processing/internal/AABB_traversal_traits_with_transformation.h $
+// $Id: AABB_traversal_traits_with_transformation.h 5b2d46c 2020-04-21T10:03:00+02:00 Maxime Gimeno
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -52,9 +52,9 @@ class Traversal_traits_with_transformation_helper
 
     AK::Aff_transformation_3 a_at = c2f(at);
 
-    AK::FT xtrm[6] = { c2f(bbox.min(0)), c2f(bbox.max(0)),
-                       c2f(bbox.min(1)), c2f(bbox.max(1)),
-                       c2f(bbox.min(2)), c2f(bbox.max(2)) };
+    AK::FT xtrm[6] = { c2f((bbox.min)(0)), c2f((bbox.max)(0)),
+                       c2f((bbox.min)(1)), c2f((bbox.max)(1)),
+                       c2f((bbox.min)(2)), c2f((bbox.max)(2)) };
 
     typename AK::Point_3 ps[8];
     ps[0] = a_at( AK::Point_3(xtrm[0], xtrm[2], xtrm[4]) );
@@ -84,9 +84,9 @@ class Traversal_traits_with_transformation_helper
 
     AK::Aff_transformation_3 a_at = c2f(at);
 
-    AK::FT xtrm[6] = { c2f(bbox.min(0)), c2f(bbox.max(0)),
-                       c2f(bbox.min(1)), c2f(bbox.max(1)),
-                       c2f(bbox.min(2)), c2f(bbox.max(2)) };
+    AK::FT xtrm[6] = { c2f((bbox.min)(0)), c2f((bbox.max)(0)),
+                       c2f((bbox.min)(1)), c2f((bbox.max)(1)),
+                       c2f((bbox.min)(2)), c2f((bbox.max)(2)) };
 
     typename AK::Point_3 ps[2];
     ps[0] = a_at( AK::Point_3(xtrm[0], xtrm[2], xtrm[4]) );

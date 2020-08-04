@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.2/Arrangement_on_surface_2/include/CGAL/Arr_circle_segment_traits_2.h $
-// $Id: Arr_circle_segment_traits_2.h 254d60f 2019-10-19T15:23:19+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.3/Arrangement_on_surface_2/include/CGAL/Arr_circle_segment_traits_2.h $
+// $Id: Arr_circle_segment_traits_2.h 0779373 2020-03-26T13:31:46+01:00 Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Ron Wein          <wein@post.tau.ac.il>
@@ -311,24 +311,24 @@ public:
 
       if ((CGAL::compare (cv1.left().x(),cv1.right().x()) == EQUAL) &&
           (CGAL::compare (cv2.left().x(),cv2.right().x()) == EQUAL))
-	  { //both cv1 and cv2 are vertical
+          { //both cv1 and cv2 are vertical
          CGAL_precondition (!(cv1.left()).equals(p) && !(cv2.left()).equals(p));
-	  }
-	  else if ((CGAL::compare (cv1.left().x(),cv1.right().x()) != EQUAL) &&
+          }
+          else if ((CGAL::compare (cv1.left().x(),cv1.right().x()) != EQUAL) &&
                    (CGAL::compare (cv2.left().x(),cv2.right().x()) == EQUAL))
-	  { //only cv1 is vertical
+          { //only cv1 is vertical
          CGAL_precondition (!(cv1.left()).equals(p));
-	  }
-	  else if ((CGAL::compare (cv1.left().x(),cv1.right().x()) == EQUAL) &&
+          }
+          else if ((CGAL::compare (cv1.left().x(),cv1.right().x()) == EQUAL) &&
                    (CGAL::compare (cv2.left().x(),cv2.right().x()) != EQUAL))
-	  { //only cv2 is vertical
+          { //only cv2 is vertical
          CGAL_precondition (!(cv2.left()).equals(p));
-	  }
-	  else
-	  { //both cv1 and cv2 are non vertical
+          }
+          else
+          { //both cv1 and cv2 are non vertical
         CGAL_precondition (CGAL::compare (cv1.left().x(),p.x()) == SMALLER &&
                            CGAL::compare (cv2.left().x(),p.x()) == SMALLER);
-	  }
+          }
       // Compare the two curves immediately to the left of p:
       return (cv1.compare_to_left (cv2, p));
     }

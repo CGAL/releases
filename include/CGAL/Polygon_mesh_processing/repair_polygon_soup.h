@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.2/Polygon_mesh_processing/include/CGAL/Polygon_mesh_processing/repair_polygon_soup.h $
-// $Id: repair_polygon_soup.h 254d60f 2019-10-19T15:23:19+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.3/Polygon_mesh_processing/include/CGAL/Polygon_mesh_processing/repair_polygon_soup.h $
+// $Id: repair_polygon_soup.h 6411035 2020-07-31T15:52:02+02:00 Laurent Rineau
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Mael Rouxel-Labbé
@@ -118,43 +118,21 @@ bool simplify_polygon(PointRange& points,
 {
   const std::size_t ini_polygon_size = polygon.size();
 
-  // Start at the last since if two points are identical, the second one gets removed.
-  // By starting at 'last', we ensure that 'to_remove' is ordered from closest to .begin()
-  // to closest to .end()
-  std::size_t last = ini_polygon_size - 1, i = last;
-  bool stop = false;
-  std::vector<std::size_t> to_remove;
-
-  do
+  for(std::size_t i=0; i<polygon.size(); ++i)
   {
-    std::size_t next_i = (i == last) ? 0 : i+1;
-    stop = (next_i == last);
+    const std::size_t s = polygon.size();
+    if(s == 1)
+      break;
 
-    while(polygon[i] == polygon[next_i] || // combinatorial equality
-          traits.equal_3_object()(points[polygon[i]], points[polygon[next_i]])) // geometric equality
+    const std::size_t ni = (i + 1) % s;
+    if(polygon[i] == polygon[ni] ||
+       traits.equal_3_object()(points[polygon[i]], points[polygon[ni]]))
     {
-      to_remove.push_back(next_i);
 #ifdef CGAL_PMP_REPAIR_POLYGON_SOUP_VERBOSE_PP
-      std::cout << "Duplicate point: polygon[" << next_i << "] = " << polygon[next_i] << std::endl;
+      std::cout << "Duplicate point: polygon[" << ni << "] = " << polygon[ni] << std::endl;
 #endif
-      next_i = (next_i == last) ? 0 : next_i+1;
-
-      // Every duplicate in front of 'last' (circularly-speaking) has already been cleared
-      if(next_i == last)
-      {
-        stop = true;
-        break;
-      }
+      polygon.erase(polygon.begin() + i--);
     }
-
-    i = next_i;
-  }
-  while(!stop);
-
-  while(!to_remove.empty())
-  {
-    polygon.erase(polygon.begin() + to_remove.back());
-    to_remove.pop_back();
   }
 
   const std::size_t removed_points_n = ini_polygon_size - polygon.size();
@@ -660,7 +638,7 @@ Polygon construct_canonical_polygon(const PointRange& points,
     reversed = false;
     return polygon;
   }
-  
+
 
 #ifdef CGAL_PMP_REPAIR_POLYGON_SOUP_VERBOSE_PP
   std::cout << "Input polygon:";

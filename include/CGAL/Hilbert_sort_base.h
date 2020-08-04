@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.2/Spatial_sorting/include/CGAL/Hilbert_sort_base.h $
-// $Id: Hilbert_sort_base.h 52164b1 2019-10-19T15:34:59+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.3/Spatial_sorting/include/CGAL/Hilbert_sort_base.h $
+// $Id: Hilbert_sort_base.h 0779373 2020-03-26T13:31:46+01:00 Sébastien Loriot
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Christophe Delage
@@ -29,13 +29,13 @@ namespace internal {
       #if defined(CGAL_HILBERT_SORT_WITH_MEDIAN_POLICY_CROSS_PLATFORM_BEHAVIOR)
         RandomAccessIterator middle = begin + (end - begin) / 2;
         CGAL::nth_element (begin, middle, end, cmp);
-        return middle;      
+        return middle;
       #else
         RandomAccessIterator middle = begin + (end - begin) / 2;
         std::nth_element (begin, middle, end, cmp);
         return middle;
-      #endif	
-      
+      #endif
+
     }
 }
 

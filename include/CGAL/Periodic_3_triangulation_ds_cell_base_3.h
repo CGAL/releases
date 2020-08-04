@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.2/Periodic_3_triangulation_3/include/CGAL/Periodic_3_triangulation_ds_cell_base_3.h $
-// $Id: Periodic_3_triangulation_ds_cell_base_3.h 254d60f 2019-10-19T15:23:19+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.3/Periodic_3_triangulation_3/include/CGAL/Periodic_3_triangulation_ds_cell_base_3.h $
+// $Id: Periodic_3_triangulation_ds_cell_base_3.h 627a7b2 2020-04-27T17:08:35+02:00 Maxime Gimeno
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -180,9 +180,9 @@ public:
     int bit_offset = 3 * vhi;
 
     // first reset the bit to 0 (AND), then assign the value given in input (OR)
-    off = off & ~(1 <<  bit_offset)      | (offo[0] <<  bit_offset);
-    off = off & ~(1 << (bit_offset + 1)) | (offo[1] << (bit_offset + 1));
-    off = off & ~(1 << (bit_offset + 2)) | (offo[2] << (bit_offset + 2));
+    off = (off & ~(1 <<  bit_offset))      | (offo[0] <<  bit_offset);
+    off = (off & ~(1 << (bit_offset + 1))) | (offo[1] << (bit_offset + 1));
+    off = (off & ~(1 << (bit_offset + 2))) | (offo[2] << (bit_offset + 2));
 
     CGAL_postcondition(offset(vhi) == o);
   }

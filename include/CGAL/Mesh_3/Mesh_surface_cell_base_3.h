@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.2/Mesh_3/include/CGAL/Mesh_3/Mesh_surface_cell_base_3.h $
-// $Id: Mesh_surface_cell_base_3.h 85712ba 2020-01-14T15:03:20+01:00 Maxime Gimeno
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.3/Mesh_3/include/CGAL/Mesh_3/Mesh_surface_cell_base_3.h $
+// $Id: Mesh_surface_cell_base_3.h 0779373 2020-03-26T13:31:46+01:00 Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -41,7 +41,7 @@ namespace CGAL {
 
 namespace Mesh_3 {
 
-  
+
 /************************************************
 // Class Mesh_surface_cell_base_3_base
 // Two versions: sequential / parallel
@@ -52,9 +52,9 @@ template <typename Concurrency_tag>
 class Mesh_surface_cell_base_3_base
 {
 public:
-  Mesh_surface_cell_base_3_base() 
+  Mesh_surface_cell_base_3_base()
     : bits_(0) {}
-  
+
   /// Marks \c facet as visited
   void set_facet_visited (const int facet)
   {
@@ -87,11 +87,11 @@ template<>
 class Mesh_surface_cell_base_3_base<Parallel_tag>
 {
 public:
-  Mesh_surface_cell_base_3_base() 
+  Mesh_surface_cell_base_3_base()
   {
     bits_ = 0;
   }
-  
+
   /// Marks \c facet as visited
   void set_facet_visited (const int facet)
   {
@@ -149,7 +149,7 @@ public:
   typedef typename Tds::Vertex_handle                 Vertex_handle;
   typedef typename Tds::Cell_handle                   Cell_handle;
   typedef typename GT::Point_3                        Point;
-  
+
   // To get correct cell type in TDS
   template < class TDS3 >
   struct Rebind_TDS
@@ -235,16 +235,16 @@ public:
     CGAL_precondition(facet>=0 && facet<4);
     return ( Surface_patch_index() != surface_index_table_[facet]);
   }
-  
+
   // -----------------------------------
   // Backward Compatibility
   // -----------------------------------
 #ifndef CGAL_MESH_3_NO_DEPRECATED_SURFACE_INDEX
   typedef Surface_patch_index   Surface_index;
-  
+
   void set_surface_index(const int facet, const Surface_index& index)
   { set_surface_patch_index(facet,index); }
-  
+
   /// Returns surface index of facet \c facet
   Surface_index surface_index(const int facet) const
   { return surface_patch_index(facet); }

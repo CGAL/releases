@@ -2,8 +2,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.2/Polyhedron_IO/include/CGAL/IO/OFF_reader.h $
-// $Id: OFF_reader.h 61453c6 2020-02-14T14:46:35+01:00 Laurent Rineau
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.3/Polyhedron_IO/include/CGAL/IO/OFF_reader.h $
+// $Id: OFF_reader.h 0779373 2020-03-26T13:31:46+01:00 Sébastien Loriot
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Laurent Rineau and Sebastien Loriot
@@ -104,7 +104,7 @@ namespace CGAL {
             vcolors[i] = scanner.get_color_from_line(iss);
           }
         }
-        
+
         if(!in)
           return false;
     }

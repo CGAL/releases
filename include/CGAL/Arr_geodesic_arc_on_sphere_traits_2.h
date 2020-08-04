@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.2/Arrangement_on_surface_2/include/CGAL/Arr_geodesic_arc_on_sphere_traits_2.h $
-// $Id: Arr_geodesic_arc_on_sphere_traits_2.h 254d60f 2019-10-19T15:23:19+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.3/Arrangement_on_surface_2/include/CGAL/Arr_geodesic_arc_on_sphere_traits_2.h $
+// $Id: Arr_geodesic_arc_on_sphere_traits_2.h 0779373 2020-03-26T13:31:46+01:00 Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Efi Fogel         <efif@post.tau.ac.il>
@@ -110,7 +110,7 @@ protected:
 
 #elif (CGAL_IDENTIFICATION_XY == CGAL_X_MINUS_8_Y_6)
     CGAL_STATIC_THREAD_LOCAL_VARIABLE_2(Direction_2, d, -8, 6);
-    
+
 #elif (CGAL_IDENTIFICATION_XY == CGAL_X_MINUS_11_Y_7)
     CGAL_STATIC_THREAD_LOCAL_VARIABLE_2(Direction_2, d, -11, 7);
 #else
@@ -2872,14 +2872,14 @@ public:
   /*! Copy constructor
    * \param other the other arc
    */
-#ifdef DOXYGEN_RUNNING  
+#ifdef DOXYGEN_RUNNING
   Arr_geodesic_arc_on_sphere_3
   (const Arr_geodesic_arc_on_sphere_3& other) : Base(other)
   {
     m_is_x_monotone = other.m_is_x_monotone;
   }
 #endif
-  
+
   /*! Constructor
    * \param src the source point of the arc
    * \param trg the target point of the arc

@@ -7,8 +7,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.2/Installation/include/CGAL/config.h $
-// $Id: config.h 52164b1 2019-10-19T15:34:59+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.3/Installation/include/CGAL/config.h $
+// $Id: config.h 2e8a59d 2020-07-21T15:25:54+02:00 Laurent Rineau
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -546,16 +546,12 @@ using std::max;
 #endif
 
 // Macro to specify a 'noreturn' attribute.
-#if defined(__GNUG__) || __has_attribute(__noreturn__)
-#  define CGAL_NORETURN  __attribute__ ((__noreturn__))
-#elif defined (_MSC_VER)
-#  define CGAL_NORETURN __declspec(noreturn)
-#else
-#  define CGAL_NORETURN
-#endif
+// (This macro existed in CGAL before we switched to C++11. Let's keep
+// the macro defined for backward-compatibility. That cannot harm.)
+#define CGAL_NORETURN  [[noreturn]]
 
 // Macro to specify [[no_unique_address]] if supported
-#if __has_cpp_attribute(no_unique_address)
+#if CGAL_CXX11 && __has_cpp_attribute(no_unique_address)
 #  define CGAL_NO_UNIQUE_ADDRESS [[no_unique_address]]
 #else
 #  define CGAL_NO_UNIQUE_ADDRESS
@@ -623,6 +619,7 @@ using std::max;
 
 //
 // Compatibility with CGAL-4.14.
+#ifndef CGAL_NO_DEPRECATED_CODE
 //
 // That is temporary, and will be replaced by a namespace alias, as
 // soon as we can remove cpp11::result_of, and <CGAL/atomic.h> and
@@ -659,7 +656,7 @@ namespace CGAL {
   using cpp11::array;
   using cpp11::copy_n;
 } // end of the temporary compatibility with CGAL-4.14
-
+#endif // CGAL_NO_DEPRECATED_CODE
 namespace CGAL {
 
 // Typedef for the type of nullptr.

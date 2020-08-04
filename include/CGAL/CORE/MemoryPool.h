@@ -8,8 +8,8 @@
  * File: MemoryPool.h
  * Synopsis:
  *      a memory pool template class.
- * 
- * Written by 
+ *
+ * Written by
  *       Zilin Du <zilin@cs.nyu.edu>
  *       Chee Yap <yap@cs.nyu.edu>
  *       Sylvain Pion <pion@cs.nyu.edu>
@@ -17,8 +17,8 @@
  * WWW URL: http://cs.nyu.edu/exact/
  * Email: exact@cs.nyu.edu
  *
- * $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.2/CGAL_Core/include/CGAL/CORE/MemoryPool.h $
- * $Id: MemoryPool.h 26fb266 2019-10-19T16:28:33+02:00 Sébastien Loriot
+ * $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.3/CGAL_Core/include/CGAL/CORE/MemoryPool.h $
+ * $Id: MemoryPool.h 0779373 2020-03-26T13:31:46+01:00 Sébastien Loriot
  * SPDX-License-Identifier: LGPL-3.0-or-later
  ***************************************************************************/
 #ifndef _CORE_MEMORYPOOL_H_
@@ -40,7 +40,7 @@
 #include <CGAL/assertions.h>
 #include <vector>
 
-namespace CORE { 
+namespace CORE {
 
 #define CORE_EXPANSION_SIZE 1024
 template< class T, int nObjects = CORE_EXPANSION_SIZE >
@@ -61,8 +61,8 @@ public:
       std::size_t count = 0;
       Thunk* t = head;
       while(t!=0){
-	++count;
-	t = t->next;
+        ++count;
+        t = t->next;
       }
     //);
     //CGAL_warning_msg(count ==  nObjects * blocks.size(),
@@ -95,7 +95,7 @@ public:
 #endif // not CGAL_HAS_THREADS
     return memPool;
   }
- 
+
 private:
    Thunk* head; // next available block in the pool
   std::vector<void*> blocks;
@@ -118,13 +118,13 @@ void* MemoryPool< T, nObjects >::allocate(std::size_t) {
 
       // use the global operator new to allocate a block for the pool
       Thunk* pool = reinterpret_cast<Thunk*>(
-	 ::operator new(nObjects * sizeof(Thunk)));
+         ::operator new(nObjects * sizeof(Thunk)));
 
       blocks.push_back(pool);
       // initialize the chain (one-directional linked list)
       head = pool;
       for (int i = 0; i < last; ++i ) {
-	 pool[i].next = &pool[i+1];
+         pool[i].next = &pool[i+1];
       }
       pool[last].next = 0;
    }
@@ -138,7 +138,7 @@ void* MemoryPool< T, nObjects >::allocate(std::size_t) {
 
 template< class T, int nObjects >
 void MemoryPool< T, nObjects >::free(void* t) {
-   CGAL_assertion(t != 0);     
+   CGAL_assertion(t != 0);
    if (t == 0) return; // for safety
    if(blocks.empty()){
      std::cerr << typeid(T).name() << std::endl;

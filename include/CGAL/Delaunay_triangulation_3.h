@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.2/Triangulation_3/include/CGAL/Delaunay_triangulation_3.h $
-// $Id: Delaunay_triangulation_3.h 85712ba 2020-01-14T15:03:20+01:00 Maxime Gimeno
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.3/Triangulation_3/include/CGAL/Delaunay_triangulation_3.h $
+// $Id: Delaunay_triangulation_3.h 0779373 2020-03-26T13:31:46+01:00 Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -257,7 +257,7 @@ public:
     insert(first, last);
   }
 
-  
+
 private:
   #ifdef CGAL_CONCURRENT_TRIANGULATION_3_ADD_TEMPORARY_POINTS_ON_FAR_SPHERE
   std::vector<Vertex_handle>
@@ -405,7 +405,7 @@ public:
 private:
   using Tr_Base::top_get_first;
   using Tr_Base::top_get_second;
-  
+
   template <class Tuple_or_pair,class InputIterator>
   std::ptrdiff_t insert_with_info(InputIterator first, InputIterator last)
   {

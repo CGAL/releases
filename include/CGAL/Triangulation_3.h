@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.2/Triangulation_3/include/CGAL/Triangulation_3.h $
-// $Id: Triangulation_3.h 8a48be1 2019-12-12T13:10:25+01:00 Mael
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.3/Triangulation_3/include/CGAL/Triangulation_3.h $
+// $Id: Triangulation_3.h 2e8a59d 2020-07-21T15:25:54+02:00 Laurent Rineau
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Monique Teillaud <Monique.Teillaud@sophia.inria.fr>
@@ -433,8 +433,10 @@ public:
   typedef typename Tds::Vertex_handles         All_vertex_handles;
   typedef typename Tds::Facets                 All_facets;
   typedef typename Tds::Edges                  All_edges;
-  
+
   typedef typename Tds::Simplex                Simplex;
+
+  typedef typename GT::Construct_point_3       Construct_point_3;
 
 private:
   // This class is used to generate the Finite_*_iterators.
@@ -521,7 +523,7 @@ public:
 
   typedef Iterator_range<Finite_edges_iterator> Finite_edges;
   typedef Iterator_range<Finite_facets_iterator> Finite_facets;
-  
+
 private:
   // Auxiliary iterators for convenience
   // do not use default template argument to please VC++
@@ -537,7 +539,7 @@ public:
 
 
   typedef Iterator_range<Point_iterator> Points;
-  
+
   // To have a back_inserter
   typedef Point                                               value_type;
   typedef const value_type&                                   const_reference;
@@ -565,7 +567,8 @@ protected:
 
 public:
   template<typename P> // Point or Point_3
-  Point_3 construct_point(const P& p) const
+  typename boost::result_of<Construct_point_3(P)>::type
+  construct_point(const P& p) const
   {
     return geom_traits().construct_point_3_object()(p);
   }
@@ -1127,7 +1130,7 @@ public:
                                           Hidden_points_visitor& hider,
                                           bool *could_lock_zone = nullptr);
 
-  
+
 #ifndef CGAL_TRIANGULATION_3_DONT_INSERT_RANGE_OF_POINTS_WITH_INFO
   template < class InputIterator >
   std::ptrdiff_t insert(InputIterator first, InputIterator last,
@@ -1220,8 +1223,8 @@ public:
   }
 #endif //CGAL_TRIANGULATION_3_DONT_INSERT_RANGE_OF_POINTS_WITH_INFO
 
-  
-  
+
+
   Vertex_handle insert_in_cell(const Point& p, Cell_handle c);
   Vertex_handle insert_in_facet(const Point& p, Cell_handle c, int i);
   Vertex_handle insert_in_facet(const Point& p, const Facet& f) {
@@ -1646,7 +1649,7 @@ private:
   Vertex_handle>::type Vertex_handle_unique_hash_map;
 
   Vertex_triple make_vertex_triple(const Facet& f) const;
-  void make_canonical(Vertex_triple& t) const;
+  void make_canonical_oriented_triple(Vertex_triple& t) const;
 
   template < class VertexRemover >
   VertexRemover& make_hole_2D(Vertex_handle v, std::list<Edge_2D>& hole,
@@ -1767,13 +1770,13 @@ public:
     return CGAL::filter_iterator(cells_end(), Infinite_tester(this));
   }
 
-  
+
   Finite_cell_handles finite_cell_handles() const
   {
-    return make_prevent_deref_range(finite_cells_begin(), finite_cells_end()); 
+    return make_prevent_deref_range(finite_cells_begin(), finite_cells_end());
   }
 
-  
+
   Cell_iterator cells_begin() const { return _tds.cells_begin(); }
   Cell_iterator cells_end() const { return _tds.cells_end(); }
 
@@ -1784,7 +1787,7 @@ public:
   {
     return _tds.cell_handles();
   }
-  
+
   Finite_vertices_iterator finite_vertices_begin() const
   {
     if(number_of_vertices() <= 0)
@@ -1800,9 +1803,9 @@ public:
 
   Finite_vertex_handles finite_vertex_handles() const
   {
-    return make_prevent_deref_range(finite_vertices_begin(), finite_vertices_end()); 
+    return make_prevent_deref_range(finite_vertices_begin(), finite_vertices_end());
   }
-  
+
   Vertex_iterator vertices_begin() const { return _tds.vertices_begin(); }
   Vertex_iterator vertices_end() const { return _tds.vertices_end(); }
 
@@ -1813,7 +1816,7 @@ public:
   {
     return _tds.vertex_handles();
   }
-  
+
   Finite_edges_iterator finite_edges_begin() const
   {
     if(dimension() < 1)
@@ -1830,11 +1833,11 @@ public:
   {
     return Finite_edges(finite_edges_begin(),finite_edges_end());
   }
-  
+
   Edge_iterator edges_begin() const { return _tds.edges_begin(); }
   Edge_iterator edges_end() const { return _tds.edges_end(); }
 
-  
+
   All_edges_iterator all_edges_begin() const { return _tds.edges_begin(); }
   All_edges_iterator all_edges_end() const { return _tds.edges_end(); }
 
@@ -1842,7 +1845,7 @@ public:
   {
     return _tds.edges();
   }
-  
+
   Finite_facets_iterator finite_facets_begin() const
   {
     if(dimension() < 2)
@@ -1863,7 +1866,7 @@ public:
   Facet_iterator facets_begin() const { return _tds.facets_begin(); }
   Facet_iterator facets_end() const { return _tds.facets_end(); }
 
-  
+
   All_facets_iterator all_facets_begin() const { return _tds.facets_begin(); }
   All_facets_iterator all_facets_end() const { return _tds.facets_end(); }
 
@@ -1871,7 +1874,7 @@ public:
   {
     return _tds.facets();
   }
-  
+
   Point_iterator points_begin() const
   {
     return Point_iterator(finite_vertices_begin());
@@ -1885,7 +1888,7 @@ public:
   {
     return Points(points_begin(),points_end());
   }
-  
+
   // cells around an edge
   Cell_circulator incident_cells(const Edge& e) const
   {
@@ -2136,6 +2139,12 @@ public:
   OutputIterator adjacent_vertices(Vertex_handle v, OutputIterator vertices) const
   {
     return _tds.adjacent_vertices(v, vertices);
+  }
+
+  template <class OutputIterator>
+  OutputIterator adjacent_vertices_threadsafe(Vertex_handle v, OutputIterator vertices) const
+  {
+    return _tds.adjacent_vertices_threadsafe(v, vertices);
   }
 
   template <class OutputIterator>
@@ -3354,7 +3363,7 @@ side_of_facet(const Point& p,
   {
     // The following precondition is useless because it is written
     // in side_of_facet
-    // 	CGAL_triangulation_precondition(coplanar (p,
+    //         CGAL_triangulation_precondition(coplanar (p,
     //                                             c->vertex(0)->point,
     //                                             c->vertex(1)->point,
     //                                             c->vertex(2)->point));
@@ -3381,7 +3390,7 @@ side_of_facet(const Point& p,
   int inf = c->index(infinite);
   // The following precondition is useless because it is written
   // in side_of_facet
-  // 	CGAL_triangulation_precondition(coplanar (p,
+  //         CGAL_triangulation_precondition(coplanar (p,
   //                                     c->neighbor(inf)->vertex(0)->point(),
   //                                     c->neighbor(inf)->vertex(1)->point(),
   //                                     c->neighbor(inf)->vertex(2)->point()));
@@ -4028,9 +4037,9 @@ insert_outside_convex_hull(const Point& p, Cell_handle c)
   {
     case 1:
     {
-      // 	// p lies in the infinite edge neighboring c
-      // 	// on the other side of li
-      // 	return insert_in_edge(p,c->neighbor(1-li),0,1);
+      //         // p lies in the infinite edge neighboring c
+      //         // on the other side of li
+      //         return insert_in_edge(p,c->neighbor(1-li),0,1);
       return insert_in_edge(p,c,0,1);
     }
     case 2:
@@ -4209,7 +4218,7 @@ make_vertex_triple(const Facet& f) const
 template < class Gt, class Tds, class Lds >
 void
 Triangulation_3<Gt,Tds,Lds>::
-make_canonical(Vertex_triple& t) const
+make_canonical_oriented_triple(Vertex_triple& t) const
 {
   int i = (t.first < t.second) ? 0 : 1;
   if(i==0)
@@ -4762,7 +4771,7 @@ make_hole_3D(Vertex_handle v,
     Cell_handle opp_cit = (*cit)->neighbor(indv);
     Facet f(opp_cit, opp_cit->index(*cit));
     Vertex_triple vt = make_vertex_triple(f);
-    make_canonical(vt);
+    make_canonical_oriented_triple(vt);
     outer_map[vt] = f;
     for(int i=0; i<4; i++)
     {
@@ -4789,7 +4798,7 @@ make_hole_3D(Vertex_handle v,
     Cell_handle opp_cit = (*cit)->neighbor(indv);
     Facet f(opp_cit, opp_cit->index(*cit));
     Vertex_triple vt = make_vertex_triple(f);
-    make_canonical(vt);
+    make_canonical_oriented_triple(vt);
     outer_map[vt] = f;
     for(int i=0; i<4; i++)
     {
@@ -4977,7 +4986,7 @@ remove_3D(Vertex_handle v, VertexRemover& remover)
         Facet f = std::pair<Cell_handle,int>(it,i);
         Vertex_triple vt_aux = make_vertex_triple(f);
         Vertex_triple vt(vmap[vt_aux.first], vmap[vt_aux.third], vmap[vt_aux.second]);
-        make_canonical(vt);
+        make_canonical_oriented_triple(vt);
         inner_map[vt]= f;
       }
     }
@@ -4992,7 +5001,7 @@ remove_3D(Vertex_handle v, VertexRemover& remover)
         Facet f = std::pair<Cell_handle,int>(it,i);
         Vertex_triple vt_aux = make_vertex_triple(f);
         Vertex_triple vt(vmap[vt_aux.first], vmap[vt_aux.third], vmap[vt_aux.second]);
-        make_canonical(vt);
+        make_canonical_oriented_triple(vt);
         inner_map[vt]= f;
       }
     }
@@ -5035,7 +5044,7 @@ remove_3D(Vertex_handle v, VertexRemover& remover)
       {
         Facet f = std::pair<Cell_handle,int>(new_ch,i);
         Vertex_triple vt = make_vertex_triple(f);
-        make_canonical(vt);
+        make_canonical_oriented_triple(vt);
         std::swap(vt.second,vt.third);
 
         typename Vertex_triple_Facet_map::iterator oit2 = outer_map.find(vt);
@@ -5173,7 +5182,7 @@ remove_3D(Vertex_handle v, VertexRemover& remover,
         Facet f = std::pair<Cell_handle,int>(it,i);
         Vertex_triple vt_aux = make_vertex_triple(f);
         Vertex_triple vt(vmap[vt_aux.first],vmap[vt_aux.third],vmap[vt_aux.second]);
-        make_canonical(vt);
+        make_canonical_oriented_triple(vt);
         inner_map[vt]= f;
       }
     }
@@ -5188,7 +5197,7 @@ remove_3D(Vertex_handle v, VertexRemover& remover,
         Facet f = std::pair<Cell_handle,int>(it,i);
         Vertex_triple vt_aux = make_vertex_triple(f);
         Vertex_triple vt(vmap[vt_aux.first],vmap[vt_aux.third],vmap[vt_aux.second]);
-        make_canonical(vt);
+        make_canonical_oriented_triple(vt);
         inner_map[vt]= f;
       }
     }
@@ -5233,7 +5242,7 @@ remove_3D(Vertex_handle v, VertexRemover& remover,
       {
         Facet f = std::pair<Cell_handle,int>(new_ch,i);
         Vertex_triple vt = make_vertex_triple(f);
-        make_canonical(vt);
+        make_canonical_oriented_triple(vt);
         std::swap(vt.second,vt.third);
 
         typename Vertex_triple_Facet_map::iterator oit2 = outer_map.find(vt);
@@ -5477,7 +5486,7 @@ remove_3D(Vertex_handle v, VertexRemover& remover, OutputItCells fit)
         Facet f = std::pair<Cell_handle,int>(it,i);
         Vertex_triple vt_aux = make_vertex_triple(f);
         Vertex_triple vt(vmap[vt_aux.first], vmap[vt_aux.third], vmap[vt_aux.second]);
-        make_canonical(vt);
+        make_canonical_oriented_triple(vt);
         inner_map[vt] = f;
       }
     }
@@ -5491,7 +5500,7 @@ remove_3D(Vertex_handle v, VertexRemover& remover, OutputItCells fit)
         Facet f = std::pair<Cell_handle,int>(it,i);
         Vertex_triple vt_aux = make_vertex_triple(f);
         Vertex_triple vt(vmap[vt_aux.first], vmap[vt_aux.third], vmap[vt_aux.second]);
-        make_canonical(vt);
+        make_canonical_oriented_triple(vt);
         inner_map[vt] = f;
       }
     }
@@ -5538,7 +5547,7 @@ remove_3D(Vertex_handle v, VertexRemover& remover, OutputItCells fit)
       {
         Facet f = std::pair<Cell_handle,int>(new_ch,i);
         Vertex_triple vt = make_vertex_triple(f);
-        make_canonical(vt);
+        make_canonical_oriented_triple(vt);
         std::swap(vt.second, vt.third);
         typename Vertex_triple_Facet_map::iterator oit2 = outer_map.find(vt);
         if(oit2 == outer_map.end())
@@ -5865,7 +5874,7 @@ move_if_no_collision(Vertex_handle v, const Point& p,
         Facet f = std::pair<Cell_handle,int>(it,i);
         Vertex_triple vt_aux = make_vertex_triple(f);
         Vertex_triple vt(vmap[vt_aux.first],vmap[vt_aux.third],vmap[vt_aux.second]);
-        make_canonical(vt);
+        make_canonical_oriented_triple(vt);
         inner_map[vt]= f;
       }
     }
@@ -5880,7 +5889,7 @@ move_if_no_collision(Vertex_handle v, const Point& p,
         Facet f = std::pair<Cell_handle,int>(it,i);
         Vertex_triple vt_aux = make_vertex_triple(f);
         Vertex_triple vt(vmap[vt_aux.first],vmap[vt_aux.third],vmap[vt_aux.second]);
-        make_canonical(vt);
+        make_canonical_oriented_triple(vt);
         inner_map[vt]= f;
       }
     }
@@ -5926,7 +5935,7 @@ move_if_no_collision(Vertex_handle v, const Point& p,
       {
         Facet f = std::pair<Cell_handle,int>(new_ch,i);
         Vertex_triple vt = make_vertex_triple(f);
-        make_canonical(vt);
+        make_canonical_oriented_triple(vt);
         std::swap(vt.second,vt.third);
         typename Vertex_triple_Facet_map::iterator oit2 = outer_map.find(vt);
         if(oit2 == outer_map.end())
@@ -6317,7 +6326,7 @@ move_if_no_collision_and_give_new_cells(Vertex_handle v, const Point& p,
         Facet f = std::pair<Cell_handle,int>(it,i);
         Vertex_triple vt_aux = make_vertex_triple(f);
         Vertex_triple vt(vmap[vt_aux.first], vmap[vt_aux.third], vmap[vt_aux.second]);
-        make_canonical(vt);
+        make_canonical_oriented_triple(vt);
         inner_map[vt]= f;
       }
     }
@@ -6332,7 +6341,7 @@ move_if_no_collision_and_give_new_cells(Vertex_handle v, const Point& p,
         Facet f = std::pair<Cell_handle,int>(it,i);
         Vertex_triple vt_aux = make_vertex_triple(f);
         Vertex_triple vt(vmap[vt_aux.first], vmap[vt_aux.third], vmap[vt_aux.second]);
-        make_canonical(vt);
+        make_canonical_oriented_triple(vt);
         inner_map[vt]= f;
       }
     }
@@ -6379,7 +6388,7 @@ move_if_no_collision_and_give_new_cells(Vertex_handle v, const Point& p,
       {
         Facet f = std::pair<Cell_handle, int>(new_ch, i);
         Vertex_triple vt = make_vertex_triple(f);
-        make_canonical(vt);
+        make_canonical_oriented_triple(vt);
         std::swap(vt.second,vt.third);
         typename Vertex_triple_Facet_map::iterator oit2 = outer_map.find(vt);
         if(oit2 == outer_map.end())
@@ -6511,7 +6520,7 @@ _make_big_hole_3D(Vertex_handle v,
 
       Facet f(opp_cit, opp_i);
       Vertex_triple vt = make_vertex_triple(f);
-      make_canonical(vt);
+      make_canonical_oriented_triple(vt);
       outer_map[vt] = f;
       v1->set_cell(opp_cit);
       v2->set_cell(opp_cit);
@@ -6656,7 +6665,7 @@ _remove_cluster_3D(InputIterator first, InputIterator beyond, VertexRemover& rem
           Facet f = std::pair<Cell_handle,int>(it,index);
           Vertex_triple vt_aux = this->make_vertex_triple(f);
           Vertex_triple vt(vmap[vt_aux.first], vmap[vt_aux.third], vmap[vt_aux.second]);
-          this->make_canonical(vt);
+          this->make_canonical_oriented_triple(vt);
           inner_map[vt]= f;
         }
       }
@@ -6671,7 +6680,7 @@ _remove_cluster_3D(InputIterator first, InputIterator beyond, VertexRemover& rem
           Facet f = std::pair<Cell_handle,int>(it,index);
           Vertex_triple vt_aux = this->make_vertex_triple(f);
           Vertex_triple vt(vmap[vt_aux.first], vmap[vt_aux.third], vmap[vt_aux.second]);
-          this->make_canonical(vt);
+          this->make_canonical_oriented_triple(vt);
           inner_map[vt]= f;
         }
       }
@@ -6720,7 +6729,7 @@ _remove_cluster_3D(InputIterator first, InputIterator beyond, VertexRemover& rem
         {
           Facet f = std::pair<Cell_handle,int>(new_ch,index);
           Vertex_triple vt = this->make_vertex_triple(f);
-          this->make_canonical(vt);
+          this->make_canonical_oriented_triple(vt);
           std::swap(vt.second,vt.third);
           typename Vertex_triple_Facet_map::iterator oit2 = outer_map.find(vt);
           if(oit2 == outer_map.end())

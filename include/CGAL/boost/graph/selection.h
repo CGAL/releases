@@ -2,8 +2,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.2/BGL/include/CGAL/boost/graph/selection.h $
-// $Id: selection.h 3b66031 2020-01-15T17:31:55+01:00 Laurent Rineau
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.3/BGL/include/CGAL/boost/graph/selection.h $
+// $Id: selection.h 952e0d9 2020-03-05T14:50:52+01:00 Laurent Rineau
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Sebastien Loriot
@@ -584,26 +584,38 @@ void expand_face_selection_for_removal(const FaceRange& faces_to_be_deleted,
     {
       // collect non-selected faces
       std::vector<halfedge_descriptor> faces_traversed;
+      bool non_selected_face_range_has_boundary = false; // handle non-manifold situations when crossing a border
       do
       {
         faces_traversed.push_back(next_around_vertex);
         next_around_vertex = opposite( next(next_around_vertex, tm), tm);
         if (is_border(next_around_vertex,tm))
+        {
           next_around_vertex = opposite( next(next_around_vertex, tm), tm);
+          if (!get(is_selected, face(next_around_vertex, tm) ))
+          {
+            non_selected_face_range_has_boundary=true; // always non-manifold after removal of the selection
+            break;
+          }
+        }
         CGAL_assertion(!is_border(next_around_vertex,tm));
       }
       while( !get(is_selected, face(next_around_vertex, tm) ) );
 
-      // go over the connected components of faces to remove
-      do{
+      if (!non_selected_face_range_has_boundary)
+      {
+        // go over the connected components of faces to remove
+        do{
+          if (next_around_vertex==start)
+            break;
+          next_around_vertex = opposite( next(next_around_vertex, tm), tm);
+        }
+        while(is_border(next_around_vertex,tm) || get(is_selected, face(next_around_vertex, tm) ) );
+
         if (next_around_vertex==start)
           break;
-        next_around_vertex = opposite( next(next_around_vertex, tm), tm);
       }
-      while(is_border(next_around_vertex,tm) || get(is_selected, face(next_around_vertex, tm) ) );
-
-      if (next_around_vertex==start)
-        break;
+      // else we simply mark the range of traversed faces and start a new range after the border
 
       for(halfedge_descriptor f_hd : faces_traversed)
       {

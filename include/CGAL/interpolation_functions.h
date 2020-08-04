@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.2/Interpolation/include/CGAL/interpolation_functions.h $
-// $Id: interpolation_functions.h 254d60f 2019-10-19T15:23:19+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.3/Interpolation/include/CGAL/interpolation_functions.h $
+// $Id: interpolation_functions.h 0779373 2020-03-26T13:31:46+01:00 Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Julia Floetotto
@@ -203,10 +203,10 @@ sibson_c1_interpolation(ForwardIterator first, ForwardIterator beyond,
 //
 // The general scheme:
 //  Coord_type inv_weight = f(dist); //i.e. dist^2
-//   	term1 +=  coeff/inv_weight;
+//           term1 +=  coeff/inv_weight;
 //    term2 +=  coeff * squared_dist;
 //    term3 +=  coeff*(squared_dist/inv_weight);
-// 	  gradient_int += (coeff/inv_weight) * (vh->get_value()+ vh->get_gradient() * (p - vh->point()));
+//           gradient_int += (coeff/inv_weight) * (vh->get_value()+ vh->get_gradient() * (p - vh->point()));
 
 template < class ForwardIterator, class ValueFunctor, class GradFunctor, class Traits, class Point >
 std::pair<

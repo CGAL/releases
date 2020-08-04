@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.2/Generalized_map/include/CGAL/Generalized_map.h $
-// $Id: Generalized_map.h 52164b1 2019-10-19T15:34:59+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.3/Generalized_map/include/CGAL/Generalized_map.h $
+// $Id: Generalized_map.h 0779373 2020-03-26T13:31:46+01:00 Sébastien Loriot
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Guillaume Damiand <guillaume.damiand@liris.cnrs.fr>
@@ -210,7 +210,7 @@ namespace CGAL {
       boost::unordered_map<typename GMap2::Dart_const_handle, Dart_handle> local_dartmap;
       if (dart_mapping==nullptr)
       { dart_mapping=&local_dartmap; }
-      
+
 
       for (typename GMap2::Dart_const_range::const_iterator
              it=amap.darts().begin(), itend=amap.darts().end();

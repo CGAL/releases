@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.2/Point_set_processing_3/include/CGAL/Point_set_processing_3/internal/neighbor_query.h $
-// $Id: neighbor_query.h 254d60f 2019-10-19T15:23:19+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.3/Point_set_processing_3/include/CGAL/Point_set_processing_3/internal/neighbor_query.h $
+// $Id: neighbor_query.h 0779373 2020-03-26T13:31:46+01:00 Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Simon Giraudot
@@ -42,7 +42,7 @@ void neighbor_query (const Point& query,
   typedef typename CGAL::Orthogonal_k_neighbor_search<TreeTraits> Neighbor_search;
   typedef typename Neighbor_search::iterator Search_iterator;
   typedef CGAL::Fuzzy_sphere<TreeTraits> Sphere;
-  
+
   if (neighbor_radius != FT(0))
   {
     Sphere fs (query, neighbor_radius, 0, tree.traits());
@@ -50,7 +50,7 @@ void neighbor_query (const Point& query,
     // if k=0, no limit on the number of neighbors returned
     if (k == 0)
       k = (std::numeric_limits<unsigned int>::max)();
-    
+
     try
     {
       std::function<void(const Point&)> back_insert_with_limit
@@ -60,7 +60,7 @@ void neighbor_query (const Point& query,
           if (points.size() == k)
             throw Maximum_points_reached_exception();
         };
-      
+
       auto function_output_iterator
         = boost::make_function_output_iterator (back_insert_with_limit);
 
@@ -77,7 +77,7 @@ void neighbor_query (const Point& query,
     else
       k = 0;
   }
-  
+
   if (k != 0)
   {
     // Gather set of (k+1) neighboring points.

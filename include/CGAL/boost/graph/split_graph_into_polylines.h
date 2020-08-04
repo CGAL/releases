@@ -2,8 +2,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.2/BGL/include/CGAL/boost/graph/split_graph_into_polylines.h $
-// $Id: split_graph_into_polylines.h 52164b1 2019-10-19T15:34:59+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.3/BGL/include/CGAL/boost/graph/split_graph_into_polylines.h $
+// $Id: split_graph_into_polylines.h 0779373 2020-03-26T13:31:46+01:00 Sébastien Loriot
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Laurent Rineau, Xiang Gao
@@ -14,7 +14,7 @@
 
 #include <CGAL/disable_warnings.h>
 
-#include <map> 
+#include <map>
 #include <vector>
 #include <utility>
 #include <boost/graph/adjacency_list.hpp>
@@ -189,7 +189,7 @@ void duplicate_terminal_vertices(Graph& graph,
                       }
                       ) // end of CGAL_assertion_code
 } // end of duplicate_terminal_vertices
-    
+
 } // namespace internal
 
 template <typename Graph,
@@ -251,9 +251,9 @@ split_graph_into_polylines(const Graph& graph,
   using boost::graph_traits;
   typedef typename graph_traits<Graph>::vertex_descriptor Graph_vertex_descriptor;
   typedef typename graph_traits<Graph>::edge_descriptor Graph_edge_descriptor;
-  
+
   typedef boost::adjacency_list <boost::setS, // this avoids parallel edges
-                                 boost::vecS, 
+                                 boost::vecS,
                                  boost::undirectedS,
                                  Graph_vertex_descriptor,
                                  Graph_edge_descriptor> G_copy;
@@ -261,18 +261,18 @@ split_graph_into_polylines(const Graph& graph,
   typedef typename graph_traits<G_copy>::vertex_descriptor vertex_descriptor;
   typedef typename graph_traits<G_copy>::edge_descriptor edge_descriptor;
   typedef typename graph_traits<G_copy>::out_edge_iterator out_edge_iterator;
-  
+
   // we make a copy of the input graph
   G_copy g_copy;
   {
     typedef std::map<typename graph_traits<Graph>::vertex_descriptor,
                      typename graph_traits<G_copy>::vertex_descriptor> V2vmap;
     V2vmap v2vmap;
-    
+
     for(Graph_vertex_descriptor v : make_range(vertices(graph))){
       vertex_descriptor vc = add_vertex(g_copy);
       g_copy[vc] = v;
-      v2vmap[v] = vc; 
+      v2vmap[v] = vc;
     }
 
     for(Graph_edge_descriptor e : make_range(edges(graph))){

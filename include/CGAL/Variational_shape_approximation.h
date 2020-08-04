@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.2/Surface_mesh_approximation/include/CGAL/Variational_shape_approximation.h $
-// $Id: Variational_shape_approximation.h 254d60f 2019-10-19T15:23:19+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.3/Surface_mesh_approximation/include/CGAL/Variational_shape_approximation.h $
+// $Id: Variational_shape_approximation.h 5b2d46c 2020-04-21T10:03:00+02:00 Maxime Gimeno
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -54,7 +54,7 @@
 #include <iostream>
 #endif
 
-#define CGAL_VSA_INVALID_TAG std::numeric_limits<std::size_t>::max()
+#define CGAL_VSA_INVALID_TAG (std::numeric_limits<std::size_t>::max)()
 
 namespace CGAL {
 

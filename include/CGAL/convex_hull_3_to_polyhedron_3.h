@@ -3,10 +3,10 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.2/Convex_hull_3/include/CGAL/convex_hull_3_to_polyhedron_3.h $
-// $Id: convex_hull_3_to_polyhedron_3.h 254d60f 2019-10-19T15:23:19+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.3/Convex_hull_3/include/CGAL/convex_hull_3_to_polyhedron_3.h $
+// $Id: convex_hull_3_to_polyhedron_3.h 0779373 2020-03-26T13:31:46+01:00 Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
-// 
+//
 //
 // Author(s)     : Sebastien Loriot
 //
@@ -25,7 +25,7 @@
 #include <CGAL/Polyhedron_3_fwd.h>
 
 namespace CGAL {
-  
+
 template<class Triangulation_3,class Polyhedron_3>
 CGAL_DEPRECATED void convex_hull_3_to_polyhedron_3(const Triangulation_3& T,Polyhedron_3& P){
   clear(P);

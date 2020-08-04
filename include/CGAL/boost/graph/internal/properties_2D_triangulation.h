@@ -2,8 +2,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.2/Triangulation_2/include/CGAL/boost/graph/internal/properties_2D_triangulation.h $
-// $Id: properties_2D_triangulation.h 52164b1 2019-10-19T15:34:59+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.3/Triangulation_2/include/CGAL/boost/graph/internal/properties_2D_triangulation.h $
+// $Id: properties_2D_triangulation.h 0903946 2020-03-17T17:53:21+01:00 Sébastien Loriot
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Mael Rouxel-Labbé
@@ -239,23 +239,31 @@ struct T2_property_map<Tr, boost::face_index_t>
 // overloads and specializations in the boost namespace
 namespace boost {
 
-// g++ 'enumeral_type' in template unification not implemented workaround
-template <CGAL_2D_TRIANGULATION_TEMPLATE_PARAMETERS, class Tag>
-struct property_map<CGAL_2D_TRIANGULATION, Tag>
-{
-  typedef typename CGAL::internal::T2_property_map<CGAL_2D_TRIANGULATION, Tag>  map_gen;
-  typedef typename map_gen::type                                                type;
-  typedef typename map_gen::const_type                                          const_type;
+#define CGAL_PM_SPECIALIZATION(TAG) \
+template <CGAL_2D_TRIANGULATION_TEMPLATE_PARAMETERS> \
+struct property_map<CGAL_2D_TRIANGULATION, TAG> \
+{ \
+  typedef typename CGAL::internal::T2_property_map<CGAL_2D_TRIANGULATION, TAG>  map_gen; \
+  typedef typename map_gen::type                                                type; \
+  typedef typename map_gen::const_type                                          const_type; \
+}; \
+\
+template <CGAL_2D_TRIANGULATION_TEMPLATE_PARAMETERS> \
+struct property_map<const CGAL_2D_TRIANGULATION, TAG> \
+{ \
+  typedef typename CGAL::internal::T2_property_map<CGAL_2D_TRIANGULATION, TAG>  map_gen; \
+  typedef typename map_gen::type                                                type; \
+  typedef typename map_gen::const_type                                          const_type; \
 };
 
-// see struct property_map in Polyehdron for an explanation
-template <CGAL_2D_TRIANGULATION_TEMPLATE_PARAMETERS, class Tag>
-struct property_map<const CGAL_2D_TRIANGULATION, Tag>
-{
-  typedef typename CGAL::internal::T2_property_map<CGAL_2D_TRIANGULATION, Tag>  map_gen;
-  typedef typename map_gen::type                                                type;
-  typedef typename map_gen::const_type                                          const_type;
-};
+CGAL_PM_SPECIALIZATION(vertex_point_t)
+CGAL_PM_SPECIALIZATION(edge_weight_t)
+CGAL_PM_SPECIALIZATION(vertex_index_t)
+CGAL_PM_SPECIALIZATION(halfedge_index_t)
+CGAL_PM_SPECIALIZATION(edge_index_t)
+CGAL_PM_SPECIALIZATION(face_index_t)
+
+#undef CGAL_PM_SPECIALIZATION
 
 } // end namespace boost
 

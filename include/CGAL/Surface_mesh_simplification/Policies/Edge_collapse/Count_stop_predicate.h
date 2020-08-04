@@ -2,8 +2,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.2/Surface_mesh_simplification/include/CGAL/Surface_mesh_simplification/Policies/Edge_collapse/Count_stop_predicate.h $
-// $Id: Count_stop_predicate.h 254d60f 2019-10-19T15:23:19+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.3/Surface_mesh_simplification/include/CGAL/Surface_mesh_simplification/Policies/Edge_collapse/Count_stop_predicate.h $
+// $Id: Count_stop_predicate.h 0779373 2020-03-26T13:31:46+01:00 Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Fernando Cacciola <fernando.cacciola@geometryfactory.com>
@@ -30,10 +30,10 @@ namespace Surface_mesh_simplification
 //
 //*******************************************************************************************************************
 
-// 
+//
 // Stops when the number of edges left falls below a given number.
 //
-template<class TM_>    
+template<class TM_>
 class Count_stop_predicate
 {
 public:
@@ -41,29 +41,29 @@ public:
   typedef TM_ TM ;
 
   //  typedef Edge_profile<TM> Profile ;
-  
+
   typedef typename boost::graph_traits<TM>::edges_size_type size_type ;
-  
+
   // typedef typename Kernel::FT FT ;
 
 public :
-  
+
   Count_stop_predicate( std::size_t aThres ) : mThres(aThres) {}
-  
-  template <typename F, typename Profile> 
+
+  template <typename F, typename Profile>
   bool operator()( F const&         // aCurrentCost
                  , Profile const& // aEdgeProfile
                  , std::size_t    // aInitialCount
                  , std::size_t       aCurrentCount
-                 ) const 
+                 ) const
   {
     return aCurrentCount < mThres ;
   }
-  
+
 private:
-  
+
   std::size_t mThres ;
-};    
+};
 
 } // namespace Surface_mesh_simplification
 
@@ -71,4 +71,4 @@ private:
 
 #endif // CGAL_SURFACE_MESH_SIMPLIFICATION_POLICIES_EDGE_COLLAPSE_COUNT_STOP_PREDICATE_H //
 // EOF //
- 
+

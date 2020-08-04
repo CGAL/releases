@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.2/Hyperbolic_triangulation_2/demo/Hyperbolic_triangulation_2/include/internal/Qt/TriangulationRemoveVertex.h $
-// $Id: TriangulationRemoveVertex.h 254d60f 2019-10-19T15:23:19+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.3/Hyperbolic_triangulation_2/demo/Hyperbolic_triangulation_2/include/internal/Qt/TriangulationRemoveVertex.h $
+// $Id: TriangulationRemoveVertex.h 0779373 2020-03-26T13:31:46+01:00 Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Andreas Fabri <Andreas.Fabri@geometryfactory.com>
@@ -37,7 +37,7 @@ public:
 protected:
 
   void mousePressEvent(QGraphicsSceneMouseEvent *event);
- 
+
   bool eventFilter(QObject *obj, QEvent *event);
 
   DT * dt;
@@ -46,16 +46,16 @@ protected:
 
 template <typename T>
 TriangulationRemoveVertex<T>::TriangulationRemoveVertex(T * dt_,
-							  QObject* parent)
+                                                          QObject* parent)
   :  GraphicsViewInput(parent), dt(dt_)
 {}
 
 
 
 template <typename T>
-void 
+void
 TriangulationRemoveVertex<T>::mousePressEvent(QGraphicsSceneMouseEvent *event)
-{  
+{
   if((event->modifiers()  & ::Qt::ShiftModifier)
      && (! (event->modifiers() & ::Qt::ControlModifier))){
     if(dt->number_of_vertices() == 0){
@@ -72,7 +72,7 @@ TriangulationRemoveVertex<T>::mousePressEvent(QGraphicsSceneMouseEvent *event)
 
 
 template <typename T>
-bool 
+bool
 TriangulationRemoveVertex<T>::eventFilter(QObject *obj, QEvent *event)
 {
   if(event->type() == QEvent::GraphicsSceneMousePress) {
@@ -83,7 +83,7 @@ TriangulationRemoveVertex<T>::eventFilter(QObject *obj, QEvent *event)
     // standard event processing
     return QObject::eventFilter(obj, event);
   }
-} 
+}
 
 
 } // namespace Qt

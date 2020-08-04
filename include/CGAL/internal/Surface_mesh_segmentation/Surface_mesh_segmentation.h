@@ -4,7 +4,7 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.2/Surface_mesh_segmentation/include/CGAL/internal/Surface_mesh_segmentation/Surface_mesh_segmentation.h $
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.3/Surface_mesh_segmentation/include/CGAL/internal/Surface_mesh_segmentation/Surface_mesh_segmentation.h $
 // $Id: Surface_mesh_segmentation.h 2c5826d 2020-01-17T16:29:49+01:00 Laurent Rineau
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //

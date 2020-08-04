@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.2/Triangulation_3/include/CGAL/Regular_triangulation_3.h $
-// $Id: Regular_triangulation_3.h 85712ba 2020-01-14T15:03:20+01:00 Maxime Gimeno
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.3/Triangulation_3/include/CGAL/Regular_triangulation_3.h $
+// $Id: Regular_triangulation_3.h ad23db2 2020-06-30T16:36:58+02:00 Laurent Rineau
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -147,6 +147,7 @@ public:
   using Tr_Base::geom_traits;
 #endif
   using Tr_Base::adjacent_vertices;
+  using Tr_Base::adjacent_vertices_threadsafe;
   using Tr_Base::cw;
   using Tr_Base::ccw;
   using Tr_Base::construct_point;
@@ -412,7 +413,7 @@ public:
 
 #ifndef CGAL_TRIANGULATION_3_DONT_INSERT_RANGE_OF_POINTS_WITH_INFO
 private:
-  
+
   //top stands for tuple-or-pair
   template <class Info>
   const Weighted_point& top_get_first(const std::pair<Weighted_point,Info>& pair) const { return pair.first; }
@@ -425,7 +426,7 @@ private:
 
   template <class Info>
   const Info& top_get_second(const boost::tuple<Weighted_point,Info>& tuple) const { return boost::get<1>(tuple); }
-  
+
   // Functor to go from an index of a container of Weighted_point to
   // the corresponding Bare_point
   template<class Construct_bare_point, class Container>
@@ -1711,7 +1712,7 @@ nearest_power_vertex(const Bare_point& p, Cell_handle start) const
   while(true)
   {
     Vertex_handle tmp = nearest;
-    adjacent_vertices(nearest, std::back_inserter(vs));
+    adjacent_vertices_threadsafe(nearest, std::back_inserter(vs));
     for(typename std::vector<Vertex_handle>::const_iterator
          vsit = vs.begin(); vsit != vs.end(); ++vsit)
       tmp = nearest_power_vertex(p, tmp, *vsit);

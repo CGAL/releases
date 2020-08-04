@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.2/STL_Extension/include/CGAL/Uncertain.h $
-// $Id: Uncertain.h 52164b1 2019-10-19T15:34:59+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.3/STL_Extension/include/CGAL/Uncertain.h $
+// $Id: Uncertain.h 0779373 2020-03-26T13:31:46+01:00 Sébastien Loriot
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Sylvain Pion
@@ -112,7 +112,7 @@ public:
     if (is_certain())
       return _i;
     CGAL_PROFILER(std::string("Uncertain_conversion_exception thrown for CGAL::Uncertain< ")
-		  + typeid(T).name() + " >");
+                  + typeid(T).name() + " >");
     throw Uncertain_conversion_exception(
                   "Undecidable conversion of CGAL::Uncertain<T>");
   }
@@ -208,20 +208,20 @@ Uncertain<T>::indeterminate()
 
 namespace internal {
 
-	// helper class
-	template < typename T >
-	struct Indeterminate_helper {
-		typedef T result_type;
-		result_type operator()() const
-		{ return T(); }
-	};
+        // helper class
+        template < typename T >
+        struct Indeterminate_helper {
+                typedef T result_type;
+                result_type operator()() const
+                { return T(); }
+        };
 
-	template < typename T >
-	struct Indeterminate_helper< Uncertain<T> > {
-		typedef Uncertain<T> result_type;
-		result_type operator()() const
-		{ return Uncertain<T>::indeterminate(); }
-	};
+        template < typename T >
+        struct Indeterminate_helper< Uncertain<T> > {
+                typedef Uncertain<T> result_type;
+                result_type operator()() const
+                { return Uncertain<T>::indeterminate(); }
+        };
 
 } // namespace internal
 
@@ -602,14 +602,14 @@ template < typename T >
 inline
 Uncertain<T> operator*(T a, Uncertain<T> b)
 {
-	return Uncertain<T>(a) * b;
+        return Uncertain<T>(a) * b;
 }
 
 template < typename T >
 inline
 Uncertain<T> operator*(Uncertain<T> a, T b)
 {
-	return a * Uncertain<T>(b);
+        return a * Uncertain<T>(b);
 }
 
 // enum_cast overload

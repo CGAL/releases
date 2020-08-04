@@ -2,8 +2,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.2/Surface_mesh_skeletonization/include/CGAL/Mean_curvature_flow_skeletonization.h $
-// $Id: Mean_curvature_flow_skeletonization.h 254d60f 2019-10-19T15:23:19+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.3/Surface_mesh_skeletonization/include/CGAL/Mean_curvature_flow_skeletonization.h $
+// $Id: Mean_curvature_flow_skeletonization.h 0779373 2020-03-26T13:31:46+01:00 Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Xiang Gao <gaox@ethz.ch>
@@ -473,7 +473,7 @@ public:
   {
     return m_is_medially_centered;
   }
-  
+
   /// \cgalAdvancedFunction
   /// \cgalAdvancedBegin
   /// Controls the smoothness of the medial approximation:
@@ -839,7 +839,7 @@ private:
   {
     typedef std::pair<Input_vertex_descriptor, vertex_descriptor> Vertex_pair;
     std::vector<Vertex_pair> v2v;
-    copy_face_graph(tmesh, m_tmesh, 
+    copy_face_graph(tmesh, m_tmesh,
                     CGAL::parameters::vertex_to_vertex_output_iterator(std::back_inserter(v2v)));
 
     // copy input vertices to keep correspondence

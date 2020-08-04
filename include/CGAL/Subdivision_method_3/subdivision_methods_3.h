@@ -4,8 +4,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.2/Subdivision_method_3/include/CGAL/Subdivision_method_3/subdivision_methods_3.h $
-// $Id: subdivision_methods_3.h 52164b1 2019-10-19T15:34:59+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.3/Subdivision_method_3/include/CGAL/Subdivision_method_3/subdivision_methods_3.h $
+// $Id: subdivision_methods_3.h 0779373 2020-03-26T13:31:46+01:00 Sébastien Loriot
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -92,7 +92,7 @@ CGAL_DEPRECATED_MSG("you are using the deprecated API of CatmullClark_subdivisio
 void CatmullClark_subdivision(PolygonMesh& pmesh, int step) {
   PQQ(pmesh, CatmullClark_mask_3<PolygonMesh>(&pmesh, get(vertex_point,pmesh)), step);
 }
-#endif  
+#endif
 #endif
 
 /*!
@@ -147,7 +147,7 @@ CGAL_DEPRECATED_MSG("you are using the deprecated API of Loop_subdivision(), ple
 void Loop_subdivision(PolygonMesh& pmesh, int step) {
   PTQ(pmesh, Loop_mask_3<PolygonMesh>(&pmesh, get(vertex_point,pmesh)) , step);
 }
-#endif  
+#endif
 #endif
 
 /*!
@@ -237,7 +237,7 @@ void DooSabin_subdivision(PolygonMesh& pmesh, const NamedParameters& np) {
   for(unsigned int i = 0; i < step; i++)
     internal::DQQ_1step(pmesh, vpm, mask);
 }
-  
+
 template <class PolygonMesh>
 void DooSabin_subdivision(PolygonMesh& pmesh)
 {
@@ -295,7 +295,7 @@ void Sqrt3_subdivision(PolygonMesh& pmesh, const NamedParameters& np) {
   for(unsigned int i = 0; i < step; i++)
     internal::Sqrt3_1step(pmesh, vpm, mask, (i%2==1));
 }
-  
+
 template <class PolygonMesh>
 void Sqrt3_subdivision(PolygonMesh& pmesh)
 {

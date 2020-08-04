@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.2/Spatial_sorting/include/CGAL/Hilbert_sort_median_2.h $
-// $Id: Hilbert_sort_median_2.h 52164b1 2019-10-19T15:34:59+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.3/Spatial_sorting/include/CGAL/Hilbert_sort_median_2.h $
+// $Id: Hilbert_sort_median_2.h 0779373 2020-03-26T13:31:46+01:00 Sébastien Loriot
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Christophe Delage
@@ -31,11 +31,11 @@ namespace internal {
         K k;
         Hilbert_cmp_2 (const K &_k = K()) : k(_k) {}
         bool operator() (const Point &p, const Point &q) const
-        { 
+        {
             return Hilbert_cmp_2<K,x,false> (k) (q, p);
         }
     };
-    
+
     template <class K>
     struct Hilbert_cmp_2<K,0,false>
         : public CGAL::cpp98::binary_function<typename K::Point_2,
@@ -45,11 +45,11 @@ namespace internal {
         K k;
         Hilbert_cmp_2 (const K &_k = K()) : k(_k) {}
         bool operator() (const Point &p, const Point &q) const
-        { 
-	  return k.less_x_2_object() (p, q);
+        {
+          return k.less_x_2_object() (p, q);
         }
     };
-    
+
     template <class K>
     struct Hilbert_cmp_2<K,1,false>
         : public CGAL::cpp98::binary_function<typename K::Point_2,
@@ -59,7 +59,7 @@ namespace internal {
         K k;
         Hilbert_cmp_2 (const K &_k = K()) : k(_k) {}
         bool operator() (const Point &p, const Point &q) const
-        { 
+        {
             return k.less_y_2_object() (p, q);
         }
     };
@@ -71,7 +71,7 @@ class Hilbert_sort_median_2
 public:
     typedef K Kernel;
     typedef typename Kernel::Point_2 Point;
-    
+
 private:
     Kernel _k;
     std::ptrdiff_t _limit;

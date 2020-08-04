@@ -1,16 +1,16 @@
-// Copyright (c) 2000  
+// Copyright (c) 2000
 // Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland),
 // INRIA Sophia-Antipolis (France),
 // Max-Planck-Institute Saarbruecken (Germany),
-// and Tel-Aviv University (Israel).  All rights reserved. 
+// and Tel-Aviv University (Israel).  All rights reserved.
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.2/Cartesian_kernel/include/CGAL/Cartesian/Vector_3.h $
-// $Id: Vector_3.h 52164b1 2019-10-19T15:34:59+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.3/Cartesian_kernel/include/CGAL/Cartesian/Vector_3.h $
+// $Id: Vector_3.h 0779373 2020-03-26T13:31:46+01:00 Sébastien Loriot
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
-// 
+//
 //
 // Author        : Andreas Fabri
 
@@ -146,7 +146,7 @@ operator!=(const VectorC3<R> &v, const VectorC3<R> &w)
 template < class R >
 inline
 bool
-operator==(const VectorC3<R> &v, const Null_vector &) 
+operator==(const VectorC3<R> &v, const Null_vector &)
 {
   return CGAL_NTS is_zero(v.x()) && CGAL_NTS is_zero(v.y()) &&
          CGAL_NTS is_zero(v.z());
@@ -155,7 +155,7 @@ operator==(const VectorC3<R> &v, const Null_vector &)
 template < class R >
 inline
 bool
-operator==(const Null_vector &n, const VectorC3<R> &v) 
+operator==(const Null_vector &n, const VectorC3<R> &v)
 {
   return v == n;
 }

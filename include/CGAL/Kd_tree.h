@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.2/Spatial_searching/include/CGAL/Kd_tree.h $
-// $Id: Kd_tree.h 254d60f 2019-10-19T15:23:19+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.3/Spatial_searching/include/CGAL/Kd_tree.h $
+// $Id: Kd_tree.h 0779373 2020-03-26T13:31:46+01:00 Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Hans Tangelder (<hanst@cs.uu.nl>),
@@ -122,7 +122,7 @@ private:
     leaf_nodes.push_back(node);
     Leaf_node_handle nh = &leaf_nodes.back();
 
-   
+
     return nh;
   }
 
@@ -191,8 +191,8 @@ private:
       nh->upper_ch = create_leaf_node(c);
     }
 
-    
-    
+
+
 
     return nh;
   }
@@ -223,7 +223,7 @@ private:
       nh->upper_ch = create_leaf_node(c);
     }
 
-   
+
 
     return nh;
   }
@@ -238,7 +238,7 @@ public:
 
   template <class InputIterator>
   Kd_tree(InputIterator first, InputIterator beyond,
-	  Splitter s = Splitter(),const SearchTraits traits=SearchTraits())
+          Splitter s = Splitter(),const SearchTraits traits=SearchTraits())
     : traits_(traits),split(s), built_(false), removed_(false)
   {
     pts.insert(pts.end(), first, beyond);
@@ -402,11 +402,11 @@ private:
       Internal_node_handle newparent = static_cast<Internal_node_handle>(node);
       // FIXME: This should be if(x<y) remove low; else remove up;
       if (traits().construct_cartesian_const_iterator_d_object()(p)[newparent->cutting_dimension()] <= newparent->cutting_value()) {
-	if (remove_(p, parent, islower, newparent, true, newparent->lower(), equal_to_p))
-	  return true;
+        if (remove_(p, parent, islower, newparent, true, newparent->lower(), equal_to_p))
+          return true;
       }
       //if (traits().construct_cartesian_const_iterator_d_object()(p)[newparent->cutting_dimension()] >= newparent->cutting_value())
-	return remove_(p, parent, islower, newparent, false, newparent->upper(), equal_to_p);
+        return remove_(p, parent, islower, newparent, false, newparent->upper(), equal_to_p);
 
     }
 
@@ -418,8 +418,8 @@ private:
       if (pi == lnode->end()) return false;
       iterator lasti = lnode->end() - 1;
       if (pi != lasti) {
-	// Hack to get a non-const iterator
-	std::iter_swap(pts.begin()+(pi-pts.begin()), pts.begin()+(lasti-pts.begin()));
+        // Hack to get a non-const iterator
+        std::iter_swap(pts.begin()+(pi-pts.begin()), pts.begin()+(lasti-pts.begin()));
       }
       lnode->drop_last_point();
     } else if (!equal_to_p(*lnode->begin())) {
@@ -428,9 +428,9 @@ private:
     } else if (grandparent) {
       Node_handle brother = islower ? parent->upper() : parent->lower();
       if (parent_islower)
-	grandparent->set_lower(brother);
+        grandparent->set_lower(brother);
       else
-	grandparent->set_upper(brother);
+        grandparent->set_upper(brother);
     } else if (parent) {
       tree_root = islower ? parent->upper() : parent->lower();
     } else {
@@ -460,7 +460,7 @@ public:
     if(! pts.empty()){
 
       if(! is_built()){
-	const_build();
+        const_build();
       }
       Kd_tree_rectangle<FT,D> b(*bbox);
       return tree_root->search(it,q,b);
@@ -476,7 +476,7 @@ public:
     if(! pts.empty()){
 
       if(! is_built()){
-	const_build();
+        const_build();
       }
       Kd_tree_rectangle<FT,D> b(*bbox);
       return tree_root->search_any_point(q,b);
@@ -521,7 +521,7 @@ public:
   {
     if(! pts.empty()){
       if(! is_built()){
-	const_build();
+        const_build();
       }
       root()->print();
     }else{

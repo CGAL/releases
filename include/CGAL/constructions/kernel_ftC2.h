@@ -1,16 +1,16 @@
-// Copyright (c) 2000  
+// Copyright (c) 2000
 // Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland),
 // INRIA Sophia-Antipolis (France),
 // Max-Planck-Institute Saarbruecken (Germany),
-// and Tel-Aviv University (Israel).  All rights reserved. 
+// and Tel-Aviv University (Israel).  All rights reserved.
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.2/Cartesian_kernel/include/CGAL/constructions/kernel_ftC2.h $
-// $Id: kernel_ftC2.h 52164b1 2019-10-19T15:34:59+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.3/Cartesian_kernel/include/CGAL/constructions/kernel_ftC2.h $
+// $Id: kernel_ftC2.h 0779373 2020-03-26T13:31:46+01:00 Sébastien Loriot
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
-// 
+//
 //
 // Author(s)     : Sven Schoenherr, Herve Bronnimann, Sylvain Pion
 
@@ -178,10 +178,10 @@ inline
 void
 line_from_pointsC2(const FT &px, const FT &py,
                    const FT &qx, const FT &qy,
-                   FT &a, FT &b, FT &c) 
+                   FT &a, FT &b, FT &c)
 {
   // The horizontal and vertical line get a special treatment
-  // in order to make the intersection code robust for doubles 
+  // in order to make the intersection code robust for doubles
   if(py == qy){
     a = 0 ;
     if(qx > px){
@@ -218,7 +218,7 @@ inline
 void
 line_from_point_directionC2(const FT &px, const FT &py,
                             const FT &dx, const FT &dy,
-                            FT &a, FT &b, FT &c) 
+                            FT &a, FT &b, FT &c)
 {
   a = - dy;
   b = dx;
@@ -229,8 +229,8 @@ template < class FT >
 CGAL_KERNEL_INLINE
 void
 bisector_of_pointsC2(const FT &px, const FT &py,
-		     const FT &qx, const FT &qy,
-		     FT &a, FT &b, FT& c )
+                     const FT &qx, const FT &qy,
+                     FT &a, FT &b, FT& c )
 {
   a = 2 * (px - qx);
   b = 2 * (py - qy);
@@ -242,8 +242,8 @@ template < class FT >
 CGAL_KERNEL_INLINE
 void
 bisector_of_linesC2(const FT &pa, const FT &pb, const FT &pc,
-		    const FT &qa, const FT &qb, const FT &qc,
-		    FT &a, FT &b, FT &c)
+                    const FT &qa, const FT &qb, const FT &qc,
+                    FT &a, FT &b, FT &c)
 {
   // We normalize the equations of the 2 lines, and we then add them.
   FT n1 = CGAL_NTS sqrt(CGAL_NTS square(pa) + CGAL_NTS square(pb));
@@ -268,7 +268,7 @@ line_y_at_xC2(const FT &a, const FT &b, const FT &c, const FT &x)
   return (-a*x-c) / b;
 }
 
-template < class FT > 
+template < class FT >
 inline
 void
 line_get_pointC2(const FT &a, const FT &b, const FT &c, const FT &i,
@@ -295,12 +295,12 @@ line_get_pointC2(const FT &a, const FT &b, const FT &c, const FT &i,
     }
 }
 
-template < class FT > 
+template < class FT >
 inline
 void
 perpendicular_through_pointC2(const FT &la, const FT &lb,
-		              const FT &px, const FT &py,
-			      FT &a, FT &b, FT &c)
+                              const FT &px, const FT &py,
+                              FT &a, FT &b, FT &c)
 {
   a = -lb;
   b = la;
@@ -311,8 +311,8 @@ template < class FT >
 CGAL_KERNEL_MEDIUM_INLINE
 void
 line_project_pointC2(const FT &la, const FT &lb, const FT &lc,
-		     const FT &px, const FT &py,
-		     FT &x, FT &y)
+                     const FT &px, const FT &py,
+                     FT &x, FT &y)
 {
   if (certainly(is_zero(la))) // horizontal line
   {

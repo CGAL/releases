@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.2/Polyhedron/demo/Polyhedron/Plugins/Mesh_3/Facet_extra_criterion.h $
-// $Id: Facet_extra_criterion.h 254d60f 2019-10-19T15:23:19+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.3/Polyhedron/demo/Polyhedron/Plugins/Mesh_3/Facet_extra_criterion.h $
+// $Id: Facet_extra_criterion.h 0779373 2020-03-26T13:31:46+01:00 Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -80,7 +80,7 @@ protected:
       Surface_patch_index index2 = domain.surface_patch_index(v2->index());
       if(index2) { // (index2.first != 0 && index2.second != 0){
         //index2 = Surface_patch_index(1,1);
-      }      
+      }
       if ( is_index_initialized )
       {
         if ( !(index2 == index) )

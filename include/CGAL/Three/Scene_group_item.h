@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.2/Three/include/CGAL/Three/Scene_group_item.h $
-// $Id: Scene_group_item.h 254d60f 2019-10-19T15:23:19+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.3/Three/include/CGAL/Three/Scene_group_item.h $
+// $Id: Scene_group_item.h 0779373 2020-03-26T13:31:46+01:00 Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -58,7 +58,7 @@ public :
         * Use it to prevent a child to be destroyed without its parent.
         */
         void lockChild(Scene_interface::Item_id id);
-    
+
         /*!
          * \brief Unlocks a child
          *
@@ -137,7 +137,7 @@ public :
        virtual void renderChildren(Viewer_interface *,
                  QMap<float, int>& picked_item_IDs, const QPoint &picked_pixel,
                  bool with_names);
-    
+
     ///@}
 
     //!Adds a CGAL::Three::Scene_item* to the list of children.
@@ -191,7 +191,7 @@ public :
     }
     //!Sets the alpha value for the froup and all its children.
         virtual void setAlpha(int) Q_DECL_OVERRIDE;
-    
+
     //! \brief Returns a list of all the direct children.
     //!
     //! Only returns children that have this item as a parent.
@@ -226,7 +226,7 @@ public :
     void moveUp(int);
     //!Moves a child down in the list.
     void moveDown(int);
-    
+
     void compute_bbox() const Q_DECL_OVERRIDE{};
 public Q_SLOTS:
     //!\brief Redraws children.

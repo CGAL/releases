@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.2/Polygon_mesh_processing/include/CGAL/Polygon_mesh_processing/internal/Snapping/snap.h $
-// $Id: snap.h 254d60f 2019-10-19T15:23:19+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.3/Polygon_mesh_processing/include/CGAL/Polygon_mesh_processing/internal/Snapping/snap.h $
+// $Id: snap.h 5b2d46c 2020-04-21T10:03:00+02:00 Maxime Gimeno
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -1044,7 +1044,7 @@ std::size_t snap_border_vertices_non_conforming(TriangleMesh& pm1,
     border_halfedges(pm2, std::back_inserter(border_vertices2));
 
   Tolerance_map tol_pmap = get(Vertex_property_tag(), pm1);
-  const FT tol_mx(std::numeric_limits<double>::max());
+  const FT tol_mx((std::numeric_limits<double>::max)());
   internal::assign_tolerance_with_local_edge_length_bound(border_vertices1, tol_pmap, tol_mx, pm1);
 
   return snap_vertex_range_onto_vertex_range_non_conforming(border_vertices1, pm1,

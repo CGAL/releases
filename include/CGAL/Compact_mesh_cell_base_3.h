@@ -4,8 +4,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.2/Mesh_3/include/CGAL/Compact_mesh_cell_base_3.h $
-// $Id: Compact_mesh_cell_base_3.h e3c1de5 2020-01-28T10:36:19+01:00 Maxime Gimeno
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.3/Mesh_3/include/CGAL/Compact_mesh_cell_base_3.h $
+// $Id: Compact_mesh_cell_base_3.h 113c3d1 2020-06-15T15:56:28+02:00 Laurent Rineau
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Laurent Rineau, Stephane Tayeb, Andreas Fabri
@@ -54,7 +54,7 @@ void set_weighted_circumcenter(T* &t, std::nullptr_t)
   t = nullptr;
 }
 template<typename T>
-bool compare_weighted_circumcenter(T* t)
+bool is_null(T* t)
 {
   return t == nullptr;
 }
@@ -80,7 +80,7 @@ void set_weighted_circumcenter(std::atomic<T*>& t, std::nullptr_t)
 }
 
 template<typename T>
-bool compare_weighted_circumcenter(std::atomic<T*>& t)
+bool is_null(std::atomic<T*>& t)
 {
   return t.load() == nullptr;
 }
@@ -208,7 +208,7 @@ public:
   {
     CGAL_precondition(facet>=0 && facet<4);
     char current_bits = bits_;
-   
+
     while (!bits_.compare_exchange_weak(current_bits, current_bits | char(1 << facet)))
     {
       current_bits = bits_;
@@ -302,7 +302,7 @@ public:
 public:
   void invalidate_weighted_circumcenter_cache() const
   {
-    if (!internal_tbb::compare_weighted_circumcenter(weighted_circumcenter_)) {
+    if (!internal_tbb::is_null(weighted_circumcenter_)) {
       internal_tbb::delete_circumcenter(weighted_circumcenter_);
       internal_tbb::set_weighted_circumcenter(weighted_circumcenter_, nullptr);
     }
@@ -319,7 +319,7 @@ public:
 #endif
     , surface_center_index_table_()
     , sliver_value_(FT(0.))
-    , subdomain_index_()  
+    , subdomain_index_()
     , sliver_cache_validity_(false)
   {}
 
@@ -386,7 +386,7 @@ public:
 
   ~Compact_mesh_cell_base_3()
   {
-    if(!internal_tbb::compare_weighted_circumcenter(weighted_circumcenter_)){
+    if(!internal_tbb::is_null(weighted_circumcenter_)){
       internal_tbb::delete_circumcenter(weighted_circumcenter_);
       internal_tbb::set_weighted_circumcenter(weighted_circumcenter_, nullptr);
     }
@@ -458,7 +458,7 @@ public:
   void set_neighbor(int i, Cell_handle n)
   {
     CGAL_triangulation_precondition( i >= 0 && i <= 3);
-    CGAL_triangulation_precondition( this != &*n );
+    CGAL_triangulation_precondition( this != n.operator->() );
     N[i] = n;
   }
 
@@ -471,10 +471,10 @@ public:
   void set_neighbors(Cell_handle n0, Cell_handle n1,
                      Cell_handle n2, Cell_handle n3)
   {
-    CGAL_triangulation_precondition( this != &*n0 );
-    CGAL_triangulation_precondition( this != &*n1 );
-    CGAL_triangulation_precondition( this != &*n2 );
-    CGAL_triangulation_precondition( this != &*n3 );
+    CGAL_triangulation_precondition( this != n0.operator->() );
+    CGAL_triangulation_precondition( this != n1.operator->() );
+    CGAL_triangulation_precondition( this != n2.operator->() );
+    CGAL_triangulation_precondition( this != n3.operator->() );
     N[0] = n0;
     N[1] = n1;
     N[2] = n2;
@@ -533,7 +533,7 @@ public:
   {
     CGAL_static_assertion((boost::is_same<Point_3,
       typename GT_::Construct_weighted_circumcenter_3::result_type>::value));
-    if (weighted_circumcenter_ == nullptr) {
+    if (internal_tbb::is_null(weighted_circumcenter_)) {
       this->try_to_set_circumcenter(
         new Point_3(gt.construct_weighted_circumcenter_3_object()
                         (this->vertex(0)->point(),
@@ -656,14 +656,14 @@ public:
 public:
   Cell_handle next_intrusive() const { return next_intrusive_; }
   void set_next_intrusive(Cell_handle c)
-  { 
-    next_intrusive_ = c; 
+  {
+    next_intrusive_ = c;
   }
 
   Cell_handle previous_intrusive() const { return previous_intrusive_; }
   void set_previous_intrusive(Cell_handle c)
-  { 
-    previous_intrusive_ = c; 
+  {
+    previous_intrusive_ = c;
   }
 #endif // CGAL_INTRUSIVE_LIST
 

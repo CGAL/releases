@@ -3,10 +3,10 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.2/Box_intersection_d/include/CGAL/Box_intersection_d/Box_with_info_d.h $
-// $Id: Box_with_info_d.h 254d60f 2019-10-19T15:23:19+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.3/Box_intersection_d/include/CGAL/Box_intersection_d/Box_with_info_d.h $
+// $Id: Box_with_info_d.h 0779373 2020-03-26T13:31:46+01:00 Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
-// 
+//
 //
 // Author(s)     : Lutz Kettner  <kettner@mpi-sb.mpg.de>
 //                 Andreas Meyer <ameyer@mpi-sb.mpg.de>
@@ -24,7 +24,7 @@ namespace CGAL {
 
 namespace Box_intersection_d {
 
-template<class NT_, int N, class Info_> 
+template<class NT_, int N, class Info_>
 class Box_with_info_d : public Box_d< NT_, N, ID_FROM_BOX_ADDRESS> {
 protected:
     Info_ m_info;

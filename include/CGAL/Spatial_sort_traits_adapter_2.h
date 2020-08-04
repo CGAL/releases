@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.2/Spatial_sorting/include/CGAL/Spatial_sort_traits_adapter_2.h $
-// $Id: Spatial_sort_traits_adapter_2.h 52164b1 2019-10-19T15:34:59+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.3/Spatial_sorting/include/CGAL/Spatial_sort_traits_adapter_2.h $
+// $Id: Spatial_sort_traits_adapter_2.h 0779373 2020-03-26T13:31:46+01:00 Sébastien Loriot
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Sebastien Loriot
@@ -21,7 +21,7 @@
 
 
 namespace CGAL{
-  
+
 using ::get;
 
 template<class Base_traits,class PointPropertyMap>
@@ -57,7 +57,7 @@ public:
 
   Less_x_2 less_x_2_object () const {return Less_x_2(ppmap_,static_cast<const Gt*>(this)->less_x_2_object() );}
   Less_y_2 less_y_2_object () const {return Less_y_2(ppmap_,static_cast<const Gt*>(this)->less_y_2_object() );}
-  
+
   const PointPropertyMap& point_property_map() const {return ppmap_;}
 
 };

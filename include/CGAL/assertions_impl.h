@@ -7,8 +7,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.2/STL_Extension/include/CGAL/assertions_impl.h $
-// $Id: assertions_impl.h 01f69b5 2019-12-08T01:25:41-08:00 Fritz Mueller
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.3/STL_Extension/include/CGAL/assertions_impl.h $
+// $Id: assertions_impl.h 0779373 2020-03-26T13:31:46+01:00 Sébastien Loriot
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -86,7 +86,7 @@ _standard_error_handler(
          << "Line       : " << line << std::endl
          << "Explanation: " << msg << std::endl
          << "Refer to the bug-reporting instructions at https://www.cgal.org/bug_report.html"
-	 << std::endl;
+         << std::endl;
 }
 
 
@@ -111,7 +111,7 @@ _standard_warning_handler( const char *,
          << "Line       : " << line << std::endl
          << "Explanation: " << msg << std::endl
          << "Refer to the bug-reporting instructions at https://www.cgal.org/bug_report.html"
-	 << std::endl;
+         << std::endl;
 }
 
 } // anonymous namespace

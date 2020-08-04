@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.2/Point_set_processing_3/include/CGAL/vcm_estimate_normals.h $
-// $Id: vcm_estimate_normals.h 254d60f 2019-10-19T15:23:19+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.3/Point_set_processing_3/include/CGAL/vcm_estimate_normals.h $
+// $Id: vcm_estimate_normals.h 0779373 2020-03-26T13:31:46+01:00 Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s) : Jocelyn Meyron and Quentin Mérigot
@@ -265,7 +265,7 @@ compute_vcm (const PointRange& points,
 
     PointMap point_map = choose_parameter(get_parameter(np, internal_np::point_map), PointMap());
     Kernel kernel;
-    
+
     // First, compute the VCM for each point
     std::vector< std::array<double, 6> > cov;
     std::size_t N = 20;
@@ -303,7 +303,7 @@ compute_vcm (const PointRange& points,
 }
 
 /// \endcond
-  
+
 /// \cond SKIP_IN_MANUAL
 template <typename PointRange,
           typename NamedParameters
@@ -331,9 +331,9 @@ vcm_estimate_normals_internal (PointRange& points,
 
     PointMap point_map = choose_parameter(get_parameter(np, internal_np::point_map), PointMap());
     NormalMap normal_map = choose_parameter(get_parameter(np, internal_np::normal_map), NormalMap());
-    
+
     typedef std::array<double, 6> Covariance;
-    
+
     // Compute the VCM and convolve it
     std::vector<Covariance> cov;
     if (nb_neighbors_convolve == -1) {
@@ -383,7 +383,7 @@ vcm_estimate_normals_internal (PointRange& points,
 /// @endcond
 
 
-/**  
+/**
    \ingroup PkgPointSetProcessing3Algorithms
    Estimates normal directions of the range of `points`
    using the Voronoi Covariance Measure with a radius for the convolution.

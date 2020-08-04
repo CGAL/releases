@@ -2,8 +2,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.2/Classification/include/CGAL/Classification/ETHZ/internal/random-forest/node-gini.hpp $
-// $Id: node-gini.hpp 0228f1e 2019-10-20T10:43:11+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.3/Classification/include/CGAL/Classification/ETHZ/internal/random-forest/node-gini.hpp $
+// $Id: node-gini.hpp 0779373 2020-03-26T13:31:46+01:00 Sébastien Loriot
 // SPDX-License-Identifier: LicenseRef-RFL
 // License notice in Installation/LICENSE.RFL
 //
@@ -44,10 +44,10 @@ public:
     NodeGini() {}
     NodeGini(int depth, ParamType const* params) :
         Node< NodeGini<Splitter>, ForestParams, Splitter>(depth, params)
-    { 
+    {
     }
 
-    uint64_t gini_square_term(std::vector<uint64_t> const& frequencies) const 
+    uint64_t gini_square_term(std::vector<uint64_t> const& frequencies) const
     {
         return std::inner_product( frequencies.begin(), frequencies.end(), frequencies.begin(), uint64_t(0));
     }
@@ -75,7 +75,7 @@ public:
                   {
                     return a.first < b.first;
                   });
-                      
+
         // loop over data, update class distributions left&right
         for (size_t i_point = 1; i_point < data_points.size(); ++i_point) {
             int cls = data_points[i_point-1].second;

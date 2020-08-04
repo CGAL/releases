@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.2/Surface_mesher/include/CGAL/IO/Complex_2_in_triangulation_3_to_vtk.h $
-// $Id: Complex_2_in_triangulation_3_to_vtk.h 254d60f 2019-10-19T15:23:19+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.3/Surface_mesher/include/CGAL/IO/Complex_2_in_triangulation_3_to_vtk.h $
+// $Id: Complex_2_in_triangulation_3_to_vtk.h 0779373 2020-03-26T13:31:46+01:00 Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -27,7 +27,7 @@
 namespace CGAL {
 
 template <typename C2T3>
-vtkPolyData* output_c2t3_to_vtk_polydata(const C2T3& c2t3, 
+vtkPolyData* output_c2t3_to_vtk_polydata(const C2T3& c2t3,
                                          vtkPolyData* polydata = 0)
 {
   typedef typename C2T3::Triangulation Triangulation;
@@ -44,7 +44,7 @@ vtkPolyData* output_c2t3_to_vtk_polydata(const C2T3& c2t3,
   std::map<Vertex_handle, vtkIdType> V;
   vtkIdType inum = 0;
 
-  for(typename Triangulation::Finite_vertices_iterator 
+  for(typename Triangulation::Finite_vertices_iterator
         vit = tr.finite_vertices_begin(),
         end = tr.finite_vertices_end();
       vit != end;
@@ -57,10 +57,10 @@ vtkPolyData* output_c2t3_to_vtk_polydata(const C2T3& c2t3,
                                 CGAL::to_double(p.z()));
     V[vit] = inum++;
   }
-  for(typename C2T3::Facet_iterator 
+  for(typename C2T3::Facet_iterator
         fit = c2t3.facets_begin(),
         end = c2t3.facets_end();
-      fit != end; ++fit) 
+      fit != end; ++fit)
   {
     vtkIdType cell[3];
     int j=0;

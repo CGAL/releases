@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.2/Polygon_mesh_processing/include/CGAL/Polygon_mesh_processing/intersection.h $
-// $Id: intersection.h 254d60f 2019-10-19T15:23:19+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.3/Polygon_mesh_processing/include/CGAL/Polygon_mesh_processing/intersection.h $
+// $Id: intersection.h 0779373 2020-03-26T13:31:46+01:00 Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -402,10 +402,10 @@ compute_face_face_intersection(const FaceRange& face_range1,
   typedef TriangleMesh TM;
   typedef typename boost::graph_traits<TM>::face_descriptor face_descriptor;
   typedef typename CGAL::Box_intersection_d::Box_with_info_d<double, 3, face_descriptor> Box;
-  
+
   CGAL::Bbox_3 b1 = CGAL::Polygon_mesh_processing::bbox(tm1, np1),
                b2 = CGAL::Polygon_mesh_processing::bbox(tm2, np2);
-  
+
   if(!CGAL::do_overlap(b1, b2))
   {
     return out;
@@ -652,7 +652,7 @@ compute_face_polylines_intersection(const FaceRange& face_range,
   using parameters::get_parameter;
 
   CGAL_precondition(CGAL::is_triangle_mesh(tm));
-  
+
   CGAL::Bbox_3 b1,b2;
   b1 = CGAL::Polygon_mesh_processing::bbox(tm, np);
   for(std::size_t i =0; i< polyline_range.size(); ++i)
@@ -660,10 +660,10 @@ compute_face_polylines_intersection(const FaceRange& face_range,
     b2 += CGAL::bbox_3(polyline_range[i].begin(),
                        polyline_range[i].end());
   }
-  
+
   if(!CGAL::do_overlap(b1,b2))
     return out;
-  
+
   typedef TriangleMesh TM;
   typedef typename boost::graph_traits<TM>::face_descriptor face_descriptor;
   typedef typename GetVertexPointMap<TM, NamedParameters>::const_type VertexPointMap;
@@ -878,7 +878,7 @@ compute_polylines_polylines_intersection(const PolylineRange& polylines1,
     b2 += CGAL::bbox_3(poly.begin(), poly.end());
   }
   boxes2.reserve(polylines_size);
-  
+
   if(!CGAL::do_overlap(b1,b2))
     return out;
   std::size_t range_size = std::distance( boost::begin(polylines1), boost::end(polylines1) );

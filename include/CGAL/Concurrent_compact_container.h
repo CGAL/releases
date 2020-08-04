@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.2/STL_Extension/include/CGAL/Concurrent_compact_container.h $
-// $Id: Concurrent_compact_container.h e9f1cb4 2019-12-04T15:42:54+01:00 Laurent Rineau
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.3/STL_Extension/include/CGAL/Concurrent_compact_container.h $
+// $Id: Concurrent_compact_container.h 83fed40 2020-06-19T14:45:32+02:00 Maxime Gimeno
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Clement Jamin
@@ -71,7 +71,7 @@ struct Concurrent_compact_container_traits {
 
 namespace CCC_internal {
   CGAL_GENERATE_MEMBER_DETECTOR(increment_erase_counter);
-  
+
   // A basic "no erase counter" strategy
   template <bool Has_erase_counter_tag>
   class Erase_counter_strategy {
@@ -341,17 +341,25 @@ public:
   iterator
   emplace(const Args&... args)
   {
+    typedef CCC_internal::Erase_counter_strategy<
+      CCC_internal::has_increment_erase_counter<T>::value> EraseCounterStrategy;
     FreeList * fl = get_free_list();
     pointer ret = init_insert(fl);
+    auto erase_counter = EraseCounterStrategy::erase_counter(*ret);;
     new (ret) value_type(args...);
+    EraseCounterStrategy::set_erase_counter(*ret, erase_counter);
     return finalize_insert(ret, fl);
   }
 
   iterator insert(const T &t)
   {
+    typedef CCC_internal::Erase_counter_strategy<
+      CCC_internal::has_increment_erase_counter<T>::value> EraseCounterStrategy;
     FreeList * fl = get_free_list();
     pointer ret = init_insert(fl);
+    auto erase_counter = EraseCounterStrategy::erase_counter(*ret);;
     std::allocator_traits<allocator_type>::construct(m_alloc, ret, t);
+    EraseCounterStrategy::set_erase_counter(*ret, erase_counter);
     return finalize_insert(ret, fl);
   }
 

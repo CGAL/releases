@@ -2,8 +2,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.2/Scale_space_reconstruction_3/include/CGAL/Scale_space_reconstruction_3/Jet_smoother.h $
-// $Id: Jet_smoother.h 8c4f590 2019-10-19T16:20:43+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.3/Scale_space_reconstruction_3/include/CGAL/Scale_space_reconstruction_3/Jet_smoother.h $
+// $Id: Jet_smoother.h 0779373 2020-03-26T13:31:46+01:00 Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s):      Simon Giraudot
@@ -26,12 +26,12 @@ namespace CGAL
 
 namespace Scale_space_reconstruction_3
 {
-  
+
 /** \ingroup PkgScaleSpaceReconstruction3Classes
  *
  *  %Smoother for scale space reconstruction based on
  *  `CGAL::jet_smooth_point_set()`.
- * 
+ *
  *  \cgalModels CGAL::Scale_space_reconstruction_3::Smoother
  *
  *  \tparam Geom_traits geometric traits class. It must be a
@@ -84,7 +84,7 @@ public:
     CGAL::jet_smooth_point_set<ConcurrencyTag>
     (points, m_k, CGAL::parameters::degree_fitting(m_degree_fitting).degree_monge(m_degree_monge));
   }
-  
+
 };
 
 

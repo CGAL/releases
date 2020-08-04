@@ -3,10 +3,10 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.2/CGAL_ipelets/demo/CGAL_ipelets/include/CGAL_ipelets/k_delaunay.h $
-// $Id: k_delaunay.h 52164b1 2019-10-19T15:34:59+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.3/CGAL_ipelets/demo/CGAL_ipelets/include/CGAL_ipelets/k_delaunay.h $
+// $Id: k_delaunay.h 0779373 2020-03-26T13:31:46+01:00 Sébastien Loriot
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
-// 
+//
 //
 // Author(s)     : Sebastien Loriot, Nicolas Carrez
 
@@ -29,7 +29,7 @@ template <class Kernel, class Regular,class input_DS>
 void k_delaunay(Regular& rt,input_DS& input_wpt,int order){
   typedef typename Kernel::Point_2 Point_2;
   typedef typename Kernel::Weighted_point_2  Weighted_point_2;
-  
+
   std::vector<typename input_DS::iterator> Current_sel;//DS that will contain all possible combinaisons of k points (iterator), where k is the order
   typename input_DS::iterator it_wpt = input_wpt.begin();
   typename input_DS::iterator stop_combi = input_wpt.end();
@@ -66,7 +66,7 @@ void k_delaunay(Regular& rt,input_DS& input_wpt,int order){
     double pt_y = 0;
     for(;it_it_wpt!=Current_sel.end();++it_it_wpt){
       pt_x = pt_x + give_x<Kernel>((**it_it_wpt));
-      pt_y = pt_y + give_y<Kernel>((**it_it_wpt));      
+      pt_y = pt_y + give_y<Kernel>((**it_it_wpt));
       weight = weight + order * give_weight<Kernel>((**it_it_wpt));
       //substract form the weight the sum of the squared distances between each pair of wpoints selected
       for(typename std::vector<typename input_DS::iterator>::iterator le_WptI_cgal0 = it_it_wpt+1 ;le_WptI_cgal0!=Current_sel.end();++le_WptI_cgal0){

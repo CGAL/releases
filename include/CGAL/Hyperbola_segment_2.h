@@ -3,10 +3,10 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.2/Apollonius_graph_2/include/CGAL/Hyperbola_segment_2.h $
-// $Id: Hyperbola_segment_2.h 99c93d0 2020-01-15T17:31:58+01:00 Laurent Rineau
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.3/Apollonius_graph_2/include/CGAL/Hyperbola_segment_2.h $
+// $Id: Hyperbola_segment_2.h 0779373 2020-03-26T13:31:46+01:00 Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
-// 
+//
 //
 // Author(s)     : Menelaos Karavelas <mkaravel@iacm.forth.gr>
 
@@ -75,8 +75,8 @@ protected:
 public:
   Hyperbola_segment_2() : Hyperbola_2< Gt >() {}
 
-  Hyperbola_segment_2(const Site_2 &f1,	const Site_2 &f2,
-		      const Point_2 &p1, const Point_2 &p2)
+  Hyperbola_segment_2(const Site_2 &f1,        const Site_2 &f2,
+                      const Point_2 &p1, const Point_2 &p2)
     : Hyperbola_2< Gt >(f1, f2)
   {
     this->p1 = p1;

@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.2/Arrangement_on_surface_2/include/CGAL/Arrangement_on_surface_2.h $
-// $Id: Arrangement_on_surface_2.h 254d60f 2019-10-19T15:23:19+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.3/Arrangement_on_surface_2/include/CGAL/Arrangement_on_surface_2.h $
+// $Id: Arrangement_on_surface_2.h bf88dfc 2020-07-03T16:20:22+02:00 Laurent Rineau
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -308,6 +308,10 @@ public:
       Base(iter, iend, pred)
     {}
 
+    Edge_iterator(const Base& base) :
+      Base(base)
+    {}
+
     // Casting to a halfedge iterator.
     operator Halfedge_iterator() const
     {
@@ -340,6 +344,10 @@ public:
     Edge_const_iterator(DEdge_const_iter iter, DEdge_const_iter iend,
                         const _Is_valid_halfedge& pred) :
       Base(iter, iend, pred)
+    {}
+
+    Edge_const_iterator(const Base& base) :
+      Base(base)
     {}
 
     // Casting to a halfedge iterator.
@@ -430,6 +438,10 @@ public:
                                   DFace_const_iter iend,
                                   const _Is_unbounded_face& is_unbounded) :
       Base(iter, iend, is_unbounded)
+    {}
+
+    Unbounded_face_const_iterator(const Base& base) :
+      Base(base)
     {}
 
     // Casting to a face iterator.

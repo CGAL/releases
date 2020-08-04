@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.2/Point_set_processing_3/include/CGAL/Point_set_processing_3/internal/Search_traits_vertex_handle_3.h $
-// $Id: Search_traits_vertex_handle_3.h 254d60f 2019-10-19T15:23:19+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.3/Point_set_processing_3/include/CGAL/Point_set_processing_3/internal/Search_traits_vertex_handle_3.h $
+// $Id: Search_traits_vertex_handle_3.h 0779373 2020-03-26T13:31:46+01:00 Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s) : Pierre Alliez and Laurent Saboret
@@ -93,7 +93,7 @@ struct Kernel_traits< internal::Point_vertex_handle_3<Vertex_handle> > {
   };
 };
 
-  namespace internal {  
+  namespace internal {
 
 /// Functor with two function operators, which return the begin and
 /// past the end iterator for the Cartesian coordinates.
@@ -212,7 +212,7 @@ struct Euclidean_distance_vertex_handle_3
 
     h=p.z();
     dists[2] = (h >= (b.min_coord(2)+b.max_coord(2))/2.0)? h-b.min_coord(2) : b.max_coord(2)-h;
-    
+
     double d2 = dists[2]*dists[2];
 
     return d0 + d1 + d2;
@@ -246,7 +246,7 @@ class Search_traits_vertex_handle_3
                           >
 {};
 
-  } // namespace internal 
+  } // namespace internal
 /// \endcond
 
 } //namespace CGAL

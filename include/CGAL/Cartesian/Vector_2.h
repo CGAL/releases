@@ -1,16 +1,16 @@
-// Copyright (c) 2000  
+// Copyright (c) 2000
 // Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland),
 // INRIA Sophia-Antipolis (France),
 // Max-Planck-Institute Saarbruecken (Germany),
-// and Tel-Aviv University (Israel).  All rights reserved. 
+// and Tel-Aviv University (Israel).  All rights reserved.
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.2/Cartesian_kernel/include/CGAL/Cartesian/Vector_2.h $
-// $Id: Vector_2.h 52164b1 2019-10-19T15:34:59+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.3/Cartesian_kernel/include/CGAL/Cartesian/Vector_2.h $
+// $Id: Vector_2.h 0779373 2020-03-26T13:31:46+01:00 Sébastien Loriot
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
-// 
+//
 //
 // Author(s)     : Andreas Fabri, Herve Bronnimann
 
@@ -47,7 +47,7 @@ public:
   typedef R_                                R;
 
   VectorC2() {}
- 
+
   VectorC2(const FT &x, const FT &y)
     : base(CGAL::make_array(x, y)) {}
 
@@ -94,7 +94,7 @@ public:
 
 template < class R >
 CGAL_KERNEL_INLINE
-bool 
+bool
 operator==(const VectorC2<R> &v, const VectorC2<R> &w)
 {
   return w.x() == v.x() && w.y() == v.y();
@@ -102,7 +102,7 @@ operator==(const VectorC2<R> &v, const VectorC2<R> &w)
 
 template < class R >
 inline
-bool 
+bool
 operator!=(const VectorC2<R> &v, const VectorC2<R> &w)
 {
   return !(v == w);

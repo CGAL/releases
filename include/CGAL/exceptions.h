@@ -4,10 +4,10 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.2/STL_Extension/include/CGAL/exceptions.h $
-// $Id: exceptions.h 52164b1 2019-10-19T15:34:59+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.3/STL_Extension/include/CGAL/exceptions.h $
+// $Id: exceptions.h 0779373 2020-03-26T13:31:46+01:00 Sébastien Loriot
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
-// 
+//
 //
 // Author(s)     : Lutz Kettner, Sylvain Pion
 
@@ -25,7 +25,7 @@
 #  pragma warning(push)
 #  pragma warning(disable: 4003)
 #endif
-#include <boost/lexical_cast.hpp> 
+#include <boost/lexical_cast.hpp>
 #if defined(BOOST_MSVC)
 #  pragma warning(pop)
 #endif
@@ -41,8 +41,8 @@ namespace CGAL {
     \brief <tt>\#include <CGAL/basic.h></tt> for pre- and postconditions,
     assertions, warnings, and error handler.
 
-    \c CGAL/basic.h provides macros for pre- and postconditions, assertions, 
-    warnings, and errors that are active by default. There are variants 
+    \c CGAL/basic.h provides macros for pre- and postconditions, assertions,
+    warnings, and errors that are active by default. There are variants
     for expensive checks that are inactive by default.
 
     A failed precondition, postcondition or assertion is a fatal error
@@ -50,7 +50,7 @@ namespace CGAL {
     the program continues to run. Both can be changed with the respective
     \c error_behavior or \c warning_behavior, or with the corresponding
     \c error_handler or \c warning_handler.
-    
+
     However, if the checks are disabled with corresponding
     preprocessor symbols or \c NDEBUG, none of this error handling
     will happen and the program execution continues with potentially
@@ -60,8 +60,8 @@ namespace CGAL {
     the production version of the program, keeping in mind that they
     should not cost too much runtime overhead, maybe 10%.
 
-    \see \c CGAL_test for checks that cannot be disabled and 
-         \c CGAL_error_msg for an unconditional error message that cannot 
+    \see \c CGAL_test for checks that cannot be disabled and
+         \c CGAL_error_msg for an unconditional error message that cannot
          be disabled with macros.
 */
 
@@ -107,7 +107,7 @@ public:
 
     //! source code filename where the failure was detected.
     std::string      filename() const { return m_file; }
-    
+
     //! line number in source code file where the failure was detected.
     int              line_number() const { return m_line; }
 

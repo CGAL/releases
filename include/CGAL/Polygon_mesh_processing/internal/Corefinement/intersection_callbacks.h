@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.2/Polygon_mesh_processing/include/CGAL/Polygon_mesh_processing/internal/Corefinement/intersection_callbacks.h $
-// $Id: intersection_callbacks.h 254d60f 2019-10-19T15:23:19+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.3/Polygon_mesh_processing/include/CGAL/Polygon_mesh_processing/internal/Corefinement/intersection_callbacks.h $
+// $Id: intersection_callbacks.h 0779373 2020-03-26T13:31:46+01:00 Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -296,7 +296,7 @@ public:
     }
 
     if ( abcq==COPLANAR &&
-         is_edge_target_incident_to_face(opposite(eh, tm), fh) ) 
+         is_edge_target_incident_to_face(opposite(eh, tm), fh) )
     {
       return; // no intersection (incident edge)
     }

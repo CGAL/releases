@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.2/Arrangement_on_surface_2/include/CGAL/Surface_sweep_2/Arr_overlay_traits_2.h $
-// $Id: Arr_overlay_traits_2.h 254d60f 2019-10-19T15:23:19+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.3/Arrangement_on_surface_2/include/CGAL/Surface_sweep_2/Arr_overlay_traits_2.h $
+// $Id: Arr_overlay_traits_2.h 0779373 2020-03-26T13:31:46+01:00 Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -340,7 +340,7 @@ public:
 
   class Parameter_space_in_x_2;
   class Parameter_space_in_y_2;
-  
+
   /*! A functor that computes intersections between x-monotone curves. */
   class Intersect_2 {
   protected:
@@ -1179,7 +1179,7 @@ public:
     {
       return m_base->compare_x_near_boundary_2_object()(xcv1.base(),
                                                         xcv2.base(),
-							ce);
+                                                        ce);
     }
   };
 

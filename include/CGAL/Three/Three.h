@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.2/Three/include/CGAL/Three/Three.h $
-// $Id: Three.h 254d60f 2019-10-19T15:23:19+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.3/Three/include/CGAL/Three/Three.h $
+// $Id: Three.h 0779373 2020-03-26T13:31:46+01:00 Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -53,13 +53,13 @@ public:
   static int getDefaultLinesWidth();
   /*! \brief Adds a dock widget to the interface
    *
-   * Adds a dock widget in the left section of the MainWindow. If the slot is already 
+   * Adds a dock widget in the left section of the MainWindow. If the slot is already
    * taken, the dock widgets will be tabified.
    */
   void addDockWidget(QDockWidget* dock_widget);
 
   /*! \brief Gets an item of the templated type.
-   * \returns the first `SceneType` item found in the scene's list of currently selected 
+   * \returns the first `SceneType` item found in the scene's list of currently selected
    * items;
    * \returns nullptr if there is no `SceneType` in the list.
    */

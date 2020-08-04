@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.2/Polygon_mesh_processing/include/CGAL/Polygon_mesh_processing/random_perturbation.h $
-// $Id: random_perturbation.h 254d60f 2019-10-19T15:23:19+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.3/Polygon_mesh_processing/include/CGAL/Polygon_mesh_processing/random_perturbation.h $
+// $Id: random_perturbation.h 0779373 2020-03-26T13:31:46+01:00 Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -105,7 +105,7 @@ namespace internal {
 *
 * @tparam VertexRange model of `Range`, holding
 *         vertices of type `boost::graph_traits<TriangleMesh>::%vertex_descriptor`.
-*         Its iterator type is `ForwardIterator`. 
+*         Its iterator type is `ForwardIterator`.
 * @tparam TriangleMesh model of `MutableFaceGraph`.
 * @tparam NamedParameters a sequence of \ref pmp_namedparameters "Named Parameters"
 *

@@ -4,8 +4,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.2/Mesh_3/include/CGAL/Mesh_3/Has_features.h $
-// $Id: Has_features.h 254d60f 2019-10-19T15:23:19+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.3/Mesh_3/include/CGAL/Mesh_3/Has_features.h $
+// $Id: Has_features.h 0779373 2020-03-26T13:31:46+01:00 Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Stéphane Tayeb, Laurent Rineau
@@ -27,9 +27,9 @@ namespace internal {
   // type of any class
   BOOST_MPL_HAS_XXX_TRAIT_DEF(Has_features)
 
-  template <typename Mesh_domain, 
+  template <typename Mesh_domain,
             bool has_Has_features = has_Has_features<Mesh_domain>::value>
-  struct Has_features : 
+  struct Has_features :
     public CGAL::Boolean_tag<Mesh_domain::Has_features::value>
     // when Mesh_domain has the nested type Has_features
   {};

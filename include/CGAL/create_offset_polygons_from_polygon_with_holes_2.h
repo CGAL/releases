@@ -3,8 +3,8 @@
 // This file is part of CGAL (www.cgal.org).
 //
 
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.2/Straight_skeleton_2/include/CGAL/create_offset_polygons_from_polygon_with_holes_2.h $
-// $Id: create_offset_polygons_from_polygon_with_holes_2.h 254d60f 2019-10-19T15:23:19+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.3/Straight_skeleton_2/include/CGAL/create_offset_polygons_from_polygon_with_holes_2.h $
+// $Id: create_offset_polygons_from_polygon_with_holes_2.h 0779373 2020-03-26T13:31:46+01:00 Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Fernando Cacciola <fernando_cacciola@ciudad.com.ar>
@@ -35,7 +35,7 @@ create_interior_skeleton_and_offset_polygons_2 ( FT const& aOffset, Polygon_with
                                                        ,ofk
                                                        ,ssk
                                                        );
-    
+
 }
 
 template<class FT, class OfK, class C>
@@ -83,7 +83,7 @@ std::vector< boost::shared_ptr< Polygon_with_holes_2<OfK> > >
 inline
 create_exterior_skeleton_and_offset_polygons_with_holes_2 ( FT const&             aOffset
                                                           , Polygon_2<OfK> const& aPoly
-                                                          , SsK const&            ssk 
+                                                          , SsK const&            ssk
                                                           )
 {
   return arrange_offset_polygons_2(create_exterior_skeleton_and_offset_polygons_with_holes_2(aOffset
@@ -99,5 +99,5 @@ create_exterior_skeleton_and_offset_polygons_with_holes_2 ( FT const&           
 
 #include <CGAL/enable_warnings.h>
 
-#endif 
+#endif
 // EOF //

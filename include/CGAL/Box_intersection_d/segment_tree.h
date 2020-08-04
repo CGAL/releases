@@ -3,10 +3,10 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.2/Box_intersection_d/include/CGAL/Box_intersection_d/segment_tree.h $
-// $Id: segment_tree.h 254d60f 2019-10-19T15:23:19+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.3/Box_intersection_d/include/CGAL/Box_intersection_d/segment_tree.h $
+// $Id: segment_tree.h 0779373 2020-03-26T13:31:46+01:00 Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
-// 
+//
 //
 // Author(s)     : Lutz Kettner  <kettner@mpi-sb.mpg.de>
 //                 Andreas Meyer <ameyer@mpi-sb.mpg.de>
@@ -223,7 +223,7 @@ public:
 
 Iterative_radon( RandomAccessIter begin, RandomAccessIter end,
                  Predicate_traits traits, int dim, int /*num_levels*/ )
-  : begin(begin), size(end-begin), traits(traits), dim(dim), 
+  : begin(begin), size(end-begin), traits(traits), dim(dim),
     rng(), dist(0,size-1), generator(rng,dist)
   {}
 
@@ -335,7 +335,7 @@ void segment_tree( RandomAccessIter1 p_begin, RandomAccessIter1 p_end,
 #if CGAL_BOX_INTERSECTION_DEBUG
   CGAL_STATIC_THREAD_LOCAL_VARIABLE(int, level, -1);
     Counter<int> bla( level );
-    CGAL_BOX_INTERSECTION_DUMP("range: [" << lo << "," << hi << ") dim " 
+    CGAL_BOX_INTERSECTION_DUMP("range: [" << lo << "," << hi << ") dim "
                                           << dim << std::endl )
     CGAL_BOX_INTERSECTION_DUMP("intervals: " )
     //dump_box_numbers( i_begin, i_end, traits );
@@ -381,7 +381,7 @@ void segment_tree( RandomAccessIter1 p_begin, RandomAccessIter1 p_end,
         std::partition( i_begin, i_end, Spanning( lo, hi, dim ) );
 
     if( i_begin != i_span_end ) {
-        CGAL_BOX_INTERSECTION_DUMP( "checking spanning intervals ... " 
+        CGAL_BOX_INTERSECTION_DUMP( "checking spanning intervals ... "
                                     << std::endl )
         // make two calls for roots of segment tree at next level.
         segment_tree( p_begin, p_end, i_begin, i_span_end, inf, sup,
@@ -396,7 +396,7 @@ void segment_tree( RandomAccessIter1 p_begin, RandomAccessIter1 p_end,
     if( p_mid == p_begin || p_mid == p_end )  {
         CGAL_BOX_INTERSECTION_DUMP( "unable to split points! ")
         //dump_points( p_begin, p_end, traits, dim );
-        CGAL_BOX_INTERSECTION_DUMP( "performing modified two_way_san ... " 
+        CGAL_BOX_INTERSECTION_DUMP( "performing modified two_way_san ... "
                                      << std::endl )
         modified_two_way_scan( p_begin, p_end, i_span_end, i_end,
                                callback, traits, dim, in_order );

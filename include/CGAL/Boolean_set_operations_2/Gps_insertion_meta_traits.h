@@ -3,10 +3,10 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.2/Boolean_set_operations_2/include/CGAL/Boolean_set_operations_2/Gps_insertion_meta_traits.h $
-// $Id: Gps_insertion_meta_traits.h 254d60f 2019-10-19T15:23:19+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.3/Boolean_set_operations_2/include/CGAL/Boolean_set_operations_2/Gps_insertion_meta_traits.h $
+// $Id: Gps_insertion_meta_traits.h 0779373 2020-03-26T13:31:46+01:00 Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
-// 
+//
 //
 // Author(s)     : Baruch Zukerman <baruchzu@post.tau.ac.il>
 
@@ -23,7 +23,7 @@
 namespace CGAL {
 
 template <class Arrangement_>
-class Gps_insertion_meta_traits : 
+class Gps_insertion_meta_traits :
   public Gps_traits_decorator<typename Arrangement_::Traits_2,
                               Curve_with_halfedge<Arrangement_>,
                               Point_with_vertex<Arrangement_> >
@@ -34,8 +34,8 @@ public:
                                Curve_with_halfedge<Arrangement_>,
                                Point_with_vertex<Arrangement_> >
                                                             Base;
-  typedef typename Base::Point_2                            Point_2; 
-  typedef typename Base::X_monotone_curve_2                 X_monotone_curve_2; 
+  typedef typename Base::Point_2                            Point_2;
+  typedef typename Base::X_monotone_curve_2                 X_monotone_curve_2;
   typedef typename Base::Curve_data                         Curve_data;
   typedef typename Base::Point_data                         Point_data;
   typedef typename Base_traits::Construct_min_vertex_2

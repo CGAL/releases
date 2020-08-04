@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.2/AABB_tree/include/CGAL/AABB_face_graph_triangle_primitive.h $
-// $Id: AABB_face_graph_triangle_primitive.h 254d60f 2019-10-19T15:23:19+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.3/AABB_tree/include/CGAL/AABB_face_graph_triangle_primitive.h $
+// $Id: AABB_face_graph_triangle_primitive.h ff82af6 2020-07-08T12:57:05+02:00 Laurent Rineau
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -96,7 +96,7 @@ class AABB_face_graph_triangle_primitive
   {
     return std::make_pair(fd, &fg);
   }
-  
+
 public:
   #ifdef DOXYGEN_RUNNING
   /// \name Types
@@ -112,10 +112,10 @@ public:
   /*!
   Id type:
   - `boost::graph_traits<FaceGraph>::%face_descriptor` if `OneFaceGraphPerTree` is `CGAL::Tag_true`
-  - `std::pair<boost::graph_traits<FaceGraph>::%face_descriptor, FaceGraph>` if `OneFaceGraphPerTree` is `CGAL::Tag_false`
+  - `std::pair<boost::graph_traits<FaceGraph>::%face_descriptor, const FaceGraph*>` if `OneFaceGraphPerTree` is `CGAL::Tag_false`
   */
   unspecified_type Id;
-  
+
   /// @}
 
   /*!

@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.2/Spatial_sorting/include/CGAL/Spatial_sort_traits_adapter_d.h $
-// $Id: Spatial_sort_traits_adapter_d.h 52164b1 2019-10-19T15:34:59+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.3/Spatial_sorting/include/CGAL/Spatial_sort_traits_adapter_d.h $
+// $Id: Spatial_sort_traits_adapter_d.h 0779373 2020-03-26T13:31:46+01:00 Sébastien Loriot
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Sebastien Loriot
@@ -20,7 +20,7 @@
 namespace CGAL{
 
 using ::get;
-  
+
 template<class Base_traits,class PointPropertyMap>
 class Spatial_sort_traits_adapter_d:public Base_traits{
   PointPropertyMap ppmap_;
@@ -34,8 +34,8 @@ public:
   typedef typename boost::property_traits<PointPropertyMap>::key_type Point_d;
   typedef typename boost::call_traits<Point_d>::param_type Arg_type;
 
-    
-    
+
+
   struct Point_dimension_d: public Base_traits::Point_dimension_d{
     Point_dimension_d(const PointPropertyMap& ppmap,const typename Base_traits::Point_dimension_d& base):
       Base_traits::Point_dimension_d(base),ppmap_(ppmap){}
@@ -63,15 +63,15 @@ public:
       return static_cast<const typename Base_traits::Compute_coordinate_d*>(this)->operator()(get(ppmap_,p),i);
     }
   };
- 
- 
+
+
 
   Point_dimension_d point_dimension_d_object () const {return Point_dimension_d(ppmap_,static_cast<const Gt*>(this)->point_dimension_d_object() );}
   Less_coordinate_d less_coordinate_d_object () const {return Less_coordinate_d(ppmap_,static_cast<const Gt*>(this)->less_coordinate_d_object() );}
   Compute_coordinate_d compute_coordinate_d_object () const {return Compute_coordinate_d(ppmap_,static_cast<const Gt*>(this)->compute_coordinate_d_object() );}
-  
+
   const PointPropertyMap& point_property_map() const {return ppmap_;}
-  
+
 };
 
 } //namespace CGAL

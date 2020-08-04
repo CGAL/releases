@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.2/Polygon_mesh_processing/include/CGAL/Polygon_mesh_processing/distance.h $
-// $Id: distance.h 85712ba 2020-01-14T15:03:20+01:00 Maxime Gimeno
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.3/Polygon_mesh_processing/include/CGAL/Polygon_mesh_processing/distance.h $
+// $Id: distance.h 0779373 2020-03-26T13:31:46+01:00 Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -74,7 +74,7 @@ triangle_grid_sampling( const typename Kernel::Point_3& p0,
 template <class AABB_tree, class PointRange>
 struct Distance_computation{
   typedef typename PointRange::const_iterator::value_type Point_3;
-  
+
   const AABB_tree& tree;
   const PointRange& sample_points;
   Point_3 initial_hint;

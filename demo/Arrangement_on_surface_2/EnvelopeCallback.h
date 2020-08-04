@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.2/Arrangement_on_surface_2/demo/Arrangement_on_surface_2/EnvelopeCallback.h $
-// $Id: EnvelopeCallback.h 254d60f 2019-10-19T15:23:19+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.3/Arrangement_on_surface_2/demo/Arrangement_on_surface_2/EnvelopeCallback.h $
+// $Id: EnvelopeCallback.h 0779373 2020-03-26T13:31:46+01:00 Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Alex Tsui <alextsui05@gmail.com>
@@ -146,7 +146,7 @@ protected:
   void updateEnvelope(bool lower,
                       CGAL::Arr_algebraic_segment_traits_2<Coefficient_>
                       traits);
-  
+
   Construct_x_monotone_subcurve_2< Traits > construct_x_monotone_subcurve_2;
   Arrangement* arr;
   CGAL::Qt::CurveGraphicsItem< Traits >* lowerEnvelope;

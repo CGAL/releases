@@ -3,13 +3,13 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.2/Filtered_kernel/include/CGAL/internal/Static_filters/Static_filters.h $
-// $Id: Static_filters.h 52164b1 2019-10-19T15:34:59+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.3/Filtered_kernel/include/CGAL/internal/Static_filters/Static_filters.h $
+// $Id: Static_filters.h 0779373 2020-03-26T13:31:46+01:00 Sébastien Loriot
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
-// 
+//
 //
 // Author(s)     : Sylvain Pion
- 
+
 #ifndef CGAL_INTERNAL_STATIC_FILTERS_H
 #define CGAL_INTERNAL_STATIC_FILTERS_H
 
@@ -297,11 +297,11 @@ Compare_y_2
   Do_intersect_3
   do_intersect_3_object() const
   { return Do_intersect_3(); }
-  
+
   Do_intersect_2
   do_intersect_2_object() const
   { return Do_intersect_2(); }
-  
+
 #endif // NOT CGAL_NO_DO_INTERSECT_STATIC_FILTERS
 
   // The two following are for degenerate cases, so I'll update them later.

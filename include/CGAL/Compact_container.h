@@ -4,8 +4,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.2/STL_Extension/include/CGAL/Compact_container.h $
-// $Id: Compact_container.h 52164b1 2019-10-19T15:34:59+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.3/STL_Extension/include/CGAL/Compact_container.h $
+// $Id: Compact_container.h a8fca35 2020-05-27T16:32:49+02:00 Laurent Rineau
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Sylvain Pion
@@ -1126,8 +1126,24 @@ namespace internal {
   std::size_t hash_value(const CC_iterator<DSC, Const>&  i)
   {
     typedef Time_stamper_impl<typename DSC::value_type> Stamper;
-    return Stamper::hash_value(&*i);
+    return Stamper::hash_value(i.operator->());
   }
+
+namespace handle {
+  // supply a specialization for Hash_functor
+
+  // forward declare base template
+  template <class H> struct Hash_functor;
+
+  template<class DSC, bool Const>
+  struct Hash_functor<CC_iterator<DSC, Const> >{
+    std::size_t
+    operator()(const CC_iterator<DSC, Const>& i)
+    {
+      return hash_value(i);
+    }
+  };
+} // namespace handle
 
 } // namespace internal
 

@@ -2,8 +2,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.2/Classification/include/CGAL/Classification/ETHZ/internal/random-forest/tree.hpp $
-// $Id: tree.hpp 0228f1e 2019-10-20T10:43:11+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.3/Classification/include/CGAL/Classification/ETHZ/internal/random-forest/tree.hpp $
+// $Id: tree.hpp 0779373 2020-03-26T13:31:46+01:00 Sébastien Loriot
 // SPDX-License-Identifier: LicenseRef-RFL
 // License notice in Installation/LICENSE.RFL
 //
@@ -40,13 +40,13 @@ public:
     { }
 
     template<typename SplitGenerator>
-    void train(DataView2D<FeatureType> samples, 
-               DataView2D<int> labels, 
-               int* sample_idxes, 
-               size_t n_samples, 
+    void train(DataView2D<FeatureType> samples,
+               DataView2D<int> labels,
+               int* sample_idxes,
+               size_t n_samples,
                SplitGenerator split_generator,
                RandomGen const& gen
-               ) 
+               )
     {
         // copy generator
         RandomGen my_gen = gen;

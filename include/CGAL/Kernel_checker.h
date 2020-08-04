@@ -1,16 +1,16 @@
-// Copyright (c) 2001  
+// Copyright (c) 2001
 // Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland),
 // INRIA Sophia-Antipolis (France),
 // Max-Planck-Institute Saarbruecken (Germany),
-// and Tel-Aviv University (Israel).  All rights reserved. 
+// and Tel-Aviv University (Israel).  All rights reserved.
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.2/Kernel_23/include/CGAL/Kernel_checker.h $
-// $Id: Kernel_checker.h 52164b1 2019-10-19T15:34:59+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.3/Kernel_23/include/CGAL/Kernel_checker.h $
+// $Id: Kernel_checker.h 2e8a59d 2020-07-21T15:25:54+02:00 Laurent Rineau
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
-// 
+//
 //
 // Author(s)     : Sylvain Pion
 //                 Mael Rouxel-Labbé
@@ -79,6 +79,15 @@ public:
     : p1(pp1), p2(pp2), cmp(c)
   { }
 
+  template <typename F>
+  struct result;
+
+  template <typename F, typename A1>
+  struct result<F(A1)> {
+    typedef typename Pairify<typename CGAL::cpp11::result_of<P1(const A1&)>::type,
+                             typename CGAL::cpp11::result_of<P2(const A1&)>::type>::result_type type;
+  };
+
   template <class A1>
   typename Pairify<typename CGAL::cpp11::result_of<P1(const A1&)>::type,
                    typename CGAL::cpp11::result_of<P2(const A1&)>::type>::result_type
@@ -103,6 +112,12 @@ public:
     }
     return Pairify<result_type_1, result_type_2>()(res1, res2);
   }
+
+  template <typename F, typename A1, typename A2>
+  struct result<F(A1, A2)> {
+    typedef typename Pairify<typename CGAL::cpp11::result_of<P1(const A1&, const A2&)>::type,
+                             typename CGAL::cpp11::result_of<P2(const A1&, const A2&)>::type>::result_type type;
+  };
 
   template <class A1, class A2>
   typename Pairify<typename CGAL::cpp11::result_of<P1(const A1&, const A2&)>::type,
@@ -130,6 +145,12 @@ public:
     }
     return Pairify<result_type_1, result_type_2>()(res1, res2);
   }
+
+  template <typename F, typename A1, typename A2, typename A3>
+  struct result<F(A1, A2, A3)> {
+    typedef typename Pairify<typename CGAL::cpp11::result_of<P1(const A1&, const A2&, const A3&)>::type,
+                             typename CGAL::cpp11::result_of<P2(const A1&, const A2&, const A3&)>::type>::result_type type;
+  };
 
   template <class A1, class A2, class A3>
   typename Pairify<typename CGAL::cpp11::result_of<P1(
@@ -161,6 +182,16 @@ public:
     }
     return Pairify<result_type_1, result_type_2>()(res1, res2);
   }
+
+  template <typename F, typename A1, typename A2, typename A3, typename A4>
+  struct result<F(A1, A2, A3, A4)> {
+    typedef
+      typename Pairify<typename CGAL::cpp11::result_of<P1(
+                         const A1&, const A2&, const A3&, const A4&)>::type,
+                       typename CGAL::cpp11::result_of<P2(
+                         const A1&, const A2&, const A3&, const A4&)>::type>::result_type
+    type;
+  };
 
   template <class A1, class A2, class A3, class A4>
   typename Pairify<typename CGAL::cpp11::result_of<P1(
@@ -197,6 +228,16 @@ public:
     }
     return Pairify<result_type_1, result_type_2>()(res1, res2);
   }
+
+  template <typename F, typename A1, typename A2, typename A3, typename A4, typename A5>
+  struct result<F(A1, A2, A3, A4, A5)> {
+    typedef
+      typename Pairify<typename CGAL::cpp11::result_of<P1(
+                         const A1&, const A2&, const A3&, const A4&, const A5&)>::type,
+                       typename CGAL::cpp11::result_of<P2(
+                         const A1&, const A2&, const A3&, const A4&, const A5&)>::type>::result_type
+    type;
+  };
 
   template <class A1, class A2, class A3, class A4, class A5>
   typename Pairify<typename CGAL::cpp11::result_of<P1(

@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.2/Generalized_map/include/CGAL/Generalized_map_storages.h $
-// $Id: Generalized_map_storages.h 52164b1 2019-10-19T15:34:59+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.3/Generalized_map/include/CGAL/Generalized_map_storages.h $
+// $Id: Generalized_map_storages.h 0779373 2020-03-26T13:31:46+01:00 Sébastien Loriot
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Guillaume Damiand <guillaume.damiand@liris.cnrs.fr>
@@ -66,7 +66,7 @@ namespace CGAL {
 
     typedef Items_ Items;
     typedef Alloc_ Alloc;
-    
+
     template <typename T>
     struct Container_for_attributes :
       public Compact_container<T, typename std::allocator_traits<Alloc_>::template rebind_alloc<T> >
@@ -222,7 +222,7 @@ namespace CGAL {
       CGAL_assertion( ah!=nullptr );
       return ah->is_valid();
     }
-    
+
     // accessors and modifiers to the attribute ref counting given its handle
     template<unsigned int i>
     std::size_t get_attribute_ref_counting

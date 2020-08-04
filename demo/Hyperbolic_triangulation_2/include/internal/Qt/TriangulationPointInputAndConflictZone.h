@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.2/Hyperbolic_triangulation_2/demo/Hyperbolic_triangulation_2/include/internal/Qt/TriangulationPointInputAndConflictZone.h $
-// $Id: TriangulationPointInputAndConflictZone.h 254d60f 2019-10-19T15:23:19+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.3/Hyperbolic_triangulation_2/demo/Hyperbolic_triangulation_2/include/internal/Qt/TriangulationPointInputAndConflictZone.h $
+// $Id: TriangulationPointInputAndConflictZone.h 0779373 2020-03-26T13:31:46+01:00 Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Andreas Fabri <Andreas.Fabri@geometryfactory.com>
@@ -53,8 +53,8 @@ protected:
 
 template <typename T>
 TriangulationPointInputAndConflictZone<T>::TriangulationPointInputAndConflictZone(QGraphicsScene* s,
-							T * dt_,
-							QObject* parent)
+                                                        T * dt_,
+                                                        QObject* parent)
   :  GraphicsViewInput(parent), dt(dt_), scene_(s)
 {}
 
@@ -62,7 +62,7 @@ TriangulationPointInputAndConflictZone<T>::TriangulationPointInputAndConflictZon
 
 
 template <typename T>
-void 
+void
 TriangulationPointInputAndConflictZone<T>::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
   p = convert(event->scenePos());
@@ -71,7 +71,7 @@ TriangulationPointInputAndConflictZone<T>::mousePressEvent(QGraphicsSceneMouseEv
      event->button() != ::Qt::LeftButton) {
     return;
   }
-  
+
 
   dt->find_conflicts(p, std::back_inserter(faces));
   for(typename std::list<Face_handle>::iterator it = faces.begin();
@@ -90,7 +90,7 @@ TriangulationPointInputAndConflictZone<T>::mousePressEvent(QGraphicsSceneMouseEv
 
 
 template <typename T>
-void 
+void
 TriangulationPointInputAndConflictZone<T>::mouseReleaseEvent(QGraphicsSceneMouseEvent * /*event*/)
 {
   faces.clear();
@@ -107,7 +107,7 @@ TriangulationPointInputAndConflictZone<T>::mouseReleaseEvent(QGraphicsSceneMouse
 
 
 template <typename T>
-bool 
+bool
 TriangulationPointInputAndConflictZone<T>::eventFilter(QObject *obj, QEvent *event)
 {
   if(event->type() == QEvent::GraphicsSceneMousePress) {
@@ -122,7 +122,7 @@ TriangulationPointInputAndConflictZone<T>::eventFilter(QObject *obj, QEvent *eve
     // standard event processing
     return QObject::eventFilter(obj, event);
   }
-} 
+}
 
 
 } // namespace Qt

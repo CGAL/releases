@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.2/Spatial_sorting/include/CGAL/Hilbert_sort_3.h $
-// $Id: Hilbert_sort_3.h 52164b1 2019-10-19T15:34:59+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.3/Spatial_sorting/include/CGAL/Hilbert_sort_3.h $
+// $Id: Hilbert_sort_3.h 0779373 2020-03-26T13:31:46+01:00 Sébastien Loriot
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Olivier Devillers
@@ -21,7 +21,7 @@ namespace CGAL {
 template <class K,  class Hilbert_policy >
   class Hilbert_sort_3;
 
-template <class K>  
+template <class K>
   class Hilbert_sort_3<K, Hilbert_sort_median_policy >
   : public Hilbert_sort_median_3<K>
 {

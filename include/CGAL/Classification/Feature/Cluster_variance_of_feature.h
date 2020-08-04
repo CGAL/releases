@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.2/Classification/include/CGAL/Classification/Feature/Cluster_variance_of_feature.h $
-// $Id: Cluster_variance_of_feature.h 254d60f 2019-10-19T15:23:19+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.3/Classification/include/CGAL/Classification/Feature/Cluster_variance_of_feature.h $
+// $Id: Cluster_variance_of_feature.h 0779373 2020-03-26T13:31:46+01:00 Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Simon Giraudot
@@ -36,7 +36,7 @@ namespace Feature {
 class Cluster_variance_of_feature : public CGAL::Classification::Feature_base
 {
   std::vector<float> m_values;
-    
+
 public:
 
   /*!
@@ -83,7 +83,7 @@ public:
     return m_values[cluster_index];
   }
   /// \endcond
-    
+
 };
 
 } // namespace Feature

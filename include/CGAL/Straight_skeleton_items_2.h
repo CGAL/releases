@@ -2,10 +2,10 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.2/Straight_skeleton_2/include/CGAL/Straight_skeleton_items_2.h $
-// $Id: Straight_skeleton_items_2.h 254d60f 2019-10-19T15:23:19+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.3/Straight_skeleton_2/include/CGAL/Straight_skeleton_items_2.h $
+// $Id: Straight_skeleton_items_2.h 0779373 2020-03-26T13:31:46+01:00 Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
-// 
+//
 // Author(s)     : Fernando Cacciola <fernando_cacciola@ciudad.com.ar>
 //
 #ifndef CGAL_STRAIGHT_SKELETON_ITEMS_2_H
@@ -29,20 +29,20 @@ public:
   {
     typedef typename Traits::RT RT ;
     typedef typename Traits::Point_2 Point ;
-    typedef Straight_skeleton_vertex_base_2 < Refs, Point, RT > Vertex; 
+    typedef Straight_skeleton_vertex_base_2 < Refs, Point, RT > Vertex;
   };
-  
-  template<class Refs, class Traits> 
+
+  template<class Refs, class Traits>
   struct Halfedge_wrapper
   {
     typedef typename Traits::Segment_2 Segment ;
-    typedef Straight_skeleton_halfedge_base_2 < Refs, Segment > Halfedge; 
+    typedef Straight_skeleton_halfedge_base_2 < Refs, Segment > Halfedge;
   };
-  
-  template<class Refs, class Traits> 
-  struct Face_wrapper 
+
+  template<class Refs, class Traits>
+  struct Face_wrapper
   {
-    typedef Straight_skeleton_face_base_2 < Refs > Face; 
+    typedef Straight_skeleton_face_base_2 < Refs > Face;
   } ;
 };
 
@@ -50,4 +50,4 @@ public:
 
 #endif // CGAL_STRAIGHT_SKELETON_ITEMS_2_H //
 // EOF //
- 
+

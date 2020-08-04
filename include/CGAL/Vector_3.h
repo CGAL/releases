@@ -1,16 +1,16 @@
-// Copyright (c) 1999  
+// Copyright (c) 1999
 // Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland),
 // INRIA Sophia-Antipolis (France),
 // Max-Planck-Institute Saarbruecken (Germany),
-// and Tel-Aviv University (Israel).  All rights reserved. 
+// and Tel-Aviv University (Israel).  All rights reserved.
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.2/Kernel_23/include/CGAL/Vector_3.h $
-// $Id: Vector_3.h 52164b1 2019-10-19T15:34:59+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.3/Kernel_23/include/CGAL/Vector_3.h $
+// $Id: Vector_3.h 0779373 2020-03-26T13:31:46+01:00 Sébastien Loriot
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
-// 
+//
 //
 // Author(s)     : Andreas Fabri, Stefan Schirra
 
@@ -257,7 +257,7 @@ public:
 
 template <class R >
 std::ostream&
-insert(std::ostream& os, const Vector_3<R>& v, const Cartesian_tag&) 
+insert(std::ostream& os, const Vector_3<R>& v, const Cartesian_tag&)
 {
   switch(get_mode(os)) {
     case IO::ASCII :
@@ -305,7 +305,7 @@ operator<<(std::ostream& os, const Vector_3<R>& v)
 
 template <class R >
 std::istream&
-extract(std::istream& is, Vector_3<R>& v, const Cartesian_tag&) 
+extract(std::istream& is, Vector_3<R>& v, const Cartesian_tag&)
 {
   typename R::FT x(0), y(0), z(0);
   switch(get_mode(is)) {
@@ -330,7 +330,7 @@ extract(std::istream& is, Vector_3<R>& v, const Cartesian_tag&)
 
 template <class R >
 std::istream&
-extract(std::istream& is, Vector_3<R>& v, const Homogeneous_tag&) 
+extract(std::istream& is, Vector_3<R>& v, const Homogeneous_tag&)
 {
   typename R::RT hx, hy, hz, hw;
   switch(get_mode(is))

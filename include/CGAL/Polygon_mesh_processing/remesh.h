@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.2/Polygon_mesh_processing/include/CGAL/Polygon_mesh_processing/remesh.h $
-// $Id: remesh.h 254d60f 2019-10-19T15:23:19+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.3/Polygon_mesh_processing/include/CGAL/Polygon_mesh_processing/remesh.h $
+// $Id: remesh.h 0779373 2020-03-26T13:31:46+01:00 Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -349,7 +349,7 @@ void split_long_edges(const EdgeRange& edges
       > ::type ECMap;
   ECMap ecmap = choose_parameter(get_parameter(np, internal_np::edge_is_constrained),
                                  Constant_property_map<edge_descriptor, bool>(false));
-  
+
   typename internal::Incremental_remesher<PM, VPMap, GT, ECMap,
     Constant_property_map<vertex_descriptor, bool>, // no constraint pmap
     internal::Connected_components_pmap<PM, FIMap>,

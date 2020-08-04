@@ -1,16 +1,16 @@
-// Copyright (c) 1999  
+// Copyright (c) 1999
 // Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland),
 // INRIA Sophia-Antipolis (France),
 // Max-Planck-Institute Saarbruecken (Germany),
-// and Tel-Aviv University (Israel).  All rights reserved. 
+// and Tel-Aviv University (Israel).  All rights reserved.
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.2/Kernel_23/include/CGAL/enum.h $
-// $Id: enum.h 52164b1 2019-10-19T15:34:59+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.3/Kernel_23/include/CGAL/enum.h $
+// $Id: enum.h 0779373 2020-03-26T13:31:46+01:00 Sébastien Loriot
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
-// 
+//
 //
 // Author(s)     : Stefan Schirra
 
@@ -56,9 +56,9 @@ enum  Bounded_side
 
 enum  Angle
       {
-	  OBTUSE = -1,
-	  RIGHT,
-	  ACUTE
+          OBTUSE = -1,
+          RIGHT,
+          ACUTE
       };
 
 
@@ -98,7 +98,7 @@ enum Box_parameter_space_2
         INTERIOR,
         EXTERIOR
      };
-    
+
 
 
 #ifdef CGAL_CFG_MATCHING_BUG_5

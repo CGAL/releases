@@ -3,10 +3,10 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.2/SearchStructures/examples/RangeSegmentTrees/include/Tree_Traits.h $
-// $Id: Tree_Traits.h 254d60f 2019-10-19T15:23:19+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.3/SearchStructures/examples/RangeSegmentTrees/include/Tree_Traits.h $
+// $Id: Tree_Traits.h 0779373 2020-03-26T13:31:46+01:00 Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
-// 
+//
 //
 // Author(s)     : Gabriele Neyer
 
@@ -100,7 +100,7 @@ class Tree_traits_2{
     Key_2 operator()(const Key& k)
     { return k.second;}
   };
-  
+
   class C_Compare_1{
   public:
     bool operator()(Key_1 k1, Key_1 k2)
@@ -111,7 +111,7 @@ class Tree_traits_2{
 
   class C_Compare_2{
   public:
-    
+
     bool operator()(Key_2 k1, Key_2 k2)
     {
       return std::less<double>()(k1,k2);
@@ -199,10 +199,10 @@ class Tree_traits_3{
     Key_3 operator()(const Key& k)
     { return k.key_3;}
   };
-  
+
   class C_Compare_1{
   public:
-    
+
     bool operator()(Key_1 k1, Key_1 k2)
     {
       return std::less<int>()(k1,k2);
@@ -211,7 +211,7 @@ class Tree_traits_3{
 
   class C_Compare_2{
   public:
-    
+
     bool operator()(Key_2 k1, Key_2 k2)
     {
       return std::less<double>()(k1,k2);
@@ -220,7 +220,7 @@ class Tree_traits_3{
 
   class C_Compare_3{
   public:
-    
+
     bool operator()(Key_3 k1, Key_3 k2)
     {
       return std::less<long>()(k1,k2);
@@ -333,10 +333,10 @@ class Tree_traits_4{
     Key_4 operator()(const Key& k)
     { return k.key_4;}
   };
-  
+
   class C_Compare_1{
   public:
-    
+
     bool operator()(Key_1 k1, Key_1 k2)
     {
       return std::less<int>()(k1,k2);
@@ -345,7 +345,7 @@ class Tree_traits_4{
 
   class C_Compare_2{
   public:
-    
+
     bool operator()(Key_2 k1, Key_2 k2)
     {
       return std::less<double>()(k1,k2);
@@ -354,7 +354,7 @@ class Tree_traits_4{
 
   class C_Compare_3{
   public:
-    
+
     bool operator()(Key_3 k1, Key_3 k2)
     {
       return std::less<long>()(k1,k2);
@@ -363,7 +363,7 @@ class Tree_traits_4{
 
   class C_Compare_4{
   public:
-    
+
     bool operator()(Key_4 k1, Key_4 k2)
     {
       return std::less<double>()(k1,k2);

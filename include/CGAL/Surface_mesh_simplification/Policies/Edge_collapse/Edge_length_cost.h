@@ -2,8 +2,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.2/Surface_mesh_simplification/include/CGAL/Surface_mesh_simplification/Policies/Edge_collapse/Edge_length_cost.h $
-// $Id: Edge_length_cost.h 254d60f 2019-10-19T15:23:19+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.3/Surface_mesh_simplification/include/CGAL/Surface_mesh_simplification/Policies/Edge_collapse/Edge_length_cost.h $
+// $Id: Edge_length_cost.h 0779373 2020-03-26T13:31:46+01:00 Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Fernando Cacciola <fernando.cacciola@geometryfactory.com>
@@ -29,11 +29,11 @@ namespace Surface_mesh_simplification
 class Edge_length_cost
 {
 public:
-  /*  
+  /*
   typedef TM_ TM ;
-  
+
   typedef Edge_profile<TM> Profile ;
-  typedef typename Profile::Point Point;  
+  typedef typename Profile::Point Point;
   typedef typename Kernel_traits<Point>::Kernel Kernel ;
   typedef typename Kernel::FT FT ;
   typedef optional<FT> result_type ;
@@ -43,13 +43,13 @@ public:
   Edge_length_cost()
   {}
 
-  template <typename Profile, typename T> 
+  template <typename Profile, typename T>
   optional<typename Profile::FT> operator()( Profile const& aProfile, T const& /*aPlacement*/ ) const
   {
     typedef optional<typename Profile::FT> result_type;
     return result_type(squared_distance(aProfile.p0(),aProfile.p1()));
   }
-  
+
 };
 
 
@@ -60,4 +60,4 @@ public:
 
 #endif // CGAL_SURFACE_MESH_SIMPLIFICATION_POLICIES_EDGE_COLLAPSE_EDGE_LENGHT_COST_H
 // EOF //
- 
+

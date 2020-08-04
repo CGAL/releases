@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.2/AABB_tree/include/CGAL/AABB_halfedge_graph_segment_primitive.h $
-// $Id: AABB_halfedge_graph_segment_primitive.h 254d60f 2019-10-19T15:23:19+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.3/AABB_tree/include/CGAL/AABB_halfedge_graph_segment_primitive.h $
+// $Id: AABB_halfedge_graph_segment_primitive.h ff82af6 2020-07-08T12:57:05+02:00 Laurent Rineau
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -47,7 +47,7 @@ namespace CGAL {
  *    and `AABBPrimitiveWithSharedData` if `OneHalfedgeGraphPerTree` is `CGAL::Tag_true`.
  *
  * \tparam HalfedgeGraph is a model of the halfedge graph concept.
- *   as key type and a \cgal Kernel `Point_3` as value type. 
+ *   as key type and a \cgal Kernel `Point_3` as value type.
  * \tparam VertexPointPMap is a property map with `boost::graph_traits<HalfedgeGraph>::%vertex_descriptor`.
  *                         The default is `typename boost::property_map< HalfedgeGraph,vertex_point_t>::%type`.
  * \tparam OneHalfedgeGraphPerTree is either `CGAL::Tag_true` or `CGAL::Tag_false`.
@@ -125,8 +125,8 @@ public:
   typedef Kernel_traits<Point>::Kernel::Segment_3 Datum;
   /*!
   Id type:
-  - `boost::graph_traits<HalfedgeGraph>::%edge_descriptor if `OneHalfedgeGraphPerTree` is `Tag_true`
-  - `std::pair<boost::graph_traits<HalfedgeGraph>::edge_descriptor, HalfedgeGraph>` if `OneHalfedgeGraphPerTree` is `Tag_false`
+  - `boost::graph_traits<HalfedgeGraph>::%edge_descriptor` if `OneHalfedgeGraphPerTree` is `Tag_true`
+  - `std::pair<boost::graph_traits<HalfedgeGraph>::%edge_descriptor, const HalfedgeGraph*>` if `OneHalfedgeGraphPerTree` is `Tag_false`
   */
   unspecified_type Id;
   /// @}
@@ -202,4 +202,3 @@ public:
 #include <CGAL/enable_warnings.h>
 
 #endif // CGAL_AABB_HALFEDGE_GRAPH_SEGMENT_PRIMITIVE_H
-

@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.2/Arrangement_on_surface_2/include/CGAL/Arr_conic_traits_2.h $
-// $Id: Arr_conic_traits_2.h 254d60f 2019-10-19T15:23:19+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.3/Arrangement_on_surface_2/include/CGAL/Arr_conic_traits_2.h $
+// $Id: Arr_conic_traits_2.h 0779373 2020-03-26T13:31:46+01:00 Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -270,18 +270,18 @@ public:
       }
       else
       {
-	CGAL_precondition (x_res != SMALLER);
+        CGAL_precondition (x_res != SMALLER);
 
-	if ((x_res = ker.compare_x_2_object() (p, cv.right())) == EQUAL)
-	{
-	  q = cv.right();
-	}
-	else
-	{
-	  CGAL_precondition (x_res != LARGER);
+        if ((x_res = ker.compare_x_2_object() (p, cv.right())) == EQUAL)
+        {
+          q = cv.right();
+        }
+        else
+        {
+          CGAL_precondition (x_res != LARGER);
 
-	  q = cv.point_at_x (p);
-	}
+          q = cv.point_at_x (p);
+        }
       }
 
       // Compare p with the a point of the curve with the same x coordinate.
@@ -731,9 +731,9 @@ public:
       CGAL_precondition (i == 0 || i == 1);
 
       if (i == 0)
-	return (CGAL::to_double(p.x()));
+        return (CGAL::to_double(p.x()));
       else
-	return (CGAL::to_double(p.y()));
+        return (CGAL::to_double(p.y()));
     }
   };
 
@@ -787,7 +787,7 @@ public:
       if (cv.is_directed_right())
         return (SMALLER);
       else
-	return (LARGER);
+        return (LARGER);
     }
   };
 

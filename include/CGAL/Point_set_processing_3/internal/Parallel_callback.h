@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.2/Point_set_processing_3/include/CGAL/Point_set_processing_3/internal/Parallel_callback.h $
-// $Id: Parallel_callback.h 254d60f 2019-10-19T15:23:19+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.3/Point_set_processing_3/include/CGAL/Point_set_processing_3/internal/Parallel_callback.h $
+// $Id: Parallel_callback.h 0779373 2020-03-26T13:31:46+01:00 Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s) : Simon Giraudot
@@ -21,7 +21,7 @@
 namespace CGAL {
 namespace Point_set_processing_3 {
 namespace internal {
-  
+
 class Parallel_callback
 {
   const std::function<bool(double)>& m_callback;
@@ -36,7 +36,7 @@ class Parallel_callback
   {
     return *this;
   }
-  
+
 public:
   Parallel_callback (const std::function<bool(double)>& callback,
                      std::size_t size,

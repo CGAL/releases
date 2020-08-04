@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.2/Stream_support/include/CGAL/IO/read_3mf.h $
-// $Id: read_3mf.h 52164b1 2019-10-19T15:34:59+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.3/Stream_support/include/CGAL/IO/read_3mf.h $
+// $Id: read_3mf.h 0779373 2020-03-26T13:31:46+01:00 Sébastien Loriot
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s) : Maxime Gimeno
@@ -589,6 +589,8 @@ int read_from_3mf(const std::string& file_name, PointRanges& all_points,
  * \param names will contain the name of each mesh in `file_name` if any.
  *  If the i'th mesh has no name, it will be called "Unknown Mesh" in names.
  * \return the number of soups read.
+ *
+ * \attention Only versions inferior to 2.0 of lib3mf are supported.
  */
 template<typename PointRanges, typename PolygonRanges, typename ColorRanges>
 int read_triangle_soups_from_3mf(const std::string& file_name, PointRanges& all_points,

@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.2/TDS_3/include/CGAL/Triangulation_ds_vertex_base_3.h $
-// $Id: Triangulation_ds_vertex_base_3.h 254d60f 2019-10-19T15:23:19+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.3/TDS_3/include/CGAL/Triangulation_ds_vertex_base_3.h $
+// $Id: Triangulation_ds_vertex_base_3.h 0779373 2020-03-26T13:31:46+01:00 Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Monique Teillaud <Monique.Teillaud@sophia.inria.fr>
@@ -31,17 +31,17 @@ public:
   template <typename TDS2>
   struct Rebind_TDS { typedef Triangulation_ds_vertex_base_3<TDS2> Other; };
 
-  
+
   Triangulation_ds_vertex_base_3()
-    : _c(), visited_for_vertex_extractor(false) 
+    : _c(), visited_for_vertex_extractor(false)
   {}
 
   Triangulation_ds_vertex_base_3(Cell_handle c)
-    : _c(c), visited_for_vertex_extractor(false) 
+    : _c(c), visited_for_vertex_extractor(false)
   {}
 
-  Cell_handle cell() const 
-  { return _c; }  
+  Cell_handle cell() const
+  { return _c; }
 
   void set_cell(Cell_handle c)
   {

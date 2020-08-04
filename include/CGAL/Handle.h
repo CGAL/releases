@@ -1,16 +1,16 @@
-// Copyright (c) 1999  
+// Copyright (c) 1999
 // Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland),
 // INRIA Sophia-Antipolis (France),
 // Max-Planck-Institute Saarbruecken (Germany),
-// and Tel-Aviv University (Israel).  All rights reserved. 
+// and Tel-Aviv University (Israel).  All rights reserved.
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.2/STL_Extension/include/CGAL/Handle.h $
-// $Id: Handle.h 52164b1 2019-10-19T15:34:59+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.3/STL_Extension/include/CGAL/Handle.h $
+// $Id: Handle.h 0779373 2020-03-26T13:31:46+01:00 Sébastien Loriot
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
-// 
+//
 //
 // Author(s)     : Sylvain Pion
 
@@ -36,11 +36,11 @@ class Rep
 class Handle
 {
   public:
-    
+
     typedef std::ptrdiff_t Id_type ;
-    
+
     Handle()
-	: PTR(static_cast<Rep*>(0)) {}
+        : PTR(static_cast<Rep*>(0)) {}
 
     Handle(const Handle& x)
     {
@@ -51,8 +51,8 @@ class Handle
 
     ~Handle()
     {
-	if ( PTR && (--PTR->count == 0))
-	    delete PTR;
+        if ( PTR && (--PTR->count == 0))
+            delete PTR;
     }
 
     Handle&
@@ -61,7 +61,7 @@ class Handle
       CGAL_precondition( x.PTR != static_cast<Rep*>(0) );
       x.PTR->count++;
       if ( PTR && (--PTR->count == 0))
-	  delete PTR;
+          delete PTR;
       PTR = x.PTR;
       return *this;
     }

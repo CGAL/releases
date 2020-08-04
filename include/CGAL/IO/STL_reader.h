@@ -2,8 +2,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.2/Polyhedron_IO/include/CGAL/IO/STL_reader.h $
-// $Id: STL_reader.h 52164b1 2019-10-19T15:34:59+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.3/Polyhedron_IO/include/CGAL/IO/STL_reader.h $
+// $Id: STL_reader.h 0779373 2020-03-26T13:31:46+01:00 Sébastien Loriot
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Andreas Fabri,
@@ -15,7 +15,7 @@
 #include <CGAL/IO/io.h>
 #include <CGAL/IO/reader_helpers.h>
 
-#include <boost/cstdint.hpp> 
+#include <boost/cstdint.hpp>
 
 #include <cctype>
 #include <iostream>

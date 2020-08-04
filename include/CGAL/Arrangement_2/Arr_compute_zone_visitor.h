@@ -3,10 +3,10 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.2/Arrangement_on_surface_2/include/CGAL/Arrangement_2/Arr_compute_zone_visitor.h $
-// $Id: Arr_compute_zone_visitor.h 254d60f 2019-10-19T15:23:19+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.3/Arrangement_on_surface_2/include/CGAL/Arrangement_2/Arr_compute_zone_visitor.h $
+// $Id: Arr_compute_zone_visitor.h 0779373 2020-03-26T13:31:46+01:00 Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
-// 
+//
 //
 // Author(s)     : Ophir Setter      <ophirset@post.tau.ac.il>
 //
@@ -34,7 +34,7 @@ template <class Arrangement_, class OutputIterator_>
 class Arr_compute_zone_visitor
 {
 public:
-  
+
   typedef OutputIterator_                             OutputIterator;
   typedef Arrangement_                                Arrangement_2;
 

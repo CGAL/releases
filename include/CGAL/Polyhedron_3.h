@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.2/Polyhedron/include/CGAL/Polyhedron_3.h $
-// $Id: Polyhedron_3.h 254d60f 2019-10-19T15:23:19+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.3/Polyhedron/include/CGAL/Polyhedron_3.h $
+// $Id: Polyhedron_3.h 0779373 2020-03-26T13:31:46+01:00 Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -552,7 +552,7 @@ public:
     typedef N_step_adaptor_derived<Halfedge_const_iterator, 2>
                                                   Edge_const_iterator;
   */
-  
+
     // All face related types get a related facet type name.
     typedef Face                                  Facet;
     typedef Face_handle                           Facet_handle;

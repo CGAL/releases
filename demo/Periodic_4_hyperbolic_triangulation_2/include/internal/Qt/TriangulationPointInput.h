@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.2/Periodic_4_hyperbolic_triangulation_2/demo/Periodic_4_hyperbolic_triangulation_2/include/internal/Qt/TriangulationPointInput.h $
-// $Id: TriangulationPointInput.h 254d60f 2019-10-19T15:23:19+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.3/Periodic_4_hyperbolic_triangulation_2/demo/Periodic_4_hyperbolic_triangulation_2/include/internal/Qt/TriangulationPointInput.h $
+// $Id: TriangulationPointInput.h 0779373 2020-03-26T13:31:46+01:00 Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Andreas Fabri <Andreas.Fabri@geometryfactory.com>
@@ -61,10 +61,10 @@ TriangulationPointInput<T>::TriangulationPointInput(QGraphicsScene* s,
 
 
 
-// TODO: Do this! 
+// TODO: Do this!
 
 template <typename T>
-void 
+void
 TriangulationPointInput<T>::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
   p = convert(event->scenePos());
@@ -73,7 +73,7 @@ TriangulationPointInput<T>::mousePressEvent(QGraphicsSceneMouseEvent *event)
 
 
 template <typename T>
-void 
+void
 TriangulationPointInput<T>::mouseReleaseEvent(QGraphicsSceneMouseEvent * /*event*/)
 {
   faces.clear();
@@ -90,7 +90,7 @@ TriangulationPointInput<T>::mouseReleaseEvent(QGraphicsSceneMouseEvent * /*event
 
 
 template <typename T>
-bool 
+bool
 TriangulationPointInput<T>::eventFilter(QObject *obj, QEvent *event)
 {
   if(event->type() == QEvent::GraphicsSceneMousePress) {
@@ -105,7 +105,7 @@ TriangulationPointInput<T>::eventFilter(QObject *obj, QEvent *event)
     // standard event processing
     return QObject::eventFilter(obj, event);
   }
-} 
+}
 
 
 } // namespace Qt

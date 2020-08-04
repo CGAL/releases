@@ -1,16 +1,16 @@
-// Copyright (c) 1997  
+// Copyright (c) 1997
 // Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland),
 // INRIA Sophia-Antipolis (France),
 // Max-Planck-Institute Saarbruecken (Germany),
-// and Tel-Aviv University (Israel).  All rights reserved. 
+// and Tel-Aviv University (Israel).  All rights reserved.
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.2/Polygon/include/CGAL/Polygon_2/Polygon_2_edge_iterator.h $
-// $Id: Polygon_2_edge_iterator.h 52164b1 2019-10-19T15:34:59+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.3/Polygon/include/CGAL/Polygon_2/Polygon_2_edge_iterator.h $
+// $Id: Polygon_2_edge_iterator.h 0779373 2020-03-26T13:31:46+01:00 Sébastien Loriot
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
-// 
+//
 //
 // Author(s)     : Wieger Wesselink, Geert-Jan Giezeman <geert@cs.uu.nl>
 
@@ -59,7 +59,7 @@ class Polygon_2_edge_iterator {
     {
       return first_vertex == x.first_vertex;
     }
-    
+
     bool operator!=(
       const Polygon_2_edge_iterator<Traits_, Container_>& x) const
     {
@@ -71,11 +71,11 @@ class Polygon_2_edge_iterator {
       ++second_vertex;
       if (second_vertex == container->end())
         second_vertex = container->begin();
-      typename Traits_::Construct_segment_2 construct_segment_2 = 
+      typename Traits_::Construct_segment_2 construct_segment_2 =
             Traits_().construct_segment_2_object();
       return construct_segment_2(*first_vertex, *second_vertex);
     }
-    
+
     Polygon_2__Segment_ptr<Segment_2> operator->() const
         {return Polygon_2__Segment_ptr<Segment_2>(operator*());}
 

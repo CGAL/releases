@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.2/Arrangement_on_surface_2/include/CGAL/Arr_geometry_traits/Bezier_x_monotone_2.h $
-// $Id: Bezier_x_monotone_2.h 254d60f 2019-10-19T15:23:19+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.3/Arrangement_on_surface_2/include/CGAL/Arr_geometry_traits/Bezier_x_monotone_2.h $
+// $Id: Bezier_x_monotone_2.h 157bdbd 2020-04-22T13:26:52+02:00 Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Ron Wein     <wein@post.tau.ac.il>
@@ -950,11 +950,12 @@ _Bezier_x_monotone_2<RatKer, AlgKer, NtTrt, BndTrt>::point_position
 
 
   if ( p.is_rational() ){
-    const Rational& px = ((Rat_point_2) p).x();
+    const Rational px = ((Rat_point_2) p).x();
 
     Integer denom_px=nt_traits.denominator(px);
     Integer numer_px=nt_traits.numerator(px);
-    Polynomial poly_px = CGAL::sign(numer_px) == ZERO ? Polynomial() : nt_traits.construct_polynomial(&numer_px,0);
+    Integer poly_px_scale = numer_px * _curve.x_norm();
+    Polynomial poly_px = CGAL::sign(numer_px) == ZERO ? Polynomial() : nt_traits.construct_polynomial(&poly_px_scale,0);
     Polynomial poly_x = nt_traits.scale(_curve.x_polynomial(),denom_px) - poly_px;
 
     std::vector <Algebraic> roots;

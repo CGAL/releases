@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.2/Classification/include/CGAL/Classification/Evaluation.h $
-// $Id: Evaluation.h 254d60f 2019-10-19T15:23:19+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.3/Classification/include/CGAL/Classification/Evaluation.h $
+// $Id: Evaluation.h 0779373 2020-03-26T13:31:46+01:00 Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Simon Giraudot
@@ -45,7 +45,7 @@ public:
   /// \name Constructor
   /// @{
 
-  
+
 /*!
 
   \brief Instantiates an evaluation object and computes all
@@ -79,7 +79,7 @@ public:
 
     std::size_t sum_true_positives = 0;
     std::size_t total = 0;
-    
+
     for (std::size_t j = 0; j < ground_truth.size(); ++ j)
     {
       int gt = static_cast<int>(ground_truth[j]);
@@ -101,7 +101,7 @@ public:
     m_mean_f1 = 0.;
 
     std::size_t correct_labels = 0;
-    
+
     for (std::size_t j = 0; j < labels.size(); ++ j)
     {
       m_precision[j] = true_positives[j] / float(true_positives[j] + false_positives[j]);
@@ -186,11 +186,11 @@ public:
   }
 
   /// @}
-  
+
   /// \name Global Evaluation
   /// @{
 
-  
+
   /*!
     \brief Returns the accuracy of the training.
 
@@ -198,13 +198,13 @@ public:
     total number of provided inliers.
   */
   float accuracy() const { return m_accuracy; }
-  
+
   /*!
     \brief Returns the mean \f$F_1\f$ score of the training over all
     labels (see `f1_score()`).
   */
   float mean_f1_score() const { return m_mean_f1; }
-  
+
   /*!
     \brief Returns the mean intersection over union of the training
     over all labels (see `intersection_over_union()`).
@@ -212,10 +212,10 @@ public:
   float mean_intersection_over_union() const { return m_mean_iou; }
 
   /// @}
-  
+
 };
-  
-  
+
+
 } // namespace Classification
 
 } // namespace CGAL

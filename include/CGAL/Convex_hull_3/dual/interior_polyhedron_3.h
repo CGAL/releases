@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.2/Convex_hull_3/include/CGAL/Convex_hull_3/dual/interior_polyhedron_3.h $
-// $Id: interior_polyhedron_3.h 254d60f 2019-10-19T15:23:19+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.3/Convex_hull_3/include/CGAL/Convex_hull_3/dual/interior_polyhedron_3.h $
+// $Id: interior_polyhedron_3.h 0779373 2020-03-26T13:31:46+01:00 Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -31,10 +31,10 @@
 // If you do not know an interior point for the halfspaces, use linear programming
 // to find one. Assume, n halfspaces defined by: aj*x1+bj*x2+cj*x3+dj>=0, j=1..n.
 // Perform the following linear program:
-//		max(x5) aj*x1+bj*x2+cj*x3+dj*x4-x5>=0, j=1..n
+//                max(x5) aj*x1+bj*x2+cj*x3+dj*x4-x5>=0, j=1..n
 
 // Then, if [x1,x2,x3,x4,x5] is an optimal m_solution with x4,x5>0 we get:
-//		aj*(x1/x4)+bj*(x2/x4)+cj*(x3/x4)+dj>=(x5/x4)>0, j=1..n
+//                aj*(x1/x4)+bj*(x2/x4)+cj*(x3/x4)+dj>=(x5/x4)>0, j=1..n
 // and conclude that the point [x1/x4,x2/x4,x3/x4] is in the interior of all
 // the halfspaces. Note that x5 is optimal, so this point is "way in" the
 // interior (good for precision errors).

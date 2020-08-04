@@ -2,10 +2,10 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.2/BGL/include/CGAL/boost/graph/properties.h $
-// $Id: properties.h d872e13 2020-02-14T14:46:29+01:00 Laurent Rineau
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.3/BGL/include/CGAL/boost/graph/properties.h $
+// $Id: properties.h 0779373 2020-03-26T13:31:46+01:00 Sébastien Loriot
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
-// 
+//
 //
 // Author(s)     : Andreas Fabri, Fernando Cacciola
 
@@ -206,7 +206,7 @@ void init_halfedge_indices(PolygonMesh& pm, HalfedgeIndexMap hid)
 } //namespace helpers
 
 namespace internal {
-  
+
   template<typename Polyhedron, typename Handle>
 struct Index_accessor
     : boost::put_get_helper< std::size_t&, Index_accessor<Polyhedron,Handle> >

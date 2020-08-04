@@ -3,12 +3,12 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.2/GraphicsView/demo/L1_Voronoi_diagram_2/include/CGAL/Qt/SetGraphicsItem.h $
-// $Id: SetGraphicsItem.h 254d60f 2019-10-19T15:23:19+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.3/GraphicsView/demo/L1_Voronoi_diagram_2/include/CGAL/Qt/SetGraphicsItem.h $
+// $Id: SetGraphicsItem.h 0779373 2020-03-26T13:31:46+01:00 Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Ophir Setter <ophirset@post.tau.ac.il>
-//                 
+//
 
 #ifndef CGAL_QT_SET_GRAPHICS_ITEM_H
 #define CGAL_QT_SET_GRAPHICS_ITEM_H
@@ -35,16 +35,16 @@ class SetGraphicsItem : public GraphicsItem
 {
 public:
   SetGraphicsItem(const Set *arr);
-  
-  QRectF 
+
+  QRectF
   boundingRect() const;
 
-  void 
-  paint(QPainter *painter, 
-        const QStyleOptionGraphicsItem *option, 
+  void
+  paint(QPainter *painter,
+        const QStyleOptionGraphicsItem *option,
         QWidget *widget);
-  
-  void 
+
+  void
   modelChanged();
 
   const QPen& pen() const {
@@ -68,7 +68,7 @@ SetGraphicsItem<Set>::SetGraphicsItem(const Set *set)
 }
 
 template <typename Set>
-QRectF 
+QRectF
 SetGraphicsItem<Set>::boundingRect() const
 {
   QRectF rect = CGAL::Qt::viewportsBbox(scene());
@@ -77,7 +77,7 @@ SetGraphicsItem<Set>::boundingRect() const
 
 
 template <typename Set>
-void 
+void
 SetGraphicsItem<Set>::paint(QPainter *painter,
                                     const QStyleOptionGraphicsItem *option,
                                     QWidget* )
@@ -87,9 +87,9 @@ SetGraphicsItem<Set>::paint(QPainter *painter,
 
   QRectF rect = option->exposedRect;
   // R is the kernel. Move it to a template parameter.
-  PainterOstream<typename std::iterator_traits<typename Set::const_iterator>::value_type::R> 
+  PainterOstream<typename std::iterator_traits<typename Set::const_iterator>::value_type::R>
     pos(painter, rect);
-  
+
   painter->setPen(this->pen());
   for(typename Set::const_iterator it = m_set->begin();
       it != m_set->end(); it++) {
@@ -99,7 +99,7 @@ SetGraphicsItem<Set>::paint(QPainter *painter,
 
 
 template <typename T>
-void 
+void
 SetGraphicsItem<T>::modelChanged()
 {
   update();

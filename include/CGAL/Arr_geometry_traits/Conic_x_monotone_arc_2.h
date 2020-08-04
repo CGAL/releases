@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.2/Arrangement_on_surface_2/include/CGAL/Arr_geometry_traits/Conic_x_monotone_arc_2.h $
-// $Id: Conic_x_monotone_arc_2.h 254d60f 2019-10-19T15:23:19+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.3/Arrangement_on_surface_2/include/CGAL/Arr_geometry_traits/Conic_x_monotone_arc_2.h $
+// $Id: Conic_x_monotone_arc_2.h 0779373 2020-03-26T13:31:46+01:00 Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -1290,7 +1290,7 @@ private:
     // greater than the source point), or to the left.
     Alg_kernel         ker;
     Comparison_result  dir_res = ker.compare_xy_2_object() (this->_source,
-							    this->_target);
+                                                            this->_target);
 
     CGAL_assertion (dir_res != EQUAL);
 

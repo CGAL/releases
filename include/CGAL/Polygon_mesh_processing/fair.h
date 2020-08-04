@@ -3,10 +3,10 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.2/Polygon_mesh_processing/include/CGAL/Polygon_mesh_processing/fair.h $
-// $Id: fair.h 254d60f 2019-10-19T15:23:19+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.3/Polygon_mesh_processing/include/CGAL/Polygon_mesh_processing/fair.h $
+// $Id: fair.h 86ae4be 2020-05-18T12:22:21+02:00 Laurent Rineau
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
-// 
+//
 //
 // Author(s)     : Ilker O. Yaz
 
@@ -91,7 +91,7 @@ namespace internal {
     \cgalParamBegin{fairing_continuity} tangential continuity of the output surface patch. The larger `fairing_continuity` gets, the more fixed vertices are required \cgalParamEnd
     \cgalParamBegin{sparse_linear_solver} an instance of the sparse linear solver used for fairing \cgalParamEnd
   \cgalNamedParamsEnd
-  
+
   @return `true` if fairing is successful, otherwise no vertices are relocated
 
   @pre `is_triangle_mesh(tmesh)`
@@ -137,7 +137,11 @@ namespace internal {
 #endif
 
     typedef typename GetVertexPointMap < TriangleMesh, NamedParameters>::type VPMap;
-    typedef CGAL::internal::Cotangent_weight_with_voronoi_area_fairing<TriangleMesh, VPMap>
+
+    // Cotangent_weight_with_voronoi_area_fairing has been changed to the version:
+    // Cotangent_weight_with_voronoi_area_fairing_secure to avoid imprecisions from
+    // the issue #4706 - https://github.com/CGAL/cgal/issues/4706.
+    typedef CGAL::internal::Cotangent_weight_with_voronoi_area_fairing_secure<TriangleMesh, VPMap>
       Default_Weight_calculator;
 
     VPMap vpmap_ = choose_parameter(get_parameter(np, internal_np::vertex_point),

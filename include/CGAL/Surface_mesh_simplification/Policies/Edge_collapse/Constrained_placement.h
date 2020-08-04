@@ -2,8 +2,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.2/Surface_mesh_simplification/include/CGAL/Surface_mesh_simplification/Policies/Edge_collapse/Constrained_placement.h $
-// $Id: Constrained_placement.h 254d60f 2019-10-19T15:23:19+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.3/Surface_mesh_simplification/include/CGAL/Surface_mesh_simplification/Policies/Edge_collapse/Constrained_placement.h $
+// $Id: Constrained_placement.h 0779373 2020-03-26T13:31:46+01:00 Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Sebastien Loriot <sebastien.loriot@cgal.org>
@@ -37,7 +37,7 @@ public:
   , Edge_is_constrained_map(map)
   {}
 
-  template <typename Profile> 
+  template <typename Profile>
   optional<typename Profile::Point> operator()( Profile const& aProfile ) const
   {
     typedef typename Profile::TM                                TM;

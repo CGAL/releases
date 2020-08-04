@@ -3,10 +3,10 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.2/Polygon_mesh_processing/include/CGAL/Side_of_triangle_mesh.h $
-// $Id: Side_of_triangle_mesh.h 254d60f 2019-10-19T15:23:19+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.3/Polygon_mesh_processing/include/CGAL/Side_of_triangle_mesh.h $
+// $Id: Side_of_triangle_mesh.h 0779373 2020-03-26T13:31:46+01:00 Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
-// 
+//
 //
 // Author(s)     : Sebastien Loriot and Ilker O. Yaz
 
@@ -27,7 +27,7 @@
 
 namespace CGAL {
 
-/** 
+/**
  * \ingroup PkgPolygonMeshProcessingRef
  * This class provides an efficient point location functionality with respect to a domain bounded
  * by one or several disjoint closed triangle meshes.
@@ -179,7 +179,7 @@ public:
    * returns the location of a query point
    * @param point the query point to be located with respect to the input
             polyhedral surface
-   * @return 
+   * @return
    *   - `CGAL::ON_BOUNDED_SIDE` if the point is inside the volume bounded by the input triangle mesh
    *   - `CGAL::ON_BOUNDARY` if the point is on triangle mesh
    *   - `CGAL::ON_UNBOUNDED_SIDE` if the point is outside triangle mesh

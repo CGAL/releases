@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.2/Hyperbolic_triangulation_2/demo/Hyperbolic_triangulation_2/include/internal/Qt/HyperbolicPainterOstream.h $
-// $Id: HyperbolicPainterOstream.h 254d60f 2019-10-19T15:23:19+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.3/Hyperbolic_triangulation_2/demo/Hyperbolic_triangulation_2/include/internal/Qt/HyperbolicPainterOstream.h $
+// $Id: HyperbolicPainterOstream.h 0779373 2020-03-26T13:31:46+01:00 Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Mikhail Bogdanov
@@ -81,7 +81,7 @@ public:
   PainterOstream& operator << (Hyperbolic_segment_2 s)
   {
     if(const Euclidean_segment_2* seg = boost::get<Euclidean_segment_2>(&s)) {
-		CGAL::Qt::PainterOstream<K>::operator << (*seg);
+                CGAL::Qt::PainterOstream<K>::operator << (*seg);
       return *this;
     }
 
@@ -89,7 +89,7 @@ public:
 
     if(arc->squared_radius() > 100) {
       Euclidean_segment_2 seg(arc->source(), arc->target());
-	  CGAL::Qt::PainterOstream<K>::operator << (seg);
+          CGAL::Qt::PainterOstream<K>::operator << (seg);
       return *this;
     }
 

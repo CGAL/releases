@@ -2,8 +2,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.2/Surface_mesh_simplification/include/CGAL/Surface_mesh_simplification/Policies/Edge_collapse/LindstromTurk_placement.h $
-// $Id: LindstromTurk_placement.h 254d60f 2019-10-19T15:23:19+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.3/Surface_mesh_simplification/include/CGAL/Surface_mesh_simplification/Policies/Edge_collapse/LindstromTurk_placement.h $
+// $Id: LindstromTurk_placement.h 0779373 2020-03-26T13:31:46+01:00 Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Fernando Cacciola <fernando.cacciola@geometryfactory.com>
@@ -19,30 +19,30 @@
 
 namespace CGAL {
 
-namespace Surface_mesh_simplification  
+namespace Surface_mesh_simplification
 {
 
   template<class TM_>
 class LindstromTurk_placement
 {
 public:
-    
+
   typedef TM_ TM ;
-  
+
 public:
 
   LindstromTurk_placement( LindstromTurk_params const& aParams = LindstromTurk_params() ) : mParams(aParams) {}
-     
-  template <typename Profile> 
+
+  template <typename Profile>
   optional<typename Profile::Point>
   operator()( Profile const& aProfile) const
   {
     return LindstromTurkCore<TM,Profile>(mParams,aProfile).compute_placement() ;
   }
-  
+
 private:
 
-  LindstromTurk_params mParams ;    
+  LindstromTurk_params mParams ;
 
 };
 
@@ -53,4 +53,4 @@ private:
 
 #endif // CGAL_SURFACE_MESH_SIMPLIFICATION_POLICIES_EDGE_COLLAPSE_LINDSTROMTURK_PLACEMENT_H //
 // EOF //
- 
+

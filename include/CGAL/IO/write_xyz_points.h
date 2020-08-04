@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.2/Point_set_processing_3/include/CGAL/IO/write_xyz_points.h $
-// $Id: write_xyz_points.h 254d60f 2019-10-19T15:23:19+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.3/Point_set_processing_3/include/CGAL/IO/write_xyz_points.h $
+// $Id: write_xyz_points.h 0779373 2020-03-26T13:31:46+01:00 Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s) : Pierre Alliez and Laurent Saboret
@@ -74,7 +74,7 @@ write_xyz_points(
 
   PointMap point_map = choose_parameter(get_parameter(np, internal_np::point_map), PointMap());
   NormalMap normal_map = choose_parameter(get_parameter(np, internal_np::normal_map), NormalMap());
-  
+
   CGAL_point_set_processing_precondition(points.begin() != points.end());
 
   if(!stream)
@@ -108,7 +108,7 @@ write_xyz_points(
 }
 
 #ifndef CGAL_NO_DEPRECATED_CODE
-// deprecated API  
+// deprecated API
 template <typename ForwardIterator,
           typename PointMap,
           typename NormalMap,
@@ -132,7 +132,7 @@ write_xyz_points_and_normals(
      geom_traits(Kernel()));
 }
 
-// deprecated API  
+// deprecated API
 template <typename ForwardIterator,
           typename PointMap,
           typename NormalMap
@@ -153,7 +153,7 @@ write_xyz_points_and_normals(
      normal_map (normal_map));
 }
 
-// deprecated API  
+// deprecated API
 template <typename ForwardIterator,
           typename NormalMap
 >
@@ -171,7 +171,7 @@ write_xyz_points_and_normals(
      CGAL::parameters::normal_map(normal_map));
 }
 
-// deprecated API  
+// deprecated API
 template <typename ForwardIterator,
           typename PointMap,
           typename Kernel
@@ -191,7 +191,7 @@ write_xyz_points(
      CGAL::parameters::point_map(point_map).
      geom_traits (kernel));
 }
-// deprecated API  
+// deprecated API
 template <typename ForwardIterator,
           typename PointMap
 >
@@ -209,7 +209,7 @@ write_xyz_points(
      CGAL::parameters::point_map(point_map));
 }
 
-// deprecated API  
+// deprecated API
 template <typename ForwardIterator
 >
 CGAL_DEPRECATED_MSG("you are using the deprecated V1 API of CGAL::write_xyz_points(), please update your code")

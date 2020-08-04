@@ -2,8 +2,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.2/Surface_mesh_simplification/include/CGAL/Surface_mesh_simplification/Policies/Edge_collapse/LindstromTurk_cost.h $
-// $Id: LindstromTurk_cost.h 254d60f 2019-10-19T15:23:19+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.3/Surface_mesh_simplification/include/CGAL/Surface_mesh_simplification/Policies/Edge_collapse/LindstromTurk_cost.h $
+// $Id: LindstromTurk_cost.h 0779373 2020-03-26T13:31:46+01:00 Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Fernando Cacciola <fernando.cacciola@geometryfactory.com>
@@ -19,27 +19,27 @@
 
 namespace CGAL {
 
-namespace Surface_mesh_simplification  
+namespace Surface_mesh_simplification
 {
 
   template<class TM_>
 class LindstromTurk_cost
 {
 public:
-    
+
   typedef TM_ TM ;
   /*
 
   typedef Edge_profile<TM> Profile ;
   typedef typename Traits::Point_3 Point;
   typedef typename Traits::FT FT ;
-  
+
   typedef optional<FT> result_type ;
   */
 public:
 
   LindstromTurk_cost( LindstromTurk_params const& aParams = LindstromTurk_params() ) : mParams(aParams) {}
-     
+
   template <typename Profile>
   optional<typename Profile::FT>
   operator()( Profile const& aProfile, optional<typename Profile::Point> const& aPlacement ) const
@@ -49,7 +49,7 @@ public:
 
 private:
 
-  LindstromTurk_params mParams ;    
+  LindstromTurk_params mParams ;
 };
 
 } // namespace Surface_mesh_simplification
@@ -58,4 +58,4 @@ private:
 
 #endif // CGAL_SURFACE_MESH_SIMPLIFICATION_POLICIES_EDGE_COLLAPSE_LINDSTROMTURK_COST_H //
 // EOF //
- 
+
