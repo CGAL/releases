@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.2/Surface_mesh_parameterization/include/CGAL/Surface_mesh_parameterization/MVC_post_processor_3.h $
-// $Id: MVC_post_processor_3.h e872a79 2020-01-15T17:31:47+01:00 Laurent Rineau
+// $URL: https://github.com/CGAL/cgal/blob/v5.1/Surface_mesh_parameterization/include/CGAL/Surface_mesh_parameterization/MVC_post_processor_3.h $
+// $Id: MVC_post_processor_3.h 4a9eea9 2020-01-15T17:19:19+01:00 Laurent Rineau
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Mael Rouxel-Labbé
@@ -127,17 +127,16 @@ private:
 
   // Types used for the convexification of the mesh
     // Each triangulation vertex is associated its corresponding vertex_descriptor
-  typedef CGAL::Triangulation_vertex_base_with_info_2<vertex_descriptor,
-                                                      Kernel>       Vb;
-    // Each triangultaion face is associated a color (inside/outside information)
-  typedef CGAL::Triangulation_face_base_with_info_2<int, Kernel>    Fb;
-  typedef CGAL::Constrained_triangulation_face_base_2<Kernel, Fb>   Cfb;
-  typedef CGAL::Triangulation_data_structure_2<Vb, Cfb>             TDS;
-  typedef CGAL::No_intersection_tag                                 Itag;
+  typedef CGAL::Triangulation_vertex_base_with_info_2<vertex_descriptor, Kernel>  Vb;
+    // Each triangulation face is associated a color (inside/outside information)
+  typedef CGAL::Triangulation_face_base_with_info_2<int, Kernel>                  Fb;
+  typedef CGAL::Constrained_triangulation_face_base_2<Kernel, Fb>                 Cfb;
+  typedef CGAL::Triangulation_data_structure_2<Vb, Cfb>                           TDS;
+  typedef CGAL::No_constraint_intersection_requiring_constructions_tag            Itag;
 
     // Can choose either a triangulation or a Delaunay triangulation
-  typedef CGAL::Constrained_triangulation_2<Kernel, TDS, Itag>                CT;
-//    typedef CGAL::Constrained_Delaunay_triangulation_2<Kernel, TDS, Itag>   CT;
+  typedef CGAL::Constrained_triangulation_2<Kernel, TDS, Itag>                    CT;
+//  typedef CGAL::Constrained_Delaunay_triangulation_2<Kernel, TDS, Itag>           CT;
 
 // Private fields
 private:

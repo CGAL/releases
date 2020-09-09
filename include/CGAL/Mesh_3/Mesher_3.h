@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.2/Mesh_3/include/CGAL/Mesh_3/Mesher_3.h $
-// $Id: Mesher_3.h 5fc7b97 2020-01-29T16:34:56+01:00 Laurent Rineau
+// $URL: https://github.com/CGAL/cgal/blob/v5.1/Mesh_3/include/CGAL/Mesh_3/Mesher_3.h $
+// $Id: Mesher_3.h 0779373 2020-03-26T13:31:46+01:00 Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -218,7 +218,7 @@ public:
            );
 
   /// Destructor
-  ~Mesher_3() 
+  ~Mesher_3()
   {
     // The lock data structure is going to be destroyed
     r_c3t3_.triangulation().set_lock_data_structure(nullptr);

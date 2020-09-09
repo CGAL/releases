@@ -1,14 +1,14 @@
-// Copyright (c) 2000,2001,2002,2003  
+// Copyright (c) 2000,2001,2002,2003
 // Utrecht University (The Netherlands),
 // ETH Zurich (Switzerland),
 // INRIA Sophia-Antipolis (France),
 // Max-Planck-Institute Saarbruecken (Germany),
-// and Tel-Aviv University (Israel).  All rights reserved. 
+// and Tel-Aviv University (Israel).  All rights reserved.
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.2/Filtered_kernel/examples/Filtered_kernel/Cartesian_I.h $
-// $Id: Cartesian_I.h 52164b1 2019-10-19T15:34:59+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v5.1/Filtered_kernel/examples/Filtered_kernel/Cartesian_I.h $
+// $Id: Cartesian_I.h 0779373 2020-03-26T13:31:46+01:00 Sébastien Loriot
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -42,8 +42,8 @@ public:
     {
       Object o = typename K::Intersect_2()(s1, s2);
       if(! o.is_empty()){
-	*it = o;
-	it++;
+        *it = o;
+        it++;
       }
 
       return it;
@@ -83,7 +83,7 @@ struct Cartesian_base_ref_count_I
 
 
   CGAL_Kernel_cons(Intersect_with_iterators_2,
-  		 intersect_with_iterators_2_object)
+                   intersect_with_iterators_2_object)
 #include <CGAL/Kernel/interface_macros.h>
 
     template<typename A, typename B>

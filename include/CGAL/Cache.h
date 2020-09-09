@@ -5,8 +5,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.2/STL_Extension/include/CGAL/Cache.h $
-// $Id: Cache.h 52164b1 2019-10-19T15:34:59+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v5.1/STL_Extension/include/CGAL/Cache.h $
+// $Id: Cache.h 0779373 2020-03-26T13:31:46+01:00 Sébastien Loriot
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Michael Hemmer    <hemmer@mpi-inf.mpg.de>
@@ -124,28 +124,28 @@ public:
     //! Returns an Iterator pointing to the end of the cache.
     Iterator end() { return map.end(); }
 
-    //!	Returns a Const_iterator pointing to the beginning of the cache.
+    //!        Returns a Const_iterator pointing to the beginning of the cache.
     Const_iterator begin() const { return map.begin(); }
 
     //! Returns a Const_iterator pointing to the end of the cache.
     Const_iterator end() const { return map.end(); }
 
-    /*!	\brief Returns a Reverse_iterator pointing to the beginning of the
+    /*!        \brief Returns a Reverse_iterator pointing to the beginning of the
      *  reversed cache.
      */
     Reverse_iterator rbegin() { return map.rbegin(); }
 
-    /*!	\brief Returns a Reverse_iterator pointing to the end of the reversed
+    /*!        \brief Returns a Reverse_iterator pointing to the end of the reversed
      *  cache.
      */
     Reverse_iterator rend() { return map.rend(); }
 
-    /*!	\brief Returns a Const_reverse_iterator pointing to the beginning of
+    /*!        \brief Returns a Const_reverse_iterator pointing to the beginning of
      *  the reversed cache.
      */
     Const_reverse_iterator rbegin() const { return map.rbegin(); }
 
-    /*!	\brief Returns a Const_reverse_iterator pointing to the end of the
+    /*!        \brief Returns a Const_reverse_iterator pointing to the end of the
      *  reversed cache.
      */
     Const_reverse_iterator rend() const { return map.rend(); }

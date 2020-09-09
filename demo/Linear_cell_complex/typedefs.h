@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.2/Linear_cell_complex/demo/Linear_cell_complex/typedefs.h $
-// $Id: typedefs.h 52164b1 2019-10-19T15:34:59+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v5.1/Linear_cell_complex/demo/Linear_cell_complex/typedefs.h $
+// $Id: typedefs.h cf83a22 2019-12-02T16:32:29+01:00 Mael
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Guillaume Damiand <guillaume.damiand@liris.cnrs.fr>
@@ -185,8 +185,7 @@ typedef CGAL::Triangulation_face_base_with_info_2<Face_info,P_traits> Fb1;
 
 typedef CGAL::Constrained_triangulation_face_base_2<P_traits, Fb1>    Fb;
 typedef CGAL::Triangulation_data_structure_2<Vb,Fb>                   TDS;
-// typedef CGAL::No_intersection_tag                                     Itag;
- typedef CGAL::Exact_predicates_tag Itag;
+typedef CGAL::Exact_predicates_tag                                    Itag;
 typedef CGAL::Constrained_Delaunay_triangulation_2<P_traits, TDS,
                                                    Itag>              CDT;
 

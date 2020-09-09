@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.2/Surface_mesh_parameterization/include/CGAL/Surface_mesh_parameterization/Orbifold_Tutte_parameterizer_3.h $
-// $Id: Orbifold_Tutte_parameterizer_3.h e872a79 2020-01-15T17:31:47+01:00 Laurent Rineau
+// $URL: https://github.com/CGAL/cgal/blob/v5.1/Surface_mesh_parameterization/include/CGAL/Surface_mesh_parameterization/Orbifold_Tutte_parameterizer_3.h $
+// $Id: Orbifold_Tutte_parameterizer_3.h fba9a19 2020-03-09T10:03:31+01:00 Mael Rouxel-Labbé
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Mael Rouxel-Labbé
@@ -25,6 +25,7 @@
 #include <CGAL/Surface_mesh_parameterization/Error_code.h>
 #include <CGAL/Surface_mesh_parameterization/orbifold_shortest_path.h>
 
+#include <CGAL/assertions.h>
 #include <CGAL/Polygon_mesh_processing/Weights.h>
 
 #include <CGAL/assertions.h>

@@ -2,10 +2,10 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.2/Straight_skeleton_2/include/CGAL/predicates/Polygon_offset_pred_ftC2.h $
-// $Id: Polygon_offset_pred_ftC2.h 254d60f 2019-10-19T15:23:19+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v5.1/Straight_skeleton_2/include/CGAL/predicates/Polygon_offset_pred_ftC2.h $
+// $Id: Polygon_offset_pred_ftC2.h 0779373 2020-03-26T13:31:46+01:00 Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
-// 
+//
 // Author(s)     : Fernando Cacciola <fernando_cacciola@ciudad.com.ar>
 //
 #ifndef CGAL_POLYGON_OFFSET_PRED_FTC2_H
@@ -29,12 +29,12 @@ template<class K>
 Uncertain<Comparison_result> compare_offset_against_isec_timeC2 ( typename K::FT const& t, intrusive_ptr< Trisegment_2<K> > const& tri )
 {
   typedef typename K::FT FT ;
-  
+
   typedef Rational<FT> Rational ;
   typedef Quotient<FT> Quotient ;
-  
+
   typedef optional<Rational> Optional_rational ;
- 
+
   Uncertain<Comparison_result> rResult = Uncertain<Comparison_result>::indeterminate();
 
   Optional_rational et_ = compute_offset_lines_isec_timeC2(tri);

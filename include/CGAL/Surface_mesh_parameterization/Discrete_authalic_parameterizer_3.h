@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.2/Surface_mesh_parameterization/include/CGAL/Surface_mesh_parameterization/Discrete_authalic_parameterizer_3.h $
-// $Id: Discrete_authalic_parameterizer_3.h e872a79 2020-01-15T17:31:47+01:00 Laurent Rineau
+// $URL: https://github.com/CGAL/cgal/blob/v5.1/Surface_mesh_parameterization/include/CGAL/Surface_mesh_parameterization/Discrete_authalic_parameterizer_3.h $
+// $Id: Discrete_authalic_parameterizer_3.h 4a9eea9 2020-01-15T17:19:19+01:00 Laurent Rineau
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Laurent Saboret, Pierre Alliez, Bruno Levy

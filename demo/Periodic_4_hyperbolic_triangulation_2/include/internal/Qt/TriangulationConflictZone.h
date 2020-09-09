@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.2/Periodic_4_hyperbolic_triangulation_2/demo/Periodic_4_hyperbolic_triangulation_2/include/internal/Qt/TriangulationConflictZone.h $
-// $Id: TriangulationConflictZone.h 254d60f 2019-10-19T15:23:19+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v5.1/Periodic_4_hyperbolic_triangulation_2/demo/Periodic_4_hyperbolic_triangulation_2/include/internal/Qt/TriangulationConflictZone.h $
+// $Id: TriangulationConflictZone.h 0779373 2020-03-26T13:31:46+01:00 Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Andreas Fabri <Andreas.Fabri@geometryfactory.com>
@@ -43,7 +43,7 @@ protected:
   bool eventFilter(QObject *obj, QEvent *event);
 
   Point p;
-  
+
   DT * dt;
   Converter<K> convert;
   QGraphicsScene *scene_;
@@ -56,7 +56,7 @@ TriangulationConflictZone<T>::TriangulationConflictZone(QGraphicsScene* s,
               QObject* parent)
   :  GraphicsViewInput(parent), dt(dt_), scene_(s)
 {}
-  
+
 
 
 template <typename T>
@@ -69,7 +69,7 @@ TriangulationConflictZone<T>::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
 
 
 template <typename T>
-bool 
+bool
 TriangulationConflictZone<T>::eventFilter(QObject *obj, QEvent *event)
 {
   if(event->type() == QEvent::GraphicsSceneMouseMove) {
@@ -80,7 +80,7 @@ TriangulationConflictZone<T>::eventFilter(QObject *obj, QEvent *event)
     // standard event processing
     return QObject::eventFilter(obj, event);
   }
-} 
+}
 
 
 } // namespace Qt

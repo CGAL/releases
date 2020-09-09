@@ -4,8 +4,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.2/Classification/include/CGAL/Classification/Feature/Height_below.h $
-// $Id: Height_below.h 254d60f 2019-10-19T15:23:19+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v5.1/Classification/include/CGAL/Classification/Feature/Height_below.h $
+// $Id: Height_below.h e9d41d7 2020-04-21T10:03:00+02:00 Maxime Gimeno
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Florent Lafarge, Simon Giraudot
@@ -59,7 +59,7 @@ class Height_below : public Feature_base
   const Grid& grid;
   Image_float dtm;
   std::vector<float> values;
-  
+
 public:
   /*!
     \brief Constructs the feature.
@@ -81,13 +81,13 @@ public:
       for (std::size_t i = 0; i < grid.width(); ++ i)
         if (grid.has_points(i,j))
         {
-          float z_min = std::numeric_limits<float>::max();
+          float z_min = (std::numeric_limits<float>::max)();
 
           typename Grid::iterator end = grid.indices_end(i,j);
           for (typename Grid::iterator it = grid.indices_begin(i,j); it != end; ++ it)
           {
             float z = float(get(point_map, *(input.begin()+(*it))).z());
-            z_min = (std::min(z_min, z));
+            z_min = ((std::min)(z_min, z));
           }
 
           dtm(i,j) = z_min;
@@ -116,7 +116,7 @@ public:
       std::size_t J = grid.y(pt_index);
       return float(get (point_map, *(input.begin() + pt_index)).z() - dtm(I,J));
     }
-    
+
     return values[pt_index];
   }
 

@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.2/AABB_tree/include/CGAL/AABB_traits.h $
-// $Id: AABB_traits.h 254d60f 2019-10-19T15:23:19+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v5.1/AABB_tree/include/CGAL/AABB_traits.h $
+// $Id: AABB_traits.h 2e8a59d 2020-07-21T15:25:54+02:00 Laurent Rineau
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -105,7 +105,7 @@ struct AABB_traits_base_2<GeomTraits,true>{
         } else {
           FT t1 = ((bbox.min)(i) - *source_iter) / *direction_iter;
           FT t2 = ((bbox.max)(i) - *source_iter) / *direction_iter;
- 
+
           t_near = (std::max)(t_near, (std::min)(t1, t2));
           t_far = (std::min)(t_far, (std::max)(t1, t2));
 
@@ -171,9 +171,11 @@ class AABB_tree;
 /// \sa `AABBPrimitiveWithSharedData`
 
   template<typename GeomTraits, typename AABBPrimitive, typename BboxMap = Default>
-class AABB_traits:
-  public internal::AABB_tree::AABB_traits_base<AABBPrimitive>,
+class AABB_traits
+#ifndef DOXYGEN_RUNNING
+: public internal::AABB_tree::AABB_traits_base<AABBPrimitive>,
   public internal::AABB_tree::AABB_traits_base_2<GeomTraits>
+#endif
 {
   typedef typename CGAL::Object Object;
 public:
@@ -300,7 +302,7 @@ public:
   public:
     Compute_bbox(const AABB_traits<GeomTraits,AABBPrimitive, BboxMap>& traits)
       :m_traits (traits) {}
-    
+
     template<typename ConstPrimitiveIterator>
     typename AT::Bounding_box operator()(ConstPrimitiveIterator first,
                                          ConstPrimitiveIterator beyond) const
@@ -312,7 +314,7 @@ public:
         }
       return bbox;
     }
-    
+
   };
 
   Compute_bbox compute_bbox_object() const {return Compute_bbox(*this);}
@@ -444,7 +446,7 @@ private:
   {
     return internal::Primitive_helper<AT>::get_datum(pr,*this).bbox();
   }
-  
+
 
   typedef enum { CGAL_AXIS_X = 0,
                  CGAL_AXIS_Y = 1,

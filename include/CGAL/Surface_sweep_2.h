@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.2/Surface_sweep_2/include/CGAL/Surface_sweep_2.h $
-// $Id: Surface_sweep_2.h 092cf8e 2019-10-25T16:26:17+02:00 Laurent Rineau
+// $URL: https://github.com/CGAL/cgal/blob/v5.1/Surface_sweep_2/include/CGAL/Surface_sweep_2.h $
+// $Id: Surface_sweep_2.h 4158542 2020-04-01T12:31:51+03:00 Efi Fogel
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s) : Baruch Zukerman <baruchzu@post.tau.ac.il>
@@ -90,6 +90,7 @@ public:
   typedef typename Base::Traits_adaptor_2               Traits_adaptor_2;
   typedef typename Traits_adaptor_2::Point_2            Point_2;
   typedef typename Traits_adaptor_2::X_monotone_curve_2 X_monotone_curve_2;
+  typedef typename Traits_adaptor_2::Multiplicity       Multiplicity;
 
   typedef typename Base::Event_queue_iterator           Event_queue_iterator;
   typedef typename Event::Subcurve_iterator             Event_subcurve_iterator;
@@ -106,11 +107,14 @@ public:
   typedef CGAL::Surface_sweep_2::Equal_curve_pair<Subcurve>
                                                         Equal_curve_pair;
   typedef boost::unordered_set<Curve_pair, Curve_pair_hasher, Equal_curve_pair>
-                                                      Curve_pair_set;
+                                                        Curve_pair_set;
 
-  typedef std::vector<Object>                           Object_vector;
-  typedef random_access_input_iterator<Object_vector>   vector_inserter;
-
+  typedef std::pair<Point_2, Multiplicity>              Intersection_point;
+  typedef boost::variant<Intersection_point, X_monotone_curve_2>
+                                                        Intersection_result;
+  typedef std::vector<Intersection_result>              Intersection_vector;
+  typedef random_access_input_iterator<Intersection_vector>
+                                                        vector_inserter;
   typedef typename Base::Subcurve_alloc                 Subcurve_alloc;
 protected:
   // Data members:
@@ -121,7 +125,7 @@ protected:
   Curve_pair_set m_curves_pair_set;  // A lookup table of pairs of Subcurves
                                      // that have been intersected.
 
-  std::vector<Object> m_x_objects;   // Auxiliary vector for storing the
+  Intersection_vector m_x_objects;   // Auxiliary vector for storing the
                                      // intersection objects.
 
   X_monotone_curve_2 sub_cv1;        // Auxiliary varibales

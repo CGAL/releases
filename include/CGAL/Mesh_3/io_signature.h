@@ -4,8 +4,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.2/Mesh_3/include/CGAL/Mesh_3/io_signature.h $
-// $Id: io_signature.h 254d60f 2019-10-19T15:23:19+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v5.1/Mesh_3/include/CGAL/Mesh_3/io_signature.h $
+// $Id: io_signature.h 4dda7b6 2020-05-27T15:53:05+02:00 Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Laurent RINEAU
@@ -13,7 +13,7 @@
 #ifndef CGAL_MESH_3_IO_SIGNATURE_H
 #define CGAL_MESH_3_IO_SIGNATURE_H
 
-#include <CGAL/license/Mesh_3.h>
+#include <CGAL/license/Triangulation_3.h>
 
 #define CGAL_MESH_3_IO_H // the old include macro, tested by other files
 

@@ -6,8 +6,8 @@
  This file is part of a fork of the QGLViewer library version 2.7.0.
 
 *****************************************************************************/
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.2/GraphicsView/include/CGAL/Qt/manipulatedCameraFrame_impl.h $
-// $Id: manipulatedCameraFrame_impl.h 1ef976e 2019-10-19T16:09:56+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v5.1/GraphicsView/include/CGAL/Qt/manipulatedCameraFrame_impl.h $
+// $Id: manipulatedCameraFrame_impl.h a9795c3 2020-06-11T13:11:36+02:00 Maxime Gimeno
 // SPDX-License-Identifier: GPL-3.0-only
 
 #ifdef CGAL_HEADER_ONLY
@@ -421,7 +421,7 @@ void ManipulatedCameraFrame::wheelEvent(QWheelEvent *const event,
   case MOVE_BACKWARD:
     //#CONNECTION# mouseMoveEvent() MOVE_FORWARD case
     translate(
-        inverseTransformOf(Vec(0.0, 0.0, 0.2 * flySpeed() * event->delta())));
+        inverseTransformOf(Vec(0.0, 0.0, 0.2 * flySpeed() * event->angleDelta().y())));
     Q_EMIT manipulated();
     break;
   default:

@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.2/Hyperbolic_triangulation_2/demo/Hyperbolic_triangulation_2/include/internal/Qt/TriangulationConflictZone.h $
-// $Id: TriangulationConflictZone.h 254d60f 2019-10-19T15:23:19+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v5.1/Hyperbolic_triangulation_2/demo/Hyperbolic_triangulation_2/include/internal/Qt/TriangulationConflictZone.h $
+// $Id: TriangulationConflictZone.h 0779373 2020-03-26T13:31:46+01:00 Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Andreas Fabri <Andreas.Fabri@geometryfactory.com>
@@ -54,14 +54,14 @@ protected:
 
 template <typename T>
 TriangulationConflictZone<T>::TriangulationConflictZone(QGraphicsScene* s,
-							T * dt_,
-							QObject* parent)
+                                                        T * dt_,
+                                                        QObject* parent)
   :  GraphicsViewInput(parent), dt(dt_), scene_(s), animate(false)
 {}
 
 
 template <typename T>
-void 
+void
 TriangulationConflictZone<T>::localize_and_insert_point(QPointF qt_point)
 {
   Point p(convert(qt_point));
@@ -87,12 +87,12 @@ TriangulationConflictZone<T>::localize_and_insert_point(QPointF qt_point)
       qfaces.push_back(item);
     }
   }
-}  
-  
+}
+
 
 
 template <typename T>
-void 
+void
 TriangulationConflictZone<T>::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
   if(dt->number_of_vertices() == 0 ||
@@ -117,7 +117,7 @@ TriangulationConflictZone<T>::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
 
 
 template <typename T>
-void 
+void
 TriangulationConflictZone<T>::mouseReleaseEvent(QGraphicsSceneMouseEvent * /*event*/)
 {
   faces.clear();
@@ -133,7 +133,7 @@ TriangulationConflictZone<T>::mouseReleaseEvent(QGraphicsSceneMouseEvent * /*eve
 
 
 template <typename T>
-bool 
+bool
 TriangulationConflictZone<T>::eventFilter(QObject *obj, QEvent *event)
 {
   if(event->type() == QEvent::GraphicsSceneMousePress) {
@@ -152,7 +152,7 @@ TriangulationConflictZone<T>::eventFilter(QObject *obj, QEvent *event)
     // standard event processing
     return QObject::eventFilter(obj, event);
   }
-} 
+}
 
 
 } // namespace Qt

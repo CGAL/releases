@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.2/Classification/include/CGAL/Classification/Label_set.h $
-// $Id: Label_set.h 254d60f 2019-10-19T15:23:19+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v5.1/Classification/include/CGAL/Classification/Label_set.h $
+// $Id: Label_set.h 9e2ce81 2020-04-07T10:15:50+02:00 Simon Giraudot
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Simon Giraudot
@@ -21,7 +21,7 @@
 namespace CGAL {
 
 namespace Classification {
-  
+
 /*!
 \ingroup PkgClassificationLabel
 
@@ -33,11 +33,20 @@ class Label_set
 {
   typedef std::vector<Label_handle> Base;
   Base m_labels;
-  
+
 public:
-  
+
   Label_set() { }
-  
+
+  /*!
+    \brief Initializes the set with the provided `labels` names.
+  */
+  Label_set (const std::initializer_list<const char*>& labels)
+  {
+    for (const char* l : labels)
+      add(l);
+  }
+
   /// \cond SKIP_IN_MANUAL
   virtual ~Label_set() { }
   /// \endcond
@@ -66,7 +75,7 @@ public:
 
     \return `true` if the label was correctly removed,
     `false` if its handle was not found.
-  */ 
+  */
   bool remove (Label_handle label)
   {
     std::size_t idx = (std::size_t)(-1);
@@ -85,15 +94,15 @@ public:
 
   /*!
     \brief Returns how many labels are defined.
-  */  
+  */
   std::size_t size () const
   {
     return m_labels.size();
   }
-  
+
   /*!
     \brief Returns the \f$i^{th}\f$ label.
-  */  
+  */
   Label_handle operator[] (std::size_t i) const
   {
     return m_labels[i];

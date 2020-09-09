@@ -4,8 +4,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.2/Classification/include/CGAL/Classification/Feature/Distance_to_plane.h $
-// $Id: Distance_to_plane.h 254d60f 2019-10-19T15:23:19+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v5.1/Classification/include/CGAL/Classification/Feature/Distance_to_plane.h $
+// $Id: Distance_to_plane.h 0779373 2020-03-26T13:31:46+01:00 Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Simon Giraudot, Florent Lafarge
@@ -35,7 +35,7 @@ namespace Feature {
     plane.
 
     Its default name is "distance_to_plane".
-    
+
     \tparam PointRange model of `ConstRange`. Its iterator type
     is `RandomAccessIterator` and its value type is the key type of
     `PointMap`.
@@ -48,7 +48,7 @@ class Distance_to_plane : public Feature_base
 {
 
   typedef typename CGAL::Kernel_traits<typename PointMap::value_type>::Kernel Kernel;
-  
+
 #ifdef CGAL_CLASSIFICATION_PRECOMPUTE_FEATURES
   std::vector<float> distance_to_plane_feature;
 #else
@@ -56,7 +56,7 @@ class Distance_to_plane : public Feature_base
   PointMap point_map;
   const Local_eigen_analysis& eigen;
 #endif
-  
+
 public:
   /*!
     \brief Constructs the feature.
@@ -73,7 +73,7 @@ public:
 #endif
   {
     this->set_name ("distance_to_plane");
-#ifdef CGAL_CLASSIFICATION_PRECOMPUTE_FEATURES    
+#ifdef CGAL_CLASSIFICATION_PRECOMPUTE_FEATURES
     for(std::size_t i = 0; i < input.size(); i++)
       distance_to_plane_feature.push_back
         (CGAL::sqrt (CGAL::squared_distance (get(point_map, *(input.begin()+i)), eigen.plane<Kernel>(i))));
@@ -97,7 +97,7 @@ public:
 } // namespace Feature
 
 } // namespace Classification
-  
+
 } // namespace CGAL
 
 #endif // CGAL_CLASSIFICATION_FEATURE_DISTANCE_TO_PLANE_H

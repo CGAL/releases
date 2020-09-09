@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.2/Arrangement_on_surface_2/demo/Arrangement_on_surface_2/PointLocationCallback.h $
-// $Id: PointLocationCallback.h 254d60f 2019-10-19T15:23:19+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v5.1/Arrangement_on_surface_2/demo/Arrangement_on_surface_2/PointLocationCallback.h $
+// $Id: PointLocationCallback.h 0779373 2020-03-26T13:31:46+01:00 Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Alex Tsui <alextsui05@gmail.com>
@@ -103,7 +103,7 @@ PointLocationCallback( Arrangement* arr_, QObject* parent_ ) :
   pointLocationStrategy( CGAL::make_object( new Walk_pl_strategy( *arr_ ) ) ),
   arr( arr_ ),
   highlightedCurves( new CGAL::Qt::CurveGraphicsItem< Traits >( ) )
-{ 
+{
   QObject::connect( this, SIGNAL( modelChanged( ) ),
                     this->highlightedCurves, SLOT( modelChanged( ) ) );
 }
@@ -131,7 +131,7 @@ reset( )
 }
 
 template < typename Arr_ >
-void 
+void
 PointLocationCallback< Arr_ >::
 mousePressEvent( QGraphicsSceneMouseEvent* event )
 {
@@ -172,7 +172,7 @@ highlightPointLocation( QGraphicsSceneMouseEvent *event,
       this->highlightedCurves->insert( curve );
     } while ( ++cc != face->outer_ccb( ) );
   }
-  Hole_const_iterator hit; 
+  Hole_const_iterator hit;
   Hole_const_iterator eit = face->holes_end( );
   for ( hit = face->holes_begin( ); hit != eit; ++hit )
   { // highlight any holes inside this face
@@ -205,7 +205,7 @@ highlightPointLocation( QGraphicsSceneMouseEvent *event,
       this->highlightedCurves->insert( curve );
     }
   } while ( ++cc != face->outer_ccb( ) );
-  Hole_const_iterator hit; 
+  Hole_const_iterator hit;
   Hole_const_iterator eit = face->holes_end( );
   for ( hit = face->holes_begin( ); hit != eit; ++hit )
   { // highlight any holes inside this face

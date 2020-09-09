@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.2/Classification/include/CGAL/Classification/Image.h $
-// $Id: Image.h 254d60f 2019-10-19T15:23:19+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v5.1/Classification/include/CGAL/Classification/Image.h $
+// $Id: Image.h 0779373 2020-03-26T13:31:46+01:00 Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Simon Giraudot
@@ -23,17 +23,17 @@ namespace CGAL {
 namespace Classification {
 
   /// \cond SKIP_IN_MANUAL
-  
+
 template <typename Type>
 class Image
 {
   typedef std::vector<Type> Vector;
   typedef std::map<std::size_t, Type> Map;
-  
+
   std::size_t m_width;
   std::size_t m_height;
   std::size_t m_depth;
-  
+
   boost::shared_ptr<Vector> m_raw;
   boost::shared_ptr<Map> m_sparse;
   Type m_default;
@@ -42,13 +42,13 @@ class Image
   Image (const Image&)
   {
   }
-  
+
 public:
 
   Image () : m_width(0), m_height(0), m_depth(0), m_raw (nullptr)
   {
   }
-  
+
   Image (std::size_t width, std::size_t height, std::size_t depth = 1)
     : m_width (width)
     , m_height (height)
@@ -62,7 +62,7 @@ public:
         m_sparse = boost::shared_ptr<Map> (new Map());
     }
   }
-  
+
   ~Image ()
   {
   }
@@ -82,7 +82,7 @@ public:
     m_depth = other.depth();
     return *this;
   }
-  
+
   std::size_t width() const { return m_width; }
   std::size_t height() const { return m_height; }
   std::size_t depth() const { return m_depth; }
@@ -115,7 +115,7 @@ public:
 
     return (*m_raw)[coord(x,y,z)];
   }
-  
+
 
 };
 

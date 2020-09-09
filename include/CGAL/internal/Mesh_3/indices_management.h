@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.2/Mesh_3/include/CGAL/internal/Mesh_3/indices_management.h $
-// $Id: indices_management.h 254d60f 2019-10-19T15:23:19+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v5.1/Mesh_3/include/CGAL/internal/Mesh_3/indices_management.h $
+// $Id: indices_management.h 4dda7b6 2020-05-27T15:53:05+02:00 Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Stéphane Tayeb
@@ -18,7 +18,7 @@
 #ifndef CGAL_INTERNAL_MESH_3_INDICES_MANAGEMENT_H
 #define CGAL_INTERNAL_MESH_3_INDICES_MANAGEMENT_H
 
-#include <CGAL/license/Mesh_3.h>
+#include <CGAL/license/Triangulation_3.h>
 
 
 #include <boost/type_traits/is_same.hpp>

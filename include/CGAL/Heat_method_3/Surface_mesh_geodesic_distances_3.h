@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.2/Heat_method_3/include/CGAL/Heat_method_3/Surface_mesh_geodesic_distances_3.h $
-// $Id: Surface_mesh_geodesic_distances_3.h 254d60f 2019-10-19T15:23:19+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v5.1/Heat_method_3/include/CGAL/Heat_method_3/Surface_mesh_geodesic_distances_3.h $
+// $Id: Surface_mesh_geodesic_distances_3.h 67b53fa 2020-04-29T14:06:37+02:00 Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -448,12 +448,12 @@ private:
     }
   }
 
-  
+
   void
   solve_phi()
   {
     Vector phi;
-  
+
     if(! la_cotan.linear_solver(m_index_divergence, phi)) {
       // solving failed
       CGAL_error_msg("Eigen Solving in solve_phi() failed");
@@ -888,16 +888,6 @@ public:
   }
 
   /**
-   * get estimated distance from the current source set to a vertex `vd`.
-   * \warning The return type is `double` even when used with an exact kernel.
-   */
-  double
-  estimate_geodesic_distance(vertex_descriptor vd) const
-  {
-    return base().estimate_geodesic_distance(vd);
-  }
-
-  /**
    * returns the source set.
    */
   const Vertex_const_range&
@@ -905,7 +895,6 @@ public:
   {
     return base().sources();
   }
-
 
   /**
    * fills the distance property map with the estimated geodesic distance of each vertex to the closest source vertex.

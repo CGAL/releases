@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.2/Arrangement_on_surface_2/include/CGAL/Arr_polycurve_basic_traits_2.h $
-// $Id: Arr_polycurve_basic_traits_2.h 254d60f 2019-10-19T15:23:19+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v5.1/Arrangement_on_surface_2/include/CGAL/Arr_polycurve_basic_traits_2.h $
+// $Id: Arr_polycurve_basic_traits_2.h 180c061 2020-03-26T19:10:41+01:00 Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Efi Fogel <efif@post.tau.ac.il>
@@ -2521,11 +2521,8 @@ protected:
   template <typename Comparer>
   class Compare_points {
   private:
-    typedef Arr_polycurve_basic_traits_2<Subcurve_traits_2>
-      Polycurve_basic_traits_2;
-
     /*! The polycurve traits (in case it has state). */
-    const Polycurve_basic_traits_2 m_poly_traits;
+    const Subcurve_traits_2& m_subcurve_traits;
 
     const Point_2& m_point;
 
@@ -2533,9 +2530,9 @@ protected:
 
   public:
     // Constructor
-    Compare_points(const Polycurve_basic_traits_2& traits, Comparer compare,
+    Compare_points(const Subcurve_traits_2& traits, Comparer compare,
                    const Point_2& p) :
-      m_poly_traits(traits),
+      m_subcurve_traits(traits),
       m_point(p),
       m_compare(compare)
     {}
@@ -2544,10 +2541,9 @@ protected:
     Comparison_result operator()(const X_monotone_subcurve_2& xs,
                                  Arr_curve_end ce)
     {
-      const Subcurve_traits_2* geom_traits = m_poly_traits.subcurve_traits_2();
       const Point_2& p = (ce == ARR_MAX_END) ?
-        geom_traits->construct_max_vertex_2_object()(xs) :
-        geom_traits->construct_min_vertex_2_object()(xs);
+        m_subcurve_traits.construct_max_vertex_2_object()(xs) :
+        m_subcurve_traits.construct_min_vertex_2_object()(xs);
       return m_compare(p, m_point);
     }
   };
@@ -2696,12 +2692,12 @@ protected:
       Comparison_result res = compare_x(min_vertex(xcv[0]), q);
       if (res != EQUAL) return INVALID_INDEX;
 
-      Compare_points<Compare_xy_2> compare(geom_traits,
+      Compare_points<Compare_xy_2> compare(*geom_traits,
                                            compare_xy_2_object(), q);
       return locate_gen(xcv, compare);
     }
 
-    Compare_points<Compare_x_2> compare(geom_traits, compare_x_2_object(), q);
+    Compare_points<Compare_x_2> compare(*geom_traits, compare_x_2_object(), q);
     return locate_gen(xcv, compare);
   }
 

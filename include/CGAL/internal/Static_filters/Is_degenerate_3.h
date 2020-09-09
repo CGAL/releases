@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.2/Filtered_kernel/include/CGAL/internal/Static_filters/Is_degenerate_3.h $
-// $Id: Is_degenerate_3.h 52164b1 2019-10-19T15:34:59+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v5.1/Filtered_kernel/include/CGAL/internal/Static_filters/Is_degenerate_3.h $
+// $Id: Is_degenerate_3.h 0779373 2020-03-26T13:31:46+01:00 Sébastien Loriot
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -51,20 +51,20 @@ public:
 #endif // end CGAL_CFG_MATCHING_BUG_6
 
 
-  result_type 
+  result_type
   operator()(const Segment_3& s) const
   {
     return Equal_3()(Construct_source_3()(s), Construct_target_3()(s));
   }
 
 
-  result_type 
+  result_type
   operator()(const Ray_3& r) const
   {
     return Equal_3()(Construct_source_3()(r), Construct_second_point_3()(r));
   }
 
-  result_type 
+  result_type
   operator()(const Plane_3& p) const
   {
     CGAL_BRANCH_PROFILER(std::string("semi-static attempts/calls to   : ") +

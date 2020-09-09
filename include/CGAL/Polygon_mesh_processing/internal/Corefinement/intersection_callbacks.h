@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.2/Polygon_mesh_processing/include/CGAL/Polygon_mesh_processing/internal/Corefinement/intersection_callbacks.h $
-// $Id: intersection_callbacks.h 254d60f 2019-10-19T15:23:19+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v5.1/Polygon_mesh_processing/include/CGAL/Polygon_mesh_processing/internal/Corefinement/intersection_callbacks.h $
+// $Id: intersection_callbacks.h 8bb22d5 2020-03-26T14:23:37+01:00 Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -15,7 +15,7 @@
 
 #include <CGAL/license/Polygon_mesh_processing/corefinement.h>
 
-
+#include <CGAL/Box_intersection_d/Box_with_info_d.h>
 #include <CGAL/property_map.h>
 #include <CGAL/enum.h>
 #include <CGAL/Polygon_mesh_processing/self_intersections.h>
@@ -38,7 +38,9 @@ protected:
   typedef boost::graph_traits<TriangleMesh> Graph_traits;
   typedef typename Graph_traits::face_descriptor face_descriptor;
   typedef typename Graph_traits::halfedge_descriptor halfedge_descriptor;
-  typedef typename CGAL::Box_intersection_d::Box_with_info_d<double, 3, halfedge_descriptor> Box;
+
+  typedef CGAL::Box_intersection_d::ID_FROM_BOX_ADDRESS Box_policy;
+  typedef CGAL::Box_intersection_d::Box_with_info_d<double, 3, halfedge_descriptor, Box_policy> Box;
 
 public:
   Collect_face_bbox_per_edge_bbox(
@@ -80,8 +82,11 @@ protected:
   typedef boost::graph_traits<TriangleMesh> Graph_traits;
   typedef typename Graph_traits::face_descriptor face_descriptor;
   typedef typename Graph_traits::halfedge_descriptor halfedge_descriptor;
-  typedef typename CGAL::Box_intersection_d::Box_with_info_d<double, 3, halfedge_descriptor> Box;
+
   typedef typename boost::property_traits<VertexPointMap>::reference Point;
+
+  typedef CGAL::Box_intersection_d::ID_FROM_BOX_ADDRESS Box_policy;
+  typedef CGAL::Box_intersection_d::Box_with_info_d<double, 3, halfedge_descriptor, Box_policy> Box;
 
 public:
   Collect_face_bbox_per_edge_bbox_with_coplanar_handling(
@@ -162,7 +167,10 @@ protected:
   typedef typename Graph_traits::face_descriptor face_descriptor;
   typedef typename Graph_traits::halfedge_descriptor halfedge_descriptor;
   typedef typename Graph_traits::vertex_descriptor vertex_descriptor;
-  typedef typename CGAL::Box_intersection_d::Box_with_info_d<double, 3, halfedge_descriptor> Box;
+
+  typedef CGAL::Box_intersection_d::ID_FROM_BOX_ADDRESS Box_policy;
+  typedef CGAL::Box_intersection_d::Box_with_info_d<double, 3, halfedge_descriptor, Box_policy> Box;
+
   typedef typename boost::property_traits<VertexPointMap>::reference Point;
 
   bool is_edge_target_incident_to_face(halfedge_descriptor hd,
@@ -296,7 +304,7 @@ public:
     }
 
     if ( abcq==COPLANAR &&
-         is_edge_target_incident_to_face(opposite(eh, tm), fh) ) 
+         is_edge_target_incident_to_face(opposite(eh, tm), fh) )
     {
       return; // no intersection (incident edge)
     }

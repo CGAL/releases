@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.2/Surface_mesh/include/CGAL/draw_surface_mesh.h $
-// $Id: draw_surface_mesh.h 254d60f 2019-10-19T15:23:19+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v5.1/Surface_mesh/include/CGAL/draw_surface_mesh.h $
+// $Id: draw_surface_mesh.h 0779373 2020-03-26T13:31:46+01:00 Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Guillaume Damiand <guillaume.damiand@liris.cnrs.fr>
@@ -26,7 +26,7 @@ template<class SM>
 void draw(const SM& asm);
 
 #else // DOXYGEN_RUNNING
-  
+
 #include <CGAL/license/Surface_mesh.h>
 #include <CGAL/Qt/Basic_viewer_qt.h>
 
@@ -103,7 +103,7 @@ protected:
   {
     add_segment(sm.point(sm.source(sm.halfedge(e))),
                 sm.point(sm.target(sm.halfedge(e))));
-  } 
+  }
 
   void compute_vertex(vertex_descriptor vh)
   { add_point(sm.point(vh)); }
@@ -121,7 +121,7 @@ protected:
         { compute_face(*f); }
       }
     }
-    
+
     for (typename SM::Edge_range::iterator e=sm.edges().begin();
          e!=sm.edges().end(); ++e)
     { compute_edge(*e); }
@@ -136,7 +136,7 @@ protected:
     // Test key pressed:
     //    const ::Qt::KeyboardModifiers modifiers = e->modifiers();
     //    if ((e->key()==Qt::Key_PageUp) && (modifiers==Qt::NoButton)) { ... }
-    
+
     // Call: * compute_elements() if the model changed, followed by
     //       * redraw() if some viewing parameters changed that implies some
     //                  modifications of the buffers
@@ -165,7 +165,7 @@ protected:
     assert(nb>0);
     return (typename Local_kernel::Construct_scaled_vector_3()(normal, 1.0/nb));
   }
-  
+
   Local_vector get_vertex_normal(halfedge_descriptor he)
   {
     Local_vector normal=CGAL::NULL_VECTOR;
@@ -180,11 +180,11 @@ protected:
       he=sm.next(sm.opposite(he));
     }
     while (he!=end);
-    
+
     if (!typename Local_kernel::Equal_3()(normal, CGAL::NULL_VECTOR))
     { normal=(typename Local_kernel::Construct_scaled_vector_3()
               (normal, 1.0/CGAL::sqrt(normal.squared_length()))); }
-    
+
     return normal;
   }
 

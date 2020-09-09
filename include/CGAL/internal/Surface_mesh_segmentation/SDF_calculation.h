@@ -4,8 +4,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.2/Surface_mesh_segmentation/include/CGAL/internal/Surface_mesh_segmentation/SDF_calculation.h $
-// $Id: SDF_calculation.h 2c5826d 2020-01-17T16:29:49+01:00 Laurent Rineau
+// $URL: https://github.com/CGAL/cgal/blob/v5.1/Surface_mesh_segmentation/include/CGAL/internal/Surface_mesh_segmentation/SDF_calculation.h $
+// $Id: SDF_calculation.h 8bb22d5 2020-03-26T14:23:37+01:00 Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Ilker O. Yaz
@@ -147,7 +147,7 @@ public:
     centroid_functor(traits.construct_centroid_3_object()),
     collinear_functor(traits.collinear_3_object()),
     tree(create_traits(mesh, vertex_point_map)),
-    use_diagonal(use_diagonal) 
+    use_diagonal(use_diagonal)
   {
     typedef typename boost::property_traits<VertexPointPmap>::reference Point_ref;
     face_iterator it, end;
@@ -163,11 +163,10 @@ public:
         if(!test)
           tree.insert(Primitive(it, mesh, vertex_point_map));
     }
-    tree.build();
-
-    if(build_kd_tree) {
-      tree.accelerate_distance_queries();
+    if(!build_kd_tree) {
+      tree.do_not_accelerate_distance_queries();
     }
+    tree.build();
 
     if(use_diagonal) {
       CGAL::Bbox_3 bbox = tree.bbox();
@@ -319,7 +318,7 @@ public:
         Segment segment(center, target_point);
 
         if(traits.is_degenerate_3_object()(segment)) {
-          CGAL_warning_msg(false, 
+          CGAL_warning_msg(false,
                        "A degenerate segment is constructed. Most probable reason is using CGAL_PI as cone_angle parameter and also picking center of disk as a sample.");
         }
 
@@ -375,7 +374,7 @@ private:
     double cone_angle,
     bool accept_if_acute,
     const Disk_samples_list& disk_samples) const {
-    
+
     const Point p1 = get(vertex_point_map,target(halfedge(facet,mesh),mesh));
     const Point p2 = get(vertex_point_map,target(next(halfedge(facet,mesh),mesh),mesh));
     const Point p3 = get(vertex_point_map,target(prev(halfedge(facet,mesh),mesh),mesh));

@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.2/Classification/include/CGAL/Classification/Evaluation.h $
-// $Id: Evaluation.h 254d60f 2019-10-19T15:23:19+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v5.1/Classification/include/CGAL/Classification/Evaluation.h $
+// $Id: Evaluation.h c03e69d 2020-04-20T08:56:08+02:00 Simon Giraudot
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Simon Giraudot
@@ -16,6 +16,10 @@
 
 #include <CGAL/Classification/Label.h>
 #include <CGAL/Classification/Label_set.h>
+
+#include <boost/iterator/zip_iterator.hpp>
+#include <CGAL/Iterator_range.h>
+
 #include <map>
 #include <cmath> // for std::isnan
 
@@ -45,7 +49,7 @@ public:
   /// \name Constructor
   /// @{
 
-  
+
 /*!
 
   \brief Instantiates an evaluation object and computes all
@@ -79,11 +83,14 @@ public:
 
     std::size_t sum_true_positives = 0;
     std::size_t total = 0;
-    
-    for (std::size_t j = 0; j < ground_truth.size(); ++ j)
+
+    for (const auto& zip : CGAL::make_range (boost::make_zip_iterator
+                                             (boost::make_tuple(ground_truth.begin(), result.begin())),
+                                             boost::make_zip_iterator
+                                             (boost::make_tuple(ground_truth.end(), result.end()))))
     {
-      int gt = static_cast<int>(ground_truth[j]);
-      int res = static_cast<int>(result[j]);
+      int gt = static_cast<int>(boost::get<0>(zip));
+      int res = static_cast<int>(boost::get<1>(zip));
       if (gt == -1 || res == -1)
         continue;
       ++ total;
@@ -101,7 +108,7 @@ public:
     m_mean_f1 = 0.;
 
     std::size_t correct_labels = 0;
-    
+
     for (std::size_t j = 0; j < labels.size(); ++ j)
     {
       m_precision[j] = true_positives[j] / float(true_positives[j] + false_positives[j]);
@@ -186,11 +193,11 @@ public:
   }
 
   /// @}
-  
+
   /// \name Global Evaluation
   /// @{
 
-  
+
   /*!
     \brief Returns the accuracy of the training.
 
@@ -198,13 +205,13 @@ public:
     total number of provided inliers.
   */
   float accuracy() const { return m_accuracy; }
-  
+
   /*!
     \brief Returns the mean \f$F_1\f$ score of the training over all
     labels (see `f1_score()`).
   */
   float mean_f1_score() const { return m_mean_f1; }
-  
+
   /*!
     \brief Returns the mean intersection over union of the training
     over all labels (see `intersection_over_union()`).
@@ -212,13 +219,12 @@ public:
   float mean_intersection_over_union() const { return m_mean_iou; }
 
   /// @}
-  
+
 };
-  
-  
+
+
 } // namespace Classification
 
 } // namespace CGAL
 
 #endif // CGAL_CLASSIFICATION_EVALUATION_H
-

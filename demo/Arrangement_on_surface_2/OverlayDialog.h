@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.2/Arrangement_on_surface_2/demo/Arrangement_on_surface_2/OverlayDialog.h $
-// $Id: OverlayDialog.h 254d60f 2019-10-19T15:23:19+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v5.1/Arrangement_on_surface_2/demo/Arrangement_on_surface_2/OverlayDialog.h $
+// $Id: OverlayDialog.h 3003fb3 2020-06-18T13:35:40+02:00 Maxime Gimeno
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Alex Tsui <alextsui05@gmail.com>
@@ -29,7 +29,7 @@ class OverlayDialog : public QDialog
     ARRANGEMENT = 32
   } OverlayDialogRole;
 
-  OverlayDialog( ArrangementDemoWindow* parent, Qt::WindowFlags f = 0 );
+  OverlayDialog( ArrangementDemoWindow* parent, Qt::WindowFlags f = Qt::WindowType(0)  );
 
   std::vector< CGAL::Object > selectedArrangements( ) const;
 

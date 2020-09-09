@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.2/Mesh_3/include/CGAL/Mesh_3/Mesh_global_optimizer.h $
-// $Id: Mesh_global_optimizer.h 85712ba 2020-01-14T15:03:20+01:00 Maxime Gimeno
+// $URL: https://github.com/CGAL/cgal/blob/v5.1/Mesh_3/include/CGAL/Mesh_3/Mesh_global_optimizer.h $
+// $Id: Mesh_global_optimizer.h 315a0b5 2020-01-29T16:27:53+01:00 Laurent Rineau
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -29,8 +29,8 @@
 #include <CGAL/Origin.h>
 #include <CGAL/Mesh_optimization_return_code.h>
 #include <CGAL/Mesh_3/Null_global_optimizer_visitor.h>
+#include <CGAL/Time_stamper.h>
 
-#include <CGAL/Hash_handles_with_or_without_timestamps.h>
 #include <CGAL/iterator.h>
 #include <CGAL/tuple.h>
 

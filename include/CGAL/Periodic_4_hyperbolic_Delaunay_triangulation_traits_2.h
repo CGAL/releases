@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.2/Periodic_4_hyperbolic_triangulation_2/include/CGAL/Periodic_4_hyperbolic_Delaunay_triangulation_traits_2.h $
-// $Id: Periodic_4_hyperbolic_Delaunay_triangulation_traits_2.h 254d60f 2019-10-19T15:23:19+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v5.1/Periodic_4_hyperbolic_triangulation_2/include/CGAL/Periodic_4_hyperbolic_Delaunay_triangulation_traits_2.h $
+// $Id: Periodic_4_hyperbolic_Delaunay_triangulation_traits_2.h 0779373 2020-03-26T13:31:46+01:00 Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     :   Iordan Iordanov
@@ -55,7 +55,7 @@ public:
 #else
   result_type operator()(const Point& p0, const Point& p1) const
   {
-	  return Predicate()(p0, p1);
+          return Predicate()(p0, p1);
   }
   result_type operator()(const Point& p0, const Point& p1, const Point& p2) const
   {
@@ -126,7 +126,7 @@ private:
 
 public:
   typedef Point                                           result_type;
- 
+
 #ifndef CGAL_CFG_MATCHING_BUG_6
   using Construct_point_base::operator();
 #else
@@ -135,7 +135,7 @@ public:
     return Construct_point_base()(x,y);
   }
 #endif
-  
+
   Periodic_4_construct_hyperbolic_point_2() { }
 
   Point operator()(const Point& pt, const Hyperbolic_translation& tr) const
@@ -618,7 +618,7 @@ class Side_of_original_octagon
   };
 
 
-} // end namespace internal 
+} // end namespace internal
 
 
 template <typename Kernel = Exact_predicates_exact_constructions_kernel_with_sqrt,

@@ -3,10 +3,10 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.2/GraphicsView/demo/Periodic_2_triangulation_2/include/CGAL/Qt/PeriodicVoronoiGraphicsItem.h $
-// $Id: PeriodicVoronoiGraphicsItem.h 254d60f 2019-10-19T15:23:19+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v5.1/GraphicsView/demo/Periodic_2_triangulation_2/include/CGAL/Qt/PeriodicVoronoiGraphicsItem.h $
+// $Id: PeriodicVoronoiGraphicsItem.h 0779373 2020-03-26T13:31:46+01:00 Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
-// 
+//
 //
 // Author(s)     : Andreas Fabri <Andreas.Fabri@geometryfactory.com>
 //                 Laurent Rineau <Laurent.Rineau@geometryfactory.com>
@@ -41,13 +41,13 @@ public:
   PeriodicTriangulationVoronoiGraphicsItem(DT  * dt_);
 
 
-  QRectF 
+  QRectF
   boundingRect() const;
-  
-  void 
+
+  void
   paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
-  
-  void 
+
+  void
   modelChanged();
 
   const QPen& edgesPen() const
@@ -75,7 +75,7 @@ PeriodicTriangulationVoronoiGraphicsItem<DT>::PeriodicTriangulationVoronoiGraphi
 }
 
 template <typename DT>
-QRectF 
+QRectF
 PeriodicTriangulationVoronoiGraphicsItem<DT>::boundingRect() const
 {
   QRectF rect = CGAL::Qt::viewportsBbox(scene());
@@ -84,19 +84,19 @@ PeriodicTriangulationVoronoiGraphicsItem<DT>::boundingRect() const
 
 
 template <typename DT>
-void 
+void
 PeriodicTriangulationVoronoiGraphicsItem<DT>::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget * /*w*/)
 {
   QRectF rect = option->exposedRect;
   PainterOstream<typename DT::Geom_traits> pos(painter, rect);
-  
+
   painter->setPen(edgesPen());
   dt->draw_dual(pos);
 }
 
 
 template <typename T>
-void 
+void
 PeriodicTriangulationVoronoiGraphicsItem<T>::modelChanged()
 {
   update();

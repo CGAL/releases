@@ -2,8 +2,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.2/Polyhedron_IO/include/CGAL/IO/OFF_reader.h $
-// $Id: OFF_reader.h 61453c6 2020-02-14T14:46:35+01:00 Laurent Rineau
+// $URL: https://github.com/CGAL/cgal/blob/v5.1/Polyhedron_IO/include/CGAL/IO/OFF_reader.h $
+// $Id: OFF_reader.h 922b861 2020-04-14T15:40:38+02:00 Sébastien Loriot
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Laurent Rineau and Sebastien Loriot
@@ -14,11 +14,13 @@
 #include <CGAL/IO/File_scanner_OFF.h>
 #include <CGAL/IO/reader_helpers.h>
 
-#include <vector>
-#include <iostream>
 #include <CGAL/array.h>
 #include <CGAL/assertions.h>
+#include <CGAL/Container_helper.h>
 #include <CGAL/use.h>
+
+#include <vector>
+#include <iostream>
 
 namespace CGAL {
 
@@ -47,13 +49,13 @@ namespace CGAL {
       std::size_t no;
 
       scanner.scan_facet( no, i);
-      IO::internal::resize(polygons[i], no);
+      CGAL::internal::resize(polygons[i], no);
       for(std::size_t j = 0; j < no; ++j) {
         std::size_t id;
         scanner.scan_facet_vertex_index(id, i);
         if(id < scanner.size_of_vertices())
         {
-          polygons[i][j] = id;
+          polygons[i][j] = typename std::remove_cv<typename std::iterator_traits<typename Polygon_3::const_iterator>::value_type>::type(id);
         }
         else
           return false;
@@ -104,7 +106,7 @@ namespace CGAL {
             vcolors[i] = scanner.get_color_from_line(iss);
           }
         }
-        
+
         if(!in)
           return false;
     }
@@ -114,7 +116,7 @@ namespace CGAL {
       scanner.scan_facet( no, i);
       if(!in)
         return false;
-      IO::internal::resize(polygons[i], no);
+      CGAL::internal::resize(polygons[i], no);
       for(std::size_t j = 0; j < no; ++j) {
         std::size_t id;
         scanner.scan_facet_vertex_index(id, i);

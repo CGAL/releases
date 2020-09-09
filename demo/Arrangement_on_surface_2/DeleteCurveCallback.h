@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.2/Arrangement_on_surface_2/demo/Arrangement_on_surface_2/DeleteCurveCallback.h $
-// $Id: DeleteCurveCallback.h 254d60f 2019-10-19T15:23:19+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v5.1/Arrangement_on_surface_2/demo/Arrangement_on_surface_2/DeleteCurveCallback.h $
+// $Id: DeleteCurveCallback.h 0779373 2020-03-26T13:31:46+01:00 Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Alex Tsui <alextsui05@gmail.com>
@@ -104,7 +104,7 @@ void DeleteCurveCallback< Arr_ >::reset( )
 }
 
 template < typename Arr_ >
-void 
+void
 DeleteCurveCallback<Arr_>::mousePressEvent(QGraphicsSceneMouseEvent* /* event */)
 {
   if ( this->removableHalfedge == Halfedge_handle( ) )
@@ -144,7 +144,7 @@ mouseMoveEvent( QGraphicsSceneMouseEvent* event )
 }
 
 template < typename Arr_ >
-void 
+void
 DeleteCurveCallback< Arr_ >::
 highlightNearestCurve( QGraphicsSceneMouseEvent* event )
 {

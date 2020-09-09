@@ -5,8 +5,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.2/Filtered_kernel/include/CGAL/internal/Static_filters/Do_intersect_2.h $
-// $Id: Do_intersect_2.h 52164b1 2019-10-19T15:34:59+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v5.1/Filtered_kernel/include/CGAL/internal/Static_filters/Do_intersect_2.h $
+// $Id: Do_intersect_2.h 0779373 2020-03-26T13:31:46+01:00 Sébastien Loriot
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -50,31 +50,31 @@ public:
   }
 #endif // CGAL_CFG_MATCHING_BUG_6
 
-  // The internal::do_intersect(..) function 
+  // The internal::do_intersect(..) function
   // only performs orientation tests on the vertices
   // of the segment
   // By calling the do_intersect function with
   // the  statically filtered kernel we avoid
   // that doubles are put into Interval_nt
   // to get taken out again with fit_in_double
-  result_type 
+  result_type
   operator()(const Segment_2 &s, const Segment_2& t) const
   {
     return Intersections::internal::do_intersect(s,t, SFK());
   }
 
-  result_type 
+  result_type
   operator()(const Point_2 &p, const Segment_2& t) const
   {
     return Intersections::internal::do_intersect(p,t, SFK());
   }
-  
-  result_type 
+
+  result_type
   operator()(const Segment_2& t, const Point_2 &p) const
   {
     return Intersections::internal::do_intersect(p,t, SFK());
   }
-  
+
 };
 } // Static_filters_predicates
 } // internal

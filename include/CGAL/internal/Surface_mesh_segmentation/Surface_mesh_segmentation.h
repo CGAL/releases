@@ -4,8 +4,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.2/Surface_mesh_segmentation/include/CGAL/internal/Surface_mesh_segmentation/Surface_mesh_segmentation.h $
-// $Id: Surface_mesh_segmentation.h 2c5826d 2020-01-17T16:29:49+01:00 Laurent Rineau
+// $URL: https://github.com/CGAL/cgal/blob/v5.1/Surface_mesh_segmentation/include/CGAL/internal/Surface_mesh_segmentation/Surface_mesh_segmentation.h $
+// $Id: Surface_mesh_segmentation.h 855003b 2020-03-24T08:18:23+01:00 Mael
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Ilker O. Yaz
@@ -18,8 +18,12 @@
 
 #include <CGAL/internal/Surface_mesh_segmentation/Expectation_maximization.h>
 #include <CGAL/internal/Surface_mesh_segmentation/Filters.h>
-#include <CGAL/internal/Surface_mesh_segmentation/Alpha_expansion_graph_cut.h>
 #include <CGAL/internal/Surface_mesh_segmentation/SDF_calculation.h>
+
+#include <CGAL/boost/graph/alpha_expansion_graphcut.h>
+#ifndef CGAL_DO_NOT_USE_BOYKOV_KOLMOGOROV_MAXFLOW_SOFTWARE
+#include <CGAL/boost/graph/Alpha_expansion_MaxFlow_tag.h>
+#endif
 
 #include <CGAL/Kernel/global_functions_3.h>
 
@@ -199,9 +203,9 @@ class Polyhedron,
   class VertexPointPmap,
       bool fast_bbox_intersection = true,
 #ifndef CGAL_DO_NOT_USE_BOYKOV_KOLMOGOROV_MAXFLOW_SOFTWARE
-      class GraphCut = Alpha_expansion_graph_cut_boykov_kolmogorov,
+      class AlphaExpansionImplementationTag = CGAL::Alpha_expansion_MaxFlow_tag,
 #else
-      class GraphCut = Alpha_expansion_graph_cut_boost,
+      class AlphaExpansionImplementationTag = CGAL::Alpha_expansion_boost_adjacency_list_tag,
 #endif
       class Filter = Bilateral_filtering<Polyhedron>
       >
@@ -289,7 +293,8 @@ public:
         edge_weights);
 
     // apply graph cut
-    GraphCut()(edges, edge_weights, probability_matrix, labels);
+    CGAL::alpha_expansion_graphcut (edges, edge_weights, probability_matrix, labels,
+                                    AlphaExpansionImplementationTag());
     std::vector<std::size_t>::iterator label_it = labels.begin();
     face_iterator facet_it, fend;
     for(boost::tie(facet_it,fend) = faces(mesh);

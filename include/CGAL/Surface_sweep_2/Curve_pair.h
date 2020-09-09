@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.2/Surface_sweep_2/include/CGAL/Surface_sweep_2/Curve_pair.h $
-// $Id: Curve_pair.h 254d60f 2019-10-19T15:23:19+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v5.1/Surface_sweep_2/include/CGAL/Surface_sweep_2/Curve_pair.h $
+// $Id: Curve_pair.h f4fec8c 2020-05-28T11:06:30+02:00 Laurent Rineau
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Baruch Zukerman <baruchzu@post.tau.ac.il>
@@ -157,19 +157,19 @@ public:
     return (temp);
   }
 
-  bool operator==(const Self& other)
+  bool operator==(const Self& other) const
   {
     CGAL_precondition(m_container == other.m_container);
     return (m_index == other.m_index);
   }
 
-  bool operator!=(const Self& other)
+  bool operator!=(const Self& other) const
   {
     CGAL_precondition(m_container == other.m_container);
     return !(*this == other);
   }
 
-  unsigned int operator-(const Self& other)
+  unsigned int operator-(const Self& other) const
   {
     CGAL_precondition(m_container == other.m_container);
     return (m_index - other.m_index);

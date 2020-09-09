@@ -2,8 +2,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.2/Property_map/include/CGAL/Dynamic_property_map.h $
-// $Id: Dynamic_property_map.h 52164b1 2019-10-19T15:34:59+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v5.1/Property_map/include/CGAL/Dynamic_property_map.h $
+// $Id: Dynamic_property_map.h 8bb22d5 2020-03-26T14:23:37+01:00 Sébastien Loriot
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -13,11 +13,13 @@
 #define CGAL_DYNAMIC_PROPERTY_MAP_H
 
 #include <boost/graph/graph_traits.hpp>
+#include <boost/graph/properties.hpp>
+
 #include <CGAL/boost/graph/properties.h>
 #include <CGAL/property_map.h>
+
 #include <boost/shared_ptr.hpp>
 #include <boost/unordered_map.hpp>
-
 #include <boost/type_traits/is_same.hpp>
 #include <boost/mpl/if.hpp>
 
@@ -60,7 +62,7 @@ struct Dynamic_property_map {
     (*(m.map_))[k] = v;
   }
 
-  
+
   const V& default_value() const
   {
     return default_value_;
@@ -72,7 +74,7 @@ struct Dynamic_property_map {
   V default_value_;
 };
 
-  
+
 template <typename M, typename PM>
 struct Dynamic_property_map_deleter {
   M& mesh;
@@ -101,22 +103,22 @@ struct Dynamic {
   Dynamic()
     : map_()
   {}
-  
+
   Dynamic(const Mesh& mesh, PM* pm)
     : map_(pm, Deleter(mesh))
   {}
-             
+
   friend reference get(const Dynamic& m, const key_type& k)
   {
     return get(*(m.map_), k);
   }
-    
+
 
   friend void put(const Dynamic& m, const key_type& k, const value_type& v)
   {
     put(*(m.map_), k, v);
   }
-   
+
   boost::shared_ptr<PM> map_;
 };
 

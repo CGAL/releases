@@ -3,10 +3,10 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.2/Nef_2/include/CGAL/Nef_2/debug.h $
-// $Id: debug.h 52164b1 2019-10-19T15:34:59+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v5.1/Nef_2/include/CGAL/Nef_2/debug.h $
+// $Id: debug.h 0779373 2020-03-26T13:31:46+01:00 Sébastien Loriot
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
-// 
+//
 //
 // Author(s)     : Michael Seel <seel@mpi-sb.mpg.de>
 
@@ -46,7 +46,7 @@
  std::cerr<<" "<<t; \
  std::cerr.flush()
 #else
-#define CGAL_NEF_TRACE(t) 
+#define CGAL_NEF_TRACE(t)
 #endif
 
 #ifndef NDEBUG
@@ -54,7 +54,7 @@
  std::cerr<<" "<<#t<<" = "<<(t)<<std::endl; \
  std::cerr.flush()
 #else
-#define CGAL_NEF_TRACEV(t) 
+#define CGAL_NEF_TRACEV(t)
 #endif
 
 #ifndef NDEBUG
@@ -68,13 +68,13 @@
 #ifndef NDEBUG
 #define CGAL_NEF_CTRACE(b,t) if(b) std::cerr<<" "<<t; else std::cerr<<" 0"
 #else
-#define CGAL_NEF_CTRACE(b,t) 
+#define CGAL_NEF_CTRACE(b,t)
 #endif
 
 #ifndef NDEBUG
 #define CGAL_NEF_CTRACEN(b,t) if(b) std::cerr<<" "<<t<<"\n"; else std::cerr<<" 0\n"
 #else
-#define CGAL_NEF_CTRACEN(b,t) 
+#define CGAL_NEF_CTRACEN(b,t)
 #endif
 
 #endif // CGAL_NEF_2_DEBUG_H
