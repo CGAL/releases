@@ -3,7 +3,7 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.1/Periodic_4_hyperbolic_triangulation_2/demo/Periodic_4_hyperbolic_triangulation_2/include/internal/Qt/TriangulationPointInput.h $
+// $URL: https://github.com/CGAL/cgal/blob/v5.1.1/Periodic_4_hyperbolic_triangulation_2/demo/Periodic_4_hyperbolic_triangulation_2/include/internal/Qt/TriangulationPointInput.h $
 // $Id: TriangulationPointInput.h 0779373 2020-03-26T13:31:46+01:00 Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //

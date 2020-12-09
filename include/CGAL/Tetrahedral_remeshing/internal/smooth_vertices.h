@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.1/Tetrahedral_remeshing/include/CGAL/Tetrahedral_remeshing/internal/smooth_vertices.h $
-// $Id: smooth_vertices.h 5698056 2020-07-24T11:19:51+02:00 Jane Tournois
+// $URL: https://github.com/CGAL/cgal/blob/v5.1.1/Tetrahedral_remeshing/include/CGAL/Tetrahedral_remeshing/internal/smooth_vertices.h $
+// $Id: smooth_vertices.h e8566f2 2020-10-05T12:47:45+02:00 Maxime Gimeno
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -532,7 +532,7 @@ public:
           const Vector_3 current_pos(CGAL::ORIGIN, point(v->point()));
 
           const std::vector<Surface_patch_index>& v_surface_indices = vertices_surface_indices[v];
-          for (const Surface_patch_index si : v_surface_indices)
+          for (const Surface_patch_index& si : v_surface_indices)
           {
             //Check if the mls surface exists to avoid degenerated cases
 

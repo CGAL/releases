@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.1/Tetrahedral_remeshing/include/CGAL/Tetrahedral_remeshing/internal/tetrahedral_remeshing_helpers.h $
-// $Id: tetrahedral_remeshing_helpers.h df044c4 2020-08-13T16:47:37+02:00 Jane Tournois
+// $URL: https://github.com/CGAL/cgal/blob/v5.1.1/Tetrahedral_remeshing/include/CGAL/Tetrahedral_remeshing/internal/tetrahedral_remeshing_helpers.h $
+// $Id: tetrahedral_remeshing_helpers.h c70102e 2020-09-08T17:37:03+02:00 Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -955,7 +955,7 @@ void dump_edges(const Bimap& edges, const char* filename)
   std::ofstream ofs(filename);
   ofs.precision(17);
 
-  BOOST_FOREACH(typename Bimap::left_const_reference it, edges.left)
+  for(typename Bimap::left_const_reference it : edges.left)
   {
     ofs << "2 " << point(it.first.first->point())
         << " " << point(it.first.second->point()) << std::endl;

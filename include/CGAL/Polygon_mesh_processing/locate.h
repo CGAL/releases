@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.1/Polygon_mesh_processing/include/CGAL/Polygon_mesh_processing/locate.h $
-// $Id: locate.h a84927d 2020-07-23T17:15:44+02:00 Laurent Rineau
+// $URL: https://github.com/CGAL/cgal/blob/v5.1.1/Polygon_mesh_processing/include/CGAL/Polygon_mesh_processing/locate.h $
+// $Id: locate.h c122a9b 2020-11-04T20:44:21+01:00 Laurent Rineau
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Mael Rouxel-Labbé,
@@ -132,11 +132,6 @@ get_descriptor_from_location(const std::pair<typename boost::graph_traits<Triang
                                              std::array<FT, 3> >& loc,
                              const TriangleMesh& tm);
 
-template <typename FT, typename TriangleMesh>
-Face_location<TriangleMesh, FT>
-locate_in_face(typename boost::graph_traits<TriangleMesh>::halfedge_descriptor hd,
-               const FT t,
-               const TriangleMesh& tm);
 // end of forward declarations
 
 namespace internal {
@@ -1694,12 +1689,13 @@ locate_with_AABB_tree(const typename internal::Location_traits<TriangleMesh, Nam
 {
   typedef typename internal::Location_traits<TriangleMesh, NamedParameters>::Point         Point;
   typedef internal::Point_to_Point_3<TriangleMesh, Point>                                  P_to_P3;
-  typedef typename boost::property_traits<Point3VPM>::value_type                           Point_3;
-  CGAL_static_assertion((std::is_same<Point_3, typename P_to_P3::Point_3>::value));
 
   typedef typename GetGeomTraits<TriangleMesh, NamedParameters>::type                      Geom_traits;
   typedef typename CGAL::AABB_face_graph_triangle_primitive<TriangleMesh, Point3VPM>       Primitive;
   typedef typename CGAL::AABB_traits<Geom_traits, Primitive>                               AABB_traits;
+
+  typedef typename Primitive::Point                                                        Point_3;
+  CGAL_static_assertion((std::is_same<Point_3, typename P_to_P3::Point_3>::value));
 
   typedef typename GetVertexPointMap<TriangleMesh, NamedParameters>::const_type            VertexPointMap;
   typedef internal::Point_to_Point_3_VPM<TriangleMesh, VertexPointMap>                     WrappedVPM;

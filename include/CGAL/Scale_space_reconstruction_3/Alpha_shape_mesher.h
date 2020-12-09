@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.1/Scale_space_reconstruction_3/include/CGAL/Scale_space_reconstruction_3/Alpha_shape_mesher.h $
-// $Id: Alpha_shape_mesher.h 0779373 2020-03-26T13:31:46+01:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v5.1.1/Scale_space_reconstruction_3/include/CGAL/Scale_space_reconstruction_3/Alpha_shape_mesher.h $
+// $Id: Alpha_shape_mesher.h 71b4e91 2020-09-11T08:39:06+02:00 Dmitry Anisimov
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s):      Thijs van Lankveld, Simon Giraudot
@@ -178,6 +178,11 @@ public:
       _squared_radius (squared_radius)
   {
 
+  }
+
+  ~Alpha_shape_mesher ()
+  {
+    clear_surface();
   }
 
   /// \cond SKIP_IN_MANUAL

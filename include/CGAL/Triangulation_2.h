@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.1/Triangulation_2/include/CGAL/Triangulation_2.h $
-// $Id: Triangulation_2.h dcc4fb1 2020-05-20T09:46:26+02:00 Laurent Rineau
+// $URL: https://github.com/CGAL/cgal/blob/v5.1.1/Triangulation_2/include/CGAL/Triangulation_2.h $
+// $Id: Triangulation_2.h 090b82e 2020-10-02T15:08:56+02:00 Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Olivier Devillers, Mariette Yvinec
@@ -2976,9 +2976,9 @@ exact_locate(const Point& p,
              Face_handle start) const
 #endif // no CGAL_NO_STRUCTURAL_FILTERING
 {
+  li = 4; //general init to avoid warnings.
+  lt = OUTSIDE_AFFINE_HULL; //same
   if (dimension() < 0) {
-    lt = OUTSIDE_AFFINE_HULL;
-    li = 4; // li should not be used in this case
     return Face_handle();
   }
   if( dimension() == 0) {
@@ -2987,10 +2987,6 @@ exact_locate(const Point& p,
     if (xy_equal(p,finite_vertex()->face()->vertex(0)->point())){
       lt = VERTEX ;
     }
-    else{
-      lt = OUTSIDE_AFFINE_HULL;
-    }
-    li = 4; // li should not be used in this case
     return Face_handle();
   }
   if(dimension() == 1){

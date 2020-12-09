@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.1/Polygon_mesh_processing/include/CGAL/Polygon_mesh_processing/repair.h $
-// $Id: repair.h c253679 2020-04-18T16:27:58+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v5.1.1/Polygon_mesh_processing/include/CGAL/Polygon_mesh_processing/repair.h $
+// $Id: repair.h 303ead8 2020-09-22T16:54:06+02:00 Mael Rouxel-Labbé
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -256,7 +256,7 @@ std::size_t remove_connected_components_of_negligible_size(TriangleMesh& tmesh,
 
   // Volumes make no sense for CCs that are not closed
   std::vector<bool> cc_closeness(num, true);
-  std::vector<FT> component_volumes(num);
+  std::vector<FT> component_volumes(num, FT(0));
 
   if(use_volumes)
   {

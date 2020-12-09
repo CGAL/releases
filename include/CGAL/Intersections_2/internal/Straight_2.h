@@ -7,8 +7,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.1/Intersections_2/include/CGAL/Intersections_2/internal/Straight_2.h $
-// $Id: Straight_2.h 0779373 2020-03-26T13:31:46+01:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v5.1.1/Intersections_2/include/CGAL/Intersections_2/internal/Straight_2.h $
+// $Id: Straight_2.h 2549b58 2020-09-30T09:58:12+02:00 Maxime Gimeno
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -275,6 +275,7 @@ cut_right_off(typename K::Line_2 const & cutter)
     Line_2_Line_2_pair<K> pair(&support_, &cutter);
     switch (pair.intersection_type()) {
     case Line_2_Line_2_pair<K>::NO_INTERSECTION:
+    default:
         if (cutter.has_on_negative_side(support_.point()))
             bound_state_ = LINE_EMPTY;
         break;

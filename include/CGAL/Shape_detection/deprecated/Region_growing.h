@@ -4,8 +4,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.1/Shape_detection/include/CGAL/Shape_detection/deprecated/Region_growing.h $
-// $Id: Region_growing.h 0779373 2020-03-26T13:31:46+01:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v5.1.1/Shape_detection/include/CGAL/Shape_detection/deprecated/Region_growing.h $
+// $Id: Region_growing.h 604c793 2020-09-01T09:14:10+02:00 Simon Giraudot
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Florent Lafarge, Simon Giraudot
@@ -688,7 +688,10 @@ namespace Shape_detection {
           p->m_indices.clear();
           std::copy (index_container.begin(), index_container.end(),
                      std::back_inserter (p->m_indices));
-          dynamic_cast<Plane_shape*>(p)->update (optimal_plane);
+
+          Plane_shape* ps = dynamic_cast<Plane_shape*>(p);
+          CGAL_assume (ps != nullptr);
+          ps->update (optimal_plane);
           m_extracted_shapes->push_back (boost::shared_ptr<Shape>(p));
         }
         else

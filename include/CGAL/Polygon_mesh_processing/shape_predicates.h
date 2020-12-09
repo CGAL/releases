@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.1/Polygon_mesh_processing/include/CGAL/Polygon_mesh_processing/shape_predicates.h $
-// $Id: shape_predicates.h c253679 2020-04-18T16:27:58+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v5.1.1/Polygon_mesh_processing/include/CGAL/Polygon_mesh_processing/shape_predicates.h $
+// $Id: shape_predicates.h b7b0d1f 2020-09-22T16:58:01+02:00 Mael Rouxel-Labbé
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -403,7 +403,7 @@ is_needle_triangle_face(typename boost::graph_traits<TriangleMesh>::face_descrip
   if(min_sq_length == 0)
     return min_h;
 
-  const FT sq_threshold = threshold * threshold;
+  const FT sq_threshold = square(FT(threshold));
   if(max_sq_length / min_sq_length >= sq_threshold)
   {
     CGAL_assertion(min_h != boost::graph_traits<TriangleMesh>::null_halfedge());
@@ -482,7 +482,7 @@ is_cap_triangle_face(typename boost::graph_traits<TriangleMesh>::face_descriptor
   typedef typename Traits::FT                                               FT;
   typedef typename Traits::Vector_3                                         Vector_3;
 
-  const FT sq_threshold = threshold * threshold;
+  const FT sq_threshold = square(FT(threshold));
   const halfedge_descriptor h0 = halfedge(f, tm);
 
   std::array<FT, 3> sq_lengths;

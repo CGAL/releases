@@ -3,12 +3,17 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.1/Tetrahedral_remeshing/include/CGAL/Tetrahedral_remeshing/tetrahedral_remeshing_io.h $
-// $Id: tetrahedral_remeshing_io.h ab05dde 2020-06-12T08:08:56+02:00 Jane Tournois
+// $URL: https://github.com/CGAL/cgal/blob/v5.1.1/Tetrahedral_remeshing/include/CGAL/Tetrahedral_remeshing/tetrahedral_remeshing_io.h $
+// $Id: tetrahedral_remeshing_io.h 9650869 2020-09-09T10:16:58+02:00 Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
 // Author(s)     : Jane Tournois, Noura Faraj, Jean-Marc Thiery, Tamy Boubekeur
+
+#ifndef CGAL_TETRAHEDRAL_REMESHING_IO_H
+#define CGAL_TETRAHEDRAL_REMESHING_IO_H
+
+#include <CGAL/license/Tetrahedral_remeshing.h>
 
 #include <CGAL/IO/io.h>
 
@@ -53,3 +58,5 @@ bool save_ascii_triangulation(std::ostream& os, const T3& t3)
 }
 
 }
+
+#endif // CGAL_TETRAHEDRAL_REMESHING_IO_H

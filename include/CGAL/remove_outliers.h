@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.1/Point_set_processing_3/include/CGAL/remove_outliers.h $
-// $Id: remove_outliers.h 0715654 2020-06-03T19:01:46+02:00 Mael Rouxel-Labbé
+// $URL: https://github.com/CGAL/cgal/blob/v5.1.1/Point_set_processing_3/include/CGAL/remove_outliers.h $
+// $Id: remove_outliers.h 7d5bec6 2020-09-28T09:49:00+02:00 Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s) : Laurent Saboret and Nader Salman and Pierre Alliez
@@ -256,7 +256,11 @@ remove_outliers(
   {
     std::nth_element (f2r,
                       sorted_points.begin() + first_index_to_remove,
-                      sorted_points.end());
+                      sorted_points.end(),
+                      [](const std::pair<FT, value_type>& v1, const std::pair<FT, value_type>& v2)
+                      {
+                        return v1.first<v2.first;
+                      });
     f2r = sorted_points.begin() + first_index_to_remove;
   }
 

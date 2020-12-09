@@ -5,8 +5,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.1/Filtered_kernel/include/CGAL/internal/Static_filters/Do_intersect_3.h $
-// $Id: Do_intersect_3.h 0779373 2020-03-26T13:31:46+01:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v5.1.1/Filtered_kernel/include/CGAL/internal/Static_filters/Do_intersect_3.h $
+// $Id: Do_intersect_3.h 1045667 2020-09-24T16:30:20+02:00 Jane Tournois
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -59,6 +59,13 @@ public:
   operator()(const T1& t1, const T2& t2) const
   {
     return Base()(t1,t2);
+  }
+
+  template <typename T1, typename T2, typename T3>
+  result_type
+  operator()(const T1 & t1, const T2 & t2, const T3 & t3) const
+  {
+    return Base()(t1, t2, t3);
   }
 #endif // CGAL_CFG_MATCHING_BUG_6
 

@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.1/Principal_component_analysis/include/CGAL/linear_least_squares_fitting_segments_2.h $
-// $Id: linear_least_squares_fitting_segments_2.h 0779373 2020-03-26T13:31:46+01:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v5.1.1/Principal_component_analysis/include/CGAL/linear_least_squares_fitting_segments_2.h $
+// $Id: linear_least_squares_fitting_segments_2.h 379ee7d 2020-09-14T11:44:07+02:00 Simon Giraudot
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s) : Pierre Alliez and Sylvain Pion and Ankit Gupta
@@ -157,7 +157,7 @@ linear_least_squares_fitting_2(InputIterator first,
     points.push_back(s[0]);
     points.push_back(s[1]);
   }
-  return linear_least_squares_fitting_2(points.begin(),points.end(),line,c,k,(Point*)nullptr,tag,
+  return linear_least_squares_fitting_2(points.begin(),points.end(),line,c,(Point*)nullptr,k,tag,
                                         diagonalize_traits);
 
 } // end linear_least_squares_fitting_2 for segment set with 1D tag

@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.1/Polygon_mesh_processing/include/CGAL/Polygon_mesh_processing/repair_self_intersections.h $
-// $Id: repair_self_intersections.h e720e6d 2020-06-16T16:41:04+02:00 Mael Rouxel-Labbé
+// $URL: https://github.com/CGAL/cgal/blob/v5.1.1/Polygon_mesh_processing/include/CGAL/Polygon_mesh_processing/repair_self_intersections.h $
+// $Id: repair_self_intersections.h 5fbe72c 2020-10-02T09:11:02+02:00 Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Sebastien Loriot,
@@ -15,8 +15,7 @@
 
 #include <CGAL/license/Polygon_mesh_processing/repair.h>
 
-#include <CGAL/Polygon_mesh_processing/detect_features.h>
-#include <CGAL/Polygon_mesh_processing/distance.h>
+#include <CGAL/Polygon_mesh_processing/connected_components.h>
 #include <CGAL/Polygon_mesh_processing/manifoldness.h>
 #include <CGAL/Polygon_mesh_processing/orient_polygon_soup.h>
 #include <CGAL/Polygon_mesh_processing/polygon_soup_to_polygon_mesh.h>

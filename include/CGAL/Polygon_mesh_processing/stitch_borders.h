@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.1/Polygon_mesh_processing/include/CGAL/Polygon_mesh_processing/stitch_borders.h $
-// $Id: stitch_borders.h 0715654 2020-06-03T19:01:46+02:00 Mael Rouxel-Labbé
+// $URL: https://github.com/CGAL/cgal/blob/v5.1.1/Polygon_mesh_processing/include/CGAL/Polygon_mesh_processing/stitch_borders.h $
+// $Id: stitch_borders.h 1f67fcc 2020-10-09T17:34:29+02:00 Laurent Rineau
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -352,7 +352,7 @@ void run_stitch_borders(PolygonMesh& pmesh,
   CGAL_USE(vpm);
 
   std::vector<vertex_descriptor> vertices_to_delete;
-  for(const halfedges_pair hk : to_stitch)
+  for(const halfedges_pair& hk : to_stitch)
   {
     halfedge_descriptor h1 = hk.first;
     halfedge_descriptor h2 = hk.second;
@@ -412,7 +412,7 @@ void run_stitch_borders(PolygonMesh& pmesh,
   /// In order to avoid having to maintain a set with halfedges to stitch
   /// we do on purpose next-prev linking that might not be useful but that
   /// is harmless and still less expensive than doing queries in a set
-  for(const halfedges_pair hk : to_stitch)
+  for(const halfedges_pair& hk : to_stitch)
   {
     halfedge_descriptor h1 = hk.first;
     halfedge_descriptor h2 = hk.second;
@@ -430,7 +430,7 @@ void run_stitch_borders(PolygonMesh& pmesh,
 
   /// update HDS connectivity, removing the second halfedge
   /// of each the pair and its opposite
-  for(const halfedges_pair hk : to_stitch)
+  for(const halfedges_pair& hk : to_stitch)
   {
     halfedge_descriptor h1 = hk.first;
     halfedge_descriptor h2 = hk.second;
@@ -491,7 +491,7 @@ std::size_t stitch_borders_impl(PolygonMesh& pmesh,
   typedef boost::unordered_map<vertex_descriptor, typename Uf_vertices::handle> Uf_handles;
   Uf_handles uf_handles;
 
-  for(const halfedges_pair hk : to_stitch)
+  for(const halfedges_pair& hk : to_stitch)
   {
     halfedge_descriptor h1 = hk.first;
     halfedge_descriptor h2 = hk.second;
@@ -575,7 +575,7 @@ std::size_t stitch_borders_impl(PolygonMesh& pmesh,
   {
     std::vector<halfedges_pair> to_stitch_filtered;
     to_stitch_filtered.reserve( to_stitch.size());
-    for(const halfedges_pair hk : to_stitch)
+    for(const halfedges_pair& hk : to_stitch)
     {
       // We test both halfedges because the previous test
       // might involve only one of the two halfedges
@@ -591,7 +591,7 @@ std::size_t stitch_borders_impl(PolygonMesh& pmesh,
     // redo union find as some "master" vertex might be unstitchable
     uf_vertices.clear();
     uf_handles.clear();
-    for(const halfedges_pair hk : to_stitch_filtered)
+    for(const halfedges_pair& hk : to_stitch_filtered)
     {
       halfedge_descriptor h1 = hk.first;
       halfedge_descriptor h2 = hk.second;

@@ -2,7 +2,7 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.1/BGL/include/CGAL/boost/graph/split_graph_into_polylines.h $
+// $URL: https://github.com/CGAL/cgal/blob/v5.1.1/BGL/include/CGAL/boost/graph/split_graph_into_polylines.h $
 // $Id: split_graph_into_polylines.h ebd65c9 2020-07-20T11:47:30+02:00 Mael Rouxel-Labbé
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //

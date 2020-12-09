@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.1/Polygon_mesh_processing/include/CGAL/Polygon_mesh_processing/internal/Isotropic_remeshing/remesh_impl.h $
-// $Id: remesh_impl.h 8bb22d5 2020-03-26T14:23:37+01:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v5.1.1/Polygon_mesh_processing/include/CGAL/Polygon_mesh_processing/internal/Isotropic_remeshing/remesh_impl.h $
+// $Id: remesh_impl.h cf0d4b0 2020-10-20T16:33:36+02:00 Jane Tournois
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -324,6 +324,10 @@ namespace internal {
       halfedge_status_pmap_ = get(CGAL::dynamic_halfedge_property_t<Halfedge_status>(),
                                   pmesh);
       CGAL_assertion(CGAL::is_triangle_mesh(mesh_));
+      CGAL_assertion_code(input_mesh_is_valid_ = CGAL::is_valid_polygon_mesh(pmesh));
+      CGAL_warning_msg(input_mesh_is_valid_,
+        "The input mesh is not a valid polygon mesh. "
+        "It could lead PMP::isotropic_remeshing() to fail.");
     }
 
     ~Incremental_remesher()
@@ -1033,7 +1037,7 @@ namespace internal {
           put(vpmap_, vp.first, initial_pos);//cancel move
       }
 
-      CGAL_assertion(is_valid_polygon_mesh(mesh_));
+      CGAL_assertion(!input_mesh_is_valid_ || is_valid_polygon_mesh(mesh_));
       CGAL_assertion(is_triangle_mesh(mesh_));
       }//end for loop (nit == nb_iterations)
 
@@ -1067,7 +1071,7 @@ namespace internal {
         Point proj = trees[patch_id_to_index_map[get_patch_id(face(halfedge(v, mesh_), mesh_))]]->closest_point(get(vpmap_, v));
         put(vpmap_, v, proj);
       }
-      CGAL_assertion(is_valid_polygon_mesh(mesh_));
+      CGAL_assertion(!input_mesh_is_valid_ || is_valid_polygon_mesh(mesh_));
       CGAL_assertion(is_triangle_mesh(mesh_));
 #ifdef CGAL_PMP_REMESHING_DEBUG
       debug_self_intersections();
@@ -1311,7 +1315,7 @@ private:
       {
         if (is_on_patch_border(next(hopp, mesh_)) && is_on_patch_border(prev(hopp, mesh_)))
           return false;
-        else if (next_on_patch_border(h) == hopp)
+        else if (next_on_patch_border(h) == hopp && prev_on_patch_border(h) == hopp)
           return false; //isolated patch border
         else
           return true;
@@ -1961,6 +1965,7 @@ private:
     EdgeIsConstrainedMap ecmap_;
     VertexIsConstrainedMap vcmap_;
     FaceIndexMap fimap_;
+    CGAL_assertion_code(bool input_mesh_is_valid_;)
 
   };//end class Incremental_remesher
 }//end namespace internal

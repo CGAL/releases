@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.1/Surface_mesh_approximation/include/CGAL/Variational_shape_approximation.h $
-// $Id: Variational_shape_approximation.h 038869c 2020-05-12T15:12:21+02:00 Mael Rouxel-Labbé
+// $URL: https://github.com/CGAL/cgal/blob/v5.1.1/Surface_mesh_approximation/include/CGAL/Variational_shape_approximation.h $
+// $Id: Variational_shape_approximation.h 6007fe7 2020-10-28T09:51:02+01:00 Laurent Rineau
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -1630,7 +1630,7 @@ private:
 
   /*!
    * @brief runs the pseudo Constrained Delaunay Triangulation at each proxy region,
-   * and stores the extracted indexed triangles in @a tris.
+   * and stores the extracted indexed triangles in `tris`.
    * @pre all anchors are found, i.e. all boundary cycles have been visited
    * and attached with at least 3 anchors.
    */
@@ -1829,7 +1829,7 @@ private:
   }
 
   /*!
-   * @brief subdivides a chord recursively in range `[@a chord_begin, @a chord_end).`
+   * @brief subdivides a chord recursively in range `[chord_begin, chord_end)`.
    * @param chord_begin begin iterator of the chord
    * @param chord_end end iterator of the chord
    * @param subdivision_ratio the chord recursive split error threshold

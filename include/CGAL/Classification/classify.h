@@ -4,7 +4,7 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.1/Classification/include/CGAL/Classification/classify.h $
+// $URL: https://github.com/CGAL/cgal/blob/v5.1.1/Classification/include/CGAL/Classification/classify.h $
 // $Id: classify.h 47027d6 2020-03-26T18:59:19+01:00 Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //

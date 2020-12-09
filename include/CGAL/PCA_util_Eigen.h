@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.1/Principal_component_analysis/include/CGAL/PCA_util_Eigen.h $
-// $Id: PCA_util_Eigen.h 0779373 2020-03-26T13:31:46+01:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v5.1.1/Principal_component_analysis/include/CGAL/PCA_util_Eigen.h $
+// $Id: PCA_util_Eigen.h 9cc45f7 2020-09-14T11:43:54+02:00 Simon Giraudot
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s) : Pierre Alliez and Sylvain Pion and Ankit Gupta and Simon Giraudot
@@ -144,9 +144,9 @@ assemble_covariance_matrix_3(InputIterator first,
     FT x0 = t[0].x();
     FT y0 = t[0].y();
     FT z0 = t[0].z();
-    FT delta[9] = {t[0].x(), t[1].x(), t[2].x(),
-                   t[0].y(), t[1].y(), t[2].y(),
-                   t[0].z(), t[1].z(), t[2].z()};
+    FT delta[9] = {t[1].x()-x0, t[3].x()-x0, t[5].x()-x0,
+                   t[1].y()-y0, t[3].y()-y0, t[5].y()-y0,
+                   t[1].z()-z0, t[3].z()-z0, t[5].z()-z0};
     Matrix transformation (delta);
     FT volume = t.volume();
 
@@ -548,9 +548,9 @@ assemble_covariance_matrix_3(InputIterator first,
 
   // assemble 2nd order moment about the origin.
   Matrix moment;
-  moment << 1.0, 0.5, 0.0,
-            0.5, 1.0, 0.0,
-            0.0, 0.0, 0.0;
+  moment << 1.0/3.0, 0.5/3.0, 0.0,
+            0.5/3.0, 1.0/3.0, 0.0,
+            0.0,     0.0,     0.0;
 
   for(InputIterator it = first;
       it != beyond;

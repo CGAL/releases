@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.1/Arrangement_on_surface_2/include/CGAL/Arr_dcel_base.h $
-// $Id: Arr_dcel_base.h 254d60f 2019-10-19T15:23:19+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v5.1.1/Arrangement_on_surface_2/include/CGAL/Arr_dcel_base.h $
+// $Id: Arr_dcel_base.h acb96cb 2020-08-12T15:56:46+02:00 Simon Giraudot
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -89,6 +89,11 @@ public:
 
   /*! Destructor. */
   virtual ~Arr_vertex_base() {}
+
+  // Access/modification for pointer squatting
+  void* inc() const { return p_inc; }
+  void set_inc(void * inc) const
+  { const_cast<Arr_vertex_base&>(*this).p_inc = inc; }
 
   /*! Check if the point pointer is nullptr. */
   bool has_null_point() const { return (p_pt == nullptr); }

@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.1/Polygon_mesh_processing/include/CGAL/Polygon_mesh_processing/polygon_soup_to_polygon_mesh.h $
-// $Id: polygon_soup_to_polygon_mesh.h 2780fa0 2020-08-05T10:49:14+02:00 Mael Rouxel-Labbé
+// $URL: https://github.com/CGAL/cgal/blob/v5.1.1/Polygon_mesh_processing/include/CGAL/Polygon_mesh_processing/polygon_soup_to_polygon_mesh.h $
+// $Id: polygon_soup_to_polygon_mesh.h f2c4571 2020-10-01T11:23:18+02:00 Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -288,6 +288,17 @@ void polygon_soup_to_polygon_mesh(const PointRange& points,
 
   internal::PS_to_PM_converter<PointRange, PolygonRange, Point_map> converter(points, polygons, pm);
   converter(out, vpm);
+}
+
+template<typename PolygonMesh,
+         typename PointRange, typename PolygonRange,
+         typename NamedParameters_PS>
+void polygon_soup_to_polygon_mesh(const PointRange& points,
+                                  const PolygonRange& polygons,
+                                  PolygonMesh& out,
+                                  const NamedParameters_PS& np_ps)
+{
+  return polygon_soup_to_polygon_mesh(points, polygons, out, np_ps, parameters::all_default());
 }
 
 template<typename PolygonMesh, typename PointRange, typename PolygonRange>

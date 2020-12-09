@@ -7,8 +7,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.1/Number_types/include/CGAL/FPU.h $
-// $Id: FPU.h 406b6fa 2020-02-11T13:59:56+01:00 Laurent Rineau
+// $URL: https://github.com/CGAL/cgal/blob/v5.1.1/Number_types/include/CGAL/FPU.h $
+// $Id: FPU.h 090b82e 2020-10-02T15:08:56+02:00 Sébastien Loriot
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -75,8 +75,8 @@ extern "C" {
 // Pure and safe SSE2 mode (g++ -mfpmath=sse && (-msse2 || -march=pentium4))
 // can be detected by :
 // TODO : see what Intel and VC++ have to say about this.
-#if defined __FLT_EVAL_METHOD__ && defined __SSE2_MATH__ && \
-      (__FLT_EVAL_METHOD__ == 0 || __FLT_EVAL_METHOD__ == 1)
+#if defined _M_X64 || ( defined __FLT_EVAL_METHOD__ && defined __SSE2_MATH__ && \
+                        (__FLT_EVAL_METHOD__ == 0 || __FLT_EVAL_METHOD__ == 1) )
 #  define CGAL_SAFE_SSE2
 #  include <xmmintrin.h>
 #endif
@@ -90,7 +90,7 @@ extern "C" {
 #if !defined CGAL_IA_NO_X86_OVER_UNDER_FLOW_PROTECT && \
   (((defined __i386__ || defined __x86_64__) && !defined CGAL_SAFE_SSE2) \
    || defined __ia64__ \
-   || defined _M_IX86 || defined _M_X64 || defined _M_IA64 \
+   || defined _M_IX86 || defined _M_IA64 \
    || (defined FLT_EVAL_METHOD && FLT_EVAL_METHOD != 0 && FLT_EVAL_METHOD != 1))
 #  define CGAL_FPU_HAS_EXCESS_PRECISION
 #endif

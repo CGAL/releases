@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.1/Principal_component_analysis/include/CGAL/linear_least_squares_fitting_rectangles_2.h $
-// $Id: linear_least_squares_fitting_rectangles_2.h 0779373 2020-03-26T13:31:46+01:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v5.1.1/Principal_component_analysis/include/CGAL/linear_least_squares_fitting_rectangles_2.h $
+// $Id: linear_least_squares_fitting_rectangles_2.h 0278bf2 2020-09-14T15:05:43+02:00 Simon Giraudot
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s) : Pierre Alliez and Sylvain Pion and Ankit Gupta
@@ -171,7 +171,8 @@ linear_least_squares_fitting_2(InputIterator first,
     segments.push_back(Segment_2(t[3],t[0]));
   }
 
-  return linear_least_squares_fitting_2(segments.begin(),segments.end(),line,c,K(),tag,
+  return linear_least_squares_fitting_2(segments.begin(),segments.end(),line,c,
+                                        (Segment_2*)nullptr, K(),tag,
                                         diagonalize_traits);
 
 } // end linear_least_squares_fitting_2 for rectangle set with 1D tag
@@ -209,7 +210,8 @@ linear_least_squares_fitting_2(InputIterator first,
     points.push_back(Point_2(t[3]));
   }
 
-  return linear_least_squares_fitting_2(points.begin(),points.end(),line,c,K(),tag,
+  return linear_least_squares_fitting_2(points.begin(),points.end(),line,c,
+                                        (Point_2*)nullptr, K(),tag,
                                         diagonalize_traits);
 
 } // end linear_least_squares_fitting_2 for rectangle set with 0D tag

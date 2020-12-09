@@ -3,7 +3,7 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.1/AABB_tree/include/CGAL/AABB_halfedge_graph_segment_primitive.h $
+// $URL: https://github.com/CGAL/cgal/blob/v5.1.1/AABB_tree/include/CGAL/AABB_halfedge_graph_segment_primitive.h $
 // $Id: AABB_halfedge_graph_segment_primitive.h 62c15ff 2020-07-08T12:52:12+02:00 Laurent Rineau
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //

@@ -7,8 +7,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.1/Intersections_2/include/CGAL/Intersections_2/Segment_2_Segment_2.h $
-// $Id: Segment_2_Segment_2.h 0779373 2020-03-26T13:31:46+01:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v5.1.1/Intersections_2/include/CGAL/Intersections_2/Segment_2_Segment_2.h $
+// $Id: Segment_2_Segment_2.h 2549b58 2020-09-30T09:58:12+02:00 Maxime Gimeno
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -308,6 +308,7 @@ Segment_2_Segment_2_pair<K>::intersection_type() const
     Line_2_Line_2_pair<K> linepair(&l1, &l2);
     switch ( linepair.intersection_type()) {
     case Line_2_Line_2_pair<K>::NO_INTERSECTION:
+    default:
         _result = NO_INTERSECTION;
         break;
     case Line_2_Line_2_pair<K>::POINT:

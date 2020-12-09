@@ -7,8 +7,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.1/Intersections_2/include/CGAL/Intersections_2/Line_2_Line_2.h $
-// $Id: Line_2_Line_2.h 0779373 2020-03-26T13:31:46+01:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v5.1.1/Intersections_2/include/CGAL/Intersections_2/Line_2_Line_2.h $
+// $Id: Line_2_Line_2.h c6077ca 2020-09-29T12:06:15+02:00 Maxime Gimeno
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -36,10 +36,10 @@ namespace internal {
 template <class K>
 class Line_2_Line_2_pair {
 public:
-    enum Intersection_results {NO_INTERSECTION, POINT, LINE};
+    enum Intersection_results {NOT_COMPUTED_YET, NO_INTERSECTION, POINT, LINE};
     Line_2_Line_2_pair(typename K::Line_2 const *line1,
                        typename K::Line_2 const *line2)
-      : _line1(line1), _line2(line2), _known(false) {}
+      : _line1(line1), _line2(line2), _result(NOT_COMPUTED_YET) {}
 
     Intersection_results intersection_type() const;
 
@@ -48,7 +48,6 @@ public:
 protected:
     typename K::Line_2 const*   _line1;
     typename K::Line_2 const *  _line2;
-    mutable bool                    _known;
     mutable Intersection_results    _result;
     mutable typename K::Point_2         _intersection_point;
 };
@@ -141,11 +140,10 @@ typename Line_2_Line_2_pair<K>::Intersection_results
 Line_2_Line_2_pair<K>::intersection_type() const
 {
     typedef typename K::RT RT;
-    if (_known)
+    if (_result != NOT_COMPUTED_YET)
         return _result;
     RT nom1, nom2, denom;
     // The non const this pointer is used to cast away const.
-    _known = true;
     denom = _line1->a()*_line2->b() - _line2->a()*_line1->b();
     if (denom == RT(0)) {
         if (RT(0) == (_line1->a()*_line2->c() - _line2->a()*_line1->c()) &&
@@ -180,7 +178,7 @@ template <class K>
 typename K::Point_2
 Line_2_Line_2_pair<K>::intersection_point() const
 {
-    if (!_known)
+    if (_result == NOT_COMPUTED_YET)
         intersection_type();
     CGAL_kernel_assertion(_result == POINT);
     return _intersection_point;
@@ -190,7 +188,7 @@ template <class K>
 typename K::Line_2
 Line_2_Line_2_pair<K>::intersection_line() const
 {
-    if (!_known)
+    if (_result == NOT_COMPUTED_YET)
         intersection_type();
     CGAL_kernel_assertion(_result == LINE);
     return *_line1;

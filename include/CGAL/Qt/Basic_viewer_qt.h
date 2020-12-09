@@ -3,7 +3,7 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.1/GraphicsView/include/CGAL/Qt/Basic_viewer_qt.h $
+// $URL: https://github.com/CGAL/cgal/blob/v5.1.1/GraphicsView/include/CGAL/Qt/Basic_viewer_qt.h $
 // $Id: Basic_viewer_qt.h 7ec9d57 2020-04-09T17:42:59+02:00 Guillaume Damiand
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //

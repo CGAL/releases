@@ -3,7 +3,7 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.1/Triangulation_2/include/CGAL/Regular_triangulation_2.h $
+// $URL: https://github.com/CGAL/cgal/blob/v5.1.1/Triangulation_2/include/CGAL/Regular_triangulation_2.h $
 // $Id: Regular_triangulation_2.h 9f2eafd 2020-03-26T19:17:02+01:00 Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //

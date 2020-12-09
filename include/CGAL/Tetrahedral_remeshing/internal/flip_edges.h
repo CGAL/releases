@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.1/Tetrahedral_remeshing/include/CGAL/Tetrahedral_remeshing/internal/flip_edges.h $
-// $Id: flip_edges.h ab05dde 2020-06-12T08:08:56+02:00 Jane Tournois
+// $URL: https://github.com/CGAL/cgal/blob/v5.1.1/Tetrahedral_remeshing/include/CGAL/Tetrahedral_remeshing/internal/flip_edges.h $
+// $Id: flip_edges.h e8566f2 2020-10-05T12:47:45+02:00 Maxime Gimeno
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -1101,7 +1101,7 @@ std::size_t flip_all_edges(const std::vector<VertexPair>& edges,
   Tr& tr = c3t3.triangulation();
 
   std::size_t count = 0;
-  for (const VertexPair vp : edges)
+  for (const VertexPair& vp : edges)
   {
     Cell_handle ch;
     int i0, i1;

@@ -3,7 +3,7 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.1/Convex_hull_3/include/CGAL/Convex_hull_3/dual/halfspace_intersection_with_constructions_3.h $
+// $URL: https://github.com/CGAL/cgal/blob/v5.1.1/Convex_hull_3/include/CGAL/Convex_hull_3/dual/halfspace_intersection_with_constructions_3.h $
 // $Id: halfspace_intersection_with_constructions_3.h 9f2eafd 2020-03-26T19:17:02+01:00 Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
