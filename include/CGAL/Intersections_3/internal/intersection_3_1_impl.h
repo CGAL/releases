@@ -7,8 +7,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.3/Intersections_3/include/CGAL/Intersections_3/internal/intersection_3_1_impl.h $
-// $Id: intersection_3_1_impl.h 0779373 2020-03-26T13:31:46+01:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.4/Intersections_3/include/CGAL/Intersections_3/internal/intersection_3_1_impl.h $
+// $Id: intersection_3_1_impl.h 1045667 2020-09-24T16:30:20+02:00 Jane Tournois
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -1541,9 +1541,9 @@ do_intersect(const Plane_3<R>& plane1, const Plane_3<R>& plane2, const R&)
 template <class R>
 inline bool
 do_intersect(const Plane_3<R> &plane1, const Plane_3<R> &plane2,
-             const Plane_3<R> &plane3, const R&)
+             const Plane_3<R> &plane3, const R& r)
 {
-  return bool(intersection(plane1, plane2, plane3));
+  return bool(intersection(plane1, plane2, plane3, r));
 }
 
 

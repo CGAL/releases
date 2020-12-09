@@ -7,7 +7,7 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.3/Cartesian_kernel/include/CGAL/Cartesian/Aff_transformation_3.h $
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.4/Cartesian_kernel/include/CGAL/Cartesian/Aff_transformation_3.h $
 // $Id: Aff_transformation_3.h 4c30c49 2020-05-18T12:22:27+02:00 Laurent Rineau
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //

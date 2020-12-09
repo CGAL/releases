@@ -3,7 +3,7 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.3/Point_set_processing_3/include/CGAL/hierarchy_simplify_point_set.h $
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.4/Point_set_processing_3/include/CGAL/hierarchy_simplify_point_set.h $
 // $Id: hierarchy_simplify_point_set.h 84d7e9a 2020-06-23T18:48:11+02:00 Laurent Rineau
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //

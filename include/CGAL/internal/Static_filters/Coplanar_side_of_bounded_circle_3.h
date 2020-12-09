@@ -3,7 +3,7 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.3/Filtered_kernel/include/CGAL/internal/Static_filters/Coplanar_side_of_bounded_circle_3.h $
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.4/Filtered_kernel/include/CGAL/internal/Static_filters/Coplanar_side_of_bounded_circle_3.h $
 // $Id: Coplanar_side_of_bounded_circle_3.h 5b2d46c 2020-04-21T10:03:00+02:00 Maxime Gimeno
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //

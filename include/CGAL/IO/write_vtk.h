@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.3/Stream_support/include/CGAL/IO/write_vtk.h $
-// $Id: write_vtk.h 0779373 2020-03-26T13:31:46+01:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.4/Stream_support/include/CGAL/IO/write_vtk.h $
+// $Id: write_vtk.h c8b73c9 2020-08-07T06:40:23+02:00 Sébastien Loriot
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -12,8 +12,6 @@
 
 #ifndef CGAL_WRITE_VTK_IO_H
 #define CGAL_WRITE_VTK_IO_H
-
-#include <CGAL/license/Polyhedron.h>
 
 #include <fstream>
 #include <vector>

@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.3/Arrangement_on_surface_2/include/CGAL/Surface_sweep_2/Arr_overlay_traits_2.h $
-// $Id: Arr_overlay_traits_2.h 0779373 2020-03-26T13:31:46+01:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.4/Arrangement_on_surface_2/include/CGAL/Surface_sweep_2/Arr_overlay_traits_2.h $
+// $Id: Arr_overlay_traits_2.h 36a2100 2020-08-17T10:11:28+02:00 Simon Giraudot
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -134,6 +134,8 @@ public:
   class Ex_x_monotone_curve_2 {
   public:
     typedef Base_x_monotone_curve_2             Base;
+    typedef Halfedge_handle_red HH_red;
+    typedef Halfedge_handle_blue HH_blue;
 
   protected:
     Base m_base_xcv;                              // The base curve.

@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.3/Polygon_mesh_processing/include/CGAL/Polygon_mesh_processing/repair_polygon_soup.h $
-// $Id: repair_polygon_soup.h 6411035 2020-07-31T15:52:02+02:00 Laurent Rineau
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.4/Polygon_mesh_processing/include/CGAL/Polygon_mesh_processing/repair_polygon_soup.h $
+// $Id: repair_polygon_soup.h f251ab8 2020-10-16T13:40:25+02:00 Laurent Rineau
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Mael Rouxel-Labbé
@@ -341,13 +341,6 @@ std::size_t remove_invalid_polygons_in_polygon_soup(PointRange& /*points*/,
 }
 
 } // end namespace internal
-
-template <typename PointRange, typename PolygonRange>
-std::size_t remove_degenerate_polygons_in_polygon_soup(PointRange& points,
-                                                       PolygonRange& polygons)
-{
-  return remove_degenerate_polygons_in_polygon_soup(points, polygons, CGAL::parameters::all_default());
-}
 
 /// \ingroup PMP_repairing_grp
 ///

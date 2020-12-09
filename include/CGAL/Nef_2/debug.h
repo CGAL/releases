@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.3/Nef_2/include/CGAL/Nef_2/debug.h $
-// $Id: debug.h 0779373 2020-03-26T13:31:46+01:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.4/Nef_2/include/CGAL/Nef_2/debug.h $
+// $Id: debug.h a886ecb 2020-09-29T09:14:11+02:00 Laurent Rineau
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -59,8 +59,7 @@
 
 #ifndef NDEBUG
 #define CGAL_NEF_TRACEN(t) if((debugthread%CGAL_NEF_DEBUG)==0) \
- std::cerr<< " "<<t<<std::endl; \
- std::cerr.flush()
+ std::cerr<< " "<<t<<std::endl;
 #else
 #define CGAL_NEF_TRACEN(t)
 #endif

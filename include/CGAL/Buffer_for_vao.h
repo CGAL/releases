@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.3/GraphicsView/include/CGAL/Buffer_for_vao.h $
-// $Id: Buffer_for_vao.h 0779373 2020-03-26T13:31:46+01:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.4/GraphicsView/include/CGAL/Buffer_for_vao.h $
+// $Id: Buffer_for_vao.h 166ad7c 2020-10-20T14:47:32+02:00 Maxime Gimeno
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -433,11 +433,11 @@ public:
       // Is it possible that orientation==COPLANAR ? Maybe if V1 or V2 is very small ?
     }
     while(++id!=facet.size() &&
-          (orientation==CGAL::COPLANAR || orientation==CGAL::ZERO));
+          (orientation==CGAL::COPLANAR ));
 
     //Here, all orientations were COPLANAR. Not sure this case is possible,
     // but we stop here.
-    if (orientation==CGAL::COPLANAR || orientation==CGAL::ZERO)
+    if (orientation==CGAL::COPLANAR)
     { return false; }
 
     // Now we compute convexness
@@ -454,6 +454,16 @@ public:
 
       if(local_orientation!=CGAL::ZERO && local_orientation!=orientation)
       { return false; }
+      // V1 and V2 are collinear
+      if(local_orientation==CGAL::ZERO )
+      {
+        //TS and TU are opposite
+        if(CGAL::scalar_product(V1,V2) >=0)
+          return true;
+        //TS and TU have the same direction.
+        else
+          return false;
+      }
     }
     return true;
   }

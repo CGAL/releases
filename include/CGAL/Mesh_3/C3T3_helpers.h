@@ -3,7 +3,7 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.3/Mesh_3/include/CGAL/Mesh_3/C3T3_helpers.h $
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.4/Mesh_3/include/CGAL/Mesh_3/C3T3_helpers.h $
 // $Id: C3T3_helpers.h ad23db2 2020-06-30T16:36:58+02:00 Laurent Rineau
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //

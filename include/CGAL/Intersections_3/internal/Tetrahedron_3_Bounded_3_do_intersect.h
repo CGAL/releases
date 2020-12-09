@@ -7,8 +7,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.3/Intersections_3/include/CGAL/Intersections_3/internal/Tetrahedron_3_Bounded_3_do_intersect.h $
-// $Id: Tetrahedron_3_Bounded_3_do_intersect.h 0779373 2020-03-26T13:31:46+01:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.4/Intersections_3/include/CGAL/Intersections_3/internal/Tetrahedron_3_Bounded_3_do_intersect.h $
+// $Id: Tetrahedron_3_Bounded_3_do_intersect.h 8199d53 2020-08-11T16:59:19+02:00 Sébastien Loriot
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -153,11 +153,11 @@ do_intersect(const typename K::Sphere_3 &sp,
 template <class K>
 inline
 typename K::Boolean
-do_intersect(const typename K::Tetrahedron_3 &tet,
-             const typename K::Tetrahedron_3 &sp,
+do_intersect(const typename K::Tetrahedron_3 &lh_tet,
+             const typename K::Tetrahedron_3 &rh_tet,
              const K & k)
 {
-  return do_intersect_tetrahedron_bounded(sp, tet, tet[0], k);
+  return do_intersect_tetrahedron_bounded(lh_tet, rh_tet, lh_tet[0], k);
 }
 
 template <class K>

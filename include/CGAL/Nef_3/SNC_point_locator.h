@@ -3,7 +3,7 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.3/Nef_3/include/CGAL/Nef_3/SNC_point_locator.h $
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.4/Nef_3/include/CGAL/Nef_3/SNC_point_locator.h $
 // $Id: SNC_point_locator.h 213221e 2020-07-24T14:02:40+02:00 Maxime Gimeno
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //

@@ -4,7 +4,7 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.3/Mesh_3/include/CGAL/Compact_mesh_cell_base_3.h $
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.4/Mesh_3/include/CGAL/Compact_mesh_cell_base_3.h $
 // $Id: Compact_mesh_cell_base_3.h 113c3d1 2020-06-15T15:56:28+02:00 Laurent Rineau
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //

@@ -2,8 +2,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.3/Surface_mesh_skeletonization/include/CGAL/Mean_curvature_flow_skeletonization.h $
-// $Id: Mean_curvature_flow_skeletonization.h 0779373 2020-03-26T13:31:46+01:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.4/Surface_mesh_skeletonization/include/CGAL/Mean_curvature_flow_skeletonization.h $
+// $Id: Mean_curvature_flow_skeletonization.h e956c6b 2020-10-19T10:30:21+02:00 Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Xiang Gao <gaox@ethz.ch>
@@ -1296,6 +1296,7 @@ private:
     }
 
     typedef std::pair<Exact_point, vertex_descriptor> Pair_type;
+    std::vector<Pair_type> duplicated_points;
     for(const Pair_type& p : points)
     {
       std::size_t vid = get(m_vertex_id_pmap, p.second);
@@ -1320,9 +1321,23 @@ private:
           max_neg_t = t;
         }
       }
-
-      p.second->pole = cell_dual[max_neg_i];
+      // max_neg_i is -1 only when duplicated the point is duplicated
+      // (null edge or non-manifold issue resolved with duplication)
+      if (max_neg_i!=-1)
+        p.second->pole = cell_dual[max_neg_i];
+      else
+        duplicated_points.push_back(p);
     }
+
+    for (const Pair_type& p : duplicated_points)
+    {
+      typename Delaunay::Locate_type lt;
+      int li, lj;
+      typename Delaunay::Cell_handle cell = T.locate (p.first, lt, li, lj);
+      CGAL_assertion(lt==Delaunay::VERTEX);
+      p.second->pole = cell->vertex(li)->info()->pole; // copy the pole of the point present in the DT3
+    }
+
     m_are_poles_computed = true;
   }
 

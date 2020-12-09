@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.3/Triangulation_2/include/CGAL/Triangulation_2/internal/Polyline_constraint_hierarchy_2.h $
-// $Id: Polyline_constraint_hierarchy_2.h 0779373 2020-03-26T13:31:46+01:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.4/Triangulation_2/include/CGAL/Triangulation_2/internal/Polyline_constraint_hierarchy_2.h $
+// $Id: Polyline_constraint_hierarchy_2.h 45f41cc 2020-10-14T16:19:50+02:00 Laurent Rineau
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -23,6 +23,10 @@
 #include <list>
 #include <CGAL/Skiplist.h>
 #include <CGAL/triangulation_assertions.h>
+
+#ifdef CGAL_CDT_2_DEBUG_INTERSECTIONS
+#  include <CGAL/Constrained_triangulation_2.h>
+#endif
 
 namespace CGAL {
 
@@ -845,6 +849,14 @@ insert_constraint(T va, T vb){
   Vertex_list*  children = new Vertex_list;
   Context_list* fathers;
 
+#ifdef CGAL_CDT_2_DEBUG_INTERSECTIONS
+  std::cerr << CGAL::internal::cdt_2_indent_level
+            << "C_hierachy.insert_constraint( #"
+              << va->time_stamp()
+              << ", #"
+              << vb->time_stamp()
+              << ")\n";
+#endif // CGAL_CDT_2_DEBUG_INTERSECTIONS
   typename Sc_to_c_map::iterator scit = sc_to_c_map.find(he);
   if(scit == sc_to_c_map.end()){
     fathers = new Context_list;
@@ -874,6 +886,14 @@ insert_constraint_old_API(T va, T vb){
   Vertex_list*  children = new Vertex_list;
   Context_list* fathers;
 
+#ifdef CGAL_CDT_2_DEBUG_INTERSECTIONS
+  std::cerr << CGAL::internal::cdt_2_indent_level
+            << "C_hierachy.insert_constraint_old_API( #"
+              << va->time_stamp()
+              << ", #"
+              << vb->time_stamp()
+              << ")\n";
+#endif // CGAL_CDT_2_DEBUG_INTERSECTIONS
   typename Sc_to_c_map::iterator scit = sc_to_c_map.find(he);
   if(scit == sc_to_c_map.end()){
     fathers = new Context_list;
@@ -901,6 +921,14 @@ append_constraint(Constraint_id cid, T va, T vb){
   Edge        he = make_edge(va, vb);
   Context_list* fathers;
 
+#ifdef CGAL_CDT_2_DEBUG_INTERSECTIONS
+  std::cerr << CGAL::internal::cdt_2_indent_level
+            << "C_hierachy.append_constraint( ..., #"
+              << va->time_stamp()
+              << ", #"
+              << vb->time_stamp()
+              << ")\n";
+#endif // CGAL_CDT_2_DEBUG_INTERSECTIONS
   typename Sc_to_c_map::iterator scit = sc_to_c_map.find(he);
   if(scit == sc_to_c_map.end()){
     fathers = new Context_list;
@@ -1012,8 +1040,24 @@ template <class T, class Compare, class Data>
 void
 Polyline_constraint_hierarchy_2<T,Compare,Data>::
 add_Steiner(T va, T vb, T vc){
+#ifdef CGAL_CDT_2_DEBUG_INTERSECTIONS
+  std::cerr << CGAL::internal::cdt_2_indent_level
+            << "C_hierachy.add_Steinter( #"
+              << va->time_stamp()
+              << ", #"
+              << vb->time_stamp()
+              << ", #"
+              << vc->time_stamp()
+              << ")\n";
+#endif // CGAL_CDT_2_DEBUG_INTERSECTIONS
   Context_list* hcl=nullptr;
-  if(!get_contexts(va,vb,hcl)) CGAL_triangulation_assertion(false);
+  if(!get_contexts(va,vb,hcl)) {
+#ifdef CGAL_CDT_2_DEBUG_INTERSECTIONS
+      std::cerr << CGAL::internal::cdt_2_indent_level
+                << "  -> the constraint is already split\n";
+#endif // CGAL_CDT_2_DEBUG_INTERSECTIONS
+    return;
+  }
 
   Context_list* hcl2 = new  Context_list;
 

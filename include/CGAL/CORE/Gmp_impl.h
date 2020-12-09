@@ -8,7 +8,7 @@
  *
  * Zilin Du, 2003
  *
- * $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.3/CGAL_Core/include/CGAL/CORE/Gmp_impl.h $
+ * $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.4/CGAL_Core/include/CGAL/CORE/Gmp_impl.h $
  * $Id: Gmp_impl.h 0779373 2020-03-26T13:31:46+01:00 Sébastien Loriot
  * SPDX-License-Identifier: LGPL-3.0-only
  ***************************************************************************/

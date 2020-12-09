@@ -2,7 +2,7 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.3/Straight_skeleton_2/include/CGAL/Straight_skeleton_halfedge_base_2.h $
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.4/Straight_skeleton_2/include/CGAL/Straight_skeleton_halfedge_base_2.h $
 // $Id: Straight_skeleton_halfedge_base_2.h 6e4eb71 2020-06-23T18:48:04+02:00 Laurent Rineau
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //

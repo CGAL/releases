@@ -3,7 +3,7 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.3/Mesh_3/include/CGAL/Mesh_3/Mesh_global_optimizer.h $
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.4/Mesh_3/include/CGAL/Mesh_3/Mesh_global_optimizer.h $
 // $Id: Mesh_global_optimizer.h 85712ba 2020-01-14T15:03:20+01:00 Maxime Gimeno
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //

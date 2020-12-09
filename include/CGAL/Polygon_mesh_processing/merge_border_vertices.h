@@ -3,7 +3,7 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.3/Polygon_mesh_processing/include/CGAL/Polygon_mesh_processing/merge_border_vertices.h $
+// $URL: https://github.com/CGAL/cgal/blob/releases/CGAL-5.0.4/Polygon_mesh_processing/include/CGAL/Polygon_mesh_processing/merge_border_vertices.h $
 // $Id: merge_border_vertices.h 38abfdf 2020-03-18T08:51:09+01:00 Mael
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
