@@ -3,7 +3,7 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.1.1/Mesh_3/include/CGAL/Mesh_3/mesh_standard_cell_criteria.h $
+// $URL: https://github.com/CGAL/cgal/blob/v5.1.2/Mesh_3/include/CGAL/Mesh_3/mesh_standard_cell_criteria.h $
 // $Id: mesh_standard_cell_criteria.h 0779373 2020-03-26T13:31:46+01:00 Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //

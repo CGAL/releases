@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.1.1/Polygon_mesh_processing/include/CGAL/Polygon_mesh_processing/internal/Isotropic_remeshing/remesh_impl.h $
-// $Id: remesh_impl.h cf0d4b0 2020-10-20T16:33:36+02:00 Jane Tournois
+// $URL: https://github.com/CGAL/cgal/blob/v5.1.2/Polygon_mesh_processing/include/CGAL/Polygon_mesh_processing/internal/Isotropic_remeshing/remesh_impl.h $
+// $Id: remesh_impl.h 1afacb1 2020-12-15T17:39:10+01:00 Jane Tournois
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -1470,7 +1470,9 @@ private:
       unsigned int nb_incident_features = 0;
       for(halfedge_descriptor h : halfedges_around_target(v, mesh_))
       {
-        if (is_on_border(h) || is_on_patch_border(h))
+        halfedge_descriptor hopp = opposite(h, mesh_);
+        if ( is_on_border(h) || is_on_patch_border(h)
+          || is_on_border(hopp) || is_on_patch_border(hopp))
           ++nb_incident_features;
         if (nb_incident_features > 2)
           return true;

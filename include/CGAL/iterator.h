@@ -7,7 +7,7 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.1.1/STL_Extension/include/CGAL/iterator.h $
+// $URL: https://github.com/CGAL/cgal/blob/v5.1.2/STL_Extension/include/CGAL/iterator.h $
 // $Id: iterator.h c1d8fb6 2020-04-22T13:47:33+02:00 Simon Giraudot
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //

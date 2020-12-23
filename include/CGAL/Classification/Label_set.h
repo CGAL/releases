@@ -3,7 +3,7 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.1.1/Classification/include/CGAL/Classification/Label_set.h $
+// $URL: https://github.com/CGAL/cgal/blob/v5.1.2/Classification/include/CGAL/Classification/Label_set.h $
 // $Id: Label_set.h 9e2ce81 2020-04-07T10:15:50+02:00 Simon Giraudot
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //

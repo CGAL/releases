@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.1.1/Tetrahedral_remeshing/include/CGAL/Tetrahedral_remeshing/internal/tetrahedral_remeshing_helpers.h $
-// $Id: tetrahedral_remeshing_helpers.h c70102e 2020-09-08T17:37:03+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v5.1.2/Tetrahedral_remeshing/include/CGAL/Tetrahedral_remeshing/internal/tetrahedral_remeshing_helpers.h $
+// $Id: tetrahedral_remeshing_helpers.h 4607a0f 2020-12-11T14:09:39+01:00 Maxime Gimeno
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -998,6 +998,18 @@ void dump_polylines(const CellRange& cells, const char* filename)
       dump_facet(std::make_pair(*it, i), ofs);
   }
   ofs.close();
+}
+
+template<typename C3t3>
+void check_surface_patch_indices(const C3t3& c3t3)
+{
+  typedef typename C3t3::Vertex_handle Vertex_handle;
+  for (Vertex_handle v : c3t3.triangulation().finite_vertex_handles())
+  {
+    if (v->in_dimension() != 2)
+      continue;
+    CGAL_assertion(surface_patch_index(v, c3t3) != typename C3t3::Surface_patch_index());
+  }
 }
 
 template<typename Tr>

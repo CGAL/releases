@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.1.1/Shape_detection/include/CGAL/Shape_detection/Region_growing/Region_growing.h $
-// $Id: Region_growing.h 0779373 2020-03-26T13:31:46+01:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v5.1.2/Shape_detection/include/CGAL/Shape_detection/Region_growing/Region_growing.h $
+// $Id: Region_growing.h 393f547 2020-11-26T14:21:10+01:00 Maxime Gimeno
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -142,7 +142,7 @@ namespace Shape_detection {
           continue;
 
         CGAL_precondition(
-          seed_index >= 0 && seed_index < m_input_range.size());
+          seed_index < m_input_range.size());
 
         // Try to grow a new region from the index of the seed item.
         if (!m_visited[seed_index]) {
@@ -187,7 +187,7 @@ namespace Shape_detection {
           continue;
 
         CGAL_precondition(
-          seed_index >= 0 && seed_index < m_input_range.size());
+          seed_index < m_input_range.size());
 
         if (!m_visited[seed_index])
           *(output++) = seed_index;
@@ -251,7 +251,7 @@ namespace Shape_detection {
             continue;
 
           CGAL_precondition(
-            neighbor_index >= 0 && neighbor_index < m_input_range.size());
+            neighbor_index < m_input_range.size());
 
           if (!m_visited[neighbor_index] &&
             m_region_type.is_part_of_region(item_index, neighbor_index, region)) {

@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.1.1/Polygon_mesh_processing/include/CGAL/Polygon_mesh_processing/polygon_mesh_to_polygon_soup.h $
-// $Id: polygon_mesh_to_polygon_soup.h a84927d 2020-07-23T17:15:44+02:00 Laurent Rineau
+// $URL: https://github.com/CGAL/cgal/blob/v5.1.2/Polygon_mesh_processing/include/CGAL/Polygon_mesh_processing/polygon_mesh_to_polygon_soup.h $
+// $Id: polygon_mesh_to_polygon_soup.h 47df5dc 2020-11-30T18:00:41+01:00 Mael Rouxel-Labbé
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -17,6 +17,7 @@
 
 #include <CGAL/algorithm.h>
 #include <CGAL/boost/graph/iterator.h>
+#include <CGAL/boost/graph/Named_function_parameters.h>
 #include <CGAL/boost/graph/named_params_helper.h>
 #include <CGAL/Container_helper.h>
 #include <CGAL/Dynamic_property_map.h>

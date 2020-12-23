@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.1.1/Shape_detection/include/CGAL/Shape_detection/Region_growing/Region_growing_on_polygon_mesh/Least_squares_plane_fit_region.h $
-// $Id: Least_squares_plane_fit_region.h 0779373 2020-03-26T13:31:46+01:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v5.1.2/Shape_detection/include/CGAL/Shape_detection/Region_growing/Region_growing_on_polygon_mesh/Least_squares_plane_fit_region.h $
+// $Id: Least_squares_plane_fit_region.h 393f547 2020-11-26T14:21:10+01:00 Maxime Gimeno
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -200,7 +200,6 @@ namespace Polygon_mesh {
       const std::size_t query_index,
       const std::vector<std::size_t>&) const {
 
-      CGAL_precondition(query_index >= 0);
       CGAL_precondition(query_index < m_face_range.size());
 
       const auto face = *(m_face_range.begin() + query_index);
@@ -252,7 +251,6 @@ namespace Polygon_mesh {
       CGAL_precondition(region.size() > 0);
       if (region.size() == 1) { // create new reference plane and normal
 
-        CGAL_precondition(region[0] >= 0);
         CGAL_precondition(region[0] < m_face_range.size());
 
         // The best fit plane will be a plane through this face centroid with
@@ -271,7 +269,6 @@ namespace Polygon_mesh {
         std::vector<Local_point_3> points;
         for (std::size_t i = 0; i < region.size(); ++i) {
 
-          CGAL_precondition(region[i] >= 0);
           CGAL_precondition(region[i] < m_face_range.size());
 
           const auto face = *(m_face_range.begin() + region[i]);

@@ -7,8 +7,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.1.1/Random_numbers/include/CGAL/Random.h $
-// $Id: Random.h 0779373 2020-03-26T13:31:46+01:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v5.1.2/Random_numbers/include/CGAL/Random.h $
+// $Id: Random.h 7e05923 2020-12-15T09:35:25+01:00 Maxime Gimeno
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -232,7 +232,7 @@ public:
 
 inline Random& get_default_random()
 {
-#if (defined( CGAL_TEST_SUITE ) || defined( CGAL_PRINT_SEED )) && !defined(CGAL_HEADER_ONLY)
+#if defined( CGAL_TEST_SUITE ) || defined( CGAL_PRINT_SEED )
   internal::Random_print_seed rps;
   CGAL_STATIC_THREAD_LOCAL_VARIABLE(Random, default_random, rps);
 #else

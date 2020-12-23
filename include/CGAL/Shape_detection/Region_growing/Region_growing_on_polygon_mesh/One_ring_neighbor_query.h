@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.1.1/Shape_detection/include/CGAL/Shape_detection/Region_growing/Region_growing_on_polygon_mesh/One_ring_neighbor_query.h $
-// $Id: One_ring_neighbor_query.h 0779373 2020-03-26T13:31:46+01:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v5.1.2/Shape_detection/include/CGAL/Shape_detection/Region_growing/Region_growing_on_polygon_mesh/One_ring_neighbor_query.h $
+// $Id: One_ring_neighbor_query.h 393f547 2020-11-26T14:21:10+01:00 Maxime Gimeno
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -113,7 +113,6 @@ namespace Polygon_mesh {
 
       neighbors.clear();
 
-      CGAL_precondition(query_index >= 0);
       CGAL_precondition(query_index < m_face_range.size());
 
       const auto query_face = *(m_face_range.begin() + query_index);

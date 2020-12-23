@@ -3,7 +3,7 @@
 // This file is part of CGAL (www.cgal.org).
 //
 
-// $URL: https://github.com/CGAL/cgal/blob/v5.1.1/Straight_skeleton_2/include/CGAL/create_straight_skeleton_from_polygon_with_holes_2.h $
+// $URL: https://github.com/CGAL/cgal/blob/v5.1.2/Straight_skeleton_2/include/CGAL/create_straight_skeleton_from_polygon_with_holes_2.h $
 // $Id: create_straight_skeleton_from_polygon_with_holes_2.h 254d60f 2019-10-19T15:23:19+02:00 Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //

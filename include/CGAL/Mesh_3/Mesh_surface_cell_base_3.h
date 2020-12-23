@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.1.1/Mesh_3/include/CGAL/Mesh_3/Mesh_surface_cell_base_3.h $
-// $Id: Mesh_surface_cell_base_3.h 4dda7b6 2020-05-27T15:53:05+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v5.1.2/Mesh_3/include/CGAL/Mesh_3/Mesh_surface_cell_base_3.h $
+// $Id: Mesh_surface_cell_base_3.h 5ee0398 2020-11-30T10:09:48+01:00 Maxime Gimeno
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -97,7 +97,7 @@ public:
   {
     CGAL_precondition(facet>=0 && facet<4);
     char current_bits = bits_;
-    while (bits_.compare_and_swap(current_bits | (1 << facet), current_bits) != current_bits)
+    while (bits_.compare_exchange_weak(current_bits, current_bits | (1 << facet)) )
     {
       current_bits = bits_;
     }
@@ -108,7 +108,7 @@ public:
   {
     CGAL_precondition(facet>=0 && facet<4);
     char current_bits = bits_;
-    while (bits_.compare_and_swap(current_bits & (15 & ~(1 << facet)), current_bits) != current_bits)
+    while (bits_.compare_exchange_weak(current_bits, current_bits & (15 & ~(1 << facet))))
     {
       current_bits = bits_;
     }

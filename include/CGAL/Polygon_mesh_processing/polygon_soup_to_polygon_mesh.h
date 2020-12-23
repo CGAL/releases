@@ -3,7 +3,7 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.1.1/Polygon_mesh_processing/include/CGAL/Polygon_mesh_processing/polygon_soup_to_polygon_mesh.h $
+// $URL: https://github.com/CGAL/cgal/blob/v5.1.2/Polygon_mesh_processing/include/CGAL/Polygon_mesh_processing/polygon_soup_to_polygon_mesh.h $
 // $Id: polygon_soup_to_polygon_mesh.h f2c4571 2020-10-01T11:23:18+02:00 Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //

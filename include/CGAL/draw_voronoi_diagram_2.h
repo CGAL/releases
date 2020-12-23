@@ -3,7 +3,7 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.1.1/Voronoi_diagram_2/include/CGAL/draw_voronoi_diagram_2.h $
+// $URL: https://github.com/CGAL/cgal/blob/v5.1.2/Voronoi_diagram_2/include/CGAL/draw_voronoi_diagram_2.h $
 // $Id: draw_voronoi_diagram_2.h 1bf02b2 2019-11-13T15:28:56+01:00 Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //

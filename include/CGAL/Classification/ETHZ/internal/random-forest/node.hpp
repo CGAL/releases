@@ -2,7 +2,7 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.1.1/Classification/include/CGAL/Classification/ETHZ/internal/random-forest/node.hpp $
+// $URL: https://github.com/CGAL/cgal/blob/v5.1.2/Classification/include/CGAL/Classification/ETHZ/internal/random-forest/node.hpp $
 // $Id: node.hpp 7cfe6df 2020-04-07T11:02:16+02:00 Simon Giraudot
 // SPDX-License-Identifier: LicenseRef-RFL
 // License notice in Installation/LICENSE.RFL

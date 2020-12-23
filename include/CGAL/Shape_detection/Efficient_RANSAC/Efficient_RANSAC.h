@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.1.1/Shape_detection/include/CGAL/Shape_detection/Efficient_RANSAC/Efficient_RANSAC.h $
-// $Id: Efficient_RANSAC.h 0779373 2020-03-26T13:31:46+01:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v5.1.2/Shape_detection/include/CGAL/Shape_detection/Efficient_RANSAC/Efficient_RANSAC.h $
+// $Id: Efficient_RANSAC.h 8c7d012 2020-12-08T15:35:22+01:00 Simon Giraudot
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -511,13 +511,16 @@ namespace CGAL {
 
       // Minimum number of points has been set?
       m_options.min_points =
-        (m_options.min_points >= m_num_available_points) ?
+        (m_options.min_points == (std::numeric_limits<std::size_t>::max)()) ?
           (std::size_t)((FT)0.01 * m_num_available_points) :
           m_options.min_points;
       m_options.min_points = (m_options.min_points < 10) ? 10 : m_options.min_points;
 
       // Initializing the shape index
       m_shape_index.assign(m_num_available_points, -1);
+
+      if (m_options.min_points > m_num_available_points)
+        return true;
 
       // List of all randomly drawn candidates
       // with the minimum number of points

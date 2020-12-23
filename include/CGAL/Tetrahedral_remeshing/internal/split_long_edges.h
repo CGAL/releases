@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.1.1/Tetrahedral_remeshing/include/CGAL/Tetrahedral_remeshing/internal/split_long_edges.h $
-// $Id: split_long_edges.h 74835a9 2020-07-03T07:33:01+02:00 Jane Tournois
+// $URL: https://github.com/CGAL/cgal/blob/v5.1.2/Tetrahedral_remeshing/include/CGAL/Tetrahedral_remeshing/internal/split_long_edges.h $
+// $Id: split_long_edges.h 2ac22ab 2020-12-11T16:49:56+01:00 Jane Tournois
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -53,7 +53,21 @@ typename C3t3::Vertex_handle split_edge(const typename C3t3::Edge& e,
     (point(v1->point()), point(v2->point()));
 
   //backup subdomain info of incident cells before making changes
-  short dimension = (std::max)((std::max)(1, c3t3.in_dimension(v1)), c3t3.in_dimension(v2));
+  short dimension = 0;
+  if(c3t3.is_in_complex(e))
+    dimension = 1;
+  else
+  {
+    const std::size_t nb_patches = nb_incident_surface_patches(e, c3t3);
+    if(nb_patches == 1)
+      dimension = 2;
+    else if(nb_patches == 0)
+      dimension = 3;
+    else
+      CGAL_assertion(false);//e should be in complex
+  }
+  CGAL_assertion(dimension > 0);
+
   boost::unordered_map<Facet, Subdomain_index> cells_info;
   boost::unordered_map<Facet, std::pair<Vertex_handle, Surface_patch_index> > facets_info;
 

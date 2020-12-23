@@ -3,7 +3,7 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.1.1/Arrangement_on_surface_2/include/CGAL/Arr_polycurve_traits_2.h $
+// $URL: https://github.com/CGAL/cgal/blob/v5.1.2/Arrangement_on_surface_2/include/CGAL/Arr_polycurve_traits_2.h $
 // $Id: Arr_polycurve_traits_2.h 9e9e572 2020-10-28T11:38:45+02:00 Efi Fogel
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //

@@ -4,7 +4,7 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.1.1/Subdivision_method_3/include/CGAL/Subdivision_method_3/internal/Euler_extensions.h $
+// $URL: https://github.com/CGAL/cgal/blob/v5.1.2/Subdivision_method_3/include/CGAL/Subdivision_method_3/internal/Euler_extensions.h $
 // $Id: Euler_extensions.h 52164b1 2019-10-19T15:34:59+02:00 Sébastien Loriot
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //

@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.1.1/Shape_detection/include/CGAL/Shape_detection/Efficient_RANSAC/Shape_base.h $
-// $Id: Shape_base.h 0779373 2020-03-26T13:31:46+01:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v5.1.2/Shape_detection/include/CGAL/Shape_detection/Efficient_RANSAC/Shape_base.h $
+// $Id: Shape_base.h a7b2ed1 2020-12-15T15:44:11+01:00 Simon Giraudot
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -623,10 +623,11 @@ namespace CGAL {
                                const std::ptrdiff_t n,
                                FT &low,
                                FT &high) {
-      const FT q = FT(x * n * double(UN - x) * (UN - n) / (UN - 1));
+      const FT xn = FT(double(x) * double(n));
+      const FT q = FT(xn * double(UN - x) * (UN - n) / (UN - 1));
       const FT sq = CGAL::sqrt(q);
-      low  = (x * n - sq) / UN;
-      high = (x * n + sq)/UN;
+      low  = (xn - sq) / UN;
+      high = (xn + sq)/UN;
 
       if (!is_finite<FT>(low) || !is_finite<FT>(high)) {
         low = high = 0;

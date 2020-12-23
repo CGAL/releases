@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.1.1/Shape_detection/include/CGAL/Shape_detection/Region_growing/internal/utils.h $
-// $Id: utils.h 0779373 2020-03-26T13:31:46+01:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v5.1.2/Shape_detection/include/CGAL/Shape_detection/Region_growing/internal/utils.h $
+// $Id: utils.h 393f547 2020-11-26T14:21:10+01:00 Maxime Gimeno
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -88,8 +88,8 @@ namespace internal {
 
     bool operator()(const std::size_t i, const std::size_t j) const {
 
-      CGAL_precondition(i >= 0 && i < m_scores.size());
-      CGAL_precondition(j >= 0 && j < m_scores.size());
+      CGAL_precondition(i < m_scores.size());
+      CGAL_precondition(j < m_scores.size());
 
       return m_scores[i] > m_scores[j];
     }
@@ -129,7 +129,6 @@ namespace internal {
       points.clear();
       for (std::size_t i = 0; i < region.size(); ++i) {
 
-        CGAL_precondition(region[i] >= 0);
         CGAL_precondition(region[i] < input_range.size());
 
         const auto& key = *(input_range.begin() + region[i]);

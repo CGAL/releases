@@ -3,7 +3,7 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.1.1/Tetrahedral_remeshing/include/CGAL/Tetrahedral_remeshing/internal/smooth_vertices.h $
+// $URL: https://github.com/CGAL/cgal/blob/v5.1.2/Tetrahedral_remeshing/include/CGAL/Tetrahedral_remeshing/internal/smooth_vertices.h $
 // $Id: smooth_vertices.h e8566f2 2020-10-05T12:47:45+02:00 Maxime Gimeno
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
