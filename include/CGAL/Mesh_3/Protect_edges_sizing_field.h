@@ -4,7 +4,7 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.1.2/Mesh_3/include/CGAL/Mesh_3/Protect_edges_sizing_field.h $
+// $URL: https://github.com/CGAL/cgal/blob/v5.2/Mesh_3/include/CGAL/Mesh_3/Protect_edges_sizing_field.h $
 // $Id: Protect_edges_sizing_field.h 612d677 2020-07-07T11:13:16+02:00 Jane Tournois
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //

@@ -7,8 +7,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.1.2/Stream_support/include/CGAL/IO/File_writer_OFF.h $
-// $Id: File_writer_OFF.h 0779373 2020-03-26T13:31:46+01:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v5.2/Stream_support/include/CGAL/IO/File_writer_OFF.h $
+// $Id: File_writer_OFF.h 6c83e73 2020-10-08T15:29:21+02:00 Maxime Gimeno
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -21,6 +21,7 @@
 #include <CGAL/IO/File_header_OFF.h>
 #include <iostream>
 #include <cstddef>
+#include <cstdint>
 
 namespace CGAL {
 
@@ -77,13 +78,13 @@ public:
     }
     void write_facet_begin( std::size_t no) {
         if ( m_header.binary())
-          I_Binary_write_big_endian_integer32( out(), static_cast<boost::int32_t>(no));
+          I_Binary_write_big_endian_integer32( out(), static_cast<std::int32_t>(no));
         else
             out() << no << ' ';
     }
     void write_facet_vertex_index( std::size_t index) {
         if ( m_header.binary())
-          I_Binary_write_big_endian_integer32( out(), static_cast<boost::int32_t>(index));
+          I_Binary_write_big_endian_integer32( out(), static_cast<std::int32_t>(index));
         else
             out() << ' ' << index;
     }

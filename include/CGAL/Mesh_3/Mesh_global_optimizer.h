@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.1.2/Mesh_3/include/CGAL/Mesh_3/Mesh_global_optimizer.h $
-// $Id: Mesh_global_optimizer.h 315a0b5 2020-01-29T16:27:53+01:00 Laurent Rineau
+// $URL: https://github.com/CGAL/cgal/blob/v5.2/Mesh_3/include/CGAL/Mesh_3/Mesh_global_optimizer.h $
+// $Id: Mesh_global_optimizer.h 4fc2f59 2020-07-31T16:17:56+02:00 Laurent Rineau
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -426,7 +426,7 @@ private:
       }
 
       if ( m_mgo.is_time_limit_reached() )
-        tbb::task::self().cancel_group_execution();
+        m_mgo.cancel_group_execution();
     }
   };
 
@@ -539,12 +539,16 @@ private:
         // restricted delaunay
         if ( m_mgo.is_time_limit_reached() )
         {
-          tbb::task::self().cancel_group_execution();
+          m_mgo.cancel_group_execution();
           break;
         }
       }
     }
   };
+
+  void cancel_group_execution() {
+    tbb_task_group_context.cancel_group_execution();
+  }
 #endif // CGAL_LINKED_WITH_TBB
 
   // -----------------------------------
@@ -566,6 +570,9 @@ private:
 
 #ifdef CGAL_MESH_3_OPTIMIZER_VERBOSE
   mutable FT sum_moves_;
+#endif
+#ifdef CGAL_LINKED_WITH_TBB
+  tbb::task_group_context tbb_task_group_context;
 #endif
 };
 
@@ -935,6 +942,7 @@ update_mesh(const Moves_vector& moves,
         Self, C3T3_helpers, Tr, Moves_vector,
         Moving_vertices_set, Outdated_cell_set>(
           *this, helper_, moves, moving_vertices, outdated_cells)
+      , tbb_task_group_context
     );
   }
   // Sequential

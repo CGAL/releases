@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.1.2/Classification/include/CGAL/Classification/Feature/Cluster_vertical_extent.h $
-// $Id: Cluster_vertical_extent.h e9d41d7 2020-04-21T10:03:00+02:00 Maxime Gimeno
+// $URL: https://github.com/CGAL/cgal/blob/v5.2/Classification/include/CGAL/Classification/Feature/Cluster_vertical_extent.h $
+// $Id: Cluster_vertical_extent.h 19004a7 2020-08-04T13:41:48+02:00 Simon Giraudot
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Simon Giraudot
@@ -40,7 +40,7 @@ class Cluster_vertical_extent : public CGAL::Classification::Feature_base
 public:
 
   /*!
-    \brief Constructs the feature.
+    \brief constructs the feature.
 
     \tparam ClusterRange model of `ConstRange`. Its iterator type
     is `RandomAccessIterator` and its value type is the key type of

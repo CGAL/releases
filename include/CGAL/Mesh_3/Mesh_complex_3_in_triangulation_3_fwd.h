@@ -2,8 +2,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.1.2/Installation/include/CGAL/Mesh_3/Mesh_complex_3_in_triangulation_3_fwd.h $
-// $Id: Mesh_complex_3_in_triangulation_3_fwd.h 93d62b9 2020-08-18T14:07:27+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v5.2/Installation/include/CGAL/Mesh_3/Mesh_complex_3_in_triangulation_3_fwd.h $
+// $Id: Mesh_complex_3_in_triangulation_3_fwd.h aeda2ef 2020-09-07T12:35:54+02:00 Maxime Gimeno
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 
@@ -24,8 +24,12 @@ class Mesh_complex_3_in_triangulation_3;
 
 template<class Tr, bool c3t3_loader_failed>
 bool build_triangulation_from_file(std::istream& is,
-                                   Tr& tr);
+                                   Tr& tr,
+                                   bool replace_domain_0);
 
+template<class Tr, bool c3t3_loader_failed>
+bool build_triangulation_from_file(std::istream& is,
+                                   Tr& tr);
 } // CGAL
 #endif
 

@@ -7,8 +7,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.1.2/Number_types/include/CGAL/Interval_nt.h $
-// $Id: Interval_nt.h 0779373 2020-03-26T13:31:46+01:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v5.2/Number_types/include/CGAL/Interval_nt.h $
+// $Id: Interval_nt.h e0513c2 2020-07-07T16:54:04+02:00 Marc Glisse
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -1573,6 +1573,8 @@ namespace Eigen {
 
     static inline Real epsilon() { return 0; }
     static inline Real dummy_precision() { return 0; }
+    static inline Real highest() { return Real((std::numeric_limits<double>::max)(), std::numeric_limits<double>::infinity()); }
+    static inline Real lowest() { return Real(-std::numeric_limits<double>::infinity(), std::numeric_limits<double>::lowest()); }
 
     // Costs could depend on b.
     enum {

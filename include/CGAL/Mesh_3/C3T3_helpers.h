@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.1.2/Mesh_3/include/CGAL/Mesh_3/C3T3_helpers.h $
-// $Id: C3T3_helpers.h 232cf10 2020-12-04T10:40:42+01:00 Jane Tournois
+// $URL: https://github.com/CGAL/cgal/blob/v5.2/Mesh_3/include/CGAL/Mesh_3/C3T3_helpers.h $
+// $Id: C3T3_helpers.h 3fc0ba4 2020-12-09T15:35:47+01:00 Laurent Rineau
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -3651,10 +3651,17 @@ incident_slivers(const Vertex_handle& v,
   std::vector<Cell_handle> incident_cells_;
   tr_.incident_cells(v, std::back_inserter(incident_cells_));
 
+#ifdef CGAL_CXX17
+  std::remove_copy_if(incident_cells_.begin(),
+                      incident_cells_.end(),
+                      out,
+                      std::not_fn(Is_sliver<Sc>(c3t3_, criterion, sliver_bound)));
+#else
   std::remove_copy_if(incident_cells_.begin(),
                       incident_cells_.end(),
                       out,
                       std::not1(Is_sliver<Sc>(c3t3_,criterion,sliver_bound)));
+#endif
 
   return out;
 }

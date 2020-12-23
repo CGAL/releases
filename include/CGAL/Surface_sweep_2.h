@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.1.2/Surface_sweep_2/include/CGAL/Surface_sweep_2.h $
-// $Id: Surface_sweep_2.h 4158542 2020-04-01T12:31:51+03:00 Efi Fogel
+// $URL: https://github.com/CGAL/cgal/blob/v5.2/Surface_sweep_2/include/CGAL/Surface_sweep_2.h $
+// $Id: Surface_sweep_2.h 2c490b7 2020-10-20T15:17:24+02:00 Simon Giraudot
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s) : Baruch Zukerman <baruchzu@post.tau.ac.il>
@@ -26,8 +26,7 @@
 
 #include <CGAL/Object.h>
 #include <CGAL/No_intersection_surface_sweep_2.h>
-#include <CGAL/Surface_sweep_2/Curve_pair.h>
-#include <boost/unordered_set.hpp>
+#include <CGAL/Surface_sweep_2/Random_access_output_iterator.h>
 #include <CGAL/algorithm.h>
 
 namespace CGAL {
@@ -102,18 +101,11 @@ public:
 
   typedef typename Base::Status_line_iterator           Status_line_iterator;
 
-  typedef CGAL::Surface_sweep_2::Curve_pair<Subcurve>   Curve_pair;
-  typedef boost::hash<Curve_pair>                       Curve_pair_hasher;
-  typedef CGAL::Surface_sweep_2::Equal_curve_pair<Subcurve>
-                                                        Equal_curve_pair;
-  typedef boost::unordered_set<Curve_pair, Curve_pair_hasher, Equal_curve_pair>
-                                                        Curve_pair_set;
-
   typedef std::pair<Point_2, Multiplicity>              Intersection_point;
   typedef boost::variant<Intersection_point, X_monotone_curve_2>
                                                         Intersection_result;
   typedef std::vector<Intersection_result>              Intersection_vector;
-  typedef random_access_input_iterator<Intersection_vector>
+  typedef Random_access_output_iterator<Intersection_vector>
                                                         vector_inserter;
   typedef typename Base::Subcurve_alloc                 Subcurve_alloc;
 protected:
@@ -121,9 +113,6 @@ protected:
   Subcurve_container m_overlap_subCurves;
                                      // Contains all of the new sub-curves
                                      // creaed by an overlap.
-
-  Curve_pair_set m_curves_pair_set;  // A lookup table of pairs of Subcurves
-                                     // that have been intersected.
 
   Intersection_vector m_x_objects;   // Auxiliary vector for storing the
                                      // intersection objects.
@@ -135,7 +124,7 @@ public:
   /*! Constructor.
    * \param visitor A pointer to a sweep-line visitor object.
    */
-  Surface_sweep_2(Visitor* visitor) : Base(visitor), m_curves_pair_set(0) {}
+  Surface_sweep_2(Visitor* visitor) : Base(visitor) {}
 
   /*!
    * Construct.
@@ -143,8 +132,7 @@ public:
    * \param visitor A pointer to a sweep-line visitor object.
    */
   Surface_sweep_2(const Geometry_traits_2* traits, Visitor* visitor) :
-    Base(traits, visitor),
-    m_curves_pair_set(0)
+    Base(traits, visitor)
   {}
 
   /*! Destrcut. */

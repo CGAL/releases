@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.1.2/Polygon_mesh_processing/include/CGAL/Polygon_mesh_processing/manifoldness.h $
-// $Id: manifoldness.h a84927d 2020-07-23T17:15:44+02:00 Laurent Rineau
+// $URL: https://github.com/CGAL/cgal/blob/v5.2/Polygon_mesh_processing/include/CGAL/Polygon_mesh_processing/manifoldness.h $
+// $Id: manifoldness.h 10ba347 2020-10-02T15:20:53+02:00 Sebastien Loriot
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Sebastien Loriot,
@@ -174,10 +174,10 @@ std::size_t make_umbrella_manifold(typename boost::graph_traits<PolygonMesh>::ha
 
   typedef typename internal_np::Lookup_named_param_def<internal_np::vertex_is_constrained_t,
                                                        NamedParameters,
-                                                       Constant_property_map<vertex_descriptor, bool> // default (no constraint pmap)
+                                                       Static_boolean_property_map<vertex_descriptor, false> // default (no constraint pmap)
                                                        >::type                  VerticesMap;
   VerticesMap cmap = choose_parameter(get_parameter(np, internal_np::vertex_is_constrained),
-                                      Constant_property_map<vertex_descriptor, bool>(false));
+                                      Static_boolean_property_map<vertex_descriptor, false>());
 
   std::size_t nb_new_vertices = 0;
 

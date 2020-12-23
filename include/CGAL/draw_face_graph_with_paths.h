@@ -3,7 +3,7 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.1.2/Surface_mesh_topology/include/CGAL/draw_face_graph_with_paths.h $
+// $URL: https://github.com/CGAL/cgal/blob/v5.2/Surface_mesh_topology/include/CGAL/draw_face_graph_with_paths.h $
 // $Id: draw_face_graph_with_paths.h 9b5205f 2020-04-22T19:58:34+02:00 Guillaume Damiand
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //

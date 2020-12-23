@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.1.2/Polygon_mesh_processing/include/CGAL/Polygon_mesh_processing/random_perturbation.h $
-// $Id: random_perturbation.h c253679 2020-04-18T16:27:58+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v5.2/Polygon_mesh_processing/include/CGAL/Polygon_mesh_processing/random_perturbation.h $
+// $Id: random_perturbation.h 10ba347 2020-10-02T15:20:53+02:00 Sebastien Loriot
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -182,10 +182,10 @@ void random_perturbation(VertexRange vertices
   typedef typename internal_np::Lookup_named_param_def <
       internal_np::vertex_is_constrained_t,
       NamedParameters,
-      Constant_property_map<vertex_descriptor, bool> // default
+      Static_boolean_property_map<vertex_descriptor, false> // default
     > ::type VCMap;
   VCMap vcmap = choose_parameter(get_parameter(np, internal_np::vertex_is_constrained),
-                                 Constant_property_map<vertex_descriptor, bool>(false));
+                                 Static_boolean_property_map<vertex_descriptor, false>());
 
   unsigned int seed = choose_parameter(get_parameter(np, internal_np::random_seed), -1);
   bool do_project = choose_parameter(get_parameter(np, internal_np::do_project), true);

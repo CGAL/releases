@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.1.2/Surface_mesh_parameterization/include/CGAL/Surface_mesh_parameterization/internal/validity.h $
-// $Id: validity.h 41bb11c 2019-11-19T17:08:25+01:00 Mael Rouxel-Labbé
+// $URL: https://github.com/CGAL/cgal/blob/v5.2/Surface_mesh_parameterization/include/CGAL/Surface_mesh_parameterization/internal/validity.h $
+// $Id: validity.h d5185e6 2020-07-21T13:38:47+02:00 Mael Rouxel-Labbé
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Mael Rouxel-Labbé
@@ -232,7 +232,7 @@ public:
   { }
 };
 
-/// Check if the 3D -> 2D mapping is one-to-one.
+/// returns whether the 3D -> 2D mapping is one-to-one.
 /// This function is stronger than "has_flips()" because the parameterized
 /// surface can loop over itself without creating any flips.
 template <typename TriangleMesh,

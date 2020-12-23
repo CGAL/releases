@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.1.2/Periodic_4_hyperbolic_triangulation_2/include/CGAL/Periodic_4_hyperbolic_Delaunay_triangulation_traits_2.h $
-// $Id: Periodic_4_hyperbolic_Delaunay_triangulation_traits_2.h 0779373 2020-03-26T13:31:46+01:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v5.2/Periodic_4_hyperbolic_triangulation_2/include/CGAL/Periodic_4_hyperbolic_Delaunay_triangulation_traits_2.h $
+// $Id: Periodic_4_hyperbolic_Delaunay_triangulation_traits_2.h 5c8df66 2020-09-25T14:25:14+02:00 Jane Tournois
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     :   Iordan Iordanov
@@ -50,23 +50,7 @@ class Hyperbolic_traits_with_translations_2_adaptor
 public:
   typedef typename Predicate::result_type                 result_type;
 
-#ifndef CGAL_CFG_MATCHING_BUG_6
   using Predicate::operator();
-#else
-  result_type operator()(const Point& p0, const Point& p1) const
-  {
-          return Predicate()(p0, p1);
-  }
-  result_type operator()(const Point& p0, const Point& p1, const Point& p2) const
-  {
-    return Predicate()(p0,p1,p2);
-  }
-
-  result_type operator()(const Point& p0, const Point& p1, const Point& p2, const Point& p3) const
-  {
-    return Predicate()(p0,p1,p2,p3);
-  }
-#endif
 
   Hyperbolic_traits_with_translations_2_adaptor(const Predicate_ pred = Predicate_()) : Predicate_(pred) {}
 
@@ -127,14 +111,7 @@ private:
 public:
   typedef Point                                           result_type;
 
-#ifndef CGAL_CFG_MATCHING_BUG_6
   using Construct_point_base::operator();
-#else
-  Point operator()(const NT& x, const NT& y) const
-  {
-    return Construct_point_base()(x,y);
-  }
-#endif
 
   Periodic_4_construct_hyperbolic_point_2() { }
 

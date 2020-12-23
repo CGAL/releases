@@ -2,8 +2,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.1.2/Classification/include/CGAL/Classification/ETHZ/internal/random-forest/tree.hpp $
-// $Id: tree.hpp 7cfe6df 2020-04-07T11:02:16+02:00 Simon Giraudot
+// $URL: https://github.com/CGAL/cgal/blob/v5.2/Classification/include/CGAL/Classification/ETHZ/internal/random-forest/tree.hpp $
+// $Id: tree.hpp ed25fd2 2020-04-07T11:02:16+02:00 Simon Giraudot
 // SPDX-License-Identifier: LicenseRef-RFL
 // License notice in Installation/LICENSE.RFL
 //
@@ -128,6 +128,17 @@ public:
         ar & BOOST_SERIALIZATION_NVP(root_node);
     }
 #endif
+
+    void write (std::ostream& os)
+    {
+      root_node->write(os);
+    }
+
+    void read (std::istream& is)
+    {
+      root_node.reset(new NodeT(0, params));
+      root_node->read(is);
+    }
 
     void get_feature_usage (std::vector<std::size_t>& count) const
     {

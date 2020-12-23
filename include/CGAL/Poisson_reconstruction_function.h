@@ -3,7 +3,7 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.1.2/Poisson_surface_reconstruction_3/include/CGAL/Poisson_reconstruction_function.h $
+// $URL: https://github.com/CGAL/cgal/blob/v5.2/Poisson_surface_reconstruction_3/include/CGAL/Poisson_reconstruction_function.h $
 // $Id: Poisson_reconstruction_function.h d6e94ee 2020-10-29T10:51:19+01:00 Laurent Rineau
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //

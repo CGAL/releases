@@ -4,8 +4,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.1.2/Classification/include/CGAL/Classification/Feature/Distance_to_plane.h $
-// $Id: Distance_to_plane.h 0779373 2020-03-26T13:31:46+01:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v5.2/Classification/include/CGAL/Classification/Feature/Distance_to_plane.h $
+// $Id: Distance_to_plane.h 0e934b1 2020-08-04T13:16:13+02:00 Simon Giraudot
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Simon Giraudot, Florent Lafarge
@@ -46,8 +46,7 @@ namespace Feature {
 template <typename PointRange, typename PointMap>
 class Distance_to_plane : public Feature_base
 {
-
-  typedef typename CGAL::Kernel_traits<typename PointMap::value_type>::Kernel Kernel;
+  using Kernel = typename CGAL::Kernel_traits<typename PointMap::value_type>::Kernel;
 
 #ifdef CGAL_CLASSIFICATION_PRECOMPUTE_FEATURES
   std::vector<float> distance_to_plane_feature;
@@ -59,7 +58,7 @@ class Distance_to_plane : public Feature_base
 
 public:
   /*!
-    \brief Constructs the feature.
+    \brief constructs the feature.
 
     \param input point range.
     \param point_map property map to access the input points.

@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.1.2/Polygon_mesh_processing/include/CGAL/Polygon_mesh_processing/smooth_mesh.h $
-// $Id: smooth_mesh.h a84927d 2020-07-23T17:15:44+02:00 Laurent Rineau
+// $URL: https://github.com/CGAL/cgal/blob/v5.2/Polygon_mesh_processing/include/CGAL/Polygon_mesh_processing/smooth_mesh.h $
+// $Id: smooth_mesh.h 10ba347 2020-10-02T15:20:53+02:00 Sebastien Loriot
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -158,7 +158,7 @@ void smooth_mesh(const FaceRange& faces,
 
   typedef typename internal_np::Lookup_named_param_def<internal_np::edge_is_constrained_t,
                                                  NamedParameters,
-                                                 Constant_property_map<edge_descriptor, bool> // default
+                                                 Static_boolean_property_map<edge_descriptor, false> // default
                                                  > ::type                             ECMap;
 
   typedef internal::Area_smoother<TriangleMesh, VertexPointMap, GeomTraits>           Area_optimizer;
@@ -218,7 +218,7 @@ void smooth_mesh(const FaceRange& faces,
   }
 
   ECMap ecmap = choose_parameter(get_parameter(np, internal_np::edge_is_constrained),
-                                 Constant_property_map<edge_descriptor, bool>(false));
+                                 Static_boolean_property_map<edge_descriptor, false>());
 
   // a constrained edge has constrained extremities
   for(face_descriptor f : faces)

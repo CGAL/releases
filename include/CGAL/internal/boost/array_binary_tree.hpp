@@ -8,8 +8,8 @@
 // https://www.boost.org/LICENSE_1_0.txt)
 //=======================================================================
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.1.2/STL_Extension/include/CGAL/internal/boost/array_binary_tree.hpp $
-// $Id: array_binary_tree.hpp 590612a 2020-03-26T13:25:16+01:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v5.2/STL_Extension/include/CGAL/internal/boost/array_binary_tree.hpp $
+// $Id: array_binary_tree.hpp 2876ad9 2020-04-10T18:15:32+02:00 Sébastien Loriot
 // SPDX-License-Identifier: BSL-1.0
 //
 // NOTE: this file have been taken from boost 1.46.1 for using
@@ -23,6 +23,7 @@
 #include <CGAL/iterator.h>
 
 #include <boost/config.hpp>
+#include <boost/iterator.hpp>
 
 #include <functional>
 

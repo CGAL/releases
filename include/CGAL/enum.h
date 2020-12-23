@@ -7,8 +7,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.1.2/Kernel_23/include/CGAL/enum.h $
-// $Id: enum.h 0779373 2020-03-26T13:31:46+01:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v5.2/Kernel_23/include/CGAL/enum.h $
+// $Id: enum.h 5c8df66 2020-09-25T14:25:14+02:00 Jane Tournois
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -99,28 +99,10 @@ enum Box_parameter_space_2
         EXTERIOR
      };
 
-
-
-#ifdef CGAL_CFG_MATCHING_BUG_5
-
-template < typename T, typename U >
-inline
-T enum_cast_bug(const U& u, const T*)
-{ return static_cast<T>(u); }
-
-template < typename T, typename U >
-inline
-typename Same_uncertainty<T,U>::type enum_cast(const U& u)
-{ return enum_cast_bug(u, (const T*)0); }
-
-#else
-
 template < typename T, typename U >
 inline
 T enum_cast(const U& u)
 { return static_cast<T>(u); }
-
-#endif
 
 } //namespace CGAL
 

@@ -3,7 +3,7 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.1.2/TDS_2/include/CGAL/Triangulation_data_structure_2.h $
+// $URL: https://github.com/CGAL/cgal/blob/v5.2/TDS_2/include/CGAL/Triangulation_data_structure_2.h $
 // $Id: Triangulation_data_structure_2.h 871c972 2020-06-03T16:23:22+02:00 Laurent Rineau
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //

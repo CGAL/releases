@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.1.2/Polygon_mesh_processing/include/CGAL/Polygon_mesh_processing/smooth_shape.h $
-// $Id: smooth_shape.h c253679 2020-04-18T16:27:58+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v5.2/Polygon_mesh_processing/include/CGAL/Polygon_mesh_processing/smooth_shape.h $
+// $Id: smooth_shape.h 10ba347 2020-10-02T15:20:53+02:00 Sebastien Loriot
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -115,7 +115,7 @@ void smooth_shape(const FaceRange& faces,
   typedef typename internal_np::Lookup_named_param_def<
                      internal_np::vertex_is_constrained_t,
                      NamedParameters,
-                     Constant_property_map<vertex_descriptor, bool> >::type  VCMap;
+                     Static_boolean_property_map<vertex_descriptor, false> >::type  VCMap;
 
   using parameters::choose_parameter;
   using parameters::get_parameter;
@@ -124,7 +124,7 @@ void smooth_shape(const FaceRange& faces,
   VertexPointMap vpmap = choose_parameter(get_parameter(np, internal_np::vertex_point),
                                           get_property_map(CGAL::vertex_point, tmesh));
   VCMap vcmap = choose_parameter(get_parameter(np, internal_np::vertex_is_constrained),
-                                 Constant_property_map<vertex_descriptor, bool>(false));
+                                 Static_boolean_property_map<vertex_descriptor, false>());
   const unsigned int nb_iterations = choose_parameter(get_parameter(np, internal_np::number_of_iterations), 1);
 
 #if defined(CGAL_EIGEN3_ENABLED)

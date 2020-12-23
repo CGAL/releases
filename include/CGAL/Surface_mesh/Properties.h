@@ -1,12 +1,11 @@
-//=============================================================================
 // Copyright (C) 2001-2005 by Computer Graphics Group, RWTH Aachen
 // Copyright (C) 2011 by Graphics & Geometry Group, Bielefeld University
 // Copyright (C) 2014 GeometryFactory
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.1.2/Surface_mesh/include/CGAL/Surface_mesh/Properties.h $
-// $Id: Properties.h e9d41d7 2020-04-21T10:03:00+02:00 Maxime Gimeno
+// $URL: https://github.com/CGAL/cgal/blob/v5.2/Surface_mesh/include/CGAL/Surface_mesh/Properties.h $
+// $Id: Properties.h 2cabe68 2020-10-14T18:01:34+02:00 Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 
@@ -451,6 +450,16 @@ public:
         size_ = n;
     }
 
+    // resize the vector of properties to n, deleting all other properties
+    void resize_property_array(size_t n)
+    {
+        if (parrays_.size()<=n)
+          return;
+        for (std::size_t i=n; i<parrays_.size(); ++i)
+            delete parrays_[i];
+        parrays_.resize(n);
+    }
+
     // free unused space in all arrays
     void shrink_to_fit()
     {
@@ -607,7 +616,9 @@ public:
     }
 
     //@}
+#ifndef CGAL_TEST_SURFACE_MESH
 private:
+#endif
 
     Property_array<T>& array()
     {

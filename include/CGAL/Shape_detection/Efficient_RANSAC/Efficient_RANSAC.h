@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.1.2/Shape_detection/include/CGAL/Shape_detection/Efficient_RANSAC/Efficient_RANSAC.h $
-// $Id: Efficient_RANSAC.h 8c7d012 2020-12-08T15:35:22+01:00 Simon Giraudot
+// $URL: https://github.com/CGAL/cgal/blob/v5.2/Shape_detection/include/CGAL/Shape_detection/Efficient_RANSAC/Efficient_RANSAC.h $
+// $Id: Efficient_RANSAC.h a0e1b15 2020-12-15T09:07:21+01:00 Laurent Rineau
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -527,10 +527,10 @@ namespace CGAL {
       std::vector<Shape *> candidates;
 
       // Identifying minimum number of samples
-      std::size_t required_samples = 0;
+      m_required_samples = 0;
       for (std::size_t i = 0;i<m_shape_factories.size();i++) {
         Shape *tmp = (Shape *) m_shape_factories[i]();
-        required_samples = (std::max<std::size_t>)(required_samples, tmp->minimum_sample_size());
+        m_required_samples = (std::max<std::size_t>)(m_required_samples, tmp->minimum_sample_size());
         delete tmp;
       }
 
@@ -556,45 +556,52 @@ namespace CGAL {
 
         if (keep_searching)
           do {
-            // Generate candidates
-            //1. pick a point p1 randomly among available points
-            std::set<std::size_t> indices;
-            bool done = false;
-            do {
-              do
-              first_sample = get_default_random()(
-                static_cast<unsigned int>(m_num_available_points));
-              while (m_shape_index[first_sample] != -1);
+            // Search (remaining_points / min_points) shapes (max 200 per iteration, min 1)
+            std::size_t search_number
+              = (std::min)(std::size_t(200),
+                           (std::max)(std::size_t((m_num_available_points - num_invalid) / double(m_options.min_points)),
+                                      std::size_t(1)));
+            for (std::size_t nb = 0; nb < search_number; ++ nb)
+            {
+              // Generate candidates
+              //1. pick a point p1 randomly among available points
+              std::set<std::size_t> indices;
+              bool done = false;
+              do {
+                do
+                  first_sample = get_default_random()(
+                    static_cast<unsigned int>(m_num_available_points));
+                while (m_shape_index[first_sample] != -1);
 
-              done = m_global_octree->drawSamplesFromCellContainingPoint(
-                get(m_point_pmap,
-                *(m_input_iterator_first + first_sample)),
-                select_random_octree_level(),
-                indices,
-                m_shape_index,
-                required_samples);
+                done = m_global_octree->drawSamplesFromCellContainingPoint(
+                  get(m_point_pmap,
+                      *(m_input_iterator_first + first_sample)),
+                  select_random_octree_level(),
+                  indices,
+                  m_shape_index,
+                  m_required_samples);
 
-              if (callback && !callback(num_invalid / double(m_num_total_points)))
-                return false;
+                if (callback && !callback(num_invalid / double(m_num_total_points)))
+                  return false;
 
-            } while (m_shape_index[first_sample] != -1 || !done);
+              } while (m_shape_index[first_sample] != -1 || !done);
 
-            generated_candidates++;
+              generated_candidates++;
 
-            //add candidate for each type of primitives
-            for(typename std::vector<Shape *(*)()>::iterator it =
-              m_shape_factories.begin(); it != m_shape_factories.end(); it++)        {
+              //add candidate for each type of primitives
+              for(typename std::vector<Shape *(*)()>::iterator it =
+                    m_shape_factories.begin(); it != m_shape_factories.end(); it++)        {
                 if (callback && !callback(num_invalid / double(m_num_total_points)))
                   return false;
                 Shape *p = (Shape *) (*it)();
                 //compute the primitive and says if the candidate is valid
                 p->compute(indices,
-                  m_input_iterator_first,
-                  m_traits,
-                  m_point_pmap,
-                  m_normal_pmap,
-                  m_options.epsilon,
-                  m_options.normal_threshold);
+                           m_input_iterator_first,
+                           m_traits,
+                           m_point_pmap,
+                           m_normal_pmap,
+                           m_options.epsilon,
+                           m_options.normal_threshold);
 
                 if (p->is_valid()) {
                   improve_bound(p, m_num_available_points - num_invalid, 1, 500);
@@ -615,6 +622,7 @@ namespace CGAL {
                   failed_candidates++;
                   delete p;
                 }
+              }
             }
 
             if (failed_candidates >= limit_failed_candidates)
@@ -1022,7 +1030,8 @@ namespace CGAL {
     }
 
     inline FT stop_probability(std::size_t largest_candidate, std::size_t num_pts, std::size_t num_candidates, std::size_t octree_depth) const {
-      return (std::min<FT>)(std::pow((FT) 1.f - (FT) largest_candidate / FT(num_pts * octree_depth * 4), (int) num_candidates), (FT) 1);
+      return (std::min<FT>)(std::pow((FT) 1.f - (FT) largest_candidate
+                                     / (FT(num_pts) * (octree_depth+1) * (1 << (m_required_samples - 1))), (int) num_candidates), (FT) 1);
     }
 
   private:
@@ -1042,6 +1051,7 @@ namespace CGAL {
     std::vector<int> m_shape_index;
     std::size_t m_num_available_points;
     std::size_t m_num_total_points;
+    std::size_t m_required_samples;
 
     //give the index of the subset of point i
     std::vector<int> m_index_subsets;

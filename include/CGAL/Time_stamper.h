@@ -3,7 +3,7 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.1.2/STL_Extension/include/CGAL/Time_stamper.h $
+// $URL: https://github.com/CGAL/cgal/blob/v5.2/STL_Extension/include/CGAL/Time_stamper.h $
 // $Id: Time_stamper.h e82ea5d 2020-01-29T17:13:11+01:00 Laurent Rineau
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //

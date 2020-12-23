@@ -4,8 +4,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.1.2/Classification/include/CGAL/Classification/Feature/Height_above.h $
-// $Id: Height_above.h e9d41d7 2020-04-21T10:03:00+02:00 Maxime Gimeno
+// $URL: https://github.com/CGAL/cgal/blob/v5.2/Classification/include/CGAL/Classification/Feature/Height_above.h $
+// $Id: Height_above.h 19004a7 2020-08-04T13:41:48+02:00 Simon Giraudot
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Florent Lafarge, Simon Giraudot
@@ -49,10 +49,8 @@ namespace Feature {
 template <typename GeomTraits, typename PointRange, typename PointMap>
 class Height_above : public Feature_base
 {
-  typedef typename GeomTraits::Iso_cuboid_3 Iso_cuboid_3;
-
-  typedef Image<float> Image_float;
-  typedef Planimetric_grid<GeomTraits, PointRange, PointMap> Grid;
+  using Image_float = Image<float>;
+  using Grid = Planimetric_grid<GeomTraits, PointRange, PointMap>;
 
   const PointRange& input;
   PointMap point_map;
@@ -62,7 +60,7 @@ class Height_above : public Feature_base
 
 public:
   /*!
-    \brief Constructs the feature.
+    \brief constructs the feature.
 
     \param input point range.
     \param point_map property map to access the input points.

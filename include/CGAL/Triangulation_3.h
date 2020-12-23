@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.1.2/Triangulation_3/include/CGAL/Triangulation_3.h $
-// $Id: Triangulation_3.h 022b1a7 2020-07-21T15:27:49+02:00 Laurent Rineau
+// $URL: https://github.com/CGAL/cgal/blob/v5.2/Triangulation_3/include/CGAL/Triangulation_3.h $
+// $Id: Triangulation_3.h b87e226 2020-11-03T18:53:02+01:00 Jane Tournois
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Monique Teillaud <Monique.Teillaud@sophia.inria.fr>
@@ -42,6 +42,8 @@
 
 #include <CGAL/spatial_sort.h>
 #include <CGAL/Spatial_sort_traits_adapter_3.h>
+
+#include <CGAL/Triangulation_segment_traverser_3.h>
 
 #include <CGAL/iterator.h>
 #include <CGAL/function_objects.h>
@@ -523,6 +525,12 @@ public:
 
   typedef Iterator_range<Finite_edges_iterator> Finite_edges;
   typedef Iterator_range<Finite_facets_iterator> Finite_facets;
+
+  typedef Triangulation_segment_cell_iterator_3<Self>    Segment_cell_iterator;
+  typedef Triangulation_segment_simplex_iterator_3<Self> Segment_simplex_iterator;
+
+  typedef Iterator_range<Prevent_deref<Segment_cell_iterator> >    Segment_traverser_cell_handles;
+  typedef Iterator_range<Segment_simplex_iterator> Segment_traverser_simplices;
 
 private:
   // Auxiliary iterators for convenience
@@ -2195,6 +2203,73 @@ public:
   {
     return _tds.incident_edges_threadsafe(v, edges, Finite_filter(this));
   }
+
+  //// Segment Cell Iterator
+  Segment_cell_iterator segment_traverser_cells_begin(Vertex_handle vs,
+                                                      Vertex_handle vt) const
+  {
+    Segment_cell_iterator it(this, vs, vt);
+    return it;
+  }
+  Segment_cell_iterator segment_traverser_cells_begin(const Point& ps,
+                                                      const Point& pt,
+                                                      Cell_handle hint = Cell_handle()) const
+  {
+    Segment_cell_iterator it(this, ps, pt, hint);
+    return it;
+  }
+  Segment_cell_iterator segment_traverser_cells_end() const
+  {
+    Segment_cell_iterator it(this);
+    return it.end();
+  }
+  Segment_traverser_cell_handles segment_traverser_cell_handles(Vertex_handle vs,
+                                                                Vertex_handle vt) const
+  {
+    return make_prevent_deref_range(segment_traverser_cells_begin(vs, vt),
+                                    segment_traverser_cells_end());
+  }
+  Segment_traverser_cell_handles segment_traverser_cell_handles(const Point& ps,
+                                                                const Point& pt,
+                                                                Cell_handle hint = Cell_handle()) const
+  {
+    return make_prevent_deref_range(segment_traverser_cells_begin(ps, pt, hint),
+                                    segment_traverser_cells_end());
+  }
+
+  //// Segment Simplex Iterator
+  Segment_simplex_iterator segment_traverser_simplices_begin(Vertex_handle vs,
+                                                             Vertex_handle vt) const
+  {
+    Segment_simplex_iterator it(this, vs, vt);
+    return it;
+  }
+  Segment_simplex_iterator segment_traverser_simplices_begin(const Point& ps,
+                                                             const Point& pt,
+                                                             Cell_handle hint = Cell_handle()) const
+  {
+    Segment_simplex_iterator it(this, ps, pt, hint);
+    return it;
+  }
+  Segment_simplex_iterator segment_traverser_simplices_end() const
+  {
+    Segment_simplex_iterator it(this);
+    return it.end();
+  }
+  Segment_traverser_simplices segment_traverser_simplices(Vertex_handle vs,
+                                                          Vertex_handle vt) const
+  {
+    return Segment_traverser_simplices(segment_traverser_simplices_begin(vs, vt),
+                                       segment_traverser_simplices_end());
+  }
+  Segment_traverser_simplices segment_traverser_simplices(const Point& ps,
+                                                          const Point& pt,
+                                                          Cell_handle hint = Cell_handle()) const
+  {
+    return Segment_traverser_simplices(segment_traverser_simplices_begin(ps, pt, hint),
+                                       segment_traverser_simplices_end());
+  }
+
 
   size_type degree(Vertex_handle v) const
   {

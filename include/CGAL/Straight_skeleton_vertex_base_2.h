@@ -2,8 +2,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.1.2/Straight_skeleton_2/include/CGAL/Straight_skeleton_vertex_base_2.h $
-// $Id: Straight_skeleton_vertex_base_2.h 0779373 2020-03-26T13:31:46+01:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v5.2/Straight_skeleton_2/include/CGAL/Straight_skeleton_vertex_base_2.h $
+// $Id: Straight_skeleton_vertex_base_2.h 655d427 2020-09-11T15:00:12+02:00 Mael Rouxel-Labbé
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Fernando Cacciola <fernando_cacciola@ciudad.com.ar>
@@ -13,7 +13,6 @@
 
 #include <CGAL/license/Straight_skeleton_2.h>
 
-
 #include <CGAL/Straight_skeleton_2/Straight_skeleton_aux.h>
 #include <CGAL/Straight_skeleton_halfedge_base_2.h>
 #include <CGAL/circulator.h>
@@ -21,6 +20,8 @@
 #include <CGAL/use.h>
 
 #include <boost/iterator/iterator_facade.hpp>
+
+#include <limits>
 
 namespace CGAL {
 

@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.1.2/Arrangement_on_surface_2/include/CGAL/Arr_linear_traits_2.h $
-// $Id: Arr_linear_traits_2.h 5d37a1b 2020-04-22T00:31:33+03:00 Efi Fogel
+// $URL: https://github.com/CGAL/cgal/blob/v5.2/Arrangement_on_surface_2/include/CGAL/Arr_linear_traits_2.h $
+// $Id: Arr_linear_traits_2.h 436ba5f 2020-06-30T21:23:16+03:00 Efi Fogel
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -1239,16 +1239,18 @@ public:
      * given output iterator. As segments are always x_monotone, only one
      * object will be contained in the iterator.
      * \param cv The curve.
-     * \param oi The output iterator, whose value-type is Object. The output
-     *           object is a wrapper of an X_monotone_curve_2 which is
-     *           essentially the same as the input curve.
+     * \param oi an output iterator for the result. Its dereference type is a
+     *           variant that wraps a \c Point_2 or an \c X_monotone_curve_2
+     *           objects.
      * \return The past-the-end iterator.
      */
     template <typename OutputIterator>
     OutputIterator operator()(const Curve_2& cv, OutputIterator oi) const
     {
-      // Wrap the curve with an object.
-      *oi++ = make_object(cv);
+      // Wrap the segment with a variant.
+      typedef boost::variant<Point_2, X_monotone_curve_2>
+        Make_x_monotone_result;
+      *oi++ = Make_x_monotone_result(cv);
       return oi;
     }
   };

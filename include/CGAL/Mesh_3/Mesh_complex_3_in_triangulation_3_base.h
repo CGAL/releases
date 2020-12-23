@@ -4,7 +4,7 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.1.2/Mesh_3/include/CGAL/Mesh_3/Mesh_complex_3_in_triangulation_3_base.h $
+// $URL: https://github.com/CGAL/cgal/blob/v5.2/Mesh_3/include/CGAL/Mesh_3/Mesh_complex_3_in_triangulation_3_base.h $
 // $Id: Mesh_complex_3_in_triangulation_3_base.h 5572d9d 2020-06-24T10:59:19+02:00 Laurent Rineau
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //

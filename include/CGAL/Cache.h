@@ -1,17 +1,14 @@
-// =============================================================================
-//
 // Copyright (c) 2001-2007 Max-Planck-Institute Saarbruecken (Germany).
 // All rights reserved.
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.1.2/STL_Extension/include/CGAL/Cache.h $
-// $Id: Cache.h 0779373 2020-03-26T13:31:46+01:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v5.2/STL_Extension/include/CGAL/Cache.h $
+// $Id: Cache.h e893ac1 2020-08-18T10:06:51+02:00 Sébastien Loriot
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Michael Hemmer    <hemmer@mpi-inf.mpg.de>
 //
-// =============================================================================
 
 #ifndef CGAL_CACHE_H
 #define CGAL_CACHE_H 1

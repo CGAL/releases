@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.1.2/GraphicsView/include/CGAL/Buffer_for_vao.h $
-// $Id: Buffer_for_vao.h 1939419 2020-11-05T08:49:33+01:00 Laurent Rineau
+// $URL: https://github.com/CGAL/cgal/blob/v5.2/GraphicsView/include/CGAL/Buffer_for_vao.h $
+// $Id: Buffer_for_vao.h 604e352 2020-11-04T20:46:04+01:00 Laurent Rineau
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //

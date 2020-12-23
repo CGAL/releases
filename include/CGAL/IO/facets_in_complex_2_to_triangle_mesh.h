@@ -1,16 +1,15 @@
 // Copyright (c) 2007-09  INRIA Sophia-Antipolis (France).
 // Copyright (c) 2017 GeometryFactory (France).
-
-
 // All rights reserved.
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.1.2/Surface_mesher/include/CGAL/IO/facets_in_complex_2_to_triangle_mesh.h $
-// $Id: facets_in_complex_2_to_triangle_mesh.h 2402f3f 2020-09-10T16:14:58+01:00 Andreas Fabri
+// $URL: https://github.com/CGAL/cgal/blob/v5.2/Surface_mesher/include/CGAL/IO/facets_in_complex_2_to_triangle_mesh.h $
+// $Id: facets_in_complex_2_to_triangle_mesh.h 7652091 2020-10-02T15:15:31+02:00 Sebastien Loriot
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s) : Maxime Gimeno, Pierre Alliez
+
 #ifndef CGAL_FACETS_IN_COMPLEX_2_TO_TRIANGLE_MESH_H
 #define CGAL_FACETS_IN_COMPLEX_2_TO_TRIANGLE_MESH_H
 

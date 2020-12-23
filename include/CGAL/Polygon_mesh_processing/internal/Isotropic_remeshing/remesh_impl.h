@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.1.2/Polygon_mesh_processing/include/CGAL/Polygon_mesh_processing/internal/Isotropic_remeshing/remesh_impl.h $
-// $Id: remesh_impl.h 1afacb1 2020-12-15T17:39:10+01:00 Jane Tournois
+// $URL: https://github.com/CGAL/cgal/blob/v5.2/Polygon_mesh_processing/include/CGAL/Polygon_mesh_processing/internal/Isotropic_remeshing/remesh_impl.h $
+// $Id: remesh_impl.h 1357ebc 2020-12-17T17:02:46+01:00 Laurent Rineau
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -323,7 +323,6 @@ namespace internal {
     {
       halfedge_status_pmap_ = get(CGAL::dynamic_halfedge_property_t<Halfedge_status>(),
                                   pmesh);
-      CGAL_assertion(CGAL::is_triangle_mesh(mesh_));
       CGAL_assertion_code(input_mesh_is_valid_ = CGAL::is_valid_polygon_mesh(pmesh));
       CGAL_warning_msg(input_mesh_is_valid_,
         "The input mesh is not a valid polygon mesh. "
@@ -594,7 +593,6 @@ namespace internal {
 #endif
 
 #ifdef CGAL_PMP_REMESHING_DEBUG
-      CGAL_expensive_assertion(is_triangle_mesh(mesh_));
       debug_status_map();
       debug_self_intersections();
 #endif
@@ -808,7 +806,6 @@ namespace internal {
 #endif
 
 #ifdef CGAL_PMP_REMESHING_DEBUG
-      CGAL_expensive_assertion(is_triangle_mesh(mesh_));
       debug_status_map();
       debug_self_intersections();
       CGAL_assertion(PMP::remove_degenerate_faces(mesh_,
@@ -1038,7 +1035,6 @@ namespace internal {
       }
 
       CGAL_assertion(!input_mesh_is_valid_ || is_valid_polygon_mesh(mesh_));
-      CGAL_assertion(is_triangle_mesh(mesh_));
       }//end for loop (nit == nb_iterations)
 
 #ifdef CGAL_PMP_REMESHING_DEBUG
@@ -1072,7 +1068,6 @@ namespace internal {
         put(vpmap_, v, proj);
       }
       CGAL_assertion(!input_mesh_is_valid_ || is_valid_polygon_mesh(mesh_));
-      CGAL_assertion(is_triangle_mesh(mesh_));
 #ifdef CGAL_PMP_REMESHING_DEBUG
       debug_self_intersections();
 #endif
@@ -1101,7 +1096,6 @@ namespace internal {
         put(vpmap_, v,  proj(v));
       }
       CGAL_assertion(is_valid(mesh_));
-      CGAL_assertion(is_triangle_mesh(mesh_));
 #ifdef CGAL_PMP_REMESHING_DEBUG
       debug_self_intersections();
 #endif
@@ -1530,7 +1524,7 @@ private:
 
       // update status using constrained edge map
       if (!boost::is_same<EdgeIsConstrainedMap,
-                          Constant_property_map<edge_descriptor, bool> >::value)
+                          Static_boolean_property_map<edge_descriptor, false> >::value)
       {
         for(edge_descriptor e : edges(mesh_))
         {

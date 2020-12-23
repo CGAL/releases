@@ -3,7 +3,7 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.1.2/Surface_mesh_approximation/include/CGAL/Variational_shape_approximation.h $
+// $URL: https://github.com/CGAL/cgal/blob/v5.2/Surface_mesh_approximation/include/CGAL/Variational_shape_approximation.h $
 // $Id: Variational_shape_approximation.h 6007fe7 2020-10-28T09:51:02+01:00 Laurent Rineau
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //

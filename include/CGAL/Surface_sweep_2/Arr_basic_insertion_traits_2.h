@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.1.2/Arrangement_on_surface_2/include/CGAL/Surface_sweep_2/Arr_basic_insertion_traits_2.h $
-// $Id: Arr_basic_insertion_traits_2.h 0779373 2020-03-26T13:31:46+01:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v5.2/Arrangement_on_surface_2/include/CGAL/Surface_sweep_2/Arr_basic_insertion_traits_2.h $
+// $Id: Arr_basic_insertion_traits_2.h 0626eb0 2020-06-11T12:32:33+03:00 Efi Fogel
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -23,7 +23,6 @@
  * Defintion of the Arr_basic_insertion_traits_2<Traits,Arrangement> class.
  */
 
-#include <CGAL/Object.h>
 #include <CGAL/Arr_tags.h>
 
 #include <list>

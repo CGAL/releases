@@ -5,8 +5,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.1.2/Filtered_kernel/include/CGAL/internal/Static_filters/Do_intersect_2.h $
-// $Id: Do_intersect_2.h 0779373 2020-03-26T13:31:46+01:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v5.2/Filtered_kernel/include/CGAL/internal/Static_filters/Do_intersect_2.h $
+// $Id: Do_intersect_2.h 5c8df66 2020-09-25T14:25:14+02:00 Jane Tournois
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -38,17 +38,7 @@ public:
 
   typedef typename Base::result_type  result_type;
 
-
-#ifndef CGAL_CFG_MATCHING_BUG_6
   using Base::operator();
-#else // CGAL_CFG_MATCHING_BUG_6
-  template <typename T1, typename T2>
-  result_type
-  operator()(const T1& t1, const T2& t2) const
-  {
-    return Base()(t1,t2);
-  }
-#endif // CGAL_CFG_MATCHING_BUG_6
 
   // The internal::do_intersect(..) function
   // only performs orientation tests on the vertices

@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.1.2/Envelope_2/include/CGAL/Envelope_2/Env_divide_and_conquer_2.h $
-// $Id: Env_divide_and_conquer_2.h 0779373 2020-03-26T13:31:46+01:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v5.2/Envelope_2/include/CGAL/Envelope_2/Env_divide_and_conquer_2.h $
+// $Id: Env_divide_and_conquer_2.h 35fd91b 2020-08-20T16:03:29+02:00 Ahmed Essam
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Ron Wein   <wein@post.tau.ac.il>
@@ -62,9 +62,9 @@ protected:
   typedef Arr_traits_adaptor_2<Traits_2>           Traits_adaptor_2;
 
   // Data members:
-  Traits_adaptor_2  *traits;        // The traits object.
-  bool               own_traits;    // Whether we own the traits object.
-  Envelope_type      env_type;      // Either LOWER or UPPER.
+  const Traits_adaptor_2  *traits;        // The traits object.
+  bool                     own_traits;    // Whether we own the traits object.
+  Envelope_type            env_type;      // Either LOWER or UPPER.
 
   // Copy constructor and assignment operator - not supported.
   Envelope_divide_and_conquer_2 (const Self& );

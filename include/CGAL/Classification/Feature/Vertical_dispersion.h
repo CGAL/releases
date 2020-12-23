@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.1.2/Classification/include/CGAL/Classification/Feature/Vertical_dispersion.h $
-// $Id: Vertical_dispersion.h 0779373 2020-03-26T13:31:46+01:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v5.2/Classification/include/CGAL/Classification/Feature/Vertical_dispersion.h $
+// $Id: Vertical_dispersion.h 0e934b1 2020-08-04T13:16:13+02:00 Simon Giraudot
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Simon Giraudot
@@ -56,8 +56,8 @@ namespace Feature {
 template <typename GeomTraits, typename PointRange, typename PointMap>
 class Vertical_dispersion : public Feature_base
 {
-  typedef Classification::Image<compressed_float> Image_cfloat;
-  typedef Classification::Planimetric_grid<GeomTraits, PointRange, PointMap> Grid;
+  using Image_cfloat = Classification::Image<compressed_float>;
+  using Grid = Classification::Planimetric_grid<GeomTraits, PointRange, PointMap>;
 
   const Grid& grid;
   Image_cfloat Dispersion;
@@ -65,7 +65,7 @@ class Vertical_dispersion : public Feature_base
 
 public:
   /*!
-    \brief Constructs the feature.
+    \brief constructs the feature.
 
     \param input point range.
     \param point_map property map to access the input points.

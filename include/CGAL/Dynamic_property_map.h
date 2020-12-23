@@ -2,8 +2,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.1.2/Property_map/include/CGAL/Dynamic_property_map.h $
-// $Id: Dynamic_property_map.h 8bb22d5 2020-03-26T14:23:37+01:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v5.2/Property_map/include/CGAL/Dynamic_property_map.h $
+// $Id: Dynamic_property_map.h 24bf8b7 2020-10-14T14:21:15+02:00 Laurent Rineau
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -35,7 +35,7 @@ struct Dynamic_property_map {
   typedef const value_type& reference;
   typedef boost::read_write_property_map_tag  category;
 
-  Dynamic_property_map(const V& default_value = V())
+  Dynamic_property_map(const V default_value = V())
     : map_(new Map()), default_value_(default_value)
   {}
 

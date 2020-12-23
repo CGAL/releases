@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.1.2/Surface_sweep_2/include/CGAL/Surface_sweep_2/Surface_sweep_2_impl.h $
-// $Id: Surface_sweep_2_impl.h 4158542 2020-04-01T12:31:51+03:00 Efi Fogel
+// $URL: https://github.com/CGAL/cgal/blob/v5.2/Surface_sweep_2/include/CGAL/Surface_sweep_2/Surface_sweep_2_impl.h $
+// $Id: Surface_sweep_2_impl.h 2c490b7 2020-10-20T15:17:24+02:00 Simon Giraudot
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s) : Baruch Zukerman <baruchzu@post.tau.ac.il>
@@ -44,9 +44,6 @@ void Surface_sweep_2<Vis>::_complete_sweep()
 
   // Complete the sweep process using base sweep-line class.
   Base::_complete_sweep();
-
-  // Clean the set of curve pairs for which we have computed intersections.
-  m_curves_pair_set.clear();
 
   // Free all overlapping subcurves we have created.
   Subcurve_iterator   itr;
@@ -521,9 +518,8 @@ template <typename Vis>
 
   CGAL_assertion(c1 != c2);
 
-  // look up for (c1,c2) in the table and insert if doesnt exist
-  Curve_pair cv_pair(c1,c2);
-  if (! (m_curves_pair_set.insert(cv_pair)).second) {
+  // look up for c1 in the table of c2 (or vice versa if c2<c1) and insert if doesnt exist
+  if ((c1 < c2 ? c1->intersection_exists(c2) : c2->intersection_exists(c1))) {
     CGAL_SS_PRINT_END_EOL("computing intersection (already computed)");
     return;  //the curves have already been checked for intersection
   }

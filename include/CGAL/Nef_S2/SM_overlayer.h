@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.1.2/Nef_S2/include/CGAL/Nef_S2/SM_overlayer.h $
-// $Id: SM_overlayer.h fdb17cb 2020-03-26T19:26:10+01:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v5.2/Nef_S2/include/CGAL/Nef_S2/SM_overlayer.h $
+// $Id: SM_overlayer.h c586c3c 2020-11-18T08:56:02+00:00 Giles Bathgate
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -2118,7 +2118,7 @@ complete_face_support(SVertex_iterator v_start, SVertex_iterator v_end,
 { CGAL_NEF_TRACEN("complete_face_support");
   for (SVertex_iterator v = v_start; v != v_end; ++v) {
     CGAL_NEF_TRACEN("VERTEX = "<<PH(v));
-    Mark m_buffer[2];
+    Mark m_buffer[2] {};
     SHalfedge_handle e_below = halfedge_below(v);
     if ( v == v_start ) {
       for (int i=0; i<2; ++i){

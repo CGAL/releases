@@ -3,7 +3,7 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.1.2/Scale_space_reconstruction_3/include/CGAL/Scale_space_reconstruction_3/Weighted_PCA_smoother.h $
+// $URL: https://github.com/CGAL/cgal/blob/v5.2/Scale_space_reconstruction_3/include/CGAL/Scale_space_reconstruction_3/Weighted_PCA_smoother.h $
 // $Id: Weighted_PCA_smoother.h 8bb22d5 2020-03-26T14:23:37+01:00 Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //

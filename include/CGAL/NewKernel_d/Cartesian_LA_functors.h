@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.1.2/NewKernel_d/include/CGAL/NewKernel_d/Cartesian_LA_functors.h $
-// $Id: Cartesian_LA_functors.h 822bc55 2020-03-27T08:28:48+01:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v5.2/NewKernel_d/include/CGAL/NewKernel_d/Cartesian_LA_functors.h $
+// $Id: Cartesian_LA_functors.h 157841c 2020-07-07T22:06:51+02:00 Marc Glisse
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Marc Glisse
@@ -224,6 +224,7 @@ template<class R_> struct Scalar_product {
 };
 
 template<class R_> struct Squared_distance_to_origin_stored {
+        // What about weighted points, should they store sdo-w?
         CGAL_FUNCTOR_INIT_IGNORE(Squared_distance_to_origin_stored)
         typedef R_ R;
         typedef typename R::LA_vector LA;

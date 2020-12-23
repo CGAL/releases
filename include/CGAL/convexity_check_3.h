@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.1.2/Convex_hull_3/include/CGAL/convexity_check_3.h $
-// $Id: convexity_check_3.h 0779373 2020-03-26T13:31:46+01:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v5.2/Convex_hull_3/include/CGAL/convexity_check_3.h $
+// $Id: convexity_check_3.h df61ad9 2020-11-12T10:56:40+01:00 Andreas Fabri
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -187,15 +187,15 @@ bool is_strongly_convex_3(const Polyhedron& P, const Traits& traits)
 }
 
 template<class Polyhedron, class R>
-bool CGAL_is_strongly_convex_3(Polyhedron& P, Point_3<R>*)
+bool CGAL_is_strongly_convex_3(const Polyhedron& P, Point_3<R>*)
 {
   return is_strongly_convex_3(P, R());
 }
 
 template<class Polyhedron>
-bool is_strongly_convex_3(Polyhedron& P)
+bool is_strongly_convex_3(const Polyhedron& P)
 {
-  typedef typename boost::property_map<Polyhedron, vertex_point_t>::type Ppmap;
+  typedef typename boost::property_map<Polyhedron, vertex_point_t>::const_type Ppmap;
   typedef typename boost::property_traits<Ppmap>::value_type Point_3;
 
   return CGAL_is_strongly_convex_3(P, reinterpret_cast<Point_3*>(0));
@@ -204,7 +204,7 @@ bool is_strongly_convex_3(Polyhedron& P)
 template <class ForwardIterator, class Polyhedron, class Traits>
 bool all_points_inside( ForwardIterator first,
                         ForwardIterator last,
-                        Polyhedron& P,
+                        const Polyhedron& P,
                         const Traits&  traits)
 {
   typedef typename Traits::Plane_3                           Plane_3;

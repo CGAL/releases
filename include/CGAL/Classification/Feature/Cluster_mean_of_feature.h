@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.1.2/Classification/include/CGAL/Classification/Feature/Cluster_mean_of_feature.h $
-// $Id: Cluster_mean_of_feature.h 0779373 2020-03-26T13:31:46+01:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v5.2/Classification/include/CGAL/Classification/Feature/Cluster_mean_of_feature.h $
+// $Id: Cluster_mean_of_feature.h 0e934b1 2020-08-04T13:16:13+02:00 Simon Giraudot
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Simon Giraudot
@@ -40,7 +40,7 @@ class Cluster_mean_of_feature : public CGAL::Classification::Feature_base
 public:
 
   /*!
-    \brief Constructs the feature.
+    \brief constructs the feature.
 
     \tparam ClusterRange model of `ConstRange`. Its iterator type
     is `RandomAccessIterator` and its value type is the key type of

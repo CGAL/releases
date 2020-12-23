@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.1.2/Arrangement_on_surface_2/include/CGAL/Curved_kernel_via_analysis_2/Filtered_curved_kernel_via_analysis_2_impl.h $
-// $Id: Filtered_curved_kernel_via_analysis_2_impl.h 0779373 2020-03-26T13:31:46+01:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v5.2/Arrangement_on_surface_2/include/CGAL/Curved_kernel_via_analysis_2/Filtered_curved_kernel_via_analysis_2_impl.h $
+// $Id: Filtered_curved_kernel_via_analysis_2_impl.h 0626eb0 2020-06-11T12:32:33+03:00 Efi Fogel
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -169,12 +169,10 @@ public:
         Coordinate_1 asym_info1, asym_info2;
         CGAL::Arr_parameter_space ps1, ps2;
 
-        obj1 = cv1.curve().asymptotic_value_of_arc(
-                cv1.location(ce), cv1.arcno()
-        );
-        obj2 = cv2.curve().asymptotic_value_of_arc(
-                cv2.location(ce), cv2.arcno()
-        );
+        obj1 =
+          cv1.curve().asymptotic_value_of_arc(cv1.location(ce), cv1.arcno());
+        obj2 =
+          cv2.curve().asymptotic_value_of_arc(cv2.location(ce), cv2.arcno());
 
         CGAL::Comparison_result filter_res = CGAL::EQUAL;
 

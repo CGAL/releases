@@ -2,8 +2,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.1.2/BGL/include/CGAL/boost/graph/Face_filtered_graph.h $
-// $Id: Face_filtered_graph.h c253679 2020-04-18T16:27:58+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v5.2/BGL/include/CGAL/boost/graph/Face_filtered_graph.h $
+// $Id: Face_filtered_graph.h a1abdf3 2020-05-21T14:52:13+02:00 Sébastien Loriot
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -103,6 +103,66 @@ struct Face_filtered_graph
   typedef typename boost::property_traits<HIM>::value_type halfedge_index_type;
 
   typedef Face_filtered_graph<Graph, FIMap, VIMap, HIMap> Self;
+
+  /*!
+   * \brief constructs an empty face filtered graph (no face is selected)
+   *
+   * \tparam NamedParameters a sequence of named parameters
+   *
+   * \param graph the underlying graph.
+   *
+   * \param np optional sequence of named parameters among the ones listed below
+   *
+   * \cgalNamedParamsBegin
+   *   \cgalParamNBegin{vertex_index_map}
+   *     \cgalParamDescription{a property map associating to each vertex of `graph` a unique index between `0` and `num_vertices(graph) - 1`}
+   *     \cgalParamType{a class model of `ReadablePropertyMap` with `boost::graph_traits<Graph>::%vertex_descriptor`
+   *                    as key type and `std::size_t` as value type}
+   *     \cgalParamDefault{an automatically indexed internal map}
+   *     \cgalParamExtra{If this parameter is not passed, internal machinery will create and initialize
+   *                     a face index property map, either using the internal property map if it exists
+   *                     or using an external map. The latter might result in  - slightly - worsened performance
+   *                     in case of non-constant complexity for index access.}
+   *   \cgalParamNEnd
+   *
+   *   \cgalParamNBegin{halfedge_index_map}
+   *     \cgalParamDescription{a property map associating to each halfedge of `graph` a unique index between `0` and `num_halfedges(graph) - 1`}
+   *     \cgalParamType{a class model of `ReadablePropertyMap` with `boost::graph_traits<Graph>::%halfedge_descriptor`
+   *                    as key type and `std::size_t` as value type}
+   *     \cgalParamDefault{an automatically indexed internal map}
+   *     \cgalParamExtra{If this parameter is not passed, internal machinery will create and initialize
+   *                     a face index property map, either using the internal property map if it exists
+   *                     or using an external map. The latter might result in  - slightly - worsened performance
+   *                     in case of non-constant complexity for index access.}
+   *   \cgalParamNEnd
+   *
+   *   \cgalParamNBegin{face_index_map}
+   *     \cgalParamDescription{a property map associating to each face of `graph` a unique index between `0` and `num_faces(graph) - 1`}
+   *     \cgalParamType{a class model of `ReadablePropertyMap` with `boost::graph_traits<Graph>::%face_descriptor`
+   *                    as key type and `std::size_t` as value type}
+   *     \cgalParamDefault{an automatically indexed internal map}
+   *     \cgalParamExtra{If this parameter is not passed, internal machinery will create and initialize
+   *                     a face index property map, either using the internal property map if it exists
+   *                     or using an external map. The latter might result in  - slightly - worsened performance
+   *                     in case of non-constant complexity for index access.}
+   *   \cgalParamNEnd
+   * \cgalNamedParamsEnd
+   */
+  template <class CGAL_BGL_NP_TEMPLATE_PARAMETERS>
+  Face_filtered_graph(const Graph& graph,
+                      const CGAL_BGL_NP_CLASS& np)
+    : _graph(const_cast<Graph&>(graph))
+    , fimap(CGAL::get_initialized_face_index_map(graph, np))
+    , vimap(CGAL::get_initialized_vertex_index_map(graph, np))
+    , himap(CGAL::get_initialized_halfedge_index_map(graph, np))
+    , selected_faces(num_faces(graph), 0)
+    , selected_vertices(num_vertices(graph), 0)
+    , selected_halfedges(num_halfedges(graph), 0)
+  {}
+
+  Face_filtered_graph(const Graph& graph)
+    :Face_filtered_graph(graph, parameters::all_default())
+  {}
 
   /*!
    * \brief Constructor where the set of selected faces is specified as a range of patch ids.

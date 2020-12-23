@@ -4,8 +4,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.1.2/Classification/include/CGAL/Classification/Feature/Echo_scatter.h $
-// $Id: Echo_scatter.h 0779373 2020-03-26T13:31:46+01:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v5.2/Classification/include/CGAL/Classification/Feature/Echo_scatter.h $
+// $Id: Echo_scatter.h 0e934b1 2020-08-04T13:16:13+02:00 Simon Giraudot
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Simon Giraudot, Florent Lafarge
@@ -52,9 +52,9 @@ template <typename GeomTraits, typename PointRange, typename PointMap, typename 
 class Echo_scatter : public Feature_base
 {
 public:
-  typedef Classification::Planimetric_grid<GeomTraits, PointRange, PointMap> Grid;
+  using Grid = Classification::Planimetric_grid<GeomTraits, PointRange, PointMap>;
 private:
-  typedef Classification::Image<compressed_float> Image_cfloat;
+  using Image_cfloat = Classification::Image<compressed_float>;
 
   const Grid& grid;
   Image_cfloat Scatter;
@@ -62,7 +62,7 @@ private:
 
 public:
   /*!
-    \brief Constructs the feature.
+    \brief constructs the feature.
 
     \param input point range.
     \param echo_map property map to access the echo values of the input points.

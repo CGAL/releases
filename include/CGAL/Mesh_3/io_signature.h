@@ -4,8 +4,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.1.2/Mesh_3/include/CGAL/Mesh_3/io_signature.h $
-// $Id: io_signature.h 4dda7b6 2020-05-27T15:53:05+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v5.2/Mesh_3/include/CGAL/Mesh_3/io_signature.h $
+// $Id: io_signature.h b64a171 2020-06-16T17:47:00+02:00 Laurent Rineau
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Laurent RINEAU
@@ -219,12 +219,10 @@ struct Get_io_signature<Weighted_point_3<K> >
 };
 
 #ifdef CGAL_TRIANGULATION_3_H
-template <class Gt, class Vb, class Cb, class C_tag>
+template <class Gt, class Tds>
 struct
-Get_io_signature<Triangulation_3<Gt, Triangulation_data_structure_3<Vb, Cb, C_tag> > >
+Get_io_signature<Triangulation_3<Gt, Tds > >
 {
-  typedef Triangulation_data_structure_3<Vb, Cb, C_tag> Tds;
-
   std::string operator()() {
     return std::string("Triangulation_3(") +
       Get_io_signature<typename Tds::Vertex::Point>()() +

@@ -3,18 +3,18 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.1.2/Arrangement_on_surface_2/include/CGAL/Arr_non_caching_segment_basic_traits_2.h $
-// $Id: Arr_non_caching_segment_basic_traits_2.h 0779373 2020-03-26T13:31:46+01:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v5.2/Arrangement_on_surface_2/include/CGAL/Arr_non_caching_segment_basic_traits_2.h $
+// $Id: Arr_non_caching_segment_basic_traits_2.h 708469f 2020-06-12T14:06:58+03:00 Efi Fogel
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
-// Author(s)     : Efi Fogel <efif@post.tau.ac.il>
-//                 Ron Wein  <wein@post.tau.ac.il>
-//                 (based on old version by: Iddo Hanniel,
-//                                           Eyal Flato,
-//                                           Oren Nechushtan,
-//                                           Ester Ezra,
-//                                           Shai Hirsch,
-//                                           and Eugene Lipovetsky)
+// Author(s): Efi Fogel <efif@post.tau.ac.il>
+//            Ron Wein  <wein@post.tau.ac.il>
+//            (based on old version by: Iddo Hanniel,
+//                                      Eyal Flato,
+//                                      Oren Nechushtan,
+//                                      Ester Ezra,
+//                                      Shai Hirsch,
+//                                      and Eugene Lipovetsky)
 
 #ifndef CGAL_ARR_NON_CACHING_SEGMENT_BASIC_TRAITS_2_H
 #define CGAL_ARR_NON_CACHING_SEGMENT_BASIC_TRAITS_2_H

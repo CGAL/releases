@@ -2,8 +2,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.1.2/Surface_mesh_simplification/include/CGAL/Surface_mesh_simplification/edge_collapse.h $
-// $Id: edge_collapse.h 618a72b 2020-03-17T20:00:31+01:00 Mael Rouxel-Labbé
+// $URL: https://github.com/CGAL/cgal/blob/v5.2/Surface_mesh_simplification/include/CGAL/Surface_mesh_simplification/edge_collapse.h $
+// $Id: edge_collapse.h bfd4e99 2020-09-15T15:42:24+02:00 Jane Tournois
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Fernando Cacciola <fernando.cacciola@geometryfactory.com>
@@ -98,7 +98,7 @@ int edge_collapse(TM& tmesh,
                                  choose_parameter<No_constrained_edge_map<TM> >(get_parameter(np, internal_np::edge_is_constrained)),
                                  choose_parameter<LindstromTurk_cost<TM> >(get_parameter(np, internal_np::get_cost_policy)),
                                  choose_parameter<LindstromTurk_placement<TM> >(get_parameter(np, internal_np::get_placement_policy)),
-                                 choose_parameter<internal::Dummy_visitor>(get_parameter(np, internal_np::graph_visitor)));
+                                 choose_parameter<internal::Dummy_visitor>(get_parameter(np, internal_np::visitor)));
 }
 
 template<class TM, class ShouldStop>

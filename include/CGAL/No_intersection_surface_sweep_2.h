@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.1.2/Surface_sweep_2/include/CGAL/No_intersection_surface_sweep_2.h $
-// $Id: No_intersection_surface_sweep_2.h c45ac23 2020-11-05T08:49:36+01:00 Laurent Rineau
+// $URL: https://github.com/CGAL/cgal/blob/v5.2/Surface_sweep_2/include/CGAL/No_intersection_surface_sweep_2.h $
+// $Id: No_intersection_surface_sweep_2.h 21c48c5 2020-11-04T20:46:18+01:00 Laurent Rineau
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s) : Baruch Zukerman <baruchzu@post.tau.ac.il>

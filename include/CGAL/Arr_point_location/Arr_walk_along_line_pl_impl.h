@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.1.2/Arrangement_on_surface_2/include/CGAL/Arr_point_location/Arr_walk_along_line_pl_impl.h $
-// $Id: Arr_walk_along_line_pl_impl.h 0779373 2020-03-26T13:31:46+01:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v5.2/Arrangement_on_surface_2/include/CGAL/Arr_point_location/Arr_walk_along_line_pl_impl.h $
+// $Id: Arr_walk_along_line_pl_impl.h f73d067 2020-06-15T20:11:46+03:00 Efi Fogel
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -618,7 +618,8 @@ _is_in_connected_component (const Point_2& p,
       // The current curve is not vertical. Check the query point is in the
       // semi-open x-range (source, target] of this curve and lies below it.
       if (source_res != EQUAL) {
-        if (closest_he == invalid_he || (closest_he->twin() == curr)) {
+        if ((closest_he == invalid_he) ||
+            (closest_he->twin() == Halfedge_const_handle(curr))) {
           // 1. If we have no closests halfedge, we have just found one.
           // 2. If the closest halfedge is the twin of our current halfedge,
           // we can take our halfedge to be the closest one. This covers the
@@ -701,7 +702,7 @@ _is_in_connected_component (const Point_2& p,
           do {
             next_non_vert = next_non_vert->next();
 
-            CGAL_assertion (next_non_vert != curr);
+            CGAL_assertion(next_non_vert != Halfedge_const_handle(curr));
           }
           while ((! next_non_vert->is_fictitious() &&
                   is_vertical(next_non_vert->curve())) ||

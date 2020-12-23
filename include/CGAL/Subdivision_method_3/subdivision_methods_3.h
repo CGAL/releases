@@ -1,17 +1,14 @@
-// ======================================================================
-//
 // Copyright (c) 2005-2017 GeometryFactory (France).  All Rights Reserved.
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.1.2/Subdivision_method_3/include/CGAL/Subdivision_method_3/subdivision_methods_3.h $
-// $Id: subdivision_methods_3.h 48bd92b 2020-04-13T13:03:05+02:00 Mael Rouxel-Labbé
+// $URL: https://github.com/CGAL/cgal/blob/v5.2/Subdivision_method_3/include/CGAL/Subdivision_method_3/subdivision_methods_3.h $
+// $Id: subdivision_methods_3.h e893ac1 2020-08-18T10:06:51+02:00 Sébastien Loriot
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
 // Author(s): Le-Jeng Shiue <Andy.Shiue@gmail.com>
 //
-// ======================================================================
 
 #ifndef CGAL_SUBDIVISION_METHODS_3_H
 #define CGAL_SUBDIVISION_METHODS_3_H

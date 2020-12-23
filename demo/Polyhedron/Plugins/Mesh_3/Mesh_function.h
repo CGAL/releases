@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.1.2/Polyhedron/demo/Polyhedron/Plugins/Mesh_3/Mesh_function.h $
-// $Id: Mesh_function.h 0779373 2020-03-26T13:31:46+01:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v5.2/Polyhedron/demo/Polyhedron/Plugins/Mesh_3/Mesh_function.h $
+// $Id: Mesh_function.h def457e 2020-10-23T13:53:03+02:00 Laurent Rineau
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -243,8 +243,7 @@ initialize(const Mesh_criteria& criteria, Mesh_fnt::Domain_tag)
      criteria,
      p_.protect_features,
      p::mesh_3_options(p::pointer_to_stop_atomic_boolean = &stop_,
-                       p::nonlinear_growth_of_balls =
-                       p_.use_sizing_field_with_aabb_tree));
+                       p::nonlinear_growth_of_balls = true));
 }
 
 template < typename D_, typename Tag >

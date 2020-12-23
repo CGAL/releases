@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.1.2/STL_Extension/include/CGAL/Uncertain.h $
-// $Id: Uncertain.h 3302086 2020-06-13T23:41:39+05:30 Abhay Raj Singh
+// $URL: https://github.com/CGAL/cgal/blob/v5.2/STL_Extension/include/CGAL/Uncertain.h $
+// $Id: Uncertain.h 5c8df66 2020-09-25T14:25:14+02:00 Jane Tournois
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Sylvain Pion
@@ -612,26 +612,12 @@ Uncertain<T> operator*(Uncertain<T> a, T b)
 
 // enum_cast overload
 
-#ifdef CGAL_CFG_MATCHING_BUG_5
-
-template < typename T, typename U >
-inline
-Uncertain<T> enum_cast_bug(Uncertain<U> u, const T*)
-{
-  return Uncertain<T>(static_cast<const T>(u.inf()),
-                      static_cast<const T>(u.sup()));
-}
-
-#else
-
 template < typename T, typename U >
 inline
 Uncertain<T> enum_cast(Uncertain<U> u)
 {
   return Uncertain<T>(static_cast<T>(u.inf()), static_cast<T>(u.sup()));
 }
-
-#endif
 
 } //namespace CGAL
 

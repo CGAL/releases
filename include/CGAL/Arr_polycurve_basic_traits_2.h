@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.1.2/Arrangement_on_surface_2/include/CGAL/Arr_polycurve_basic_traits_2.h $
-// $Id: Arr_polycurve_basic_traits_2.h 180c061 2020-03-26T19:10:41+01:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v5.2/Arrangement_on_surface_2/include/CGAL/Arr_polycurve_basic_traits_2.h $
+// $Id: Arr_polycurve_basic_traits_2.h 7ad0ffa 2020-06-14T10:45:27+03:00 Efi Fogel
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Efi Fogel <efif@post.tau.ac.il>
@@ -63,6 +63,7 @@ public:
 
   typedef typename Subcurve_traits_2::Point_2              Point_2;
   typedef typename Subcurve_traits_2::X_monotone_curve_2   X_monotone_subcurve_2;
+  typedef typename Subcurve_traits_2::Multiplicity         Multiplicity;
 
   //@}
 

@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.1.2/Three/include/CGAL/Three/Scene_draw_interface.h $
-// $Id: Scene_draw_interface.h 755c044 2020-07-24T12:02:11+02:00 Maxime Gimeno
+// $URL: https://github.com/CGAL/cgal/blob/v5.2/Three/include/CGAL/Three/Scene_draw_interface.h $
+// $Id: Scene_draw_interface.h af7e1a8 2020-10-16T14:32:12+02:00 Maxime Gimeno
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -72,7 +72,7 @@ public:
   ///\brief displays all the primitive ids if there are less than max_textItems.
   virtual void printAllIds() = 0;
 
-  //!\brief moves the camera orthogonally to the picked sface.
+  //!\brief moves the camera orthogonally to the picked face.
   //!
   //! \param point the picked point
   //! \param viewer the active viewer

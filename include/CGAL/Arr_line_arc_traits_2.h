@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.1.2/Arrangement_on_surface_2/include/CGAL/Arr_line_arc_traits_2.h $
-// $Id: Arr_line_arc_traits_2.h 0779373 2020-03-26T13:31:46+01:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v5.2/Arrangement_on_surface_2/include/CGAL/Arr_line_arc_traits_2.h $
+// $Id: Arr_line_arc_traits_2.h 5298ff1 2020-07-02T19:10:29+03:00 Efi Fogel
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Monique Teillaud, Sylvain Pion, Julien Hazebrouck
@@ -27,6 +27,10 @@
  * Arrangement_2 package, which it is now part of. It contains a traits
  * class for the arrangement package that handles linear curves.
  * It is based on the circular kernel.
+ *
+ * \todo Fix the circular-kernel make-x-monotone functor to use modern variant
+ *       instead of the legacy CGAL::Object. Then, eliminate the special
+ *       implementation here and directly use the kernel functor instead.
  */
 
 #include <CGAL/basic.h>
@@ -73,7 +77,7 @@ public:
   typedef typename CircularKernel::Compare_y_at_x_2     Compare_y_at_x_2;
   typedef typename CircularKernel::Compare_y_to_right_2 Compare_y_at_x_right_2;
   typedef typename CircularKernel::Equal_2              Equal_2;
-  typedef typename CircularKernel::Make_x_monotone_2    Make_x_monotone_2;
+  // typedef typename CircularKernel::Make_x_monotone_2    Make_x_monotone_2;
   typedef typename CircularKernel::Split_2              Split_2;
   typedef typename CircularKernel::Construct_circular_min_vertex_2
                                                         Construct_min_vertex_2;
@@ -97,8 +101,8 @@ public:
   Equal_2 equal_2_object() const
   { return ck.equal_2_object(); }
 
-  Make_x_monotone_2 make_x_monotone_2_object() const
-  { return ck.make_x_monotone_2_object(); }
+  // Make_x_monotone_2 make_x_monotone_2_object() const
+  // { return ck.make_x_monotone_2_object(); }
 
   Split_2 split_2_object() const
   { return ck.split_2_object(); }
@@ -115,7 +119,20 @@ public:
   Is_vertical_2 is_vertical_2_object() const
   { return ck.is_vertical_2_object();}
 
+  //! A functor for subdividing curves into x-monotone curves.
+  class Make_x_monotone_2 {
+  public:
+    template <typename OutputIterator>
+    OutputIterator operator()(const Curve_2& line, OutputIterator oi) const
+    {
+      typedef boost::variant<Point_2, X_monotone_curve_2> Make_x_monotone_result;
+      *oi++ = Make_x_monotone_result(line);
+      return oi;
+    }
+  };
 
+  Make_x_monotone_2 make_x_monotone_2_object() const
+  { return Make_x_monotone_2(); }
 };
 
 } // namespace CGAL

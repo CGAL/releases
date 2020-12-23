@@ -1,16 +1,15 @@
-#ifndef CGAL_SURFACE_MESH_SEGMENTATION_MESH_SEGMENTATION_H
 // Copyright (c) 2014  GeometryFactory Sarl (France).
 // All rights reserved.
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.1.2/Surface_mesh_segmentation/include/CGAL/mesh_segmentation.h $
-// $Id: mesh_segmentation.h 358b2d2 2020-03-26T11:10:23+01:00 Simon Giraudot
+// $URL: https://github.com/CGAL/cgal/blob/v5.2/Surface_mesh_segmentation/include/CGAL/mesh_segmentation.h $
+// $Id: mesh_segmentation.h e893ac1 2020-08-18T10:06:51+02:00 Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Ilker O. Yaz
 
-
+#ifndef CGAL_SURFACE_MESH_SEGMENTATION_MESH_SEGMENTATION_H
 #define CGAL_SURFACE_MESH_SEGMENTATION_MESH_SEGMENTATION_H
 
 #include <CGAL/license/Surface_mesh_segmentation.h>

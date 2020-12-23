@@ -1,13 +1,14 @@
-// Copyright (c) 2012  Tel-Aviv University (Israel).
+// Copyright (c) 2012, 2020 Tel-Aviv University (Israel).
 // All rights reserved.
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.1.2/Arrangement_on_surface_2/demo/Arrangement_on_surface_2/ArrangementDemoPropertiesDialog.h $
-// $Id: ArrangementDemoPropertiesDialog.h 3003fb3 2020-06-18T13:35:40+02:00 Maxime Gimeno
+// $URL: https://github.com/CGAL/cgal/blob/v5.2/Arrangement_on_surface_2/demo/Arrangement_on_surface_2/ArrangementDemoPropertiesDialog.h $
+// $Id: ArrangementDemoPropertiesDialog.h a30658a 2020-09-21T09:09:48+02:00 Ahmed Essam
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
-// Author(s)     : Alex Tsui <alextsui05@gmail.com>
+// Author(s): Alex Tsui <alextsui05@gmail.com>
+//            Ahmed Essam <theartful.ae@gmail.com>
 
 #ifndef ARRANGEMENT_DEMO_PROPERTIES_DIALOG_H
 #define ARRANGEMENT_DEMO_PROPERTIES_DIALOG_H
@@ -27,23 +28,20 @@ class ArrangementDemoPropertiesDialog : public QDialog
   public:
   // keep this in order with the ui layout
   enum PropertyKey {
-    EDGE_COLOR_KEY,
-    EDGE_WIDTH_KEY,
-    VERTEX_COLOR_KEY,
-    VERTEX_RADIUS_KEY,
-    ENVELOPE_EDGE_COLOR_KEY,
-    ENVELOPE_EDGE_WIDTH_KEY,
-    ENVELOPE_VERTEX_COLOR_KEY,
-    ENVELOPE_VERTEX_RADIUS_KEY,
-    VERTICAL_RAY_EDGE_COLOR_KEY,
-    VERTICAL_RAY_EDGE_WIDTH_KEY,
-    DELETE_CURVE_MODE_KEY,
-    GRID_SIZE_KEY,
-    GRID_COLOR_KEY
+    EDGE_COLOR_KEY,               /*!< color key  */
+    EDGE_WIDTH_KEY,               /*!< width key  */
+    VERTEX_COLOR_KEY,             /*!< vertex color  */
+    VERTEX_RADIUS_KEY,            /*!< vertex radius  */
+    ENVELOPE_EDGE_COLOR_KEY,      /*!< envelope color  */
+    ENVELOPE_EDGE_WIDTH_KEY,      /*!< envelope size  */
+    ENVELOPE_VERTEX_COLOR_KEY,    /*!< envelope vertex color  */
+    ENVELOPE_VERTEX_RADIUS_KEY,   /*!< color key  */
+    VERTICAL_RAY_EDGE_COLOR_KEY,  /*!< shooting ray color  */
+    VERTICAL_RAY_EDGE_WIDTH_KEY,  /*!< shooting ray size  */
+    GRID_COLOR_KEY                /*!< color of the grid  */
   };
 
-  ArrangementDemoPropertiesDialog( ArrangementDemoWindow* parent_ = 0,
-                                   Qt::WindowFlags f  = Qt::WindowType(0));
+  ArrangementDemoPropertiesDialog( ArrangementDemoWindow* parent_ = 0 );
   QVariant property( int index );
 
 protected:

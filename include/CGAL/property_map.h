@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.1.2/Property_map/include/CGAL/property_map.h $
-// $Id: property_map.h c1d8fb6 2020-04-22T13:47:33+02:00 Simon Giraudot
+// $URL: https://github.com/CGAL/cgal/blob/v5.2/Property_map/include/CGAL/property_map.h $
+// $Id: property_map.h 80a5deb 2020-10-19T07:59:47+02:00 Simon Giraudot
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Andreas Fabri and Laurent Saboret
@@ -27,6 +27,7 @@
 
 #include <utility> // defines std::pair
 
+#include <CGAL/boost/iterator/counting_iterator.hpp>
 #include <CGAL/boost/iterator/transform_iterator.hpp>
 #include <CGAL/Iterator_range.h>
 #include <CGAL/Cartesian_converter_fwd.h>
@@ -37,33 +38,28 @@ namespace CGAL {
 
 /// \cond SKIP_DOXYGEN
 
-/// This class is almost the same as boost::static_property_map
-/// The difference is that it is writable, although put() does nothing
-template <typename K, typename V>
-class Static_property_map
+/// A boolean property map return a const value at compile time
+template <typename Key, bool default_value>
+class Static_boolean_property_map
 {
 public:
-  typedef K key_type;
-  typedef V value_type;
-  typedef const V& reference;
+  typedef Key key_type;
+  typedef bool value_type;
+  typedef bool reference;
   typedef boost::read_write_property_map_tag category;
 
-private:
-  V v;
-
 public:
-  Static_property_map(V pv)
-    :v(pv){}
+
   inline friend
   value_type
-  get(const Static_property_map& pm, const key_type&)
+  get(Static_boolean_property_map, const key_type&)
   {
-    return pm.v;
+    return default_value;
   }
 
   inline friend
   void
-  put(Static_property_map&, const key_type&, const value_type&)
+  put(Static_boolean_property_map, const key_type&, const value_type&)
   {}
 };
 
@@ -608,6 +604,15 @@ make_transform_range_from_property_map (Range& range, Pmap pmap)
     (make_transform_iterator_from_property_map (range.begin(), pmap),
      make_transform_iterator_from_property_map (range.end(), pmap));
 }
+
+template <typename SizeType>
+CGAL::Iterator_range<boost::counting_iterator<SizeType> >
+make_counting_range (const SizeType begin, const SizeType end)
+{
+  return CGAL::make_range (boost::counting_iterator<SizeType>(begin),
+                           boost::counting_iterator<SizeType>(end));
+}
+
 /// \endcond
 
 } // namespace CGAL

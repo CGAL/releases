@@ -2,8 +2,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.1.2/Straight_skeleton_2/include/CGAL/compute_outer_frame_margin.h $
-// $Id: compute_outer_frame_margin.h 0779373 2020-03-26T13:31:46+01:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v5.2/Straight_skeleton_2/include/CGAL/compute_outer_frame_margin.h $
+// $Id: compute_outer_frame_margin.h 9051fc1 2020-10-08T22:54:11+02:00 Mael Rouxel-Labbé
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Fernando Cacciola <fernando_cacciola@ciudad.com.ar>
@@ -13,15 +13,14 @@
 
 #include <CGAL/license/Straight_skeleton_2.h>
 
-
-#include <vector>
-#include <algorithm>
-
-#include <boost/shared_ptr.hpp>
-#include <boost/optional/optional.hpp>
-
 #include <CGAL/algorithm.h>
 #include <CGAL/Polygon_offset_builder_traits_2.h>
+#include <CGAL/Kernel_traits.h>
+
+#include <boost/optional/optional.hpp>
+
+#include <algorithm>
+#include <iterator>
 
 namespace CGAL {
 
@@ -47,7 +46,7 @@ boost::optional< typename Traits::FT > compute_outer_frame_margin ( ForwardPoint
 
   typedef boost::optional<Point_2> OptionalPoint_2 ;
 
-  FT lMaxSDist(0.0) ;
+  FT lMaxSDist(0) ;
 
   ForwardPointIterator lLast = std::prev(aEnd) ;
 
@@ -97,8 +96,9 @@ boost::optional< typename Traits::FT > compute_outer_frame_margin ( ForwardPoint
 
 }
 
-template<class ForwardPointIterator, class FT>
-boost::optional<FT> compute_outer_frame_margin ( ForwardPointIterator aBegin, ForwardPointIterator aEnd, FT aOffset )
+template<class FT, class ForwardPointIterator>
+boost::optional<FT> compute_outer_frame_margin ( ForwardPointIterator aBegin, ForwardPointIterator aEnd,
+                                                 FT aOffset )
 {
   typedef typename std::iterator_traits<ForwardPointIterator>::value_type Point_2 ;
 

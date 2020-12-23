@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.1.2/Polygon_mesh_processing/include/CGAL/Polygon_mesh_processing/repair.h $
-// $Id: repair.h 303ead8 2020-09-22T16:54:06+02:00 Mael Rouxel-Labbé
+// $URL: https://github.com/CGAL/cgal/blob/v5.2/Polygon_mesh_processing/include/CGAL/Polygon_mesh_processing/repair.h $
+// $Id: repair.h 40338b2 2020-10-09T16:50:29+02:00 Laurent Rineau
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -225,7 +225,7 @@ std::size_t remove_connected_components_of_negligible_size(TriangleMesh& tmesh,
     return 0;
 
   // Compute the connected components only once
-  boost::vector_property_map<std::size_t, FaceIndexMap> face_cc(fim);
+  boost::vector_property_map<std::size_t, FaceIndexMap> face_cc(static_cast<unsigned>(num_faces(tmesh)), fim);
   std::size_t num = connected_components(tmesh, face_cc, np);
 
 #ifdef CGAL_PMP_DEBUG_SMALL_CC_REMOVAL

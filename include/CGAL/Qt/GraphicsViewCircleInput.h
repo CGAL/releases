@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.1.2/GraphicsView/include/CGAL/Qt/GraphicsViewCircleInput.h $
-// $Id: GraphicsViewCircleInput.h 0779373 2020-03-26T13:31:46+01:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v5.2/GraphicsView/include/CGAL/Qt/GraphicsViewCircleInput.h $
+// $Id: GraphicsViewCircleInput.h e28a3ac 2020-06-02T12:55:25+02:00 Maxime Gimeno
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -27,6 +27,7 @@
 #include <QPainter>
 #include <QStyleOption>
 #include <QKeyEvent>
+
 
 #include <CGAL/Qt/Converter.h>
 #include <CGAL/Qt/GraphicsViewInput.h>
@@ -71,6 +72,7 @@ GraphicsViewCircleInput<K>::GraphicsViewCircleInput(QObject *parent, QGraphicsSc
   : GraphicsViewInput(parent), m_pointsOnCircle(pointsOnCircle),
     count(0), qcircle(new QGraphicsEllipseItem()), scene_(s)
 {
+  qcircle->setPen(QPen(::Qt::red, 0, ::Qt::SolidLine, ::Qt::RoundCap, ::Qt::RoundJoin));
   qcircle->hide();
   s->addItem(qcircle);
 }
@@ -193,6 +195,13 @@ GraphicsViewCircleInput<K>::eventFilter(QObject *obj, QEvent *event)
   } else if (event->type() == QEvent::KeyPress) {
     QKeyEvent *keyEvent = static_cast<QKeyEvent *>(event);
     keyPressEvent(keyEvent);
+    return true;
+  } else if(event->type() == QEvent::GraphicsSceneMouseDoubleClick) {
+    QGraphicsSceneMouseEvent *mouseEvent = static_cast<QGraphicsSceneMouseEvent *>(event);
+    qp = mouseEvent->scenePos();
+    p = convert(qp);
+    Q_EMIT generate(CGAL::make_object(std::make_pair(p, 0.0)));
+    count = 0;
     return true;
   } else{
     // standard event processing

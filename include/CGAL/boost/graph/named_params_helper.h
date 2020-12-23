@@ -1,18 +1,8 @@
-//=======================================================================
-// Copyright 1997, 1998, 1999, 2000 University of Notre Dame.
-// Authors: Andrew Lumsdaine, Lie-Quan Lee, Jeremy G. Siek
-//
-// This file is part of the Boost Graph Library
-//
-// Distributed under the Boost Software License, Version 1.0. (See
-// accompanying file LICENSE_1_0.txt or copy at
-// https://www.boost.org/LICENSE_1_0.txt)
-//=======================================================================
 // Copyright (c) 2007-2015  GeometryFactory (France).  All rights reserved.
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.1.2/BGL/include/CGAL/boost/graph/named_params_helper.h $
-// $Id: named_params_helper.h fefdd13 2020-05-06T08:59:40+02:00 Simon Giraudot
-// SPDX-License-Identifier: BSL-1.0
+// $URL: https://github.com/CGAL/cgal/blob/v5.2/BGL/include/CGAL/boost/graph/named_params_helper.h $
+// $Id: named_params_helper.h 47d2189 2020-10-02T15:26:05+02:00 Sebastien Loriot
+// SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Andreas Fabri, Fernando Cacciola, Jane Tournois
 
@@ -302,7 +292,6 @@ CGAL_DEF_GET_INITIALIZED_INDEX_MAP(face, typename boost::graph_traits<Graph>::fa
       DummyNormalPmap//default
       > ::type  type;
   };
-
 
   namespace internal {
     BOOST_MPL_HAS_XXX_TRAIT_NAMED_DEF(Has_nested_type_iterator, iterator, false)

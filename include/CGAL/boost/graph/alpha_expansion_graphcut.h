@@ -1,15 +1,15 @@
-#ifndef CGAL_BOOST_GRAPH_ALPHA_EXPANSION_GRAPHCUT_H
 // Copyright (c) 2014  GeometryFactory (France).  All rights reserved.
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.1.2/BGL/include/CGAL/boost/graph/alpha_expansion_graphcut.h $
-// $Id: alpha_expansion_graphcut.h c253679 2020-04-18T16:27:58+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v5.2/BGL/include/CGAL/boost/graph/alpha_expansion_graphcut.h $
+// $Id: alpha_expansion_graphcut.h e893ac1 2020-08-18T10:06:51+02:00 Sébastien Loriot
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
 // Author(s)     : Ilker O. Yaz, Simon Giraudot
 
+#ifndef CGAL_BOOST_GRAPH_ALPHA_EXPANSION_GRAPHCUT_H
 #define CGAL_BOOST_GRAPH_ALPHA_EXPANSION_GRAPHCUT_H
 
 #include <CGAL/Iterator_range.h>

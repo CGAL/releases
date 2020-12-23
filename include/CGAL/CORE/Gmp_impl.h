@@ -8,8 +8,8 @@
  *
  * Zilin Du, 2003
  *
- * $URL: https://github.com/CGAL/cgal/blob/v5.1.2/CGAL_Core/include/CGAL/CORE/Gmp_impl.h $
- * $Id: Gmp_impl.h 0779373 2020-03-26T13:31:46+01:00 Sébastien Loriot
+ * $URL: https://github.com/CGAL/cgal/blob/v5.2/CGAL_Core/include/CGAL/CORE/Gmp_impl.h $
+ * $Id: Gmp_impl.h 12fd01d 2020-09-21T08:54:29+02:00 Ahmed Essam
  * SPDX-License-Identifier: LGPL-3.0-only
  ***************************************************************************/
 
@@ -197,10 +197,6 @@ io_read (std::istream &i, mpq_ptr q)
       s += '0';
       ok = true;
     }
-
-  if (i.flags() & ios::skipws)
-    while (isspace(c) && i.get(c)) // skip whitespace
-      ;
 
   if (c == '/') // there's a denominator
     {

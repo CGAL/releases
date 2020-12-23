@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.1.2/Polygon_mesh_processing/include/CGAL/Polygon_mesh_processing/orientation.h $
-// $Id: orientation.h d567a0d 2020-07-16T09:52:32+02:00 Mael Rouxel-Labbé
+// $URL: https://github.com/CGAL/cgal/blob/v5.2/Polygon_mesh_processing/include/CGAL/Polygon_mesh_processing/orientation.h $
+// $Id: orientation.h 10ba347 2020-10-02T15:20:53+02:00 Sebastien Loriot
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -1281,7 +1281,7 @@ bool does_bound_a_volume(const TriangleMesh& tm, const NamedParameters& np)
   CGAL_precondition(is_closed(tm));
   CGAL_precondition(is_triangle_mesh(tm));
 
-  Static_property_map<face_descriptor, std::size_t> vidmap(0); // dummy map not used
+  Constant_property_map<face_descriptor, std::size_t> vidmap(0); // dummy map not used
   std::size_t res =
     volume_connected_components(tm, vidmap, np.do_orientation_tests(true)
                                               .i_used_as_a_predicate(true));
@@ -1370,7 +1370,7 @@ void orient_to_bound_a_volume(TriangleMesh& tm,
   std::vector<std::size_t> face_cc(num_faces(tm), std::size_t(-1));
   std::vector<std::size_t> nesting_levels;
   std::vector<bool> is_cc_outward_oriented;
-  Static_property_map<face_descriptor, std::size_t> vidmap(0); // dummy map not used
+  Constant_property_map<face_descriptor, std::size_t> vidmap(0); // dummy map not used
 
   volume_connected_components(tm, vidmap,
                               parameters::vertex_point_map(vpm)

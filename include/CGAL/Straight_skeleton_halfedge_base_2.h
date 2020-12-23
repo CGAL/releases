@@ -2,8 +2,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.1.2/Straight_skeleton_2/include/CGAL/Straight_skeleton_halfedge_base_2.h $
-// $Id: Straight_skeleton_halfedge_base_2.h 3d78df1 2020-06-23T18:49:55+02:00 Laurent Rineau
+// $URL: https://github.com/CGAL/cgal/blob/v5.2/Straight_skeleton_2/include/CGAL/Straight_skeleton_halfedge_base_2.h $
+// $Id: Straight_skeleton_halfedge_base_2.h b6333ed 2020-10-05T18:29:34+02:00 Mael Rouxel-Labbé
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Fernando Cacciola <fernando_cacciola@ciudad.com.ar>
@@ -19,7 +19,7 @@
 
 namespace CGAL {
 
-template < class Refs, class S >
+template < class Refs >
 class Straight_skeleton_halfedge_base_base_2
 {
 public:
@@ -38,9 +38,7 @@ public:
   typedef typename Refs::Vertex                Vertex;
   typedef typename Refs::Face                  Face;
 
-  typedef Straight_skeleton_halfedge_base_base_2<Refs,S> Base_base ;
-
-  typedef S Segment_2;
+  typedef Straight_skeleton_halfedge_base_base_2<Refs> Base_base ;
 
 protected:
 
@@ -107,8 +105,8 @@ private:
   Sign             mSlope ;
 };
 
-template < class Refs, class S >
-class Straight_skeleton_halfedge_base_2 : public Straight_skeleton_halfedge_base_base_2<Refs,S>
+template < class Refs >
+class Straight_skeleton_halfedge_base_2 : public Straight_skeleton_halfedge_base_base_2<Refs>
 {
 public:
 
@@ -116,8 +114,8 @@ public:
   typedef typename Refs::Halfedge_handle Halfedge_handle;
   typedef typename Refs::Face_handle     Face_handle;
 
-  typedef Straight_skeleton_halfedge_base_base_2<Refs,S> Base_base ;
-  typedef Straight_skeleton_halfedge_base_2<Refs,S>      Base ;
+  typedef Straight_skeleton_halfedge_base_base_2<Refs> Base_base ;
+  typedef Straight_skeleton_halfedge_base_2<Refs>      Base ;
 
   Straight_skeleton_halfedge_base_2() {}
 

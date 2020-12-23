@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.1.2/Mesh_2/include/CGAL/Mesh_2/Refine_edges_with_clusters.h $
-// $Id: Refine_edges_with_clusters.h 0779373 2020-03-26T13:31:46+01:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v5.2/Mesh_2/include/CGAL/Mesh_2/Refine_edges_with_clusters.h $
+// $Id: Refine_edges_with_clusters.h 09974cf 2020-10-21T15:27:28+02:00 Michael Hemmer
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -273,8 +273,10 @@ private:
         const Point m = midpoint(a, b);
 
         typename Geom_traits::Vector_2 v = vector(a,m);
-        v = scaled_vector(v,CGAL_NTS sqrt(c.minimum_squared_length /
-                                      squared_distance(a,b)));
+        v = scaled_vector(
+            v, CGAL_NTS sqrt(CGAL_NTS to_double(c.minimum_squared_length /
+                                                squared_distance(a, b))));
+
 
         Point i = translate(a,v), i2(i);
 

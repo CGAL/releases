@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.1.2/Tetrahedral_remeshing/include/CGAL/tetrahedral_remeshing.h $
-// $Id: tetrahedral_remeshing.h 962b681 2020-07-31T15:52:56+02:00 Laurent Rineau
+// $URL: https://github.com/CGAL/cgal/blob/v5.2/Tetrahedral_remeshing/include/CGAL/tetrahedral_remeshing.h $
+// $Id: tetrahedral_remeshing.h bfd4e99 2020-09-15T15:42:24+02:00 Jane Tournois
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -244,12 +244,12 @@ void tetrahedral_isotropic_remeshing(
                                  No_facet());
 
   typedef typename internal_np::Lookup_named_param_def <
-    internal_np::remeshing_visitor_t,
+    internal_np::visitor_t,
     NamedParameters,
     Tetrahedral_remeshing::internal::Default_remeshing_visitor
   > ::type Visitor;
   Visitor visitor
-    = choose_parameter(get_parameter(np, internal_np::remeshing_visitor),
+    = choose_parameter(get_parameter(np, internal_np::visitor),
                        Tetrahedral_remeshing::internal::Default_remeshing_visitor());
 
 #ifdef CGAL_TETRAHEDRAL_REMESHING_VERBOSE
@@ -439,12 +439,12 @@ void tetrahedral_isotropic_remeshing(
                                  No_facet());
 
   typedef typename internal_np::Lookup_named_param_def <
-  internal_np::remeshing_visitor_t,
+              internal_np::visitor_t,
               NamedParameters,
               Tetrahedral_remeshing::internal::Default_remeshing_visitor
               > ::type Visitor;
   Visitor visitor
-    = choose_parameter(get_parameter(np, internal_np::remeshing_visitor),
+    = choose_parameter(get_parameter(np, internal_np::visitor),
                        Tetrahedral_remeshing::internal::Default_remeshing_visitor());
 
 #ifdef CGAL_TETRAHEDRAL_REMESHING_VERBOSE

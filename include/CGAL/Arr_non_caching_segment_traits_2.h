@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.1.2/Arrangement_on_surface_2/include/CGAL/Arr_non_caching_segment_traits_2.h $
-// $Id: Arr_non_caching_segment_traits_2.h 58276ed 2020-03-31T18:34:28+03:00 Efi Fogel
+// $URL: https://github.com/CGAL/cgal/blob/v5.2/Arrangement_on_surface_2/include/CGAL/Arr_non_caching_segment_traits_2.h $
+// $Id: Arr_non_caching_segment_traits_2.h 436ba5f 2020-06-30T21:23:16+03:00 Efi Fogel
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s): Efi Fogel    <efif@post.tau.ac.il>
@@ -113,24 +113,27 @@ public:
   // Traits types:
   typedef X_monotone_curve_2                    Curve_2;
 
-  /*! \class
-   * A functor for splitting curves into x-monotone pieces.
+  /*! \class Make_x_monotone_2
+   * A functor for subdividing a curve into x-monotone curves.
    */
   class Make_x_monotone_2 {
   public:
-
-    /*! Cut the given segment into x-monotone subcurves and insert them into
-     * the given output iterator. As segments are always x_monotone, only one
+    /*! Subdivide a given curve into x-monotone subcurves and insert them into
+     * a given output iterator. As segments are always x_monotone, only one
      * x-monotone curve is inserted into the output iterator.
-     * \param cv The segment.
-     * \param oi The output iterator, whose value-type is Object. The output
-     *           object is a wrapper of an X_monotone_curve_2 object.
-     * \return The past-the-end iterator.
+     * \param cv the segment.
+     * \param oi the output iterator for the result. Its dereference type is a
+     *           variant that wraps a \c Point_2 or an \c X_monotone_curve_2
+     *           objects.
+     * \return the past-the-end iterator.
      */
     template <typename OutputIterator>
     OutputIterator operator()(const Curve_2& cv, OutputIterator oi) const
     {
-      *oi++ = make_object(cv);
+      // Wrap the segment with a variant.
+      typedef boost::variant<Point_2, X_monotone_curve_2>
+        Make_x_monotone_result;
+      *oi++ = Make_x_monotone_result(cv);
       return oi;
     }
   };

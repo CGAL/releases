@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.1.2/Filtered_kernel/include/CGAL/Lazy_kernel.h $
-// $Id: Lazy_kernel.h 0779373 2020-03-26T13:31:46+01:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v5.2/Filtered_kernel/include/CGAL/Lazy_kernel.h $
+// $Id: Lazy_kernel.h 5c8df66 2020-09-25T14:25:14+02:00 Jane Tournois
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -373,18 +373,7 @@ public:
     typedef typename Kernel_::Point_2 Point_2;
     typedef typename Kernel_::Weighted_point_2 Weighted_point_2;
 
-#ifndef CGAL_CFG_MATCHING_BUG_6
     using BaseClass::Construct_point_2::operator();
-#else // CGAL_CFG_MATCHING_BUG_6
-
-
-    template <class ...  T>
-    Point_2 operator()(const T& ...t) const
-    {
-      return BaseClass().construct_point_2_object()(t...);
-    }
-
-#endif // CGAL_CFG_MATCHING_BUG_6
 
     const Point_2& operator()(const Point_2& p) const
     {
@@ -437,17 +426,7 @@ public:
     typedef typename Kernel_::Point_3 Point_3;
     typedef typename Kernel_::Weighted_point_3 Weighted_point_3;
 
-#ifndef CGAL_CFG_MATCHING_BUG_6
-  using BaseClass::Construct_point_3::operator();
-#else // CGAL_CFG_MATCHING_BUG_6
-
-    template <class ...  T>
-    Point_3 operator()(const T& ...t) const
-    {
-      return BaseClass().construct_point_3_object()(t...);
-    }
-
-#endif // CGAL_CFG_MATCHING_BUG_6
+    using BaseClass::Construct_point_3::operator();
 
     const Point_3& operator()(const Point_3& p) const
     {

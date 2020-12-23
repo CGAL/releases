@@ -2,8 +2,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.1.2/BGL/include/CGAL/boost/graph/internal/initialized_index_maps_helpers.h $
-// $Id: initialized_index_maps_helpers.h 47027d6 2020-03-26T18:59:19+01:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v5.2/BGL/include/CGAL/boost/graph/internal/initialized_index_maps_helpers.h $
+// $Id: initialized_index_maps_helpers.h 87bb4d1 2020-07-07T16:04:09+02:00 Mael Rouxel-Labbé
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s) : Mael Rouxel-Labbé
@@ -135,7 +135,7 @@ struct Index_map_initializer<IndexPropertyMap, Graph, false>
   void operator()(const PropertyTag, IndexPropertyMap, const Graph&)
   {
     // The property map is not writable; should never be here.
-    CGAL_assertion_msg(false, "You are trying to initialize a non-writable property map");
+    CGAL_assertion_msg(false, "Initialization of a non-writable property map is impossible");
   }
 };
 
@@ -171,7 +171,7 @@ IndexMap get_initialized_index_map_const(const IndexMap index_map,
   CGAL_USE(g);
   CGAL_USE(p);
 
-  // If you are passing a pmap via NPs, it must be initialized
+  // If a pmap is passed via NPs, it must be initialized
   CGAL_assertion(is_index_map_valid(p, index_map, g));
 
   return index_map;
@@ -185,7 +185,7 @@ IndexMap get_initialized_index_map(const IndexMap index_map,
   CGAL_USE(g);
   CGAL_USE(p);
 
-  // If you are passing a pmap via NPs, it must be initialized
+  // If a pmap is passed via NPs, it must be initialized
   CGAL_assertion(is_index_map_valid(p, index_map, g));
 
   return index_map;

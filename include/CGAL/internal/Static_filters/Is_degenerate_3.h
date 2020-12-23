@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.1.2/Filtered_kernel/include/CGAL/internal/Static_filters/Is_degenerate_3.h $
-// $Id: Is_degenerate_3.h 0779373 2020-03-26T13:31:46+01:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v5.2/Filtered_kernel/include/CGAL/internal/Static_filters/Is_degenerate_3.h $
+// $Id: Is_degenerate_3.h 5c8df66 2020-09-25T14:25:14+02:00 Jane Tournois
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -38,18 +38,7 @@ public:
 
   typedef typename Base::result_type  result_type;
 
-
-#ifndef CGAL_CFG_MATCHING_BUG_6
   using Base::operator();
-#else // CGAL_CFG_MATCHING_BUG_6
-  template <typename T>
-  result_type
-  operator()(const T& t) const
-  {
-    return Base()(t);
-  }
-#endif // end CGAL_CFG_MATCHING_BUG_6
-
 
   result_type
   operator()(const Segment_3& s) const

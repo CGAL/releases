@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.1.2/Convex_hull_3/include/CGAL/Convex_hull_3/dual/halfspace_intersection_with_constructions_3.h $
-// $Id: halfspace_intersection_with_constructions_3.h 9f2eafd 2020-03-26T19:17:02+01:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v5.2/Convex_hull_3/include/CGAL/Convex_hull_3/dual/halfspace_intersection_with_constructions_3.h $
+// $Id: halfspace_intersection_with_constructions_3.h 278a26d 2020-05-18T18:01:56+02:00 Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -23,7 +23,7 @@
 #include <CGAL/assertions.h>
 
 // For interior_polyhedron_3
-#include <CGAL/Convex_hull_3/dual/interior_polyhedron_3.h>
+#include <CGAL/Convex_hull_3/dual/halfspace_intersection_interior_point_3.h>
 #include <CGAL/internal/Exact_type_selector.h>
 
 #include <boost/unordered_map.hpp>
@@ -90,28 +90,23 @@ namespace CGAL
           void halfspace_intersection_with_constructions_3(PlaneIterator pbegin,
                                                            PlaneIterator pend,
                                                            Polyhedron &P,
-                                                           boost::optional<typename Kernel_traits<typename std::iterator_traits<PlaneIterator>::value_type>::Kernel::Point_3> const& origin,
+                                                           boost::optional<typename Kernel_traits<typename std::iterator_traits<PlaneIterator>::value_type>::Kernel::Point_3> origin,
                                                            const Traits & ch_traits) {
           typedef typename Kernel_traits<typename std::iterator_traits<PlaneIterator>::value_type>::Kernel K;
           typedef typename K::Point_3 Point;
           typedef typename K::Plane_3 Plane;
 
-          Point p_origin;
-
-          if (origin) {
-            p_origin = boost::get(origin);
-          } else {
-            // choose exact integral type
-            typedef typename internal::Exact_field_selector<void*>::Type ET;
-
+          // if a point inside is not provided find one using linear programming
+          if (!origin) {
             // find a point inside the intersection
-            typedef Interior_polyhedron_3<K, ET> Interior_polyhedron;
-            Interior_polyhedron interior;
-            CGAL_assertion_code(bool res = )
-              interior.find(pbegin, pend);
-            CGAL_assertion_msg(res, "halfspace_intersection_with_constructions_3: problem when determing a point inside");
-            p_origin = interior.inside_point();
+            origin = halfspace_intersection_interior_point_3(pbegin, pend);
+
+            CGAL_assertion_msg(origin!=boost::none, "halfspace_intersection_with_constructions_3: problem when determing a point inside the intersection");
+            if (origin==boost::none)
+              return;
           }
+
+          const Point p_origin = *origin;
 
           // construct dual points to apply the convex hull
           std::vector<Point> dual_points;

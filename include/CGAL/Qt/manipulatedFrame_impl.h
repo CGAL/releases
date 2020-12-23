@@ -6,8 +6,8 @@
  This file is part of a fork of the QGLViewer library version 2.7.0.
 
 *****************************************************************************/
-// $URL: https://github.com/CGAL/cgal/blob/v5.1.2/GraphicsView/include/CGAL/Qt/manipulatedFrame_impl.h $
-// $Id: manipulatedFrame_impl.h a9795c3 2020-06-11T13:11:36+02:00 Maxime Gimeno
+// $URL: https://github.com/CGAL/cgal/blob/v5.2/GraphicsView/include/CGAL/Qt/manipulatedFrame_impl.h $
+// $Id: manipulatedFrame_impl.h a28dd52 2020-10-07T09:59:18+02:00 Maxime Gimeno
 // SPDX-License-Identifier: GPL-3.0-only
 
 #ifdef CGAL_HEADER_ONLY
@@ -458,7 +458,7 @@ void ManipulatedFrame::mouseMoveEvent(QMouseEvent *const event,
     // These MouseAction values make no sense for a manipulatedFrame
     break;
 
-  case NO_MOUSE_ACTION:
+  default:
     // Possible when the ManipulatedFrame is a MouseGrabber. This method is then
     // called without startAction because of mouseTracking.
     break;

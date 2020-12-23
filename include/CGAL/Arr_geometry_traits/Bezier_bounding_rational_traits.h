@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.1.2/Arrangement_on_surface_2/include/CGAL/Arr_geometry_traits/Bezier_bounding_rational_traits.h $
-// $Id: Bezier_bounding_rational_traits.h 0779373 2020-03-26T13:31:46+01:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v5.2/Arrangement_on_surface_2/include/CGAL/Arr_geometry_traits/Bezier_bounding_rational_traits.h $
+// $Id: Bezier_bounding_rational_traits.h 0626eb0 2020-06-11T12:32:33+03:00 Efi Fogel
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -1262,36 +1262,26 @@ private:
         // the intersection of the two skewed bounding boxes.
         Bez_point_bbox  ipt_bbox;
         Control_points  aux_vec;
-        CGAL::Object    res;
-        Point_2         p;
 
-        res = f_intersect (skew1a, skew2a);
-        if (! assign (p, res))
-        {
-          CGAL_error();
-        }
-        aux_vec.push_back(p);
+        auto res1 = f_intersect(skew1a, skew2a);
+        const Point_2* p1 = boost::get<Point_2>(&*res1);
+        if (! p1) CGAL_error();
+        aux_vec.push_back(*p1);
 
-        res = f_intersect (skew1a, skew2b);
-        if (! assign(p, res))
-        {
-          CGAL_error();
-        }
-        aux_vec.push_back(p);
+        auto res2 = f_intersect(skew1a, skew2b);
+        const Point_2* p2 = boost::get<Point_2>(&*res2);
+        if (! p2) CGAL_error();
+        aux_vec.push_back(*p2);
 
-        res = f_intersect (skew1b, skew2a);
-        if (! assign(p, res))
-        {
-          CGAL_error();
-        }
-        aux_vec.push_back(p);
+        auto res3 = f_intersect(skew1b, skew2a);
+        const Point_2* p3 = boost::get<Point_2>(&*res3);
+        if (! p3) CGAL_error();
+        aux_vec.push_back(*p3);
 
-        res = f_intersect (skew1b, skew2b);
-        if (!assign(p, res))
-        {
-          CGAL_error();
-        }
-        aux_vec.push_back(p);
+        auto res4 = f_intersect (skew1b, skew2b);
+        const Point_2* p4 = boost::get<Point_2>(&*res4);
+        if (! p4) CGAL_error();
+        aux_vec.push_back(*p4);
 
         construct_bbox (aux_vec, ipt_bbox);
 

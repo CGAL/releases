@@ -1,13 +1,14 @@
-// Copyright (c) 2012  Tel-Aviv University (Israel).
+// Copyright (c) 2012, 2020 Tel-Aviv University (Israel).
 // All rights reserved.
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.1.2/Arrangement_on_surface_2/demo/Arrangement_on_surface_2/VerticalRayGraphicsItem.h $
-// $Id: VerticalRayGraphicsItem.h 254d60f 2019-10-19T15:23:19+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v5.2/Arrangement_on_surface_2/demo/Arrangement_on_surface_2/VerticalRayGraphicsItem.h $
+// $Id: VerticalRayGraphicsItem.h a30658a 2020-09-21T09:09:48+02:00 Ahmed Essam
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
-// Author(s)     : Alex Tsui <alextsui05@gmail.com>
+// Author(s): Alex Tsui <alextsui05@gmail.com>
+//            Ahmed Essam <theartful.ae@gmail.com>
 
 #ifndef VERTICAL_RAY_GRAPHICS_ITEM_H
 #define VERTICAL_RAY_GRAPHICS_ITEM_H

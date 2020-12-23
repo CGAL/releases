@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.1.2/Boolean_set_operations_2/include/CGAL/Gps_segment_traits_2.h $
-// $Id: Gps_segment_traits_2.h 0779373 2020-03-26T13:31:46+01:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v5.2/Boolean_set_operations_2/include/CGAL/Gps_segment_traits_2.h $
+// $Id: Gps_segment_traits_2.h 4f99fe8 2020-08-13T15:37:33+02:00 Simon Giraudot
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -103,8 +103,8 @@ public:
     std::pair<Curve_const_iterator, Curve_const_iterator>
     operator()(const General_polygon_2& pgn) const
     {
-      Curve_const_iterator c_begin(&pgn, pgn.edges_begin());
-      Curve_const_iterator c_end(&pgn, pgn.edges_end());
+      Curve_const_iterator c_begin(&pgn, pgn.vertex_pairs_begin());
+      Curve_const_iterator c_end(&pgn, pgn.vertex_pairs_end());
 
       return (std::make_pair(c_begin, c_end));
     }

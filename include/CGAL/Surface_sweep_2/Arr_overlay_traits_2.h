@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.1.2/Arrangement_on_surface_2/include/CGAL/Surface_sweep_2/Arr_overlay_traits_2.h $
-// $Id: Arr_overlay_traits_2.h a7cd94f 2020-10-23T16:06:46+02:00 Laurent Rineau
+// $URL: https://github.com/CGAL/cgal/blob/v5.2/Arrangement_on_surface_2/include/CGAL/Surface_sweep_2/Arr_overlay_traits_2.h $
+// $Id: Arr_overlay_traits_2.h d08d6ca 2020-10-23T16:06:55+02:00 Laurent Rineau
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -26,7 +26,6 @@
 #include <boost/optional.hpp>
 
 #include <CGAL/Arr_tags.h>
-#include <CGAL/Object.h>
 
 namespace CGAL {
 

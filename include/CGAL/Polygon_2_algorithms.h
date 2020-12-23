@@ -7,8 +7,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.1.2/Polygon/include/CGAL/Polygon_2_algorithms.h $
-// $Id: Polygon_2_algorithms.h 0779373 2020-03-26T13:31:46+01:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v5.2/Polygon/include/CGAL/Polygon_2_algorithms.h $
+// $Id: Polygon_2_algorithms.h 875f823 2020-08-26T11:10:29+01:00 Andreas Fabri
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -324,7 +324,7 @@ Bounded_side bounded_side_2(ForwardIterator first,
 /// \sa `PolygonTraits_2`
 /// \sa `CGAL::is_simple_2()`
 /// \sa `CGAL::Polygon_2`
-/// \sa `CGAL::Orientation_2`
+/// \sa `CGAL::Orientation`
 template <class ForwardIterator, class Traits>
 Orientation orientation_2(ForwardIterator first,
                           ForwardIterator last,

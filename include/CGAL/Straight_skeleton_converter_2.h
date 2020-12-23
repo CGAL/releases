@@ -2,8 +2,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.1.2/Straight_skeleton_2/include/CGAL/Straight_skeleton_converter_2.h $
-// $Id: Straight_skeleton_converter_2.h 0779373 2020-03-26T13:31:46+01:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v5.2/Straight_skeleton_2/include/CGAL/Straight_skeleton_converter_2.h $
+// $Id: Straight_skeleton_converter_2.h 655d427 2020-09-11T15:00:12+02:00 Mael Rouxel-Labbé
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Fernando Cacciola <fernando_cacciola@ciudad.com.ar>
@@ -13,12 +13,14 @@
 
 #include <CGAL/license/Straight_skeleton_2.h>
 
-#include <CGAL/disable_warnings.h>
+#include <CGAL/Straight_skeleton_2.h>
 
-#include <boost/shared_ptr.hpp>
+#include <CGAL/assertions.h>
 #include <CGAL/Cartesian_converter.h>
 
-#include <CGAL/Straight_skeleton_2.h>
+#include <boost/shared_ptr.hpp>
+
+#include <vector>
 
 namespace CGAL {
 
@@ -122,10 +124,10 @@ struct Straight_skeleton_converter_2
 
   Target_skeleton_ptr operator() ( Source_skeleton const& aSkeleton ) const
   {
-    CGAL_assertion(aSkeleton.is_valid());
+    CGAL_assertion(aSkeleton.is_valid(true /*likely partial skeleton*/));
     Target_skeleton_ptr rResult = create_unconnected_copy(aSkeleton);
     connect_items(aSkeleton,*rResult);
-    CGAL_assertion(rResult->is_valid());
+    CGAL_assertion(rResult->is_valid(true /*likely partial skeleton*/));
     return rResult ;
   }
 
@@ -294,8 +296,6 @@ convert_straight_skeleton_2 ( Source_skeleton const& aSrc )
 }
 
 } // end namespace CGAL
-
-#include <CGAL/enable_warnings.h>
 
 #endif // CGAL_STRAIGHT_SKELETON_2_CONVERTER_H //
 // EOF //

@@ -7,8 +7,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.1.2/Installation/include/CGAL/config.h $
-// $Id: config.h 022b1a7 2020-07-21T15:27:49+02:00 Laurent Rineau
+// $URL: https://github.com/CGAL/cgal/blob/v5.2/Installation/include/CGAL/config.h $
+// $Id: config.h aa9c627 2020-10-08T13:47:59+05:30 Vishal Pratap Singh
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -159,9 +159,6 @@
 
 #if CGAL_HEADER_ONLY
 #  include <CGAL/internal/enable_third_party_libraries.h>
-#  if(BOOST_MSVC)
-#    include <CGAL/MSVC_compiler_config.h>
-#  endif
 #else
 #  include <CGAL/compiler_config.h>
 #endif
@@ -300,6 +297,10 @@
 // Same for C++17
 #if __cplusplus >= 201703L || _MSVC_LANG >= 201703L
 #  define CGAL_CXX17 1
+#endif
+// Same for C++20
+#if __cplusplus >= 202002L || _MSVC_LANG >= 202002L
+#  define CGAL_CXX20 1
 #endif
 
 #if defined(BOOST_NO_CXX11_HDR_FUNCTIONAL) || BOOST_VERSION < 105000

@@ -2,8 +2,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.1.2/Straight_skeleton_2/include/CGAL/Polygon_offset_builder_2.h $
-// $Id: Polygon_offset_builder_2.h 0779373 2020-03-26T13:31:46+01:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v5.2/Straight_skeleton_2/include/CGAL/Polygon_offset_builder_2.h $
+// $Id: Polygon_offset_builder_2.h 655d427 2020-09-11T15:00:12+02:00 Mael Rouxel-Labbé
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Fernando Cacciola <fernando_cacciola@ciudad.com.ar>
@@ -13,17 +13,13 @@
 
 #include <CGAL/license/Straight_skeleton_2.h>
 
-#include <CGAL/disable_warnings.h>
+#include <CGAL/Straight_skeleton_2/Straight_skeleton_aux.h>
+#include <CGAL/Polygon_offset_builder_traits_2.h>
+
+#include <boost/optional/optional.hpp>
+#include <boost/shared_ptr.hpp>
 
 #include <vector>
-#include <algorithm>
-
-#include <boost/shared_ptr.hpp>
-#include <boost/optional/optional.hpp>
-
-#include <CGAL/Straight_skeleton_2/Straight_skeleton_aux.h>
-
-#include <CGAL/Polygon_offset_builder_traits_2.h>
 
 namespace CGAL {
 
@@ -247,10 +243,5 @@ private:
 
 #include <CGAL/Straight_skeleton_2/Polygon_offset_builder_2_impl.h>
 
-#include <CGAL/enable_warnings.h>
-
 #endif // CGAL_POLYGON_OFFSET_BUILDER_2_H //
 // EOF //
-
-
-

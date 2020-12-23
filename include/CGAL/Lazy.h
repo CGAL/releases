@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.1.2/Filtered_kernel/include/CGAL/Lazy.h $
-// $Id: Lazy.h 87ebc1e 2020-09-14T15:02:02+02:00 Laurent Rineau
+// $URL: https://github.com/CGAL/cgal/blob/v5.2/Filtered_kernel/include/CGAL/Lazy.h $
+// $Id: Lazy.h 650939e 2020-09-11T15:07:58+02:00 Laurent Rineau
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 //

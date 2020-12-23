@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.1.2/Polygon_mesh_processing/include/CGAL/Polygon_mesh_processing/intersection.h $
-// $Id: intersection.h c253679 2020-04-18T16:27:58+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v5.2/Polygon_mesh_processing/include/CGAL/Polygon_mesh_processing/intersection.h $
+// $Id: intersection.h 46630bd 2020-09-22T11:04:40+02:00 Mael Rouxel-Labbé
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -1758,21 +1758,18 @@ surface_intersection(const TriangleMesh& tm1,
   const bool throw_on_self_intersection =
     parameters::choose_parameter(parameters::get_parameter(np1, internal_np::throw_on_self_intersection), false);
 
-  typedef typename GetVertexPointMap<TriangleMesh,
-                                     NamedParameters1>::const_type Vpm;
-  typedef typename GetVertexPointMap<TriangleMesh,
-                                     NamedParameters2>::const_type Vpm2;
-  CGAL_USE_TYPE(Vpm2);
-  CGAL_assertion_code(
-    static const bool same_vpm = (boost::is_same<Vpm,Vpm2>::value);)
-  CGAL_static_assertion(same_vpm);
+  typedef typename GetVertexPointMap<TriangleMesh, NamedParameters1>::const_type VPM1;
+  typedef typename GetVertexPointMap<TriangleMesh, NamedParameters2>::const_type VPM2;
 
-  Vpm vpm1 = parameters::choose_parameter(parameters::get_parameter(np1, internal_np::vertex_point),
-                                          get_const_property_map(CGAL::vertex_point, tm1));
-  Vpm vpm2 = parameters::choose_parameter(parameters::get_parameter(np2, internal_np::vertex_point),
-                                          get_const_property_map(CGAL::vertex_point, tm2));
+  CGAL_static_assertion((std::is_same<typename boost::property_traits<VPM1>::value_type,
+                                      typename boost::property_traits<VPM2>::value_type>::value));
 
-  Corefinement::Intersection_of_triangle_meshes<TriangleMesh,Vpm>
+  VPM1 vpm1 = parameters::choose_parameter(parameters::get_parameter(np1, internal_np::vertex_point),
+                                           get_const_property_map(CGAL::vertex_point, tm1));
+  VPM2 vpm2 = parameters::choose_parameter(parameters::get_parameter(np2, internal_np::vertex_point),
+                                           get_const_property_map(CGAL::vertex_point, tm2));
+
+  Corefinement::Intersection_of_triangle_meshes<TriangleMesh, VPM1, VPM2>
     functor(tm1, tm2, vpm1, vpm2);
   return functor(polyline_output, throw_on_self_intersection, true);
 }
@@ -1814,17 +1811,14 @@ surface_self_intersection(const TriangleMesh& tm,
                          const NamedParameters& np)
 {
 // Vertex point maps
-  typedef typename GetVertexPointMap<TriangleMesh,
-                                     NamedParameters>::const_type Vpm;
+  typedef typename GetVertexPointMap<TriangleMesh, NamedParameters>::const_type VPM;
 
-  Vpm vpm = parameters::choose_parameter(parameters::get_parameter(np, internal_np::vertex_point),
-                                          get_const_property_map(CGAL::vertex_point, tm));
+  VPM vpm = parameters::choose_parameter(parameters::get_parameter(np, internal_np::vertex_point),
+                                         get_const_property_map(CGAL::vertex_point, tm));
 
 // surface intersection algorithm call
-  typedef Corefinement::Default_surface_intersection_visitor<TriangleMesh,
-                                                             true>      Visitor;
-  Corefinement::Intersection_of_triangle_meshes<TriangleMesh,Vpm, Visitor>
-    functor(tm, vpm);
+  typedef Corefinement::Default_surface_intersection_visitor<TriangleMesh, true> Visitor;
+  Corefinement::Intersection_of_triangle_meshes<TriangleMesh, VPM, VPM, Visitor> functor(tm, vpm);
 
   polyline_output=functor(polyline_output, true);
   return polyline_output;

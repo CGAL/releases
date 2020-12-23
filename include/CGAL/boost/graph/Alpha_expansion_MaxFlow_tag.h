@@ -1,15 +1,15 @@
-#ifndef CGAL_BOOST_GRAPH_ALPHA_EXPANSION_MAXFLOW_IMPL_H
 // Copyright (c) 2014  GeometryFactory Sarl (France).
 // All rights reserved.
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.1.2/Surface_mesh_segmentation/include/CGAL/boost/graph/Alpha_expansion_MaxFlow_tag.h $
-// $Id: Alpha_expansion_MaxFlow_tag.h 47027d6 2020-03-26T18:59:19+01:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v5.2/Surface_mesh_segmentation/include/CGAL/boost/graph/Alpha_expansion_MaxFlow_tag.h $
+// $Id: Alpha_expansion_MaxFlow_tag.h e893ac1 2020-08-18T10:06:51+02:00 Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Ilker O. Yaz, Simon Giraudot
 
+#ifndef CGAL_BOOST_GRAPH_ALPHA_EXPANSION_MAXFLOW_IMPL_H
 #define CGAL_BOOST_GRAPH_ALPHA_EXPANSION_MAXFLOW_IMPL_H
 
 #include <CGAL/license/Surface_mesh_segmentation.h>

@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.1.2/Filtered_kernel/include/CGAL/internal/Static_filters/Orientation_3.h $
-// $Id: Orientation_3.h 0779373 2020-03-26T13:31:46+01:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v5.2/Filtered_kernel/include/CGAL/internal/Static_filters/Orientation_3.h $
+// $Id: Orientation_3.h 5c8df66 2020-09-25T14:25:14+02:00 Jane Tournois
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -36,27 +36,7 @@ class Orientation_3
 public:
  typedef typename Base::result_type  result_type;
 
-#ifndef CGAL_CFG_MATCHING_BUG_6
   using Base::operator();
-#else
-  result_type
-  operator()(const Vector_3& u, const Vector_3& v, const Vector_3& w) const
-  {
-    return Base::operator()(u,v,w);
-  }
-
-  result_type
-  operator()(const Sphere_3& s) const
-  {
-    return Base::operator()(s);
-  }
-
-  result_type
-  operator()(const Tetrahedron_3& t) const
-  {
-    return Base::operator()(t);
-  }
-#endif
 
   result_type
   operator()(const Point_3 &p, const Point_3 &q,

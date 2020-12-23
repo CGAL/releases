@@ -1,21 +1,20 @@
-// Copyright (c) 2012  Tel-Aviv University (Israel).
+// Copyright (c) 2012, 2020 Tel-Aviv University (Israel).
 // All rights reserved.
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.1.2/Arrangement_on_surface_2/demo/Arrangement_on_surface_2/Conic_reader.h $
-// $Id: Conic_reader.h 254d60f 2019-10-19T15:23:19+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v5.2/Arrangement_on_surface_2/demo/Arrangement_on_surface_2/Conic_reader.h $
+// $Id: Conic_reader.h a30658a 2020-09-21T09:09:48+02:00 Ahmed Essam
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
-// Author(s)     : Alex Tsui <alextsui05@gmail.com>
+// Author(s): Alex Tsui <alextsui05@gmail.com>
+//            Ahmed Essam <theartful.ae@gmail.com>
 
 #ifndef CGAL_CONIC_READER_H
 #define CGAL_CONIC_READER_H
 
 #include <iostream>
 #include <fstream>
-#include <sstream>
-#include <list>
 #include <string>
 
 template <typename Traits>
@@ -33,16 +32,15 @@ public:
   typedef typename Traits::Rat_circle_2         Rat_circle_2;
 
   template<class OutputIterator>
-  int read_data(const char * filename, OutputIterator curves_out,
+  int read_data(std::ifstream & inp, OutputIterator curves_out,
                 CGAL::Bbox_2 & bbox)
   {
 
     Curve_2 cv;
     char dummy[256];
 
-    std::ifstream inp(filename);
     if (!inp.is_open()) {
-      std::cerr << "Cannot open file " << filename << "!" << std::endl;
+      std::cerr << "Input stream is not open!" << std::endl;
       return -1;
     }
     int count;
@@ -56,7 +54,6 @@ public:
         else bbox = bbox + curve_bbox;
       }
     }
-    inp.close();
     return 0;
   }
 
@@ -233,6 +230,54 @@ public:
       is.getline(one_line, 128);
       if (one_line[0] != '#') break;
     }
+  }
+
+  // should probably change class name since it reads and writes
+  template <typename InputIterator>
+  int write_data(std::ofstream & ofs, InputIterator begin_, InputIterator end_)
+  {
+    ofs << std::distance(begin_, end_) << std::endl;
+    for (auto it = begin_; it != end_; ++it)
+    {
+      if (it->is_full_conic())
+      {
+        ofs << "F ";
+        ofs << it->r() << " ";
+        ofs << it->s() << " ";
+        ofs << it->t() << " ";
+        ofs << it->u() << " ";
+        ofs << it->v() << " ";
+        ofs << it->w() << " ";
+        ofs << std::endl;
+      }
+      else if (it->orientation() == CGAL::COLLINEAR)
+      {
+        ofs << "S ";
+        ofs << it->source() << " ";
+        ofs << it->target() << " ";
+        ofs << std::endl;
+      }
+      else
+      {
+        ofs << "A ";
+        ofs << it->r() << " ";
+        ofs << it->s() << " ";
+        ofs << it->t() << " ";
+        ofs << it->u() << " ";
+        ofs << it->v() << " ";
+        ofs << it->w() << " ";
+        if (it->orientation() == CGAL::COUNTERCLOCKWISE)
+          ofs << "1 ";
+        else if (it->orientation() == CGAL::CLOCKWISE)
+          ofs << "-1 ";
+        else
+          ofs << "0 ";
+        ofs << it->source() << " ";
+        ofs << it->target() << " ";
+        ofs << std::endl;
+      }
+    }
+    return 0;
   }
 };
 

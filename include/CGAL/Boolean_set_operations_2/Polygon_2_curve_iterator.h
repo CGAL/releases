@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.1.2/Boolean_set_operations_2/include/CGAL/Boolean_set_operations_2/Polygon_2_curve_iterator.h $
-// $Id: Polygon_2_curve_iterator.h 2756b2a 2020-05-24T11:11:32+02:00 Marc Glisse
+// $URL: https://github.com/CGAL/cgal/blob/v5.2/Boolean_set_operations_2/include/CGAL/Boolean_set_operations_2/Polygon_2_curve_iterator.h $
+// $Id: Polygon_2_curve_iterator.h 0b70318 2020-10-20T09:01:29+02:00 Simon Giraudot
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -52,7 +52,7 @@ public:
 
 
     typedef Polygon_                                      Polygon;
-    typedef typename Polygon::Edge_const_iterator         Edge_const_iterator;
+    typedef typename Polygon::Vertex_pair_iterator        Edge_const_iterator;
     typedef typename Edge_const_iterator::difference_type difference_type;
 
   private:
@@ -78,7 +78,7 @@ public:
 
     X_monotone_curve_2 operator*()
     {
-      return X_monotone_curve_2(*m_curr_edge);
+      return X_monotone_curve_2(m_curr_edge->first, m_curr_edge->second);
     }
 
     Polygon_2_curve_ptr<X_monotone_curve_2> operator->()

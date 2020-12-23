@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.1.2/Classification/include/CGAL/Classification/Feature/Color_channel.h $
-// $Id: Color_channel.h 0779373 2020-03-26T13:31:46+01:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v5.2/Classification/include/CGAL/Classification/Feature/Color_channel.h $
+// $Id: Color_channel.h 0e934b1 2020-08-04T13:16:13+02:00 Simon Giraudot
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Simon Giraudot
@@ -80,7 +80,7 @@ private:
 public:
 
   /*!
-    \brief Constructs a feature based on the given color channel.
+    \brief constructs a feature based on the given color channel.
 
     \param input point range.
     \param color_map property map to access the colors of the input points.

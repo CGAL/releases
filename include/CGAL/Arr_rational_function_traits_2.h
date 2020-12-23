@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.1.2/Arrangement_on_surface_2/include/CGAL/Arr_rational_function_traits_2.h $
-// $Id: Arr_rational_function_traits_2.h 0779373 2020-03-26T13:31:46+01:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v5.2/Arrangement_on_surface_2/include/CGAL/Arr_rational_function_traits_2.h $
+// $Id: Arr_rational_function_traits_2.h 436ba5f 2020-06-30T21:23:16+03:00 Efi Fogel
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Oren Salzman <orenzalz@post.tau.ac.il >
@@ -808,45 +808,41 @@ public:
     return Equal_2(this);
   }
 
-  /*! A functor that divides a curve into continues (x-monotone) curves. */
-  class Make_x_monotone_2
-  {
-  public:
+  //! \name Intersections & subdivisions
+  //@{
 
-    /*!
-     * Cut the given conic curve (or conic arc) into x-monotone subcurves
-     * and insert them to the given output iterator.
-     * \param cv The curve.
-     * \param oi The output iterator, whose value-type is Object. The returned
-     *           objects is a wrapper for an X_monotone_curve_2 object.
-     * \return The past-the-end iterator.
+  /*! \class Make_x_monotone_2
+   * A functor for subdividing a curve into continues x-monotone curves.
+   */
+  class Make_x_monotone_2 {
+  public:
+    /*! Subdivide a given rational-function curve into x-monotone subcurves
+     * and insert them to a given output iterator.
+     * \param cv the curve.
+     * \param oi the output iterator for the result. Its dereference type is a
+     *           variant that wraps a \c Point_2 or an \c X_monotone_curve_2
+     *           objects.
+     * \return the past-the-end iterator.
      */
-    template<typename OutputIterator>
+    template <typename OutputIterator>
     OutputIterator operator()(const Curve_2& cv, OutputIterator oi) const
     {
-      // Make the rational arc continuous.
-      std::list<X_monotone_curve_2>                           arcs;
+      typedef boost::variant<Point_2, X_monotone_curve_2>
+        Make_x_monotone_result;
 
+      // Make the rational arc continuous.
+      std::list<X_monotone_curve_2> arcs;
       cv.make_continuous(std::back_inserter(arcs));
 
       // Create objects.
-      typename std::list<X_monotone_curve_2>::const_iterator  iter;
-
-      for (iter = arcs.begin(); iter != arcs.end(); ++iter)
-      {
-        *oi = make_object (*iter);
-        ++oi;
-      }
-
-      return (oi);
+      for (const auto& arc : arcs) *oi++ = Make_x_monotone_result(arc);
+      return oi;
     }
   };
 
   /*! Obtain a Make_x_monotone_2 functor object. */
   Make_x_monotone_2 make_x_monotone_2_object() const
-  {
-    return Make_x_monotone_2();
-  }
+  { return Make_x_monotone_2(); }
 
   /*! A functor that splits a curve at a point. */
   class Split_2
@@ -974,6 +970,8 @@ public:
   {
     return Merge_2(this);
   }
+
+  //@}
 
   /// \name Functor definitions to handle boundaries
   //@{

@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.1.2/Arrangement_on_surface_2/include/CGAL/Arr_point_location/Arr_batched_point_location_traits_2.h $
-// $Id: Arr_batched_point_location_traits_2.h 0779373 2020-03-26T13:31:46+01:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v5.2/Arrangement_on_surface_2/include/CGAL/Arr_point_location/Arr_batched_point_location_traits_2.h $
+// $Id: Arr_batched_point_location_traits_2.h 7ad0ffa 2020-06-14T10:45:27+03:00 Efi Fogel
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -42,6 +42,7 @@ public:
 
   typedef typename Base_traits_2::X_monotone_curve_2   Base_x_monotone_curve_2;
   typedef typename Base_traits_2::Point_2              Base_point_2;
+  typedef typename Base_traits_2::Multiplicity         Multiplicity;
 
   typedef typename Base_traits_2::Construct_min_vertex_2
                                                     Base_construct_min_vertex_2;

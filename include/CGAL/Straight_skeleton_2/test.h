@@ -2,8 +2,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.1.2/Straight_skeleton_2/include/CGAL/Straight_skeleton_2/test.h $
-// $Id: test.h e9d41d7 2020-04-21T10:03:00+02:00 Maxime Gimeno
+// $URL: https://github.com/CGAL/cgal/blob/v5.2/Straight_skeleton_2/include/CGAL/Straight_skeleton_2/test.h $
+// $Id: test.h 655d427 2020-09-11T15:00:12+02:00 Mael Rouxel-Labbé
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Fernando Cacciola <fernando_cacciola@ciudad.com.ar>
@@ -13,6 +13,10 @@
 
 #include <CGAL/license/Straight_skeleton_2.h>
 
+#include <CGAL/number_utils.h>
+
+#include <algorithm>
+#include <iostream>
 
 //
 // INTRINSIC UNIT TESTING macros.
