@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.2/Matrix_search/include/CGAL/Cartesian_matrix.h $
-// $Id: Cartesian_matrix.h 0779373 2020-03-26T13:31:46+01:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v5.2.1/Matrix_search/include/CGAL/Cartesian_matrix.h $
+// $Id: Cartesian_matrix.h 557cf7f 2021-01-29T10:36:59+00:00 Andreas Fabri
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -18,6 +18,7 @@
 
 #include <CGAL/basic.h>
 #include <CGAL/Optimisation/assertions.h>
+#include <type_traits>
 
 namespace CGAL {
 
@@ -26,7 +27,12 @@ template < class Operation,
            class RandomAccessIC_column >
 class Cartesian_matrix {
 public:
+
+#if CGAL_CXX17 && __has_cpp_attribute(nodiscard)
+  typedef typename std::invoke_result<Operation, typename std::iterator_traits<RandomAccessIC_row>::value_type, typename std::iterator_traits<RandomAccessIC_column>::value_type>::type Value;
+#else
   typedef typename Operation::result_type           Value;
+#endif
 
   Cartesian_matrix(RandomAccessIC_row r_f,
                    RandomAccessIC_row r_l,

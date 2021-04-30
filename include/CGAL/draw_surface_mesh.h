@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.2/Surface_mesh/include/CGAL/draw_surface_mesh.h $
-// $Id: draw_surface_mesh.h fc37d4c 2020-07-28T15:03:39+02:00 Laurent Rineau
+// $URL: https://github.com/CGAL/cgal/blob/v5.2.1/Surface_mesh/include/CGAL/draw_surface_mesh.h $
+// $Id: draw_surface_mesh.h b134ed8 2021-02-05T16:07:32+01:00 Laurent Rineau
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Guillaume Damiand <guillaume.damiand@liris.cnrs.fr>
@@ -32,6 +32,7 @@ void draw(const SM& asm);
 
 #ifdef CGAL_USE_BASIC_VIEWER
 
+#include <CGAL/Qt/init_ogl_context.h>
 #include <CGAL/Surface_mesh.h>
 #include <CGAL/draw_face_graph.h>
 namespace CGAL
@@ -51,6 +52,7 @@ void draw(const Surface_mesh<K>& amesh,
 
   if (!cgal_test_suite)
   {
+    CGAL::Qt::init_ogl_context(4,3);
     int argc=1;
     const char* argv[2]={"surface_mesh_viewer","\0"};
     QApplication app(argc,const_cast<char**>(argv));

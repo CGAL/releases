@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.2/Polygon_mesh_processing/include/CGAL/Polygon_mesh_processing/shape_predicates.h $
-// $Id: shape_predicates.h b7b0d1f 2020-09-22T16:58:01+02:00 Mael Rouxel-Labbé
+// $URL: https://github.com/CGAL/cgal/blob/v5.2.1/Polygon_mesh_processing/include/CGAL/Polygon_mesh_processing/shape_predicates.h $
+// $Id: shape_predicates.h 68f53bc 2021-02-19T18:04:58+01:00 Mael Rouxel-Labbé
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -358,6 +358,8 @@ is_needle_triangle_face(typename boost::graph_traits<TriangleMesh>::face_descrip
                         const NamedParameters& np)
 {
   CGAL_precondition(threshold >= 1.);
+  CGAL_precondition(f != boost::graph_traits<TriangleMesh>::null_face());
+  CGAL_precondition(CGAL::is_triangle(halfedge(f, tm), tm));
 
   using parameters::get_parameter;
   using parameters::choose_parameter;
@@ -462,7 +464,8 @@ is_cap_triangle_face(typename boost::graph_traits<TriangleMesh>::face_descriptor
                      const double threshold,
                      const NamedParameters& np)
 {
-  CGAL_precondition(CGAL::is_triangle_mesh(tm));
+  CGAL_precondition(f != boost::graph_traits<TriangleMesh>::null_face());
+  CGAL_precondition(CGAL::is_triangle(halfedge(f, tm), tm));
   CGAL_precondition(threshold >= -1.);
   CGAL_precondition(threshold <= 0.);
 

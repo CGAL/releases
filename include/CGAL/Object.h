@@ -7,7 +7,7 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.2/STL_Extension/include/CGAL/Object.h $
+// $URL: https://github.com/CGAL/cgal/blob/v5.2.1/STL_Extension/include/CGAL/Object.h $
 // $Id: Object.h bcf8409 2020-06-23T18:50:20+02:00 Laurent Rineau
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //

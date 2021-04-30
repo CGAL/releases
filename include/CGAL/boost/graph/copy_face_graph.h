@@ -2,8 +2,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.2/BGL/include/CGAL/boost/graph/copy_face_graph.h $
-// $Id: copy_face_graph.h 93f1cd9 2020-07-16T09:53:31+02:00 Mael Rouxel-Labbé
+// $URL: https://github.com/CGAL/cgal/blob/v5.2.1/BGL/include/CGAL/boost/graph/copy_face_graph.h $
+// $Id: copy_face_graph.h 026abdb 2021-01-27T10:17:42+01:00 Sébastien Loriot
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -25,7 +25,7 @@
 #include <CGAL/property_map.h>
 #include <boost/unordered_map.hpp>
 #include <boost/utility/enable_if.hpp>
-#include <boost/function_output_iterator.hpp>
+#include <boost/iterator/function_output_iterator.hpp>
 
 namespace CGAL {
 
@@ -167,6 +167,8 @@ void copy_face_graph_impl(const SourceMesh& sm, TargetMesh& tm,
   for(tm_vertex_descriptor v : vertices(tm))
   {
     tm_halfedge_descriptor h = halfedge(v, tm);
+    if (h==boost::graph_traits<TargetMesh>::null_halfedge())
+      continue;
     tm_halfedge_descriptor next_around_vertex=h;
     do{
       next_around_vertex=opposite(next(next_around_vertex, tm), tm);

@@ -3,7 +3,7 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.2/Arrangement_on_surface_2/include/CGAL/Curved_kernel_via_analysis_2/Make_x_monotone_2.h $
+// $URL: https://github.com/CGAL/cgal/blob/v5.2.1/Arrangement_on_surface_2/include/CGAL/Curved_kernel_via_analysis_2/Make_x_monotone_2.h $
 // $Id: Make_x_monotone_2.h 436ba5f 2020-06-30T21:23:16+03:00 Efi Fogel
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //

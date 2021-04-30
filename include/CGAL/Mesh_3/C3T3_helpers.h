@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.2/Mesh_3/include/CGAL/Mesh_3/C3T3_helpers.h $
-// $Id: C3T3_helpers.h 3fc0ba4 2020-12-09T15:35:47+01:00 Laurent Rineau
+// $URL: https://github.com/CGAL/cgal/blob/v5.2.1/Mesh_3/include/CGAL/Mesh_3/C3T3_helpers.h $
+// $Id: C3T3_helpers.h bdd4efe 2021-01-15T10:06:56+01:00 Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -40,7 +40,7 @@
 #include <boost/range/end.hpp>
 #include <boost/optional.hpp>
 #include <CGAL/boost/iterator/transform_iterator.hpp>
-#include <boost/function_output_iterator.hpp>
+#include <boost/iterator/function_output_iterator.hpp>
 #include <boost/type_traits/is_same.hpp>
 #include <boost/type_traits/is_convertible.hpp>
 #include <boost/unordered_set.hpp>

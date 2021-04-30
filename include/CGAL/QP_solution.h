@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.2/QP_solver/include/CGAL/QP_solution.h $
-// $Id: QP_solution.h 0779373 2020-03-26T13:31:46+01:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v5.2.1/QP_solver/include/CGAL/QP_solution.h $
+// $Id: QP_solution.h 3f10219 2021-01-06T09:34:57+01:00 Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -27,8 +27,6 @@
 #include <CGAL/function_objects.h>
 #include <CGAL/Algebraic_structure_traits.h>
 #include <CGAL/QP_solver/assertions.h>
-#include <boost/bind.hpp>
-#include <boost/function.hpp>
 
 #include <CGAL/boost/iterator/counting_iterator.hpp>
 #include <CGAL/boost/iterator/transform_iterator.hpp>
@@ -75,7 +73,7 @@ public:
   typedef QP_solution_detail::Quotient_normalizer<ET>
   Quotient_normalizer; // normalizer (ET, ET) -> (ET, ET)
 
-  typedef boost::function1< Quotient<ET>, ET >
+  typedef std::function< Quotient<ET>(const ET&) >
   Quotient_maker;
 
   typedef std::vector<int>
@@ -130,10 +128,7 @@ public:
     ET n = solution_numerator();
     ET d = solution_denominator();
     return
-      boost::bind
-      (Quotient_normalizer(), boost::bind
-       (U_Quotient_creator(), _1, _2))
-      (n, d);
+      Quotient_normalizer()( U_Quotient_creator()(n,d) );
       // (solution_numerator(), solution_denominator());
   }
   virtual Quadratic_program_status status() const = 0;
@@ -164,20 +159,22 @@ public:
   original_variable_values_begin( ) const
   { return Variable_value_iterator
       (original_variables_numerator_begin(),
-       boost::bind
-       (boost::bind
-        (Quotient_normalizer(), boost::bind
-         (U_Quotient_creator(), _1, _2)), _1, variables_common_denominator()));
+       [this](const ET& n)
+       {
+         return Quotient_normalizer()(
+           U_Quotient_creator()(n, this->variables_common_denominator()));
+       });
   }
 
   Variable_value_iterator
   original_variable_values_end  ( ) const
   { return Variable_value_iterator
       (original_variables_numerator_end(),
-       boost::bind
-       (boost::bind
-        (Quotient_normalizer(), boost::bind
-         (U_Quotient_creator(), _1, _2)), _1, variables_common_denominator()));
+       [this](const ET& n)
+       {
+         return Quotient_normalizer()(
+           U_Quotient_creator()(n, this->variables_common_denominator()));
+       });
   }
 
   // Basic variables and constraints
@@ -234,10 +231,11 @@ public:
   {
     return Lambda_iterator
      (lambda_numerator_begin(),
-      boost::bind
-      (boost::bind
-       (Quotient_normalizer(), boost::bind
-        (U_Quotient_creator(), _1, _2)), _1, variables_common_denominator()));
+       [this](const ET& n)
+       {
+         return Quotient_normalizer()(
+           U_Quotient_creator()(n, this->variables_common_denominator()));
+       });
   }
 
   Lambda_iterator
@@ -245,10 +243,11 @@ public:
   {
     return Lambda_iterator
      (lambda_numerator_end(),
-      boost::bind
-      (boost::bind
-       (Quotient_normalizer(), boost::bind
-        (U_Quotient_creator(), _1, _2)), _1, variables_common_denominator()));
+       [this](const ET& n)
+       {
+         return Quotient_normalizer()(
+           U_Quotient_creator()(n, this->variables_common_denominator()));
+       });
   }
 
   // destruction

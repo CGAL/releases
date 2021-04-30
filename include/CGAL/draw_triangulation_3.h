@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.2/Triangulation_3/include/CGAL/draw_triangulation_3.h $
-// $Id: draw_triangulation_3.h 0779373 2020-03-26T13:31:46+01:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v5.2.1/Triangulation_3/include/CGAL/draw_triangulation_3.h $
+// $Id: draw_triangulation_3.h a85cf6e 2021-01-26T09:45:18+01:00 Maxime Gimeno
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Guillaume Damiand <guillaume.damiand@liris.cnrs.fr>
@@ -17,6 +17,7 @@
 
 #ifdef CGAL_USE_BASIC_VIEWER
 
+#include <CGAL/Qt/init_ogl_context.h>
 #include <CGAL/Triangulation_3.h>
 #include <CGAL/Random.h>
 
@@ -150,6 +151,7 @@ void draw(const CGAL_T3_TYPE& at3,
 
   if (!cgal_test_suite)
   {
+    CGAL::Qt::init_ogl_context(4,3);
     int argc=1;
     const char* argv[2]={"t3_viewer","\0"};
     QApplication app(argc,const_cast<char**>(argv));

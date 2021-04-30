@@ -3,7 +3,7 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.2/Mesh_3/include/CGAL/Mesh_3/Mesher_3.h $
+// $URL: https://github.com/CGAL/cgal/blob/v5.2.1/Mesh_3/include/CGAL/Mesh_3/Mesher_3.h $
 // $Id: Mesher_3.h 9e4970f 2020-10-02T15:20:04+02:00 Sebastien Loriot
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //

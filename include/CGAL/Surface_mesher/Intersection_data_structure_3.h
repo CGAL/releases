@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.2/Surface_mesher/include/CGAL/Surface_mesher/Intersection_data_structure_3.h $
-// $Id: Intersection_data_structure_3.h 0779373 2020-03-26T13:31:46+01:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v5.2.1/Surface_mesher/include/CGAL/Surface_mesher/Intersection_data_structure_3.h $
+// $Id: Intersection_data_structure_3.h 24a5fdb 2021-01-05T18:37:28+01:00 Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Laurent RINEAU
@@ -20,7 +20,6 @@
 #include <CGAL/Bbox_3.h>
 
 #include <boost/format.hpp>
-#include <boost/bind.hpp>
 #include <boost/ref.hpp>
 #include <CGAL/boost/iterator/transform_iterator.hpp>
 
@@ -144,7 +143,6 @@ public:
 
   void create_data_structure()
   {
-    using boost::bind;
     using boost::make_transform_iterator;
 
     max_width = CGAL_NTS max BOOST_PREVENT_MACRO_SUBSTITUTION

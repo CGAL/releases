@@ -3,7 +3,7 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.2/Surface_mesh_segmentation/include/CGAL/internal/Surface_mesh_segmentation/Disk_samplers.h $
+// $URL: https://github.com/CGAL/cgal/blob/v5.2.1/Surface_mesh_segmentation/include/CGAL/internal/Surface_mesh_segmentation/Disk_samplers.h $
 // $Id: Disk_samplers.h e893ac1 2020-08-18T10:06:51+02:00 Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //

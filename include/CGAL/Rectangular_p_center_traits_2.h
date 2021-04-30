@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.2/Bounding_volumes/include/CGAL/Rectangular_p_center_traits_2.h $
-// $Id: Rectangular_p_center_traits_2.h 0779373 2020-03-26T13:31:46+01:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v5.2.1/Bounding_volumes/include/CGAL/Rectangular_p_center_traits_2.h $
+// $Id: Rectangular_p_center_traits_2.h 5da7e84 2021-02-02T10:58:31+01:00 Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -290,8 +290,8 @@ bounding_box_2(ForwardIterator f, ForwardIterator l, const Traits& t)
   return rect(v(rect(*xmin, *ymin), 0), v(rect(*xmax, *ymax), 2));
 } // bounding_box_2(f, l, t)
 template < class ForwardIterator >
-inline typename
-std::iterator_traits< ForwardIterator >::value_type::R::Iso_rectangle_2
+inline
+auto
 bounding_box_2(ForwardIterator f, ForwardIterator l)
 // PRE: f != l.
 {

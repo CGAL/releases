@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.2/QP_solver/include/CGAL/QP_solver/QP_basis_inverse.h $
-// $Id: QP_basis_inverse.h 0779373 2020-03-26T13:31:46+01:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v5.2.1/QP_solver/include/CGAL/QP_solver/QP_basis_inverse.h $
+// $Id: QP_basis_inverse.h a925a64 2021-01-05T18:42:53+01:00 Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -410,7 +410,7 @@ class QP_basis_inverse {
         m_it1 = M.begin()+l;
         for ( row = 0; row < s; ++row, ++m_it1) {
             std::transform( m_it1->begin(), m_it1->begin()+s, m_it1->begin(),
-                            boost::bind2nd( std::multiplies<ET>(), d));
+                            [this](const ET& v){return v * this->d;});
         }
 
         // new denominator: |det(A_B)|^2

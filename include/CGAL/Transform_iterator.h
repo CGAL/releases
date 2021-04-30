@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.2/Matrix_search/include/CGAL/Transform_iterator.h $
-// $Id: Transform_iterator.h 0779373 2020-03-26T13:31:46+01:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v5.2.1/Matrix_search/include/CGAL/Transform_iterator.h $
+// $Id: Transform_iterator.h 4b472db 2021-02-03T10:57:36+00:00 Andreas Fabri
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -34,7 +34,6 @@ struct Transform_iterator {
   typedef std::_Unchecked_iterator_tag _Checked_iterator_category;
   typedef std::output_iterator_tag             iterator_category;
   typedef Transform_iterator< OutputIterator, Operation >   self;
-  typedef typename Operation::argument_type        argument_type;
 
   typedef typename std::iterator_traits<OutputIterator>::difference_type difference_type;
   typedef typename std::iterator_traits<OutputIterator>::value_type      value_type;
@@ -54,6 +53,7 @@ struct Transform_iterator {
 
   self& operator++( int) { return *this; }
 
+  template <typename argument_type>
   self& operator=( const argument_type& a) {
     *(o_++) = op_( a);
     return *this;

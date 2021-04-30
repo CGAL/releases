@@ -7,7 +7,7 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.2/Stream_support/include/CGAL/IO/binary_file_io.h $
+// $URL: https://github.com/CGAL/cgal/blob/v5.2.1/Stream_support/include/CGAL/IO/binary_file_io.h $
 // $Id: binary_file_io.h 30422d0 2020-10-06T13:12:26+02:00 Simon Giraudot
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //

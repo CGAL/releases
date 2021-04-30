@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.2/Tetrahedral_remeshing/include/CGAL/Tetrahedral_remeshing/internal/tetrahedral_remeshing_helpers.h $
-// $Id: tetrahedral_remeshing_helpers.h 5ebf01e 2020-12-16T17:47:56+01:00 Laurent Rineau
+// $URL: https://github.com/CGAL/cgal/blob/v5.2.1/Tetrahedral_remeshing/include/CGAL/Tetrahedral_remeshing/internal/tetrahedral_remeshing_helpers.h $
+// $Id: tetrahedral_remeshing_helpers.h 26ed477 2021-01-06T16:05:06+01:00 Laurent Rineau
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -775,6 +775,7 @@ bool is_outside(const typename C3t3::Edge & edge,
   return true; //all incident cells are outside or infinite
 }
 
+// is `v` part of the selection of cells that should be remeshed?
 template<typename C3t3, typename CellSelector>
 bool is_selected(const typename C3t3::Vertex_handle v,
                  const C3t3& c3t3,
@@ -821,6 +822,24 @@ bool is_internal(const typename C3t3::Edge& edge,
   } while (++circ != done);
 
   return true;
+}
+
+// is `e` part of the selection of cells that should be remeshed?
+template<typename C3T3, typename CellSelector>
+bool is_selected(const typename C3T3::Triangulation::Edge& e,
+                 const C3T3& c3t3,
+                 CellSelector cell_selector)
+{
+  typedef typename C3T3::Triangulation::Cell_circulator Cell_circulator;
+  Cell_circulator circ = c3t3.triangulation().incident_cells(e);
+  Cell_circulator done = circ;
+  do
+  {
+    if (cell_selector(circ))
+      return true;
+  } while (++circ != done);
+
+  return false;
 }
 
 template<typename Gt>

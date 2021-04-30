@@ -9,8 +9,8 @@
 // and a STREP (FET Open) Project under Contract No  IST-006413
 // (ACS -- Algorithms for Complex Shapes)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.2/Algebraic_kernel_for_spheres/include/CGAL/Algebraic_kernel_for_spheres/internal_functions_comparison_root_for_spheres_2_3.h $
-// $Id: internal_functions_comparison_root_for_spheres_2_3.h 0779373 2020-03-26T13:31:46+01:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v5.2.1/Algebraic_kernel_for_spheres/include/CGAL/Algebraic_kernel_for_spheres/internal_functions_comparison_root_for_spheres_2_3.h $
+// $Id: internal_functions_comparison_root_for_spheres_2_3.h 82989ae 2021-03-01T13:11:00+01:00 Maxime Gimeno
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s) : Monique Teillaud <Monique.Teillaud@sophia.inria.fr>
@@ -30,19 +30,19 @@ namespace CGAL {
     template <typename RT>
       Comparison_result
       compare_x(const CGAL::Root_for_spheres_2_3<RT>& r1, const CGAL::Root_for_spheres_2_3<RT>& r2){
-      return compare(r1.x(), r2.x());
+      return CGAL::compare(r1.x(), r2.x());
     }
 
     template <typename RT>
       Comparison_result
       compare_y(const CGAL::Root_for_spheres_2_3<RT>& r1, const CGAL::Root_for_spheres_2_3<RT>& r2){
-      return compare(r1.y(), r2.y());
+      return CGAL::compare(r1.y(), r2.y());
     }
 
     template <typename RT>
       Comparison_result
       compare_z(const CGAL::Root_for_spheres_2_3<RT>& r1, const CGAL::Root_for_spheres_2_3<RT>& r2){
-      return compare(r1.z(), r2.z());
+      return CGAL::compare(r1.z(), r2.z());
     }
 
     template <typename RT>

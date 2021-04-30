@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.2/Convex_hull_2/include/CGAL/Convex_hull_2/ch_jarvis_impl.h $
-// $Id: ch_jarvis_impl.h 0779373 2020-03-26T13:31:46+01:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v5.2.1/Convex_hull_2/include/CGAL/Convex_hull_2/ch_jarvis_impl.h $
+// $Id: ch_jarvis_impl.h c4ad713 2021-01-05T11:40:22+01:00 Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -24,7 +24,6 @@
 #include <CGAL/Convex_hull_2/ch_assertions.h>
 #include <CGAL/ch_selected_extreme_points_2.h>
 #include <algorithm>
-#include <boost/bind.hpp>
 
 namespace CGAL {
 
@@ -65,7 +64,8 @@ ch_jarvis_march(ForwardIterator first, ForwardIterator last,
       Point previous_point = start_p; )
 
   ForwardIterator it = std::min_element( first, last,
-                                         boost::bind(rotation_predicate, boost::cref(start_p), _1, _2) );
+                                         [&start_p, &rotation_predicate](const Point& p1, const Point& p2)
+                                         {return rotation_predicate(start_p, p1, p2);} );
   while (! equal_points(*it, stop_p) )
   {
       CGAL_ch_exactness_assertion( \
@@ -80,7 +80,8 @@ ch_jarvis_march(ForwardIterator first, ForwardIterator last,
           constructed_points <= count_points + 1 );
 
       it = std::min_element( first, last,
-                             boost::bind(rotation_predicate, *it, _1, _2) );
+                             [it, &rotation_predicate](const Point& p1, const Point& p2)
+                             {return rotation_predicate(*it, p1, p2);} );
   }
   CGAL_ch_postcondition( \
       is_ccw_strongly_convex_2( res.output_so_far_begin(), \

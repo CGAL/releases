@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.2/STL_Extension/include/CGAL/Spatial_lock_grid_3.h $
-// $Id: Spatial_lock_grid_3.h 3560053 2020-01-21T10:05:19+01:00 Maxime Gimeno
+// $URL: https://github.com/CGAL/cgal/blob/v5.2.1/STL_Extension/include/CGAL/Spatial_lock_grid_3.h $
+// $Id: Spatial_lock_grid_3.h ea0386c 2021-01-06T11:36:32+01:00 Sébastien Loriot
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Clement Jamin
@@ -15,8 +15,6 @@
 #ifdef CGAL_LINKED_WITH_TBB
 
 #include <CGAL/Bbox_3.h>
-
-#include <boost/bind.hpp>
 
 #include <atomic>
 #if TBB_IMPLEMENT_CPP0X
@@ -334,7 +332,7 @@ protected:
   Spatial_lock_grid_base_3(const Bbox_3 &bbox,
                                           int num_grid_cells_per_axis)
     : m_num_grid_cells_per_axis(num_grid_cells_per_axis),
-      m_tls_grids(boost::bind(init_TLS_grid, num_grid_cells_per_axis))
+      m_tls_grids([num_grid_cells_per_axis](){ return init_TLS_grid(num_grid_cells_per_axis); })
   {
     set_bbox(bbox);
   }

@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.2/Scale_space_reconstruction_3/include/CGAL/Scale_space_reconstruction_3/Alpha_shape_mesher.h $
-// $Id: Alpha_shape_mesher.h 71b4e91 2020-09-11T08:39:06+02:00 Dmitry Anisimov
+// $URL: https://github.com/CGAL/cgal/blob/v5.2.1/Scale_space_reconstruction_3/include/CGAL/Scale_space_reconstruction_3/Alpha_shape_mesher.h $
+// $Id: Alpha_shape_mesher.h e895f42 2021-01-06T14:29:37+01:00 Simon Giraudot
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s):      Thijs van Lankveld, Simon Giraudot
@@ -265,7 +265,7 @@ public:
    */
   Facet_const_iterator shell_begin( std::size_t shell ) const
   {
-    CGAL_assertion( shell >= 0 && shell < _shells.size() );
+    CGAL_assertion( shell < _shells.size() );
     return _shells[ shell ];
   }
   /// gives an iterator to the first triple in a given shell.
@@ -277,7 +277,7 @@ public:
    */
   Facet_iterator shell_begin( std::size_t shell )
   {
-    CGAL_assertion( shell >= 0 && shell < _shells.size() );
+    CGAL_assertion( shell < _shells.size() );
     return _shells[ shell ];
   }
 
@@ -288,7 +288,7 @@ public:
    */
   Facet_const_iterator shell_end( std::size_t shell ) const
   {
-    CGAL_assertion( shell >= 0 && shell < _shells.size() );
+    CGAL_assertion( shell < _shells.size() );
     if( shell == _shells.size()-1 )
       return _surface.end();
     return _shells[ shell+1 ];
@@ -303,7 +303,7 @@ public:
    */
   Facet_iterator shell_end( std::size_t shell )
   {
-    CGAL_assertion( shell >= 0 && shell < _shells.size() );
+    CGAL_assertion( shell < _shells.size() );
     if( shell == _shells.size()-1 )
         return _surface.end();
     return _shells[ shell+1 ];

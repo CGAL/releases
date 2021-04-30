@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.2/Polygon_mesh_processing/include/CGAL/Polygon_mesh_processing/internal/Corefinement/intersection_impl.h $
-// $Id: intersection_impl.h 091d1ec 2020-05-11T17:29:24+02:00 Mael Rouxel-Labbé
+// $URL: https://github.com/CGAL/cgal/blob/v5.2.1/Polygon_mesh_processing/include/CGAL/Polygon_mesh_processing/internal/Corefinement/intersection_impl.h $
+// $Id: intersection_impl.h cd70b9b 2021-02-03T10:46:28+00:00 Andreas Fabri
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -325,7 +325,7 @@ class Intersection_of_triangle_meshes
       case ON_EDGE  :
       {
         h1=opposite(ipt.info_1,tm1);
-        if (h1>ipt.info_1) h1=ipt.info_1;
+        if (ipt.info_1 < h1) h1=ipt.info_1;
       }
       break;
       case ON_FACE :
@@ -340,7 +340,7 @@ class Intersection_of_triangle_meshes
       case ON_EDGE  :
       {
         h2=opposite(ipt.info_2,tm2);
-        if (h2>ipt.info_2) h2=ipt.info_2;
+        if (ipt.info_2 < h2) h2=ipt.info_2;
       }
       break;
       case ON_FACE :
@@ -350,7 +350,7 @@ class Intersection_of_triangle_meshes
     }
 
     Key key(ipt.type_1, ipt.type_2, h1, h2);
-    if (&tm1==&tm2 && h1>h2)
+    if (&tm1==&tm2 && h2<h1)
       key=Key(ipt.type_2, ipt.type_1, h2, h1);
 
     std::pair<typename std::map<Key,Node_id>::iterator,bool> res=
@@ -554,7 +554,7 @@ class Intersection_of_triangle_meshes
 
       CGAL_assertion(&tm1!=&tm2 || f1!=f2);
 
-      typedef CGAL::Exact_predicates_exact_constructions_kernel EK;
+      typedef typename Node_vector::Exact_kernel EK;
       typedef Coplanar_intersection<TriangleMesh, EK> Cpl_inter_pt;
       std::list<Cpl_inter_pt> inter_pts;
 

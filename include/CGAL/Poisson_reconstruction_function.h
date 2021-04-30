@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.2/Poisson_surface_reconstruction_3/include/CGAL/Poisson_reconstruction_function.h $
-// $Id: Poisson_reconstruction_function.h d6e94ee 2020-10-29T10:51:19+01:00 Laurent Rineau
+// $URL: https://github.com/CGAL/cgal/blob/v5.2.1/Poisson_surface_reconstruction_3/include/CGAL/Poisson_reconstruction_function.h $
+// $Id: Poisson_reconstruction_function.h 848aa7d 2021-02-08T10:16:59+01:00 Simon Giraudot
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Laurent Saboret, Pierre Alliez
@@ -110,18 +110,19 @@ struct Poisson_visitor {
 // The wrapper stores only pointers to the two functors.
 template <typename F1, typename F2>
 struct Special_wrapper_of_two_functions_keep_pointers {
+  typedef typename F2::FT FT;
   F1 *f1;
   F2 *f2;
   Special_wrapper_of_two_functions_keep_pointers(F1* f1, F2* f2)
     : f1(f1), f2(f2) {}
 
   template <typename X>
-  double operator()(const X& x) const {
+  FT operator()(const X& x) const {
     return (std::max)((*f1)(x), CGAL::square((*f2)(x)));
   }
 
   template <typename X>
-  double operator()(const X& x) {
+  FT operator()(const X& x) {
     return (std::max)((*f1)(x), CGAL::square((*f2)(x)));
   }
 }; // end struct Special_wrapper_of_two_functions_keep_pointers<F1, F2>
@@ -211,7 +212,7 @@ private:
   {
   private:
     std::atomic<Cache_state> m_state;
-    std::array<double, 9> m_bary;
+    std::array<FT, 9> m_bary;
   public:
     Cached_bary_coord() : m_state (UNINITIALIZED) { }
 
@@ -242,8 +243,8 @@ private:
 
     void set_initialized() { m_state = INITIALIZED; }
 
-    const double& operator[] (const std::size_t& idx) const { return m_bary[idx]; }
-    double& operator[] (const std::size_t& idx) { return m_bary[idx]; }
+    const FT& operator[] (const std::size_t& idx) const { return m_bary[idx]; }
+    FT& operator[] (const std::size_t& idx) { return m_bary[idx]; }
   };
 
   // Wrapper for thread safety of maintained cell hint for fast

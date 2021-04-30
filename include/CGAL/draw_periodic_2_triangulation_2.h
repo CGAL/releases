@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.2/Periodic_2_triangulation_2/include/CGAL/draw_periodic_2_triangulation_2.h $
-// $Id: draw_periodic_2_triangulation_2.h e9d41d7 2020-04-21T10:03:00+02:00 Maxime Gimeno
+// $URL: https://github.com/CGAL/cgal/blob/v5.2.1/Periodic_2_triangulation_2/include/CGAL/draw_periodic_2_triangulation_2.h $
+// $Id: draw_periodic_2_triangulation_2.h a85cf6e 2021-01-26T09:45:18+01:00 Maxime Gimeno
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Jasmeet Singh <jasmeet.singh.mec11@iitbhu.ac.in>
@@ -17,6 +17,7 @@
 
 #ifdef CGAL_USE_BASIC_VIEWER
 
+#include <CGAL/Qt/init_ogl_context.h>
 #include <CGAL/Exact_predicates_inexact_constructions_kernel.h>
 #include <CGAL/Random.h>
 
@@ -260,6 +261,7 @@ void draw(const CGAL_P2T2_TYPE& ap2t2,
 
   if (!cgal_test_suite)
   {
+    CGAL::Qt::init_ogl_context(4,3);
     int argc=1;
     const char* argv[2]={"p2t2_viewer","\0"};
     QApplication app(argc,const_cast<char**>(argv));

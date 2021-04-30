@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.2/Bounding_volumes/include/CGAL/rectangular_p_center_2.h $
-// $Id: rectangular_p_center_2.h 0779373 2020-03-26T13:31:46+01:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v5.2.1/Bounding_volumes/include/CGAL/rectangular_p_center_2.h $
+// $Id: rectangular_p_center_2.h c9a5cf70 2021-01-05T18:52:29+01:00 Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -316,7 +316,6 @@ rectangular_p_center_2_matrix_search(
   const Traits& t)
 {
   typedef typename Traits::FT FT;
-  using std::minus;
 
   return rectangular_p_center_2_matrix_search(
     f,
@@ -325,7 +324,9 @@ rectangular_p_center_2_matrix_search(
     r,
     pf,
     t,
-    boost::bind(Max<FT>(), 0, boost::bind(minus<FT>(), _1, _2)));
+    std::function<FT(const FT&, const FT&)>(
+      [](const FT& a, const FT& b) { return Max<FT>()(0, std::minus<FT>()(a,b)); }
+    ));
 
 } // Pcenter_matrix_search( ... )
 

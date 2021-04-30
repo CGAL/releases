@@ -4,7 +4,7 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.2/Mesh_3/include/CGAL/Mesh_vertex_base_3.h $
+// $URL: https://github.com/CGAL/cgal/blob/v5.2.1/Mesh_3/include/CGAL/Mesh_vertex_base_3.h $
 // $Id: Mesh_vertex_base_3.h 86496e4 2020-06-16T21:56:07+02:00 Laurent Rineau
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //

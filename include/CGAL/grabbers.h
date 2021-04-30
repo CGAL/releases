@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.2/CGAL_ipelets/include/CGAL/grabbers.h $
-// $Id: grabbers.h 0779373 2020-03-26T13:31:46+01:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v5.2.1/CGAL_ipelets/include/CGAL/grabbers.h $
+// $Id: grabbers.h efc0c52 2021-01-15T10:02:00+01:00 Sébastien Loriot
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -14,7 +14,7 @@
 #ifndef CGAL_GRABBER_H
 #define CGAL_GRABBER_H
 
-#include <boost/function_output_iterator.hpp>
+#include <boost/iterator/function_output_iterator.hpp>
 
 namespace CGAL{
 

@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.2/Convex_hull_2/include/CGAL/Convex_hull_2/ch_akl_toussaint_impl.h $
-// $Id: ch_akl_toussaint_impl.h 0779373 2020-03-26T13:31:46+01:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v5.2.1/Convex_hull_2/include/CGAL/Convex_hull_2/ch_akl_toussaint_impl.h $
+// $Id: ch_akl_toussaint_impl.h c4ad713 2021-01-05T11:40:22+01:00 Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -25,7 +25,6 @@
 #include <CGAL/ch_graham_andrew.h>
 #include <CGAL/algorithm.h>
 #include <CGAL/IO/Tee_for_output_iterator.h>
-#include <boost/bind.hpp>
 #include <CGAL/tuple.h>
 #include <CGAL/utility.h>
 #include <iterator>
@@ -296,9 +295,11 @@ ch_akl_toussaint(ForwardIterator first, ForwardIterator last,
   std::sort( std::next(region2.begin() ), region2.end(),
              ch_traits.less_xy_2_object() );
   std::sort( std::next(region3.begin() ), region3.end(),
-             boost::bind(ch_traits.less_xy_2_object(), _2, _1) );
+             [&ch_traits](const Point_2& p1, const Point_2& p2)
+             { return ch_traits.less_xy_2_object()(p2, p1); });
   std::sort( std::next(region4.begin() ), region4.end(),
-             boost::bind(ch_traits.less_xy_2_object(), _2, _1) );
+             [&ch_traits](const Point_2& p1, const Point_2& p2)
+             { return ch_traits.less_xy_2_object()(p2, p1); });
 
   if (! equal_points(*w,*s) )
   {

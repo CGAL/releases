@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.2/Triangulation_3/include/CGAL/Triangulation_3.h $
-// $Id: Triangulation_3.h b87e226 2020-11-03T18:53:02+01:00 Jane Tournois
+// $URL: https://github.com/CGAL/cgal/blob/v5.2.1/Triangulation_3/include/CGAL/Triangulation_3.h $
+// $Id: Triangulation_3.h 1e249af 2020-11-10T19:21:21+01:00 Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Monique Teillaud <Monique.Teillaud@sophia.inria.fr>
@@ -53,7 +53,6 @@
 #include <CGAL/Bbox_3.h>
 #include <CGAL/Spatial_lock_grid_3.h>
 
-#include <boost/bind.hpp>
 #include <boost/random/linear_congruential.hpp>
 #include <boost/random/uniform_smallint.hpp>
 #include <boost/random/variate_generator.hpp>
@@ -7294,22 +7293,10 @@ operator==(const Triangulation_3<GT, Tds1, Lds>& t1,
     std::vector<Point> V2 (t2.points_begin(), t2.points_end());
 
     std::sort(V1.begin(), V1.end(),
-              boost::bind<Comparison_result>(
-                cmp1,
-                boost::bind<
-                typename boost::result_of<const Construct_point_3(const Point&)>::type>(cp, _1),
-                boost::bind<
-                typename boost::result_of<const Construct_point_3(const Point&)>::type>(cp, _2))
-              == SMALLER);
+              [&cmp1, &cp](const Point& p1, const Point& p2){ return cmp1(cp(p1), cp(p2))==SMALLER; });
 
     std::sort(V2.begin(), V2.end(),
-              boost::bind<Comparison_result>(
-                cmp2,
-                boost::bind<
-                typename boost::result_of<const Construct_point_3(const Point&)>::type>(cp, _1),
-                boost::bind<
-                typename boost::result_of<const Construct_point_3(const Point&)>::type>(cp, _2))
-              == SMALLER);
+              [&cmp2, &cp](const Point& p1, const Point& p2){ return cmp2(cp(p1), cp(p2))==SMALLER; });
 
     return V1 == V2;
   }

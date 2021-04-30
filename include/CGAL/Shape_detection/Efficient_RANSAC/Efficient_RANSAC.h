@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.2/Shape_detection/include/CGAL/Shape_detection/Efficient_RANSAC/Efficient_RANSAC.h $
-// $Id: Efficient_RANSAC.h a0e1b15 2020-12-15T09:07:21+01:00 Laurent Rineau
+// $URL: https://github.com/CGAL/cgal/blob/v5.2.1/Shape_detection/include/CGAL/Shape_detection/Efficient_RANSAC/Efficient_RANSAC.h $
+// $Id: Efficient_RANSAC.h 0cf9990 2021-02-04T08:33:54+01:00 Simon Giraudot
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -1030,8 +1030,10 @@ namespace CGAL {
     }
 
     inline FT stop_probability(std::size_t largest_candidate, std::size_t num_pts, std::size_t num_candidates, std::size_t octree_depth) const {
-      return (std::min<FT>)(std::pow((FT) 1.f - (FT) largest_candidate
-                                     / (FT(num_pts) * (octree_depth+1) * (1 << (m_required_samples - 1))), (int) num_candidates), (FT) 1);
+      return (std::min<FT>)(std::pow(FT(1) - FT(largest_candidate)
+                                     / (FT(num_pts) * FT(octree_depth+1)
+                                        * FT(1 << (m_required_samples - 1))),
+                                     int(num_candidates)), FT(1));
     }
 
   private:

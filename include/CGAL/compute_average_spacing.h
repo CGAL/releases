@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.2/Point_set_processing_3/include/CGAL/compute_average_spacing.h $
-// $Id: compute_average_spacing.h c253679 2020-04-18T16:27:58+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v5.2.1/Point_set_processing_3/include/CGAL/compute_average_spacing.h $
+// $Id: compute_average_spacing.h 848aa7d 2021-02-08T10:16:59+01:00 Simon Giraudot
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s) : Pierre Alliez and Laurent Saboret
@@ -81,7 +81,7 @@ compute_average_spacing(const typename NeighborQuery::Kernel::Point_3& query, //
      boost::make_function_output_iterator
      ([&](const Point& p)
       {
-        sum_distances += std::sqrt(CGAL::squared_distance (query,p));
+        sum_distances += CGAL::approximate_sqrt(CGAL::squared_distance (query,p));
         ++ i;
       }));
 

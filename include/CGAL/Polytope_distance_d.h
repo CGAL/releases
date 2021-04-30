@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.2/Polytope_distance_d/include/CGAL/Polytope_distance_d.h $
-// $Id: Polytope_distance_d.h 0779373 2020-03-26T13:31:46+01:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v5.2.1/Polytope_distance_d/include/CGAL/Polytope_distance_d.h $
+// $Id: Polytope_distance_d.h 2b61a99 2021-01-05T18:38:16+01:00 Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -665,9 +665,8 @@ private:
   check_dimension( InputIterator first, InputIterator last)
   { return ( std::find_if
              ( first, last,
-               CGAL::compose1_1
-               ( boost::bind2nd(std::not_equal_to<int>(), d),
-                 tco.access_dimension_d_object()))
+               [this](const auto& o)
+               { return this->tco.access_dimension_d_object()(o) != this->d; })
              == last); }
 
   // compute (squared) distance

@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.2/Triangulation_2/include/CGAL/Regular_triangulation_2.h $
-// $Id: Regular_triangulation_2.h 9f2eafd 2020-03-26T19:17:02+01:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v5.2.1/Triangulation_2/include/CGAL/Regular_triangulation_2.h $
+// $Id: Regular_triangulation_2.h 4bb0406 2021-02-04T18:12:12+01:00 Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Frederic Fichel, Mariette Yvinec, Julia Floetotto
@@ -22,7 +22,6 @@
 #include <CGAL/Object.h>
 #include <CGAL/internal/Has_nested_type_Bare_point.h>
 
-#include <boost/bind.hpp>
 #include <boost/mpl/if.hpp>
 #include <boost/mpl/identity.hpp>
 #include <boost/utility/result_of.hpp>

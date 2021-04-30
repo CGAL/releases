@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.2/Triangulation_3/include/CGAL/Regular_triangulation_3.h $
-// $Id: Regular_triangulation_3.h 07eacf5 2020-06-30T16:38:05+02:00 Laurent Rineau
+// $URL: https://github.com/CGAL/cgal/blob/v5.2.1/Triangulation_3/include/CGAL/Regular_triangulation_3.h $
+// $Id: Regular_triangulation_3.h 4bb0406 2021-02-04T18:12:12+01:00 Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -55,7 +55,6 @@
 #include <CGAL/point_generators_3.h>
 #endif
 
-#include <boost/bind.hpp>
 #include <boost/mpl/if.hpp>
 #include <boost/mpl/identity.hpp>
 #include <boost/property_map/function_property_map.hpp>

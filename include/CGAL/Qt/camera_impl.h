@@ -6,8 +6,8 @@
  This file is part of a fork of the QGLViewer library version 2.7.0.
 
 *****************************************************************************/
-// $URL: https://github.com/CGAL/cgal/blob/v5.2/GraphicsView/include/CGAL/Qt/camera_impl.h $
-// $Id: camera_impl.h e75b700 2020-10-01T10:05:18+02:00 Maxime Gimeno
+// $URL: https://github.com/CGAL/cgal/blob/v5.2.1/GraphicsView/include/CGAL/Qt/camera_impl.h $
+// $Id: camera_impl.h fa1a355 2021-02-18T15:19:05+01:00 Laurent Rineau
 // SPDX-License-Identifier: GPL-3.0-only
 
 #ifdef CGAL_HEADER_ONLY
@@ -883,10 +883,13 @@ void Camera::interpolateTo(const Frame &fr, qreal duration) {
  imprecision along the viewing direction. */
 CGAL_INLINE_FUNCTION
 Vec Camera::pointUnderPixel(const QPoint &pixel, bool &found) const {
-  float depth;
+  float depth = 2.0;
   // Qt uses upper corner for its origin while GL uses the lower corner.
-  dynamic_cast<QOpenGLFunctions*>(parent())->glReadPixels(pixel.x(), screenHeight() - 1 - pixel.y(), 1, 1,
-               GL_DEPTH_COMPONENT, GL_FLOAT, &depth);
+  if(auto p = dynamic_cast<QOpenGLFunctions*>(parent()))
+  {
+    p->glReadPixels(pixel.x(), screenHeight() - 1 - pixel.y(), 1, 1,
+                    GL_DEPTH_COMPONENT, GL_FLOAT, &depth);
+  }
   found = depth < 1.0;
   Vec point(pixel.x(), pixel.y(), depth);
   point = unprojectedCoordinatesOf(point);

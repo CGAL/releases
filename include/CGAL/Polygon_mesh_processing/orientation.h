@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.2/Polygon_mesh_processing/include/CGAL/Polygon_mesh_processing/orientation.h $
-// $Id: orientation.h 10ba347 2020-10-02T15:20:53+02:00 Sebastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v5.2.1/Polygon_mesh_processing/include/CGAL/Polygon_mesh_processing/orientation.h $
+// $Id: orientation.h 96769b2 2021-02-03T12:38:25+00:00 Andreas Fabri
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -53,8 +53,8 @@ namespace internal{
     {}
 
     typedef bool result_type;
-    template <class vertex_descriptor>
-    bool operator()(vertex_descriptor v1, vertex_descriptor v2) const
+    template <class vertex_descriptor1, class vertex_descriptor2>
+    bool operator()(vertex_descriptor1 v1, vertex_descriptor2 v2) const
     {
       return CGAL::SMALLER == compare_z(get(vpmap, v1), get(vpmap, v2));
     }

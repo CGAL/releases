@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.2/Arrangement_on_surface_2/include/CGAL/Curved_kernel_via_analysis_2/gfx/Curve_renderer_internals.h $
-// $Id: Curve_renderer_internals.h 1ae6f3f 2020-10-01T15:56:44+01:00 Ahmed Essam
+// $URL: https://github.com/CGAL/cgal/blob/v5.2.1/Arrangement_on_surface_2/include/CGAL/Curved_kernel_via_analysis_2/gfx/Curve_renderer_internals.h $
+// $Id: Curve_renderer_internals.h 32b31fd 2021-02-02T11:09:46+01:00 Sébastien Loriot
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Pavel Emeliyanenko <asm@mpi-sb.mpg.de>
@@ -293,13 +293,6 @@ public:
             y = y * x + extract(*poly_it--) * (*der_it);
         }
         return y;
-    }
-
-    //! \brief the same as \c evaluate but arguments are passed by value
-    //! (needed to substitute variables in bivariate polynomial)
-    inline static NT binded_eval(Poly_1 poly, NT x)
-    {
-        return evaluate(poly, x);
     }
 
     //! \brief evalutates a polynomial at certain x-coordinate
@@ -913,10 +906,9 @@ void get_precached_poly(int var, const NT& key, int /* level */, Poly_1& poly)
 //     }
 
     if(not_cached||not_found) {
-        poly = Poly_1(::boost::make_transform_iterator(coeffs->begin(),
-                            boost::bind2nd(std::ptr_fun(binded_eval), key1)),
-                      ::boost::make_transform_iterator(coeffs->end(),
-                            boost::bind2nd(std::ptr_fun(binded_eval), key1)));
+        auto fn = [&key1](const Poly_1& poly){ return evaluate(poly, key1); };
+        poly = Poly_1(::boost::make_transform_iterator(coeffs->begin(), fn),
+                      ::boost::make_transform_iterator(coeffs->end(), fn));
         if(not_cached)
             return;
     // all available space consumed: drop the least recently used entry

@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.2/Inscribed_areas/include/CGAL/extremal_polygon_2.h $
-// $Id: extremal_polygon_2.h 0779373 2020-03-26T13:31:46+01:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v5.2.1/Inscribed_areas/include/CGAL/extremal_polygon_2.h $
+// $Id: extremal_polygon_2.h 3882d27 2021-01-06T10:55:53+01:00 Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -25,8 +25,6 @@
 #include <functional>
 #include <algorithm>
 #include <CGAL/Extremal_polygon_traits_2.h>
-#include <boost/bind.hpp>
-#include <boost/bind/make_adaptable.hpp>
 namespace CGAL {
 
 //!!! This will eventually be integrated into function_objects.h
@@ -443,8 +441,8 @@ extremal_polygon_2(
     k,
     CGAL::transform_iterator(
       o,
-      boost::make_adaptable<Point_2, int>(boost::bind(Index_operator< RandomAccessIC, int, Point_2 >(),
-                                                      points_begin, _1))),
+      std::function<Point_2(int)>([points_begin](int i)
+      { return Index_operator< RandomAccessIC, int, Point_2 >()(points_begin, i); })),
     t);
 }
 

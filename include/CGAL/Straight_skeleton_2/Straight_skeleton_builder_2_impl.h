@@ -2,8 +2,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.2/Straight_skeleton_2/include/CGAL/Straight_skeleton_2/Straight_skeleton_builder_2_impl.h $
-// $Id: Straight_skeleton_builder_2_impl.h b43e578 2020-11-27T14:00:24+01:00 Mael Rouxel-Labbé
+// $URL: https://github.com/CGAL/cgal/blob/v5.2.1/Straight_skeleton_2/include/CGAL/Straight_skeleton_2/Straight_skeleton_builder_2_impl.h $
+// $Id: Straight_skeleton_builder_2_impl.h 1e249af 2020-11-10T19:21:21+01:00 Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Fernando Cacciola <fernando_cacciola@ciudad.com.ar>
@@ -17,7 +17,6 @@
 #include <CGAL/Real_timer.h>
 #include <CGAL/Unique_hash_map.h>
 
-#include <boost/bind.hpp>
 #include <boost/utility.hpp>
 #include <boost/version.hpp>
 #if BOOST_VERSION == 106000
@@ -2018,12 +2017,12 @@ bool Straight_skeleton_builder_2<Gt,Ss,V>::FinishUp()
 
   std::for_each( mSplitNodes.begin()
                 ,mSplitNodes.end  ()
-                ,boost::bind(&Straight_skeleton_builder_2<Gt,Ss,V>::MergeSplitNodes,this,_1)
+                ,[this](Vertex_handle_pair p){ this->MergeSplitNodes(p); }
                ) ;
 
   std::for_each( mDanglingBisectors.begin()
                 ,mDanglingBisectors.end  ()
-                ,boost::bind(&Straight_skeleton_builder_2<Gt,Ss,V>::EraseBisector,this,_1)
+                ,[this](Halfedge_handle db){ this->EraseBisector(db); }
                ) ;
 
   // MergeCoincidentNodes() locks all extremities of halfedges that have a vertex involved in a multinode.

@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.2/Surface_mesh_parameterization/include/CGAL/Surface_mesh_parameterization/LSCM_parameterizer_3.h $
-// $Id: LSCM_parameterizer_3.h 1b80ca4 2020-10-20T14:51:00+02:00 Mael Rouxel-Labbé
+// $URL: https://github.com/CGAL/cgal/blob/v5.2.1/Surface_mesh_parameterization/include/CGAL/Surface_mesh_parameterization/LSCM_parameterizer_3.h $
+// $Id: LSCM_parameterizer_3.h bdd4efe 2021-01-15T10:06:56+01:00 Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Laurent Saboret, Pierre Alliez, Bruno Levy
@@ -31,7 +31,7 @@
 #endif
 #include <CGAL/OpenNL/linear_solver.h>
 
-#include <boost/function_output_iterator.hpp>
+#include <boost/iterator/function_output_iterator.hpp>
 #include <boost/unordered_set.hpp>
 
 #include <vector>

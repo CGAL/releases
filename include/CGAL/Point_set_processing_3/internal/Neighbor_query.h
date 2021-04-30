@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.2/Point_set_processing_3/include/CGAL/Point_set_processing_3/internal/Neighbor_query.h $
-// $Id: Neighbor_query.h 684f6e9 2020-07-06T14:07:13+02:00 Simon Giraudot
+// $URL: https://github.com/CGAL/cgal/blob/v5.2.1/Point_set_processing_3/include/CGAL/Point_set_processing_3/internal/Neighbor_query.h $
+// $Id: Neighbor_query.h efc0c52 2021-01-15T10:02:00+01:00 Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Simon Giraudot
@@ -22,7 +22,7 @@
 
 #include <CGAL/iterator.h>
 
-#include <boost/function_output_iterator.hpp>
+#include <boost/iterator/function_output_iterator.hpp>
 
 namespace CGAL {
 namespace Point_set_processing_3 {

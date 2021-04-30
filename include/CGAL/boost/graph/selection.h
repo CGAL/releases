@@ -2,8 +2,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.2/BGL/include/CGAL/boost/graph/selection.h $
-// $Id: selection.h a84927d 2020-07-23T17:15:44+02:00 Laurent Rineau
+// $URL: https://github.com/CGAL/cgal/blob/v5.2.1/BGL/include/CGAL/boost/graph/selection.h $
+// $Id: selection.h 27de834 2021-01-18T11:30:02+01:00 Sébastien Loriot
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Sebastien Loriot
@@ -561,6 +561,9 @@ regularize_face_selection_borders(
 /// \endcond
 
 /// \cond SKIP_IN_MANUAL
+
+namespace experimental {
+
 // TODO: improve and document if useful
 //
 // Variant of regularization without graphcut but with brut-force
@@ -702,6 +705,8 @@ regularize_face_selection_borders(
     for (fg_face_descriptor fd : faces_around_target (hd, fg))
       put(is_selected, fd, true);
   }
+}
+
 }
 /// \endcond
 

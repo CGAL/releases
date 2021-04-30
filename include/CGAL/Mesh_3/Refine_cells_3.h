@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.2/Mesh_3/include/CGAL/Mesh_3/Refine_cells_3.h $
-// $Id: Refine_cells_3.h 58b10a3 2020-03-26T18:58:50+01:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v5.2.1/Mesh_3/include/CGAL/Mesh_3/Refine_cells_3.h $
+// $Id: Refine_cells_3.h 6fe18d8 2021-01-20T15:32:23+01:00 Laurent Rineau
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Laurent Rineau, Stéphane Tayeb
@@ -470,7 +470,7 @@ public:
   std::string debug_info_element_impl(const Cell_handle &ch) const
   {
     std::stringstream sstr;
-    sstr << "Cell { " << std::endl
+    sstr << "Cell " << (void*)(ch.operator->()) << " { " << std::endl
     << "  " << *ch->vertex(0) << std::endl
     << "  " << *ch->vertex(1) << std::endl
     << "  " << *ch->vertex(2) << std::endl

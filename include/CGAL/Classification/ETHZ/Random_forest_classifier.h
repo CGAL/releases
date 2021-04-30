@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.2/Classification/include/CGAL/Classification/ETHZ/Random_forest_classifier.h $
-// $Id: Random_forest_classifier.h 19004a7 2020-08-04T13:41:48+02:00 Simon Giraudot
+// $URL: https://github.com/CGAL/cgal/blob/v5.2.1/Classification/include/CGAL/Classification/ETHZ/Random_forest_classifier.h $
+// $Id: Random_forest_classifier.h fba2e1f 2021-01-14T15:18:24+01:00 Simon Giraudot
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Simon Giraudot
@@ -290,14 +290,10 @@ public:
     The output file is written in a binary format that is readable by
     the `load_configuration()` method.
   */
-#if defined(DOXYGEN_RUNNING) || \
-  (defined(CGAL_LINKED_WITH_BOOST_IOSTREAMS) && \
-   defined(CGAL_LINKED_WITH_BOOST_SERIALIZATION))
   void save_configuration (std::ostream& output) const
   {
     m_rfc->write(output);
   }
-#endif
 
   /*!
     \brief loads a configuration from the stream `input`.
@@ -314,9 +310,6 @@ public:
     format for ETHZ Random Forest changed in CGAL 5.2.
 
   */
-#if defined(DOXYGEN_RUNNING) || \
-  (defined(CGAL_LINKED_WITH_BOOST_IOSTREAMS) && \
-   defined(CGAL_LINKED_WITH_BOOST_SERIALIZATION))
   void load_configuration (std::istream& input)
   {
     CGAL::internal::liblearning::RandomForest::ForestParams params;
@@ -324,7 +317,6 @@ public:
 
     m_rfc->read(input);
   }
-#endif
 
   /// @}
 

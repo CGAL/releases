@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.2/Surface_mesh_parameterization/include/CGAL/Surface_mesh_parameterization/Iterative_authalic_parameterizer_3.h $
-// $Id: Iterative_authalic_parameterizer_3.h 7c2ffc5 2020-10-20T14:51:08+02:00 Mael Rouxel-Labbé
+// $URL: https://github.com/CGAL/cgal/blob/v5.2.1/Surface_mesh_parameterization/include/CGAL/Surface_mesh_parameterization/Iterative_authalic_parameterizer_3.h $
+// $Id: Iterative_authalic_parameterizer_3.h 6594e75 2021-01-15T10:07:59+01:00 Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Mael Rouxel-Labbé
@@ -41,7 +41,7 @@
 #include <CGAL/Eigen_solver_traits.h>
 #endif
 
-#include <boost/function_output_iterator.hpp>
+#include <boost/iterator/function_output_iterator.hpp>
 
 #include <algorithm>
 #include <cmath>

@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.2/Partition_2/include/CGAL/Partition_2/Rotation_tree_2.h $
-// $Id: Rotation_tree_2.h 0779373 2020-03-26T13:31:46+01:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v5.2.1/Partition_2/include/CGAL/Partition_2/Rotation_tree_2.h $
+// $Id: Rotation_tree_2.h 4bb0406 2021-02-04T18:12:12+01:00 Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -34,7 +34,6 @@
 
 #include <CGAL/vector.h>
 #include <CGAL/Partition_2/Rotation_tree_node_2.h>
-#include <boost/bind.hpp>
 
 namespace CGAL {
 

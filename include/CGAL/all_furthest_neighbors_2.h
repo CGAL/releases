@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.2/Polytope_distance_d/include/CGAL/all_furthest_neighbors_2.h $
-// $Id: all_furthest_neighbors_2.h 0779373 2020-03-26T13:31:46+01:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v5.2.1/Polytope_distance_d/include/CGAL/all_furthest_neighbors_2.h $
+// $Id: all_furthest_neighbors_2.h 2b61a99 2021-01-05T18:38:16+01:00 Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -22,7 +22,6 @@
 #include <CGAL/monotone_matrix_search.h>
 #include <CGAL/Polygon_2_algorithms.h>
 #include <algorithm>
-#include <boost/bind.hpp>
 
 namespace CGAL {
 template < class Operation, class RandomAccessIC >
@@ -116,7 +115,7 @@ all_furthest_neighbors_2( RandomAccessIC points_begin,
   return transform(v.begin(),
                    v.end(),
                    o,
-                   boost::bind(modulus<int>(), _1, number_of_points));
+                   [number_of_points](int i){ return i % number_of_points;} );
 } // all_furthest_neighbors_2( ... )
 
 

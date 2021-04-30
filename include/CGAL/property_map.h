@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.2/Property_map/include/CGAL/property_map.h $
-// $Id: property_map.h 80a5deb 2020-10-19T07:59:47+02:00 Simon Giraudot
+// $URL: https://github.com/CGAL/cgal/blob/v5.2.1/Property_map/include/CGAL/property_map.h $
+// $Id: property_map.h d4c331c 2021-03-03T16:39:52+01:00 Laurent Rineau
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Andreas Fabri and Laurent Saboret
@@ -469,7 +469,7 @@ struct Constant_property_map
 
   typedef KeyType                                       key_type;
   typedef ValueType                                     value_type;
-  typedef value_type&                                   reference;
+  typedef const value_type&                             reference;
   typedef boost::read_write_property_map_tag            category;
 
   Constant_property_map(const value_type& default_value = value_type()) : default_value (default_value) { }

@@ -7,8 +7,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.2/Installation/include/CGAL/config.h $
-// $Id: config.h aa9c627 2020-10-08T13:47:59+05:30 Vishal Pratap Singh
+// $URL: https://github.com/CGAL/cgal/blob/v5.2.1/Installation/include/CGAL/config.h $
+// $Id: config.h fee181b 2021-01-06T16:04:47+01:00 Laurent Rineau
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -466,9 +466,9 @@ using std::max;
 
 //-------------------------------------------------------------------//
 // Is Geomview usable ?
-#if !defined(_MSC_VER) && !defined(__MINGW32__)
-#  define CGAL_USE_GEOMVIEW
-#endif
+//#if !defined(_MSC_VER) && !defined(__MINGW32__)
+//#  define CGAL_USE_GEOMVIEW
+//#endif
 
 
 //-------------------------------------------------------------------//

@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.2/Voronoi_diagram_2/include/CGAL/draw_voronoi_diagram_2.h $
-// $Id: draw_voronoi_diagram_2.h 1bf02b2 2019-11-13T15:28:56+01:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v5.2.1/Voronoi_diagram_2/include/CGAL/draw_voronoi_diagram_2.h $
+// $Id: draw_voronoi_diagram_2.h a85cf6e 2021-01-26T09:45:18+01:00 Maxime Gimeno
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Jasmeet Singh <jasmeet.singh.mec11@iitbhu.ac.in>
@@ -17,6 +17,7 @@
 
 #ifdef CGAL_USE_BASIC_VIEWER
 
+#include <CGAL/Qt/init_ogl_context.h>
 #include <CGAL/Random.h>
 #include <CGAL/Triangulation_utils_2.h>
 #include <CGAL/Voronoi_diagram_2/Face.h>
@@ -316,6 +317,7 @@ void draw(const CGAL_VORONOI_TYPE &av2,
 #endif
 
   if (!cgal_test_suite) {
+    CGAL::Qt::init_ogl_context(4,3);
     int argc = 1;
     const char *argv[2] = {"voronoi_2_viewer", "\0"};
     QApplication app(argc, const_cast<char **>(argv));

@@ -4,8 +4,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.2/Mesh_3/include/CGAL/Mesh_3/Protect_edges_sizing_field.h $
-// $Id: Protect_edges_sizing_field.h 612d677 2020-07-07T11:13:16+02:00 Jane Tournois
+// $URL: https://github.com/CGAL/cgal/blob/v5.2.1/Mesh_3/include/CGAL/Mesh_3/Protect_edges_sizing_field.h $
+// $Id: Protect_edges_sizing_field.h f69be33 2021-01-29T18:44:50+01:00 Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -50,8 +50,7 @@
 
 #include <CGAL/boost/iterator/transform_iterator.hpp>
 
-#include <boost/bind.hpp>
-#include <boost/function_output_iterator.hpp>
+#include <boost/iterator/function_output_iterator.hpp>
 #ifndef CGAL_NO_ASSERTIONS
 #  include <boost/math/special_functions/next.hpp> // for float_prior
 #endif
@@ -1879,7 +1878,7 @@ next_vertex_along_curve(const Vertex_handle& start,
   adjacent_vertices.erase
     (std::remove_if(adjacent_vertices.begin(),
                     adjacent_vertices.end(),
-                    boost::bind(&Adjacent_vertices::value_type::second, _1) != curve_index),
+                    [curve_index](const auto& p){ return p.second != curve_index; }),
      adjacent_vertices.end());
   CGAL_assertion(adjacent_vertices.size() == 2);
 

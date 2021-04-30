@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.2/Point_set_3/include/CGAL/Point_set_3.h $
-// $Id: Point_set_3.h 038869c 2020-05-12T15:12:21+02:00 Mael Rouxel-Labbé
+// $URL: https://github.com/CGAL/cgal/blob/v5.2.1/Point_set_3/include/CGAL/Point_set_3.h $
+// $Id: Point_set_3.h d257d99 2021-01-18T15:45:39+01:00 Simon Giraudot
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -17,6 +17,7 @@
 
 
 #include <stack>
+#include <typeindex>
 
 #include <CGAL/Surface_mesh/Properties.h>
 
@@ -933,15 +934,15 @@ public:
   /*!
     \brief Returns a vector of pairs that describe properties and associated types.
   */
-  std::vector<std::pair<std::string, std::type_info> > properties_and_types() const
+  std::vector<std::pair<std::string, std::type_index> > properties_and_types() const
   {
     std::vector<std::string> prop = m_base.properties();
     prop.erase (prop.begin()); // remove "index"
     prop.erase (prop.begin()); // remove "point"
 
-    std::vector<std::pair<std::string, std::type_info> > out; out.reserve (prop.size());
+    std::vector<std::pair<std::string, std::type_index> > out; out.reserve (prop.size());
     for (std::size_t i = 0; i < prop.size(); ++ i)
-      out.push_back (std::make_pair (prop[i], m_base.get_type(prop[i])));
+      out.push_back (std::make_pair (prop[i], std::type_index(m_base.get_type(prop[i]))));
     return out;
   }
 
