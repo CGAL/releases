@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.1.2/Tetrahedral_remeshing/include/CGAL/Tetrahedral_remeshing/internal/split_long_edges.h $
-// $Id: split_long_edges.h 2ac22ab 2020-12-11T16:49:56+01:00 Jane Tournois
+// $URL: https://github.com/CGAL/cgal/blob/v5.1.3/Tetrahedral_remeshing/include/CGAL/Tetrahedral_remeshing/internal/split_long_edges.h $
+// $Id: split_long_edges.h 0fdfebd 2020-12-17T17:30:17+01:00 Jane Tournois
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -224,7 +224,7 @@ bool can_be_split(const typename C3T3::Edge& e,
   }
   else
   {
-    return true;
+    return is_selected(e, c3t3, cell_selector);
   }
 }
 

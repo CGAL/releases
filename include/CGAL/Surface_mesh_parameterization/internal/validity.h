@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.1.2/Surface_mesh_parameterization/include/CGAL/Surface_mesh_parameterization/internal/validity.h $
-// $Id: validity.h 41bb11c 2019-11-19T17:08:25+01:00 Mael Rouxel-Labbé
+// $URL: https://github.com/CGAL/cgal/blob/v5.1.3/Surface_mesh_parameterization/include/CGAL/Surface_mesh_parameterization/internal/validity.h $
+// $Id: validity.h efc0c52 2021-01-15T10:02:00+01:00 Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Mael Rouxel-Labbé
@@ -25,7 +25,7 @@
 #include <CGAL/intersections.h>
 #include <CGAL/Polygon_mesh_processing/connected_components.h>
 
-#include <boost/function_output_iterator.hpp>
+#include <boost/iterator/function_output_iterator.hpp>
 
 #include <vector>
 

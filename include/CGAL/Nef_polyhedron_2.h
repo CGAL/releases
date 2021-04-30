@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.1.2/Nef_2/include/CGAL/Nef_polyhedron_2.h $
-// $Id: Nef_polyhedron_2.h 0779373 2020-03-26T13:31:46+01:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v5.1.3/Nef_2/include/CGAL/Nef_polyhedron_2.h $
+// $Id: Nef_polyhedron_2.h 618b409 2021-01-18T15:40:40+01:00 Maxime Gimeno
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -1112,6 +1112,8 @@ std::istream& operator>>
     std::cerr << "Nef_polyhedron_2 input corrupted." << std::endl;
     NP = Nef_polyhedron_2<T,Items,Mark>();
   }
+  if(!is)
+    return is;
   typename Nef_polyhedron_2<T,Items,Mark>::Topological_explorer D(NP.explorer());
   D.check_integrity_and_topological_planarity();
   return is;

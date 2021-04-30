@@ -7,7 +7,7 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.1.2/Hash_map/include/CGAL/Handle_hash_function.h $
+// $URL: https://github.com/CGAL/cgal/blob/v5.1.3/Hash_map/include/CGAL/Handle_hash_function.h $
 // $Id: Handle_hash_function.h 0779373 2020-03-26T13:31:46+01:00 Sébastien Loriot
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //

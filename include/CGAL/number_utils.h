@@ -7,8 +7,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.1.2/Algebraic_foundations/include/CGAL/number_utils.h $
-// $Id: number_utils.h 0779373 2020-03-26T13:31:46+01:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v5.1.3/Algebraic_foundations/include/CGAL/number_utils.h $
+// $Id: number_utils.h 0accdc3 2020-10-29T16:32:23+01:00 Sébastien Loriot
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -302,13 +302,13 @@ to_interval( const Real_embeddable& x) {
 }
 
 template <typename NT>
-NT approximate_sqrt(const NT& nt, CGAL::Field_tag)
+NT approximate_sqrt(const NT& nt, CGAL::Null_functor)
 {
   return NT(sqrt(CGAL::to_double(nt)));
 }
 
-template <typename NT>
-NT approximate_sqrt(const NT& nt, CGAL::Field_with_sqrt_tag)
+template <typename NT, typename Sqrt>
+NT approximate_sqrt(const NT& nt, Sqrt sqrt)
 {
   return sqrt(nt);
 }
@@ -316,9 +316,12 @@ NT approximate_sqrt(const NT& nt, CGAL::Field_with_sqrt_tag)
 template <typename NT>
 NT approximate_sqrt(const NT& nt)
 {
+  // the initial version of this function was using Algebraic_category
+  // for the dispatch but some ring type (like Gmpz) provides a Sqrt
+  // functor even if not being Field_with_sqrt.
   typedef CGAL::Algebraic_structure_traits<NT> AST;
-  typedef typename AST::Algebraic_category Algebraic_category;
-  return approximate_sqrt(nt, Algebraic_category());
+  typedef typename AST::Sqrt Sqrt;
+  return approximate_sqrt(nt, Sqrt());
 }
 
 CGAL_NTS_END_NAMESPACE

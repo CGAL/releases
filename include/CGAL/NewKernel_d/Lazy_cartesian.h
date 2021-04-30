@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.1.2/NewKernel_d/include/CGAL/NewKernel_d/Lazy_cartesian.h $
-// $Id: Lazy_cartesian.h 822bc55 2020-03-27T08:28:48+01:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v5.1.3/NewKernel_d/include/CGAL/NewKernel_d/Lazy_cartesian.h $
+// $Id: Lazy_cartesian.h efc0c52 2021-01-15T10:02:00+01:00 Sébastien Loriot
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Marc Glisse
@@ -19,7 +19,7 @@
 #include <CGAL/NewKernel_d/Filtered_predicate2.h>
 #include <CGAL/iterator_from_indices.h>
 #include <CGAL/NewKernel_d/Define_kernel_types.h>
-#include <boost/function_output_iterator.hpp>
+#include <boost/iterator/function_output_iterator.hpp>
 
 namespace CGAL {
 

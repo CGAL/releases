@@ -3,7 +3,7 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.1.2/Point_set_processing_3/include/CGAL/remove_outliers.h $
+// $URL: https://github.com/CGAL/cgal/blob/v5.1.3/Point_set_processing_3/include/CGAL/remove_outliers.h $
 // $Id: remove_outliers.h 7d5bec6 2020-09-28T09:49:00+02:00 Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //

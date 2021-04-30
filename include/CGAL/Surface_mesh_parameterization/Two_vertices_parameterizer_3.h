@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.1.2/Surface_mesh_parameterization/include/CGAL/Surface_mesh_parameterization/Two_vertices_parameterizer_3.h $
-// $Id: Two_vertices_parameterizer_3.h 254d60f 2019-10-19T15:23:19+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v5.1.3/Surface_mesh_parameterization/include/CGAL/Surface_mesh_parameterization/Two_vertices_parameterizer_3.h $
+// $Id: Two_vertices_parameterizer_3.h efc0c52 2021-01-15T10:02:00+01:00 Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Laurent Saboret, Pierre Alliez, Bruno Levy
@@ -21,7 +21,7 @@
 #include <CGAL/Surface_mesh_parameterization/Error_code.h>
 
 #include <CGAL/Polygon_mesh_processing/connected_components.h>
-#include <boost/function_output_iterator.hpp>
+#include <boost/iterator/function_output_iterator.hpp>
 
 #include <cfloat>
 #include <climits>

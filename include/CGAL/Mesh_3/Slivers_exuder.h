@@ -5,8 +5,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.1.2/Mesh_3/include/CGAL/Mesh_3/Slivers_exuder.h $
-// $Id: Slivers_exuder.h 254d60f 2019-10-19T15:23:19+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v5.1.3/Mesh_3/include/CGAL/Mesh_3/Slivers_exuder.h $
+// $Id: Slivers_exuder.h efc0c52 2021-01-15T10:02:00+01:00 Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -38,7 +38,7 @@
 
 #include <boost/bind.hpp>
 #include <boost/format.hpp>
-#include <boost/function_output_iterator.hpp>
+#include <boost/iterator/function_output_iterator.hpp>
 #include <boost/optional.hpp>
 #include <boost/type_traits/is_convertible.hpp>
 

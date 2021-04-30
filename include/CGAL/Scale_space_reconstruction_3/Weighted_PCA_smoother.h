@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.1.2/Scale_space_reconstruction_3/include/CGAL/Scale_space_reconstruction_3/Weighted_PCA_smoother.h $
-// $Id: Weighted_PCA_smoother.h 8bb22d5 2020-03-26T14:23:37+01:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v5.1.3/Scale_space_reconstruction_3/include/CGAL/Scale_space_reconstruction_3/Weighted_PCA_smoother.h $
+// $Id: Weighted_PCA_smoother.h efc0c52 2021-01-15T10:02:00+01:00 Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s):      Thijs van Lankveld, Simon Giraudot
@@ -23,7 +23,7 @@
 #include <CGAL/Random.h>
 #include <CGAL/Default_diagonalize_traits.h>
 
-#include <boost/function_output_iterator.hpp>
+#include <boost/iterator/function_output_iterator.hpp>
 
 #ifdef CGAL_LINKED_WITH_TBB
 #include "tbb/blocked_range.h"

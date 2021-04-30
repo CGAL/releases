@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.1.2/Tetrahedral_remeshing/include/CGAL/Tetrahedral_remeshing/internal/smooth_vertices.h $
-// $Id: smooth_vertices.h e8566f2 2020-10-05T12:47:45+02:00 Maxime Gimeno
+// $URL: https://github.com/CGAL/cgal/blob/v5.1.3/Tetrahedral_remeshing/include/CGAL/Tetrahedral_remeshing/internal/smooth_vertices.h $
+// $Id: smooth_vertices.h 7177d80 2020-12-17T17:14:43+01:00 Jane Tournois
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -426,6 +426,7 @@ public:
     boost::unordered_map<Vertex_handle, std::size_t> vertex_id;
     std::vector<Vector_3> smoothed_positions(nbv, CGAL::NULL_VECTOR);
     std::vector<int> neighbors(nbv, -1);
+    std::vector<bool> free_vertex(nbv, false);//are vertices free to move? indices are in `vertex_id`
 
     //collect ids
     std::size_t id = 0;
@@ -439,10 +440,14 @@ public:
     inc_cells(nbv, boost::container::small_vector<Cell_handle, 40>());
     for (const Cell_handle c : tr.finite_cell_handles())
     {
+      const bool cell_is_selected = cell_selector(c);
+
       for (int i = 0; i < 4; ++i)
       {
         const std::size_t idi = vertex_id[c->vertex(i)];
         inc_cells[idi].push_back(c);
+        if(cell_is_selected)
+          free_vertex[idi] = true;
       }
     }
 
@@ -487,6 +492,9 @@ public:
       for (Vertex_handle v : tr.finite_vertex_handles())
       {
         const std::size_t& vid = vertex_id.at(v);
+        if (!free_vertex[vid])
+          continue;
+
         if (neighbors[vid] > 1)
         {
           Vector_3 smoothed_position = smoothed_positions[vid] / neighbors[vid];
@@ -602,10 +610,10 @@ public:
 
       for (Vertex_handle v : tr.finite_vertex_handles())
       {
-        if (v->in_dimension() != 2)
+        const std::size_t& vid = vertex_id.at(v);
+        if (!free_vertex[vid] || v->in_dimension() != 2)
           continue;
 
-        const std::size_t& vid = vertex_id.at(v);
         if (neighbors[vid] > 1)
         {
           Vector_3 smoothed_position = smoothed_positions[vid] / static_cast<FT>(neighbors[vid]);
@@ -686,6 +694,9 @@ public:
     for (Vertex_handle v : tr.finite_vertex_handles())
     {
       const std::size_t& vid = vertex_id.at(v);
+      if (!free_vertex[vid])
+        continue;
+
       if (c3t3.in_dimension(v) == 3 && neighbors[vid] > 1)
       {
 #ifdef CGAL_TETRAHEDRAL_REMESHING_DEBUG

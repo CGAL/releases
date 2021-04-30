@@ -7,8 +7,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.1.2/Polygon/include/CGAL/draw_polygon_2.h $
-// $Id: draw_polygon_2.h 0779373 2020-03-26T13:31:46+01:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v5.1.3/Polygon/include/CGAL/draw_polygon_2.h $
+// $Id: draw_polygon_2.h a85cf6e 2021-01-26T09:45:18+01:00 Maxime Gimeno
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -38,7 +38,7 @@ void draw(const P& ap);
 #endif
 
 #ifdef CGAL_USE_BASIC_VIEWER
-
+#include <CGAL/Qt/init_ogl_context.h>
 #include <CGAL/Polygon_2.h>
 #include <CGAL/Random.h>
 
@@ -122,6 +122,7 @@ void draw(const CGAL::Polygon_2<T, C>& ap2,
 
   if (!cgal_test_suite)
   {
+    CGAL::Qt::init_ogl_context(4,3);
     int argc=1;
     const char* argv[2]={"t2_viewer","\0"};
     QApplication app(argc,const_cast<char**>(argv));

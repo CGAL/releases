@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.1.2/Poisson_surface_reconstruction_3/include/CGAL/Poisson_mesh_cell_criteria_3.h $
-// $Id: Poisson_mesh_cell_criteria_3.h 0779373 2020-03-26T13:31:46+01:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v5.1.3/Poisson_surface_reconstruction_3/include/CGAL/Poisson_mesh_cell_criteria_3.h $
+// $Id: Poisson_mesh_cell_criteria_3.h 848aa7d 2021-02-08T10:16:59+01:00 Simon Giraudot
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -27,15 +27,16 @@ namespace Poisson {
 
 template <class Tr>
 class Constant_sizing_field {
-  double sq_radius_bound;
+  typedef typename Tr::FT FT;
+  FT sq_radius_bound;
 public:
-  double cell_radius_bound() const { return CGAL::sqrt(sq_radius_bound); }
+  FT cell_radius_bound() const { return CGAL::approximate_sqrt(sq_radius_bound); }
 
-  Constant_sizing_field(double sq_radius_bound = 0.)
+  Constant_sizing_field(FT sq_radius_bound = 0.)
     : sq_radius_bound(sq_radius_bound) {}
 
   template <typename Point>
-  double operator()(const Point&) const { return sq_radius_bound; }
+  FT operator()(const Point&) const { return sq_radius_bound; }
 }; // end class Constant_sizing_field
 
 } // end namespace Poisson

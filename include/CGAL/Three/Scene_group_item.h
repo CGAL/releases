@@ -3,7 +3,7 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.1.2/Three/include/CGAL/Three/Scene_group_item.h $
+// $URL: https://github.com/CGAL/cgal/blob/v5.1.3/Three/include/CGAL/Three/Scene_group_item.h $
 // $Id: Scene_group_item.h 9551708 2020-06-03T15:02:58+02:00 Maxime Gimeno
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //

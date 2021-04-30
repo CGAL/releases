@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.1.2/Polygon_mesh_processing/include/CGAL/Polygon_mesh_processing/intersection.h $
-// $Id: intersection.h c253679 2020-04-18T16:27:58+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v5.1.3/Polygon_mesh_processing/include/CGAL/Polygon_mesh_processing/intersection.h $
+// $Id: intersection.h efc0c52 2021-01-15T10:02:00+01:00 Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -28,7 +28,7 @@
 #include <CGAL/Polygon_mesh_processing/connected_components.h>
 #include <CGAL/Side_of_triangle_mesh.h>
 
-#include <boost/function_output_iterator.hpp>
+#include <boost/iterator/function_output_iterator.hpp>
 #include <boost/type_traits/is_same.hpp>
 #include <boost/utility/enable_if.hpp>
 #include <boost/mpl/if.hpp>

@@ -4,8 +4,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.1.2/Periodic_3_mesh_3/include/CGAL/Periodic_3_mesh_3/Protect_edges_sizing_field.h $
-// $Id: Protect_edges_sizing_field.h 53d4c9b 2019-10-28T11:29:08+01:00 Mael Rouxel-Labbé
+// $URL: https://github.com/CGAL/cgal/blob/v5.1.3/Periodic_3_mesh_3/include/CGAL/Periodic_3_mesh_3/Protect_edges_sizing_field.h $
+// $Id: Protect_edges_sizing_field.h efc0c52 2021-01-15T10:02:00+01:00 Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Stephane Tayeb, Laurent Rineau, Mael Rouxel-Labbé
@@ -50,7 +50,7 @@
 #include <CGAL/boost/iterator/transform_iterator.hpp>
 
 #include <boost/bind.hpp>
-#include <boost/function_output_iterator.hpp>
+#include <boost/iterator/function_output_iterator.hpp>
 #ifndef CGAL_NO_ASSERTIONS
 #  include <boost/math/special_functions/next.hpp> // for float_prior
 #endif

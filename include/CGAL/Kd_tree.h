@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.1.2/Spatial_searching/include/CGAL/Kd_tree.h $
-// $Id: Kd_tree.h 74f1cad 2020-04-14T09:32:02+02:00 Simon Giraudot
+// $URL: https://github.com/CGAL/cgal/blob/v5.1.3/Spatial_searching/include/CGAL/Kd_tree.h $
+// $Id: Kd_tree.h 2aa9b02 2021-02-20T11:03:11+01:00 Dmitry Anisimov
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Hans Tangelder (<hanst@cs.uu.nl>),
@@ -281,10 +281,8 @@ public:
   template <class InputIterator>
   Kd_tree(InputIterator first, InputIterator beyond,
           Splitter s = Splitter(),const SearchTraits traits=SearchTraits())
-    : traits_(traits),split(s), built_(false), removed_(false)
-  {
-    pts.insert(pts.end(), first, beyond);
-  }
+    : traits_(traits), split(s), pts(first, beyond), built_(false), removed_(false)
+  { }
 
   bool empty() const {
     return pts.empty();

@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.1.2/Polygon_mesh_processing/include/CGAL/Polygon_mesh_processing/manifoldness.h $
-// $Id: manifoldness.h a84927d 2020-07-23T17:15:44+02:00 Laurent Rineau
+// $URL: https://github.com/CGAL/cgal/blob/v5.1.3/Polygon_mesh_processing/include/CGAL/Polygon_mesh_processing/manifoldness.h $
+// $Id: manifoldness.h 4ef0295 2021-01-20T15:53:52+01:00 Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Sebastien Loriot,
@@ -284,7 +284,7 @@ std::size_t make_umbrella_manifold(typename boost::graph_traits<PolygonMesh>::ha
 
 /// \ingroup PMP_repairing_grp
 /// collects the non-manifold vertices (if any) present in the mesh. A non-manifold vertex `v` is returned
-/// via one incident halfedge `h` such that `target(h, pm) = v` for all the umbrellas that `v` apppears in
+/// via one incident halfedge `h` such that `target(h, pm) = v` for all the umbrellas that `v` appears in
 /// (an <i>umbrella</i> being the set of faces incident to all the halfedges reachable by walking around `v`
 /// using `hnext = prev(opposite(h, pm), pm)`, starting from `h`).
 ///

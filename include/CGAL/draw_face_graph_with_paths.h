@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.1.2/Surface_mesh_topology/include/CGAL/draw_face_graph_with_paths.h $
-// $Id: draw_face_graph_with_paths.h 9b5205f 2020-04-22T19:58:34+02:00 Guillaume Damiand
+// $URL: https://github.com/CGAL/cgal/blob/v5.1.3/Surface_mesh_topology/include/CGAL/draw_face_graph_with_paths.h $
+// $Id: draw_face_graph_with_paths.h a85cf6e 2021-01-26T09:45:18+01:00 Maxime Gimeno
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Guillaume Damiand <guillaume.damiand@liris.cnrs.fr>
@@ -21,6 +21,7 @@
 
 #ifdef CGAL_USE_BASIC_VIEWER
 
+#include <CGAL/Qt/init_ogl_context.h>
 #include <CGAL/Random.h>
 
 namespace CGAL {
@@ -409,6 +410,7 @@ void draw(const Mesh& alcc,
 
   if (!cgal_test_suite)
   {
+    CGAL::Qt::init_ogl_context(4,3);
     int argc=1;
     const char* argv[2]={"lccviewer","\0"};
     QApplication app(argc,const_cast<char**>(argv));

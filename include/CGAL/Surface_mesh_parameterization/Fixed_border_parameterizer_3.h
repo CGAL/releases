@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.1.2/Surface_mesh_parameterization/include/CGAL/Surface_mesh_parameterization/Fixed_border_parameterizer_3.h $
-// $Id: Fixed_border_parameterizer_3.h 4a9eea9 2020-01-15T17:19:19+01:00 Laurent Rineau
+// $URL: https://github.com/CGAL/cgal/blob/v5.1.3/Surface_mesh_parameterization/include/CGAL/Surface_mesh_parameterization/Fixed_border_parameterizer_3.h $
+// $Id: Fixed_border_parameterizer_3.h efc0c52 2021-01-15T10:02:00+01:00 Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Laurent Saboret, Pierre Alliez, Bruno Levy
@@ -33,7 +33,7 @@
 #include <CGAL/Eigen_solver_traits.h>
 #endif
 
-#include <boost/function_output_iterator.hpp>
+#include <boost/iterator/function_output_iterator.hpp>
 #include <boost/type_traits/is_same.hpp>
 #include <boost/unordered_set.hpp>
 
