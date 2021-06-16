@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.1.3/Mesh_3/include/CGAL/Mesh_3/Mesher_3.h $
-// $Id: Mesher_3.h 0779373 2020-03-26T13:31:46+01:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v5.1.4/Mesh_3/include/CGAL/Mesh_3/Mesher_3.h $
+// $Id: Mesher_3.h 17ac255 2021-05-18T15:43:59+02:00 Maxime Gimeno
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -36,7 +36,6 @@
 #include <CGAL/Mesher_level_visitors.h>
 #include <CGAL/Kernel_traits.h>
 #include <CGAL/point_generators_3.h>
-#include <CGAL/atomic.h>
 
 #ifdef CGAL_MESH_3_USE_OLD_SURFACE_RESTRICTED_DELAUNAY_UPDATE
 #include <CGAL/Surface_mesher/Surface_mesher_visitor.h>
@@ -56,6 +55,7 @@
 #include <boost/format.hpp>
 #include <boost/type_traits/is_convertible.hpp>
 #include <string>
+#include <atomic>
 
 namespace CGAL {
 namespace Mesh_3 {
@@ -213,7 +213,7 @@ public:
            std::size_t maximal_number_of_vertices = 0,
            Mesh_error_code* error_code = 0
 #ifndef CGAL_NO_ATOMIC
-           , CGAL::cpp11::atomic<bool>* stop_ptr = 0
+           , std::atomic<bool>* stop_ptr = 0
 #endif
            );
 
@@ -285,7 +285,7 @@ private:
 
 #ifndef CGAL_NO_ATOMIC
   /// Pointer to the atomic Boolean that can stop the process
-  CGAL::cpp11::atomic<bool>* const stop_ptr;
+  std::atomic<bool>* const stop_ptr;
 #endif
 
 #ifdef CGAL_LINKED_WITH_TBB
@@ -309,7 +309,7 @@ private:
   bool forced_stop() const {
 #ifndef CGAL_NO_ATOMIC
     if(stop_ptr != 0 &&
-       stop_ptr->load(CGAL::cpp11::memory_order_acquire) == true)
+       stop_ptr->load(std::memory_order_acquire) == true)
     {
       if(error_code_ != 0) *error_code_ = CGAL_MESH_3_STOPPED;
       return true;
@@ -344,7 +344,7 @@ Mesher_3<C3T3,MC,MD>::Mesher_3(C3T3& c3t3,
                                std::size_t maximal_number_of_vertices,
                                Mesh_error_code* error_code
 #ifndef CGAL_NO_ATOMIC
-                               , CGAL::cpp11::atomic<bool>* stop_ptr
+                               , std::atomic<bool>* stop_ptr
 #endif
                                )
 : Base(c3t3.bbox(),

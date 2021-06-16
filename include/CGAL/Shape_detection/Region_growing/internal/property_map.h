@@ -3,7 +3,7 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.1.3/Shape_detection/include/CGAL/Shape_detection/Region_growing/internal/property_map.h $
+// $URL: https://github.com/CGAL/cgal/blob/v5.1.4/Shape_detection/include/CGAL/Shape_detection/Region_growing/internal/property_map.h $
 // $Id: property_map.h 553d3c2 2020-04-10T13:03:50+02:00 Maxime Gimeno
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //

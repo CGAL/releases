@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.1.3/Arrangement_on_surface_2/include/CGAL/Arr_counting_traits_2.h $
-// $Id: Arr_counting_traits_2.h 254d60f 2019-10-19T15:23:19+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v5.1.4/Arrangement_on_surface_2/include/CGAL/Arr_counting_traits_2.h $
+// $Id: Arr_counting_traits_2.h 3e03d50 2021-05-05T15:32:22+02:00 Maxime Gimeno
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s): Efi Fogel      <efif@post.tau.ac.il>
@@ -26,9 +26,9 @@
 
 #include <iostream>
 #include <string.h>
+#include <atomic>
 
 #include <CGAL/basic.h>
-#include <CGAL/atomic.h>
 #include <CGAL/Arr_enums.h>
 #include <CGAL/Arr_tags.h>
 
@@ -950,7 +950,7 @@ public:
 #ifdef CGAL_NO_ATOMIC
     static unsigned int counter;
 #else
-    static CGAL::cpp11::atomic<unsigned int> counter;
+    static std::atomic<size_t> counter;
 #endif
     if (doit) ++counter;
     return counter;

@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.1.3/Polygon_mesh_processing/include/CGAL/Polygon_mesh_processing/triangulate_hole.h $
-// $Id: triangulate_hole.h a84927d 2020-07-23T17:15:44+02:00 Laurent Rineau
+// $URL: https://github.com/CGAL/cgal/blob/v5.1.4/Polygon_mesh_processing/include/CGAL/Polygon_mesh_processing/triangulate_hole.h $
+// $Id: triangulate_hole.h 0eea836 2021-04-23T08:46:28+02:00 Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Ilker O. Yaz
@@ -423,6 +423,8 @@ namespace Polygon_mesh_processing {
                             OutputIterator out,
                             const NamedParameters& np)
   {
+    if (points.empty()) return out;
+
     using parameters::choose_parameter;
     using parameters::get_parameter;
 

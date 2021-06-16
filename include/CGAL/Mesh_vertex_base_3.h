@@ -4,8 +4,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.1.3/Mesh_3/include/CGAL/Mesh_vertex_base_3.h $
-// $Id: Mesh_vertex_base_3.h 4dda7b6 2020-05-27T15:53:05+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v5.1.4/Mesh_3/include/CGAL/Mesh_vertex_base_3.h $
+// $Id: Mesh_vertex_base_3.h f6cefea 2021-05-11T09:21:58+02:00 Maxime Gimeno
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Stéphane Tayeb, Andreas Fabri
@@ -28,6 +28,7 @@
 #include <CGAL/Mesh_3/io_signature.h>
 #include <CGAL/Has_timestamp.h>
 #include <CGAL/tags.h>
+#include <atomic>
 
 namespace CGAL {
 
@@ -65,6 +66,13 @@ template <>
 class Mesh_vertex_base_3_base<Parallel_tag>
 {
 public:
+  Mesh_vertex_base_3_base()
+  {}
+
+  Mesh_vertex_base_3_base( const Mesh_vertex_base_3_base& c)
+  {
+    m_erase_counter.store(c.erase_counter());
+  }
 
   // Erase counter (cf. Compact_container)
   unsigned int erase_counter() const
@@ -81,7 +89,7 @@ public:
   }
 
 protected:
-  typedef tbb::atomic<unsigned int> Erase_counter_type;
+  typedef std::atomic<unsigned int> Erase_counter_type;
   Erase_counter_type                m_erase_counter;
 
 };

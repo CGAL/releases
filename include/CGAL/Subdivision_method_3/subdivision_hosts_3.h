@@ -4,7 +4,7 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.1.3/Subdivision_method_3/include/CGAL/Subdivision_method_3/subdivision_hosts_3.h $
+// $URL: https://github.com/CGAL/cgal/blob/v5.1.4/Subdivision_method_3/include/CGAL/Subdivision_method_3/subdivision_hosts_3.h $
 // $Id: subdivision_hosts_3.h 48bd92b 2020-04-13T13:03:05+02:00 Mael Rouxel-Labbé
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //

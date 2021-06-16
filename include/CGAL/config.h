@@ -7,8 +7,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.1.3/Installation/include/CGAL/config.h $
-// $Id: config.h fc4fc89 2020-12-22T10:16:18+01:00 Maxime Gimeno
+// $URL: https://github.com/CGAL/cgal/blob/v5.1.4/Installation/include/CGAL/config.h $
+// $Id: config.h e9b7595 2021-05-04T11:45:57+02:00 Maxime Gimeno
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -645,6 +645,9 @@ using std::max;
 #  include <unordered_set>
 #  include <unordered_map>
 #  include <functional>
+#  include <thread>
+#  include <chrono>
+#  include <atomic>
 //
 namespace CGAL {
 //
@@ -663,6 +666,16 @@ namespace CGAL {
     using std::is_enum;
     using std::unordered_set;
     using std::unordered_map;
+    using std::atomic;
+    using std::memory_order_relaxed;
+    using std::memory_order_consume;
+    using std::memory_order_acquire;
+    using std::memory_order_release;
+    using std::memory_order_acq_rel;
+    using std::memory_order_seq_cst;
+    using std::atomic_thread_fence;
+    using std::thread;
+
   }
 //
   namespace cpp0x = cpp11;

@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.1.3/Point_set_processing_3/include/CGAL/IO/read_ply_points.h $
-// $Id: read_ply_points.h c253679 2020-04-18T16:27:58+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v5.1.4/Point_set_processing_3/include/CGAL/IO/read_ply_points.h $
+// $Id: read_ply_points.h 5b397e9 2021-03-19T08:40:21+01:00 Maxime Gimeno
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s) : Simon Giraudot
@@ -92,7 +92,7 @@ namespace CGAL {
 #endif // DOXYGEN_RUNNING
 
 /**
-  \ingroup PkgPointSetProcessingIOPly
+  \ingroup PkgPointSetProcessing3IOPly
 
   Reads user-selected points properties from a .ply stream (ASCII or
   binary).

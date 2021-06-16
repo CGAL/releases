@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.1.3/Nef_3/include/CGAL/Nef_3/SNC_indexed_items.h $
-// $Id: SNC_indexed_items.h 0779373 2020-03-26T13:31:46+01:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v5.1.4/Nef_3/include/CGAL/Nef_3/SNC_indexed_items.h $
+// $Id: SNC_indexed_items.h 3e03d50 2021-05-05T15:32:22+02:00 Maxime Gimeno
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -15,9 +15,6 @@
 
 #include <CGAL/license/Nef_3.h>
 
-
-#include <CGAL/atomic.h>
-
 #include <CGAL/Nef_3/Vertex.h>
 #include <CGAL/Nef_3/Halfedge.h>
 #include <CGAL/Nef_3/Halffacet.h>
@@ -25,6 +22,8 @@
 #include <CGAL/Nef_3/SHalfedge.h>
 #include <CGAL/Nef_3/SHalfloop.h>
 #include <CGAL/Nef_3/SFace.h>
+
+#include <atomic>
 
 #undef CGAL_NEF_DEBUG
 #define CGAL_NEF_DEBUG 83
@@ -42,7 +41,7 @@ class Index_generator {
 #ifdef CGAL_NO_ATOMIC
     static int unique;
 #else
-    static CGAL::cpp11::atomic<int> unique;
+    static std::atomic<int> unique;
 #endif
     return unique++;
   }

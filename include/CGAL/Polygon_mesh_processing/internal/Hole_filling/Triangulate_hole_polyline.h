@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.1.3/Polygon_mesh_processing/include/CGAL/Polygon_mesh_processing/internal/Hole_filling/Triangulate_hole_polyline.h $
-// $Id: Triangulate_hole_polyline.h 2272472 2021-02-03T12:48:50+01:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v5.1.4/Polygon_mesh_processing/include/CGAL/Polygon_mesh_processing/internal/Hole_filling/Triangulate_hole_polyline.h $
+// $Id: Triangulate_hole_polyline.h 0eea836 2021-04-23T08:46:28+02:00 Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -1226,6 +1226,8 @@ triangulate_hole_polyline(const PointRange1& points,
                           bool use_delaunay_triangulation,
                           const Kernel&)
 {
+  CGAL_assertion(!points.empty());
+
   typedef Kernel        K;
   typedef typename K::Point_3    Point_3;
   #ifndef CGAL_HOLE_FILLING_DO_NOT_USE_DT3

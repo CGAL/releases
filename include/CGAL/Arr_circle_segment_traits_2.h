@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.1.3/Arrangement_on_surface_2/include/CGAL/Arr_circle_segment_traits_2.h $
-// $Id: Arr_circle_segment_traits_2.h c1fed0b 2020-03-31T17:30:55+03:00 Efi Fogel
+// $URL: https://github.com/CGAL/cgal/blob/v5.1.4/Arrangement_on_surface_2/include/CGAL/Arr_circle_segment_traits_2.h $
+// $Id: Arr_circle_segment_traits_2.h 3e03d50 2021-05-05T15:32:22+02:00 Maxime Gimeno
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s): Ron Wein          <wein@post.tau.ac.il>
@@ -23,12 +23,12 @@
  * The header file for the Arr_circle_segment_traits_2<Kenrel> class.
  */
 
-#include <CGAL/atomic.h>
 #include <CGAL/tags.h>
 #include <CGAL/Arr_tags.h>
 #include <CGAL/Arr_geometry_traits/Circle_segment_2.h>
 
 #include <fstream>
+#include <atomic>
 
 namespace CGAL {
 
@@ -80,7 +80,7 @@ public:
 #ifdef CGAL_NO_ATOMIC
     static unsigned int index;
 #else
-    static CGAL::cpp11::atomic<unsigned int> index;
+    static std::atomic<unsigned int> index;
 #endif
     return (++index);
   }

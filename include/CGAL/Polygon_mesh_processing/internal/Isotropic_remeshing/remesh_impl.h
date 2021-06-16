@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.1.3/Polygon_mesh_processing/include/CGAL/Polygon_mesh_processing/internal/Isotropic_remeshing/remesh_impl.h $
-// $Id: remesh_impl.h 1afacb1 2020-12-15T17:39:10+01:00 Jane Tournois
+// $URL: https://github.com/CGAL/cgal/blob/v5.1.4/Polygon_mesh_processing/include/CGAL/Polygon_mesh_processing/internal/Isotropic_remeshing/remesh_impl.h $
+// $Id: remesh_impl.h 74e2ee9 2021-05-06T19:40:52+02:00 Jane Tournois
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -77,7 +77,8 @@ namespace internal {
     PATCH,       //h and hopp belong to the patch to be remeshed
     PATCH_BORDER,//h belongs to the patch, hopp is MESH
     MESH,        //h and hopp belong to the mesh, not the patch
-    MESH_BORDER  //h belongs to the mesh, face(hopp, pmesh) == null_face()
+    MESH_BORDER, //h belongs to the mesh, face(hopp, pmesh) == null_face()
+    ISOLATED_CONSTRAINT //h is constrained, and incident to faces that do not belong to a patch
   };
 
   // A property map
@@ -1246,6 +1247,8 @@ private:
           return false;
         else if (is_on_mesh(hopp) && is_on_border(h))
           return false;
+        else if (is_an_isolated_constraint(h))
+          return false;
         else
           return true;
       }
@@ -1258,6 +1261,9 @@ private:
       halfedge_descriptor hopp = opposite(he, mesh_);
 
       if (is_on_mesh(he) && is_on_mesh(hopp))
+        return false;
+
+      if (is_an_isolated_constraint(he) || is_an_isolated_constraint(hopp))
         return false;
 
       if ( (protect_constraints_ || !collapse_constraints) && is_constrained(e))
@@ -1472,7 +1478,8 @@ private:
       {
         halfedge_descriptor hopp = opposite(h, mesh_);
         if ( is_on_border(h) || is_on_patch_border(h)
-          || is_on_border(hopp) || is_on_patch_border(hopp))
+          || is_on_border(hopp) || is_on_patch_border(hopp)
+          || is_an_isolated_constraint(h))
           ++nb_incident_features;
         if (nb_incident_features > 2)
           return true;
@@ -1507,21 +1514,23 @@ private:
       }
 
       //tag PATCH,       //h and hopp belong to the patch to be remeshed
+      std::vector<halfedge_descriptor> patch_halfedges;
       for(face_descriptor f : face_range)
       {
         for(halfedge_descriptor h :
             halfedges_around_face(halfedge(f, mesh_), mesh_))
         {
           set_status(h, PATCH);
+          patch_halfedges.push_back(h);
         }
       }
 
       // tag patch border halfedges
-      for(halfedge_descriptor h : halfedges(mesh_))
+      for(halfedge_descriptor h : patch_halfedges)
       {
-        if (status(h) == PATCH
-          && (   status(opposite(h, mesh_)) != PATCH
-              || get_patch_id(face(h, mesh_)) != get_patch_id(face(opposite(h, mesh_), mesh_))))
+        CGAL_assertion(status(h) == PATCH);
+        if( status(opposite(h, mesh_)) != PATCH
+         || get_patch_id(face(h, mesh_)) != get_patch_id(face(opposite(h, mesh_), mesh_)))
         {
           set_status(h, PATCH_BORDER);
           has_border_ = true;
@@ -1538,19 +1547,48 @@ private:
           {
             //deal with h and hopp for borders that are sharp edges to be preserved
             halfedge_descriptor h = halfedge(e, mesh_);
-            if (status(h) == PATCH){
+            Halfedge_status hs = status(h);
+            if (hs == PATCH) {
               set_status(h, PATCH_BORDER);
+              hs = PATCH_BORDER;
               has_border_ = true;
             }
 
             halfedge_descriptor hopp = opposite(h, mesh_);
-            if (status(hopp) == PATCH){
+            Halfedge_status hsopp = status(hopp);
+            if (hsopp == PATCH) {
               set_status(hopp, PATCH_BORDER);
+              hsopp = PATCH_BORDER;
               has_border_ = true;
+            }
+
+            if (hs != PATCH_BORDER && hsopp != PATCH_BORDER)
+            {
+              if(hs != MESH_BORDER)
+                set_status(h, ISOLATED_CONSTRAINT);
+              if(hsopp != MESH_BORDER)
+                set_status(hopp, ISOLATED_CONSTRAINT);
             }
           }
         }
       }
+
+#ifdef CGAL_PMP_REMESHING_DEBUG
+      std::ofstream ofs("dump_isolated.polylines.txt");
+      for (edge_descriptor e : edges(mesh_))
+      {
+        halfedge_descriptor h = halfedge(e, mesh_);
+        Halfedge_status so = status(opposite(h, mesh_));
+        bool isolated = (status(h) == ISOLATED_CONSTRAINT || so == ISOLATED_CONSTRAINT);
+        CGAL_assertion(!isolated
+                    || so == ISOLATED_CONSTRAINT
+                    || so == MESH_BORDER);
+        if(isolated)
+          ofs << "2 " << get(vpmap_, target(h, mesh_))
+              << " " << get(vpmap_, source(h, mesh_)) << std::endl;
+      }
+      ofs.close();
+#endif
     }
 
     Halfedge_status status(const halfedge_descriptor& h) const
@@ -1821,6 +1859,14 @@ public:
       return status(h) == MESH;
     }
 
+    bool is_an_isolated_constraint(const halfedge_descriptor& h) const
+    {
+      bool res = (status(h) == ISOLATED_CONSTRAINT);
+      CGAL_assertion_code(Halfedge_status so = status(opposite(h, mesh_)));
+      CGAL_assertion(!res || so == ISOLATED_CONSTRAINT || so == MESH_BORDER);
+      return res;
+    }
+
 private:
     void halfedge_added(const halfedge_descriptor& h,
                         const Halfedge_status& s)
@@ -1840,6 +1886,7 @@ private:
       unsigned int nb_mesh = 0;
       unsigned int nb_patch = 0;
       unsigned int nb_patch_border = 0;
+      unsigned int nb_isolated = 0;
 
       for(halfedge_descriptor h : halfedges(mesh_))
       {
@@ -1847,6 +1894,7 @@ private:
         else if(is_on_patch_border(h))  nb_patch_border++;
         else if(is_on_mesh(h))          nb_mesh++;
         else if(is_on_border(h))        nb_border++;
+        else if(is_an_isolated_constraint(h)) nb_isolated++;
         else CGAL_assertion(false);
       }
     }

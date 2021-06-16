@@ -3,7 +3,7 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.1.3/NewKernel_d/include/CGAL/NewKernel_d/Cartesian_LA_functors.h $
+// $URL: https://github.com/CGAL/cgal/blob/v5.1.4/NewKernel_d/include/CGAL/NewKernel_d/Cartesian_LA_functors.h $
 // $Id: Cartesian_LA_functors.h 822bc55 2020-03-27T08:28:48+01:00 Sébastien Loriot
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //

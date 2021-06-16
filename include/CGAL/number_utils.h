@@ -7,8 +7,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.1.3/Algebraic_foundations/include/CGAL/number_utils.h $
-// $Id: number_utils.h 0accdc3 2020-10-29T16:32:23+01:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v5.1.4/Algebraic_foundations/include/CGAL/number_utils.h $
+// $Id: number_utils.h fa6818b 2021-04-06T19:43:42+02:00 Mael Rouxel-Labbé
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -302,19 +302,21 @@ to_interval( const Real_embeddable& x) {
 }
 
 template <typename NT>
-NT approximate_sqrt(const NT& nt, CGAL::Null_functor)
+typename Coercion_traits<double, NT>::Type
+approximate_sqrt(const NT& x, CGAL::Null_functor)
 {
-  return NT(sqrt(CGAL::to_double(nt)));
+  return sqrt(CGAL::to_double(x));
 }
 
 template <typename NT, typename Sqrt>
-NT approximate_sqrt(const NT& nt, Sqrt sqrt)
+typename Sqrt::result_type
+approximate_sqrt(const NT& nt, Sqrt sqrt)
 {
   return sqrt(nt);
 }
 
 template <typename NT>
-NT approximate_sqrt(const NT& nt)
+decltype(auto) approximate_sqrt(const NT& nt)
 {
   // the initial version of this function was using Algebraic_category
   // for the dispatch but some ring type (like Gmpz) provides a Sqrt

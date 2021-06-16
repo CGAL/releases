@@ -3,7 +3,7 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.1.3/Filtered_kernel/include/CGAL/internal/Static_filters/Power_side_of_oriented_power_sphere_3.h $
+// $URL: https://github.com/CGAL/cgal/blob/v5.1.4/Filtered_kernel/include/CGAL/internal/Static_filters/Power_side_of_oriented_power_sphere_3.h $
 // $Id: Power_side_of_oriented_power_sphere_3.h 0779373 2020-03-26T13:31:46+01:00 Sébastien Loriot
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
