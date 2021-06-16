@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.2.1/Point_set_processing_3/include/CGAL/edge_aware_upsample_point_set.h $
-// $Id: edge_aware_upsample_point_set.h 26793ae 2021-02-04T08:49:06+01:00 Simon Giraudot
+// $URL: https://github.com/CGAL/cgal/blob/v5.2.2/Point_set_processing_3/include/CGAL/edge_aware_upsample_point_set.h $
+// $Id: edge_aware_upsample_point_set.h ab14acf 2021-03-23T13:14:41+01:00 Simon Giraudot
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s) : Shihao Wu, Clement Jamin, Pierre Alliez
@@ -212,7 +212,7 @@ update_new_point(
 
     for (unsigned int j = 0; j < candidate_num; j++)
     {
-      FT psi = std::exp(-std::pow(FT(1) - normal_cadidate[j] * t.normal, FT(2))
+      FT psi = std::exp(-CGAL::square(FT(1) - normal_cadidate[j] * t.normal)
                             / sharpness_bandwidth);
       FT project_diff_t_v = (t.pt - new_v.pt) * t.normal;
       FT weight = psi * theta;
@@ -437,7 +437,7 @@ edge_aware_upsample_point_set(
   //
   FT cos_sigma = static_cast<FT>(std::cos(FT(CGAL::to_double(sharpness_angle))
                                           / FT(180) * FT(CGAL_PI)));
-  FT sharpness_bandwidth = std::pow((CGAL::max)((FT)1e-8, (FT)1.0 - cos_sigma), 2);
+  FT sharpness_bandwidth = CGAL::square((CGAL::max)((FT)1e-8, (FT)1.0 - cos_sigma));
 
   FT sum_density = 0.0;
   unsigned int count_density = 1;

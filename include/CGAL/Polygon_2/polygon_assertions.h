@@ -7,7 +7,7 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.2.1/Polygon/include/CGAL/Polygon_2/polygon_assertions.h $
+// $URL: https://github.com/CGAL/cgal/blob/v5.2.2/Polygon/include/CGAL/Polygon_2/polygon_assertions.h $
 // $Id: polygon_assertions.h a5c5a61 2020-11-06T12:02:23+01:00 Sébastien Loriot
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //

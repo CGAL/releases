@@ -3,7 +3,7 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.2.1/Circular_kernel_2/include/CGAL/Circular_kernel_2/function_objects_polynomial_circular.h $
+// $URL: https://github.com/CGAL/cgal/blob/v5.2.2/Circular_kernel_2/include/CGAL/Circular_kernel_2/function_objects_polynomial_circular.h $
 // $Id: function_objects_polynomial_circular.h da57195 2020-09-28T11:27:59+02:00 Jane Tournois
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //

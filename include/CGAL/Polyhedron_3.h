@@ -3,7 +3,7 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.2.1/Polyhedron/include/CGAL/Polyhedron_3.h $
+// $URL: https://github.com/CGAL/cgal/blob/v5.2.2/Polyhedron/include/CGAL/Polyhedron_3.h $
 // $Id: Polyhedron_3.h b89bbbf 2020-07-14T18:01:35+02:00 Dmitry Anisimov
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //

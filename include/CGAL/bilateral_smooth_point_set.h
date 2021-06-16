@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.2.1/Point_set_processing_3/include/CGAL/bilateral_smooth_point_set.h $
-// $Id: bilateral_smooth_point_set.h c253679 2020-04-18T16:27:58+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v5.2.2/Point_set_processing_3/include/CGAL/bilateral_smooth_point_set.h $
+// $Id: bilateral_smooth_point_set.h ab14acf 2021-03-23T13:14:41+01:00 Simon Giraudot
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s) : Shihao Wu, Clement Jamin, Pierre Alliez
@@ -90,7 +90,7 @@ compute_denoise_projection(
   Vector normal_sum = CGAL::NULL_VECTOR;
 
   FT cos_sigma = cos(sharpness_angle * CGAL_PI / 180.0);
-  FT sharpness_bandwidth = std::pow((CGAL::max)(1e-8, 1 - cos_sigma), 2);
+  FT sharpness_bandwidth = CGAL::square((CGAL::max)(1e-8, 1 - cos_sigma));
 
   for (typename PointRange::iterator it : neighbor_pwns)
   {
@@ -101,7 +101,7 @@ compute_denoise_projection(
     if (dist2 < radius2)
     {
       FT theta = std::exp(dist2 * iradius16);
-      FT psi = std::exp(-std::pow(1 - get(normal_map, vt) * nn, 2)
+      FT psi = std::exp(-CGAL::square(1 - get(normal_map, vt) * nn)
         / sharpness_bandwidth);
 
       weight = theta * psi;

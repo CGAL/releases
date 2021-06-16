@@ -3,7 +3,7 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.2.1/Mesh_3/include/CGAL/IO/File_binary_mesh_3.h $
+// $URL: https://github.com/CGAL/cgal/blob/v5.2.2/Mesh_3/include/CGAL/IO/File_binary_mesh_3.h $
 // $Id: File_binary_mesh_3.h 4dda7b6 2020-05-27T15:53:05+02:00 Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //

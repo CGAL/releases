@@ -3,7 +3,7 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.2.1/Mesh_3/include/CGAL/internal/Mesh_3/indices_management.h $
+// $URL: https://github.com/CGAL/cgal/blob/v5.2.2/Mesh_3/include/CGAL/internal/Mesh_3/indices_management.h $
 // $Id: indices_management.h 9a0f310 2020-07-29T16:40:48+02:00 Laurent Rineau
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //

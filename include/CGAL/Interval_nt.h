@@ -7,7 +7,7 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.2.1/Number_types/include/CGAL/Interval_nt.h $
+// $URL: https://github.com/CGAL/cgal/blob/v5.2.2/Number_types/include/CGAL/Interval_nt.h $
 // $Id: Interval_nt.h e0513c2 2020-07-07T16:54:04+02:00 Marc Glisse
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //

@@ -4,8 +4,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.2.1/Mesh_3/include/CGAL/Mesh_3/Protect_edges_sizing_field.h $
-// $Id: Protect_edges_sizing_field.h f69be33 2021-01-29T18:44:50+01:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v5.2.2/Mesh_3/include/CGAL/Mesh_3/Protect_edges_sizing_field.h $
+// $Id: Protect_edges_sizing_field.h 82bec8a 2021-05-19T17:11:37+02:00 Laurent Rineau
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -46,7 +46,6 @@
 #include <CGAL/iterator.h>
 #include <CGAL/number_utils.h>
 #include <CGAL/Delaunay_triangulation_3.h>
-#include <CGAL/atomic.h>
 
 #include <CGAL/boost/iterator/transform_iterator.hpp>
 
@@ -70,6 +69,7 @@
 #include <string>
 #include <utility>
 #include <vector>
+#include <atomic>
 
 namespace CGAL {
 namespace Mesh_3 {
@@ -143,7 +143,7 @@ public:
                              std::size_t maximal_number_of_vertices = 0,
                              Mesh_error_code* error_code = 0
 #ifndef CGAL_NO_ATOMIC
-                             , CGAL::cpp11::atomic<bool>* stop_ptr = 0
+                             , std::atomic<bool>* stop_ptr = 0
 #endif
                              );
 
@@ -156,7 +156,7 @@ public:
   bool forced_stop() const {
 #ifndef CGAL_NO_ATOMIC
     if(stop_ptr_ != 0 &&
-       stop_ptr_->load(CGAL::cpp11::memory_order_acquire) == true)
+       stop_ptr_->load(std::memory_order_acquire) == true)
     {
       if(error_code_ != 0) *error_code_ = CGAL_MESH_3_STOPPED;
       return true;
@@ -469,7 +469,7 @@ private:
   Mesh_error_code* const error_code_;
 #ifndef CGAL_NO_ATOMIC
   /// Pointer to the atomic Boolean that can stop the process
-  CGAL::cpp11::atomic<bool>* const stop_ptr_;
+  std::atomic<bool>* const stop_ptr_;
 #endif
 };
 
@@ -481,7 +481,7 @@ Protect_edges_sizing_field(C3T3& c3t3, const MD& domain,
                            std::size_t maximal_number_of_vertices,
                            Mesh_error_code* error_code
 #ifndef CGAL_NO_ATOMIC
-                           , CGAL::cpp11::atomic<bool>* stop_ptr
+                           , std::atomic<bool>* stop_ptr
 #endif
                            )
   : c3t3_(c3t3)

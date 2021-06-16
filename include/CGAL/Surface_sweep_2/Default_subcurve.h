@@ -3,7 +3,7 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.2.1/Surface_sweep_2/include/CGAL/Surface_sweep_2/Default_subcurve.h $
+// $URL: https://github.com/CGAL/cgal/blob/v5.2.2/Surface_sweep_2/include/CGAL/Surface_sweep_2/Default_subcurve.h $
 // $Id: Default_subcurve.h 107d77b3 2020-08-03T13:02:13+02:00 Simon Giraudot
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //

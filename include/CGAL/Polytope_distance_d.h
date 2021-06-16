@@ -3,7 +3,7 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.2.1/Polytope_distance_d/include/CGAL/Polytope_distance_d.h $
+// $URL: https://github.com/CGAL/cgal/blob/v5.2.2/Polytope_distance_d/include/CGAL/Polytope_distance_d.h $
 // $Id: Polytope_distance_d.h 2b61a99 2021-01-05T18:38:16+01:00 Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //

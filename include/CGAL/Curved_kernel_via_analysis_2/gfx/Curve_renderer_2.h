@@ -3,7 +3,7 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.2.1/Arrangement_on_surface_2/include/CGAL/Curved_kernel_via_analysis_2/gfx/Curve_renderer_2.h $
+// $URL: https://github.com/CGAL/cgal/blob/v5.2.2/Arrangement_on_surface_2/include/CGAL/Curved_kernel_via_analysis_2/gfx/Curve_renderer_2.h $
 // $Id: Curve_renderer_2.h 1fb65b6 2020-10-01T17:59:46+01:00 Ahmed Essam
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //

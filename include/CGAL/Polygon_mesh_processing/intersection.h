@@ -3,7 +3,7 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.2.1/Polygon_mesh_processing/include/CGAL/Polygon_mesh_processing/intersection.h $
+// $URL: https://github.com/CGAL/cgal/blob/v5.2.2/Polygon_mesh_processing/include/CGAL/Polygon_mesh_processing/intersection.h $
 // $Id: intersection.h bdd4efe 2021-01-15T10:06:56+01:00 Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //

@@ -2,7 +2,7 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.2.1/Triangulation_2/include/CGAL/boost/graph/internal/properties_2D_triangulation.h $
+// $URL: https://github.com/CGAL/cgal/blob/v5.2.2/Triangulation_2/include/CGAL/boost/graph/internal/properties_2D_triangulation.h $
 // $Id: properties_2D_triangulation.h a8f9858 2020-04-16T16:29:55+02:00 Sébastien Loriot
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //

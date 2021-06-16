@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.2.1/Classification/include/CGAL/Classification/Label_set.h $
-// $Id: Label_set.h 93d64d1 2020-08-04T13:16:54+02:00 Simon Giraudot
+// $URL: https://github.com/CGAL/cgal/blob/v5.2.2/Classification/include/CGAL/Classification/Label_set.h $
+// $Id: Label_set.h e01b9fb 2021-03-19T15:47:34+01:00 Maxime Gimeno
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Simon Giraudot
@@ -19,6 +19,7 @@
 #include <CGAL/Random.h>
 
 #include <vector>
+#include <unordered_map>
 
 namespace CGAL {
 

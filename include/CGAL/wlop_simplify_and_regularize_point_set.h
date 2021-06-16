@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.2.1/Point_set_processing_3/include/CGAL/wlop_simplify_and_regularize_point_set.h $
-// $Id: wlop_simplify_and_regularize_point_set.h c253679 2020-04-18T16:27:58+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v5.2.2/Point_set_processing_3/include/CGAL/wlop_simplify_and_regularize_point_set.h $
+// $Id: wlop_simplify_and_regularize_point_set.h ab14acf 2021-03-23T13:14:41+01:00 Simon Giraudot
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s) : Shihao Wu, Clement Jamin, Pierre Alliez
@@ -185,7 +185,7 @@ compute_update_sample_point(
     if (dist2 < 1e-10) continue;
     FT dist = std::sqrt(dist2);
 
-    weight = std::exp(dist2 * iradius16) * std::pow(FT(1.0) / dist, 2); // L1
+    weight = std::exp(dist2 * iradius16) * CGAL::square(FT(1.0) / dist); // L1
 
     if (!is_sample_densities_empty)
     {

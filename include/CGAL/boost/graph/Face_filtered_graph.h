@@ -2,7 +2,7 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.2.1/BGL/include/CGAL/boost/graph/Face_filtered_graph.h $
+// $URL: https://github.com/CGAL/cgal/blob/v5.2.2/BGL/include/CGAL/boost/graph/Face_filtered_graph.h $
 // $Id: Face_filtered_graph.h a1abdf3 2020-05-21T14:52:13+02:00 Sébastien Loriot
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //

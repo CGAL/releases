@@ -3,7 +3,7 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.2.1/Nef_2/include/CGAL/Nef_2/PM_io_parser.h $
+// $URL: https://github.com/CGAL/cgal/blob/v5.2.2/Nef_2/include/CGAL/Nef_2/PM_io_parser.h $
 // $Id: PM_io_parser.h d788427 2021-01-26T09:55:20+01:00 Maxime Gimeno
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
