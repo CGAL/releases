@@ -7,7 +7,7 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.2.2/Generator/include/CGAL/random_convex_hull_in_disc_2.h $
+// $URL: https://github.com/CGAL/cgal/blob/v5.3-beta1/Generator/include/CGAL/random_convex_hull_in_disc_2.h $
 // $Id: random_convex_hull_in_disc_2.h 3b1dfc7 2021-03-24T08:44:17+01:00 Simon Giraudot
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //

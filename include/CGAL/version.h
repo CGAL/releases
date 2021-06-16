@@ -7,8 +7,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.2.2/Installation/include/CGAL/version.h $
-// $Id: version.h ea27c11 2021-03-17T17:51:40+01:00 Laurent Rineau
+// $URL: https://github.com/CGAL/cgal/blob/v5.3-beta1/Installation/include/CGAL/version.h $
+// $Id: version.h ac5d63d 2021-06-02T14:44:57+02:00 Laurent Rineau
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : -
@@ -17,12 +17,12 @@
 #define CGAL_VERSION_H
 
 #ifndef SWIG
-#define CGAL_VERSION 5.2.2
-#define CGAL_GIT_HASH 61eb61c502abf55bb6e967ca1e80f7e439053522
+#define CGAL_VERSION 5.3-beta1
+#define CGAL_GIT_HASH 4ada5baa760a9f85569782984c79f7e7a60480a3
 #endif
-#define CGAL_VERSION_NR 1050221000
+#define CGAL_VERSION_NR 1050300910
 #define CGAL_SVN_REVISION 99999
-#define CGAL_RELEASE_DATE 20210529
+#define CGAL_RELEASE_DATE 20210602
 
 #include <CGAL/version_macros.h>
 

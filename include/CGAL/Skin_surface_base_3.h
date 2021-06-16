@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.2.2/Skin_surface_3/include/CGAL/Skin_surface_base_3.h $
-// $Id: Skin_surface_base_3.h 254d60f 2019-10-19T15:23:19+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v5.3-beta1/Skin_surface_3/include/CGAL/Skin_surface_base_3.h $
+// $Id: Skin_surface_base_3.h 1faa0e2 2021-04-28T10:55:26+02:00 Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -24,7 +24,7 @@
 #include <boost/random/linear_congruential.hpp>
 #include <boost/random/uniform_smallint.hpp>
 #include <boost/random/variate_generator.hpp>
-#include <boost/shared_ptr.hpp>
+#include <memory>
 
 // Used for the triangulated mixed complex / Voronoi diagram
 #include <CGAL/Triangulation_vertex_base_with_info_3.h>
@@ -93,7 +93,7 @@ private:
 
 public:
   typedef Anchor_point                                               Vertex_info;
-  typedef std::pair<Simplex, boost::shared_ptr<Quadratic_surface> >  Cell_info;
+  typedef std::pair<Simplex, std::shared_ptr<Quadratic_surface> >  Cell_info;
 
 private:
   // Triangulated_mixed_complex:

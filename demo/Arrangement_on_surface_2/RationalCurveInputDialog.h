@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.2.2/Arrangement_on_surface_2/demo/Arrangement_on_surface_2/RationalCurveInputDialog.h $
-// $Id: RationalCurveInputDialog.h a30658a 2020-09-21T09:09:48+02:00 Ahmed Essam
+// $URL: https://github.com/CGAL/cgal/blob/v5.3-beta1/Arrangement_on_surface_2/demo/Arrangement_on_surface_2/RationalCurveInputDialog.h $
+// $Id: RationalCurveInputDialog.h cc99fd9 2021-02-19T16:02:12+01:00 Maxime Gimeno
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s): Ahmed Essam <theartful.ae@gmail.com>
@@ -24,7 +24,7 @@ class RationalCurveInputDialog : public QDialog
     Q_OBJECT
 
 public:
-    explicit RationalCurveInputDialog(QWidget *parent = 0);
+    explicit RationalCurveInputDialog(QWidget *parent = nullptr);
     ~RationalCurveInputDialog();
     std::string getNumeratorText();
     std::string getDenominatorText();

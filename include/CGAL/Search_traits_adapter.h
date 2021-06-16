@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.2.2/Spatial_searching/include/CGAL/Search_traits_adapter.h $
-// $Id: Search_traits_adapter.h 2e180ac 2020-03-26T19:29:44+01:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v5.3-beta1/Spatial_searching/include/CGAL/Search_traits_adapter.h $
+// $Id: Search_traits_adapter.h 1faa0e2 2021-04-28T10:55:26+02:00 Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -142,7 +142,7 @@ public:
     typedef typename boost::property_traits<PointPropertyMap>::value_type
     Point;
 
-    boost::shared_ptr<Point> point;
+    std::shared_ptr<Point> point;
     std::size_t idx;
 
   public:
@@ -157,18 +157,18 @@ public:
     void increment()
     {
       ++idx;
-      CGAL_assertion(point != boost::shared_ptr<Point>());
+      CGAL_assertion(point != std::shared_ptr<Point>());
     }
     void decrement()
     {
       --idx;
-      CGAL_assertion(point != boost::shared_ptr<Point>());
+      CGAL_assertion(point != std::shared_ptr<Point>());
     }
 
     void advance(std::ptrdiff_t n)
     {
       idx += n;
-      CGAL_assertion(point != boost::shared_ptr<Point>());
+      CGAL_assertion(point != std::shared_ptr<Point>());
     }
 
     std::ptrdiff_t distance_to(const No_lvalue_iterator& other) const

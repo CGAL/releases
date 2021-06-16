@@ -2,8 +2,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.2.2/BGL/include/CGAL/boost/graph/Face_filtered_graph.h $
-// $Id: Face_filtered_graph.h a1abdf3 2020-05-21T14:52:13+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v5.3-beta1/BGL/include/CGAL/boost/graph/Face_filtered_graph.h $
+// $Id: Face_filtered_graph.h f55ef7d 2020-10-09T18:36:17+02:00 Mael Rouxel-Labbé
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -174,7 +174,7 @@ struct Face_filtered_graph
    * \tparam NamedParameters a sequence of named parameters
    *
    * \param graph the underlying graph
-   * \param face_patch_index_map the property_map that assigns a patch index to each face
+   * \param face_patch_index_map the property map that assigns a patch index to each face
    * \param selected_face_patch_indices a range of the face patch indices to select
    * \param np an optional sequence of \ref bgl_namedparameters "Named Parameters" among the ones listed below
    *
@@ -256,7 +256,7 @@ struct Face_filtered_graph
    * \tparam NamedParameters a sequence of named parameters
    *
    * \param graph the underlying graph.
-   * \param face_patch_index_map the property_map that assigns a patch index to each face
+   * \param face_patch_index_map the property map that assigns a patch index to each face
    * \param selected_face_patch_index the index of the face patch selected
    * \param np an optional sequence of \ref bgl_namedparameters "Named Parameters" among the ones listed below
    *

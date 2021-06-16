@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.2.2/Surface_mesh/examples/Surface_mesh/draw_surface_mesh_small_faces.h $
-// $Id: draw_surface_mesh_small_faces.h 0779373 2020-03-26T13:31:46+01:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v5.3-beta1/Surface_mesh/examples/Surface_mesh/draw_surface_mesh_small_faces.h $
+// $Id: draw_surface_mesh_small_faces.h fb6f703 2021-05-04T14:07:49+02:00 Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Guillaume Damiand <guillaume.damiand@liris.cnrs.fr>
@@ -78,7 +78,7 @@ protected:
     bool issmall=false;
 
     // Default color of faces
-    CGAL::Color c(75,160,255);
+    CGAL::IO::Color c(75,160,255);
 
     // Compare the size of the face with the % m_threshold
     bool exist;
@@ -89,7 +89,7 @@ protected:
     // It it is smaller, color the face in red.
     if (get(faces_size, fh)<m_min_size+((m_max_size-m_min_size)/(100-m_threshold)))
     {
-      c=CGAL::Color(255,20,20);
+      c=CGAL::IO::Color(255,20,20);
       issmall=true;
     }
 

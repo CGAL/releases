@@ -3,7 +3,7 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.2.2/Mesh_3/include/CGAL/Mesh_3/polylines_to_protect.h $
+// $URL: https://github.com/CGAL/cgal/blob/v5.3-beta1/Mesh_3/include/CGAL/Mesh_3/polylines_to_protect.h $
 // $Id: polylines_to_protect.h 7574751 2021-04-06T15:39:10+02:00 Jane Tournois
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //

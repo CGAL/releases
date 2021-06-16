@@ -2,7 +2,7 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.2.2/BGL/include/CGAL/boost/graph/alpha_expansion_graphcut.h $
+// $URL: https://github.com/CGAL/cgal/blob/v5.3-beta1/BGL/include/CGAL/boost/graph/alpha_expansion_graphcut.h $
 // $Id: alpha_expansion_graphcut.h e893ac1 2020-08-18T10:06:51+02:00 Sébastien Loriot
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //

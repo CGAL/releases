@@ -1,11 +1,12 @@
+#include <CGAL/Exact_predicates_exact_constructions_kernel.h>
+#include <CGAL/Surface_mesh.h>
+
+#include <CGAL/box_intersection_d.h>
+#include <CGAL/Timer.h>
+
 #include <algorithm>
 #include <vector>
 #include <fstream>
-
-#include <CGAL/Exact_predicates_exact_constructions_kernel.h>
-#include <CGAL/Surface_mesh.h>
-#include <CGAL/box_intersection_d.h>
-#include <CGAL/Timer.h>
 
 typedef CGAL::Exact_predicates_exact_constructions_kernel K;
 
@@ -103,19 +104,21 @@ unsigned int intersect(const Mesh& P, const Mesh& Q) {
 
 int main(int argc, char* argv[])
 {
-  std::cout.precision(17);
-  Mesh P, Q;
-
-  if(argc < 3) {
+  if(argc < 3)
+  {
     std::cerr << "Usage: do_intersect <mesh_1.off> <mesh_2.off>" << std::endl;
     return EXIT_FAILURE;
   }
 
-  std::ifstream inP(argv[1]);
-  inP >> P;
+  std::cout.precision(17);
 
-  std::ifstream inQ(argv[2]);
-  inQ >> Q;
+  Mesh P, Q;
+  if(!CGAL::IO::read_polygon_mesh(argv[1], P) || !CGAL::IO::read_polygon_mesh(argv[2], Q))
+  {
+    std::cerr << "Invalid input files." << std::endl;
+    return EXIT_FAILURE;
+  }
+
   Timer timer;
   timer.start();
   unsigned int num_intersections = intersect(P,Q);
@@ -125,5 +128,3 @@ int main(int argc, char* argv[])
 
   return 0;
 }
-
-

@@ -2,8 +2,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.2.2/Polyhedron/include/CGAL/boost/graph/properties_Polyhedron_3.h $
-// $Id: properties_Polyhedron_3.h 0779373 2020-03-26T13:31:46+01:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v5.3-beta1/Polyhedron/include/CGAL/boost/graph/properties_Polyhedron_3.h $
+// $Id: properties_Polyhedron_3.h 1faa0e2 2021-04-28T10:55:26+02:00 Sébastien Loriot
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -17,7 +17,7 @@
 #include <CGAL/Unique_hash_map.h>
 #include <CGAL/squared_distance_2_1.h>
 #include <CGAL/number_utils.h>
-#include <boost/shared_ptr.hpp>
+#include <memory>
 #include <CGAL/boost/graph/internal/Has_member_id.h>
 
 #define CGAL_HDS_PARAM_ template < class Traits, class Items, class Alloc> class HDS
@@ -46,7 +46,7 @@ public:
 
   reference operator[](const key_type& k) const { return (*map_)[k]; }
 private:
-   boost::shared_ptr<Map> map_;
+   std::shared_ptr<Map> map_;
 };
 
 // Special case for edges.
@@ -75,7 +75,7 @@ public:
 
   reference operator[](const key_type& k) const { return (*map_)[k]; }
 private:
-  boost::shared_ptr<Map> map_;
+  std::shared_ptr<Map> map_;
 };
 
   template<typename Handle, typename FT>

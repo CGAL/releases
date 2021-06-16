@@ -7,8 +7,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.2.2/STL_Extension/include/CGAL/Object.h $
-// $Id: Object.h bcf8409 2020-06-23T18:50:20+02:00 Laurent Rineau
+// $URL: https://github.com/CGAL/cgal/blob/v5.3-beta1/STL_Extension/include/CGAL/Object.h $
+// $Id: Object.h 6672cd0 2021-04-28T10:45:36+02:00 Sébastien Loriot
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -24,18 +24,19 @@
 #include <CGAL/config.h>
 #include <CGAL/assertions.h>
 
+#include <iterator>
 #include <typeinfo>
 
 #include <boost/variant.hpp>
 #include <boost/optional.hpp>
 #include <boost/any.hpp>
-#include <boost/shared_ptr.hpp>
+#include <memory>
 
 namespace CGAL {
 
 class Object
 {
-    boost::shared_ptr<boost::any> obj;
+    std::shared_ptr<boost::any> obj;
 
     // returns an any pointer from a variant
     struct Any_from_variant : public boost::static_visitor<boost::any*> {

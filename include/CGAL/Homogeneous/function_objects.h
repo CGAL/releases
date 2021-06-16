@@ -7,8 +7,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.2.2/Homogeneous_kernel/include/CGAL/Homogeneous/function_objects.h $
-// $Id: function_objects.h 4527b1f 2020-03-26T19:01:49+01:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v5.3-beta1/Homogeneous_kernel/include/CGAL/Homogeneous/function_objects.h $
+// $Id: function_objects.h 69d215a 2021-01-27T10:06:03+01:00 Mael Rouxel-Labbé
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -3837,9 +3837,9 @@ namespace HomogeneousKernelFunctors {
       // p,q,r supposed to be non collinear
       // tests whether s is on the same side of p,q as r
       // returns :
-      // COLLINEAR if pqr collinear
-      // POSITIVE if qrp and qrs have the same orientation
-      // NEGATIVE if qrp and qrs have opposite orientations
+      // COLLINEAR if qps collinear
+      // POSITIVE if qpr and qps have the same orientation
+      // NEGATIVE if qpr and qps have opposite orientations
       CGAL_kernel_exactness_precondition( ! cl(p, q, r) );
       CGAL_kernel_exactness_precondition( cp(p, q, r, s) );
 

@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.2.2/Polyhedron/include/CGAL/Polyhedron_3.h $
-// $Id: Polyhedron_3.h b89bbbf 2020-07-14T18:01:35+02:00 Dmitry Anisimov
+// $URL: https://github.com/CGAL/cgal/blob/v5.3-beta1/Polyhedron/include/CGAL/Polyhedron_3.h $
+// $Id: Polyhedron_3.h f55ef7d 2020-10-09T18:36:17+02:00 Mael Rouxel-Labbé
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -16,9 +16,6 @@
 #include <CGAL/license/Polyhedron.h>
 
 #include <CGAL/Polyhedron_3_fwd.h>
-#include <CGAL/basic.h>
-#include <algorithm>
-#include <cstddef>
 
 #include <CGAL/HalfedgeDS_iterator.h>
 #include <CGAL/Iterator_project.h>
@@ -33,6 +30,8 @@
 #include <CGAL/Polyhedron_traits_3.h>
 #include <CGAL/iterator.h>
 
+#include <algorithm>
+#include <cstddef>
 
 namespace CGAL {
 

@@ -2,7 +2,7 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.2.2/Polyhedron/include/CGAL/boost/graph/properties_Polyhedron_3_features.h $
+// $URL: https://github.com/CGAL/cgal/blob/v5.3-beta1/Polyhedron/include/CGAL/boost/graph/properties_Polyhedron_3_features.h $
 // $Id: properties_Polyhedron_3_features.h fbd9628 2020-05-15T18:27:33+02:00 Sébastien Loriot
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //

@@ -2,8 +2,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.2.2/BGL/include/CGAL/boost/graph/selection.h $
-// $Id: selection.h 27de834 2021-01-18T11:30:02+01:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v5.3-beta1/BGL/include/CGAL/boost/graph/selection.h $
+// $Id: selection.h 79057f3 2021-05-06T14:32:32+02:00 Sébastien Loriot
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Sebastien Loriot
@@ -1137,8 +1137,8 @@ void expand_face_selection_for_removal(const FaceRange& faces_to_be_deleted,
 
 //todo: take non-manifold vertices into account.
 template<class PolygonMesh, class FaceRange>
-bool is_selection_a_topological_disk(const FaceRange& face_selection,
-                                           PolygonMesh& pm)
+int euler_characteristic_of_selection(const FaceRange& face_selection,
+                                            PolygonMesh& pm)
 {
   typedef typename boost::graph_traits<PolygonMesh>::vertex_descriptor vertex_descriptor;
   typedef typename boost::graph_traits<PolygonMesh>::face_descriptor face_descriptor;
@@ -1154,8 +1154,18 @@ bool is_selection_a_topological_disk(const FaceRange& face_selection,
       sel_edges.insert(edge(h,pm));
     }
   }
-  return (sel_vertices.size() - sel_edges.size() + face_selection.size() == 1);
+  return  static_cast<int>(sel_vertices.size())
+        - static_cast<int>(sel_edges.size())
+        + static_cast<int>(face_selection.size());
 }
+
+template<class PolygonMesh, class FaceRange>
+bool is_selection_a_topological_disk(const FaceRange& face_selection,
+                                           PolygonMesh& pm)
+{
+  return euler_characteristic_of_selection(face_selection, pm) == 1;
+}
+
 } //end of namespace CGAL
 
 #endif //CGAL_BOOST_GRAPH_SELECTION_H

@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.2.2/GraphicsView/demo/Periodic_2_triangulation_2/include/CGAL/Qt/PeriodicTriangulationGraphicsItem.h $
-// $Id: PeriodicTriangulationGraphicsItem.h 590612a 2020-03-26T13:25:16+01:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v5.3-beta1/GraphicsView/demo/Periodic_2_triangulation_2/include/CGAL/Qt/PeriodicTriangulationGraphicsItem.h $
+// $Id: PeriodicTriangulationGraphicsItem.h cc99fd9 2021-02-19T16:02:12+01:00 Maxime Gimeno
 //
 //
 // Author(s)     : Andreas Fabri <Andreas.Fabri@geometryfactory.com>
@@ -150,7 +150,7 @@ namespace CGAL {
 
     template <typename T>
     PeriodicTriangulationGraphicsItem<T>::PeriodicTriangulationGraphicsItem(T * t_)
-    :  t(t_), painterostream(0),
+    :  t(t_), painterostream(nullptr),
        visible_edges(true), visible_vertices(true),
        type(NONE)
     {

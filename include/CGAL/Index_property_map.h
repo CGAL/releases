@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.2.2/Property_map/include/CGAL/Index_property_map.h $
-// $Id: Index_property_map.h 0779373 2020-03-26T13:31:46+01:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v5.3-beta1/Property_map/include/CGAL/Index_property_map.h $
+// $Id: Index_property_map.h 1faa0e2 2021-04-28T10:55:26+02:00 Sébastien Loriot
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Laurent Saboret
@@ -13,7 +13,7 @@
 #define CGAL_INDEX_PROPERTY_MAP_H
 
 #include <CGAL/property_map.h>
-#include <boost/shared_ptr.hpp>
+#include <memory>
 
 #include <iterator>
 #include <map>
@@ -97,7 +97,7 @@ public:
 
 private:
   // Property maps must be lightweight classes => share std::map
-  boost::shared_ptr<Index_map> m_index_map;
+  std::shared_ptr<Index_map> m_index_map;
 };
 
 /// @cond SKIP_IN_MANUAL

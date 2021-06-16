@@ -4,8 +4,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.2.2/STL_Extension/include/CGAL/Compact_container.h $
-// $Id: Compact_container.h 871c972 2020-06-03T16:23:22+02:00 Laurent Rineau
+// $URL: https://github.com/CGAL/cgal/blob/v5.3-beta1/STL_Extension/include/CGAL/Compact_container.h $
+// $Id: Compact_container.h 3448035 2021-03-24T08:25:29+01:00 Simon Giraudot
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Sylvain Pion
@@ -874,6 +874,8 @@ namespace internal {
     {
       m_ptr = nullptr;
     }
+
+    explicit CC_iterator(pointer ptr) : m_ptr(ptr) { }
 
     // Converting constructor from mutable to constant iterator
     template <bool OtherConst>

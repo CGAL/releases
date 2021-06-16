@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.2.2/Polygon_mesh_processing/include/CGAL/Polygon_mesh_processing/clip.h $
-// $Id: clip.h 3c3dad3 2021-03-03T16:56:31+01:00 Laurent Rineau
+// $URL: https://github.com/CGAL/cgal/blob/v5.3-beta1/Polygon_mesh_processing/include/CGAL/Polygon_mesh_processing/clip.h $
+// $Id: clip.h dcf9dfd 2021-03-03T17:30:04+01:00 Laurent Rineau
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -862,6 +862,8 @@ bool clip(TriangleMesh& tm,
   *                           will be thrown if at least one self-intersection is found.}
   *     \cgalParamType{Boolean}
   *     \cgalParamDefault{`false`}
+  *   \cgalParamNEnd
+  *
   *   \cgalParamNBegin{do_not_modify}
   *     \cgalParamDescription{(`np_s` only) if `true`, `splitter` will not be modified.}
   *     \cgalParamType{Boolean}

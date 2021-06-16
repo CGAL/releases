@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.2.2/NewKernel_d/include/CGAL/NewKernel_d/Lazy_cartesian.h $
-// $Id: Lazy_cartesian.h efc0c52 2021-01-15T10:02:00+01:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v5.3-beta1/NewKernel_d/include/CGAL/NewKernel_d/Lazy_cartesian.h $
+// $Id: Lazy_cartesian.h 6403a0d 2021-02-15T21:05:43+01:00 Marc Glisse
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Marc Glisse
@@ -294,7 +294,9 @@ struct Lazy_cartesian :
     template<class T,class D> struct Functor<T,D,Predicate_tag> {
             typedef typename Get_functor<Approximate_kernel, T>::type FA;
             typedef typename Get_functor<Exact_kernel, T>::type FE;
-            typedef Filtered_predicate2<Lazy_cartesian,FE,FA,C2E,C2A> type;
+            // Careful if operator< for Interval_nt ever starts using arithmetic...
+            // Not done directly in Filtered_predicate2 because of C2A
+            typedef Filtered_predicate2<Lazy_cartesian,FE,FA,C2E,C2A,!Uses_no_arithmetic<FA>::value> type;
     };
     template<class T,class D> struct Functor<T,D,Compute_tag> {
             typedef Lazy_construction2<T,Kernel> type;

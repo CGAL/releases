@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.2.2/GraphicsView/demo/L1_Voronoi_diagram_2/include/CGAL/L1_voronoi_traits_2.h $
-// $Id: L1_voronoi_traits_2.h 0779373 2020-03-26T13:31:46+01:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v5.3-beta1/GraphicsView/demo/L1_Voronoi_diagram_2/include/CGAL/L1_voronoi_traits_2.h $
+// $Id: L1_voronoi_traits_2.h 6b87fe3 2020-12-05T11:11:33+01:00 Mael Rouxel-Labbé
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Ophir Setter
@@ -88,7 +88,7 @@ public:
 
     // Walk on the horizontal edge of the rectangle and then on the vertical.
 
-    // There is a chance that the width of the rectangle is smaller then the mid-dist.
+    // There is a chance that the width of the rectangle is smaller than the mid-dist.
     FT walk_x = (CGAL::min)(abs_x, dist);
     mid_x += sign_x * walk_x;
     dist -= walk_x;

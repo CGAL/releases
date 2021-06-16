@@ -3,7 +3,7 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.2.2/Surface_mesh_segmentation/include/CGAL/internal/Surface_mesh_segmentation/Filters.h $
+// $URL: https://github.com/CGAL/cgal/blob/v5.3-beta1/Surface_mesh_segmentation/include/CGAL/internal/Surface_mesh_segmentation/Filters.h $
 // $Id: Filters.h 8094b08 2021-03-25T10:37:09+01:00 Simon Giraudot
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //

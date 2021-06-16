@@ -4,8 +4,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.2.2/Mesh_3/include/CGAL/Mesh_vertex_base_3.h $
-// $Id: Mesh_vertex_base_3.h 82bec8a 2021-05-19T17:11:37+02:00 Laurent Rineau
+// $URL: https://github.com/CGAL/cgal/blob/v5.3-beta1/Mesh_3/include/CGAL/Mesh_vertex_base_3.h $
+// $Id: Mesh_vertex_base_3.h 59a0da4 2021-05-19T17:23:53+02:00 Laurent Rineau
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Stéphane Tayeb, Andreas Fabri
@@ -256,7 +256,7 @@ public:
   {
     is >> static_cast<Cmvb3_base&>(v);
     int dimension;
-    if(is_ascii(is)) {
+    if(IO::is_ascii(is)) {
       is >> dimension;
 
     } else {
@@ -275,7 +275,7 @@ public:
   friend std::ostream& operator<<(std::ostream &os, const Mesh_vertex_3& v)
   {
     os << static_cast<const Cmvb3_base&>(v);
-    if(is_ascii(os)) {
+    if(IO::is_ascii(os)) {
       os << " " << v.in_dimension()
          << " ";
     } else {

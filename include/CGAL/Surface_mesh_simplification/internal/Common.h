@@ -2,8 +2,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.2.2/Surface_mesh_simplification/include/CGAL/Surface_mesh_simplification/internal/Common.h $
-// $Id: Common.h 6f96731 2019-10-28T09:41:51+01:00 Mael Rouxel-Labbé
+// $URL: https://github.com/CGAL/cgal/blob/v5.3-beta1/Surface_mesh_simplification/include/CGAL/Surface_mesh_simplification/internal/Common.h $
+// $Id: Common.h e957de2 2020-09-14T17:01:32+01:00 Andreas Fabri
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Fernando Cacciola <fernando.cacciola@geometryfactory.com>
@@ -34,6 +34,21 @@
 
 namespace CGAL {
 namespace Surface_mesh_simplification {
+
+namespace internal {
+
+  struct Dummy_filter {
+  template <typename Profile>
+  inline
+  const boost::optional<typename Profile::Point>
+  operator()(const Profile&, const boost::optional<typename Profile::Point>& op) const
+  {
+    return op;
+  }
+
+};
+
+} // namesapce internal
 
 template<class Handle>
 inline bool handle_assigned(Handle h) { Handle null; return h != null; }

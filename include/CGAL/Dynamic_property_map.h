@@ -2,8 +2,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.2.2/Property_map/include/CGAL/Dynamic_property_map.h $
-// $Id: Dynamic_property_map.h 24bf8b7 2020-10-14T14:21:15+02:00 Laurent Rineau
+// $URL: https://github.com/CGAL/cgal/blob/v5.3-beta1/Property_map/include/CGAL/Dynamic_property_map.h $
+// $Id: Dynamic_property_map.h 1faa0e2 2021-04-28T10:55:26+02:00 Sébastien Loriot
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -18,7 +18,7 @@
 #include <CGAL/boost/graph/properties.h>
 #include <CGAL/property_map.h>
 
-#include <boost/shared_ptr.hpp>
+#include <memory>
 #include <boost/unordered_map.hpp>
 #include <boost/type_traits/is_same.hpp>
 #include <boost/mpl/if.hpp>
@@ -70,7 +70,7 @@ struct Dynamic_property_map {
 
 
   typedef boost::unordered_map<K,V> Map;
-  boost::shared_ptr<Map> map_;
+  std::shared_ptr<Map> map_;
   V default_value_;
 };
 
@@ -119,7 +119,7 @@ struct Dynamic {
     put(*(m.map_), k, v);
   }
 
-  boost::shared_ptr<PM> map_;
+  std::shared_ptr<PM> map_;
 };
 
 template <typename Key, typename Value>
@@ -152,7 +152,7 @@ struct Dynamic_with_index
     (*m.m_values)[k.idx()]=v;
   }
 
-  boost::shared_ptr<std::vector<value_type> > m_values;
+  std::shared_ptr<std::vector<value_type> > m_values;
 };
 
 } // namespace internal

@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.2.2/Three/include/CGAL/Three/Scene_interface.h $
-// $Id: Scene_interface.h 0779373 2020-03-26T13:31:46+01:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v5.3-beta1/Three/include/CGAL/Three/Scene_interface.h $
+// $Id: Scene_interface.h 26355e2 2020-06-25T12:31:21+02:00 Mael Rouxel-Labbé
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -72,7 +72,7 @@ public:
   virtual Item_id addItem(CGAL::Three::Scene_item* item) = 0;
   //!Adds a CGAL::Three::Scene_item* to the list of children.
   virtual void addChild(Scene_item* item)=0;
-  //! \brief Replaces an item by a new one in the scene.
+  //! \brief replaces an item by a new one in the scene.
   //! The item which id is `id` is replaced by `item`.
   //! The first one is deleted and gives its index to the second one.
   //! If emit_item_about_to_be_destroyed is true, emits
@@ -150,7 +150,7 @@ public:
   //!
   virtual void setUpdatesEnabled(bool b) =0;
   //!
-  //! \brief Updates all the items in the SceneView.
+  //! \brief updates all the items in the SceneView.
   //!
   virtual void allItemsChanged() = 0;
 }; // end interface Scene_interface

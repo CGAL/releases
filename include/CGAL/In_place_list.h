@@ -7,8 +7,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.2.2/STL_Extension/include/CGAL/In_place_list.h $
-// $Id: In_place_list.h 704cdab 2020-04-26T07:43:22+02:00 Michael Hemmer
+// $URL: https://github.com/CGAL/cgal/blob/v5.3-beta1/STL_Extension/include/CGAL/In_place_list.h $
+// $Id: In_place_list.h 0dcadee 2021-04-28T17:54:19+01:00 Giles Bathgate
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -86,6 +86,8 @@ namespace internal {
 
     bool  operator==( const Self& x) const { return node == x.node; }
     bool  operator!=( const Self& x) const { return node != x.node; }
+    bool  operator==( std::nullptr_t) const { return node == nullptr; }
+    bool  operator!=( std::nullptr_t) const { return node != nullptr; }
     bool  operator< ( const Self& x) const { return node< x.node;   }
     bool  operator<=( const Self& x) const { return node<= x.node;  }
     bool  operator> ( const Self& x) const { return node> x.node;   }
@@ -139,6 +141,8 @@ namespace internal {
 
     bool     operator==( const Self& x) const { return node == x.node; }
     bool     operator!=( const Self& x) const { return node != x.node; }
+    bool     operator==( std::nullptr_t) const { return node == nullptr; }
+    bool     operator!=( std::nullptr_t) const { return node != nullptr; }
     bool     operator< ( const Self& x) const { return node< x.node;   }
     bool     operator<=( const Self& x) const { return node<= x.node;  }
     bool     operator> ( const Self& x) const { return node> x.node;   }
@@ -445,9 +449,11 @@ public:
     (*node).prev_link = node;
     insert(begin(), x.begin(), x.end());
   }
-  ~In_place_list() {
-    erase(begin(), end());
-    put_node(node);
+  ~In_place_list() noexcept {
+    try {
+      erase(begin(), end());
+      put_node(node);
+    } catch(...) {}
   }
 
   Self& operator=(const Self& x);

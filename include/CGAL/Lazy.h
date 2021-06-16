@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.2.2/Filtered_kernel/include/CGAL/Lazy.h $
-// $Id: Lazy.h 650939e 2020-09-11T15:07:58+02:00 Laurent Rineau
+// $URL: https://github.com/CGAL/cgal/blob/v5.3-beta1/Filtered_kernel/include/CGAL/Lazy.h $
+// $Id: Lazy.h 00c185b 2021-03-12T12:06:20+01:00 Dmitry Anisimov
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -251,6 +251,10 @@ public:
   Lazy_rep (A&& a)
       : at(std::forward<A>(a)), et(nullptr){}
 
+  template<class A>
+  Lazy_rep (int count, A&& a)
+    : Rep(count), at(std::forward<A>(a)), et(nullptr){}
+
   template<class A, class E>
   Lazy_rep (A&& a, E&& e)
       : at(std::forward<A>(a)), et(new ET(std::forward<E>(e))) {}
@@ -359,6 +363,68 @@ class Lazy_rep_n :
 #endif
 };
 
+
+template<typename AT, typename ET, typename AC, typename EC, typename E2A, typename...L>
+class Lazy_rep_optional_n :
+  public Lazy_rep< AT, ET, E2A >, private EC
+{
+  // Lazy_rep_0 does not inherit from EC or take a parameter AC. It has different constructors.
+  static_assert(sizeof...(L)>0, "Use Lazy_rep_0 instead");
+  template <class Ei, class Ai, class E2Ai, class Ki> friend class Lazy_kernel_base;
+  mutable std::tuple<L...> l; // L...l; is not yet allowed.
+
+  const EC& ec() const { return *this; }
+
+  template<std::size_t...I>
+  void update_exact_helper(std::index_sequence<I...>) const {
+    this->et = new ET( * ec()( CGAL::exact( std::get<I>(l) ) ... ) );
+    this->at = E2A()(*(this->et));
+    l = std::tuple<L...>{};
+  }
+  public:
+
+  Lazy_rep_optional_n()
+  {}
+
+  void update_exact() const {
+    update_exact_helper(std::make_index_sequence<sizeof...(L)>{});
+  }
+
+  template<class...LL>
+  Lazy_rep_optional_n(const AT& a, const EC& ec, LL&&...ll) :
+    Lazy_rep<AT, ET, E2A>(a), EC(ec), l(std::forward<LL>(ll)...)
+  {
+    this->set_depth((std::max)({ -1, (int)CGAL::depth(ll)...}) + 1);
+  }
+
+  template<class...LL>
+  Lazy_rep_optional_n(int count, const AT& a, const EC& ec, LL&&...ll) :
+    Lazy_rep<AT, ET, E2A>(count, a), EC(ec), l(std::forward<LL>(ll)...)
+  {
+    this->set_depth((std::max)({ -1, (int)CGAL::depth(ll)...}) + 1);
+  }
+#ifdef CGAL_LAZY_KERNEL_DEBUG
+  private:
+  template<std::size_t...I>
+  void print_dag_helper(std::ostream& os, int level, std::index_sequence<I...>) const {
+    this->print_at_et(os, level);
+    if(this->is_lazy()){
+# ifdef CGAL_LAZY_KERNEL_DEBUG_SHOW_TYPEID
+      CGAL::msg(os, level, typeid(AC).name());
+# endif
+      CGAL::msg(os, level, "DAG with " "3" " child nodes:");
+      using expander = int[];
+      expander{0,(CGAL::print_dag(std::get<I>(l), os, level+1),0)...};
+    }
+  }
+
+  public:
+  void print_dag(std::ostream& os, int level) const {
+    print_dag_helper(os, level, std::make_index_sequence<sizeof...L>{});
+  }
+#endif
+};
+
 //____________________________________________________________
 // The rep for the leaf node
 
@@ -404,6 +470,7 @@ public:
 };
 
 // Macro helpers to build the kernel objects
+#define CGAL_PARAM(z, n, t) std::declval<t##n>()
 #define CGAL_TYPEMAP_AC(z, n, t) typedef typename Type_mapper< t##n, LK, AK >::type A##n;
 #define CGAL_TYPEMAP_EC(z, n, t) typedef typename Type_mapper< t##n, LK, EK >::type E##n;
 #define CGAL_LEXACT(z,n,t) CGAL::exact( l##n )
@@ -791,7 +858,8 @@ struct Lazy_construction_bbox
   CGAL_NO_UNIQUE_ADDRESS EC ec;
 
   template <typename L1>
-  result_type operator()(const L1& l1) const
+  decltype(auto)
+  operator()(const L1& l1) const
   {
     CGAL_BRANCH_PROFILER(std::string(" failures/calls to   : ") + std::string(CGAL_PRETTY_FUNCTION), tmp);
     // Protection is outside the try block as VC8 has the CGAL_CFG_FPU_ROUNDING_MODE_UNWINDING_VC_BUG
@@ -803,6 +871,96 @@ struct Lazy_construction_bbox
       Protect_FPU_rounding<!Protection> P2(CGAL_FE_TONEAREST);
       return ec(CGAL::exact(l1));
     }
+  }
+};
+
+
+template <typename LK, typename AC, typename EC>
+struct Lazy_construction_optional_for_polygonal_envelope
+{
+  static const bool Protection = true;
+  typedef typename LK::Approximate_kernel AK;
+  typedef typename LK::Exact_kernel EK;
+  typedef typename LK::E2A E2A;
+  typedef boost::optional<typename LK::Point_3> result_type;
+
+  CGAL_NO_UNIQUE_ADDRESS AC ac;
+  CGAL_NO_UNIQUE_ADDRESS EC ec;
+
+
+  // for Intersect_point_3 with 3 Plane_3
+  template <typename L1>
+  result_type operator()(const L1& l1, const L1& l2, const L1& l3) const
+  {
+    Protect_FPU_rounding<Protection> P;
+
+    try {
+      boost::optional<typename AK::Point_3> oap = ac(CGAL::approx(l1),CGAL::approx(l2),CGAL::approx(l3));
+      if(oap == boost::none){
+        return boost::none;
+      }
+      // Now we have to construct a rep for a lazy point with the three lazy planes.
+      typedef Lazy_rep_optional_n<typename AK::Point_3, typename EK::Point_3, AC, EC, E2A, L1, L1, L1> LazyPointRep;
+      CGAL_STATIC_THREAD_LOCAL_VARIABLE_0(LazyPointRep, rep);
+
+      const typename AK::Point_3 ap = *oap;
+      rep = LazyPointRep(2,ap, ec, l1, l2, l3);
+      typename LK::Point_3 lp(&rep);
+      return boost::make_optional(lp);
+
+
+    } catch (Uncertain_conversion_exception&) {
+      Protect_FPU_rounding<!Protection> P2(CGAL_FE_TONEAREST);
+      boost::optional<typename EK::Point_3> oep = ec(CGAL::exact(l1), CGAL::exact(l2), CGAL::exact(l3));
+      if(oep == boost::none){
+        return boost::none;
+      }
+      typedef Lazy_rep_0<typename AK::Point_3, typename EK::Point_3, E2A> LazyPointRep;
+      const typename EK::Point_3 ep = *oep;
+      LazyPointRep *rep = new LazyPointRep(ep);
+      typename LK::Point_3 lp(rep);
+      return boost::make_optional(lp);
+    }
+    // AF can we get here??
+    return boost::none;
+  }
+
+  // for Intersect_point_3 with  Plane_3  Line_3
+  template <typename L1, typename L2>
+  result_type operator()(const L1& l1, const L2& l2) const
+  {
+
+    Protect_FPU_rounding<Protection> P;
+
+    try {
+      boost::optional<typename AK::Point_3> oap = ac(CGAL::approx(l1),CGAL::approx(l2));
+      if(oap == boost::none){
+        return boost::none;
+      }
+      // Now we have to construct a rep for a lazy point with the line and the plane.
+      typedef Lazy_rep_optional_n<typename AK::Point_3, typename EK::Point_3, AC, EC, E2A, L1, L2> LazyPointRep;
+
+      CGAL_STATIC_THREAD_LOCAL_VARIABLE_0(LazyPointRep, rep);
+      const typename AK::Point_3 ap = *oap;
+      rep = LazyPointRep(2, ap, ec, l1, l2);
+      typename LK::Point_3 lp(&rep);
+      return boost::make_optional(lp);
+
+
+    } catch (Uncertain_conversion_exception&) {
+      Protect_FPU_rounding<!Protection> P2(CGAL_FE_TONEAREST);
+      boost::optional<typename EK::Point_3> oep = ec(CGAL::exact(l1), CGAL::exact(l2));
+      if(oep == boost::none){
+        return boost::none;
+      }
+      typedef Lazy_rep_0<typename AK::Point_3, typename EK::Point_3, E2A> LazyPointRep;
+      const typename EK::Point_3 ep = *oep;
+      LazyPointRep *rep = new LazyPointRep(ep);
+      typename LK::Point_3 lp(rep);
+      return boost::make_optional(lp);
+    }
+    // AF can we get here??
+    return boost::none;
   }
 };
 
@@ -821,20 +979,6 @@ struct Lazy_construction_nt {
   CGAL_NO_UNIQUE_ADDRESS AC ac;
   CGAL_NO_UNIQUE_ADDRESS EC ec;
 
-  template<typename>
-  struct result { };
-
-#define CGAL_RESULT_NT(z, n, d)                                              \
-  template< typename F, BOOST_PP_ENUM_PARAMS(n, class T) >              \
-  struct result<F( BOOST_PP_ENUM_PARAMS(n, T) )> {                      \
-    BOOST_PP_REPEAT(n, CGAL_TYPEMAP_EC, T)                                   \
-    typedef Lazy_exact_nt<                                              \
-      typename boost::remove_cv< typename boost::remove_reference <     \
-      typename cpp11::result_of<EC( BOOST_PP_ENUM_PARAMS(n, E) )>::type >::type >::type > type; \
-  };
-
-  BOOST_PP_REPEAT_FROM_TO(1, 6, CGAL_RESULT_NT, _)
-
   template<class...L>
   auto operator()(L const&...l) const ->
   Lazy_exact_nt<std::remove_cv_t<std::remove_reference_t<decltype(ec(CGAL::exact(l)...))>>>
@@ -851,8 +995,6 @@ struct Lazy_construction_nt {
       return new Lazy_rep_0<AT,ET,To_interval<ET> >(ec( CGAL::exact(l)... ));
     }
   }
-
-#undef CGAL_RESULT_NT
 };
 
 
@@ -1248,7 +1390,7 @@ struct Lazy_construction_object
 public:
 
   template <typename L1>
-  result_type
+  decltype(auto)
   operator()(const L1& l1) const
   {
     CGAL_BRANCH_PROFILER(std::string(" failures/calls to   : ") + std::string(CGAL_PRETTY_FUNCTION), tmp);
@@ -1281,7 +1423,7 @@ public:
   }
 
   template <typename L1, typename L2>
-  result_type
+  decltype(auto)
   operator()(const L1& l1, const L2& l2) const
   {
     CGAL_BRANCH_PROFILER(std::string(" failures/calls to   : ") + std::string(CGAL_PRETTY_FUNCTION), tmp);
@@ -1335,7 +1477,7 @@ CGAL_Kernel_obj(Point_3)
   }
 
   template <typename L1, typename L2, typename L3>
-  result_type
+  decltype(auto)
   operator()(const L1& l1, const L2& l2, const L3& l3) const
   {
     CGAL_BRANCH_PROFILER(std::string(" failures/calls to   : ") + std::string(CGAL_PRETTY_FUNCTION), tmp);
@@ -1374,7 +1516,7 @@ CGAL_Kernel_obj(Point_3)
 //____________________________________________________________
 // The magic functor that has Lazy<Something> as result type.
 // Two versions are distinguished: one that needs to fiddle
-// with result_of and another that can forward the result types.
+// with decltype and another that can forward the result types.
 
 namespace internal {
 BOOST_MPL_HAS_XXX_TRAIT_DEF(result_type)
@@ -1496,20 +1638,23 @@ struct Lazy_construction_variant {
     struct result<F( BOOST_PP_ENUM_PARAMS(n, T) )> {                    \
       BOOST_PP_REPEAT(n, CGAL_TYPEMAP_AC, T)                            \
       typedef typename Type_mapper<                                     \
-        typename cpp11::result_of<AC( BOOST_PP_ENUM_PARAMS(n, A) )>::type, AK, LK>::type type; \
+        decltype(std::declval<AC>()(BOOST_PP_ENUM(n, CGAL_PARAM, A))), AK, LK>::type type; \
     };
 
   BOOST_PP_REPEAT_FROM_TO(1, 9, CGAL_RESULT, _)
 
   template <typename L1, typename L2>
-  typename result<Lazy_construction_variant(L1, L2)>::type
+  decltype(auto)
   operator()(const L1& l1, const L2& l2) const {
-    typedef typename cpp11::result_of<Lazy_construction_variant(L1, L2)>::type result_type;
+    typedef typename result<Lazy_construction_variant(L1, L2)>::type result_type;
 
-    typedef typename cpp11::result_of<AC(typename Type_mapper<L1, LK, AK>::type,
-                                         typename Type_mapper<L2, LK, AK>::type)>::type AT;
-    typedef typename cpp11::result_of<EC(typename Type_mapper<L1, LK, EK>::type,
-                                         typename Type_mapper<L2, LK, EK>::type)>::type ET;
+    // typedef decltype(std::declval<AC>()(std::declval<typename Type_mapper<L1, LK, AK>::type>(),
+    //                                     std::declval<typename Type_mapper<L2, LK, AK>::type>())) AT;
+    // typedef decltype(std::declval<EC>()(std::declval<typename Type_mapper<L1, LK, EK>::type>(),
+    //                                     std::declval<typename Type_mapper<L2, LK, EK>::type>())) ET;
+
+    typedef decltype(std::declval<AC const&>()(CGAL::approx(l1), CGAL::approx(l2))) AT;
+    typedef decltype(std::declval<EC const&>()( CGAL::exact(l1),  CGAL::exact(l2))) ET;
 
     CGAL_BRANCH_PROFILER(std::string(" failures/calls to   : ") + std::string(CGAL_PRETTY_FUNCTION), tmp);
     Protect_FPU_rounding<Protection> P;
@@ -1550,19 +1695,23 @@ struct Lazy_construction_variant {
   }
 
   template <typename L1, typename L2, typename L3>
-  typename result<Lazy_construction_variant(L1, L2, L3)>::type
+  decltype(auto)
   operator()(const L1& l1, const L2& l2, const L3& l3) const {
     typedef typename result<Lazy_construction_variant(L1, L2, L3)>::type result_type;
 
-    typedef typename cpp11::result_of<AC(typename Type_mapper<L1, LK, AK>::type,
-                                         typename Type_mapper<L2, LK, AK>::type,
-                                         typename Type_mapper<L3, LK, AK>::type)>::type AT;
-    typedef typename cpp11::result_of<EC(typename Type_mapper<L1, LK, EK>::type,
-                                         typename Type_mapper<L2, LK, EK>::type,
-                                         typename Type_mapper<L3, LK, EK>::type)>::type ET;
+    // typedef decltype(std::declval<AC>()(std::declval<typename Type_mapper<L1, LK, AK>::type>(),
+    //                                     std::declval<typename Type_mapper<L2, LK, AK>::type>(),
+    //                                     std::declval<typename Type_mapper<L3, LK, AK>::type>())) AT;
+    // typedef decltype(std::declval<EC>()(std::declval<typename Type_mapper<L1, LK, EK>::type>(),
+    //                                     std::declval<typename Type_mapper<L2, LK, EK>::type>(),
+    //                                     std::declval<typename Type_mapper<L3, LK, EK>::type>())) ET;
+
+    typedef decltype(std::declval<AC const&>()(CGAL::approx(l1), CGAL::approx(l2), CGAL::approx(l3))) AT;
+    typedef decltype(std::declval<EC const&>()( CGAL::exact(l1),  CGAL::exact(l2),  CGAL::exact(l3))) ET;
 
     CGAL_BRANCH_PROFILER(std::string(" failures/calls to   : ") + std::string(CGAL_PRETTY_FUNCTION), tmp);
     Protect_FPU_rounding<Protection> P;
+
     try {
       Lazy<AT, ET, E2A> lazy(new Lazy_rep_n<AT, ET, AC, EC, E2A, L1, L2, L3>(AC(), EC(), l1, l2, l3));
 
@@ -1614,7 +1763,7 @@ struct Lazy_construction<LK, AC, EC, E2A_, true> {
   typedef typename boost::remove_cv<
     typename boost::remove_reference < typename AC::result_type >::type >::type AT;
   typedef typename boost::remove_cv<
-    typename boost::remove_reference < typename EC::result_type >::type >::type  ET;
+    typename boost::remove_reference < typename EC::result_type >::type >::type ET;
 
   typedef typename Default::Get<E2A_, typename LK::E2A>::type E2A;
 
@@ -1625,7 +1774,7 @@ struct Lazy_construction<LK, AC, EC, E2A_, true> {
 
 #define CGAL_CONSTRUCTION_OPERATOR(z, n, d  )                           \
   template<BOOST_PP_ENUM_PARAMS(n, class L)>                            \
-  result_type                                                           \
+  decltype(auto)                                                        \
   operator()( BOOST_PP_ENUM(n, CGAL_LARGS, _) ) const {                 \
     typedef Lazy< AT, ET, E2A> Handle;                                  \
     CGAL_BRANCH_PROFILER(std::string(" failures/calls to   : ") + std::string(CGAL_PRETTY_FUNCTION), tmp); \
@@ -1643,7 +1792,7 @@ struct Lazy_construction<LK, AC, EC, E2A_, true> {
   BOOST_PP_REPEAT_FROM_TO(1, 9, CGAL_CONSTRUCTION_OPERATOR, _)
 
   // nullary
-  result_type
+  decltype(auto)
   operator()() const
   {
     typedef Lazy<AT, ET, E2A> Handle;
@@ -1674,27 +1823,18 @@ struct Lazy_construction<LK, AC, EC, E2A_, false>
   CGAL_NO_UNIQUE_ADDRESS EC ec;
 
   // acquire the result_type of the approximate kernel, map it back to the lazy kernel object
-#define CGAL_RESULT(z, n, d) \
-template< typename F, BOOST_PP_ENUM_PARAMS(n, class T) > \
-struct result<F( BOOST_PP_ENUM_PARAMS(n, T) )> { \
-  BOOST_PP_REPEAT(n, CGAL_TYPEMAP_AC, T)                                     \
-  typedef typename Type_mapper< typename cpp11::result_of<AC( BOOST_PP_ENUM_PARAMS(n, A) )>::type, AK, LK>::type type; \
-};
-
   BOOST_PP_REPEAT_FROM_TO(1, 9, CGAL_RESULT, _)
 
 #define CGAL_CONSTRUCTION_OPERATOR(z, n, d)                                      \
   template<BOOST_PP_ENUM_PARAMS(n, class L)>                            \
-  typename cpp11::result_of<Lazy_construction(BOOST_PP_ENUM_PARAMS(n, L))>::type \
+  decltype(auto)                                                            \
   operator()( BOOST_PP_ENUM(n, CGAL_LARGS, _) ) const {                            \
     BOOST_PP_REPEAT(n, CGAL_TYPEMAP_EC, L)                                     \
     BOOST_PP_REPEAT(n, CGAL_TYPEMAP_AC, L)                                     \
-    typedef typename boost::remove_cv< typename boost::remove_reference < \
-                                        typename cpp11::result_of< EC(BOOST_PP_ENUM_PARAMS(n, E)) >::type >::type >::type ET; \
-    typedef typename boost::remove_cv< typename boost::remove_reference < \
-                                        typename cpp11::result_of< AC(BOOST_PP_ENUM_PARAMS(n, A)) >::type >::type >::type AT; \
+    typedef typename Type_mapper<decltype(std::declval<EC>()(BOOST_PP_ENUM(n, CGAL_PARAM, E))),EK,EK>::type ET; \
+    typedef typename Type_mapper<decltype(std::declval<AC>()(BOOST_PP_ENUM(n, CGAL_PARAM, A))),AK,AK>::type AT; \
     typedef Lazy< AT, ET, E2A> Handle; \
-    typedef typename cpp11::result_of<Lazy_construction(BOOST_PP_ENUM_PARAMS(n, L))>::type result_type; \
+    typedef typename result<Lazy_construction(BOOST_PP_ENUM_PARAMS(n, L))>::type result_type; \
     CGAL_BRANCH_PROFILER(std::string(" failures/calls to   : ") + std::string(CGAL_PRETTY_FUNCTION), tmp); \
     Protect_FPU_rounding<Protection> P;                                   \
     try {                                                                 \
@@ -1710,13 +1850,13 @@ struct result<F( BOOST_PP_ENUM_PARAMS(n, T) )> { \
   BOOST_PP_REPEAT_FROM_TO(1, 9, CGAL_CONSTRUCTION_OPERATOR, _)
 
   // nullary
-  typename Type_mapper< typename cpp11::result_of<AC()>::type ,AK, LK>::type
+  decltype(auto)
   operator()() const
   {
-    typedef typename cpp11::result_of<AC()>::type AT;
-    typedef typename cpp11::result_of<EC()>::type ET;
+    typedef decltype(std::declval<AC>()()) AT;
+    typedef decltype(std::declval<EC>()()) ET;
     typedef Lazy<AT, ET, E2A> Handle;
-    typedef typename Type_mapper< typename cpp11::result_of<AC()>::type ,AK, LK>::type result_type;
+    typedef typename Type_mapper<AT, AK, LK>::type result_type;
 
     return result_type( Handle(new Lazy_rep_0<AT,ET,E2A>()) );
   }

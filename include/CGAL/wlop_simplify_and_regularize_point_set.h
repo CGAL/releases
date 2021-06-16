@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.2.2/Point_set_processing_3/include/CGAL/wlop_simplify_and_regularize_point_set.h $
-// $Id: wlop_simplify_and_regularize_point_set.h ab14acf 2021-03-23T13:14:41+01:00 Simon Giraudot
+// $URL: https://github.com/CGAL/cgal/blob/v5.3-beta1/Point_set_processing_3/include/CGAL/wlop_simplify_and_regularize_point_set.h $
+// $Id: wlop_simplify_and_regularize_point_set.h 343ef10 2021-04-06T15:13:00+02:00 Laurent Rineau
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s) : Shihao Wu, Clement Jamin, Pierre Alliez
@@ -353,7 +353,7 @@ compute_density_weight_for_sample_point(
    \tparam OutputIterator Type of the output iterator.
    It must accept objects of type `geom_traits::Point_3`.
 
-   \param points input point range.
+   \param points input point range
    \param output iterator where output points are put.
    \param np an optional sequence of \ref bgl_namedparameters "Named Parameters" among the ones listed below
 

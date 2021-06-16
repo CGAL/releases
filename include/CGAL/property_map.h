@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.2.2/Property_map/include/CGAL/property_map.h $
-// $Id: property_map.h d4c331c 2021-03-03T16:39:52+01:00 Laurent Rineau
+// $URL: https://github.com/CGAL/cgal/blob/v5.3-beta1/Property_map/include/CGAL/property_map.h $
+// $Id: property_map.h 1794620 2021-04-01T09:43:14+02:00 Simon Giraudot
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Andreas Fabri and Laurent Saboret
@@ -475,12 +475,12 @@ struct Constant_property_map
   Constant_property_map(const value_type& default_value = value_type()) : default_value (default_value) { }
 
   /// Free function that returns `pm.default_value`.
-  inline friend value_type
-  get (const Constant_property_map& pm, const key_type&){ return pm.default_value; }
+  inline friend
+  const value_type& get (const Constant_property_map& pm, const key_type&) { return pm.default_value; }
 
   /// Free function that does nothing.
-  inline friend void
-  put (const Constant_property_map&, const key_type&, const value_type&) { }
+  inline friend
+  void put (const Constant_property_map&, const key_type&, const value_type&) { }
 };
 
 /// \ingroup PkgPropertyMapRef
@@ -613,6 +613,44 @@ make_counting_range (const SizeType begin, const SizeType end)
                            boost::counting_iterator<SizeType>(end));
 }
 
+/// \endcond
+
+/// \cond SKIP_IN_MANUAL
+/*
+  This property map is used to turn a property map using the value
+  type of a random access iterator as key type to the same property
+  map but using the index of the element iterated to.
+
+  It basically allows, when accessing the ith element of a range, to
+  do `get(map, i)` instead of `get(map, range[i])`.
+ */
+template<typename RandomAccessIterator, typename PropertyMap>
+struct Random_index_access_property_map
+{
+  typedef std::size_t key_type;
+  typedef typename boost::property_traits<PropertyMap>::value_type value_type;
+  typedef typename boost::property_traits<PropertyMap>::reference reference;
+  typedef typename boost::property_traits<PropertyMap>::category category;
+
+  RandomAccessIterator m_begin;
+  PropertyMap m_map;
+
+  Random_index_access_property_map (RandomAccessIterator begin = RandomAccessIterator(),
+                                    PropertyMap map = PropertyMap())
+    : m_begin(begin), m_map(map) {}
+
+  friend reference get (const Random_index_access_property_map& map, const key_type& index,
+                        typename std::enable_if<std::is_convertible<category, boost::readable_property_map_tag>::value>::type* = 0)
+  {
+    return get(map.m_map, *std::next(map.m_begin, index));
+  }
+
+  friend void put (Random_index_access_property_map& map, const key_type& index, const value_type& value,
+                   typename std::enable_if<std::is_convertible<category, boost::writable_property_map_tag>::value>::type* = 0)
+  {
+    put (map.m_map, *std::next(map.m_begin, index), value);
+  }
+};
 /// \endcond
 
 } // namespace CGAL

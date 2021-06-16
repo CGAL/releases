@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.2.2/STL_Extension/include/CGAL/Concurrent_compact_container.h $
-// $Id: Concurrent_compact_container.h e9b7595 2021-05-04T11:45:57+02:00 Maxime Gimeno
+// $URL: https://github.com/CGAL/cgal/blob/v5.3-beta1/STL_Extension/include/CGAL/Concurrent_compact_container.h $
+// $Id: Concurrent_compact_container.h 59a0da4 2021-05-19T17:23:53+02:00 Laurent Rineau
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Clement Jamin
@@ -473,6 +473,42 @@ public:
   allocator_type get_allocator() const
   {
     return m_alloc;
+  }
+
+  // Returns the index of the iterator "cit", i.e. the number n so that
+  // operator[](n)==*cit.
+  // Complexity : O(#blocks) = O(sqrt(capacity())).
+  // This function is mostly useful for purposes of efficient debugging at
+  // higher levels.
+  size_type index(const_iterator cit) const
+  {
+    // We use the block structure to provide an efficient version :
+    // we check if the address is in the range of each block.
+
+    assert(cit != end());
+
+    const_pointer c = &*cit;
+    size_type res=0;
+
+    Mutex::scoped_lock lock(m_mutex);
+
+    for (typename All_items::const_iterator it = m_all_items.begin(),
+         itend = m_all_items.end(); it != itend; ++it) {
+      const_pointer p = it->first;
+      size_type s = it->second;
+
+      // Are we in the address range of this block (excluding first and last
+      // elements) ?
+      if ( p<c && c<(p+s-1) )
+      {
+        CGAL_assertion_msg( (c-p)+p == c, "wrong alignment of iterator");
+        return res+(c-p-1);
+      }
+
+      res += s-2;
+    }
+
+    return (size_type)-1; // cit does not belong to this compact container
   }
 
   // Returns whether the iterator "cit" is in the range [begin(), end()].

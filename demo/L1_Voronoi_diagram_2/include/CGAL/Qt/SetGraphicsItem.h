@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.2.2/GraphicsView/demo/L1_Voronoi_diagram_2/include/CGAL/Qt/SetGraphicsItem.h $
-// $Id: SetGraphicsItem.h 0779373 2020-03-26T13:31:46+01:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v5.3-beta1/GraphicsView/demo/L1_Voronoi_diagram_2/include/CGAL/Qt/SetGraphicsItem.h $
+// $Id: SetGraphicsItem.h cc99fd9 2021-02-19T16:02:12+01:00 Maxime Gimeno
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Ophir Setter <ophirset@post.tau.ac.il>
@@ -82,7 +82,7 @@ SetGraphicsItem<Set>::paint(QPainter *painter,
                                     const QStyleOptionGraphicsItem *option,
                                     QWidget* )
 {
-  if (m_set == NULL)
+  if (m_set == nullptr)
     return;
 
   QRectF rect = option->exposedRect;

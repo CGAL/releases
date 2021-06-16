@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.2.2/Nef_3/include/CGAL/Nef_3/Nef_box.h $
-// $Id: Nef_box.h 0779373 2020-03-26T13:31:46+01:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v5.3-beta1/Nef_3/include/CGAL/Nef_3/Nef_box.h $
+// $Id: Nef_box.h dd0d629 2021-04-15T08:28:40+01:00 Andreas Fabri
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Peter Hachenberger    <hachenberger@mpi-sb.mpg.de>
@@ -16,6 +16,7 @@
 
 #include <CGAL/box_intersection_d.h>
 #include <CGAL/Box_intersection_d/box_limits.h>
+#include <CGAL/internal/Static_filters/tools.h>
 
 namespace CGAL {
 
@@ -51,10 +52,12 @@ class Nef_box : public Box_intersection_d::Box_d< double, 3 > {
   Type type;
 
   void extend( const Point_3& p, const Tag_false& ) {
+    internal::Static_filters_predicates::Get_approx<Point_3> get_approx; // Identity functor for all points
+                                    // but lazy points
     std::pair<double, double> q[3];
-    q[0] = CGAL::to_interval( p.x() );
-    q[1] = CGAL::to_interval( p.y() );
-    q[2] = CGAL::to_interval( p.z() );
+    q[0] = CGAL::to_interval( get_approx(p).x() );
+    q[1] = CGAL::to_interval( get_approx(p).y() );
+    q[2] = CGAL::to_interval( get_approx(p).z() );
     Box_intersection_d::Box_d< double, 3 >::extend(q);
   }
 

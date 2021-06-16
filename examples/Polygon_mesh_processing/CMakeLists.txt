@@ -1,7 +1,7 @@
 # Created by the script cgal_create_CMakeLists
 # This is the CMake script for compiling a set of CGAL applications.
 
-cmake_minimum_required(VERSION 3.1...3.15)
+cmake_minimum_required(VERSION 3.1...3.20)
 project(Polygon_mesh_processing_Examples)
 
 # CGAL and its components
@@ -53,7 +53,9 @@ if(TARGET CGAL::Eigen3_support)
   target_link_libraries(mesh_smoothing_example PUBLIC CGAL::Eigen3_support)
 endif()
 
-
+create_single_source_cgal_program( "polyhedral_envelope.cpp" )
+create_single_source_cgal_program( "polyhedral_envelope_of_triangle_soup.cpp" )
+create_single_source_cgal_program( "polyhedral_envelope_mesh_containment.cpp" )
 create_single_source_cgal_program( "self_intersections_example.cpp" )
 create_single_source_cgal_program( "stitch_borders_example.cpp" )
 create_single_source_cgal_program( "compute_normals_example_Polyhedron.cpp"  CXX_FEATURES cxx_range_for )
@@ -125,14 +127,16 @@ if(TARGET CGAL::TBB_support)
   target_link_libraries(self_intersections_example PUBLIC CGAL::TBB_support)
   target_link_libraries(hausdorff_distance_remeshing_example
                         PUBLIC CGAL::TBB_support)
+
+  create_single_source_cgal_program("corefinement_parallel_union_meshes.cpp")
+  target_link_libraries(corefinement_parallel_union_meshes PUBLIC CGAL::TBB_support)
 else()
   message(
     STATUS "NOTICE: Intel TBB was not found. Sequential code will be used.")
 endif()
 
 find_package(Ceres QUIET)
-if(TARGET ceres)
-  target_compile_definitions(mesh_smoothing_example
-                             PRIVATE CGAL_PMP_USE_CERES_SOLVER)
-  target_link_libraries(mesh_smoothing_example PRIVATE ceres)
-endif(TARGET ceres)
+include(CGAL_Ceres_support)
+if(TARGET CGAL::Ceres_support)
+  target_link_libraries(mesh_smoothing_example PUBLIC CGAL::Ceres_support)
+endif(TARGET CGAL::Ceres_support)

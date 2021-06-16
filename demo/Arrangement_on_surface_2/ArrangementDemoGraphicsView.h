@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.2.2/Arrangement_on_surface_2/demo/Arrangement_on_surface_2/ArrangementDemoGraphicsView.h $
-// $Id: ArrangementDemoGraphicsView.h a30658a 2020-09-21T09:09:48+02:00 Ahmed Essam
+// $URL: https://github.com/CGAL/cgal/blob/v5.3-beta1/Arrangement_on_surface_2/demo/Arrangement_on_surface_2/ArrangementDemoGraphicsView.h $
+// $Id: ArrangementDemoGraphicsView.h cc99fd9 2021-02-19T16:02:12+01:00 Maxime Gimeno
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s): Alex Tsui <alextsui05@gmail.com>
@@ -21,7 +21,7 @@ class QPaintEvent;
 class ArrangementDemoGraphicsView : public QGraphicsView
 {
 public:
-  ArrangementDemoGraphicsView( QWidget* parent = 0 );
+  ArrangementDemoGraphicsView( QWidget* parent = nullptr );
 
   void setBackgroundColor( QColor color );
   QColor getBackgroundColor( ) const;

@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.2.2/Filtered_kernel/include/CGAL/Filtered_predicate.h $
-// $Id: Filtered_predicate.h 0779373 2020-03-26T13:31:46+01:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v5.3-beta1/Filtered_kernel/include/CGAL/Filtered_predicate.h $
+// $Id: Filtered_predicate.h caef69c 2020-12-30T23:28:03+01:00 Marc Glisse
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -37,6 +37,10 @@ namespace CGAL {
 //   not, or we let all this up to the compiler optimizer to figure out ?
 // - Some caching could be done at the Point_2 level.
 
+// Protection is undocumented and currently always true, meaning that it
+// assumes a default rounding mode of round-to-nearest. false would correspond
+// to a default of round-towards-infinity, so interval arithmetic does not
+// require protection but regular code may.
 
 template <class EP, class AP, class C2E, class C2A, bool Protection = true>
 class Filtered_predicate

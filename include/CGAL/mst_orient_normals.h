@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.2.2/Point_set_processing_3/include/CGAL/mst_orient_normals.h $
-// $Id: mst_orient_normals.h c253679 2020-04-18T16:27:58+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v5.3-beta1/Point_set_processing_3/include/CGAL/mst_orient_normals.h $
+// $Id: mst_orient_normals.h 9939011 2020-06-21T15:54:21+02:00 Mael Rouxel-Labbé
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s) : Laurent Saboret and Andreas Fabri
@@ -545,7 +545,7 @@ create_mst_graph(
    \tparam PointRange is a model of `Range`. The value type of
    its iterator is the key type of the named parameter `point_map`.
 
-   \param points input point range.
+   \param points input point range
    \param k number of neighbors.
    \param np an optional sequence of \ref bgl_namedparameters "Named Parameters" among the ones listed below
 

@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.2.2/Linear_cell_complex/demo/Linear_cell_complex/typedefs.h $
-// $Id: typedefs.h cf83a22 2019-12-02T16:32:29+01:00 Mael
+// $URL: https://github.com/CGAL/cgal/blob/v5.3-beta1/Linear_cell_complex/demo/Linear_cell_complex/typedefs.h $
+// $Id: typedefs.h fb6f703 2021-05-04T14:07:49+02:00 Sébastien Loriot
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Guillaume Damiand <guillaume.damiand@liris.cnrs.fr>
@@ -51,15 +51,15 @@ class Volume_info
   friend void CGAL::write_cmap_attribute_node<Volume_info>(boost::property_tree::ptree & node,
                                                            const Volume_info& arg);
 public:
-  Volume_info() : m_color(CGAL::Color(myrandom.get_int(0,256),
+  Volume_info() : m_color(CGAL::IO::Color(myrandom.get_int(0,256),
                                       myrandom.get_int(0,256),
                                       myrandom.get_int(0,256))),
     m_status( LCC_DEMO_VISIBLE | LCC_DEMO_FILLED )
   {}
 
-  CGAL::Color& color()
+  CGAL::IO::Color& color()
   { return m_color; }
-  const CGAL::Color& color() const
+  const CGAL::IO::Color& color() const
   { return m_color; }
 
   std::string color_name() const
@@ -97,7 +97,7 @@ public:
   { set_filled(!is_filled()); }
 
 private:
-  CGAL::Color m_color;
+  CGAL::IO::Color m_color;
   char        m_status;
 };
 
@@ -120,7 +120,7 @@ inline void read_cmap_attribute_node<Volume_info>
     char r = v.second.get<int>("color-r");
     char g = v.second.get<int>("color-g");
     char b = v.second.get<int>("color-b");
-    val.m_color = CGAL::Color(r,g,b);
+    val.m_color = CGAL::IO::Color(r,g,b);
   }
   catch(const std::exception &  )
   {}

@@ -4,8 +4,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.2.2/Mesh_3/include/CGAL/Mesh_3/Mesh_complex_3_in_triangulation_3_base.h $
-// $Id: Mesh_complex_3_in_triangulation_3_base.h 5572d9d 2020-06-24T10:59:19+02:00 Laurent Rineau
+// $URL: https://github.com/CGAL/cgal/blob/v5.3-beta1/Mesh_3/include/CGAL/Mesh_3/Mesh_complex_3_in_triangulation_3_base.h $
+// $Id: Mesh_complex_3_in_triangulation_3_base.h 70058db 2021-05-03T15:30:52+02:00 Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -462,15 +462,15 @@ public:
                        bool show_patches = false) const
   {
     // Call global function
-    CGAL::output_to_medit(os,*this,rebind,show_patches);
+    CGAL::IO::output_to_medit(os,*this,rebind,show_patches);
   }
 
   /// Outputs the mesh to maya
-  void output_to_maya(std::ofstream& os,
+  void output_to_maya(std::ostream& os,
                       bool surfaceOnly = true) const
   {
     // Call global function
-    CGAL::output_to_maya(os,*this,surfaceOnly);
+    CGAL::IO::output_to_maya(os,*this,surfaceOnly);
   }
 
   //-------------------------------------------------------

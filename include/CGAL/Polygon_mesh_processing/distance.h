@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.2.2/Polygon_mesh_processing/include/CGAL/Polygon_mesh_processing/distance.h $
-// $Id: distance.h 26eb790 2020-06-18T12:46:46+02:00 Mael Rouxel-Labbé
+// $URL: https://github.com/CGAL/cgal/blob/v5.3-beta1/Polygon_mesh_processing/include/CGAL/Polygon_mesh_processing/distance.h $
+// $Id: distance.h 0d66e19 2020-07-24T17:05:10+02:00 Mael Rouxel-Labbé
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -866,8 +866,8 @@ sample_triangle_mesh(const TriangleMesh& tm,
  *
  * @tparam PointRange a model of the concept `RandomAccessContainer` whose value type is the point type.
  * @tparam TriangleRange a model of the concept `RandomAccessContainer`
- *                      whose value_type is itself a model of the concept `RandomAccessContainer`
- *                      whose value_type is an unsigned integral value.
+ *                      whose `value_type` is itself a model of the concept `RandomAccessContainer`
+ *                      whose `value_type` is an unsigned integral value.
  * @tparam PointOutputIterator a model of `OutputIterator` holding objects of the same type as `PointRange`'s value type
  * @tparam NamedParameters a sequence of \ref bgl_namedparameters "Named Parameters"
  *
