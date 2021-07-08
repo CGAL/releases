@@ -3,7 +3,7 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.3-beta1/Classification/include/CGAL/Classification/Cluster.h $
+// $URL: https://github.com/CGAL/cgal/blob/v5.3/Classification/include/CGAL/Classification/Cluster.h $
 // $Id: Cluster.h 3b70343 2020-11-16T16:19:43+01:00 Maxime Gimeno
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //

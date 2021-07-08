@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.3-beta1/Point_set_3/include/CGAL/Point_set_3/IO.h $
-// $Id: IO.h fb6f703 2021-05-04T14:07:49+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v5.3/Point_set_3/include/CGAL/Point_set_3/IO.h $
+// $Id: IO.h c2b7cc8 2021-06-03T12:45:38+02:00 Maxime Gimeno
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -151,10 +151,10 @@ bool read_point_set(const std::string& fname, CGAL::Point_set_3<Point, Vector>& 
 {
   return read_point_set(fname, ps, parameters::all_default());
 }
+/// \endcond
 
 } // namespace IO
 
-/// \endcond
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////

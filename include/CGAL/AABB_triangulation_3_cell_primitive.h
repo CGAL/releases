@@ -3,7 +3,7 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.3-beta1/AABB_tree/include/CGAL/AABB_triangulation_3_cell_primitive.h $
+// $URL: https://github.com/CGAL/cgal/blob/v5.3/AABB_tree/include/CGAL/AABB_triangulation_3_cell_primitive.h $
 // $Id: AABB_triangulation_3_cell_primitive.h e2ea93d 2021-01-19T13:06:16+01:00 Dmitry Anisimov
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //

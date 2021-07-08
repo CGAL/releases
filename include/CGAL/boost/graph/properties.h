@@ -2,7 +2,7 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.3-beta1/BGL/include/CGAL/boost/graph/properties.h $
+// $URL: https://github.com/CGAL/cgal/blob/v5.3/BGL/include/CGAL/boost/graph/properties.h $
 // $Id: properties.h 0d66e19 2020-07-24T17:05:10+02:00 Mael Rouxel-Labbé
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //

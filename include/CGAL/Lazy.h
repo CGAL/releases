@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.3-beta1/Filtered_kernel/include/CGAL/Lazy.h $
-// $Id: Lazy.h 00c185b 2021-03-12T12:06:20+01:00 Dmitry Anisimov
+// $URL: https://github.com/CGAL/cgal/blob/v5.3/Filtered_kernel/include/CGAL/Lazy.h $
+// $Id: Lazy.h 874c1ee 2021-06-23T09:40:31+02:00 Maxime Gimeno
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -236,6 +236,7 @@ template <typename AT_, typename ET, typename E2A>
 class Lazy_rep : public Rep, public Depth_base
 {
   Lazy_rep (const Lazy_rep&) = delete; // cannot be copied.
+  Lazy_rep& operator= (const Lazy_rep&) = delete; // cannot be copied.
 
 public:
 
@@ -246,6 +247,28 @@ public:
 
   Lazy_rep ()
     : at(), et(nullptr){}
+
+  //move-constructor
+  Lazy_rep (Lazy_rep&& other)
+    : at(std::move(other.at)), et(other.et)
+  {
+    other.et = nullptr;
+    this->count = std::move(other.count);
+  }
+
+  //move-assignment
+  Lazy_rep& operator= (Lazy_rep&& other)
+  {
+    if(this->et)
+    {
+      delete this->et;
+    }
+    this->et = other.et;
+    other.et = nullptr;
+    this->at = std::move(other.at);
+    this->count = std::move(other.count);
+    return *this;
+  }
 
   template<class A>
   Lazy_rep (A&& a)

@@ -3,7 +3,7 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.3-beta1/Point_set_processing_3/include/CGAL/IO/write_ply_points.h $
+// $URL: https://github.com/CGAL/cgal/blob/v5.3/Point_set_processing_3/include/CGAL/IO/write_ply_points.h $
 // $Id: write_ply_points.h 4e519a3 2021-05-05T13:15:37+02:00 Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //

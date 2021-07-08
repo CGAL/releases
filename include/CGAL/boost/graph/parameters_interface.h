@@ -2,8 +2,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.3-beta1/BGL/include/CGAL/boost/graph/parameters_interface.h $
-// $Id: parameters_interface.h fa4a31a 2021-04-21T15:26:48+02:00 Sebastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v5.3/BGL/include/CGAL/boost/graph/parameters_interface.h $
+// $Id: parameters_interface.h ec7a211 2021-06-22T14:22:32+02:00 Jane Tournois
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -102,6 +102,9 @@ CGAL_add_named_parameter(use_angle_smoothing_t, use_angle_smoothing, use_angle_s
 CGAL_add_named_parameter(use_area_smoothing_t, use_area_smoothing, use_area_smoothing)
 CGAL_add_named_parameter(use_Delaunay_flips_t, use_Delaunay_flips, use_Delaunay_flips)
 CGAL_add_named_parameter(do_project_t, do_project, do_project)
+CGAL_add_named_parameter(do_split_t, do_split, do_split)
+CGAL_add_named_parameter(do_collapse_t, do_collapse, do_collapse)
+CGAL_add_named_parameter(do_flip_t, do_flip, do_flip)
 CGAL_add_named_parameter(do_orientation_tests_t, do_orientation_tests, do_orientation_tests)
 CGAL_add_named_parameter(do_self_intersection_tests_t, do_self_intersection_tests, do_self_intersection_tests)
 CGAL_add_named_parameter(error_codes_t, error_codes, error_codes)

@@ -3,7 +3,7 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.3-beta1/STL_Extension/include/CGAL/Handle_with_policy.h $
+// $URL: https://github.com/CGAL/cgal/blob/v5.3/STL_Extension/include/CGAL/Handle_with_policy.h $
 // $Id: Handle_with_policy.h 0d66e19 2020-07-24T17:05:10+02:00 Mael Rouxel-Labbé
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //

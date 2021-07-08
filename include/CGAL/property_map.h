@@ -3,7 +3,7 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.3-beta1/Property_map/include/CGAL/property_map.h $
+// $URL: https://github.com/CGAL/cgal/blob/v5.3/Property_map/include/CGAL/property_map.h $
 // $Id: property_map.h 1794620 2021-04-01T09:43:14+02:00 Simon Giraudot
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //

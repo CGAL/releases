@@ -3,7 +3,7 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.3-beta1/Polyhedron/include/CGAL/IO/Polyhedron_geomview_ostream.h $
+// $URL: https://github.com/CGAL/cgal/blob/v5.3/Polyhedron/include/CGAL/IO/Polyhedron_geomview_ostream.h $
 // $Id: Polyhedron_geomview_ostream.h f963191 2020-10-14T15:32:59+02:00 Mael Rouxel-Labbé
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //

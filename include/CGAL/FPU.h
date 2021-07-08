@@ -7,7 +7,7 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.3-beta1/Number_types/include/CGAL/FPU.h $
+// $URL: https://github.com/CGAL/cgal/blob/v5.3/Number_types/include/CGAL/FPU.h $
 // $Id: FPU.h c26cb00 2021-03-25T12:52:20+09:00 Brian Spilsbury
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //

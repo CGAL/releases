@@ -3,7 +3,7 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.3-beta1/Intersections_3/include/CGAL/Intersections_3/Plane_3_Plane_3.h $
+// $URL: https://github.com/CGAL/cgal/blob/v5.3/Intersections_3/include/CGAL/Intersections_3/Plane_3_Plane_3.h $
 // $Id: Plane_3_Plane_3.h d5a5b20 2021-02-19T20:23:20+00:00 Andreas Fabri
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //

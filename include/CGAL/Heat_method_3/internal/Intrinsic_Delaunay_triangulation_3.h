@@ -3,7 +3,7 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.3-beta1/Heat_method_3/include/CGAL/Heat_method_3/internal/Intrinsic_Delaunay_triangulation_3.h $
+// $URL: https://github.com/CGAL/cgal/blob/v5.3/Heat_method_3/include/CGAL/Heat_method_3/internal/Intrinsic_Delaunay_triangulation_3.h $
 // $Id: Intrinsic_Delaunay_triangulation_3.h 40197ad 2020-12-08T16:33:01+01:00 Jane Tournois
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //

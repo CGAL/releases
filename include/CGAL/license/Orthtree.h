@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.3-beta1/Installation/include/CGAL/license/Orthtree.h $
-// $Id: Orthtree.h 616cd5a 2021-04-01T08:55:51+02:00 Simon Giraudot
+// $URL: https://github.com/CGAL/cgal/blob/v5.3/Installation/include/CGAL/license/Orthtree.h $
+// $Id: Orthtree.h 8bc8f70 2021-06-17T11:44:41+02:00 Dmitry Anisimov
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s) : Andreas Fabri
@@ -24,12 +24,12 @@
 #    if defined(CGAL_LICENSE_WARNING)
 
        CGAL_pragma_warning("Your commercial license for CGAL does not cover "
-                           "this release of the  package.")
+                           "this release of the Quadtrees, Octrees, and Orthtrees package.")
 #    endif
 
 #    ifdef CGAL_LICENSE_ERROR
 #      error "Your commercial license for CGAL does not cover this release \
-              of the  package. \
+              of the Quadtrees, Octrees, and Orthtrees package. \
               You get this error, as you defined CGAL_LICENSE_ERROR."
 #    endif // CGAL_LICENSE_ERROR
 
@@ -39,13 +39,13 @@
 
 #  if defined(CGAL_LICENSE_WARNING)
      CGAL_pragma_warning("\nThe macro CGAL_ORTHTREE_COMMERCIAL_LICENSE is not defined."
-                          "\nYou use the CGAL  package under "
+                          "\nYou use the CGAL Quadtrees, Octrees, and Orthtrees package under "
                           "the terms of the GPLv3+.")
 #  endif // CGAL_LICENSE_WARNING
 
 #  ifdef CGAL_LICENSE_ERROR
 #    error "The macro CGAL_ORTHTREE_COMMERCIAL_LICENSE is not defined.\
-            You use the CGAL  package under the terms of \
+            You use the CGAL Quadtrees, Octrees, and Orthtrees package under the terms of \
             the GPLv3+. You get this error, as you defined CGAL_LICENSE_ERROR."
 #  endif // CGAL_LICENSE_ERROR
 

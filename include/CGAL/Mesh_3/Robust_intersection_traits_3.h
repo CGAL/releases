@@ -3,7 +3,7 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.3-beta1/Mesh_3/include/CGAL/Mesh_3/Robust_intersection_traits_3.h $
+// $URL: https://github.com/CGAL/cgal/blob/v5.3/Mesh_3/include/CGAL/Mesh_3/Robust_intersection_traits_3.h $
 // $Id: Robust_intersection_traits_3.h 3127190 2020-12-08T12:48:04+01:00 Dmitry Anisimov
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //

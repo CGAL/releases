@@ -3,7 +3,7 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.3-beta1/NewKernel_d/include/CGAL/NewKernel_d/Cartesian_static_filters.h $
+// $URL: https://github.com/CGAL/cgal/blob/v5.3/NewKernel_d/include/CGAL/NewKernel_d/Cartesian_static_filters.h $
 // $Id: Cartesian_static_filters.h ece8478 2020-12-31T16:23:31+01:00 Marc Glisse
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //

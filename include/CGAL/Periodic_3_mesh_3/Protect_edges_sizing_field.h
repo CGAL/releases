@@ -4,7 +4,7 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.3-beta1/Periodic_3_mesh_3/include/CGAL/Periodic_3_mesh_3/Protect_edges_sizing_field.h $
+// $URL: https://github.com/CGAL/cgal/blob/v5.3/Periodic_3_mesh_3/include/CGAL/Periodic_3_mesh_3/Protect_edges_sizing_field.h $
 // $Id: Protect_edges_sizing_field.h 4e519a3 2021-05-05T13:15:37+02:00 Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //

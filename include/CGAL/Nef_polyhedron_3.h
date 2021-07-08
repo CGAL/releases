@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.3-beta1/Nef_3/include/CGAL/Nef_polyhedron_3.h $
-// $Id: Nef_polyhedron_3.h ac9b5b2 2021-04-13T19:38:28+01:00 Andreas Fabri
+// $URL: https://github.com/CGAL/cgal/blob/v5.3/Nef_3/include/CGAL/Nef_polyhedron_3.h $
+// $Id: Nef_polyhedron_3.h 458ecf1 2021-06-08T17:32:12+01:00 Giles Bathgate
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -1851,29 +1851,6 @@ protected:
       CGAL_forall_halffacets(fi,snc()) {
         if(is_standard(fi) || ninety) {
           fi->plane() = fi->plane().transform( aff);
-#ifdef CGAL_NEF3_FACET_WITH_BOX
-          typedef typename Halffacet::Box Box;
-          bool first = true;
-          Halffacet_cycle_iterator cycle_it = fi->facet_cycles_begin();
-          if( cycle_it.is_shalfedge() ) {
-            SHalfedge_iterator edge_it(cycle_it);
-            SHalfedge_around_facet_circulator
-              start( edge_it ), end( edge_it );
-            CGAL_For_all( start, end ) {
-              const Point_3& p = start->source()->source()->point();
-              typename Kernel::FT q[3];
-              q[0] = p.x();
-              q[1] = p.y();
-              q[2] = p.z();
-              if(first) {
-                fi->b = Box(q,q);
-                first = false;
-              } else
-                fi->b.extend(q);
-            }
-          } else
-            CGAL_error_msg( "is facet first cycle a SHalfloop?");
-#endif
         }
       }
 

@@ -3,7 +3,7 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.3-beta1/Tetrahedral_remeshing/examples/Tetrahedral_remeshing/tetrahedral_remeshing_generate_input.h $
+// $URL: https://github.com/CGAL/cgal/blob/v5.3/Tetrahedral_remeshing/examples/Tetrahedral_remeshing/tetrahedral_remeshing_generate_input.h $
 // $Id: tetrahedral_remeshing_generate_input.h 25b0dc5 2020-05-27T19:04:46+02:00 Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //

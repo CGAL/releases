@@ -3,7 +3,7 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.3-beta1/Algebraic_foundations/include/CGAL/Needs_parens_as_product.h $
+// $URL: https://github.com/CGAL/cgal/blob/v5.3/Algebraic_foundations/include/CGAL/Needs_parens_as_product.h $
 // $Id: Needs_parens_as_product.h 4e519a3 2021-05-05T13:15:37+02:00 Sébastien Loriot
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //

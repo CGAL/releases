@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.3-beta1/Nef_3/include/CGAL/Nef_3/Nef_box.h $
-// $Id: Nef_box.h dd0d629 2021-04-15T08:28:40+01:00 Andreas Fabri
+// $URL: https://github.com/CGAL/cgal/blob/v5.3/Nef_3/include/CGAL/Nef_3/Nef_box.h $
+// $Id: Nef_box.h 458ecf1 2021-06-08T17:32:12+01:00 Giles Bathgate
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Peter Hachenberger    <hachenberger@mpi-sb.mpg.de>
@@ -87,17 +87,6 @@ class Nef_box : public Box_intersection_d::Box_d< double, 3 > {
       init( true );
     } else {
       init( false );
-#ifdef CGAL_NEF3_FACET_WITH_BOX
-      std::pair<double, double> q[3];
-      q[0] = CGAL::to_interval( f->b.min_coord(0) );
-      q[1] = CGAL::to_interval( f->b.min_coord(1) );
-      q[2] = CGAL::to_interval( f->b.min_coord(2) );
-      Box_intersection_d::Box_d< double, 3 >::extend(q);
-      q[0] = CGAL::to_interval( f->b.max_coord(0) );
-      q[1] = CGAL::to_interval( f->b.max_coord(1) );
-      q[2] = CGAL::to_interval( f->b.max_coord(2) );
-      Box_intersection_d::Box_d< double, 3 >::extend(q);
-#else
       Halffacet_cycle_iterator cycle_it = f->facet_cycles_begin();
       if( cycle_it.is_shalfedge() ) {
         SHalfedge_iterator edge_it(cycle_it);
@@ -109,7 +98,6 @@ class Nef_box : public Box_intersection_d::Box_d< double, 3 > {
         }
       } else
         CGAL_error_msg( "is facet first cycle a SHalfloop?");
-#endif
     }
   }
 

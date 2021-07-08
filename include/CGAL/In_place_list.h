@@ -7,8 +7,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.3-beta1/STL_Extension/include/CGAL/In_place_list.h $
-// $Id: In_place_list.h 0dcadee 2021-04-28T17:54:19+01:00 Giles Bathgate
+// $URL: https://github.com/CGAL/cgal/blob/v5.3/STL_Extension/include/CGAL/In_place_list.h $
+// $Id: In_place_list.h 18ca811 2021-05-27T12:36:17+02:00 Sébastien Loriot
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -179,7 +179,7 @@ namespace internal {
 template <class T, class Alloc>
   std::size_t hash_value(const In_place_list_iterator<T,Alloc>&  i)
   {
-    T* ptr = &*i;
+    T* ptr = i.operator->();
     return reinterpret_cast<std::size_t>(ptr)/ sizeof(T);
   }
 
@@ -187,7 +187,7 @@ template <class T, class Alloc>
 template <class T, class Alloc>
   std::size_t hash_value(const In_place_list_const_iterator<T,Alloc>&  i)
   {
-    const T* ptr = &*i;
+    const T* ptr = i.operator->();
     return reinterpret_cast<std::size_t>(ptr)/ sizeof(T);
    }
 
@@ -792,7 +792,7 @@ namespace std {
 
     std::size_t operator()(const CGAL::internal::In_place_list_iterator<T, Alloc>& i) const
     {
-      const T* ptr = &*i;
+      const T* ptr = i.operator->();
       return reinterpret_cast<std::size_t>(ptr)/ sizeof(T);
     }
   };
@@ -803,7 +803,7 @@ namespace std {
 
     std::size_t operator()(const CGAL::internal::In_place_list_const_iterator<T, Alloc>& i) const
     {
-      const T* ptr = &*i;
+      const T* ptr =i.operator->();
       return reinterpret_cast<std::size_t>(ptr)/ sizeof(T);
     }
   };

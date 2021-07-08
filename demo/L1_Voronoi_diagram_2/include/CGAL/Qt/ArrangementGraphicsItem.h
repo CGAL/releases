@@ -3,7 +3,7 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.3-beta1/GraphicsView/demo/L1_Voronoi_diagram_2/include/CGAL/Qt/ArrangementGraphicsItem.h $
+// $URL: https://github.com/CGAL/cgal/blob/v5.3/GraphicsView/demo/L1_Voronoi_diagram_2/include/CGAL/Qt/ArrangementGraphicsItem.h $
 // $Id: ArrangementGraphicsItem.h cc99fd9 2021-02-19T16:02:12+01:00 Maxime Gimeno
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //

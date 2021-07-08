@@ -1,6 +1,6 @@
 // Copyright (c) 2007-2015  GeometryFactory (France).  All rights reserved.
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.3-beta1/BGL/include/CGAL/boost/graph/named_params_helper.h $
+// $URL: https://github.com/CGAL/cgal/blob/v5.3/BGL/include/CGAL/boost/graph/named_params_helper.h $
 // $Id: named_params_helper.h c70da09 2021-02-18T15:26:56+01:00 Laurent Rineau
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //

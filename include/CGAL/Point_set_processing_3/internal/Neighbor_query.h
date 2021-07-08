@@ -3,7 +3,7 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.3-beta1/Point_set_processing_3/include/CGAL/Point_set_processing_3/internal/Neighbor_query.h $
+// $URL: https://github.com/CGAL/cgal/blob/v5.3/Point_set_processing_3/include/CGAL/Point_set_processing_3/internal/Neighbor_query.h $
 // $Id: Neighbor_query.h efc0c52 2021-01-15T10:02:00+01:00 Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //

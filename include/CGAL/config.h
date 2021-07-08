@@ -7,8 +7,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.3-beta1/Installation/include/CGAL/config.h $
-// $Id: config.h 59a0da4 2021-05-19T17:23:53+02:00 Laurent Rineau
+// $URL: https://github.com/CGAL/cgal/blob/v5.3/Installation/include/CGAL/config.h $
+// $Id: config.h 2a54687 2021-06-04T13:52:14+02:00 albert-github
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -493,7 +493,7 @@ using std::max;
 // Macros to detect features of clang. We define them for the other
 // compilers.
 // See http://clang.llvm.org/docs/LanguageExtensions.html
-// See also http://en.cppreference.com/w/cpp/experimental/feature_test
+// See also https://en.cppreference.com/w/cpp/experimental/feature_test
 #ifndef __has_feature
   #define __has_feature(x) 0  // Compatibility with non-clang compilers.
 #endif

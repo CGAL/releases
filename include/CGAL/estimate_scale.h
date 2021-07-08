@@ -4,7 +4,7 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.3-beta1/Point_set_processing_3/include/CGAL/estimate_scale.h $
+// $URL: https://github.com/CGAL/cgal/blob/v5.3/Point_set_processing_3/include/CGAL/estimate_scale.h $
 // $Id: estimate_scale.h 9939011 2020-06-21T15:54:21+02:00 Mael Rouxel-Labbé
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //

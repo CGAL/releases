@@ -3,7 +3,7 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.3-beta1/Polygon_mesh_processing/include/CGAL/Polygon_mesh_processing/connected_components.h $
+// $URL: https://github.com/CGAL/cgal/blob/v5.3/Polygon_mesh_processing/include/CGAL/Polygon_mesh_processing/connected_components.h $
 // $Id: connected_components.h 10ba347 2020-10-02T15:20:53+02:00 Sebastien Loriot
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //

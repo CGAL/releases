@@ -3,7 +3,7 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.3-beta1/Mesh_3/include/CGAL/Mesh_3/initialize_triangulation_from_labeled_image.h $
+// $URL: https://github.com/CGAL/cgal/blob/v5.3/Mesh_3/include/CGAL/Mesh_3/initialize_triangulation_from_labeled_image.h $
 // $Id: initialize_triangulation_from_labeled_image.h 8e492aa 2021-02-12T16:53:45+01:00 Jane Tournois
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //

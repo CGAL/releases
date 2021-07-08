@@ -3,7 +3,7 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.3-beta1/Tetrahedral_remeshing/include/CGAL/Tetrahedral_remeshing/internal/tetrahedral_adaptive_remeshing_impl.h $
+// $URL: https://github.com/CGAL/cgal/blob/v5.3/Tetrahedral_remeshing/include/CGAL/Tetrahedral_remeshing/internal/tetrahedral_adaptive_remeshing_impl.h $
 // $Id: tetrahedral_adaptive_remeshing_impl.h e96f846 2020-12-16T17:52:16+01:00 Laurent Rineau
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //

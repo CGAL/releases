@@ -3,7 +3,7 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.3-beta1/Polygon_mesh_processing/include/CGAL/Polygon_mesh_processing/Weights.h $
+// $URL: https://github.com/CGAL/cgal/blob/v5.3/Polygon_mesh_processing/include/CGAL/Polygon_mesh_processing/Weights.h $
 // $Id: Weights.h d80d2ee 2020-11-19T16:57:34+01:00 Maxime Gimeno
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //

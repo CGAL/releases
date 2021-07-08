@@ -5,7 +5,7 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.3-beta1/Filtered_kernel/include/CGAL/internal/Static_filters/Do_intersect_3.h $
+// $URL: https://github.com/CGAL/cgal/blob/v5.3/Filtered_kernel/include/CGAL/internal/Static_filters/Do_intersect_3.h $
 // $Id: Do_intersect_3.h c091c7f 2021-04-28T15:24:15+02:00 Laurent Rineau
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //

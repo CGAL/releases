@@ -3,7 +3,7 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.3-beta1/Triangulation_2/include/CGAL/Triangulation_2/internal/Triangulation_2_projection_traits_base_3.h $
+// $URL: https://github.com/CGAL/cgal/blob/v5.3/Triangulation_2/include/CGAL/Triangulation_2/internal/Triangulation_2_projection_traits_base_3.h $
 // $Id: Triangulation_2_projection_traits_base_3.h 1a040c8 2021-02-19T07:59:59+01:00 Laurent Rineau
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //

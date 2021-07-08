@@ -3,7 +3,7 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.3-beta1/Filtered_kernel/include/CGAL/internal/Static_filters/Collinear_3.h $
+// $URL: https://github.com/CGAL/cgal/blob/v5.3/Filtered_kernel/include/CGAL/internal/Static_filters/Collinear_3.h $
 // $Id: Collinear_3.h d5fdc05 2021-01-05T15:56:10+00:00 Andreas Fabri
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //

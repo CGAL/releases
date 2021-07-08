@@ -7,7 +7,7 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.3-beta1/Geomview/include/CGAL/IO/Geomview_stream.h $
+// $URL: https://github.com/CGAL/cgal/blob/v5.3/Geomview/include/CGAL/IO/Geomview_stream.h $
 // $Id: Geomview_stream.h 0583a48 2020-10-14T15:32:27+02:00 Mael Rouxel-Labbé
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //

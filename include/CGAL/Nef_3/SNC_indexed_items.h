@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.3-beta1/Nef_3/include/CGAL/Nef_3/SNC_indexed_items.h $
-// $Id: SNC_indexed_items.h 59a0da4 2021-05-19T17:23:53+02:00 Laurent Rineau
+// $URL: https://github.com/CGAL/cgal/blob/v5.3/Nef_3/include/CGAL/Nef_3/SNC_indexed_items.h $
+// $Id: SNC_indexed_items.h 2a54687 2021-06-04T13:52:14+02:00 albert-github
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -37,7 +37,7 @@ class Index_generator {
   static int get_unique_index()
   {
     // initialized with 0
-    // http://en.cppreference.com/w/cpp/language/zero_initialization
+    // https://en.cppreference.com/w/cpp/language/zero_initialization
 #ifdef CGAL_NO_ATOMIC
     static int unique;
 #else

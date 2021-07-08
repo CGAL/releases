@@ -3,7 +3,7 @@
 //
 // This file is a part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.3-beta1/Barycentric_coordinates_2/include/CGAL/Barycentric_coordinates_2/Segment_coordinates_2.h $
+// $URL: https://github.com/CGAL/cgal/blob/v5.3/Barycentric_coordinates_2/include/CGAL/Barycentric_coordinates_2/Segment_coordinates_2.h $
 // $Id: Segment_coordinates_2.h 3ea0952 2020-11-29T12:39:33+01:00 albert-github
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //

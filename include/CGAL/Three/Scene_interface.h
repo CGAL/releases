@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.3-beta1/Three/include/CGAL/Three/Scene_interface.h $
-// $Id: Scene_interface.h 26355e2 2020-06-25T12:31:21+02:00 Mael Rouxel-Labbé
+// $URL: https://github.com/CGAL/cgal/blob/v5.3/Three/include/CGAL/Three/Scene_interface.h $
+// $Id: Scene_interface.h 7bfa33f 2021-06-04T14:01:47+02:00 albert-github
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -26,15 +26,15 @@
 */
 enum RenderingMode
 {
-  Points = 0, //! Renders only points without lighting.
-  PointsPlusNormals, //!Renders points and normals.
-  Wireframe, //!Renders only edges.
-  Flat, //!Renders only faces, with a lighting per face.
-  FlatPlusEdges, //!Renders flat faces and edges.
-  Gouraud, //!Renders only faces, with a lighting per vertex.
-  GouraudPlusEdges, //!Renders faces with a lighting per vertex, and edges.
-  ShadedPoints, //!Renders only points with lighting.
-  NumberOfRenderingMode //!Number of values in this enum.
+  Points = 0,           //!< Renders only points without lighting.
+  PointsPlusNormals,    //!< Renders points and normals.
+  Wireframe,            //!< Renders only edges.
+  Flat,                 //!< Renders only faces, with a lighting per face.
+  FlatPlusEdges,        //!< Renders flat faces and edges.
+  Gouraud,              //!< Renders only faces, with a lighting per vertex.
+  GouraudPlusEdges,     //!< Renders faces with a lighting per vertex, and edges.
+  ShadedPoints,         //!< Renders only points with lighting.
+  NumberOfRenderingMode //!< Number of values in this enum.
 };
 
 

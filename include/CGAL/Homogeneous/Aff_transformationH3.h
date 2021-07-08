@@ -7,7 +7,7 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.3-beta1/Homogeneous_kernel/include/CGAL/Homogeneous/Aff_transformationH3.h $
+// $URL: https://github.com/CGAL/cgal/blob/v5.3/Homogeneous_kernel/include/CGAL/Homogeneous/Aff_transformationH3.h $
 // $Id: Aff_transformationH3.h 69a4890 2021-04-30T11:31:02+02:00 Sébastien Loriot
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
