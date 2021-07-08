@@ -7,7 +7,7 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.1.4/Installation/include/CGAL/config.h $
+// $URL: https://github.com/CGAL/cgal/blob/v5.1.5/Installation/include/CGAL/config.h $
 // $Id: config.h e9b7595 2021-05-04T11:45:57+02:00 Maxime Gimeno
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //

@@ -3,7 +3,7 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.1.4/Polygon_mesh_processing/include/CGAL/Polygon_mesh_processing/manifoldness.h $
+// $URL: https://github.com/CGAL/cgal/blob/v5.1.5/Polygon_mesh_processing/include/CGAL/Polygon_mesh_processing/manifoldness.h $
 // $Id: manifoldness.h 4ef0295 2021-01-20T15:53:52+01:00 Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //

@@ -3,7 +3,7 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.1.4/Arrangement_on_surface_2/include/CGAL/Arr_geometry_traits/Bezier_point_2.h $
+// $URL: https://github.com/CGAL/cgal/blob/v5.1.5/Arrangement_on_surface_2/include/CGAL/Arr_geometry_traits/Bezier_point_2.h $
 // $Id: Bezier_point_2.h ff93e2b 2020-08-11T13:18:30+02:00 Ahmed Essam
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //

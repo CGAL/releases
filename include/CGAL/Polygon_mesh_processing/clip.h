@@ -3,7 +3,7 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.1.4/Polygon_mesh_processing/include/CGAL/Polygon_mesh_processing/clip.h $
+// $URL: https://github.com/CGAL/cgal/blob/v5.1.5/Polygon_mesh_processing/include/CGAL/Polygon_mesh_processing/clip.h $
 // $Id: clip.h a595e52 2021-02-09T18:43:05+01:00 Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //

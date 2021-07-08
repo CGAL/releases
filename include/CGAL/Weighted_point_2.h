@@ -7,7 +7,7 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.1.4/Kernel_23/include/CGAL/Weighted_point_2.h $
+// $URL: https://github.com/CGAL/cgal/blob/v5.1.5/Kernel_23/include/CGAL/Weighted_point_2.h $
 // $Id: Weighted_point_2.h e5019d0 2020-10-20T13:27:26+02:00 Sébastien Loriot
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //

@@ -7,7 +7,7 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.1.4/Kernel_23/include/CGAL/Point_2.h $
+// $URL: https://github.com/CGAL/cgal/blob/v5.1.5/Kernel_23/include/CGAL/Point_2.h $
 // $Id: Point_2.h 3ebe883 2020-03-01T12:50:13+01:00 Marc Glisse
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //

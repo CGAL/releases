@@ -3,7 +3,7 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.1.4/Surface_sweep_2/include/CGAL/Surface_sweep_2/No_intersection_surface_sweep_2_impl.h $
+// $URL: https://github.com/CGAL/cgal/blob/v5.1.5/Surface_sweep_2/include/CGAL/Surface_sweep_2/No_intersection_surface_sweep_2_impl.h $
 // $Id: No_intersection_surface_sweep_2_impl.h c45ac23 2020-11-05T08:49:36+01:00 Laurent Rineau
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //

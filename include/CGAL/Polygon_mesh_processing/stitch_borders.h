@@ -3,7 +3,7 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.1.4/Polygon_mesh_processing/include/CGAL/Polygon_mesh_processing/stitch_borders.h $
+// $URL: https://github.com/CGAL/cgal/blob/v5.1.5/Polygon_mesh_processing/include/CGAL/Polygon_mesh_processing/stitch_borders.h $
 // $Id: stitch_borders.h 1f67fcc 2020-10-09T17:34:29+02:00 Laurent Rineau
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //

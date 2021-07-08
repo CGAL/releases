@@ -8,7 +8,7 @@
 // https://www.boost.org/LICENSE_1_0.txt)
 //=======================================================================
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.1.4/STL_Extension/include/CGAL/internal/boost/array_binary_tree.hpp $
+// $URL: https://github.com/CGAL/cgal/blob/v5.1.5/STL_Extension/include/CGAL/internal/boost/array_binary_tree.hpp $
 // $Id: array_binary_tree.hpp 590612a 2020-03-26T13:25:16+01:00 Sébastien Loriot
 // SPDX-License-Identifier: BSL-1.0
 //
