@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.2.2/Triangulation_2/include/CGAL/Triangulation_2/internal/Polyline_constraint_hierarchy_2.h $
-// $Id: Polyline_constraint_hierarchy_2.h bdc2f3e 2020-10-20T13:28:12+02:00 Sebastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v5.2.3/Triangulation_2/include/CGAL/Triangulation_2/internal/Polyline_constraint_hierarchy_2.h $
+// $Id: Polyline_constraint_hierarchy_2.h 1948cf3 2021-06-15T14:21:35+02:00 Andreas Fabri
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -46,12 +46,13 @@ private:
   class Node {
   public:
     explicit Node(Vertex_handle vh, bool input = false)
-      : vertex_(vh), id(-1), input(input)
+      : vertex_(vh), point_(vertex_->point()), id(-1), input(input)
     {}
-    const Point& point() const { return vertex_->point(); }
+    const Point& point() const { return point_; }
     Vertex_handle vertex() const { return vertex_; }
   private:
     Vertex_handle vertex_;
+    Point point_;
   public:
     int id;
     bool input;
@@ -70,7 +71,7 @@ public:
     >
   {
   public:
-    Point_it() : Vertex_it::iterator_adaptor_() {}
+    Point_it() : Point_it::iterator_adaptor_() {}
     Point_it(typename Vertex_list::all_iterator it) : Point_it::iterator_adaptor_(it) {}
   private:
     friend class boost::iterator_core_access;
@@ -633,10 +634,12 @@ Polyline_constraint_hierarchy_2<T,Compare,Point>::remove_points_without_correspo
 {
   std::size_t n = 0;
   for(Point_it it = points_in_constraint_begin(cid);
-      it != points_in_constraint_end(cid); ++it) {
+      it != points_in_constraint_end(cid);) {
     if(cid.vl_ptr()->is_skipped(it.base())) {
       it = cid.vl_ptr()->erase(it.base());
       ++n;
+    }else{
+      ++it;
     }
   }
   return n;

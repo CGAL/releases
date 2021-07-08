@@ -11,7 +11,7 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.2.2/GraphicsView/demo/Periodic_2_triangulation_2/include/CGAL/Qt/PeriodicTriangulationGraphicsItem.h $
+// $URL: https://github.com/CGAL/cgal/blob/v5.2.3/GraphicsView/demo/Periodic_2_triangulation_2/include/CGAL/Qt/PeriodicTriangulationGraphicsItem.h $
 // $Id: PeriodicTriangulationGraphicsItem.h 590612a 2020-03-26T13:25:16+01:00 Sébastien Loriot
 //
 //

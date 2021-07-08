@@ -3,7 +3,7 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.2.2/Point_set_processing_3/include/CGAL/bilateral_smooth_point_set.h $
+// $URL: https://github.com/CGAL/cgal/blob/v5.2.3/Point_set_processing_3/include/CGAL/bilateral_smooth_point_set.h $
 // $Id: bilateral_smooth_point_set.h ab14acf 2021-03-23T13:14:41+01:00 Simon Giraudot
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //

@@ -7,7 +7,7 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.2.2/STL_Extension/include/CGAL/assertions.h $
+// $URL: https://github.com/CGAL/cgal/blob/v5.2.3/STL_Extension/include/CGAL/assertions.h $
 // $Id: assertions.h 822bc55 2020-03-27T08:28:48+01:00 Sébastien Loriot
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //

@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.2.2/Three/include/CGAL/Three/Viewer_interface.h $
-// $Id: Viewer_interface.h af7e1a8 2020-10-16T14:32:12+02:00 Maxime Gimeno
+// $URL: https://github.com/CGAL/cgal/blob/v5.2.3/Three/include/CGAL/Three/Viewer_interface.h $
+// $Id: Viewer_interface.h 18c7e6f 2021-05-31T14:09:07+02:00 Maxime Gimeno
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -287,6 +287,8 @@ public:
   //!  A vector indicating the scaling factors to apply to the scene when displaying it.
   //!  It can be useful when a scene is very large along one of it's coordinates, making it hard to visualize it.
   virtual const QVector3D& scaler() const = 0;
+
+  virtual void showEntireScene() = 0;
 }; // end class Viewer_interface
 }
 }

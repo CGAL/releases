@@ -3,7 +3,7 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.2.2/Arrangement_on_surface_2/include/CGAL/Surface_sweep_2/Arr_vert_decomp_ss_visitor.h $
+// $URL: https://github.com/CGAL/cgal/blob/v5.2.3/Arrangement_on_surface_2/include/CGAL/Surface_sweep_2/Arr_vert_decomp_ss_visitor.h $
 // $Id: Arr_vert_decomp_ss_visitor.h 3c5552b 2020-06-30T21:22:40+03:00 Efi Fogel
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //

@@ -3,7 +3,7 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.2.2/Arrangement_on_surface_2/include/CGAL/Arr_geometry_traits/Conic_x_monotone_arc_2.h $
+// $URL: https://github.com/CGAL/cgal/blob/v5.2.3/Arrangement_on_surface_2/include/CGAL/Arr_geometry_traits/Conic_x_monotone_arc_2.h $
 // $Id: Conic_x_monotone_arc_2.h 6fcbee1 2020-04-21T17:12:21+03:00 Efi Fogel
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //

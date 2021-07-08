@@ -7,7 +7,7 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.2.2/Number_types/include/CGAL/Counted_number.h $
+// $URL: https://github.com/CGAL/cgal/blob/v5.2.3/Number_types/include/CGAL/Counted_number.h $
 // $Id: Counted_number.h 3e03d50 2021-05-05T15:32:22+02:00 Maxime Gimeno
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //

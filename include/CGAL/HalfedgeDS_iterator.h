@@ -7,7 +7,7 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.2.2/HalfedgeDS/include/CGAL/HalfedgeDS_iterator.h $
+// $URL: https://github.com/CGAL/cgal/blob/v5.2.3/HalfedgeDS/include/CGAL/HalfedgeDS_iterator.h $
 // $Id: HalfedgeDS_iterator.h 1d3c8bb 2020-06-10T22:33:26+02:00 Laurent Rineau
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //

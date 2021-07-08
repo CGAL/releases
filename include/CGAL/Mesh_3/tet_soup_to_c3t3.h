@@ -3,7 +3,7 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.2.2/Mesh_3/include/CGAL/Mesh_3/tet_soup_to_c3t3.h $
+// $URL: https://github.com/CGAL/cgal/blob/v5.2.3/Mesh_3/include/CGAL/Mesh_3/tet_soup_to_c3t3.h $
 // $Id: tet_soup_to_c3t3.h efc903d 2020-09-10T10:22:09+02:00 Maxime Gimeno
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //

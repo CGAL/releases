@@ -2,7 +2,7 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.2.2/STL_Extension/include/CGAL/hash_openmesh.h $
+// $URL: https://github.com/CGAL/cgal/blob/v5.2.3/STL_Extension/include/CGAL/hash_openmesh.h $
 // $Id: hash_openmesh.h fa44e3c 2021-03-05T08:18:45+00:00 Andreas Fabri
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //

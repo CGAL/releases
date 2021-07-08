@@ -3,7 +3,7 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.2.2/Convex_hull_2/include/CGAL/Convex_hull_2/ch_bykat_impl.h $
+// $URL: https://github.com/CGAL/cgal/blob/v5.2.3/Convex_hull_2/include/CGAL/Convex_hull_2/ch_bykat_impl.h $
 // $Id: ch_bykat_impl.h 51086d5 2021-01-28T17:12:26+00:00 Andreas Fabri
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //

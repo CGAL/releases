@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.2.2/CGAL_ImageIO/include/CGAL/Image_3_vtk_interface.h $
-// $Id: Image_3_vtk_interface.h 0779373 2020-03-26T13:31:46+01:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v5.2.3/CGAL_ImageIO/include/CGAL/Image_3_vtk_interface.h $
+// $Id: Image_3_vtk_interface.h 9723f5e 2021-06-08T17:38:27+02:00 Adrien Lefieux
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Laurent Rineau
@@ -84,6 +84,7 @@ struct VTK_type_generator<boost::uint32_t> {
   typedef vtkUnsignedIntArray ArrayType;
 };
 
+inline
 ::vtkImageData* vtk_image_sharing_same_data_pointer(Image_3& image)
 {
   vtkImageData* vtk_image = vtkImageData::New();

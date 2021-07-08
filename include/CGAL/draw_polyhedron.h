@@ -3,7 +3,7 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.2.2/Polyhedron/include/CGAL/draw_polyhedron.h $
+// $URL: https://github.com/CGAL/cgal/blob/v5.2.3/Polyhedron/include/CGAL/draw_polyhedron.h $
 // $Id: draw_polyhedron.h b134ed8 2021-02-05T16:07:32+01:00 Laurent Rineau
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //

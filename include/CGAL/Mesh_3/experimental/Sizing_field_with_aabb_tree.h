@@ -3,7 +3,7 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.2.2/Mesh_3/include/CGAL/Mesh_3/experimental/Sizing_field_with_aabb_tree.h $
+// $URL: https://github.com/CGAL/cgal/blob/v5.2.3/Mesh_3/include/CGAL/Mesh_3/experimental/Sizing_field_with_aabb_tree.h $
 // $Id: Sizing_field_with_aabb_tree.h 1b323b8 2021-04-02T14:44:26+02:00 Jane Tournois
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //

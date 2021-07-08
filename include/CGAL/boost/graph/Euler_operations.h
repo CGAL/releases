@@ -2,7 +2,7 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.2.2/BGL/include/CGAL/boost/graph/Euler_operations.h $
+// $URL: https://github.com/CGAL/cgal/blob/v5.2.3/BGL/include/CGAL/boost/graph/Euler_operations.h $
 // $Id: Euler_operations.h 7c7f21e 2020-08-12T15:48:18+02:00 Sébastien Loriot
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
