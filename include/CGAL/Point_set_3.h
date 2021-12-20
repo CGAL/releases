@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.2.3/Point_set_3/include/CGAL/Point_set_3.h $
-// $Id: Point_set_3.h d257d99 2021-01-18T15:45:39+01:00 Simon Giraudot
+// $URL: https://github.com/CGAL/cgal/blob/v5.2.4/Point_set_3/include/CGAL/Point_set_3.h $
+// $Id: Point_set_3.h 590ddf8 2021-10-08T15:38:47+02:00 Mael Rouxel-Labbé
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -1107,7 +1107,7 @@ public:
     typedef Index key_type;
     typedef typename Property::value_type value_type;
     typedef value_type& reference;
-    typedef boost::lvalue_property_map_tag category;
+    typedef boost::read_write_property_map_tag category;
 
     Point_set* ps;
     Property* prop;
@@ -1118,7 +1118,7 @@ public:
                       Index ind=Index())
       : ps(ps), prop(prop), ind(ind) {}
 
-    friend void put(const Push_property_map& pm, Index& i, reference t)
+    friend void put(const Push_property_map& pm, Index& i, const value_type& t)
     {
       if(pm.ps->size() <= (pm.ind))
         pm.ps->insert();

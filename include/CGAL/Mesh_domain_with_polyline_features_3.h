@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.2.3/Mesh_3/include/CGAL/Mesh_domain_with_polyline_features_3.h $
-// $Id: Mesh_domain_with_polyline_features_3.h 58b10a3 2020-03-26T18:58:50+01:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v5.2.4/Mesh_3/include/CGAL/Mesh_domain_with_polyline_features_3.h $
+// $Id: Mesh_domain_with_polyline_features_3.h 590ddf8 2021-10-08T15:38:47+02:00 Mael Rouxel-Labbé
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -1117,25 +1117,29 @@ add_features(InputIterator first, InputIterator end,
 namespace details {
 
 template <typename PolylineWithContext>
-struct Get_content_from_polyline_with_context {
+struct Get_content_from_polyline_with_context
+{
   typedef Get_content_from_polyline_with_context Self;
-  typedef const PolylineWithContext& key_type;
-  typedef const typename PolylineWithContext::Bare_polyline& value_type;
-  typedef value_type reference;
+  typedef PolylineWithContext key_type;
+  typedef typename PolylineWithContext::Bare_polyline value_type;
+  typedef const value_type& reference;
   typedef boost::readable_property_map_tag category;
-  friend value_type get(const Self, key_type polyline) {
+
+  friend reference get(const Self&, const key_type& polyline) {
     return polyline.polyline_content;
   }
 }; // end Get_content_from_polyline_with_context<PolylineWithContext>
 
 template <typename PolylineWithContext>
-struct Get_patches_id_from_polyline_with_context {
+struct Get_patches_id_from_polyline_with_context
+{
   typedef Get_patches_id_from_polyline_with_context Self;
-  typedef const PolylineWithContext& key_type;
-  typedef const typename PolylineWithContext::Context::Patches_ids& value_type;
-  typedef value_type reference;
+  typedef PolylineWithContext key_type;
+  typedef typename PolylineWithContext::Context::Patches_ids value_type;
+  typedef const value_type& reference;
   typedef boost::readable_property_map_tag category;
-  friend value_type get(const Self, key_type polyline) {
+
+  friend reference get(const Self&, const key_type& polyline) {
     return polyline.context.adjacent_patches_ids;
   }
 }; // end Get_patches_id_from_polyline_with_context<PolylineWithContext>

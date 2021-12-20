@@ -2,7 +2,7 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.2.3/STL_Extension/include/CGAL/Multiset.h $
+// $URL: https://github.com/CGAL/cgal/blob/v5.2.4/STL_Extension/include/CGAL/Multiset.h $
 // $Id: Multiset.h 6b991a9 2020-10-22T09:45:31+02:00 Simon Giraudot
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //

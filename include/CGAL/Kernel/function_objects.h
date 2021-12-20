@@ -7,7 +7,7 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.2.3/Kernel_23/include/CGAL/Kernel/function_objects.h $
+// $URL: https://github.com/CGAL/cgal/blob/v5.2.4/Kernel_23/include/CGAL/Kernel/function_objects.h $
 // $Id: function_objects.h 48bb925 2021-03-26T10:40:53+01:00 Mael Rouxel-Labbé
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //

@@ -6,7 +6,7 @@
  This file is part of a fork of the QGLViewer library version 2.7.0.
 
 *****************************************************************************/
-// $URL: https://github.com/CGAL/cgal/blob/v5.2.3/GraphicsView/include/CGAL/Qt/camera.h $
+// $URL: https://github.com/CGAL/cgal/blob/v5.2.4/GraphicsView/include/CGAL/Qt/camera.h $
 // $Id: camera.h 0779373 2020-03-26T13:31:46+01:00 Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0-only
 

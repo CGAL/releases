@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.2.3/Heat_method_3/include/CGAL/Heat_method_3/Surface_mesh_geodesic_distances_3.h $
-// $Id: Surface_mesh_geodesic_distances_3.h c040671 2020-11-12T15:22:49+01:00 Jane Tournois
+// $URL: https://github.com/CGAL/cgal/blob/v5.2.4/Heat_method_3/include/CGAL/Heat_method_3/Surface_mesh_geodesic_distances_3.h $
+// $Id: Surface_mesh_geodesic_distances_3.h d588618 2021-10-05T11:43:54+02:00 Mael Rouxel-Labbé
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -110,7 +110,7 @@ public:
     \brief Constructor
   */
   Surface_mesh_geodesic_distances_3(const TriangleMesh& tm, VertexPointMap vpm)
-    : v2v(tm), tm(tm), vpm(vpm)
+    : vertex_id_map(get(Vertex_property_tag(),tm)), face_id_map(get(Face_property_tag(),tm)), v2v(tm), tm(tm), vpm(vpm)
   {
     build();
   }
@@ -805,14 +805,14 @@ class Surface_mesh_geodesic_distances_3
         >::Kernel
       >::type,
       Mode,
-      #ifdef CGAL_EIGEN3_ENABLED
+#ifdef CGAL_EIGEN3_ENABLED
       typename Default::Get<
         LA,
         Eigen_solver_traits<Eigen::SimplicialLDLT<typename Eigen_sparse_matrix<double>::EigenType > >
       >::type,
-      #else
+#else
       LA,
-      #endif
+#endif
       typename Default::Get<
         VertexPointMap,
         typename boost::property_map< TriangleMesh, vertex_point_t>::const_type
@@ -820,15 +820,18 @@ class Surface_mesh_geodesic_distances_3
     >
 #endif
 {
+  CGAL_static_assertion((std::is_same<Mode, Direct>::value) ||
+                        (std::is_same<Mode, Intrinsic_Delaunay>::value));
+
   // extract real types from Default
-  #ifdef CGAL_EIGEN3_ENABLED
+#ifdef CGAL_EIGEN3_ENABLED
   typedef typename Default::Get<
     LA,
     Eigen_solver_traits<Eigen::SimplicialLDLT<typename Eigen_sparse_matrix<double>::EigenType > >
   >::type LA_type;
-  #else
+#else
   typedef LA LA_type;
-  #endif
+#endif
 
   typedef typename Default::Get<
     VertexPointMap,

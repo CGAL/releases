@@ -3,7 +3,7 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.2.3/Nef_3/include/CGAL/Nef_3/polygon_mesh_to_nef_3.h $
+// $URL: https://github.com/CGAL/cgal/blob/v5.2.4/Nef_3/include/CGAL/Nef_3/polygon_mesh_to_nef_3.h $
 // $Id: polygon_mesh_to_nef_3.h adb0b9d 2020-04-19T14:27:48+02:00 R.E. Wolff
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //

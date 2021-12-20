@@ -3,7 +3,7 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.2.3/Arrangement_on_surface_2/demo/Arrangement_on_surface_2/NewTabDialog.h $
+// $URL: https://github.com/CGAL/cgal/blob/v5.2.4/Arrangement_on_surface_2/demo/Arrangement_on_surface_2/NewTabDialog.h $
 // $Id: NewTabDialog.h b1dc2a2 2020-08-20T20:59:57+02:00 Ahmed Essam
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //

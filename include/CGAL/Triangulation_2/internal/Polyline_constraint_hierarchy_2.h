@@ -3,7 +3,7 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.2.3/Triangulation_2/include/CGAL/Triangulation_2/internal/Polyline_constraint_hierarchy_2.h $
+// $URL: https://github.com/CGAL/cgal/blob/v5.2.4/Triangulation_2/include/CGAL/Triangulation_2/internal/Polyline_constraint_hierarchy_2.h $
 // $Id: Polyline_constraint_hierarchy_2.h 1948cf3 2021-06-15T14:21:35+02:00 Andreas Fabri
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //

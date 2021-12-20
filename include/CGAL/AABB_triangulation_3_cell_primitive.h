@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.2.3/AABB_tree/include/CGAL/AABB_triangulation_3_cell_primitive.h $
-// $Id: AABB_triangulation_3_cell_primitive.h 254d60f 2019-10-19T15:23:19+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v5.2.4/AABB_tree/include/CGAL/AABB_triangulation_3_cell_primitive.h $
+// $Id: AABB_triangulation_3_cell_primitive.h 590ddf8 2021-10-08T15:38:47+02:00 Mael Rouxel-Labbé
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -37,8 +37,8 @@ namespace CGAL
       typedef boost::readable_property_map_tag category;
 
       inline friend
-        typename Point_from_cell_iterator_proprety_map<GeomTraits, Iterator>::reference
-        get(Point_from_cell_iterator_proprety_map<GeomTraits, Iterator>, Iterator it)
+      reference
+      get(Point_from_cell_iterator_proprety_map<GeomTraits, Iterator>, Iterator it)
       {
         typename GeomTraits::Construct_point_3 point;
         return point(it->vertex(1)->point());
@@ -55,8 +55,8 @@ namespace CGAL
       typedef boost::readable_property_map_tag category;
 
       inline friend
-        reference
-        get(Tet_from_cell_iterator_proprety_map<GeomTraits, Iterator>, key_type it)
+      value_type
+      get(Tet_from_cell_iterator_proprety_map<GeomTraits, Iterator>, key_type it)
       {
         typename GeomTraits::Construct_point_3 point;
         return value_type(point(it->vertex(0)->point()),

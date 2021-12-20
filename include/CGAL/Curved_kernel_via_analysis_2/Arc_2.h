@@ -3,7 +3,7 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.2.3/Arrangement_on_surface_2/include/CGAL/Curved_kernel_via_analysis_2/Arc_2.h $
+// $URL: https://github.com/CGAL/cgal/blob/v5.2.4/Arrangement_on_surface_2/include/CGAL/Curved_kernel_via_analysis_2/Arc_2.h $
 // $Id: Arc_2.h aa2bc8d 2020-10-01T19:40:54+01:00 Ahmed Essam
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //

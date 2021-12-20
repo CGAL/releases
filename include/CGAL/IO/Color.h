@@ -7,7 +7,7 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.2.3/Stream_support/include/CGAL/IO/Color.h $
+// $URL: https://github.com/CGAL/cgal/blob/v5.2.4/Stream_support/include/CGAL/IO/Color.h $
 // $Id: Color.h 401d266 2020-08-23T05:55:48+02:00 oboes
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //

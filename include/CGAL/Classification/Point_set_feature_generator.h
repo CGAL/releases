@@ -3,7 +3,7 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.2.3/Classification/include/CGAL/Classification/Point_set_feature_generator.h $
+// $URL: https://github.com/CGAL/cgal/blob/v5.2.4/Classification/include/CGAL/Classification/Point_set_feature_generator.h $
 // $Id: Point_set_feature_generator.h 19004a7 2020-08-04T13:41:48+02:00 Simon Giraudot
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //

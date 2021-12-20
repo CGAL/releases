@@ -3,7 +3,7 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.2.3/Polygon_mesh_processing/include/CGAL/Polygon_mesh_processing/repair_degeneracies.h $
+// $URL: https://github.com/CGAL/cgal/blob/v5.2.4/Polygon_mesh_processing/include/CGAL/Polygon_mesh_processing/repair_degeneracies.h $
 // $Id: repair_degeneracies.h e522630 2021-03-03T16:34:46+01:00 Laurent Rineau
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //

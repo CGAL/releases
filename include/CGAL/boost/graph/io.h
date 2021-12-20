@@ -2,7 +2,7 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.2.3/BGL/include/CGAL/boost/graph/io.h $
+// $URL: https://github.com/CGAL/cgal/blob/v5.2.4/BGL/include/CGAL/boost/graph/io.h $
 // $Id: io.h d567a0d 2020-07-16T09:52:32+02:00 Mael Rouxel-Labbé
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //

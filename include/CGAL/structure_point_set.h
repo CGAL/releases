@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.2.3/Point_set_processing_3/include/CGAL/structure_point_set.h $
-// $Id: structure_point_set.h c253679 2020-04-18T16:27:58+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v5.2.4/Point_set_processing_3/include/CGAL/structure_point_set.h $
+// $Id: structure_point_set.h df56098 2021-10-08T12:13:43+02:00 Mael Rouxel-Labbé
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -102,10 +102,11 @@ private:
     typedef const value_type& reference;
     typedef std::size_t key_type;
     typedef boost::lvalue_property_map_tag category;
+
     My_point_property_map (const std::vector<Point>& pts) : points (pts) {}
+
     reference operator[] (key_type k) const { return points[k]; }
-    friend inline reference get (const My_point_property_map& ppmap, key_type i)
-    { return ppmap[i]; }
+    friend inline reference get (const My_point_property_map& ppmap, key_type i) { return ppmap[i]; }
   };
 
   struct Edge

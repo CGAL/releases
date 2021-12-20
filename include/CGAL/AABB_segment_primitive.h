@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.2.3/AABB_tree/include/CGAL/AABB_segment_primitive.h $
-// $Id: AABB_segment_primitive.h 5ec5ad6 2020-04-22T16:23:57+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v5.2.4/AABB_tree/include/CGAL/AABB_segment_primitive.h $
+// $Id: AABB_segment_primitive.h 1660611 2021-10-08T13:23:38+02:00 Mael Rouxel-Labbé
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -37,7 +37,7 @@ namespace internal {
     typedef boost::readable_property_map_tag category;
 
     inline friend
-    typename Source_of_segment_3_iterator_property_map<GeomTraits,Iterator>::reference
+    reference
     get(Source_of_segment_3_iterator_property_map<GeomTraits,Iterator>, Iterator it)
     {
       return typename GeomTraits::Construct_source_3()( *it );

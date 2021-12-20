@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.2.3/Nef_3/include/CGAL/Nef_polyhedron_3.h $
-// $Id: Nef_polyhedron_3.h 0779373 2020-03-26T13:31:46+01:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v5.2.4/Nef_3/include/CGAL/Nef_polyhedron_3.h $
+// $Id: Nef_polyhedron_3.h 294715f 2021-11-30T16:16:23+00:00 Andreas Fabri
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -1549,7 +1549,7 @@ protected:
   { return !N1.difference(*this).is_empty() && difference(N1).is_empty(); }
 
   bool operator>(const Nef_polyhedron_3<Kernel,Items, Mark>& N1) const
-  { return difference(*this).is_empty() && !difference(N1).is_empty(); }
+  { return N1.difference(*this).is_empty() && !difference(N1).is_empty(); }
 
   bool operator<=(const Nef_polyhedron_3<Kernel,Items, Mark>& N1) const
   { return difference(N1).is_empty(); }

@@ -2,7 +2,7 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.2.3/BGL/include/CGAL/boost/graph/parameters_interface.h $
+// $URL: https://github.com/CGAL/cgal/blob/v5.2.4/BGL/include/CGAL/boost/graph/parameters_interface.h $
 // $Id: parameters_interface.h 2f73dab 2020-11-13T15:31:56+01:00 Laurent Rineau
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //

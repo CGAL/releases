@@ -3,7 +3,7 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.2.3/BGL/include/CGAL/draw_face_graph.h $
+// $URL: https://github.com/CGAL/cgal/blob/v5.2.4/BGL/include/CGAL/draw_face_graph.h $
 // $Id: draw_face_graph.h aa527e9 2020-10-14T16:28:44+02:00 Laurent Rineau
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //

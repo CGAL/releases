@@ -2,7 +2,7 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.2.3/Classification/include/CGAL/Classification/ETHZ/internal/random-forest/common-libraries.hpp $
+// $URL: https://github.com/CGAL/cgal/blob/v5.2.4/Classification/include/CGAL/Classification/ETHZ/internal/random-forest/common-libraries.hpp $
 // $Id: common-libraries.hpp 9d699e4 2021-04-06T15:11:45+02:00 Laurent Rineau
 // SPDX-License-Identifier: LicenseRef-RFL
 // License notice in Installation/LICENSE.RFL

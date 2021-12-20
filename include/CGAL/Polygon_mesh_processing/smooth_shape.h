@@ -3,7 +3,7 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.2.3/Polygon_mesh_processing/include/CGAL/Polygon_mesh_processing/smooth_shape.h $
+// $URL: https://github.com/CGAL/cgal/blob/v5.2.4/Polygon_mesh_processing/include/CGAL/Polygon_mesh_processing/smooth_shape.h $
 // $Id: smooth_shape.h 10ba347 2020-10-02T15:20:53+02:00 Sebastien Loriot
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //

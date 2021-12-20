@@ -3,7 +3,7 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.2.3/Bounding_volumes/include/CGAL/Min_annulus_d.h $
+// $URL: https://github.com/CGAL/cgal/blob/v5.2.4/Bounding_volumes/include/CGAL/Min_annulus_d.h $
 // $Id: Min_annulus_d.h 27360a0 2021-02-02T13:36:45+01:00 Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //

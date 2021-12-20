@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.2.3/TDS_2/include/CGAL/Triangulation_ds_face_base_2.h $
-// $Id: Triangulation_ds_face_base_2.h dcc4fb1 2020-05-20T09:46:26+02:00 Laurent Rineau
+// $URL: https://github.com/CGAL/cgal/blob/v5.2.4/TDS_2/include/CGAL/Triangulation_ds_face_base_2.h $
+// $Id: Triangulation_ds_face_base_2.h 1fc3050 2021-07-19T15:55:47+02:00 Mael Rouxel-Labbé
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -235,7 +235,7 @@ Triangulation_ds_face_base_2<TDS> ::
 set_neighbor(int i, Face_handle n)
 {
   CGAL_triangulation_precondition( i == 0 || i == 1 || i == 2);
-  CGAL_triangulation_precondition( this != &*n );
+  CGAL_triangulation_precondition( this != n.operator->() );
   N[i] = n;
 }
 

@@ -3,7 +3,7 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.2.3/GraphicsView/include/CGAL/Qt/DemosMainWindow.h $
+// $URL: https://github.com/CGAL/cgal/blob/v5.2.4/GraphicsView/include/CGAL/Qt/DemosMainWindow.h $
 // $Id: DemosMainWindow.h 624e8e8 2020-06-12T10:34:48+02:00 Maxime Gimeno
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //

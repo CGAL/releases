@@ -3,7 +3,7 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.2.3/Polygon_mesh_processing/include/CGAL/Polygon_mesh_processing/internal/Corefinement/predicates.h $
+// $URL: https://github.com/CGAL/cgal/blob/v5.2.4/Polygon_mesh_processing/include/CGAL/Polygon_mesh_processing/internal/Corefinement/predicates.h $
 // $Id: predicates.h 1c5acc0 2020-05-08T13:34:22+02:00 Mael Rouxel-Labbé
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //

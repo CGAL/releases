@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.2.3/Polygon_mesh_processing/include/CGAL/Polygon_mesh_processing/internal/Isotropic_remeshing/remesh_impl.h $
-// $Id: remesh_impl.h 49aff67 2021-05-18T17:31:55+02:00 Laurent Rineau
+// $URL: https://github.com/CGAL/cgal/blob/v5.2.4/Polygon_mesh_processing/include/CGAL/Polygon_mesh_processing/internal/Isotropic_remeshing/remesh_impl.h $
+// $Id: remesh_impl.h 590ddf8 2021-10-08T15:38:47+02:00 Mael Rouxel-Labbé
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -95,7 +95,7 @@ namespace internal {
   public:
     typedef edge_descriptor                     key_type;
     typedef bool                                value_type;
-    typedef value_type&                         reference;
+    typedef value_type                          reference;
     typedef boost::read_write_property_map_tag  category;
 
     Border_constraint_pmap()
@@ -169,7 +169,7 @@ namespace internal {
   public:
     typedef face_descriptor                     key_type;
     typedef Patch_id                            value_type;
-    typedef Patch_id&                           reference;
+    typedef Patch_id                            reference;
     typedef boost::read_write_property_map_tag  category;
 
     //note pmesh is a non-const ref because properties are added and removed
@@ -1124,9 +1124,9 @@ private:
 
   struct Patch_id_property_map
   {
-    typedef boost::readable_property_map_tag     category;
-    typedef Patch_id                             value_type;
-    typedef Patch_id&                            reference;
+    typedef boost::readable_property_map_tag       category;
+    typedef Patch_id                               value_type;
+    typedef Patch_id                               reference;
     typedef typename Triangle_list::const_iterator key_type;
 
     const Self* remesher_ptr_;
@@ -1136,7 +1136,7 @@ private:
     Patch_id_property_map(const Self& remesher)
       : remesher_ptr_(&remesher) {}
 
-    friend Patch_id get(const Patch_id_property_map& m, key_type tr_it)
+    friend value_type get(const Patch_id_property_map& m, key_type tr_it)
     {
       //tr_it is an iterator from triangles_
       std::size_t id_in_vec = std::distance(

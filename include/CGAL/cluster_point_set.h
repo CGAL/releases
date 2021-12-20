@@ -3,7 +3,7 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.2.3/Point_set_processing_3/include/CGAL/cluster_point_set.h $
+// $URL: https://github.com/CGAL/cgal/blob/v5.2.4/Point_set_processing_3/include/CGAL/cluster_point_set.h $
 // $Id: cluster_point_set.h f7f781c 2021-04-19T12:44:25+02:00 Simon Giraudot
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //

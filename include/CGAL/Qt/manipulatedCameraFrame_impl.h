@@ -6,7 +6,7 @@
  This file is part of a fork of the QGLViewer library version 2.7.0.
 
 *****************************************************************************/
-// $URL: https://github.com/CGAL/cgal/blob/v5.2.3/GraphicsView/include/CGAL/Qt/manipulatedCameraFrame_impl.h $
+// $URL: https://github.com/CGAL/cgal/blob/v5.2.4/GraphicsView/include/CGAL/Qt/manipulatedCameraFrame_impl.h $
 // $Id: manipulatedCameraFrame_impl.h dcbb50a 2020-10-06T12:58:45+02:00 Maxime Gimeno
 // SPDX-License-Identifier: GPL-3.0-only
 

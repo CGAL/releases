@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.2.3/Point_set_processing_3/include/CGAL/mst_orient_normals.h $
-// $Id: mst_orient_normals.h c253679 2020-04-18T16:27:58+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v5.2.4/Point_set_processing_3/include/CGAL/mst_orient_normals.h $
+// $Id: mst_orient_normals.h 590ddf8 2021-10-08T15:38:47+02:00 Mael Rouxel-Labbé
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s) : Laurent Saboret and Andreas Fabri
@@ -133,7 +133,7 @@ public:
 
   /// Free function to access the map elements.
   friend inline
-  reference get(const Default_constrained_map& map, key_type p)
+  value_type get(const Default_constrained_map& map, const key_type& p)
   {
     return (p == *map.m_source_point);
   }

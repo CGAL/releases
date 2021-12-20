@@ -3,7 +3,7 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.2.3/Classification/include/CGAL/Classification/Feature_set.h $
+// $URL: https://github.com/CGAL/cgal/blob/v5.2.4/Classification/include/CGAL/Classification/Feature_set.h $
 // $Id: Feature_set.h e0ee8aa 2021-03-31T11:52:12+02:00 Simon Giraudot
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //

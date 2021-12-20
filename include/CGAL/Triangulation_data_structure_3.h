@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.2.3/TDS_3/include/CGAL/Triangulation_data_structure_3.h $
-// $Id: Triangulation_data_structure_3.h 07eacf5 2020-06-30T16:38:05+02:00 Laurent Rineau
+// $URL: https://github.com/CGAL/cgal/blob/v5.2.4/TDS_3/include/CGAL/Triangulation_data_structure_3.h $
+// $Id: Triangulation_data_structure_3.h cc790a8 2021-07-19T22:01:21+02:00 Mael Rouxel-Labbé
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Monique Teillaud <Monique.Teillaud@sophia.inria.fr>
@@ -4039,32 +4039,27 @@ copy_tds(const TDS_src& tds,
                                           || tds.is_vertex(vert) );
 
   clear();
-
-  size_type n = tds.number_of_vertices();
   set_dimension(tds.dimension());
 
-  if (n == 0)  return Vertex_handle();
+  if(tds.number_of_vertices() == 0)
+    return Vertex_handle();
 
   // Number of pointers to cell/vertex to copy per cell.
-  int dim = (std::max)(1, dimension() + 1);
+  const int dim = (std::max)(1, dimension() + 1);
 
-  // Create the vertices.
-  std::vector<typename TDS_src::Vertex_handle> TV(n);
-  size_type i = 0;
+  // Number of neighbors to set
+  const int nn = (std::max)(0, dimension() + 1);
 
-  for (typename TDS_src::Vertex_iterator vit = tds.vertices_begin();
-       vit != tds.vertices_end(); ++vit)
-    TV[i++] = vit;
-
-  CGAL_triangulation_assertion( i == n );
-
+  // Initializes maps
   Unique_hash_map< typename TDS_src::Vertex_handle,Vertex_handle > V;
   Unique_hash_map< typename TDS_src::Cell_handle,Cell_handle > F;
 
-  for (i=0; i <= n-1; ++i){
-    Vertex_handle vh=create_vertex( convert_vertex(*TV[i]) );
-    V[ TV[i] ] = vh;
-    convert_vertex(*TV[i],*vh);
+  // Create the vertices.
+  for (typename TDS_src::Vertex_iterator vit = tds.vertices_begin();
+       vit != tds.vertices_end(); ++vit) {
+    Vertex_handle vh = create_vertex( convert_vertex(*vit) );
+    V[vit] = vh;
+    convert_vertex(*vit,*vh);
   }
 
   // Create the cells.
@@ -4085,7 +4080,7 @@ copy_tds(const TDS_src& tds,
   // Hook neighbor pointers of the cells.
   for (typename TDS_src::Cell_iterator cit2 = tds.cells().begin();
           cit2 != tds.cells_end(); ++cit2) {
-    for (int j = 0; j < dim; j++)
+    for (int j = 0; j < nn; j++)
       F[cit2]->set_neighbor(j, F[cit2->neighbor(j)] );
   }
 

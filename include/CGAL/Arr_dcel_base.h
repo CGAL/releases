@@ -3,7 +3,7 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.2.3/Arrangement_on_surface_2/include/CGAL/Arr_dcel_base.h $
+// $URL: https://github.com/CGAL/cgal/blob/v5.2.4/Arrangement_on_surface_2/include/CGAL/Arr_dcel_base.h $
 // $Id: Arr_dcel_base.h 06cd942 2021-03-10T10:33:19+01:00 Laurent Rineau
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //

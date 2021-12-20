@@ -3,7 +3,7 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.2.3/Number_types/include/CGAL/boost_mp.h $
+// $URL: https://github.com/CGAL/cgal/blob/v5.2.4/Number_types/include/CGAL/boost_mp.h $
 // $Id: boost_mp.h 52164b1 2019-10-19T15:34:59+02:00 Sébastien Loriot
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
