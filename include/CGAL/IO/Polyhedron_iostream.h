@@ -3,7 +3,7 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.3/Polyhedron/include/CGAL/IO/Polyhedron_iostream.h $
+// $URL: https://github.com/CGAL/cgal/blob/v5.3.1/Polyhedron/include/CGAL/IO/Polyhedron_iostream.h $
 // $Id: Polyhedron_iostream.h 0149977 2020-10-23T09:10:53+02:00 Maxime Gimeno
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //

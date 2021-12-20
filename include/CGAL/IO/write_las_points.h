@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.3/Point_set_processing_3/include/CGAL/IO/write_las_points.h $
-// $Id: write_las_points.h 4e519a3 2021-05-05T13:15:37+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v5.3.1/Point_set_processing_3/include/CGAL/IO/write_las_points.h $
+// $Id: write_las_points.h 5578bf4 2021-09-27T15:35:40+02:00 Mael Rouxel-Labbé
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s) : Simon Giraudot
@@ -176,10 +176,10 @@ namespace LAS {
    See documentation of `read_LAS_with_properties()` for the
    list of available `LAS_property::Tag` classes.
 
-   \attention When writing a binary file, the flag `std::ios::binary` flag must be set during the creation of the `ofstream`.
+   \attention To write to a binary file, the flag `std::ios::binary` must be set during the creation of the `ofstream`.
 
    \tparam PointRange is a model of `ConstRange`. The value type of
-   its iterator is the key type of the named parameter `point_map`.
+                      its iterator is the key type of the named parameter `point_map`.
    \tparam PointMap is a model of `ReadablePropertyMap` with a value_type = `CGAL::Point_3`.
    \tparam PropertyHandler handlers to recover properties.
 
@@ -254,10 +254,10 @@ bool write_LAS_with_properties(std::ostream& os, ///< output stream.
 
    \brief writes the range of `points` (positions only), using the \ref IOStreamLAS.
 
-   \attention When writing a binary file, the flag `std::ios::binary` flag must be set during the creation of the `ofstream`.
+  \attention To write to a binary file, the flag `std::ios::binary` must be set during the creation of the `ofstream`.
 
    \tparam PointRange is a model of `ConstRange`. The value type of
-   its iterator is the key type of the named parameter `point_map`.
+                      its iterator is the key type of the named parameter `point_map`.
    \tparam NamedParameters a sequence of \ref bgl_namedparameters "Named Parameters"
 
    \param os output stream

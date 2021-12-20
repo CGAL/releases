@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.3/NewKernel_d/include/CGAL/NewKernel_d/LA_eigen/constructors.h $
-// $Id: constructors.h 766a65e 2021-01-27T12:33:45+01:00 Marc Glisse
+// $URL: https://github.com/CGAL/cgal/blob/v5.3.1/NewKernel_d/include/CGAL/NewKernel_d/LA_eigen/constructors.h $
+// $Id: constructors.h 676c367 2021-11-29T18:02:31+01:00 Sébastien Loriot
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Marc Glisse
@@ -92,7 +92,7 @@ namespace CGAL {
 
     struct Initializer_list {
       result_type operator()(std::initializer_list<NT> l) const {
-        return Iterator()(l.size(),l.begin(),l.end());
+        return Iterator()(static_cast<int>(l.size()),l.begin(),l.end());
       }
     };
 

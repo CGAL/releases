@@ -7,8 +7,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.3/Number_types/include/CGAL/FPU.h $
-// $Id: FPU.h c26cb00 2021-03-25T12:52:20+09:00 Brian Spilsbury
+// $URL: https://github.com/CGAL/cgal/blob/v5.3.1/Number_types/include/CGAL/FPU.h $
+// $Id: FPU.h e655de6 2021-07-27T15:52:26+02:00 Laurent Rineau
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -327,11 +327,6 @@ inline double IA_bug_sqrt(double d)
 }
 
 #  define CGAL_BUG_SQRT(d) IA_bug_sqrt(d)
-
-
-#elif defined __SSE2_MATH__
-// For SSE2, we need to call __builtin_sqrt() instead of libc's sqrt().
-#  define CGAL_BUG_SQRT(d) __builtin_sqrt(d)
 #elif defined __CYGWIN__
 inline double IA_bug_sqrt(double d)
 {
@@ -460,7 +455,7 @@ typedef unsigned int FPU_CW_t;
 # elif defined  __aarch64__
 #define CGAL_IA_SETFPCW(CW) asm volatile ("MSR FPCR, %0" : :"r" (CW))
 #define CGAL_IA_GETFPCW(CW) asm volatile ("MRS %0, FPCR" : "=r" (CW))
-typedef unsigned int FPU_CW_t;
+typedef unsigned long FPU_CW_t;
 #define CGAL_FE_TONEAREST    (0x0)
 #define CGAL_FE_TOWARDZERO   (0xC00000)
 #define CGAL_FE_UPWARD       (0x400000)

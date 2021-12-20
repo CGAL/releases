@@ -6,8 +6,8 @@
  This file is part of a fork of the QGLViewer library version 2.7.0.
 
 *****************************************************************************/
-// $URL: https://github.com/CGAL/cgal/blob/v5.3/GraphicsView/include/CGAL/Qt/qglviewer_impl.h $
-// $Id: qglviewer_impl.h db338aa 2021-02-18T15:19:06+01:00 Laurent Rineau
+// $URL: https://github.com/CGAL/cgal/blob/v5.3.1/GraphicsView/include/CGAL/Qt/qglviewer_impl.h $
+// $Id: qglviewer_impl.h 993a7b2 2021-09-28T15:36:51+02:00 Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0-only
 
 #ifdef CGAL_HEADER_ONLY
@@ -657,10 +657,10 @@ void CGAL::QGLViewer::setDefaultShortcuts() {
   setShortcut(qglviewer::DRAW_AXIS, ::Qt::Key_A);
   setShortcut(qglviewer::DRAW_GRID, ::Qt::Key_G);
   setShortcut(qglviewer::DISPLAY_FPS, ::Qt::Key_F);
-  setShortcut(qglviewer::ENABLE_TEXT, ::Qt::SHIFT + ::Qt::Key_Question);
+  setShortcut(qglviewer::ENABLE_TEXT, ::Qt::SHIFT, ::Qt::Key_Question);
   setShortcut(qglviewer::EXIT_VIEWER, ::Qt::Key_Escape);
   setShortcut(qglviewer::CAMERA_MODE, ::Qt::Key_Space);
-  setShortcut(qglviewer::FULL_SCREEN, ::Qt::ALT + ::Qt::Key_Return);
+  setShortcut(qglviewer::FULL_SCREEN, ::Qt::ALT, ::Qt::Key_Return);
   setShortcut(qglviewer::ANIMATION, ::Qt::Key_Return);
   setShortcut(qglviewer::HELP, ::Qt::Key_H);
   setShortcut(qglviewer::MOVE_CAMERA_LEFT, ::Qt::Key_Left);

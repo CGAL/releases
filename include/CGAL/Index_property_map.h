@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.3/Property_map/include/CGAL/Index_property_map.h $
-// $Id: Index_property_map.h 1faa0e2 2021-04-28T10:55:26+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v5.3.1/Property_map/include/CGAL/Index_property_map.h $
+// $Id: Index_property_map.h 131242b 2021-10-12T09:29:23+02:00 Mael Rouxel-Labbé
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Laurent Saboret
@@ -121,7 +121,7 @@ public:
 
   /// Free function to access the map elements.
   friend inline
-  reference get(const Index_property_map& map, key_type p)
+  value_type get(const Index_property_map& map, key_type p)
   {
     return std::distance(map.m_first, p);
   }

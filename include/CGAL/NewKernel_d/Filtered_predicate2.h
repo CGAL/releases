@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.3/NewKernel_d/include/CGAL/NewKernel_d/Filtered_predicate2.h $
-// $Id: Filtered_predicate2.h 00c185b 2021-03-12T12:06:20+01:00 Dmitry Anisimov
+// $URL: https://github.com/CGAL/cgal/blob/v5.3.1/NewKernel_d/include/CGAL/NewKernel_d/Filtered_predicate2.h $
+// $Id: Filtered_predicate2.h 6bae0e3 2021-09-09T11:09:16+02:00 Sébastien Loriot
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -92,6 +92,8 @@ public:
       catch (Uncertain_conversion_exception&) {}
     }
     CGAL_BRANCH_PROFILER_BRANCH(tmp);
+    Protect_FPU_rounding<!Protection> p(CGAL_FE_TONEAREST);
+    CGAL_expensive_assertion(FPU_get_cw() == CGAL_FE_TONEAREST);
     return ep(c2e(std::forward<Args>(args))...);
   }
 };

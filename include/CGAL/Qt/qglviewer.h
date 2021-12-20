@@ -6,8 +6,8 @@
  This file is part of a fork of the QGLViewer library version 2.7.0.
 
 *****************************************************************************/
-// $URL: https://github.com/CGAL/cgal/blob/v5.3/GraphicsView/include/CGAL/Qt/qglviewer.h $
-// $Id: qglviewer.h b80daff 2021-02-19T11:29:38+01:00 Maxime Gimeno
+// $URL: https://github.com/CGAL/cgal/blob/v5.3.1/GraphicsView/include/CGAL/Qt/qglviewer.h $
+// $Id: qglviewer.h 993a7b2 2021-09-28T15:36:51+02:00 Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0-only
 
 #ifndef QGLVIEWER_QGLVIEWER_H
@@ -833,8 +833,26 @@ public:
 
 public Q_SLOTS:
   void setShortcut(qglviewer::KeyboardAction action, unsigned int key);
+  void setShortcut(qglviewer::KeyboardAction action, ::Qt::Modifier modifier, ::Qt::Key key)
+  {
+    setShortcut(action,
+                static_cast<unsigned int>(modifier)+
+                static_cast<unsigned int>(key));
+  }
 
   void setKeyDescription(unsigned int key, QString description);
+  void setKeyDescription(::Qt::KeyboardModifier modifier, ::Qt::Key key, QString description)
+  {
+    setKeyDescription(static_cast<unsigned int>(modifier) +
+                      static_cast<unsigned int>(key),
+                      description);
+  }
+  void setKeyDescription(::Qt::Modifier modifier, ::Qt::Key key, QString description)
+  {
+    setKeyDescription(static_cast<unsigned int>(modifier) +
+                      static_cast<unsigned int>(key),
+                      description);
+  }
   void clearShortcuts();
 
 // Key Frames shortcut keys

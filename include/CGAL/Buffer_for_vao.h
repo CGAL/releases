@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.3/GraphicsView/include/CGAL/Buffer_for_vao.h $
-// $Id: Buffer_for_vao.h fb6f703 2021-05-04T14:07:49+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v5.3.1/GraphicsView/include/CGAL/Buffer_for_vao.h $
+// $Id: Buffer_for_vao.h c891f60 2021-09-23T16:12:46+02:00 Laurent Rineau
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -521,17 +521,15 @@ public:
 
       local_orientation=Local_kernel::Orientation_3()(V1, V2, normal) ;
 
-      if(local_orientation!=CGAL::ZERO && local_orientation!=orientation)
-      { return false; }
-      // V1 and V2 are collinear
-      if(local_orientation==CGAL::ZERO )
+      if(local_orientation!=CGAL::ZERO)
       {
-        //TS and TU are opposite
-        if(CGAL::scalar_product(V1,V2) >=0)
-          return true;
-        //TS and TU have the same direction.
-        else
-          return false;
+        if(local_orientation!=orientation)
+        { return false; }
+      }
+      else
+      {
+        if(CGAL::scalar_product(V1,V2)<0)
+        { return false; }  //TS and TU are opposite
       }
     }
     return true;

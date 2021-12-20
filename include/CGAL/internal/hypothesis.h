@@ -2,7 +2,7 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.3/Polygonal_surface_reconstruction/include/CGAL/internal/hypothesis.h $
+// $URL: https://github.com/CGAL/cgal/blob/v5.3.1/Polygonal_surface_reconstruction/include/CGAL/internal/hypothesis.h $
 // $Id: hypothesis.h 6b87fe3 2020-12-05T11:11:33+01:00 Mael Rouxel-Labbé
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //

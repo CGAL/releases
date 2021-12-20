@@ -2,8 +2,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.3/Surface_mesh_simplification/include/CGAL/Surface_mesh_simplification/internal/Common.h $
-// $Id: Common.h e957de2 2020-09-14T17:01:32+01:00 Andreas Fabri
+// $URL: https://github.com/CGAL/cgal/blob/v5.3.1/Surface_mesh_simplification/include/CGAL/Surface_mesh_simplification/internal/Common.h $
+// $Id: Common.h 131242b 2021-10-12T09:29:23+02:00 Mael Rouxel-Labbé
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Fernando Cacciola <fernando.cacciola@geometryfactory.com>
@@ -73,7 +73,7 @@ struct No_constrained_edge_map
   typedef bool                                                      value_type;
   typedef value_type                                                reference;
   typedef boost::readable_property_map_tag                          category;
-  friend bool get(No_constrained_edge_map, key_type) { return false; }
+  friend value_type get(No_constrained_edge_map, key_type) { return false; }
 };
 
 } // namespace Surface_mesh_simplification

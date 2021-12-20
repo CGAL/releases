@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.3/Surface_mesh/include/CGAL/Surface_mesh/IO/PLY.h $
-// $Id: PLY.h d6b2c8d 2021-05-18T18:13:38+02:00 Laurent Rineau
+// $URL: https://github.com/CGAL/cgal/blob/v5.3.1/Surface_mesh/include/CGAL/Surface_mesh/IO/PLY.h $
+// $Id: PLY.h c8cc074 2021-09-27T15:33:42+02:00 Mael Rouxel-Labbé
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -175,8 +175,12 @@ public:
   bool has_simplex_specific_property(internal::PLY_read_number* property, Edge_index)
   {
     const std::string& name = property->name();
+    if(name == "vertex1" || name == "vertex2")
+      return true;
+#ifndef CGAL_NO_DEPRECATED_CODE
     if(name == "v0" || name == "v1")
       return true;
+#endif
     return false;
   }
 
@@ -365,8 +369,8 @@ public:
   void process_line(PLY_element& element, Edge_index& ei)
   {
     IntType v0, v1;
-    element.assign(v0, "v0");
-    element.assign(v1, "v1");
+    element.assign(v0, "vertex1");
+    element.assign(v1, "vertex2");
 
     Halfedge_index hi = m_mesh.halfedge(m_map_v2v[std::size_t(v0)],
         m_map_v2v[std::size_t(v1)]);
@@ -713,7 +717,7 @@ void fill_header(std::ostream& os, const Surface_mesh<Point>& sm,
 
 /// \ingroup PkgSurfaceMeshIOFuncPLY
 ///
-/// \attention When reading a binary file, the flag `std::ios::binary` flag must be set during the creation of the `ifstream`.
+/// \attention To read a binary file, the flag `std::ios::binary` flag must be set during the creation of the `ifstream`.
 ///
 /// \brief extracts the surface mesh from an input stream in the \ref IOStreamPLY
 ///        and appends it to the surface mesh `sm`.
@@ -886,7 +890,9 @@ namespace IO {
 /// simple types are inserted in the stream. The halfedges follow
 /// the same behavior.
 ///
-/// \attention When writing a binary file, the flag `std::ios::binary` flag must be set during the creation of the `ofstream`.
+///  \attention To write to a binary file, the flag `std::ios::binary` must be set during the creation
+///             of the `ofstream`, and the \link PkgStreamSupportEnumRef `IO::Mode` \endlink
+///             of the stream must be set to `BINARY`.
 ///
 /// \tparam Point The type of the \em point property of a vertex. There is no requirement on `P`,
 ///               besides being default constructible and assignable.
@@ -961,8 +967,8 @@ bool write_PLY(std::ostream& os,
     if(!eprinters.empty())
     {
       os << "element edge " << sm.number_of_edges() << std::endl;
-      os << "property int v0" << std::endl;
-      os << "property int v1" << std::endl;
+      os << "property int vertex1" << std::endl;
+      os << "property int vertex2" << std::endl;
       os << oss.str();
     }
   }

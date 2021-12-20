@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.3/Classification/include/CGAL/Classification/Cluster.h $
-// $Id: Cluster.h 3b70343 2020-11-16T16:19:43+01:00 Maxime Gimeno
+// $URL: https://github.com/CGAL/cgal/blob/v5.3.1/Classification/include/CGAL/Classification/Cluster.h $
+// $Id: Cluster.h 131242b 2021-10-12T09:29:23+02:00 Mael Rouxel-Labbé
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Simon Giraudot
@@ -66,7 +66,6 @@ public:
   public:
     using argument_type = std::size_t;
     using result_type = typename boost::property_traits<ItemMap>::reference;
-    using category = boost::readable_property_map_tag;
 
     const ItemRange* m_range;
     ItemMap m_item_map;

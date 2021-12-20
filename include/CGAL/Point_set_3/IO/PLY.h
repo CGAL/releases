@@ -2,8 +2,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.3/Point_set_3/include/CGAL/Point_set_3/IO/PLY.h $
-// $Id: PLY.h 4e519a3 2021-05-05T13:15:37+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v5.3.1/Point_set_3/include/CGAL/Point_set_3/IO/PLY.h $
+// $Id: PLY.h c8cc074 2021-09-27T15:33:42+02:00 Mael Rouxel-Labbé
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Simon Giraudot
@@ -234,7 +234,7 @@ public:
   header. Each line starting by "comment " in the header is
   appended to the `comments` string (without the "comment " word).
 
-  \attention When reading a binary file, the flag `std::ios::binary` flag must be set during the creation of the `ifstream`.
+  \attention To read a binary file, the flag `std::ios::binary` must be set during the creation of the `ifstream`.
 
   \param is the input stream
   \param point_set the point set
@@ -443,7 +443,9 @@ namespace IO {
   the header of the PLY stream (each line will be precedeed by
   "comment ").
 
-  \attention When writing a binary file, the flag `std::ios::binary` flag must be set during the creation of the `ofstream`.
+  \attention To write to a binary file, the flag `std::ios::binary` must be set during the creation
+             of the `ofstream`, and the \link PkgStreamSupportEnumRef `IO::Mode` \endlink
+             of the stream must be set to `BINARY`.
 
   \tparam Point the point type of the `Point_set_3`
   \tparam Vector the vector type of the `Point_set_3`

@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.3/Surface_mesh_topology/include/CGAL/draw_face_graph_with_paths.h $
-// $Id: draw_face_graph_with_paths.h fb6f703 2021-05-04T14:07:49+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v5.3.1/Surface_mesh_topology/include/CGAL/draw_face_graph_with_paths.h $
+// $Id: draw_face_graph_with_paths.h 993a7b2 2021-09-28T15:36:51+02:00 Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Guillaume Damiand <guillaume.damiand@liris.cnrs.fr>
@@ -262,14 +262,14 @@ protected:
   {
     Base::init();
     setKeyDescription(::Qt::Key_D, "Increase current dart drawing");
-    setKeyDescription(::Qt::Key_D+::Qt::ControlModifier, "Decrease current dart drawing");
-    setKeyDescription(::Qt::Key_D+::Qt::ShiftModifier, "Draw all darts");
+    setKeyDescription(::Qt::ControlModifier, ::Qt::Key_D, "Decrease current dart drawing");
+    setKeyDescription(::Qt::ShiftModifier, ::Qt::Key_D, "Draw all darts");
 
     setKeyDescription(::Qt::Key_X, "Toggles marked darts display");
 
     setKeyDescription(::Qt::Key_P, "Increase current path drawing");
-    setKeyDescription(::Qt::Key_P+::Qt::ControlModifier, "Decrease current path drawing");
-    setKeyDescription(::Qt::Key_P+::Qt::ShiftModifier, "Draw all paths");
+    setKeyDescription(::Qt::ControlModifier, ::Qt::Key_P, "Decrease current path drawing");
+    setKeyDescription(::Qt::ShiftModifier, ::Qt::Key_P, "Draw all paths");
   }
 
   virtual void keyPressEvent(QKeyEvent *e)

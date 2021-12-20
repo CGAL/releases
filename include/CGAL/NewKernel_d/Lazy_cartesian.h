@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.3/NewKernel_d/include/CGAL/NewKernel_d/Lazy_cartesian.h $
-// $Id: Lazy_cartesian.h 6403a0d 2021-02-15T21:05:43+01:00 Marc Glisse
+// $URL: https://github.com/CGAL/cgal/blob/v5.3.1/NewKernel_d/include/CGAL/NewKernel_d/Lazy_cartesian.h $
+// $Id: Lazy_cartesian.h 6bae0e3 2021-09-09T11:09:16+02:00 Sébastien Loriot
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Marc Glisse
@@ -176,14 +176,16 @@ struct Lazy_construction2 {
   template<class...L>
   std::enable_if_t<(sizeof...(L)>0), result_type> operator()(L const&...l) const {
     CGAL_BRANCH_PROFILER(std::string(" failures/calls to   : ") + std::string(CGAL_PRETTY_FUNCTION), tmp);
-    Protect_FPU_rounding<Protection> P;
-    try {
-      return new Lazy_rep_XXX<AT, ET, AC, EC, E2A, L...>(ac, ec, l...);
-    } catch (Uncertain_conversion_exception&) {
-      CGAL_BRANCH_PROFILER_BRANCH(tmp);
-      Protect_FPU_rounding<!Protection> P2(CGAL_FE_TONEAREST);
-      return new Lazy_rep_0<AT,ET,E2A>(ec(CGAL::exact(l)...));
+    {
+      Protect_FPU_rounding<Protection> P;
+      try {
+          return new Lazy_rep_XXX<AT, ET, AC, EC, E2A, L...>(ac, ec, l...);
+      } catch (Uncertain_conversion_exception&) {}
     }
+    CGAL_BRANCH_PROFILER_BRANCH(tmp);
+    Protect_FPU_rounding<!Protection> P2(CGAL_FE_TONEAREST);
+    CGAL_expensive_assertion(FPU_get_cw() == CGAL_FE_TONEAREST);
+    return new Lazy_rep_0<AT,ET,E2A>(ec(CGAL::exact(l)...));
   }
   // FIXME: this forces us to have default constructors for all types, try to make its instantiation lazier
   // Actually, that may be the clearing in update_exact().

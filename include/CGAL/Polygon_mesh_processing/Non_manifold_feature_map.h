@@ -3,7 +3,7 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.3/Polygon_mesh_processing/include/CGAL/Polygon_mesh_processing/Non_manifold_feature_map.h $
+// $URL: https://github.com/CGAL/cgal/blob/v5.3.1/Polygon_mesh_processing/include/CGAL/Polygon_mesh_processing/Non_manifold_feature_map.h $
 // $Id: Non_manifold_feature_map.h 82d5617 2020-10-14T15:42:18+02:00 Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //

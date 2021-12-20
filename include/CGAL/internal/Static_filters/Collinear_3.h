@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.3/Filtered_kernel/include/CGAL/internal/Static_filters/Collinear_3.h $
-// $Id: Collinear_3.h d5fdc05 2021-01-05T15:56:10+00:00 Andreas Fabri
+// $URL: https://github.com/CGAL/cgal/blob/v5.3.1/Filtered_kernel/include/CGAL/internal/Static_filters/Collinear_3.h $
+// $Id: Collinear_3.h 88e14ad 2021-09-14T09:20:28+02:00 Mael Rouxel-Labbé
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -19,10 +19,6 @@
 #include <cmath>
 
 namespace CGAL { namespace internal { namespace Static_filters_predicates {
-
-
-#include <iostream>
-
 
 template < typename K_base >
 class Collinear_3
@@ -54,6 +50,8 @@ public:
         fit_in_double(get_approx(r).x(), rx) && fit_in_double(get_approx(r).y(), ry) &&
         fit_in_double(get_approx(r).z(), rz))
     {
+      CGAL_BRANCH_PROFILER_BRANCH_1(tmp);
+
       double dpx = (px - rx);
       double dqx = (qx - rx);
       double dpy = (py - ry);
@@ -81,6 +79,7 @@ public:
         if (CGAL::abs(double_tmp_result) > eps )
           return false;
       }
+
       double dpz = (pz - rz);
       double dqz = (qz - rz);
 
@@ -119,7 +118,10 @@ public:
         if (CGAL::abs(double_tmp_result_AvrrXBP) > eps)
           return false;
       }
+
+      CGAL_BRANCH_PROFILER_BRANCH_2(tmp);
     }
+
     return Base::operator()(p, q, r);
   }
 

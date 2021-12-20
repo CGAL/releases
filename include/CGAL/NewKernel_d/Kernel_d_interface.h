@@ -3,7 +3,7 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.3/NewKernel_d/include/CGAL/NewKernel_d/Kernel_d_interface.h $
+// $URL: https://github.com/CGAL/cgal/blob/v5.3.1/NewKernel_d/include/CGAL/NewKernel_d/Kernel_d_interface.h $
 // $Id: Kernel_d_interface.h 81d9556 2021-02-10T10:06:45+01:00 Dmitry Anisimov
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //

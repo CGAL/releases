@@ -2,8 +2,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.3/BGL/include/CGAL/boost/graph/parameters_interface.h $
-// $Id: parameters_interface.h ec7a211 2021-06-22T14:22:32+02:00 Jane Tournois
+// $URL: https://github.com/CGAL/cgal/blob/v5.3.1/BGL/include/CGAL/boost/graph/parameters_interface.h $
+// $Id: parameters_interface.h 4960886 2021-10-20T15:07:18+02:00 Sébastien Loriot
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -197,7 +197,7 @@ CGAL_add_named_parameter(pca_plane_t, pca_plane, pca_plane)
 
 // tetrahedral remeshing parameters
 CGAL_add_named_parameter(remesh_boundaries_t, remesh_boundaries, remesh_boundaries)
-CGAL_add_named_parameter(cell_selector_t, cell_selector, cell_selector)
+CGAL_add_named_parameter(cell_selector_t, cell_selector, cell_is_selected_map)
 CGAL_add_named_parameter(facet_is_constrained_t, facet_is_constrained, facet_is_constrained_map)
 CGAL_add_named_parameter(smooth_constrained_edges_t, smooth_constrained_edges, smooth_constrained_edges)
 

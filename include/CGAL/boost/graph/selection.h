@@ -2,8 +2,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.3/BGL/include/CGAL/boost/graph/selection.h $
-// $Id: selection.h 79057f3 2021-05-06T14:32:32+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v5.3.1/BGL/include/CGAL/boost/graph/selection.h $
+// $Id: selection.h 131242b 2021-10-12T09:29:23+02:00 Mael Rouxel-Labbé
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Sebastien Loriot
@@ -102,7 +102,7 @@ struct Regularization_graph
     typedef vertex_descriptor key_type;
     typedef std::size_t value_type;
     typedef std::size_t& reference;
-    typedef boost::lvalue_property_map_tag category;
+    typedef boost::read_write_property_map_tag category;
 
     Regularization_graph* rg;
 
@@ -132,7 +132,7 @@ struct Regularization_graph
       : rg (rg)
     { }
 
-    friend reference get (const Vertex_label_probability_map& pmap, key_type fd)
+    friend value_type get (const Vertex_label_probability_map& pmap, key_type fd)
     {
       double value = (1. - pmap.rg->weight) * pmap.rg->area (fd) / pmap.rg->total_area;
 
@@ -167,7 +167,7 @@ struct Regularization_graph
     Edge_cost_map (const Regularization_graph* rg)
       : rg (rg) { }
 
-    friend reference get (const Edge_cost_map& pmap, key_type ed)
+    friend value_type get (const Edge_cost_map& pmap, key_type ed)
     {
       fg_vertex_descriptor esource = source(ed, pmap.rg->fg);
       fg_vertex_descriptor etarget = target(ed, pmap.rg->fg);

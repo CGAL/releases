@@ -3,7 +3,7 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.3/Nef_S2/include/CGAL/Nef_S2/Sphere_geometry_OGL.h $
+// $URL: https://github.com/CGAL/cgal/blob/v5.3.1/Nef_S2/include/CGAL/Nef_S2/Sphere_geometry_OGL.h $
 // $Id: Sphere_geometry_OGL.h fb6f703 2021-05-04T14:07:49+02:00 Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //

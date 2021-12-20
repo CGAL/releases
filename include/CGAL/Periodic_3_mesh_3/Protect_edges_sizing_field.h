@@ -4,8 +4,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.3/Periodic_3_mesh_3/include/CGAL/Periodic_3_mesh_3/Protect_edges_sizing_field.h $
-// $Id: Protect_edges_sizing_field.h 4e519a3 2021-05-05T13:15:37+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v5.3.1/Periodic_3_mesh_3/include/CGAL/Periodic_3_mesh_3/Protect_edges_sizing_field.h $
+// $Id: Protect_edges_sizing_field.h 676c367 2021-11-29T18:02:31+01:00 Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Stephane Tayeb, Laurent Rineau, Mael Rouxel-Labbé
@@ -2113,8 +2113,10 @@ insert_balls(const Vertex_handle& vp,
                                                 curve_index, d_sign)
                 << ")\n";
 #endif
+      const FT sgn = (d_sign == CGAL::POSITIVE) ? 1.
+                   : (d_sign == CGAL::NEGATIVE ? -1. : 0.);
       const Bare_point new_point =
-        domain_.construct_point_on_curve(vpp, curve_index, d_sign * d / 2);
+        domain_.construct_point_on_curve(vpp, curve_index, sgn * d / 2);
       const int dim = 1; // new_point is on edge
       const Index index = domain_.index_from_curve_index(curve_index);
       const FT point_weight = CGAL::square(size_(new_point, dim, index));

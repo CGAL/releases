@@ -3,7 +3,7 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.3/Generator/include/CGAL/internal/Generic_random_point_generator.h $
+// $URL: https://github.com/CGAL/cgal/blob/v5.3.1/Generator/include/CGAL/internal/Generic_random_point_generator.h $
 // $Id: Generic_random_point_generator.h 9533a9f 2021-05-04T10:43:26+02:00 Maxime Gimeno
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //

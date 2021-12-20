@@ -7,7 +7,7 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.3/Alpha_shapes_3/include/CGAL/IO/Alpha_shape_3_VRML_2_ostream.h $
+// $URL: https://github.com/CGAL/cgal/blob/v5.3.1/Alpha_shapes_3/include/CGAL/IO/Alpha_shape_3_VRML_2_ostream.h $
 // $Id: Alpha_shape_3_VRML_2_ostream.h 3ea5fc5 2020-05-26T19:33:27+02:00 Mael Rouxel-Labbé
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //

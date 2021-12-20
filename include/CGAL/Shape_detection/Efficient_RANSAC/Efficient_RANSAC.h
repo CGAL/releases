@@ -3,7 +3,7 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.3/Shape_detection/include/CGAL/Shape_detection/Efficient_RANSAC/Efficient_RANSAC.h $
+// $URL: https://github.com/CGAL/cgal/blob/v5.3.1/Shape_detection/include/CGAL/Shape_detection/Efficient_RANSAC/Efficient_RANSAC.h $
 // $Id: Efficient_RANSAC.h e87747d 2021-04-14T09:20:17+02:00 Simon Giraudot
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //

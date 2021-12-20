@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.3/Triangulation_on_sphere_2/include/CGAL/Delaunay_triangulation_on_sphere_2.h $
-// $Id: Delaunay_triangulation_on_sphere_2.h 1784321 2021-04-29T23:20:34+02:00 Mael Rouxel-Labbé
+// $URL: https://github.com/CGAL/cgal/blob/v5.3.1/Triangulation_on_sphere_2/include/CGAL/Delaunay_triangulation_on_sphere_2.h $
+// $Id: Delaunay_triangulation_on_sphere_2.h d871728 2021-07-23T13:09:37+02:00 Mael Rouxel-Labbé
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Mariette Yvinec,
@@ -146,6 +146,16 @@ public:
     : Base(static_cast<const Base&>(other))
   {
   }
+
+  // Assignement
+  Delaunay_triangulation_on_sphere_2& operator=(Delaunay_triangulation_on_sphere_2 other) // intentional copy
+  {
+    Base::swap(static_cast<Base&>(other));
+    return *this;
+  }
+
+  // Destructor
+  ~Delaunay_triangulation_on_sphere_2() = default;
 
   // Predicates & Constructions
   Oriented_side side_of_oriented_circle(const Point& p, const Point& q, const Point& r, const Point& s, bool perturb = false) const;

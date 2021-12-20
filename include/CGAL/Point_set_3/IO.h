@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.3/Point_set_3/include/CGAL/Point_set_3/IO.h $
-// $Id: IO.h c2b7cc8 2021-06-03T12:45:38+02:00 Maxime Gimeno
+// $URL: https://github.com/CGAL/cgal/blob/v5.3.1/Point_set_3/include/CGAL/Point_set_3/IO.h $
+// $Id: IO.h c8cc074 2021-09-27T15:33:42+02:00 Mael Rouxel-Labbé
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -53,7 +53,7 @@ class Point_set_3;
   normal vectors, the normal map is added to the point set. For PLY
   input, all point properties found in the header are added.
 
-  \attention When reading a binary file, the flag `std::ios::binary` flag must be set during the creation of the `ifstream`.
+  \attention To read a binary file, the flag `std::ios::binary` must be set during the creation of the `ifstream`.
 
   \param is input stream
   \param ps point set
@@ -167,7 +167,9 @@ bool read_point_set(const std::string& fname, CGAL::Point_set_3<Point, Vector>& 
 
   All properties are inserted in their instantiation order.
 
-  \attention When writing a binary file, the flag `std::ios::binary` flag must be set during the creation of the `ofstream`.
+  \attention To write to a binary file, the flag `std::ios::binary` must be set during the creation
+             of the `ofstream`, and the \link PkgStreamSupportEnumRef `IO::Mode` \endlink
+             of the stream must be set to `BINARY`.
 
   \param os the output stream
   \param ps the point set

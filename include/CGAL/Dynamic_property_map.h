@@ -2,8 +2,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.3/Property_map/include/CGAL/Dynamic_property_map.h $
-// $Id: Dynamic_property_map.h 1faa0e2 2021-04-28T10:55:26+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v5.3.1/Property_map/include/CGAL/Dynamic_property_map.h $
+// $Id: Dynamic_property_map.h 131242b 2021-10-12T09:29:23+02:00 Mael Rouxel-Labbé
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -96,7 +96,7 @@ struct Dynamic {
   typedef typename PM::key_type key_type;
   typedef typename PM::value_type value_type;
   typedef typename PM::reference reference;
-  typedef typename PM::category category;
+  typedef boost::read_write_property_map_tag category;
 
   typedef Dynamic_property_map_deleter<Mesh,PM> Deleter;
 
@@ -130,9 +130,7 @@ struct Dynamic_with_index
   typedef typename boost::mpl::if_<  boost::is_same<bool, Value>,
                                      value_type,
                                      value_type&>::type  reference;
-  typedef typename boost::mpl::if_<  boost::is_same<bool, Value>,
-                                     boost::read_write_property_map_tag,
-                                     boost::lvalue_property_map_tag>::type  category;
+  typedef boost::read_write_property_map_tag category;
 
   Dynamic_with_index()
     : m_values()

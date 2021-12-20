@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.3/Polyline_simplification_2/include/CGAL/Polyline_simplification_2/simplify.h $
-// $Id: simplify.h 53cb7cd 2021-02-16T13:41:28+00:00 Andreas Fabri
+// $URL: https://github.com/CGAL/cgal/blob/v5.3.1/Polyline_simplification_2/include/CGAL/Polyline_simplification_2/simplify.h $
+// $Id: simplify.h 131242b 2021-10-12T09:29:23+02:00 Mael Rouxel-Labbé
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Andreas Fabri
@@ -93,18 +93,19 @@ public:
 
   } ;
 
-  struct Id_map : public boost::put_get_helper<std::size_t, Id_map>
+  struct Id_map
   {
     typedef boost::readable_property_map_tag category;
     typedef std::size_t                      value_type;
     typedef value_type                       reference;
-    typedef Vertex_handle  key_type;
+    typedef Vertex_handle                    key_type;
 
-
-    reference operator[] ( key_type const& x ) const
+    value_type operator[](const key_type& x) const
     {
-        return x->ID;
+      return x->ID;
     }
+
+    friend inline value_type get(const Id_map& m, const key_type k) { return m[k]; }
   } ;
 
   typedef CGAL::Modifiable_priority_queue<Vertex_handle,Compare_cost,Id_map> MPQ ;

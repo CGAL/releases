@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.3/GraphicsView/include/CGAL/Basic_shaders.h $
-// $Id: Basic_shaders.h 5e63293 2021-02-03T11:39:41+01:00 Maxime Gimeno
+// $URL: https://github.com/CGAL/cgal/blob/v5.3.1/GraphicsView/include/CGAL/Basic_shaders.h $
+// $Id: Basic_shaders.h 66f92a3 2021-08-30T11:11:57+02:00 Maxime Gimeno
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -176,17 +176,17 @@ void main(void)
 //  compatibility shaders
 
 const char vertex_source_color_comp[]=R"DELIM(
-in highp vec4 vertex;
-in highp vec3 normal;
-in highp vec3 color;
+varying highp vec4 vertex;
+varying highp vec3 normal;
+varying highp vec3 color;
 
 uniform highp mat4 mvp_matrix;
 uniform highp mat4 mv_matrix;
 uniform highp float point_size;
 
-out highp vec4 fP;
-out highp vec3 fN;
-out highp vec4 fColor;
+varying highp vec4 fP;
+varying highp vec3 fN;
+varying highp vec4 fColor;
 
 void main(void)
 {
@@ -204,17 +204,15 @@ void main(void)
 )DELIM";
 
 const char fragment_source_color_comp[]=R"DELIM(
-in highp vec4 fP;
-in highp vec3 fN;
-in highp vec4 fColor;
+varying highp vec4 fP;
+varying highp vec3 fN;
+varying highp vec4 fColor;
 
 uniform highp vec4 light_pos;
 uniform highp vec4 light_diff;
 uniform highp vec4 light_spec;
 uniform highp vec4 light_amb;
 uniform highp float spec_power ;
-
-out highp vec4 out_color;
 
 void main(void)
 {
@@ -229,18 +227,18 @@ void main(void)
   highp vec4 diffuse = max(dot(N,L), 0.0) * light_diff * fColor;
   highp vec4 specular = pow(max(dot(R,V), 0.0), spec_power) * light_spec;
 
-  out_color = light_amb*fColor + diffuse;
+  gl_FragColor = light_amb*fColor + diffuse;
 }
 )DELIM";
 
 const char vertex_source_p_l_comp[]=R"DELIM(
-in highp vec4 vertex;
-in highp vec3 color;
+varying highp vec4 vertex;
+varying highp vec3 color;
 
 uniform highp mat4 mvp_matrix;
 uniform highp float point_size;
 
-out highp vec4 fColor;
+varying highp vec4 fColor;
 
 void main(void)
 {
@@ -251,11 +249,10 @@ void main(void)
 )DELIM";
 
 const char fragment_source_p_l_comp[]=R"DELIM(
-in highp vec4 fColor;
-out highp vec4 out_color;
+varying highp vec4 fColor;
 void main(void)
 {
-  out_color = fColor;
+  gl_FragColor = fColor;
 }
 )DELIM";
 

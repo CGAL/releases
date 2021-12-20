@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.3/Polyhedron/include/CGAL/Polyhedron_3.h $
-// $Id: Polyhedron_3.h f55ef7d 2020-10-09T18:36:17+02:00 Mael Rouxel-Labbé
+// $URL: https://github.com/CGAL/cgal/blob/v5.3.1/Polyhedron/include/CGAL/Polyhedron_3.h $
+// $Id: Polyhedron_3.h cff3cdb 2021-08-12T10:23:57+02:00 Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -110,7 +110,8 @@ public:
 
     // the degree of the vertex, i.e., edges emanating from this vertex
     std::size_t vertex_degree() const {
-        return this->halfedge()->vertex_degree();
+        return this->halfedge()!=Halfedge_const_handle()
+               ? this->halfedge()->vertex_degree() : 0;
     }
     size_type degree() const { return vertex_degree(); } //backwards compatible
 

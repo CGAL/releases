@@ -3,7 +3,7 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.3/Filtered_kernel/include/CGAL/Lazy_kernel.h $
+// $URL: https://github.com/CGAL/cgal/blob/v5.3.1/Filtered_kernel/include/CGAL/Lazy_kernel.h $
 // $Id: Lazy_kernel.h 32f5bf9 2021-06-14T18:11:46+02:00 Andreas Fabri
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //

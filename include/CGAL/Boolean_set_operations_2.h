@@ -3,7 +3,7 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.3/Boolean_set_operations_2/include/CGAL/Boolean_set_operations_2.h $
+// $URL: https://github.com/CGAL/cgal/blob/v5.3.1/Boolean_set_operations_2/include/CGAL/Boolean_set_operations_2.h $
 // $Id: Boolean_set_operations_2.h 15ef09b5 2020-10-01T17:37:38+03:00 Efi Fogel
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //

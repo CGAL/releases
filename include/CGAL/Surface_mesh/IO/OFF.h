@@ -3,7 +3,7 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.3/Surface_mesh/include/CGAL/Surface_mesh/IO/OFF.h $
+// $URL: https://github.com/CGAL/cgal/blob/v5.3.1/Surface_mesh/include/CGAL/Surface_mesh/IO/OFF.h $
 // $Id: OFF.h cf69d32 2021-05-12T11:40:20+02:00 Maxime Gimeno
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //

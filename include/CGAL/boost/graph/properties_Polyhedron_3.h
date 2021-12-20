@@ -2,8 +2,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.3/Polyhedron/include/CGAL/boost/graph/properties_Polyhedron_3.h $
-// $Id: properties_Polyhedron_3.h 1faa0e2 2021-04-28T10:55:26+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v5.3.1/Polyhedron/include/CGAL/boost/graph/properties_Polyhedron_3.h $
+// $Id: properties_Polyhedron_3.h 131242b 2021-10-12T09:29:23+02:00 Mael Rouxel-Labbé
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -52,12 +52,12 @@ private:
 // Special case for edges.
 template<class Polyhedron>
 class Polyhedron_edge_index_map_external
-  : public boost::put_get_helper<std::size_t, Polyhedron_edge_index_map_external<Polyhedron> >
+  : public boost::put_get_helper<std::size_t&, Polyhedron_edge_index_map_external<Polyhedron> >
 {
 public:
-  typedef boost::readable_property_map_tag                          category;
+  typedef boost::lvalue_property_map_tag                            category;
   typedef std::size_t                                               value_type;
-  typedef std::size_t                                               reference;
+  typedef std::size_t&                                              reference;
   typedef typename boost::graph_traits<Polyhedron>::edge_descriptor key_type;
 
 private:
@@ -80,7 +80,6 @@ private:
 
   template<typename Handle, typename FT>
 struct Wrap_squared
-    : boost::put_get_helper< double, Wrap_squared<Handle,FT> >
 {
   typedef FT value_type;
   typedef FT reference;
@@ -88,9 +87,15 @@ struct Wrap_squared
   typedef boost::readable_property_map_tag category;
 
   template<typename E>
-  FT
-  operator[](const E& e) const {
-    return approximate_sqrt(CGAL::squared_distance(e.halfedge()->vertex()->point(), e.halfedge()->opposite()->vertex()->point()));
+  FT operator[](const E& e) const {
+    return approximate_sqrt(CGAL::squared_distance(e.halfedge()->vertex()->point(),
+                                                   e.halfedge()->opposite()->vertex()->point()));
+  }
+
+  friend inline
+  value_type get(const Wrap_squared& m, const key_type k)
+  {
+    return m[k];
   }
 };
 
