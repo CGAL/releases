@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.3.1/Surface_mesh/include/CGAL/Surface_mesh/IO/PLY.h $
-// $Id: PLY.h c8cc074 2021-09-27T15:33:42+02:00 Mael Rouxel-Labbé
+// $URL: https://github.com/CGAL/cgal/blob/v5.4/Surface_mesh/include/CGAL/Surface_mesh/IO/PLY.h $
+// $Id: PLY.h ad79d37 2021-09-29T11:46:30+02:00 Laurent Rineau
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -20,8 +20,6 @@
 #include <CGAL/boost/graph/iterator.h>
 #include <CGAL/boost/graph/Named_function_parameters.h>
 #include <CGAL/boost/graph/named_params_helper.h>
-
-#if !defined(CGAL_CFG_NO_CPP0X_RVALUE_REFERENCE) && !defined(CGAL_CFG_NO_CPP0X_VARIADIC_TEMPLATES)
 
 #include <CGAL/IO/PLY.h>
 
@@ -908,8 +906,8 @@ namespace IO {
 ///   \cgalParamNBegin{stream_precision}
 ///     \cgalParamDescription{a parameter used to set the precision (i.e. how many digits are generated) of the output stream}
 ///     \cgalParamType{int}
-///     \cgalParamDefault{`the precision of the stream `os``}
-///     \cgalParamExtra{This parameter is only meaningful while using ASCII encoding.}
+///     \cgalParamDefault{the precision of the stream `os`}
+///     \cgalParamExtra{This parameter is only meaningful while using \ascii encoding.}
 ///   \cgalParamNEnd
 /// \cgalNamedParamsEnd
 ///
@@ -1159,7 +1157,5 @@ CGAL_DEPRECATED bool write_ply(std::ostream& os, const Surface_mesh<P>& sm)
 #endif // CGAL_NO_DEPRECATED_CODE
 
 } // namespace CGAL
-
-#endif // !defined(CGAL_CFG_NO_CPP0X_RVALUE_REFERENCE) && !defined(CGAL_CFG_NO_CPP0X_VARIADIC_TEMPLATES)
 
 #endif // CGAL_SURFACE_MESH_IO_PLY_H

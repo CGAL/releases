@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.3.1/Polyhedron/demo/Polyhedron/Plugins/Mesh_3/Mesh_function.h $
-// $Id: Mesh_function.h bf128b3 2021-01-25T16:19:23+01:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v5.4/Polyhedron/demo/Polyhedron/Plugins/Mesh_3/Mesh_function.h $
+// $Id: Mesh_function.h 4b3fee8 2021-09-23T11:37:35+02:00 Jane Tournois
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -53,6 +53,7 @@ struct Mesh_parameters
   bool detect_connected_components;
   int manifold;
   const CGAL::Image_3* image_3_ptr;
+  const CGAL::Image_3* weights_ptr;
   bool use_sizing_field_with_aabb_tree;
 
   inline QStringList log() const;
@@ -330,6 +331,7 @@ launch()
 
   // Ensure c3t3 is ok (usefull if process has been stop by the user)
   mesher_->fix_c3t3();
+  std::cerr<<"Done."<<std::endl;
 }
 
 

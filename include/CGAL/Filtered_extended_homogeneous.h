@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.3.1/Nef_2/include/CGAL/Filtered_extended_homogeneous.h $
-// $Id: Filtered_extended_homogeneous.h 6bae0e3 2021-09-09T11:09:16+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v5.4/Nef_2/include/CGAL/Filtered_extended_homogeneous.h $
+// $Id: Filtered_extended_homogeneous.h 74c029c 2021-09-09T11:44:36+02:00 Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -164,7 +164,7 @@ std::istream& operator>>(std::istream& is, SPolynomial<RT>& p)
     case CGAL::IO::BINARY :
       CGAL::read(is,m);CGAL::read(is,n);break;
     default:
-    CGAL_error_msg("\nStream must be in ascii or binary mode\n");
+    CGAL_error_msg("\nStream must be in ASCII or binary mode\n");
       break;
   }
   return is;
@@ -333,7 +333,7 @@ std::istream& operator>>(std::istream& is, Extended_point<RT>& p)
     case CGAL::IO::BINARY :
       CGAL::read(is,x);CGAL::read(is,y);CGAL::read(is,w); break;
     default:
-    CGAL_error_msg("\nStream must be in ascii or binary mode\n");
+    CGAL_error_msg("\nStream must be in ASCII or binary mode\n");
       break;
   }
   p = Extended_point<RT>(x,y,w);

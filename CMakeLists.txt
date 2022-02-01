@@ -22,8 +22,6 @@ include(GNUInstallDirs)
 #
 #--------------------------------------------------------------------------------------------------
 
-message("== Setting paths ==")
-
 if(CGAL_BRANCH_BUILD)
 
   message(
@@ -469,11 +467,6 @@ if(CMAKE_COMPILER_IS_GNUCXX)
       uniquely_add_flags(CGAL_CXX_FLAGS "-frounding-math")
     endif()
 
-    if("${GCC_VERSION}" MATCHES "^4.2")
-      message(STATUS "Using gcc version 4.2. Adding -fno-strict-aliasing")
-      uniquely_add_flags(CGAL_CXX_FLAGS "-fno-strict-aliasing")
-    endif()
-
     if("${CMAKE_SYSTEM_PROCESSOR}" MATCHES "alpha")
       message(STATUS "Using gcc on alpha. Adding -mieee -mfp-rounding-mode=d")
       uniquely_add_flags(CGAL_CXX_FLAGS "-mieee -mfp-rounding-mode=d")
@@ -857,6 +850,8 @@ if(NOT RUNNING_CGAL_AUTO_TEST)
     add_programs(test tests OFF)
   endif()
 endif()
+
+message("== Setting paths ==")
 
 #--------------------------------------------------------------------------------------------------
 #

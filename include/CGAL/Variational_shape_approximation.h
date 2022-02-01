@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.3.1/Surface_mesh_approximation/include/CGAL/Variational_shape_approximation.h $
-// $Id: Variational_shape_approximation.h 269a47d 2021-01-14T16:51:13+01:00 Dmitry Anisimov
+// $URL: https://github.com/CGAL/cgal/blob/v5.4/Surface_mesh_approximation/include/CGAL/Variational_shape_approximation.h $
+// $Id: Variational_shape_approximation.h 6911f0c 2022-01-07T15:42:50+01:00 Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -1152,7 +1152,9 @@ private:
         target_px = max_nb_proxies;
       else
         target_px *= 2;
-      add_proxies_error_diffusion(target_px - m_proxies.size());
+      // if no proxies could be added, stop
+      if( add_proxies_error_diffusion(target_px - m_proxies.size()) == 0)
+        break;
       const FT err = run(nb_relaxations);
       error_drop = err / initial_err;
     }

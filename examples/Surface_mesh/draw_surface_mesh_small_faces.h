@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.3.1/Surface_mesh/examples/Surface_mesh/draw_surface_mesh_small_faces.h $
-// $Id: draw_surface_mesh_small_faces.h fb6f703 2021-05-04T14:07:49+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v5.4/Surface_mesh/examples/Surface_mesh/draw_surface_mesh_small_faces.h $
+// $Id: draw_surface_mesh_small_faces.h 2bbcabe 2021-11-11T17:23:37+01:00 Guillaume Damiand
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Guillaume Damiand <guillaume.damiand@liris.cnrs.fr>
@@ -263,7 +263,7 @@ void draw_surface_mesh_with_small_faces(CGAL::Surface_mesh<K>& amesh)
   if (!cgal_test_suite)
   {
     int argc=1;
-    const char* argv[2]={"surface_mesh_viewer","\0"};
+    const char* argv[2]={"surface_mesh_viewer", nullptr};
     QApplication app(argc,const_cast<char**>(argv));
     SimpleSurfaceMeshWithSmallFacesViewerQt<CGAL::Surface_mesh<K>>
       mainwindow(app.activeWindow(), amesh);

@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.3.1/Polygon_mesh_processing/include/CGAL/Polygon_mesh_processing/internal/Hole_filling/Triangulate_hole_polyline.h $
-// $Id: Triangulate_hole_polyline.h b775b04 2021-04-28T15:24:01+02:00 Laurent Rineau
+// $URL: https://github.com/CGAL/cgal/blob/v5.4/Polygon_mesh_processing/include/CGAL/Polygon_mesh_processing/internal/Hole_filling/Triangulate_hole_polyline.h $
+// $Id: Triangulate_hole_polyline.h d26246b 2021-09-01T17:46:33+02:00 Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -28,8 +28,9 @@
 #include <CGAL/Triangulation_vertex_base_with_info_2.h>
 #include <CGAL/Triangulation_face_base_with_info_2.h>
 #include <CGAL/Constrained_Delaunay_triangulation_2.h>
-#include <CGAL/Triangulation_2_projection_traits_3.h>
+#include <CGAL/Projection_traits_3.h>
 #include <queue>
+#include <CGAL/Polygon_2_algorithms.h>
 #endif
 
 #include <CGAL/utility.h>
@@ -1374,7 +1375,7 @@ triangulate_hole_polyline_with_cdt(const PointRange& points,
   }
 
   // Checking the hole simplicity.
-  typedef Triangulation_2_projection_traits_3<Traits> P_traits;
+  typedef CGAL::Projection_traits_3<Traits> P_traits;
   const P_traits p_traits(avg_normal);
   if (!is_simple_2(P.begin(), P.end() - 1, p_traits)) {
     // std::cerr << "WARNING: simplicity, cdt 2 falls back to the original solution!" << std::endl;

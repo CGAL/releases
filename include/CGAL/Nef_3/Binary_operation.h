@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.3.1/Nef_3/include/CGAL/Nef_3/Binary_operation.h $
-// $Id: Binary_operation.h 11bc0e4 2021-06-25T09:29:03+02:00 Sebastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v5.4/Nef_3/include/CGAL/Nef_3/Binary_operation.h $
+// $Id: Binary_operation.h 8b3fab7 2021-06-29T17:33:46+01:00 Giles Bathgate
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -530,18 +530,6 @@ class Binary_operation : public CGAL::SNC_decorator<Map> {
     }
     CGAL_NEF_TRACEN("\nnumber of vertices (so far...) = "
                     << this->sncp()->number_of_vertices());
-#elif defined CGAL_NEF3_INTERSECTION_NAIVE
-
-    CGAL::SNC_point_locator_naive<SNC_decorator> pln1;
-    CGAL::SNC_point_locator_naive<SNC_decorator> pln2;
-    pln1.initialize(const_cast<SNC_structure*>(&snc1));
-    pln2.initialize(const_cast<SNC_structure*>(&snc2));
-    Halfedge_iterator e0;
-    CGAL_forall_edges(e0,const_cast<SNC_structure&>(snc1))
-      pln2.intersect_with_edges_and_facets(e0,call_back0);
-    CGAL_forall_edges(e0,const_cast<SNC_structure&>(snc2))
-      pln1.intersect_with_facets( e0, call_back1);
-
 #else
     CGAL_NEF_TRACEN("intersection by fast box intersection");
         binop_intersection_test_segment_tree<SNC_decorator> binop_box_intersection;

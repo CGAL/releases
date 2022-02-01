@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.3.1/Polygon_mesh_processing/include/CGAL/Polygon_mesh_processing/remesh.h $
-// $Id: remesh.h ec7a211 2021-06-22T14:22:32+02:00 Jane Tournois
+// $URL: https://github.com/CGAL/cgal/blob/v5.4/Polygon_mesh_processing/include/CGAL/Polygon_mesh_processing/remesh.h $
+// $Id: remesh.h 2a90c31 2021-06-24T12:08:05+02:00 Jane Tournois
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -130,6 +130,24 @@ namespace Polygon_mesh_processing {
 *                       computed with respect to the constrained edges listed in the property map
 *                       `edge_is_constrained_map`}
 *     \cgalParamExtra{The map is updated during the remeshing process while new faces are created.}
+*   \cgalParamNEnd
+*
+*   \cgalParamNBegin{do_split}
+*     \cgalParamDescription{whether edges that are too long with respect to the given sizing are split}
+*     \cgalParamType{Boolean}
+*     \cgalParamDefault{`true`}
+*   \cgalParamNEnd
+*
+*   \cgalParamNBegin{do_collapse}
+*     \cgalParamDescription{whether edges that are too short with respect to the given sizing are collapsed}
+*     \cgalParamType{Boolean}
+*     \cgalParamDefault{`true`}
+*   \cgalParamNEnd
+*
+*   \cgalParamNBegin{do_flip}
+*     \cgalParamDescription{whether edge flips are performed to improve shape and valence}
+*     \cgalParamType{Boolean}
+*     \cgalParamDefault{`true`}
 *   \cgalParamNEnd
 *
 *   \cgalParamNBegin{number_of_relaxation_steps}

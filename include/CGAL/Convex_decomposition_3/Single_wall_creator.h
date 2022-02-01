@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.3.1/Convex_decomposition_3/include/CGAL/Convex_decomposition_3/Single_wall_creator.h $
-// $Id: Single_wall_creator.h 30e536b 2021-03-01T08:06:48+00:00 Giles Bathgate
+// $URL: https://github.com/CGAL/cgal/blob/v5.4/Convex_decomposition_3/include/CGAL/Convex_decomposition_3/Single_wall_creator.h $
+// $Id: Single_wall_creator.h 6831403 2021-09-29T11:47:08+02:00 Laurent Rineau
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -74,7 +74,7 @@ class Single_wall_creator : public Modifier_base<typename Nef_::SNC_and_PL> {
 
  public:
   Single_wall_creator(SVertex_handle e, Vector_3 d)
-    : ein(e), dir(d)
+    : ein(e), dir(d), sncp(nullptr), pl(nullptr)
 #ifndef CGAL_NEF_NO_INDEXED_ITEMS
     , index1(0), index2(0)
 #endif

@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.3.1/Polygon_mesh_processing/include/CGAL/Polygon_mesh_processing/internal/Hole_filling/Triangulate_hole_polygon_mesh.h $
-// $Id: Triangulate_hole_polygon_mesh.h b64c963 2020-10-21T11:55:58+02:00 Dmitry Anisimov
+// $URL: https://github.com/CGAL/cgal/blob/v5.4/Polygon_mesh_processing/include/CGAL/Polygon_mesh_processing/internal/Hole_filling/Triangulate_hole_polygon_mesh.h $
+// $Id: Triangulate_hole_polygon_mesh.h 625848e 2021-10-04T13:21:47+02:00 Mael Rouxel-Labbé
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -191,7 +191,7 @@ triangulate_hole_polygon_mesh(PolygonMesh& pmesh,
   ;
 
   #ifdef CGAL_PMP_HOLE_FILLING_DEBUG
-  std:cerr << "Hole filling: " << timer.time() << " sc." << std::endl; timer.reset();
+  std::cerr << "Hole filling: " << timer.time() << " sc." << std::endl; timer.reset();
   #endif
   return std::make_pair(tracer.out, weight);
 }

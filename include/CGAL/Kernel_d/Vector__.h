@@ -7,8 +7,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.3.1/Kernel_d/include/CGAL/Kernel_d/Vector__.h $
-// $Id: Vector__.h 4e519a3 2021-05-05T13:15:37+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v5.4/Kernel_d/include/CGAL/Kernel_d/Vector__.h $
+// $Id: Vector__.h 78ff918 2021-06-23T23:34:14+02:00 Mael Rouxel-Labbé
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -444,7 +444,7 @@ std::istream& operator>>(std::istream& is, Vector_<NT_,AL_>& v)
       }
       break;
     default:
-      std::cerr<<"\nStream must be in ascii or binary mode"<<std::endl;
+      std::cerr<<"\nStream must be in ASCII or binary mode"<<std::endl;
       break;
   }
   return is;

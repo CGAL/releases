@@ -7,8 +7,8 @@
 //
 // This file is part of CGAL (www.cgal.org);
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.3.1/Stream_support/include/CGAL/IO/OFF/generic_copy_OFF.h $
-// $Id: generic_copy_OFF.h 277b8cc 2020-11-25T13:20:26+01:00 Maxime Gimeno
+// $URL: https://github.com/CGAL/cgal/blob/v5.4/Stream_support/include/CGAL/IO/OFF/generic_copy_OFF.h $
+// $Id: generic_copy_OFF.h 32f40d8 2021-11-11T15:19:28+01:00 Sébastien Loriot
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -71,12 +71,12 @@ generic_copy_OFF(File_scanner_OFF& scanner,
     if(! in)
       return;
 
-    std::size_t no;
+    std::size_t no = 0;
     scanner.scan_facet(no, i);
     writer.write_facet_begin(no);
     for(std::size_t j=0; j<no; ++j)
     {
-      std::size_t index;
+      std::size_t index = 0;
       scanner.scan_facet_vertex_index(index, j+1, i);
       writer.write_facet_vertex_index(index);
     }

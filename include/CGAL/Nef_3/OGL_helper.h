@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.3.1/Nef_3/include/CGAL/Nef_3/OGL_helper.h $
-// $Id: OGL_helper.h fb6f703 2021-05-04T14:07:49+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v5.4/Nef_3/include/CGAL/Nef_3/OGL_helper.h $
+// $Id: OGL_helper.h e0e4874 2021-09-15T15:48:35+01:00 Andreas Fabri
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -22,6 +22,7 @@
 #include <qgl.h>
 #include <CGAL/glu.h>
 #include <cstdlib>
+#include <iostream>
 
 #define CGAL_NEF3_MARKED_VERTEX_COLOR 183,232,92
 #define CGAL_NEF3_MARKED_EDGE_COLOR 171,216,86
@@ -226,7 +227,7 @@ namespace OGL {
   inline void CGAL_GLU_TESS_CALLBACK errorCallback(GLenum errorCode)
   { const GLubyte *estring;
     estring = gluErrorString(errorCode);
-    fprintf(stderr, "Tessellation Error: %s\n", estring);
+    std::cerr << "Tessellation Error: " << estring << std::endl;
     std::exit (0);
   }
 

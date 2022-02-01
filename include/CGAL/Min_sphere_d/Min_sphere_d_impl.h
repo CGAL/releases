@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.3.1/Bounding_volumes/include/CGAL/Min_sphere_d/Min_sphere_d_impl.h $
-// $Id: Min_sphere_d_impl.h 4e519a3 2021-05-05T13:15:37+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v5.4/Bounding_volumes/include/CGAL/Min_sphere_d/Min_sphere_d_impl.h $
+// $Id: Min_sphere_d_impl.h 78ff918 2021-06-23T23:34:14+02:00 Mael Rouxel-Labbé
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -77,7 +77,7 @@ operator >> ( std::istream& is, Min_sphere_d<Traits>& min_sphere)
 
       case IO::PRETTY:
         std::cerr << std::endl;
-        std::cerr << "Stream must be in ascii or binary mode" << std::endl;
+        std::cerr << "Stream must be in ASCII or binary mode" << std::endl;
         break;
 
       case IO::ASCII:

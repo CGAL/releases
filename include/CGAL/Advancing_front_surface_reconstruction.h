@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.3.1/Advancing_front_surface_reconstruction/include/CGAL/Advancing_front_surface_reconstruction.h $
-// $Id: Advancing_front_surface_reconstruction.h 6042946 2020-12-06T12:37:58+01:00 Mael Rouxel-Labbé
+// $URL: https://github.com/CGAL/cgal/blob/v5.4/Advancing_front_surface_reconstruction/include/CGAL/Advancing_front_surface_reconstruction.h $
+// $Id: Advancing_front_surface_reconstruction.h ec573af 2022-01-04T15:29:20+00:00 Andreas Fabri
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Frank Da, David Cohen-Steiner, Andreas Fabri
@@ -36,11 +36,11 @@
 #include <CGAL/Advancing_front_surface_reconstruction_cell_base_3.h>
 #include <CGAL/Timer.h>
 #include <CGAL/Triangulation_data_structure_2.h>
-#include <CGAL/internal/AFSR/Surface_vertex_base_2.h>
-#include <CGAL/internal/AFSR/Surface_face_base_2.h>
-#include <CGAL/internal/AFSR/construct_surface_2.h>
-#include <CGAL/internal/AFSR/construct_polyhedron.h>
-#include <CGAL/internal/AFSR/write_triple_indices.h>
+#include <CGAL/Advancing_front_surface_reconstruction/internal/Surface_vertex_base_2.h>
+#include <CGAL/Advancing_front_surface_reconstruction/internal/Surface_face_base_2.h>
+#include <CGAL/Advancing_front_surface_reconstruction/internal/construct_surface_2.h>
+#include <CGAL/Advancing_front_surface_reconstruction/internal/construct_polyhedron.h>
+#include <CGAL/Advancing_front_surface_reconstruction/internal/write_triple_indices.h>
 
 namespace CGAL {
 
@@ -191,7 +191,7 @@ namespace CGAL {
 
   \tparam P must be a functor offering
   \code
-    FT operator()(Advancing_front_surface_reconstruction,Cell_handle,int)
+    FT operator()(Advancing_front_surface_reconstruction::Cell_handle,int)
   \endcode
   returning the priority of the facet `(Cell_handle,int)`. This functor enables the user
   to choose how candidate triangles are prioritized. If a facet should not appear in the output,
@@ -2581,18 +2581,18 @@ namespace CGAL {
   be convertible to `Exact_predicates_inexact_constructions_kernel::Point_3` with the `Cartesian_converter`.
   \tparam IndicesOutputIterator must be an output iterator to which
   `std::array<std::size_t, 3>` can be assigned.
-  \tparam Priority must be a functor with `double operator()(Advancing_front_surface_reconstruction,Cell_handle,int)` returning the
+  \tparam Priority must be a functor with `double operator()(Advancing_front_surface_reconstruction::Cell_handle,int)` returning the
   priority of the facet `(Cell_handle,int)`.
 
   \param b iterator on the first point of the sequence
   \param e past the end iterator of the point sequence
   \param out output iterator
+  \param priority enables the user to choose how candidate triangles are prioritized.
   \param radius_ratio_bound candidates incident to surface triangles which are not in the beta-wedge
          are discarded, if the ratio of their radius and the radius of the surface triangle is larger than `radius_ratio_bound`.
          Described in Section \ref AFSR_Boundaries
   \param beta half the angle of the wedge in which only the radius of triangles counts for the plausibility of candidates.
          Described in Section \ref AFSR_Selection
-  \param priority allows the user to choose how candidate triangles are prioritized.
 
   */
   template <typename PointInputIterator, typename IndicesOutputIterator, typename Priority>

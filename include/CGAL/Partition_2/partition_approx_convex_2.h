@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.3.1/Partition_2/include/CGAL/Partition_2/partition_approx_convex_2.h $
-// $Id: partition_approx_convex_2.h 5a36ff8 2020-12-04T08:02:26+00:00 Giles Bathgate
+// $URL: https://github.com/CGAL/cgal/blob/v5.4/Partition_2/include/CGAL/Partition_2/partition_approx_convex_2.h $
+// $Id: partition_approx_convex_2.h e6c767d 2021-05-12T15:45:07+02:00 Maxime Gimeno
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -17,7 +17,7 @@
 
 
 #include <boost/config.hpp>
-#if  (BOOST_GCC >= 40800)
+#if defined(BOOST_GCC)
 _Pragma("GCC diagnostic push")
 _Pragma("GCC diagnostic ignored \"-Wmaybe-uninitialized\"")
 #endif
@@ -264,7 +264,7 @@ OutputIterator partition_approx_convex_2(InputIterator first,
 }
 
 }
-#if  (BOOST_GCC >= 40800)
+#if defined(BOOST_GCC)
  _Pragma("GCC diagnostic pop")
 #endif
 #endif // CGAL_PARTITION_APPROX_CONVEX_H

@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.3.1/Nef_3/include/CGAL/Nef_3/SNC_external_structure.h $
-// $Id: SNC_external_structure.h ce7d06d 2020-12-05T08:12:56+00:00 Giles Bathgate
+// $URL: https://github.com/CGAL/cgal/blob/v5.4/Nef_3/include/CGAL/Nef_3/SNC_external_structure.h $
+// $Id: SNC_external_structure.h 521c72d 2021-10-04T13:22:00+02:00 Mael Rouxel-Labbé
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -883,9 +883,9 @@ public:
       }
     }
 
-    // finaly, we go through all the Shells which do not correspond to a Volume
-    //     and we assign them to its enclosing Volume determined via a facet below
-    //     check.
+    // finally, we go through all the Shells which do not correspond to a Volume
+    // and we assign them to its enclosing Volume determined via a facet below
+    // check.
 
     CGAL_forall_sfaces(f,*this->sncp()) {
       //    progress3++;

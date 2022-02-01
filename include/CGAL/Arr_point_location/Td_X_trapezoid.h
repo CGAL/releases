@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.3.1/Arrangement_on_surface_2/include/CGAL/Arr_point_location/Td_X_trapezoid.h $
-// $Id: Td_X_trapezoid.h 1faa0e2 2021-04-28T10:55:26+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v5.4/Arrangement_on_surface_2/include/CGAL/Arr_point_location/Td_X_trapezoid.h $
+// $Id: Td_X_trapezoid.h 97cac65 2021-07-23T10:59:49+02:00 Maxime Gimeno
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -122,15 +122,10 @@ public:
 #if defined(__SUNPRO_CC) || defined(__PGI) || defined(__INTEL_COMPILER)
   friend class Trapezoidal_decomposition_2<Traits>::Around_point_circulator;
   friend class Trapezoidal_decomposition_2<Traits>::In_face_iterator;
-#elif defined(__GNUC__)
+#elif (__GNUC__ > 0)
 
-#if ((__GNUC__ < 3) || ((__GNUC__ == 3) && (__GNUC_MINOR__ <= 2)))
-  friend typename Trapezoidal_decomposition_2<Traits>::Around_point_circulator;
-  friend typename Trapezoidal_decomposition_2<Traits>::In_face_iterator;
-#else
   friend class Trapezoidal_decomposition_2<Traits>::Around_point_circulator;
   friend class Trapezoidal_decomposition_2<Traits>::In_face_iterator;
-#endif
 
 #else
   friend class Around_point_circulator;

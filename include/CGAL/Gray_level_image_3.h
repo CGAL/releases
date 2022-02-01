@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.3.1/Surface_mesher/include/CGAL/Gray_level_image_3.h $
-// $Id: Gray_level_image_3.h 1faa0e2 2021-04-28T10:55:26+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v5.4/Surface_mesher/include/CGAL/Gray_level_image_3.h $
+// $Id: Gray_level_image_3.h 44df664 2021-10-07T11:38:06+02:00 Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Laurent RINEAU
@@ -20,6 +20,7 @@
 #include <CGAL/auto_link/ImageIO.h>
 
 #include <memory>
+#include <string>
 
 #ifdef CGAL_SURFACE_MESHER_DEBUG_GRAY_LEVEL_IMAGE_3_CONSTRUCTOR
 #include <boost/format.hpp>
@@ -44,7 +45,7 @@ public:
   {
   }
 
-  Gray_level_image_3(const char* file, float isoval, bool positive_inside_=true, float value_outside = 0.f)
+  Gray_level_image_3(const std::string& file, float isoval, bool positive_inside_=true, float value_outside = 0.f)
     : Image_3(),
       isovalue(isoval),
       positive_inside(positive_inside_),

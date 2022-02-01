@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.3.1/Polygon_mesh_processing/include/CGAL/Polygon_mesh_processing/repair_polygon_soup.h $
-// $Id: repair_polygon_soup.h 9b442d1 2021-04-06T15:12:47+02:00 Laurent Rineau
+// $URL: https://github.com/CGAL/cgal/blob/v5.4/Polygon_mesh_processing/include/CGAL/Polygon_mesh_processing/repair_polygon_soup.h $
+// $Id: repair_polygon_soup.h c03444a 2021-06-17T08:29:08+02:00 Andreas Fabri
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Mael Rouxel-Labbé
@@ -902,7 +902,7 @@ std::size_t merge_duplicate_polygons_in_polygon_soup(const PointRange& points,
   typedef typename internal::GetPolygonGeomTraits<PointRange, PolygonRange, NamedParameters>::type Traits;
   Traits traits = choose_parameter<Traits>(get_parameter(np, internal_np::geom_traits));
 
-  std::vector<std::vector<P_ID> > all_duplicate_polygons;
+  std::deque<std::vector<P_ID> > all_duplicate_polygons;
   internal::collect_duplicate_polygons(points, polygons, std::back_inserter(all_duplicate_polygons), traits, same_orientation);
 
   if(all_duplicate_polygons.empty())

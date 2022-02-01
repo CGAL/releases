@@ -7,8 +7,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.3.1/Kernel_23/include/CGAL/Circle_2.h $
-// $Id: Circle_2.h 4e519a3 2021-05-05T13:15:37+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v5.4/Kernel_23/include/CGAL/Circle_2.h $
+// $Id: Circle_2.h e7357ac 2021-07-19T14:53:27+02:00 Marc Glisse
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -61,6 +61,9 @@ public:
 
   Circle_2(const RCircle_2& t)
     : RCircle_2(t) {}
+
+  Circle_2(RCircle_2&& t)
+    : RCircle_2(std::move(t)) {}
 
   Circle_2(const Point_2 &center, const FT &squared_radius,
            const Orientation &orientation)
@@ -276,7 +279,7 @@ extract(std::istream& is, Circle_2<R>& c)
     default:
         is.setstate(std::ios::failbit);
         std::cerr << "" << std::endl;
-        std::cerr << "Stream must be in ascii or binary mode" << std::endl;
+        std::cerr << "Stream must be in ASCII or binary mode" << std::endl;
         break;
     }
     if (is)

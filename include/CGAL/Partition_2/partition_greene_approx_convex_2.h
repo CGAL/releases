@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.3.1/Partition_2/include/CGAL/Partition_2/partition_greene_approx_convex_2.h $
-// $Id: partition_greene_approx_convex_2.h 5a36ff8 2020-12-04T08:02:26+00:00 Giles Bathgate
+// $URL: https://github.com/CGAL/cgal/blob/v5.4/Partition_2/include/CGAL/Partition_2/partition_greene_approx_convex_2.h $
+// $Id: partition_greene_approx_convex_2.h 521c72d 2021-10-04T13:22:00+02:00 Mael Rouxel-Labbé
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -609,7 +609,7 @@ void find_smallest_yx(BidirectionalCirculator& first, const Traits& traits)
    current++;
    // find out which direction to go
    typename Traits::Less_yx_2     less_yx = traits.less_yx_2_object();
-   if (less_yx(*current, *first))   // go foward
+   if (less_yx(*current, *first))   // go forward
    {
       do
       {

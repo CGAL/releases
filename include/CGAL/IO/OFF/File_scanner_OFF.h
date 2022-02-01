@@ -7,8 +7,8 @@
 //
 // This file is part of CGAL (www.cgal.org);
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.3.1/Stream_support/include/CGAL/IO/OFF/File_scanner_OFF.h $
-// $Id: File_scanner_OFF.h 4e519a3 2021-05-05T13:15:37+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v5.4/Stream_support/include/CGAL/IO/OFF/File_scanner_OFF.h $
+// $Id: File_scanner_OFF.h 4fa136d 2022-01-17T09:06:57+01:00 Sébastien Loriot
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -742,6 +742,7 @@ public:
         m_in.clear(std::ios::badbit);
         if(verbose())
           std::cerr<<"error while reading facet. Missing index."<<std::endl;
+        index=0;
         return;
       }
       index = static_cast<std::size_t>(entries[current_entry]);
@@ -757,7 +758,7 @@ public:
                      "cannot read OFF file beyond facet "
                   << current_facet << "." << std::endl;
       }
-
+      index=0;
       set_off_header(false);
       return;
     }
@@ -777,7 +778,7 @@ public:
                   << index + index_offset() << ": is out of range."
                   << std::endl;
       }
-
+      index = 0;
       set_off_header(false);
       return;
     }

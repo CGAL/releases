@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.3.1/Surface_mesh_topology/include/CGAL/Path_on_surface.h $
-// $Id: Path_on_surface.h 7a6634bd 2021-04-22T13:04:37+01:00 Andreas Fabri
+// $URL: https://github.com/CGAL/cgal/blob/v5.4/Surface_mesh_topology/include/CGAL/Path_on_surface.h $
+// $Id: Path_on_surface.h 393ae7d 2021-05-12T15:03:53+02:00 Maxime Gimeno
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Guillaume Damiand <guillaume.damiand@liris.cnrs.fr>
@@ -882,10 +882,7 @@ public:
     return boost::algorithm::knuth_morris_pratt_search(pp2.m_path.begin(),
                                                        pp2.m_path.end(),
                                                        pp1.m_path.begin(),
-                                                       pp1.m_path.end())
-#if BOOST_VERSION>=106200
-      .first
-#endif
+                                                       pp1.m_path.end()).first
         !=pp2.m_path.end();
   }
   bool operator!=(const Self&  other) const
@@ -1118,11 +1115,7 @@ public:
     auto itMatch = boost::algorithm::knuth_morris_pratt_search(pp2.m_path.begin() + 1,
                                                                pp2.m_path.end(),
                                                                pp1.m_path.begin(),
-                                                               pp1.m_path.end())
-#if BOOST_VERSION>=106200
-      .first
-#endif
-      ;
+                                                               pp1.m_path.end()).first;
     /// It can be proved that the first match location is the length of match
     auto primitiveSize = itMatch - pp2.m_path.begin();
     auto originalLength = pp1.length();

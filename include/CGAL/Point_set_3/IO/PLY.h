@@ -2,8 +2,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.3.1/Point_set_3/include/CGAL/Point_set_3/IO/PLY.h $
-// $Id: PLY.h c8cc074 2021-09-27T15:33:42+02:00 Mael Rouxel-Labbé
+// $URL: https://github.com/CGAL/cgal/blob/v5.4/Point_set_3/include/CGAL/Point_set_3/IO/PLY.h $
+// $Id: PLY.h ad79d37 2021-09-29T11:46:30+02:00 Laurent Rineau
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Simon Giraudot
@@ -221,7 +221,7 @@ public:
 /*!
   \ingroup PkgPointSet3IOPLY
 
-  \brief reads a point set with properties from an input stream in ASCII or Binary \ref IOStreamPLY.
+  \brief reads a point set with properties from an input stream in \ascii or binary \ref IOStreamPLY.
 
   - the operator reads the vertex `point` property;
   - if three PLY properties `nx`, `ny` and `nz` with type `float`
@@ -307,7 +307,7 @@ bool read_PLY(std::istream& is, CGAL::Point_set_3<Point, Vector>& point_set)
 /*!
   \ingroup PkgPointSet3IOPLY
 
-  \brief reads a point set with properties from an input stream in ASCII or Binary \ref IOStreamPLY.
+  \brief reads a point set with properties from an input stream in \ascii or binary \ref IOStreamPLY.
 
   - the operator reads the vertex `point` property;
   - if three PLY properties `nx`, `ny` and `nz` with type `float`
@@ -331,7 +331,7 @@ bool read_PLY(std::istream& is, CGAL::Point_set_3<Point, Vector>& point_set)
 
   \cgalNamedParamsBegin
     \cgalParamNBegin{use_binary_mode}
-      \cgalParamDescription{indicates whether data should be read in binary (`true`) or in ASCII (`false`)}
+      \cgalParamDescription{indicates whether data should be read in binary (`true`) or in \ascii (`false`)}
       \cgalParamType{Boolean}
       \cgalParamDefault{`true`}
     \cgalParamNEnd
@@ -394,7 +394,7 @@ bool read_PLY(const std::string& fname, CGAL::Point_set_3<Point, Vector>& point_
   \deprecated This function is deprecated since \cgal 5.3,
               \link PkgPointSet3IO `CGAL::IO::read_PLY()` \endlink  should be used instead.
 
-  \brief reads a point set with properties from an input stream in ASCII or Binary PLY format.
+  \brief reads a point set with properties from an input stream in \ascii or binary PLY format.
 
   - the operator reads the vertex `point` property;
   - if three PLY properties `nx`, `ny` and `nz` with type `float`
@@ -460,8 +460,8 @@ namespace IO {
    \cgalParamNBegin{stream_precision}
      \cgalParamDescription{a parameter used to set the precision (i.e. how many digits are generated) of the output stream}
      \cgalParamType{int}
-     \cgalParamDefault{`the precision of the stream `os``}
-     \cgalParamExtra{This parameter is only meaningful while using ASCII encoding.}
+     \cgalParamDefault{the precision of the stream `os`}
+     \cgalParamExtra{This parameter is only meaningful while using \ascii encoding.}
    \cgalParamNEnd
   \cgalNamedParamsEnd
 
@@ -727,7 +727,7 @@ bool write_PLY(std::ostream& os, const CGAL::Point_set_3<Point, Vector>& point_s
 
   \cgalNamedParamsBegin
     \cgalParamNBegin{use_binary_mode}
-      \cgalParamDescription{indicates whether data should be read in binary (`true`) or in ASCII (`false`)}
+      \cgalParamDescription{indicates whether data should be read in binary (`true`) or in \ascii (`false`)}
       \cgalParamType{Boolean}
       \cgalParamDefault{`true`}
     \cgalParamNEnd
@@ -736,7 +736,7 @@ bool write_PLY(std::ostream& os, const CGAL::Point_set_3<Point, Vector>& point_s
       \cgalParamDescription{a parameter used to set the precision (i.e. how many digits are generated) of the output stream}
       \cgalParamType{int}
       \cgalParamDefault{`6`}
-      \cgalParamExtra{This parameter is only meaningful while using ASCII encoding.}
+      \cgalParamExtra{This parameter is only meaningful while using \ascii encoding.}
     \cgalParamNEnd
   \cgalNamedParamsEnd
 

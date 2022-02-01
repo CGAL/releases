@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.3.1/Periodic_3_triangulation_3/include/CGAL/Periodic_3_regular_triangulation_3.h $
-// $Id: Periodic_3_regular_triangulation_3.h 209513d 2020-07-31T15:58:38+02:00 Dmitry Anisimov
+// $URL: https://github.com/CGAL/cgal/blob/v5.4/Periodic_3_triangulation_3/include/CGAL/Periodic_3_regular_triangulation_3.h $
+// $Id: Periodic_3_regular_triangulation_3.h 98e4718 2021-08-26T11:33:39+02:00 Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Monique Teillaud <Monique.Teillaud@inria.fr>
@@ -17,7 +17,7 @@
 #include <CGAL/license/Periodic_3_triangulation_3.h>
 
 // Needed by remove to fill the hole.
-#include <CGAL/internal/Periodic_3_regular_triangulation_remove_traits_3.h>
+#include <CGAL/Periodic_3_triangulation_3/internal/Periodic_3_regular_triangulation_remove_traits_3.h>
 
 #include <CGAL/Periodic_3_triangulation_3.h>
 #include <CGAL/Periodic_3_triangulation_ds_vertex_base_3.h>
@@ -27,7 +27,7 @@
 #include <CGAL/Regular_triangulation_cell_base_3.h>
 
 #include <CGAL/enum.h>
-#include <CGAL/internal/Has_nested_type_Bare_point.h>
+#include <CGAL/STL_Extension/internal/Has_nested_type_Bare_point.h>
 #include <CGAL/spatial_sort.h>
 #include <CGAL/utility.h>
 
@@ -963,7 +963,7 @@ public:
   // end of geometric functions
 
 #define CGAL_INCLUDE_FROM_PERIODIC_3_REGULAR_TRIANGULATION_3_H
-#include <CGAL/internal/Periodic_3_regular_triangulation_dummy_288.h>
+#include <CGAL/Periodic_3_triangulation_3/internal/Periodic_3_regular_triangulation_dummy_288.h>
 #undef CGAL_INCLUDE_FROM_PERIODIC_3_REGULAR_TRIANGULATION_3_H
 
   Vertex_handle nearest_power_vertex(const Bare_point& p, Cell_handle start) const

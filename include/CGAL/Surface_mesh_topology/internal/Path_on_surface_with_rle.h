@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.3.1/Surface_mesh_topology/include/CGAL/Surface_mesh_topology/internal/Path_on_surface_with_rle.h $
-// $Id: Path_on_surface_with_rle.h 11f2b92 2021-02-25T13:43:38+01:00 Sebastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v5.4/Surface_mesh_topology/include/CGAL/Surface_mesh_topology/internal/Path_on_surface_with_rle.h $
+// $Id: Path_on_surface_with_rle.h 7f63f3d 2021-10-04T15:53:36+02:00 Mael
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Guillaume Damiand <guillaume.damiand@liris.cnrs.fr>
@@ -151,7 +151,7 @@ public:
   /// Both cannot be true at the same time.
   /// Note that for a minimal surface of genus>=2, we cannot have both -2 and
   /// +2 as turn, and thus these parameters are useless.
-  /// However, this case can occured for our unit tests on the cube, this is
+  /// However, this case can occur for our unit tests on the cube, this is
   /// the reason of these parameters.
   Path_on_surface_with_rle(const MQ& aMQ, const Path_on_surface<Map>& apath,
                            bool use_only_positive=false,

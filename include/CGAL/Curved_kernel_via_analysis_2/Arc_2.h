@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.3.1/Arrangement_on_surface_2/include/CGAL/Curved_kernel_via_analysis_2/Arc_2.h $
-// $Id: Arc_2.h 4e519a3 2021-05-05T13:15:37+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v5.4/Arrangement_on_surface_2/include/CGAL/Curved_kernel_via_analysis_2/Arc_2.h $
+// $Id: Arc_2.h bfc5b7e 2021-08-10T10:49:11+03:00 Efi Fogel
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Eric Berberich <eric@mpi-inf.mpg.de>
@@ -946,17 +946,17 @@ public:
      *
      * \pre the arc's relevant end is on bottom or top boundary
      */
-    CGAL::Comparison_result compare_x_at_limit(
+    CGAL::Comparison_result compare_x_on_boundary(
             CGAL::Arr_curve_end ce,
             const Point_2& p
     ) const {
 
-        CGAL_CKvA_2_GRAB_CK_FUNCTOR_FOR_ARC(Compare_x_at_limit_2,
-                                            compare_x_at_limit_2)
-        // compare with nullptr, in order to avoid a performance warning with VC++
+        CGAL_CKvA_2_GRAB_CK_FUNCTOR_FOR_ARC(Compare_x_on_boundary_2,
+                                            compare_x_on_boundary_2)
+        // compare with NULL, in order to avoid a performance warning with VC++
         CGAL_precondition(Kernel_arc_2_equals_Arc_2 ||
                           dynamic_cast< const Kernel_arc_2* >(this) != nullptr);
-        return compare_x_at_limit_2(
+        return compare_x_on_boundary_2(
                 p, *dynamic_cast< const Kernel_arc_2* >(this), ce
         );
     }
@@ -976,15 +976,15 @@ public:
      *
      * \pre the curve ends lie on the bottom or top boundary
      */
-    CGAL::Comparison_result compare_x_at_limit(
+    CGAL::Comparison_result compare_x_on_boundary(
             CGAL::Arr_curve_end ce1,
             const Kernel_arc_2& cv2, CGAL::Arr_curve_end ce2) const {
 
-        CGAL_CKvA_2_GRAB_CK_FUNCTOR_FOR_ARC(Compare_x_at_limit_2,
-                                            compare_x_at_limit_2)
         CGAL_precondition(Kernel_arc_2_equals_Arc_2 ||
                           dynamic_cast< const Kernel_arc_2* >(this) != nullptr);
-        return compare_x_at_limit_2(
+        CGAL_CKvA_2_GRAB_CK_FUNCTOR_FOR_ARC(Compare_x_on_boundary_2,
+                                            compare_x_on_boundary_2)
+        return compare_x_on_boundary_2(
                 *dynamic_cast< const Kernel_arc_2* >(this), ce1, cv2, ce2
         );
     }
@@ -1002,16 +1002,16 @@ public:
      *
      * \pre the arc's relevant end is on bottom or top boundary
      */
-    CGAL::Comparison_result compare_x_near_limit(
+    CGAL::Comparison_result compare_x_near_boundary(
             CGAL::Arr_curve_end ce,
             const Point_2& p
     ) const {
 
-        CGAL_CKvA_2_GRAB_CK_FUNCTOR_FOR_ARC(Compare_x_near_limit_2,
-                                            compare_x_near_limit_2)
+        CGAL_CKvA_2_GRAB_CK_FUNCTOR_FOR_ARC(Compare_x_near_boundary_2,
+                                            compare_x_near_boundary_2)
         CGAL_precondition(Kernel_arc_2_equals_Arc_2 ||
                           dynamic_cast< const Kernel_arc_2* >(this) != nullptr);
-        return compare_x_near_limit_2(
+        return compare_x_near_boundary_2(
                 p, *dynamic_cast< const Kernel_arc_2* >(this), ce
         );
     }
@@ -1030,14 +1030,14 @@ public:
      *
      * \pre the curve ends lie on the bottom or top boundary
      */
-    CGAL::Comparison_result compare_x_near_limit(const Kernel_arc_2& cv2,
+    CGAL::Comparison_result compare_x_near_boundary(const Kernel_arc_2& cv2,
                                                  CGAL::Arr_curve_end ce) const {
 
-        CGAL_CKvA_2_GRAB_CK_FUNCTOR_FOR_ARC(Compare_x_near_limit_2,
-                                            compare_x_near_limit_2)
+        CGAL_CKvA_2_GRAB_CK_FUNCTOR_FOR_ARC(Compare_x_near_boundary_2,
+                                            compare_x_near_boundary_2)
         CGAL_precondition(Kernel_arc_2_equals_Arc_2 ||
                           dynamic_cast< const Kernel_arc_2* >(this) != nullptr);
-        return compare_x_near_limit_2(*dynamic_cast< const Kernel_arc_2* >(this), cv2, ce);
+        return compare_x_near_boundary_2(*dynamic_cast< const Kernel_arc_2* >(this), cv2, ce);
     }
 
     /*!\brief
@@ -3310,8 +3310,8 @@ public:
     CGAL_BEFRIEND_CKvA_2_FUNCTOR(Compare_y_near_boundary_2);
 
     CGAL_BEFRIEND_CKvA_2_FUNCTOR(Parameter_space_in_y_2);
-    CGAL_BEFRIEND_CKvA_2_FUNCTOR(Compare_x_at_limit_2);
-    CGAL_BEFRIEND_CKvA_2_FUNCTOR(Compare_x_near_limit_2);
+    CGAL_BEFRIEND_CKvA_2_FUNCTOR(Compare_x_on_boundary_2);
+    CGAL_BEFRIEND_CKvA_2_FUNCTOR(Compare_x_near_boundary_2);
 
 #undef CGAL_BEFRIEND_CKvA_2_FUNCTOR
 

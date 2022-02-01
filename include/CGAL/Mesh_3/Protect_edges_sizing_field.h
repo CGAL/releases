@@ -4,8 +4,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.3.1/Mesh_3/include/CGAL/Mesh_3/Protect_edges_sizing_field.h $
-// $Id: Protect_edges_sizing_field.h 59a0da4 2021-05-19T17:23:53+02:00 Laurent Rineau
+// $URL: https://github.com/CGAL/cgal/blob/v5.4/Mesh_3/include/CGAL/Mesh_3/Protect_edges_sizing_field.h $
+// $Id: Protect_edges_sizing_field.h 98e4718 2021-08-26T11:33:39+02:00 Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -42,7 +42,7 @@
 
 #include <CGAL/enum.h>
 #include <CGAL/Time_stamper.h>
-#include <CGAL/internal/Has_member_visited.h>
+#include <CGAL/STL_Extension/internal/Has_member_visited.h>
 #include <CGAL/iterator.h>
 #include <CGAL/number_utils.h>
 #include <CGAL/Delaunay_triangulation_3.h>

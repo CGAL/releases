@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.3.1/TDS_3/include/CGAL/Triangulation_data_structure_3.h $
-// $Id: Triangulation_data_structure_3.h cff3cdb 2021-08-12T10:23:57+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v5.4/TDS_3/include/CGAL/Triangulation_data_structure_3.h $
+// $Id: Triangulation_data_structure_3.h 98e4718 2021-08-26T11:33:39+02:00 Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Monique Teillaud <Monique.Teillaud@sophia.inria.fr>
@@ -33,7 +33,7 @@
 #include <boost/unordered_set.hpp>
 #include <CGAL/utility.h>
 #include <CGAL/iterator.h>
-#include <CGAL/internal/Has_member_visited.h>
+#include <CGAL/STL_Extension/internal/Has_member_visited.h>
 
 #include <CGAL/Unique_hash_map.h>
 #include <CGAL/triangulation_assertions.h>
@@ -47,8 +47,8 @@
 #include <CGAL/Triangulation_ds_vertex_base_3.h>
 #include <CGAL/Triangulation_simplex_3.h>
 
-#include <CGAL/internal/Triangulation_ds_iterators_3.h>
-#include <CGAL/internal/Triangulation_ds_circulators_3.h>
+#include <CGAL/TDS_3/internal/Triangulation_ds_iterators_3.h>
+#include <CGAL/TDS_3/internal/Triangulation_ds_circulators_3.h>
 #include <CGAL/tss.h>
 
 #ifdef CGAL_LINKED_WITH_TBB
@@ -1009,9 +1009,7 @@ public:
     Vertex_extractor(Vertex_handle _v, OutputIterator _output, const Tds* _t, Filter _filter):
     v(_v), treat(_output), t(_t), filter(_filter)
     {
-#if ( BOOST_VERSION >= 105000 )
       tmp_vertices.reserve(64);
-#endif
     }
 
     void operator()(Cell_handle c) {

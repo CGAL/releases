@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.3.1/Triangulation_3/include/CGAL/Triangulation_3.h $
-// $Id: Triangulation_3.h 4e519a3 2021-05-05T13:15:37+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v5.4/Triangulation_3/include/CGAL/Triangulation_3.h $
+// $Id: Triangulation_3.h bac0822 2021-09-29T11:46:53+02:00 Laurent Rineau
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Monique Teillaud <Monique.Teillaud@sophia.inria.fr>
@@ -63,12 +63,12 @@
 #include <boost/container/small_vector.hpp>
 
 #ifndef CGAL_TRIANGULATION_3_DONT_INSERT_RANGE_OF_POINTS_WITH_INFO
-#include <CGAL/internal/info_check.h>
+#include <CGAL/STL_Extension/internal/info_check.h>
 #include <boost/iterator/zip_iterator.hpp>
 #endif
 
 #ifndef CGAL_NO_STRUCTURAL_FILTERING
-#include <CGAL/internal/Static_filters/tools.h>
+#include <CGAL/Filtered_kernel/internal/Static_filters/tools.h>
 #include <CGAL/Triangulation_structural_filtering_traits.h>
 #include <CGAL/determinant.h>
 #endif // no CGAL_NO_STRUCTURAL_FILTERING
@@ -446,7 +446,8 @@ private:
     const Self *t;
 
   public:
-    Infinite_tester() {}
+    Infinite_tester()
+      : t(nullptr) {}
 
     Infinite_tester(const Self *tr)
       : t(tr) {}
@@ -574,7 +575,7 @@ protected:
 
 public:
   template<typename P> // Point or Point_3
-  typename boost::result_of<Construct_point_3(P)>::type
+  typename boost::result_of<const Construct_point_3(const P&)>::type
   construct_point(const P& p) const
   {
     return geom_traits().construct_point_3_object()(p);

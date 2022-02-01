@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.3.1/Algebraic_kernel_d/include/CGAL/Algebraic_kernel_d/Bitstream_descartes.h $
-// $Id: Bitstream_descartes.h 26355e2 2020-06-25T12:31:21+02:00 Mael Rouxel-Labbé
+// $URL: https://github.com/CGAL/cgal/blob/v5.4/Algebraic_kernel_d/include/CGAL/Algebraic_kernel_d/Bitstream_descartes.h $
+// $Id: Bitstream_descartes.h 521c72d 2021-10-04T13:22:00+02:00 Mael Rouxel-Labbé
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -789,7 +789,7 @@ public:
       if(Base::bitstream_tree.max_var(curr) == 1) {
         ++curr;
         ++curr_mark;
-        //AcX_DSTREAM("nothing happend" << std::endl);
+        //AcX_DSTREAM("nothing happened" << std::endl);
       }
       else {
         newly_created =

@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.3.1/Nef_S2/include/CGAL/Nef_S2/Sphere_geometry_OGL.h $
-// $Id: Sphere_geometry_OGL.h fb6f703 2021-05-04T14:07:49+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v5.4/Nef_S2/include/CGAL/Nef_S2/Sphere_geometry_OGL.h $
+// $Id: Sphere_geometry_OGL.h 521c72d 2021-10-04T13:22:00+02:00 Mael Rouxel-Labbé
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -200,7 +200,7 @@ class Approximator {
       else                       i=0;
     }
     // now i references the side of maximal angle
-    if ( angle[i] < refinement_angle ) // refinement threshhold
+    if ( angle[i] < refinement_angle ) // refinement threshold
       { T.push_back(t); return; }
     VVector v;
     switch (i) {

@@ -7,8 +7,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.3.1/Kernel_23/include/CGAL/Weighted_point_3.h $
-// $Id: Weighted_point_3.h 4e519a3 2021-05-05T13:15:37+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v5.4/Kernel_23/include/CGAL/Weighted_point_3.h $
+// $Id: Weighted_point_3.h e7357ac 2021-07-19T14:53:27+02:00 Marc Glisse
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -70,6 +70,9 @@ public:
 
   Weighted_point_3(const Rep& p)
       : Rep(p) {}
+
+  Weighted_point_3(Rep&& p)
+      : Rep(std::move(p)) {}
 
   explicit
   Weighted_point_3(const Point_3& p)
@@ -315,7 +318,7 @@ extract(std::istream& is, Weighted_point_3<R>& p, const Cartesian_tag&)
         break;
     default:
         std::cerr << "" << std::endl;
-        std::cerr << "Stream must be in ascii or binary mode" << std::endl;
+        std::cerr << "Stream must be in ASCII or binary mode" << std::endl;
         break;
     }
     if (is)
@@ -344,7 +347,7 @@ extract(std::istream& is, Weighted_point_3<R>& p, const Homogeneous_tag&)
         break;
     default:
         std::cerr << "" << std::endl;
-        std::cerr << "Stream must be in ascii or binary mode" << std::endl;
+        std::cerr << "Stream must be in ASCII or binary mode" << std::endl;
         break;
   }
   if (is)

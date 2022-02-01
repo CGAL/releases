@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.3.1/Mesh_3/include/CGAL/Mesh_3/initialize_triangulation_from_labeled_image.h $
-// $Id: initialize_triangulation_from_labeled_image.h 8e492aa 2021-02-12T16:53:45+01:00 Jane Tournois
+// $URL: https://github.com/CGAL/cgal/blob/v5.4/Mesh_3/include/CGAL/Mesh_3/initialize_triangulation_from_labeled_image.h $
+// $Id: initialize_triangulation_from_labeled_image.h fba3033 2021-04-12T15:33:14+02:00 Mael Rouxel-Labbé
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -16,7 +16,7 @@
 #include <CGAL/license/Mesh_3.h>
 
 #include <CGAL/Mesh_3/search_for_connected_components_in_labeled_image.h>
-#include <CGAL/Mesh_3/squared_distance_Point_3_Triangle_3.h>
+#include <CGAL/Distance_3/Point_3_Triangle_3.h>
 #include <CGAL/Labeled_mesh_domain_3.h>
 #include <CGAL/make_mesh_3.h>
 
