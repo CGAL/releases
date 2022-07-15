@@ -3,7 +3,7 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.3.1/Profiling_tools/include/CGAL/Profile_counter.h $
+// $URL: https://github.com/CGAL/cgal/blob/v5.3.2/Profiling_tools/include/CGAL/Profile_counter.h $
 // $Id: Profile_counter.h 1b5b61a 2021-05-07T12:17:32+02:00 Maxime Gimeno
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //

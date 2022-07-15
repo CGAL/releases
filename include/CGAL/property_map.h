@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.3.1/Property_map/include/CGAL/property_map.h $
-// $Id: property_map.h 131242b 2021-10-12T09:29:23+02:00 Mael Rouxel-Labbé
+// $URL: https://github.com/CGAL/cgal/blob/v5.3.2/Property_map/include/CGAL/property_map.h $
+// $Id: property_map.h 1d36ae1 2021-12-13T09:40:40+01:00 Sébastien Loriot
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Andreas Fabri and Laurent Saboret
@@ -40,15 +40,13 @@ namespace CGAL {
 
 /// A boolean property map return a const value at compile time
 template <typename Key, bool default_value>
-class Static_boolean_property_map
+struct Static_boolean_property_map
 {
-public:
   typedef Key key_type;
   typedef bool value_type;
   typedef bool reference;
   typedef boost::read_write_property_map_tag category;
 
-public:
   inline friend
   value_type
   get(Static_boolean_property_map, const key_type&)
@@ -65,15 +63,16 @@ public:
 
 template <typename PM1, typename PM2>
 class OR_property_map {
+  PM1 pm1;
+  PM2 pm2;
+
+ public:
+
   typedef typename PM1::key_type key_type;
   typedef typename PM1::value_type value_type;
   typedef typename PM1::reference reference;
   typedef boost::read_write_property_map_tag category;
 
-  PM1 pm1;
-  PM2 pm2;
-
- public:
   OR_property_map() {} // required by boost::connected_components
 
   OR_property_map(PM1 pm1, PM2 pm2)

@@ -3,7 +3,7 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.3.1/Filtered_kernel/include/CGAL/internal/Static_filters/Compare_distance_3.h $
+// $URL: https://github.com/CGAL/cgal/blob/v5.3.2/Filtered_kernel/include/CGAL/internal/Static_filters/Compare_distance_3.h $
 // $Id: Compare_distance_3.h cdbc2c6 2021-01-26T13:56:45+00:00 Andreas Fabri
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //

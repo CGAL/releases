@@ -7,7 +7,7 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.3.1/Distance_3/include/CGAL/squared_distance_3_3.h $
+// $URL: https://github.com/CGAL/cgal/blob/v5.3.2/Distance_3/include/CGAL/squared_distance_3_3.h $
 // $Id: squared_distance_3_3.h b787a0a 2021-02-26T16:45:33+00:00 Andreas Fabri
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //

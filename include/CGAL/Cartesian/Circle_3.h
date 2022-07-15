@@ -7,7 +7,7 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.3.1/Cartesian_kernel/include/CGAL/Cartesian/Circle_3.h $
+// $URL: https://github.com/CGAL/cgal/blob/v5.3.2/Cartesian_kernel/include/CGAL/Cartesian/Circle_3.h $
 // $Id: Circle_3.h fe5f655 2021-03-29T15:23:24+02:00 Maxime Gimeno
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //

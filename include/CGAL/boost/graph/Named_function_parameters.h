@@ -2,7 +2,7 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.3.1/BGL/include/CGAL/boost/graph/Named_function_parameters.h $
+// $URL: https://github.com/CGAL/cgal/blob/v5.3.2/BGL/include/CGAL/boost/graph/Named_function_parameters.h $
 // $Id: Named_function_parameters.h 120d94a 2021-10-20T15:21:40+02:00 Sébastien Loriot
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //

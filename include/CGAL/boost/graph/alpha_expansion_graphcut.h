@@ -2,8 +2,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.3.1/BGL/include/CGAL/boost/graph/alpha_expansion_graphcut.h $
-// $Id: alpha_expansion_graphcut.h 590ddf8 2021-10-08T15:38:47+02:00 Mael Rouxel-Labbé
+// $URL: https://github.com/CGAL/cgal/blob/v5.3.2/BGL/include/CGAL/boost/graph/alpha_expansion_graphcut.h $
+// $Id: alpha_expansion_graphcut.h 1a0ef78 2022-01-11T12:39:57+01:00 Sébastien Loriot
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -688,6 +688,7 @@ double alpha_expansion_graphcut (const InputGraph& input_graph,
   return min_cut;
 }
 
+/// \cond SKIP_IN_MANUAL
 
 /// \cond SKIP_IN_MANUAL
 // variant with default NP

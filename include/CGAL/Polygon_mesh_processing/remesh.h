@@ -3,7 +3,7 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.3.1/Polygon_mesh_processing/include/CGAL/Polygon_mesh_processing/remesh.h $
+// $URL: https://github.com/CGAL/cgal/blob/v5.3.2/Polygon_mesh_processing/include/CGAL/Polygon_mesh_processing/remesh.h $
 // $Id: remesh.h ec7a211 2021-06-22T14:22:32+02:00 Jane Tournois
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //

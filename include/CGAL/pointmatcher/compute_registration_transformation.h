@@ -3,7 +3,7 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.3.1/Point_set_processing_3/include/CGAL/pointmatcher/compute_registration_transformation.h $
+// $URL: https://github.com/CGAL/cgal/blob/v5.3.2/Point_set_processing_3/include/CGAL/pointmatcher/compute_registration_transformation.h $
 // $Id: compute_registration_transformation.h 676c367 2021-11-29T18:02:31+01:00 Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //

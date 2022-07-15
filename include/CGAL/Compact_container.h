@@ -4,7 +4,7 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.3.1/STL_Extension/include/CGAL/Compact_container.h $
+// $URL: https://github.com/CGAL/cgal/blob/v5.3.2/STL_Extension/include/CGAL/Compact_container.h $
 // $Id: Compact_container.h 9ad2991 2021-11-04T16:27:05+01:00 Sébastien Loriot
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //

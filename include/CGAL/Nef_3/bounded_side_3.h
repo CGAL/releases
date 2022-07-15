@@ -3,7 +3,7 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.3.1/Nef_3/include/CGAL/Nef_3/bounded_side_3.h $
+// $URL: https://github.com/CGAL/cgal/blob/v5.3.2/Nef_3/include/CGAL/Nef_3/bounded_side_3.h $
 // $Id: bounded_side_3.h a91c0ed 2021-05-14T18:17:01+01:00 Giles Bathgate
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //

@@ -7,7 +7,7 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.3.1/Kernel_23/include/CGAL/Kernel/function_objects.h $
+// $URL: https://github.com/CGAL/cgal/blob/v5.3.2/Kernel_23/include/CGAL/Kernel/function_objects.h $
 // $Id: function_objects.h ea64729 2021-05-22T16:21:49+02:00 Andreas Fabri
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //

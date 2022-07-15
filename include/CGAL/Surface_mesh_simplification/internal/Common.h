@@ -2,7 +2,7 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.3.1/Surface_mesh_simplification/include/CGAL/Surface_mesh_simplification/internal/Common.h $
+// $URL: https://github.com/CGAL/cgal/blob/v5.3.2/Surface_mesh_simplification/include/CGAL/Surface_mesh_simplification/internal/Common.h $
 // $Id: Common.h 131242b 2021-10-12T09:29:23+02:00 Mael Rouxel-Labbé
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //

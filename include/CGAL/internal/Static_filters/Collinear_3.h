@@ -3,7 +3,7 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.3.1/Filtered_kernel/include/CGAL/internal/Static_filters/Collinear_3.h $
+// $URL: https://github.com/CGAL/cgal/blob/v5.3.2/Filtered_kernel/include/CGAL/internal/Static_filters/Collinear_3.h $
 // $Id: Collinear_3.h 88e14ad 2021-09-14T09:20:28+02:00 Mael Rouxel-Labbé
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //

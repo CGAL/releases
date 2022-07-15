@@ -3,7 +3,7 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.3.1/Arrangement_on_surface_2/include/CGAL/Arr_overlay_2.h $
+// $URL: https://github.com/CGAL/cgal/blob/v5.3.2/Arrangement_on_surface_2/include/CGAL/Arr_overlay_2.h $
 // $Id: Arr_overlay_2.h 6b87fe3 2020-12-05T11:11:33+01:00 Mael Rouxel-Labbé
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //

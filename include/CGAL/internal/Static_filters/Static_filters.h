@@ -3,7 +3,7 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.3.1/Filtered_kernel/include/CGAL/internal/Static_filters/Static_filters.h $
+// $URL: https://github.com/CGAL/cgal/blob/v5.3.2/Filtered_kernel/include/CGAL/internal/Static_filters/Static_filters.h $
 // $Id: Static_filters.h bd75d6f 2021-01-26T13:31:26+00:00 Andreas Fabri
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //

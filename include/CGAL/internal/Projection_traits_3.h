@@ -3,7 +3,7 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.3.1/Kernel_23/include/CGAL/internal/Projection_traits_3.h $
+// $URL: https://github.com/CGAL/cgal/blob/v5.3.2/Kernel_23/include/CGAL/internal/Projection_traits_3.h $
 // $Id: Projection_traits_3.h 2718072 2021-02-10T10:20:21+01:00 Dmitry Anisimov
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //

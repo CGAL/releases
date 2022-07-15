@@ -3,7 +3,7 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.3.1/Bounding_volumes/include/CGAL/Min_circle_2/Optimisation_circle_2_impl.h $
+// $URL: https://github.com/CGAL/cgal/blob/v5.3.2/Bounding_volumes/include/CGAL/Min_circle_2/Optimisation_circle_2_impl.h $
 // $Id: Optimisation_circle_2_impl.h 4e519a3 2021-05-05T13:15:37+02:00 Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //

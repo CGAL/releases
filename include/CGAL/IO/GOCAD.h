@@ -2,8 +2,8 @@
 //
 // This file is part of CGAL (www.cgal.org);
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.3.1/Stream_support/include/CGAL/IO/GOCAD.h $
-// $Id: GOCAD.h 4e519a3 2021-05-05T13:15:37+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v5.3.2/Stream_support/include/CGAL/IO/GOCAD.h $
+// $Id: GOCAD.h 2a99174 2021-12-27T09:21:09+01:00 Sébastien Loriot
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Andreas Fabri
@@ -156,6 +156,7 @@ bool read_GOCAD(std::istream& is,
     is.clear(std::ios::goodbit);
   return end_read && nb_gocad == nb_end && !is.bad();
 }
+/// \endcond
 
 /*!
  * \ingroup PkgStreamSupportIoFuncsGOCAD

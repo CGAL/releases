@@ -3,7 +3,7 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.3.1/Surface_mesh_segmentation/include/CGAL/internal/auxiliary/graph.h $
+// $URL: https://github.com/CGAL/cgal/blob/v5.3.2/Surface_mesh_segmentation/include/CGAL/internal/auxiliary/graph.h $
 // $Id: graph.h 0d66e19 2020-07-24T17:05:10+02:00 Mael Rouxel-Labbé
 // Re-licensed for CGAL distribution to:
 // SPDX-License-Identifier: GPL-3.0-or-later

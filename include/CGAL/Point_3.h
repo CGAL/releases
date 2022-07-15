@@ -7,8 +7,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.3.1/Kernel_23/include/CGAL/Point_3.h $
-// $Id: Point_3.h 4e519a3 2021-05-05T13:15:37+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v5.3.2/Kernel_23/include/CGAL/Point_3.h $
+// $Id: Point_3.h cca0a19 2022-04-12T16:14:39+02:00 Sébastien Loriot
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -82,7 +82,7 @@ public:
   {}
 
   friend void swap(Self& a, Self& b)
-#ifdef __cpp_lib_is_swappable
+#if !defined(__INTEL_COMPILER) && defined(__cpp_lib_is_swappable)
     noexcept(std::is_nothrow_swappable_v<Rep>)
 #endif
   {

@@ -3,7 +3,7 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.3.1/Filtered_kernel/include/CGAL/internal/Static_filters/Equal_3.h $
+// $URL: https://github.com/CGAL/cgal/blob/v5.3.2/Filtered_kernel/include/CGAL/internal/Static_filters/Equal_3.h $
 // $Id: Equal_3.h 4fab843 2021-03-03T21:14:39+00:00 Andreas Fabri
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //

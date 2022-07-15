@@ -7,7 +7,7 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.3.1/Intersections_3/include/CGAL/Intersections_3/internal/intersection_3_1_impl.h $
+// $URL: https://github.com/CGAL/cgal/blob/v5.3.2/Intersections_3/include/CGAL/Intersections_3/internal/intersection_3_1_impl.h $
 // $Id: intersection_3_1_impl.h c091c7f 2021-04-28T15:24:15+02:00 Laurent Rineau
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //

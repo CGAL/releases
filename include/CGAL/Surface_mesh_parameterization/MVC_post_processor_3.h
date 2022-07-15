@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.3.1/Surface_mesh_parameterization/include/CGAL/Surface_mesh_parameterization/MVC_post_processor_3.h $
-// $Id: MVC_post_processor_3.h 479ba42 2020-08-07T15:43:55+02:00 Mael Rouxel-Labbé
+// $URL: https://github.com/CGAL/cgal/blob/v5.3.2/Surface_mesh_parameterization/include/CGAL/Surface_mesh_parameterization/MVC_post_processor_3.h $
+// $Id: MVC_post_processor_3.h 8bb1044 2021-12-14T15:54:25+01:00 Mael Rouxel-Labbé
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Mael Rouxel-Labbé
@@ -726,7 +726,9 @@ public:
 
     // Not sure how to handle non-simple yet @fixme
     if(!is_param_border_simple) {
+#ifdef CGAL_SMP_ARAP_DEBUG
       std::cerr << "Border is not simple!" << std::endl;
+#endif
       return ERROR_NON_CONVEX_BORDER;
     }
 

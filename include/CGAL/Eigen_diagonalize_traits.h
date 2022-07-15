@@ -3,7 +3,7 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.3.1/Solver_interface/include/CGAL/Eigen_diagonalize_traits.h $
+// $URL: https://github.com/CGAL/cgal/blob/v5.3.2/Solver_interface/include/CGAL/Eigen_diagonalize_traits.h $
 // $Id: Eigen_diagonalize_traits.h ce76bf0 2021-03-03T11:43:46+01:00 Simon Giraudot
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //

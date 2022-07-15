@@ -2,7 +2,7 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.3.1/Solver_interface/include/CGAL/Default_diagonalize_traits.h $
+// $URL: https://github.com/CGAL/cgal/blob/v5.3.2/Solver_interface/include/CGAL/Default_diagonalize_traits.h $
 // $Id: Default_diagonalize_traits.h 350b917 2021-04-11T14:50:44+02:00 Sébastien Loriot
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //

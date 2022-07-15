@@ -3,7 +3,7 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.3.1/Polygon_mesh_processing/include/CGAL/Polygon_mesh_processing/distance.h $
+// $URL: https://github.com/CGAL/cgal/blob/v5.3.2/Polygon_mesh_processing/include/CGAL/Polygon_mesh_processing/distance.h $
 // $Id: distance.h 8a79793 2021-10-29T16:50:03+02:00 Laurent Rineau
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //

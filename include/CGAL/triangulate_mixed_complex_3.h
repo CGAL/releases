@@ -3,7 +3,7 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.3.1/Skin_surface_3/include/CGAL/triangulate_mixed_complex_3.h $
+// $URL: https://github.com/CGAL/cgal/blob/v5.3.2/Skin_surface_3/include/CGAL/triangulate_mixed_complex_3.h $
 // $Id: triangulate_mixed_complex_3.h c8624ee 2021-09-09T11:01:03+02:00 Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //

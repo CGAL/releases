@@ -3,7 +3,7 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.3.1/Polygon_mesh_processing/include/CGAL/Polygon_mesh_processing/repair_self_intersections.h $
+// $URL: https://github.com/CGAL/cgal/blob/v5.3.2/Polygon_mesh_processing/include/CGAL/Polygon_mesh_processing/repair_self_intersections.h $
 // $Id: repair_self_intersections.h f427e6b 2021-05-19T17:24:06+02:00 Laurent Rineau
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //

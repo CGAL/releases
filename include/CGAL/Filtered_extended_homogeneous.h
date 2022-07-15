@@ -3,7 +3,7 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.3.1/Nef_2/include/CGAL/Filtered_extended_homogeneous.h $
+// $URL: https://github.com/CGAL/cgal/blob/v5.3.2/Nef_2/include/CGAL/Filtered_extended_homogeneous.h $
 // $Id: Filtered_extended_homogeneous.h 6bae0e3 2021-09-09T11:09:16+02:00 Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //

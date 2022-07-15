@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.3.1/Intersections_3/include/CGAL/Intersections_3/internal/Tetrahedron_3_Plane_3_intersection.h $
-// $Id: Tetrahedron_3_Plane_3_intersection.h 4bc161a 2021-02-12T09:42:52+00:00 Andreas Fabri
+// $URL: https://github.com/CGAL/cgal/blob/v5.3.2/Intersections_3/include/CGAL/Intersections_3/internal/Tetrahedron_3_Plane_3_intersection.h $
+// $Id: Tetrahedron_3_Plane_3_intersection.h 6f6bd08 2022-02-22T12:42:41+01:00 Sébastien Loriot
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -55,13 +55,13 @@ intersection(
     } };
 
   // description of faces of the bbox
-  constexpr std::array<int, 12> face_indices
+  static constexpr std::array<int, 12> face_indices
     { { 0, 1, 2,
         0, 1, 3,
         1, 2, 3,
         2, 0, 3 } };
 
-  constexpr std::array<int, 12> edge_indices
+  static constexpr std::array<int, 12> edge_indices
     { { 0,  1,  2,
         0,  3,  5,
         1,  4,  3,
