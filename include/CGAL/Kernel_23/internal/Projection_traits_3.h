@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.4.1/Kernel_23/include/CGAL/Kernel_23/internal/Projection_traits_3.h $
-// $Id: Projection_traits_3.h be2f845 2021-09-10T17:29:27+02:00 Jane Tournois
+// $URL: https://github.com/CGAL/cgal/blob/v5.4.2/Kernel_23/include/CGAL/Kernel_23/internal/Projection_traits_3.h $
+// $Id: Projection_traits_3.h 45b5fd4 2022-07-06T12:58:49+02:00 Sébastien Loriot
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Mariette Yvinec, Sebastien Loriot, Mael Rouxel-Labbé
@@ -960,7 +960,7 @@ public:
 
       Equal_x_2 eqx;
       Equal_y_2 eqy;
-      return eqx(p,q) & eqy(p,q);
+      return eqx(p,q) && eqy(p,q);
     }
   };
 

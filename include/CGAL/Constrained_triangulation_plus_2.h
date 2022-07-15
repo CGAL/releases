@@ -3,7 +3,7 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.4.1/Triangulation_2/include/CGAL/Constrained_triangulation_plus_2.h $
+// $URL: https://github.com/CGAL/cgal/blob/v5.4.2/Triangulation_2/include/CGAL/Constrained_triangulation_plus_2.h $
 // $Id: Constrained_triangulation_plus_2.h 48c462b 2022-03-09T13:46:55+00:00 Andreas Fabri
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //

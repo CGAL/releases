@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.4.1/Number_types/include/CGAL/NT_converter.h $
-// $Id: NT_converter.h 848aa7d 2021-02-08T10:16:59+01:00 Simon Giraudot
+// $URL: https://github.com/CGAL/cgal/blob/v5.4.2/Number_types/include/CGAL/NT_converter.h $
+// $Id: NT_converter.h 2b25cb1 2022-01-10T15:40:04+01:00 Mael Rouxel-Labbé
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -17,11 +17,10 @@
 #include <CGAL/number_type_config.h>
 #include <CGAL/number_utils.h>
 
-template <bool> class Interval_nt;
-
 namespace CGAL {
 
-// A number type converter usable as default, using the conversion operator.
+template <bool>
+class Interval_nt;
 
 template < class NT1, class NT2 >
 struct NT_converter

@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.4.1/Polygon_mesh_processing/include/CGAL/Polygon_mesh_processing/repair_degeneracies.h $
-// $Id: repair_degeneracies.h 6e10413 2022-03-09T11:33:24+01:00 Laurent Rineau
+// $URL: https://github.com/CGAL/cgal/blob/v5.4.2/Polygon_mesh_processing/include/CGAL/Polygon_mesh_processing/repair_degeneracies.h $
+// $Id: repair_degeneracies.h 70143a6 2022-07-07T16:51:19+02:00 Mael Rouxel-Labbé
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Sebastien Loriot,
@@ -819,6 +819,18 @@ bool remove_almost_degenerate_faces(const FaceRange& face_range,
       // special case of `edge(h, tmesh)` being a border edge --> remove the face
       if(is_border(opposite(h, tmesh), tmesh))
       {
+        // check a non-manifold vertex won't be created
+        bool removal_is_nm=false;
+        for(halfedge_descriptor hh : CGAL::halfedges_around_target(next(h, tmesh), tmesh))
+        {
+          if (is_border(hh, tmesh))
+          {
+            removal_is_nm = true;
+            break;
+          }
+        }
+        if (removal_is_nm) continue;
+
         for(halfedge_descriptor hh : CGAL::halfedges_around_face(h, tmesh))
         {
           // Remove from even 'next_edges_to_flip' because it might have been re-added from a flip
@@ -1792,7 +1804,7 @@ bool remove_degenerate_edges(TriangleMesh& tmesh)
 //                    - `Collinear_3` to check whether 3 points are collinear
 //                    - `Less_xyz_3` to compare lexicographically two points
 //                    - `Equal_3` to check whether 2 points are identical.
-//                    For each functor Foo, a function `Foo foo_object()` must be provided.}
+//                    For each functor `Foo`, a function `Foo foo_object()` must be provided.}
 //     \cgalParamDefault{a \cgal Kernel deduced from the point type, using `CGAL::Kernel_traits`}
 //     \cgalParamExtra{The geometric traits class must be compatible with the vertex point type.}
 //   \cgalParamNEnd

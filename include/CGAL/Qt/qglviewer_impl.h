@@ -6,7 +6,7 @@
  This file is part of a fork of the QGLViewer library version 2.7.0.
 
 *****************************************************************************/
-// $URL: https://github.com/CGAL/cgal/blob/v5.4.1/GraphicsView/include/CGAL/Qt/qglviewer_impl.h $
+// $URL: https://github.com/CGAL/cgal/blob/v5.4.2/GraphicsView/include/CGAL/Qt/qglviewer_impl.h $
 // $Id: qglviewer_impl.h 213da31 2022-05-16T16:20:13+02:00 Laurent Rineau
 // SPDX-License-Identifier: GPL-3.0-only
 

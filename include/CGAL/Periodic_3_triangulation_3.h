@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.4.1/Periodic_3_triangulation_3/include/CGAL/Periodic_3_triangulation_3.h $
-// $Id: Periodic_3_triangulation_3.h 4eac47f 2022-03-09T12:57:23+00:00 Andreas Fabri
+// $URL: https://github.com/CGAL/cgal/blob/v5.4.2/Periodic_3_triangulation_3/include/CGAL/Periodic_3_triangulation_3.h $
+// $Id: Periodic_3_triangulation_3.h 81ac3b9 2022-06-10T09:46:09+02:00 Laurent Rineau
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Monique Teillaud <Monique.Teillaud@sophia.inria.fr>
@@ -3256,6 +3256,7 @@ periodic_remove(Vertex_handle v, PointRemover& remover, CoverManager& cover_mana
     typename Vertex_triple_Facet_map::iterator oit = outer_map.begin();
 
     typename Vertex_triple_Facet_map::value_type o_vt_f_pair = *oit;
+    outer_map.erase(oit);
     Cell_handle o_ch = o_vt_f_pair.second.first;
     unsigned int o_i = o_vt_f_pair.second.second;
 
@@ -3314,7 +3315,6 @@ periodic_remove(Vertex_handle v, PointRemover& remover, CoverManager& cover_mana
         }
       }
     }
-    outer_map.erase(oit);
   }
 
   // finally set the neighboring relations

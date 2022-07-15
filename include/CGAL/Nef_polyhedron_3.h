@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.4.1/Nef_3/include/CGAL/Nef_polyhedron_3.h $
-// $Id: Nef_polyhedron_3.h 28cdf9b 2021-12-03T15:27:31+01:00 Laurent Rineau
+// $URL: https://github.com/CGAL/cgal/blob/v5.4.2/Nef_3/include/CGAL/Nef_polyhedron_3.h $
+// $Id: Nef_polyhedron_3.h e9e07ea 2022-06-20T16:24:01+02:00 Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -602,29 +602,13 @@ protected:
    simplify();
  }
 
- template <class T1, class T2,
-           template <class T31, class T32, class T33>
-           class T3, class T4 >
- Nef_polyhedron_3( CGAL::Polyhedron_3<T1,T2,T3,T4>& P) {
-    CGAL_NEF_TRACEN("construction from Polyhedron_3");
-    SNC_structure rsnc;
-    *this = Nef_polyhedron_3(rsnc, new SNC_point_locator_default, false);
-    initialize_infibox_vertices(EMPTY);
-    polyhedron_3_to_nef_3
-      <CGAL::Polyhedron_3<T1,T2,T3,T4>, SNC_structure>( P, snc());
-    build_external_structure();
-    mark_bounded_volumes();
-    simplify();
-    set_snc(snc());
-  }
-
  template <class PolygonMesh>
  explicit Nef_polyhedron_3(const PolygonMesh& pm) {
     CGAL_NEF_TRACEN("construction from PolygonMesh with internal index maps");
     SNC_structure rsnc;
     *this = Nef_polyhedron_3(rsnc, new SNC_point_locator_default, false);
     initialize_infibox_vertices(EMPTY);
-    polygon_mesh_to_nef_3<PolygonMesh, SNC_structure>(const_cast<PolygonMesh&>(pm), snc());
+    polygon_mesh_to_nef_3<PolygonMesh, SNC_structure>(pm, snc());
     build_external_structure();
     mark_bounded_volumes();
     simplify();
@@ -644,7 +628,7 @@ protected:
     SNC_structure rsnc;
     *this = Nef_polyhedron_3(rsnc, new SNC_point_locator_default, false);
     initialize_infibox_vertices(EMPTY);
-    polygon_mesh_to_nef_3<PolygonMesh, SNC_structure>(const_cast<PolygonMesh&>(pm), snc(), fim, him);
+    polygon_mesh_to_nef_3<PolygonMesh, SNC_structure>(pm, snc(), fim, him);
     build_external_structure();
     mark_bounded_volumes();
     simplify();

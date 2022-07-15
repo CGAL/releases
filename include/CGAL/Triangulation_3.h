@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.4.1/Triangulation_3/include/CGAL/Triangulation_3.h $
-// $Id: Triangulation_3.h bac0822 2021-09-29T11:46:53+02:00 Laurent Rineau
+// $URL: https://github.com/CGAL/cgal/blob/v5.4.2/Triangulation_3/include/CGAL/Triangulation_3.h $
+// $Id: Triangulation_3.h 14b582f 2022-06-10T09:15:11+02:00 Laurent Rineau
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Monique Teillaud <Monique.Teillaud@sophia.inria.fr>
@@ -5170,6 +5170,7 @@ remove_3D(Vertex_handle v, VertexRemover& remover)
     }
 
     typename Vertex_triple_Facet_map::value_type o_vt_f_pair = *oit;
+    outer_map.erase(oit);
     Cell_handle o_ch = o_vt_f_pair.second.first;
     unsigned int o_i = o_vt_f_pair.second.second;
 
@@ -5215,7 +5216,6 @@ remove_3D(Vertex_handle v, VertexRemover& remover)
         }
       }
     }
-    outer_map.erase(oit);
   }
   tds().delete_vertex(v);
   tds().delete_cells(hole.begin(), hole.end());
@@ -5367,6 +5367,7 @@ remove_3D(Vertex_handle v, VertexRemover& remover,
     }
 
     typename Vertex_triple_Facet_map::value_type o_vt_f_pair = *oit;
+    outer_map.erase(oit);
     Cell_handle o_ch = o_vt_f_pair.second.first;
     unsigned int o_i = o_vt_f_pair.second.second;
 
@@ -5413,7 +5414,6 @@ remove_3D(Vertex_handle v, VertexRemover& remover,
         }
       }
     }
-    outer_map.erase(oit);
   }
   tds().delete_vertex(v);
   tds().delete_cells(inc_cells.begin(), inc_cells.end());
@@ -5670,6 +5670,7 @@ remove_3D(Vertex_handle v, VertexRemover& remover, OutputItCells fit)
     }
 
     typename Vertex_triple_Facet_map::value_type o_vt_f_pair = *oit;
+    outer_map.erase(oit);
     Cell_handle o_ch = o_vt_f_pair.second.first;
     unsigned int o_i = o_vt_f_pair.second.second;
 
@@ -5717,7 +5718,6 @@ remove_3D(Vertex_handle v, VertexRemover& remover, OutputItCells fit)
         }
       }
     }
-    outer_map.erase(oit);
   }
   tds().delete_vertex(v);
   tds().delete_cells(hole.begin(), hole.end());
@@ -6059,6 +6059,7 @@ move_if_no_collision(Vertex_handle v, const Point& p,
     }
 
     typename Vertex_triple_Facet_map::value_type o_vt_f_pair = *oit;
+    outer_map.erase(oit);
     Cell_handle o_ch = o_vt_f_pair.second.first;
     unsigned int o_i = o_vt_f_pair.second.second;
 
@@ -6105,7 +6106,6 @@ move_if_no_collision(Vertex_handle v, const Point& p,
         }
       }
     }
-    outer_map.erase(oit);
   }
 
   // fixing pointer
@@ -6511,6 +6511,7 @@ move_if_no_collision_and_give_new_cells(Vertex_handle v, const Point& p,
     }
 
     typename Vertex_triple_Facet_map::value_type o_vt_f_pair = *oit;
+    outer_map.erase(oit);
     Cell_handle o_ch = o_vt_f_pair.second.first;
     unsigned int o_i = o_vt_f_pair.second.second;
 
@@ -6558,7 +6559,6 @@ move_if_no_collision_and_give_new_cells(Vertex_handle v, const Point& p,
         }
       }
     }
-    outer_map.erase(oit);
   }
 
   // fixing pointer
@@ -6851,6 +6851,7 @@ _remove_cluster_3D(InputIterator first, InputIterator beyond, VertexRemover& rem
       }
 
       typename Vertex_triple_Facet_map::value_type o_vt_f_pair = *oit;
+      outer_map.erase(oit);
       Cell_handle o_ch = o_vt_f_pair.second.first;
       unsigned int o_i = o_vt_f_pair.second.second;
 
@@ -6900,7 +6901,6 @@ _remove_cluster_3D(InputIterator first, InputIterator beyond, VertexRemover& rem
         }
       }
 
-      outer_map.erase(oit);
     }
 
     this->tds().delete_cells(hole.begin(), hole.end());
