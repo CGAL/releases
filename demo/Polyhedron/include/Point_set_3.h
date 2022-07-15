@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.4.2/Polyhedron/demo/Polyhedron/include/Point_set_3.h $
-// $Id: Point_set_3.h 0779373 2020-03-26T13:31:46+01:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v5.5/Polyhedron/demo/Polyhedron/include/Point_set_3.h $
+// $Id: Point_set_3.h 5f18034 2022-01-06T09:16:55+01:00 Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -577,33 +577,13 @@ private:
 
 namespace CGAL
 {
-namespace Point_set_processing_3
-{
-  template<typename Kernel>
-  class GetFT< ::Point_set_3<Kernel> >
-  {
-  public:
-    typedef typename Kernel::FT type;
-  };
 
-  namespace parameters
-  {
-    template <typename Kernel>
-    Named_function_parameters
-    <Kernel,
-     internal_np::geom_traits_t,
-     Named_function_parameters
-     <typename ::Point_set_3<Kernel>::template Property_map<typename Kernel::Vector_3>,
-      internal_np::normal_t,
-      Named_function_parameters
-      <typename ::Point_set_3<Kernel>::template Property_map<typename Kernel::Point_3>,
-       internal_np::point_t> > >
-    inline all_default(const ::Point_set_3<Kernel>& ps)
-    {
-      return ps.parameters();
-    }
-  }
-}
+// specialization for default named parameters
+template <typename Gt, typename NamedParameters, typename NP_TAG>
+struct Point_set_processing_3_np_helper<::Point_set_3<Gt>, NamedParameters, NP_TAG>
+    : public Point_set_processing_3_np_helper<typename ::Point_set_3<Gt>::Base, NamedParameters, NP_TAG>
+{};
+
 }
 
 #endif // POINT_SET_3_H

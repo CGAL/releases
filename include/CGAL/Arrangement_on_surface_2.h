@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.4.2/Arrangement_on_surface_2/include/CGAL/Arrangement_on_surface_2.h $
-// $Id: Arrangement_on_surface_2.h e806a25 2022-06-10T16:43:47+02:00 Laurent Rineau
+// $URL: https://github.com/CGAL/cgal/blob/v5.5/Arrangement_on_surface_2/include/CGAL/Arrangement_on_surface_2.h $
+// $Id: Arrangement_on_surface_2.h 4ea5251 2022-06-10T16:44:17+02:00 Laurent Rineau
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //

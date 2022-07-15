@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.4.2/Surface_mesh/examples/Surface_mesh/draw_surface_mesh_small_faces.h $
-// $Id: draw_surface_mesh_small_faces.h 2bbcabe 2021-11-11T17:23:37+01:00 Guillaume Damiand
+// $URL: https://github.com/CGAL/cgal/blob/v5.5/Surface_mesh/examples/Surface_mesh/draw_surface_mesh_small_faces.h $
+// $Id: draw_surface_mesh_small_faces.h 79a38d5 2022-01-24T10:19:04+00:00 Andreas Fabri
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Guillaume Damiand <guillaume.damiand@liris.cnrs.fr>
@@ -19,6 +19,8 @@
 
 #include <CGAL/Surface_mesh.h>
 #include <CGAL/Random.h>
+
+#include <cassert>
 
 template<class SM>
 class SimpleSurfaceMeshWithSmallFacesViewerQt : public CGAL::Basic_viewer_qt
@@ -54,7 +56,7 @@ public:
       bool exist;
       typename SM::template Property_map<face_descriptor, FT> faces_size;
       boost::tie(faces_size, exist)=sm.template property_map<face_descriptor, FT>("f:size");
-      CGAL_assertion(exist);
+      assert(exist);
 
       m_min_size=faces_size[*(sm.faces().begin())];
       m_max_size=m_min_size;
@@ -84,7 +86,7 @@ protected:
     bool exist;
     typename SM::template Property_map<face_descriptor, FT> faces_size;
     boost::tie(faces_size, exist)=sm.template property_map<face_descriptor, FT>("f:size");
-    CGAL_assertion(exist);
+    assert(exist);
 
     // It it is smaller, color the face in red.
     if (get(faces_size, fh)<m_min_size+((m_max_size-m_min_size)/(100-m_threshold)))

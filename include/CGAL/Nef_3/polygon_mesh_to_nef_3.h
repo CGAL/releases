@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.4.2/Nef_3/include/CGAL/Nef_3/polygon_mesh_to_nef_3.h $
-// $Id: polygon_mesh_to_nef_3.h e9e07ea 2022-06-20T16:24:01+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v5.5/Nef_3/include/CGAL/Nef_3/polygon_mesh_to_nef_3.h $
+// $Id: polygon_mesh_to_nef_3.h f1f201b 2022-06-29T10:47:14+02:00 Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -171,7 +171,6 @@ template <class PolygonMesh, class SNC_structure, class FaceIndexMap, class Half
 void polygon_mesh_to_nef_3(const PolygonMesh& P, SNC_structure& S, FaceIndexMap fimap, HalfedgeIndexMap himap)
 {
   typedef typename boost::property_map<PolygonMesh, vertex_point_t>::const_type PMap;
-  typedef typename SNC_structure::Plane_3                   Plane;
   typedef typename SNC_structure::Vector_3                           Vector_3;
   typedef typename boost::graph_traits<PolygonMesh>::vertex_descriptor vertex_descriptor;
   typedef typename boost::graph_traits<PolygonMesh>::halfedge_descriptor halfedge_descriptor;
@@ -204,7 +203,6 @@ void polygon_mesh_to_nef_3(const PolygonMesh& P, SNC_structure& S, FaceIndexMap 
 
   Face_graph_index_adder<typename SNC_structure::Items,
                  PolygonMesh, SNC_structure,HalfedgeIndexMap> index_adder(P,himap);
-
 
   for(vertex_descriptor pv : vertices(P) ) {
 
@@ -250,8 +248,7 @@ void polygon_mesh_to_nef_3(const PolygonMesh& P, SNC_structure& S, FaceIndexMap 
         with_border = true;
       else {
         std::size_t i = get(fimap,face(pe_prev,P));
-        Plane ss_plane( CGAL::ORIGIN, normals[i]);
-        Sphere_circle ss_circle(ss_plane);
+        Sphere_circle ss_circle(CGAL::ORIGIN, normals[i]);
         CGAL_assertion_code(if(num_edges[i] > 3) {
           CGAL_assertion(ss_circle.has_on(sp));
           CGAL_assertion(ss_circle.has_on(sv_prev->point()));
@@ -283,8 +280,7 @@ void polygon_mesh_to_nef_3(const PolygonMesh& P, SNC_structure& S, FaceIndexMap 
       e = sv_prev->out_sedge();
     } else {
       std::size_t i = get(fimap,face(pe_prev,P));
-      Plane ss_plane( CGAL::ORIGIN, normals[i]);
-      Sphere_circle ss_circle(ss_plane);
+      Sphere_circle ss_circle(CGAL::ORIGIN, normals[i]);
 
       CGAL_assertion_code(if(num_edges[i] > 3) {
         CGAL_assertion(ss_circle.has_on(sp_0));

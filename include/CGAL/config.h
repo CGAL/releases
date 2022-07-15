@@ -7,8 +7,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.4.2/Installation/include/CGAL/config.h $
-// $Id: config.h ab7aa75 2022-04-28T13:59:14+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v5.5/Installation/include/CGAL/config.h $
+// $Id: config.h 709f123 2022-05-13T17:22:43+02:00 Sebastien Loriot
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -499,6 +499,12 @@ namespace cpp11{
 #  define CGAL_FALLTHROUGH while(false){}
 #endif
 
+#if CGAL_CXX17
+#  define CGAL_CPP17_INLINE inline
+#else
+#  define CGAL_CPP17_INLINE
+#endif
+
 #ifndef CGAL_NO_ASSERTIONS
 #  define CGAL_NO_ASSERTIONS_BOOL false
 #else
@@ -523,7 +529,7 @@ namespace cpp11{
 /// Macro `CGAL_WARNING`.
 /// Must be used with `#pragma`, this way:
 ///
-///     #pragma CGAL_WARNING(This line should trigger a warning)
+///     #pragma CGAL_WARNING("This line should trigger a warning")
 ///
 /// @{
 #ifdef BOOST_MSVC

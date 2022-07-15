@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.4.2/Tetrahedral_remeshing/examples/Tetrahedral_remeshing/tetrahedral_remeshing_generate_input.h $
-// $Id: tetrahedral_remeshing_generate_input.h 25b0dc5 2020-05-27T19:04:46+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v5.5/Tetrahedral_remeshing/examples/Tetrahedral_remeshing/tetrahedral_remeshing_generate_input.h $
+// $Id: tetrahedral_remeshing_generate_input.h 4ffc949 2022-02-03T17:11:20+01:00 Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -12,8 +12,10 @@
 
 #include <CGAL/Random.h>
 
-#include <boost/unordered_set.hpp>
+#include <unordered_set>
+#include <boost/functional/hash.hpp>
 #include <utility>
+#include <cassert>
 
 namespace CGAL
 {
@@ -42,7 +44,7 @@ namespace Tetrahedral_remeshing
       else
         c->set_subdomain_index(2);
     }
-    CGAL_assertion(tr.is_valid(true));
+    assert(tr.is_valid(true));
   }
 
 
@@ -66,15 +68,17 @@ namespace Tetrahedral_remeshing
     for (typename Tr::Cell_handle c : tr.finite_cell_handles())
       c->set_subdomain_index(1);
 
-    CGAL_assertion(tr.is_valid(true));
+    assert(tr.is_valid(true));
   }
 
   template<typename Tr>
   void add_edge(typename Tr::Vertex_handle v1,
     typename Tr::Vertex_handle v2,
     const Tr& tr,
-    boost::unordered_set<std::pair<typename Tr::Vertex_handle,
-                                   typename Tr::Vertex_handle> >& constraints)
+    std::unordered_set<std::pair<typename Tr::Vertex_handle,
+                                 typename Tr::Vertex_handle>,
+                       boost::hash<std::pair<typename Tr::Vertex_handle,
+                                 typename Tr::Vertex_handle>>>& constraints)
   {
     typename Tr::Cell_handle c;
     int i, j;
@@ -85,8 +89,11 @@ namespace Tetrahedral_remeshing
   template<typename Tr>
   void make_constraints_from_cube_edges(
     Tr& tr,
-    boost::unordered_set<std::pair<typename Tr::Vertex_handle,
-                                   typename Tr::Vertex_handle> >& constraints)
+    std::unordered_set<std::pair<typename Tr::Vertex_handle,
+                                 typename Tr::Vertex_handle>,
+                       boost::hash<std::pair<typename Tr::Vertex_handle,
+                                             typename Tr::Vertex_handle>>
+  >& constraints)
   {
     typedef typename Tr::Point Point;
     typedef typename Tr::Vertex_handle Vertex_handle;
@@ -143,8 +150,10 @@ namespace Tetrahedral_remeshing
   template<typename Tr>
   void generate_input_cube(const std::size_t& n,
     Tr& tr,
-    boost::unordered_set<std::pair<typename Tr::Vertex_handle,
-                                   typename Tr::Vertex_handle> >& constraints)
+    std::unordered_set<std::pair<typename Tr::Vertex_handle,
+                                 typename Tr::Vertex_handle>,
+                       boost::hash<std::pair<typename Tr::Vertex_handle,
+                                             typename Tr::Vertex_handle>>   >& constraints)
   {
     typedef typename Tr::Vertex_handle Vertex_handle;
     typedef typename Tr::Point Point;
@@ -185,7 +194,7 @@ namespace Tetrahedral_remeshing
     add_edge(v2, v6, tr, constraints);
     add_edge(v3, v7, tr, constraints);
 
-    CGAL_assertion(tr.is_valid(true));
+    assert(tr.is_valid(true));
   }
 }
 }

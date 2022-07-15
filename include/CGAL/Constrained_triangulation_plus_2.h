@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.4.2/Triangulation_2/include/CGAL/Constrained_triangulation_plus_2.h $
-// $Id: Constrained_triangulation_plus_2.h 48c462b 2022-03-09T13:46:55+00:00 Andreas Fabri
+// $URL: https://github.com/CGAL/cgal/blob/v5.5/Triangulation_2/include/CGAL/Constrained_triangulation_plus_2.h $
+// $Id: Constrained_triangulation_plus_2.h 561cc66 2022-06-29T12:30:35+02:00 Laurent Rineau
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -1208,7 +1208,7 @@ Constrained_triangulation_plus_2<Tr>::
 intersect(Face_handle f, int i,
           Vertex_handle vaa,
           Vertex_handle vbb,
-          Exact_predicates_tag)
+          Exact_predicates_tag itag)
 {
   Vertex_handle  vcc, vdd;
   vcc = f->vertex(cw(i));
@@ -1227,32 +1227,8 @@ intersect(Face_handle f, int i,
             << " , Exact_predicates_tag)\n";
 #endif // CGAL_CDT_2_DEBUG_INTERSECTIONS
 
-  Point pi; //creator for point is required here
-  Intersection_tag itag = Intersection_tag();
-  bool ok  = intersection(geom_traits(), pa, pb, pc, pd, pi, itag );
-
-  Vertex_handle vi;
-  if ( !ok) {  //intersection detected but not computed
-    int i = limit_intersection(geom_traits(), pa, pb, pc, pd, itag);
-    switch(i){
-    case 0 : vi = vaa; break;
-    case 1 : vi = vbb; break;
-    case 2 : vi = vcc; break;
-    case 3 : vi = vdd; break;
-    }
-    if(vi == vaa || vi == vbb) {
-      Triangulation::remove_constrained_edge(f, i);
-    }
-  }
-  else{ //computed
-    Triangulation::remove_constrained_edge(f, i);
-    vi = insert(pi, f);
-  }
-#ifdef CGAL_CDT_2_DEBUG_INTERSECTIONS
-  std::cerr << CGAL::internal::cdt_2_indent_level
-            << "CT_plus_2::intersect, `vi` is ( #" << vi->time_stamp() << "= " << vi->point()
-            << " )\n";
-#endif // CGAL_CDT_2_DEBUG_INTERSECTIONS
+  Vertex_handle vi = Triangulation::insert_intersection(
+      f, i, vaa, vbb, vcc, vdd, pa, pb, pc, pd, itag);
 
   // vi == vc or vi == vd may happen even if intersection==true
   // due to approximate construction of the intersection
