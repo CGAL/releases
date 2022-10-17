@@ -7,7 +7,7 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.4.2/Cartesian_kernel/include/CGAL/Cartesian/function_objects.h $
+// $URL: https://github.com/CGAL/cgal/blob/v5.4.3/Cartesian_kernel/include/CGAL/Cartesian/function_objects.h $
 // $Id: function_objects.h 9a2d782 2022-03-15T12:42:56+01:00 Andreas Fabri
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //

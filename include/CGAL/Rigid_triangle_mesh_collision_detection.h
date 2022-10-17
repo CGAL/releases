@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.4.2/Polygon_mesh_processing/include/CGAL/Rigid_triangle_mesh_collision_detection.h $
-// $Id: Rigid_triangle_mesh_collision_detection.h 4afc249 2021-09-09T15:58:00+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v5.4.3/Polygon_mesh_processing/include/CGAL/Rigid_triangle_mesh_collision_detection.h $
+// $Id: Rigid_triangle_mesh_collision_detection.h 495f2e3 2022-09-21T18:59:18+02:00 Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -176,6 +176,8 @@ public:
     : m_free_id(0)
   {}
 
+  Rigid_triangle_mesh_collision_detection(const Rigid_triangle_mesh_collision_detection&) = default;
+
   //! move constructor
   Rigid_triangle_mesh_collision_detection(Rigid_triangle_mesh_collision_detection&& other)
   {
@@ -190,6 +192,8 @@ public:
       if (m_own_aabb_trees[id]) delete m_aabb_trees[id];
     }
   }
+
+  Rigid_triangle_mesh_collision_detection& operator=(Rigid_triangle_mesh_collision_detection& other) = default;
 
   //! move assignment operator
   Rigid_triangle_mesh_collision_detection& operator=(Rigid_triangle_mesh_collision_detection&& other)

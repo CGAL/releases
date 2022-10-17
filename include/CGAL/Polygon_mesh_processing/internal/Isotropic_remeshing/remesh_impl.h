@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.4.2/Polygon_mesh_processing/include/CGAL/Polygon_mesh_processing/internal/Isotropic_remeshing/remesh_impl.h $
-// $Id: remesh_impl.h 8166579 2021-10-11T19:58:07+02:00 Mael Rouxel-Labbé
+// $URL: https://github.com/CGAL/cgal/blob/v5.4.3/Polygon_mesh_processing/include/CGAL/Polygon_mesh_processing/internal/Isotropic_remeshing/remesh_impl.h $
+// $Id: remesh_impl.h c6bc71b 2022-07-28T15:51:56+02:00 Jane Tournois
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -1052,8 +1052,9 @@ namespace internal {
                                      * Vector_3(get(vpmap_, v), get(vpmap_, ph1)));
               //check squared cosine is < 0.25 (~120 degrees)
               if (0.25 < dot / (sqlength(border_halfedges[0]) * sqlength(border_halfedges[0])))
-                barycenters.push_back( VNP(v, vn, CGAL::midpoint(midpoint(border_halfedges[0]),
-                                                                 midpoint(border_halfedges[1]))) );
+                barycenters.push_back( VNP(v, vn,
+                  gt_.construct_midpoint_3_object()(midpoint(border_halfedges[0]),
+                                                    midpoint(border_halfedges[1]))) );
             }
           }
         }
@@ -1238,7 +1239,7 @@ private:
     {
       Point p1 = get(vpmap_, target(he, mesh_));
       Point p2 = get(vpmap_, source(he, mesh_));
-      return CGAL::midpoint(p1, p2);
+      return gt_.construct_midpoint_3_object()(p1, p2);
     }
 
     void dump(const char* filename) const
