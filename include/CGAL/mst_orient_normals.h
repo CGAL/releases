@@ -3,7 +3,7 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.5/Point_set_processing_3/include/CGAL/mst_orient_normals.h $
+// $URL: https://github.com/CGAL/cgal/blob/v5.5.1/Point_set_processing_3/include/CGAL/mst_orient_normals.h $
 // $Id: mst_orient_normals.h b0e4eeb 2022-05-13T15:53:02+02:00 Sebastien Loriot
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //

@@ -3,7 +3,7 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.5/Tetrahedral_remeshing/include/CGAL/Tetrahedral_remeshing/internal/tetrahedral_remeshing_helpers.h $
+// $URL: https://github.com/CGAL/cgal/blob/v5.5.1/Tetrahedral_remeshing/include/CGAL/Tetrahedral_remeshing/internal/tetrahedral_remeshing_helpers.h $
 // $Id: tetrahedral_remeshing_helpers.h 1c1d5d1 2022-02-17T15:10:40+00:00 Andreas Fabri
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //

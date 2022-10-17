@@ -7,7 +7,7 @@
 //
 // This file is part of CGAL (www.cgal.org);
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.5/Stream_support/include/CGAL/IO/OFF/File_scanner_OFF.h $
+// $URL: https://github.com/CGAL/cgal/blob/v5.5.1/Stream_support/include/CGAL/IO/OFF/File_scanner_OFF.h $
 // $Id: File_scanner_OFF.h 299a8a9 2022-04-28T12:08:39+02:00 Laurent Rineau
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //

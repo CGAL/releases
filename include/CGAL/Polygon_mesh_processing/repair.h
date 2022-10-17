@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.5/Polygon_mesh_processing/include/CGAL/Polygon_mesh_processing/repair.h $
-// $Id: repair.h 477353d 2022-04-20T15:55:50+02:00 Mael Rouxel-Labbé
+// $URL: https://github.com/CGAL/cgal/blob/v5.5.1/Polygon_mesh_processing/include/CGAL/Polygon_mesh_processing/repair.h $
+// $Id: repair.h 87f16af 2022-10-04T13:50:15+02:00 Laurent Rineau
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -218,7 +218,7 @@ std::size_t remove_connected_components_of_negligible_size(TriangleMesh& tmesh,
     area_threshold = CGAL::square(threshold_value);
 
   if(is_default_volume_threshold)
-    volume_threshold = CGAL::square(threshold_value);
+    volume_threshold = CGAL::square(threshold_value) * threshold_value;
 
   const bool use_areas = (is_default_area_threshold || area_threshold > 0);
   const bool use_volumes = (is_default_volume_threshold || volume_threshold > 0);

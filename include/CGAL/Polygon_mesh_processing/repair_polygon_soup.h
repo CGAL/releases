@@ -3,7 +3,7 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.5/Polygon_mesh_processing/include/CGAL/Polygon_mesh_processing/repair_polygon_soup.h $
+// $URL: https://github.com/CGAL/cgal/blob/v5.5.1/Polygon_mesh_processing/include/CGAL/Polygon_mesh_processing/repair_polygon_soup.h $
 // $Id: repair_polygon_soup.h b25217e 2022-07-07T13:42:37+02:00 Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //

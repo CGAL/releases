@@ -3,7 +3,7 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.5/Surface_mesh/examples/Surface_mesh/draw_surface_mesh_small_faces.h $
+// $URL: https://github.com/CGAL/cgal/blob/v5.5.1/Surface_mesh/examples/Surface_mesh/draw_surface_mesh_small_faces.h $
 // $Id: draw_surface_mesh_small_faces.h 79a38d5 2022-01-24T10:19:04+00:00 Andreas Fabri
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //

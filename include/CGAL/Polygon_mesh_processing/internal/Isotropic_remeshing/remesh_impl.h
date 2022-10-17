@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.5/Polygon_mesh_processing/include/CGAL/Polygon_mesh_processing/internal/Isotropic_remeshing/remesh_impl.h $
-// $Id: remesh_impl.h 6869bdd 2022-06-07T16:15:53+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v5.5.1/Polygon_mesh_processing/include/CGAL/Polygon_mesh_processing/internal/Isotropic_remeshing/remesh_impl.h $
+// $Id: remesh_impl.h 403c1ed 2022-08-01T15:51:53+02:00 Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -1172,7 +1172,7 @@ private:
     {
       Point p1 = get(vpmap_, target(he, mesh_));
       Point p2 = get(vpmap_, source(he, mesh_));
-      return CGAL::midpoint(p1, p2);
+      return gt_.construct_midpoint_3_object()(p1, p2);
     }
 
     void dump(const char* filename) const

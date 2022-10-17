@@ -3,7 +3,7 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.5/Orthtree/include/CGAL/Orthtree.h $
+// $URL: https://github.com/CGAL/cgal/blob/v5.5.1/Orthtree/include/CGAL/Orthtree.h $
 // $Id: Orthtree.h 191e99a 2022-05-17T10:41:26+01:00 Andreas Fabri
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //

@@ -3,7 +3,7 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.5/Tetrahedral_remeshing/include/CGAL/tetrahedral_remeshing.h $
+// $URL: https://github.com/CGAL/cgal/blob/v5.5.1/Tetrahedral_remeshing/include/CGAL/tetrahedral_remeshing.h $
 // $Id: tetrahedral_remeshing.h dbd66a5 2022-03-22T11:38:48+01:00 Jane Tournois
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //

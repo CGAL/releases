@@ -3,7 +3,7 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.5/Mesh_3/include/CGAL/Mesh_3/search_for_connected_components_in_labeled_image.h $
+// $URL: https://github.com/CGAL/cgal/blob/v5.5.1/Mesh_3/include/CGAL/Mesh_3/search_for_connected_components_in_labeled_image.h $
 // $Id: search_for_connected_components_in_labeled_image.h c32e2b1 2022-07-11T10:17:19+02:00 Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //

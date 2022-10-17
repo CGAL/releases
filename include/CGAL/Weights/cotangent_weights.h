@@ -3,7 +3,7 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.5/Weights/include/CGAL/Weights/cotangent_weights.h $
+// $URL: https://github.com/CGAL/cgal/blob/v5.5.1/Weights/include/CGAL/Weights/cotangent_weights.h $
 // $Id: cotangent_weights.h 62936f8 2022-06-13T17:01:35+02:00 Sébastien Loriot
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //

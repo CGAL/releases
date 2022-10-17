@@ -3,7 +3,7 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.5/Point_set_processing_3/include/CGAL/structure_point_set.h $
+// $URL: https://github.com/CGAL/cgal/blob/v5.5.1/Point_set_processing_3/include/CGAL/structure_point_set.h $
 // $Id: structure_point_set.h 477353d 2022-04-20T15:55:50+02:00 Mael Rouxel-Labbé
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //

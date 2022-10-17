@@ -3,7 +3,7 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.5/Polygon_mesh_processing/include/CGAL/Polygon_mesh_processing/orientation.h $
+// $URL: https://github.com/CGAL/cgal/blob/v5.5.1/Polygon_mesh_processing/include/CGAL/Polygon_mesh_processing/orientation.h $
 // $Id: orientation.h 317cc6c 2022-06-29T09:50:45+02:00 Laurent Rineau
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //

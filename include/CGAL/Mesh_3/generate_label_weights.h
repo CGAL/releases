@@ -3,7 +3,7 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.5/Mesh_3/include/CGAL/Mesh_3/generate_label_weights.h $
+// $URL: https://github.com/CGAL/cgal/blob/v5.5.1/Mesh_3/include/CGAL/Mesh_3/generate_label_weights.h $
 // $Id: generate_label_weights.h 5913be0 2022-03-22T12:13:42+01:00 Jane Tournois
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //

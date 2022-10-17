@@ -3,7 +3,7 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.5/Point_set_processing_3/include/CGAL/IO/read_ply_points.h $
+// $URL: https://github.com/CGAL/cgal/blob/v5.5.1/Point_set_processing_3/include/CGAL/IO/read_ply_points.h $
 // $Id: read_ply_points.h 10b0af3 2022-01-13T14:43:34+01:00 Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
