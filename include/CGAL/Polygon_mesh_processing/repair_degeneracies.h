@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.4.3/Polygon_mesh_processing/include/CGAL/Polygon_mesh_processing/repair_degeneracies.h $
-// $Id: repair_degeneracies.h 70143a6 2022-07-07T16:51:19+02:00 Mael Rouxel-Labbé
+// $URL: https://github.com/CGAL/cgal/blob/v5.4.4/Polygon_mesh_processing/include/CGAL/Polygon_mesh_processing/repair_degeneracies.h $
+// $Id: repair_degeneracies.h 60d50a8 2022-10-04T22:57:37+02:00 Mael Rouxel-Labbé
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Sebastien Loriot,
@@ -710,9 +710,11 @@ bool remove_almost_degenerate_faces(const FaceRange& face_range,
             edges_to_collapse.erase(h);
             next_edges_to_collapse.erase(h);
 
-            halfedge_descriptor rm_h = prev(h, tmesh);
+            // By default, prev(h) is removed. If prev(h) is constrained, then next(h) is removed.
+            // Both cannot be constrained, otherwise we would not be collapsing `h`.
+            halfedge_descriptor rm_h = prev(h, tmesh), ot_h = next(h, tmesh);
             if(get(ecm, edge(rm_h, tmesh)))
-              rm_h = next(h, tmesh);
+              std::swap(rm_h, ot_h);
 
             edges_to_flip.erase(rm_h);
             edges_to_collapse.erase(rm_h);
@@ -722,6 +724,16 @@ bool remove_almost_degenerate_faces(const FaceRange& face_range,
             edges_to_flip.erase(opp_rm_h);
             edges_to_collapse.erase(opp_rm_h);
             next_edges_to_collapse.erase(opp_rm_h);
+
+            // If the third (i.e., non-removed) halfedge of the face becomes a border halfedge
+            // with the collapse, then it also needs to be removed.
+            // Pre-collapse, the corresponding halfedge is `opp_rm_h`.
+            if(is_border(opp_rm_h, tmesh))
+            {
+              edges_to_flip.erase(ot_h);
+              edges_to_collapse.erase(ot_h);
+              next_edges_to_collapse.erase(ot_h);
+            }
           }
 
           h = opposite(h, tmesh);

@@ -2,8 +2,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.4.3/BGL/include/CGAL/boost/graph/selection.h $
-// $Id: selection.h 8166579 2021-10-11T19:58:07+02:00 Mael Rouxel-Labbé
+// $URL: https://github.com/CGAL/cgal/blob/v5.4.4/BGL/include/CGAL/boost/graph/selection.h $
+// $Id: selection.h 8437eec 2022-11-17T11:17:54+01:00 Mael Rouxel-Labbé
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Sebastien Loriot
@@ -543,7 +543,7 @@ regularize_face_selection_borders(
                             (face_index_map));
 
   for (mesh_face_descriptor fd : faces(mesh))
-    put(is_selected, fd, graph.labels[get(face_index_map,fd)]);
+    put(is_selected, fd, (graph.labels[get(face_index_map,fd)] != 0));
 }
 
 /// \cond SKIP_IN_MANUAL

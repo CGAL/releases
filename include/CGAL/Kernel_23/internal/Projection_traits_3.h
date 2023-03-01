@@ -3,7 +3,7 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.4.3/Kernel_23/include/CGAL/Kernel_23/internal/Projection_traits_3.h $
+// $URL: https://github.com/CGAL/cgal/blob/v5.4.4/Kernel_23/include/CGAL/Kernel_23/internal/Projection_traits_3.h $
 // $Id: Projection_traits_3.h 45b5fd4 2022-07-06T12:58:49+02:00 Sébastien Loriot
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //

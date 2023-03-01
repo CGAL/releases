@@ -7,8 +7,8 @@
 //
 // This file is part of CGAL (www.cgal.org);
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.4.3/Stream_support/include/CGAL/IO/OFF/File_scanner_OFF.h $
-// $Id: File_scanner_OFF.h 4fa136d 2022-01-17T09:06:57+01:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v5.4.4/Stream_support/include/CGAL/IO/OFF/File_scanner_OFF.h $
+// $Id: File_scanner_OFF.h 097b14d 2023-02-16T10:20:31+01:00 Sébastien Loriot
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -25,6 +25,7 @@
 
 #include <boost/cstdint.hpp>
 
+#include <vector>
 #include <cstddef>
 #include <iostream>
 #include <sstream>

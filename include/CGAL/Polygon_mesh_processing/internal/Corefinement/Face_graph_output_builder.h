@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.4.3/Polygon_mesh_processing/include/CGAL/Polygon_mesh_processing/internal/Corefinement/Face_graph_output_builder.h $
-// $Id: Face_graph_output_builder.h d084d93 2022-09-14T10:35:23+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v5.4.4/Polygon_mesh_processing/include/CGAL/Polygon_mesh_processing/internal/Corefinement/Face_graph_output_builder.h $
+// $Id: Face_graph_output_builder.h f993ad5 2022-12-19T17:40:09+01:00 Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -1069,15 +1069,15 @@ public:
             if (!used_to_clip_a_surface && !used_to_classify_patches && (!is_tm1_closed || !is_tm2_closed))
             {
               //make sure there is no ambiguity in tm1
-              if( (patch_status_was_not_already_set[0] && previous_bitvalue[0]!=is_patch_inside_tm2[patch_id_p1] ) ||
-                  (patch_status_was_not_already_set[1] && previous_bitvalue[1]!=is_patch_inside_tm2[patch_id_p2] ) )
+              if( (!patch_status_was_not_already_set[0] && previous_bitvalue[0]!=is_patch_inside_tm2.test(patch_id_p1) ) ||
+                  (!patch_status_was_not_already_set[1] && previous_bitvalue[1]!=is_patch_inside_tm2.test(patch_id_p2) ) )
               {
                 impossible_operation.set();
                 return true;
               }
               //make sure there is no ambiguity in tm2
-              if( (patch_status_was_not_already_set[2] && previous_bitvalue[2]!=is_patch_inside_tm2[patch_id_q1] ) ||
-                  (patch_status_was_not_already_set[3] && previous_bitvalue[3]!=is_patch_inside_tm2[patch_id_q2] ) )
+              if( (!patch_status_was_not_already_set[2] && previous_bitvalue[2]!=is_patch_inside_tm1.test(patch_id_q1) ) ||
+                  (!patch_status_was_not_already_set[3] && previous_bitvalue[3]!=is_patch_inside_tm1.test(patch_id_q2) ) )
               {
                 impossible_operation.set();
                 return true;
@@ -1091,6 +1091,15 @@ public:
           patch_status_not_set_tm1.reset(patch_id_p2);
           patch_status_not_set_tm2.reset(patch_id_q1);
           patch_status_not_set_tm2.reset(patch_id_q2);
+
+          // restore initial state, needed when checking in `inconsistent_classification()`
+          if (!is_tm1_closed  || !is_tm2_closed)
+          {
+            is_patch_inside_tm2.reset(patch_id_p1);
+            is_patch_inside_tm2.reset(patch_id_p2);
+            is_patch_inside_tm1.reset(patch_id_q1);
+            is_patch_inside_tm1.reset(patch_id_q2);
+          }
 
 #ifdef CGAL_COREFINEMENT_POLYHEDRA_DEBUG
           #warning: Factorize the orientation predicates.
@@ -1385,10 +1394,13 @@ public:
             }
           }
           if (inconsistent_classification()) return;
-          CGAL_assertion( patch_status_was_not_already_set[0] || previous_bitvalue[0]==is_patch_inside_tm2[patch_id_p1] );
-          CGAL_assertion( patch_status_was_not_already_set[1] || previous_bitvalue[1]==is_patch_inside_tm2[patch_id_p2] );
-          CGAL_assertion( patch_status_was_not_already_set[2] || previous_bitvalue[2]==is_patch_inside_tm1[patch_id_q1] );
-          CGAL_assertion( patch_status_was_not_already_set[3] || previous_bitvalue[3]==is_patch_inside_tm1[patch_id_q2] );
+          if (!used_to_clip_a_surface && !used_to_classify_patches)
+          {
+            CGAL_assertion( patch_status_was_not_already_set[0] || previous_bitvalue[0]==is_patch_inside_tm2[patch_id_p1] );
+            CGAL_assertion( patch_status_was_not_already_set[1] || previous_bitvalue[1]==is_patch_inside_tm2[patch_id_p2] );
+            CGAL_assertion( patch_status_was_not_already_set[2] || previous_bitvalue[2]==is_patch_inside_tm1[patch_id_q1] );
+            CGAL_assertion( patch_status_was_not_already_set[3] || previous_bitvalue[3]==is_patch_inside_tm1[patch_id_q2] );
+          }
         }
     }
 

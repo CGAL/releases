@@ -3,7 +3,7 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.4.3/Mesh_3/include/CGAL/Mesh_domain_with_polyline_features_3.h $
+// $URL: https://github.com/CGAL/cgal/blob/v5.4.4/Mesh_3/include/CGAL/Mesh_domain_with_polyline_features_3.h $
 // $Id: Mesh_domain_with_polyline_features_3.h 67a5a69 2022-08-25T10:29:04+02:00 Laurent Rineau
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //

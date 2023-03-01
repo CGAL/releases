@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.4.3/Orthtree/include/CGAL/Orthtree.h $
-// $Id: Orthtree.h 24aa93d 2021-04-07T14:26:50+02:00 Simon Giraudot
+// $URL: https://github.com/CGAL/cgal/blob/v5.4.4/Orthtree/include/CGAL/Orthtree.h $
+// $Id: Orthtree.h 331ea28 2022-11-08T15:15:20+00:00 Andreas Fabri
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Jackson Campolattaro, Simon Giraudot, Cédric Portaneri, Tong Zhao
@@ -320,8 +320,21 @@ public:
   void refine(const Split_predicate& split_predicate) {
 
     // If the tree has already been refined, reset it
-    if (!m_root.is_leaf())
+    if (!m_root.is_leaf()){
+      std::queue<Node> nodes;
+      for (std::size_t i = 0; i < Degree::value; ++ i)
+            nodes.push (m_root[i]);
+      while (!nodes.empty())
+      {
+        Node node = nodes.front();
+        nodes.pop();
+        if (!node.is_leaf())
+          for (std::size_t i = 0; i < Degree::value; ++ i)
+            nodes.push (node[i]);
+        node.free();
+      }
       m_root.unsplit();
+    }
 
     // Reset the side length map, too
     m_side_per_depth.resize(1);

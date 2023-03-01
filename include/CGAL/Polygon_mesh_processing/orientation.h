@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.4.3/Polygon_mesh_processing/include/CGAL/Polygon_mesh_processing/orientation.h $
-// $Id: orientation.h 87b3866 2022-06-15T17:28:35+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v5.4.4/Polygon_mesh_processing/include/CGAL/Polygon_mesh_processing/orientation.h $
+// $Id: orientation.h 0c37af1 2023-02-16T14:36:58+01:00 Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -1363,6 +1363,8 @@ void orient_to_bound_a_volume(TriangleMesh& tm,
   typedef typename GetVertexPointMap<TriangleMesh, NamedParameters>::const_type    Vpm;
   typedef typename GetGeomTraits<TriangleMesh, NamedParameters>::type              GT;
   typedef typename GetInitializedFaceIndexMap<TriangleMesh, NamedParameters>::type FaceIndexMap;
+
+  if (is_empty(tm)) return;
 
   CGAL_precondition(is_closed(tm));
   CGAL_precondition(is_triangle_mesh(tm));

@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.4.3/Surface_mesh_parameterization/include/CGAL/Surface_mesh_parameterization/ARAP_parameterizer_3.h $
-// $Id: ARAP_parameterizer_3.h cac04ed 2021-06-08T13:36:09+02:00 Dmitry Anisimov
+// $URL: https://github.com/CGAL/cgal/blob/v5.4.4/Surface_mesh_parameterization/include/CGAL/Surface_mesh_parameterization/ARAP_parameterizer_3.h $
+// $Id: ARAP_parameterizer_3.h dfe3ff5 2022-10-20T17:31:22+02:00 Mael Rouxel-Labbé
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Mael Rouxel-Labbé
@@ -458,6 +458,7 @@ private:
                                       const Faces_vector& faces,
                                       Cot_map ctmap) const
   {
+    // Since we loop faces, we are implicitely defining the weight of border halfedges as 0...
     for(face_descriptor fd : faces) {
       halfedge_descriptor hd = halfedge(fd, mesh), hdb = hd;
 

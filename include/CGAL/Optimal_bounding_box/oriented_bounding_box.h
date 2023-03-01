@@ -3,7 +3,7 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.4.3/Optimal_bounding_box/include/CGAL/Optimal_bounding_box/oriented_bounding_box.h $
+// $URL: https://github.com/CGAL/cgal/blob/v5.4.4/Optimal_bounding_box/include/CGAL/Optimal_bounding_box/oriented_bounding_box.h $
 // $Id: oriented_bounding_box.h 71e51b5 2022-10-03T15:08:12+02:00 Mael Rouxel-Labbé
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //

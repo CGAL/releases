@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.4.3/Polygon_mesh_processing/include/CGAL/Polygon_mesh_processing/internal/Hole_filling/Triangulate_hole_polyline.h $
-// $Id: Triangulate_hole_polyline.h e855b27 2022-03-02T15:13:16+01:00 Laurent Rineau
+// $URL: https://github.com/CGAL/cgal/blob/v5.4.4/Polygon_mesh_processing/include/CGAL/Polygon_mesh_processing/internal/Hole_filling/Triangulate_hole_polyline.h $
+// $Id: Triangulate_hole_polyline.h 9ab7e1e 2022-10-20T17:21:43+02:00 Mael Rouxel-Labbé
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -385,9 +385,9 @@ class Weight_incomplete
 private:
   template<class Point_3, class LookupTable>
   Weight_incomplete(const std::vector<Point_3>& P,
-    const std::vector<Point_3>& Q,
-    int i, int j, int k,
-    const LookupTable& lambda)
+                    const std::vector<Point_3>& Q,
+                    int i, int j, int k,
+                    const LookupTable& lambda)
     : weight(P,Q,i,j,k,lambda), patch_size(1)
   { }
 
@@ -444,9 +444,9 @@ struct Weight_calculator
 
   template<class Point_3, class LookupTable>
   Weight operator()(const std::vector<Point_3>& P,
-    const std::vector<Point_3>& Q,
-    int i, int j, int k,
-    const LookupTable& lambda) const
+                    const std::vector<Point_3>& Q,
+                    int i, int j, int k,
+                    const LookupTable& lambda) const
   {
     if( !is_valid(P,i,j,k) )
     { return Weight::NOT_VALID(); }

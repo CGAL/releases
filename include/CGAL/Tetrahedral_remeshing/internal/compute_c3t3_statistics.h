@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.4.3/Tetrahedral_remeshing/include/CGAL/Tetrahedral_remeshing/internal/compute_c3t3_statistics.h $
-// $Id: compute_c3t3_statistics.h ab05dde 2020-06-12T08:08:56+02:00 Jane Tournois
+// $URL: https://github.com/CGAL/cgal/blob/v5.4.4/Tetrahedral_remeshing/include/CGAL/Tetrahedral_remeshing/internal/compute_c3t3_statistics.h $
+// $Id: compute_c3t3_statistics.h e1b319b 2022-10-28T10:11:57+02:00 Jane Tournois
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -63,7 +63,7 @@ void compute_statistics(const Triangulation& tr,
   {
     const Cell_handle cell = fit->first;
     const int& index = fit->second;
-    if (!cell_selector(cell) || !cell_selector(cell->neighbor(index)))
+    if (!get(cell_selector, cell) || !get(cell_selector, cell->neighbor(index)))
       continue;
 
     const Point& pa = point(cell->vertex((index + 1) & 3)->point());
@@ -96,7 +96,7 @@ void compute_statistics(const Triangulation& tr,
        ++cit)
   {
     const Subdomain_index& si = cit->subdomain_index();
-    if (si == Subdomain_index() || !cell_selector(cit))
+    if (si == Subdomain_index() || !get(cell_selector, cit))
       continue;
 
     ++nb_tets;
