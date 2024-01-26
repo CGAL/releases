@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.4.4/Stream_support/include/CGAL/IO/OBJ.h $
-// $Id: OBJ.h a34debc 2021-06-23T22:56:35+02:00 Mael Rouxel-Labbé
+// $URL: https://github.com/CGAL/cgal/blob/v5.4.5/Stream_support/include/CGAL/IO/OBJ.h $
+// $Id: OBJ.h d33fc1a 2023-04-18T11:21:54+02:00 Mael Rouxel-Labbé
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s) : Lutz Kettner
@@ -25,6 +25,7 @@
 #include <boost/utility/enable_if.hpp>
 #include <CGAL/boost/graph/Named_function_parameters.h>
 
+#include <algorithm>
 #include <fstream>
 #include <iostream>
 #include <sstream>
@@ -72,12 +73,30 @@ bool read_OBJ(std::istream& is,
   bool tex_found(false), norm_found(false);
   while(getline(is, line))
   {
-    if(line.empty())
-      continue;
+    // get last non-whitespace, non-null character
+    auto last = std::find_if(line.rbegin(), line.rend(), [](char c) { return c != '\0' && !std::isspace(c); });
+    if(last == line.rend())
+      continue; // line is empty or only whitespace
+
+    // keep reading lines as long as the last non-whitespace, non-null character is a backslash
+    while(last != line.rend() && *last == '\\')
+    {
+      // remove everything from the backslash (included)
+      line = line.substr(0, line.size() - (last - line.rbegin()) - 1);
+
+      std::string next_line;
+      if(!getline(is, next_line))
+        break;
+
+      line += next_line;
+      last = std::find_if(line.rbegin(), line.rend(), [](char c) { return c != '\0' && !std::isspace(c); });
+    }
+
+    CGAL_assertion(!line.empty());
 
     std::istringstream iss(line);
     if(!(iss >> s))
-      continue; // can't read anything on the line, whitespace only?
+      continue;
 
     if(s == "v")
     {
@@ -127,7 +146,11 @@ bool read_OBJ(std::istream& is,
       }
 
       if(iss.bad())
+      {
+        if(verbose)
+          std::cerr << "error while reading OBJ face." << std::endl;
         return false;
+      }
     }
     else if(s.front() == '#')
     {
@@ -153,15 +176,15 @@ bool read_OBJ(std::istream& is,
     else
     {
       if(verbose)
-        std::cerr << "error: unrecognized line: " << s << std::endl;
+        std::cerr << "Error: unrecognized line: " << s << std::endl;
       return false;
     }
   }
 
   if(norm_found && verbose)
-    std::cout<<"NOTE: normals were found in this file, but were discarded."<<std::endl;
+    std::cout << "NOTE: normals were found in this file, but were discarded." << std::endl;
   if(tex_found && verbose)
-    std::cout<<"NOTE: textures were found in this file, but were discarded."<<std::endl;
+    std::cout << "NOTE: textures were found in this file, but were discarded." << std::endl;
 
   if(points.empty() || polygons.empty())
   {

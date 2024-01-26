@@ -6,8 +6,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.4.4/Polygon_mesh_processing/include/CGAL/Polygon_mesh_processing/IO/polygon_mesh_io.h $
-// $Id: polygon_mesh_io.h fb6f703 2021-05-04T14:07:49+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v5.4.5/Polygon_mesh_processing/include/CGAL/Polygon_mesh_processing/IO/polygon_mesh_io.h $
+// $Id: polygon_mesh_io.h 451223a 2023-04-18T11:20:04+02:00 Mael Rouxel-Labbé
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Mael Rouxel-Labbé
@@ -101,7 +101,7 @@ bool read_polygon_mesh(const std::string& fname,
 
   std::vector<Point> points;
   std::vector<std::vector<std::size_t> > faces;
-  if(!CGAL::IO::read_polygon_soup(fname, points, faces))
+  if(!CGAL::IO::read_polygon_soup(fname, points, faces, CGAL::parameters::verbose(verbose)))
   {
     if(verbose)
       std::cerr << "Warning: cannot read polygon soup" << std::endl;

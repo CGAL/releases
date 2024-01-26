@@ -3,7 +3,7 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.4.4/Polygon_mesh_processing/include/CGAL/Polygon_mesh_processing/fair.h $
+// $URL: https://github.com/CGAL/cgal/blob/v5.4.5/Polygon_mesh_processing/include/CGAL/Polygon_mesh_processing/fair.h $
 // $Id: fair.h 6cd5c24 2022-10-20T17:26:34+02:00 Mael Rouxel-Labbé
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //

@@ -3,7 +3,7 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.4.4/Surface_mesh_deformation/include/CGAL/Surface_mesh_deformation.h $
+// $URL: https://github.com/CGAL/cgal/blob/v5.4.5/Surface_mesh_deformation/include/CGAL/Surface_mesh_deformation.h $
 // $Id: Surface_mesh_deformation.h f0443a6 2022-11-08T14:43:19+01:00 Mael Rouxel-Labbé
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //

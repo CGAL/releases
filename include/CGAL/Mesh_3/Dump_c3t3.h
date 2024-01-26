@@ -3,7 +3,7 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.4.4/Mesh_3/include/CGAL/Mesh_3/Dump_c3t3.h $
+// $URL: https://github.com/CGAL/cgal/blob/v5.4.5/Mesh_3/include/CGAL/Mesh_3/Dump_c3t3.h $
 // $Id: Dump_c3t3.h 71e452a 2022-12-12T17:55:41+01:00 Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //

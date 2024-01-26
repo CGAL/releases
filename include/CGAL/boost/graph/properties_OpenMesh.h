@@ -2,7 +2,7 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.4.4/BGL/include/CGAL/boost/graph/properties_OpenMesh.h $
+// $URL: https://github.com/CGAL/cgal/blob/v5.4.5/BGL/include/CGAL/boost/graph/properties_OpenMesh.h $
 // $Id: properties_OpenMesh.h fa72ad2 2022-12-08T15:21:43+01:00 Sebastien Loriot
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //

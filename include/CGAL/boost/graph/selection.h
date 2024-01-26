@@ -2,7 +2,7 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.4.4/BGL/include/CGAL/boost/graph/selection.h $
+// $URL: https://github.com/CGAL/cgal/blob/v5.4.5/BGL/include/CGAL/boost/graph/selection.h $
 // $Id: selection.h 8437eec 2022-11-17T11:17:54+01:00 Mael Rouxel-Labbé
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //

@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.4.4/Three/include/CGAL/Three/Point_container.h $
-// $Id: Point_container.h 0779373 2020-03-26T13:31:46+01:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v5.4.5/Three/include/CGAL/Three/Point_container.h $
+// $Id: Point_container.h d1cda5b 2023-06-08T12:54:59+02:00 Laurent Rineau
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Maxime Gimeno
@@ -54,6 +54,8 @@ struct DEMO_FRAMEWORK_EXPORT Point_container :public Primitive_container
   //! \param indexed must be `true` if the data is indexed, `false` otherwise. If `true`, VBOs[Indices] must be filled.
   //!
   Point_container(int program, bool indexed);
+
+  ~Point_container();
 
   //!
   //! \brief initGL creates the `Vbo`s and `Vao`s of this `Point_container`.

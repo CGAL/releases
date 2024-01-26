@@ -3,7 +3,7 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.4.4/Algebraic_kernel_d/include/CGAL/Algebraic_kernel_d/Bitstream_descartes_E08_tree.h $
+// $URL: https://github.com/CGAL/cgal/blob/v5.4.5/Algebraic_kernel_d/include/CGAL/Algebraic_kernel_d/Bitstream_descartes_E08_tree.h $
 // $Id: Bitstream_descartes_E08_tree.h c0ba9b4 2022-11-22T17:42:02+01:00 Sébastien Loriot
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //

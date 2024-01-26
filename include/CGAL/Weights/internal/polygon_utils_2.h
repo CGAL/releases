@@ -3,7 +3,7 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.4.4/Weights/include/CGAL/Weights/internal/polygon_utils_2.h $
+// $URL: https://github.com/CGAL/cgal/blob/v5.4.5/Weights/include/CGAL/Weights/internal/polygon_utils_2.h $
 // $Id: polygon_utils_2.h b9e7c2a 2022-10-20T17:35:19+02:00 Mael Rouxel-Labbé
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //

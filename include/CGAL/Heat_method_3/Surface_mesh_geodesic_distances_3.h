@@ -3,7 +3,7 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.4.4/Heat_method_3/include/CGAL/Heat_method_3/Surface_mesh_geodesic_distances_3.h $
+// $URL: https://github.com/CGAL/cgal/blob/v5.4.5/Heat_method_3/include/CGAL/Heat_method_3/Surface_mesh_geodesic_distances_3.h $
 // $Id: Surface_mesh_geodesic_distances_3.h 9ab7e1e 2022-10-20T17:21:43+02:00 Mael Rouxel-Labbé
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //

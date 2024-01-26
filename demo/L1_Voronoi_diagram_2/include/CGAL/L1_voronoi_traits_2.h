@@ -3,7 +3,7 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.4.4/GraphicsView/demo/L1_Voronoi_diagram_2/include/CGAL/L1_voronoi_traits_2.h $
+// $URL: https://github.com/CGAL/cgal/blob/v5.4.5/GraphicsView/demo/L1_Voronoi_diagram_2/include/CGAL/L1_voronoi_traits_2.h $
 // $Id: L1_voronoi_traits_2.h 6b87fe3 2020-12-05T11:11:33+01:00 Mael Rouxel-Labbé
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
