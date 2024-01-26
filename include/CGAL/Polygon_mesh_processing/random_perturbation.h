@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.5.3/Polygon_mesh_processing/include/CGAL/Polygon_mesh_processing/random_perturbation.h $
-// $Id: random_perturbation.h bb0b9a8 2022-03-07T15:32:37+01:00 Mael Rouxel-Labbé
+// $URL: https://github.com/CGAL/cgal/blob/v5.6/Polygon_mesh_processing/include/CGAL/Polygon_mesh_processing/random_perturbation.h $
+// $Id: random_perturbation.h e8c5de5 2022-10-06T15:37:03+02:00 Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -20,7 +20,7 @@
 #include <CGAL/Polygon_mesh_processing/internal/Isotropic_remeshing/remesh_impl.h>
 
 #include <CGAL/Named_function_parameters.h>
-#include <CGAL/Polygon_mesh_processing/internal/named_params_helper.h>
+#include <CGAL/boost/graph/named_params_helper.h>
 
 #include <CGAL/AABB_tree.h>
 #include <CGAL/AABB_traits.h>

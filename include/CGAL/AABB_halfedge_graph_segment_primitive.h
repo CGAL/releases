@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.5.3/AABB_tree/include/CGAL/AABB_halfedge_graph_segment_primitive.h $
-// $Id: AABB_halfedge_graph_segment_primitive.h 746e00f 2020-11-30T18:16:39+01:00 Mael Rouxel-Labbé
+// $URL: https://github.com/CGAL/cgal/blob/v5.6/AABB_tree/include/CGAL/AABB_halfedge_graph_segment_primitive.h $
+// $Id: AABB_halfedge_graph_segment_primitive.h b96f6d5 2022-06-10T09:43:59+02:00 Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -23,9 +23,8 @@
 
 #include <iterator>
 #include <boost/mpl/and.hpp>
-#include <CGAL/is_iterator.h>
+#include <CGAL/type_traits/is_iterator.h>
 #include <boost/type_traits/is_convertible.hpp>
-#include <boost/utility/enable_if.hpp>
 #include <boost/mpl/if.hpp>
 
 #include <CGAL/Default.h>

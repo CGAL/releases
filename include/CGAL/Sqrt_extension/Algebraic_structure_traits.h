@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.5.3/Number_types/include/CGAL/Sqrt_extension/Algebraic_structure_traits.h $
-// $Id: Algebraic_structure_traits.h 0779373 2020-03-26T13:31:46+01:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v5.6/Number_types/include/CGAL/Sqrt_extension/Algebraic_structure_traits.h $
+// $Id: Algebraic_structure_traits.h 3fa4364 2022-06-10T08:41:19+02:00 Sébastien Loriot
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -205,8 +205,8 @@ public:
 
     // Tag_true if COEFF and ROOT are exact
     typedef typename ::boost::mpl::if_c<
-       bool( ::boost::is_same<typename CGAL::Algebraic_structure_traits<ROOT_ >::Is_exact,::CGAL::Tag_true>::value )&&
-       bool( ::boost::is_same<typename CGAL::Algebraic_structure_traits<COEFF_>::Is_exact,::CGAL::Tag_true>::value )
+       bool( ::std::is_same<typename CGAL::Algebraic_structure_traits<ROOT_ >::Is_exact,::CGAL::Tag_true>::value )&&
+       bool( ::std::is_same<typename CGAL::Algebraic_structure_traits<COEFF_>::Is_exact,::CGAL::Tag_true>::value )
            ,::CGAL::Tag_true,::CGAL::Tag_false>::type Is_exact;
 
     typedef typename Algebraic_structure_traits<COEFF_>::Is_numerical_sensitive

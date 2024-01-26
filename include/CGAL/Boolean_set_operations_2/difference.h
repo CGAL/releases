@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.5.3/Boolean_set_operations_2/include/CGAL/Boolean_set_operations_2/difference.h $
-// $Id: difference.h 4151fcb 2021-09-23T11:59:29+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v5.6/Boolean_set_operations_2/include/CGAL/Boolean_set_operations_2/difference.h $
+// $Id: difference.h b96f6d5 2022-06-10T09:43:59+02:00 Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -17,8 +17,6 @@
 #define CGAL_BOOLEAN_SET_OPERATIONS_2_DIFFERENCE_H
 
 #include <CGAL/license/Boolean_set_operations_2.h>
-
-#include <boost/utility/enable_if.hpp>
 
 #include <CGAL/disable_warnings.h>
 
@@ -33,7 +31,7 @@
 #include <CGAL/iterator.h>
 #include <CGAL/Boolean_set_operations_2/Bso_internal_functions.h>
 #include <CGAL/Boolean_set_operations_2/Polygon_conversions.h>
-#include <CGAL/is_iterator.h>
+#include <CGAL/type_traits/is_iterator.h>
 
 namespace CGAL
 {

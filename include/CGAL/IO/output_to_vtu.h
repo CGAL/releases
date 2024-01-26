@@ -5,8 +5,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.5.3/Mesh_3/include/CGAL/IO/output_to_vtu.h $
-// $Id: output_to_vtu.h fb6f703 2021-05-04T14:07:49+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v5.6/SMDS_3/include/CGAL/IO/output_to_vtu.h $
+// $Id: output_to_vtu.h fb9f59d 2023-05-30T16:35:10+10:00 Rebecca Dengate
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Laurent RINEAU, Stephane Tayeb, Maxime Gimeno
@@ -14,7 +14,7 @@
 #ifndef CGAL_OUTPUT_TO_VTU_H
 #define CGAL_OUTPUT_TO_VTU_H
 
-#include <CGAL/license/Mesh_3.h>
+#include <CGAL/license/SMDS_3.h>
 
 #include <CGAL/assertions.h>
 #include <CGAL/IO/io.h>
@@ -333,7 +333,7 @@ void output_to_vtu_with_attributes(std::ostream& os,
     os << "<AppendedData encoding=\"raw\">\n_";
     write_c3t3_points(os,tr,V); // fills V if the mode is BINARY
     write_cells(os,c3t3,V);
-    for(std::size_t i = 0; i< attributes.size(); ++i)
+    for(std::size_t i = 0; i< attributes.size(); ++i) {
       switch(attributes[i].second.which()){
       case 0:
         write_attributes(os, *boost::get<const std::vector<double>* >(attributes[i].second));
@@ -345,13 +345,27 @@ void output_to_vtu_with_attributes(std::ostream& os,
         write_attributes(os, *boost::get<const std::vector<std::size_t>* >(attributes[i].second));
         break;
       }
+    }
+    os << "\n</AppendedData>\n";
   }
   os << "</VTKFile>\n";
 }
 
 } // namespace internal
 
-//public API
+//! \ingroup PkgSMDS3ExportFunctions
+//!
+//! \brief exports a tetrahedral mesh complex using the `UnstructuredGrid` XML format.
+//!
+//! \tparam C3T3 a model of `MeshComplexWithFeatures_3InTriangulation_3`.
+//!
+//! \param os the stream used for writing
+//! \param c3t3 the mesh complex
+//! \param mode decides if the data should be written in binary (`IO::BINARY`)
+//!   or in ASCII (`IO::ASCII`).
+//!  If the mode is binary, then the stream `os` must be opened in binary mode.
+//! \see \ref IOStreamVTK
+//!
 template <class C3T3>
 void output_to_vtu(std::ostream& os,
                const C3T3& c3t3,

@@ -5,8 +5,8 @@
  *
  * This file is part of CGAL (www.cgal.org).
  *
- * $URL: https://github.com/CGAL/cgal/blob/v5.5.3/CGAL_Core/include/CGAL/CORE/linearAlgebra.h $
- * $Id: linearAlgebra.h 0779373 2020-03-26T13:31:46+01:00 Sébastien Loriot
+ * $URL: https://github.com/CGAL/cgal/blob/v5.6/CGAL_Core/include/CGAL/CORE/linearAlgebra.h $
+ * $Id: linearAlgebra.h b5c21e1 2022-11-23T18:48:43+01:00 Mael Rouxel-Labbé
  * SPDX-License-Identifier: LGPL-3.0-or-later
  ***************************************************************************/
 /******************************************************************
@@ -22,10 +22,10 @@
  * Written by
  *       Shubin Zhao (shubinz@cs.nyu.edu) (2001)
  *
- * WWW URL: http://cs.nyu.edu/exact/
+ * WWW URL: https://cs.nyu.edu/exact/
  * Email: exact@cs.nyu.edu
  *
- * $Id: linearAlgebra.h 0779373 2020-03-26T13:31:46+01:00 Sébastien Loriot
+ * $Id: linearAlgebra.h b5c21e1 2022-11-23T18:48:43+01:00 Mael Rouxel-Labbé
  *****************************************************************/
 
 #ifndef CORE_LINEAR_ALGEBRA_H

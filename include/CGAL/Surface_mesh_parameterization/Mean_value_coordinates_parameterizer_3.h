@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.5.3/Surface_mesh_parameterization/include/CGAL/Surface_mesh_parameterization/Mean_value_coordinates_parameterizer_3.h $
-// $Id: Mean_value_coordinates_parameterizer_3.h 936b02b 2022-10-20T17:30:18+02:00 Mael Rouxel-Labbé
+// $URL: https://github.com/CGAL/cgal/blob/v5.6/Surface_mesh_parameterization/include/CGAL/Surface_mesh_parameterization/Mean_value_coordinates_parameterizer_3.h $
+// $Id: Mean_value_coordinates_parameterizer_3.h 83b0b0b 2022-11-07T14:23:29+01:00 Mael Rouxel-Labbé
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Laurent Saboret, Pierre Alliez, Bruno Levy
@@ -53,7 +53,7 @@ namespace Surface_mesh_parameterization {
 ///
 /// \tparam TriangleMesh_ must be a model of `FaceGraph`.
 ///
-/// \tparam BorderParameterizer_ is a Strategy to parameterize the surface border
+/// \tparam BorderParameterizer_ is a strategy to parameterize the surface border
 ///         and must be a model of `Parameterizer_3`.<br>
 ///         <b>%Default:</b>
 /// \code

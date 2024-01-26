@@ -2,8 +2,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.5.3/Stream_support/include/CGAL/IO/helpers.h $
-// $Id: helpers.h 31a0557 2021-08-13T16:45:28+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v5.6/Stream_support/include/CGAL/IO/helpers.h $
+// $Id: helpers.h 988d226 2023-04-11T14:19:09+02:00 Laurent Rineau
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Mael Rouxel-Labbé
@@ -16,7 +16,7 @@
 #include <CGAL/Container_helper.h>
 #include <CGAL/Has_member.h>
 #include <CGAL/Point_3.h>
-#include <CGAL/is_iterator.h>
+#include <CGAL/type_traits/is_iterator.h>
 
 #include <boost/mpl/logical.hpp>
 #include <boost/mpl/has_xxx.hpp>
@@ -54,7 +54,10 @@ static inline std::string get_file_extension(const std::string fname)
     return std::string();
 
   std::string ext = fname.substr(dot+1, fname.length() - dot - 1);
-  std::transform(ext.begin(), ext.end(), ext.begin(), ::tolower);
+  std::transform(ext.begin(), ext.end(), ext.begin(),
+                 [](char c) {
+                   return static_cast<char>(std::tolower(static_cast<unsigned char>(c)));
+                 });
 
   return ext;
 }
@@ -80,11 +83,17 @@ struct is_Range
              boost::mpl::not_<boost::is_convertible<T, std::string> > > // or a std::string / char [x]
 { };
 
+template <class T>
+CGAL_CPP17_INLINE constexpr bool is_Range_v = is_Range<T>::value;
+
 // For polygon meshes
 template <typename T>
 struct is_Point_set_or_Range_or_Iterator
   : public boost::mpl::or_<is_Point_set_3<T>, is_Range<T>, is_iterator<T> >
 { };
+
+template <class T>
+CGAL_CPP17_INLINE constexpr bool is_Point_set_or_Range_or_Iterator_v = is_Point_set_or_Range_or_Iterator<T>::value;
 
 } // end namespace internal
 } // end namespace IO

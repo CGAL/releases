@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.5.3/Boolean_set_operations_2/include/CGAL/Boolean_set_operations_2/Gps_agg_meta_traits.h $
-// $Id: Gps_agg_meta_traits.h 7436c14 2020-04-06T01:23:45+03:00 Efi Fogel
+// $URL: https://github.com/CGAL/cgal/blob/v5.6/Boolean_set_operations_2/include/CGAL/Boolean_set_operations_2/Gps_agg_meta_traits.h $
+// $Id: Gps_agg_meta_traits.h 62a31ba 2022-11-14T17:44:33+01:00 albert-github
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -17,7 +17,6 @@
 #include <CGAL/license/Boolean_set_operations_2.h>
 
 #include <vector>
-#include <boost/mpl/assert.hpp>
 #include <CGAL/Boolean_set_operations_2/Gps_traits_decorator.h>
 #include <CGAL/Boolean_set_operations_2/Curve_with_halfedge.h>
 #include <CGAL/Boolean_set_operations_2/Point_with_vertex.h>
@@ -33,10 +32,10 @@ protected:
   typedef Curve_with_halfedge<Arrangement_>        Base;
 
   const Arrangement* m_arr; // pointer to the arrangement containing the edge.
-  unsigned int m_bc;        // the boudary counter of the halfedge with the same
+  unsigned int m_bc;        // the boundary counter of the halfedge with the same
                             // direction as the curve
 
-  unsigned int m_twin_bc;   // the boudary counter of the halfedge with the same
+  unsigned int m_twin_bc;   // the boundary counter of the halfedge with the same
                             // direction as the curve
 
 public:
@@ -124,18 +123,14 @@ public:
   typedef typename Arr::Right_side_category     Right_side_category;
 
   // a side is either oblivious or open (unbounded)
-  BOOST_MPL_ASSERT((boost::mpl::or_<
-                    boost::is_same<Left_side_category, Arr_oblivious_side_tag>,
-                    boost::is_same<Left_side_category, Arr_open_side_tag> >));
-  BOOST_MPL_ASSERT((boost::mpl::or_<
-                    boost::is_same<Bottom_side_category, Arr_oblivious_side_tag>,
-                    boost::is_same<Bottom_side_category, Arr_open_side_tag> >));
-  BOOST_MPL_ASSERT((boost::mpl::or_<
-                    boost::is_same<Top_side_category, Arr_oblivious_side_tag>,
-                    boost::is_same<Top_side_category, Arr_open_side_tag> >));
-  BOOST_MPL_ASSERT((boost::mpl::or_<
-                    boost::is_same<Right_side_category, Arr_oblivious_side_tag>,
-                    boost::is_same<Right_side_category, Arr_open_side_tag> >));
+  CGAL_static_assertion((std::is_same<Left_side_category, Arr_oblivious_side_tag>::value ||
+                         std::is_same<Left_side_category, Arr_open_side_tag>::value));
+  CGAL_static_assertion((std::is_same<Bottom_side_category, Arr_oblivious_side_tag>::value ||
+                         std::is_same<Bottom_side_category, Arr_open_side_tag>::value));
+  CGAL_static_assertion((std::is_same<Top_side_category, Arr_oblivious_side_tag>::value ||
+                         std::is_same<Top_side_category, Arr_open_side_tag>::value));
+  CGAL_static_assertion((std::is_same<Right_side_category, Arr_oblivious_side_tag>::value ||
+                         std::is_same<Right_side_category, Arr_open_side_tag>::value));
 
   typedef typename Arr::Halfedge_handle         Halfedge_handle;
   typedef typename Arr::Vertex_handle           Vertex_handle;

@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.5.3/Polygon_mesh_processing/include/CGAL/Polygon_mesh_processing/distance.h $
-// $Id: distance.h 8b5c57e 2022-05-13T15:51:12+02:00 Sebastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v5.6/Polygon_mesh_processing/include/CGAL/Polygon_mesh_processing/distance.h $
+// $Id: distance.h e8c5de5 2022-10-06T15:37:03+02:00 Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -26,7 +26,7 @@
 #include <CGAL/AABB_face_graph_triangle_primitive.h>
 #include <CGAL/utility.h>
 #include <CGAL/Named_function_parameters.h>
-#include <CGAL/Polygon_mesh_processing/internal/named_params_helper.h>
+#include <CGAL/boost/graph/named_params_helper.h>
 #include <CGAL/point_generators_3.h>
 #include <CGAL/Spatial_sort_traits_adapter_3.h>
 #include <CGAL/spatial_sort.h>

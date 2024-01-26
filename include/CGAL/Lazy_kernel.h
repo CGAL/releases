@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.5.3/Filtered_kernel/include/CGAL/Lazy_kernel.h $
-// $Id: Lazy_kernel.h 5945e48 2021-09-17T08:14:06+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v5.6/Filtered_kernel/include/CGAL/Lazy_kernel.h $
+// $Id: Lazy_kernel.h b114789 2022-09-06T13:56:31+02:00 Laurent Rineau
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -89,7 +89,7 @@ protected:
 // Exact_kernel = exact kernel that will be made lazy
 // Kernel = lazy kernel
 
-// the Generic base simplies applies the generic magic functor stupidly.
+// the Generic base simply applies the generic magic functor stupidly.
 // then the real base fixes up a few special cases.
 template < typename EK_, typename AK_, typename E2A_, typename Kernel_ >
 class Lazy_kernel_generic_base : protected internal::Enum_holder
@@ -191,18 +191,18 @@ private:
   template <typename Construction, typename Dummy = boost::none_t>
   struct Lazy_wrapper_traits :
     boost::mpl::eval_if< internal::Has_result_type<Construction>,
-                         boost::mpl::eval_if< boost::is_same< typename boost::remove_cv<
-                                                                typename boost::remove_reference<
-                                                                  typename internal::Lazy_result_type<Construction>::type
+                         boost::mpl::eval_if< std::is_same< typename boost::remove_cv<
+                                                            typename boost::remove_reference<
+                                                              typename internal::Lazy_result_type<Construction>::type
                                                                   >::type >::type,
-                                                              typename Approximate_kernel::FT>,
+                                                            typename Approximate_kernel::FT>,
                                               boost::mpl::int_<NT>,
-                                              boost::mpl::eval_if< boost::is_same< typename internal::Lazy_result_type<Construction>::type,
+                                              boost::mpl::eval_if< std::is_same< typename internal::Lazy_result_type<Construction>::type,
                                                                                    CGAL::Object >,
                                                                    boost::mpl::int_<OBJECT>,
                                                                    boost::mpl::eval_if< boost::mpl::or_<
-                                                                                          boost::is_same< typename internal::Lazy_result_type<Construction>::type, CGAL::Bbox_2 >,
-                                                                                          boost::is_same< typename internal::Lazy_result_type<Construction>::type, CGAL::Bbox_3 > >,
+                                                                                          std::is_same< typename internal::Lazy_result_type<Construction>::type, CGAL::Bbox_2 >,
+                                                                                          std::is_same< typename internal::Lazy_result_type<Construction>::type, CGAL::Bbox_3 > >,
                                                                                         boost::mpl::int_<BBOX>,
                                                                                         boost::mpl::int_<NONE> > > >,
                          boost::mpl::int_<NONE> >::type {};

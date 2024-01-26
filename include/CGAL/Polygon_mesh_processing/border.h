@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.5.3/Polygon_mesh_processing/include/CGAL/Polygon_mesh_processing/border.h $
-// $Id: border.h 038813d 2023-05-04T17:21:16+02:00 Laurent Rineau
+// $URL: https://github.com/CGAL/cgal/blob/v5.6/Polygon_mesh_processing/include/CGAL/Polygon_mesh_processing/border.h $
+// $Id: border.h 7789f8a 2023-05-04T17:22:43+02:00 Laurent Rineau
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -19,13 +19,13 @@
 #include <CGAL/boost/graph/iterator.h>
 #include <CGAL/boost/graph/helpers.h>
 #include <CGAL/Named_function_parameters.h>
-#include <CGAL/Polygon_mesh_processing/internal/named_params_helper.h>
+#include <CGAL/boost/graph/named_params_helper.h>
 
 #include <boost/graph/graph_traits.hpp>
-#include <boost/type_traits/is_same.hpp>
 
 #include <unordered_set>
 #include <set>
+#include <type_traits>
 
 namespace CGAL{
 namespace Polygon_mesh_processing {

@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.5.3/Convex_hull_3/include/CGAL/Convex_hull_3/dual/halfspace_intersection_3.h $
-// $Id: halfspace_intersection_3.h 4ffc949 2022-02-03T17:11:20+01:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v5.6/Convex_hull_3/include/CGAL/Convex_hull_3/dual/halfspace_intersection_3.h $
+// $Id: halfspace_intersection_3.h 7a62583 2022-11-14T19:14:33+01:00 albert-github
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -73,7 +73,6 @@ namespace CGAL
 
 
               std::unordered_map <Facet_const_handle, vertex_descriptor> primal_vertices;
-              size_t n = 0;
 
               // First, computing the primal vertices
               for(Facet_const_handle fd : faces(_dual)){
@@ -111,7 +110,6 @@ namespace CGAL
                 vertex_descriptor vd = add_vertex(primal);
                 primal_vertices[fd] = vd;
                 put(vpm, vd, ppp);
-                ++n;
               }
 
               // Then, add facets to the primal polyhedron
@@ -244,7 +242,7 @@ namespace CGAL
           // find a point inside the intersection
           origin = halfspace_intersection_interior_point_3(begin, end);
 
-          CGAL_assertion_msg(origin!=boost::none, "halfspace_intersection_3: problem when determing a point inside the intersection");
+          CGAL_assertion_msg(origin!=boost::none, "halfspace_intersection_3: problem when determining a point inside the intersection");
           if (origin==boost::none)
             return;
         }
@@ -283,4 +281,3 @@ namespace CGAL
 #include <CGAL/enable_warnings.h>
 
 #endif // CGAL_HALFSPACE_INTERSECTION_3_H
-

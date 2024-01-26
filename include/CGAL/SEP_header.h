@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.5.3/CGAL_ImageIO/include/CGAL/SEP_header.h $
-// $Id: SEP_header.h ef59128 2021-12-27T11:08:34+01:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v5.6/CGAL_ImageIO/include/CGAL/SEP_header.h $
+// $Id: SEP_header.h 7a62583 2022-11-14T19:14:33+01:00 albert-github
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Laurent Rineau
@@ -72,7 +72,7 @@ private:
 
     template <typename T>
     void operator()(const T& t) {
-      // std::cerr << "My assignement ("
+      // std::cerr << "My assignment ("
       //           << typeid(t).name() << "): "
       //           << key << "=" << t << std::endl;
       self->add(key, t);

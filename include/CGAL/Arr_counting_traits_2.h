@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.5.3/Arrangement_on_surface_2/include/CGAL/Arr_counting_traits_2.h $
-// $Id: Arr_counting_traits_2.h eff6474 2023-03-12T17:53:32+02:00 Efi Fogel
+// $URL: https://github.com/CGAL/cgal/blob/v5.6/Arrangement_on_surface_2/include/CGAL/Arr_counting_traits_2.h $
+// $Id: Arr_counting_traits_2.h ae3e2b6 2023-03-31T11:10:52+02:00 Laurent Rineau
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s): Efi Fogel      <efif@post.tau.ac.il>
@@ -21,7 +21,7 @@
  * A counting traits-class for the arrangement package.
  * This is a meta-traits class. It is parameterized with another traits class
  * and inherits from it. For each traits method it maintains a counter that
- * counts the number of invokations into the method.
+ * counts the number of invocations into the method.
  */
 
 #include <iostream>

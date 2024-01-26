@@ -4,8 +4,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.5.3/Mesh_3/include/CGAL/Polyhedral_mesh_domain_3.h $
-// $Id: Polyhedral_mesh_domain_3.h 98e4718 2021-08-26T11:33:39+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v5.6/Mesh_3/include/CGAL/Polyhedral_mesh_domain_3.h $
+// $Id: Polyhedral_mesh_domain_3.h 820b1c5 2023-07-26T17:30:40+02:00 Laurent Rineau
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -38,11 +38,9 @@
 
 #include <boost/optional.hpp>
 #include <boost/none.hpp>
-#include <boost/utility/enable_if.hpp>
 #include <boost/mpl/vector.hpp>
 #include <boost/mpl/contains.hpp>
 #include <boost/mpl/or.hpp>
-#include <boost/type_traits/is_same.hpp>
 #include <boost/format.hpp>
 #include <boost/variant.hpp>
 #include <boost/math/special_functions/round.hpp>
@@ -52,6 +50,7 @@
 #include <sstream>
 #include <string>
 #include <utility>
+#include <type_traits>
 
 #ifdef CGAL_LINKED_WITH_TBB
 # include <tbb/enumerable_thread_specific.h>
@@ -59,9 +58,9 @@
 
 // To handle I/O for Surface_patch_index if that is a pair of `int` (the
 // default)
-#include <CGAL/Mesh_3/internal/Handle_IO_for_pair_of_int.h>
+#include <CGAL/SMDS_3/internal/Handle_IO_for_pair_of_int.h>
 
-#include <CGAL/Mesh_3/internal/indices_management.h>
+#include <CGAL/SMDS_3/internal/indices_management.h>
 
 namespace CGAL {
 
@@ -191,7 +190,7 @@ public:
                                 Default,
                                 Ins_fctor_AABB_tree>      Inside_functor;
   typedef typename Inside_functor::AABB_tree              AABB_tree_;
-  BOOST_STATIC_ASSERT((boost::is_same<AABB_tree_, Ins_fctor_AABB_tree>::value));
+  BOOST_STATIC_ASSERT((std::is_same<AABB_tree_, Ins_fctor_AABB_tree>::value));
   typedef typename AABB_tree_::AABB_traits                AABB_traits;
   typedef typename AABB_tree_::Primitive                  AABB_primitive;
   typedef typename AABB_tree_::Primitive_id               AABB_primitive_id;
@@ -208,7 +207,7 @@ public:
   }
 
   /**
-   * @brief Constructor. Contruction from a polyhedral surface
+   * @brief Constructor. Construction from a polyhedral surface
    * @param polyhedron the polyhedron describing the polyhedral surface
    */
   Polyhedral_mesh_domain_3(const Polyhedron& p,
@@ -382,9 +381,9 @@ public:
       : r_domain_(domain) {}
 
     template <typename Query>
-    typename boost::enable_if<typename boost::mpl::contains<Allowed_query_types,
-                                                            Query>::type,
-                              Surface_patch>::type
+    typename std::enable_if_t<boost::mpl::contains<Allowed_query_types,
+                                                   Query>::value,
+                              Surface_patch>
     operator()(const Query& q) const
     {
       CGAL_MESH_3_PROFILER(std::string("Mesh_3 profiler: ") + std::string(CGAL_PRETTY_FUNCTION));
@@ -423,9 +422,9 @@ public:
       : r_domain_(domain) {}
 
     template <typename Query>
-    typename boost::enable_if<typename boost::mpl::contains<Allowed_query_types,
-                                                            Query>::type,
-                              Intersection>::type
+    typename std::enable_if_t<boost::mpl::contains<Allowed_query_types,
+                                                   Query>::value,
+                              Intersection>
     operator()(const Query& q) const
     {
       CGAL_MESH_3_PROFILER(std::string("Mesh_3 profiler: ") + std::string(CGAL_PRETTY_FUNCTION));
@@ -517,28 +516,28 @@ public:
 
   /**
    * Returns the index to be stored in a vertex lying on the surface identified
-   * by \c index.
+   * by `index`.
    */
   Index index_from_surface_patch_index(const Surface_patch_index& index) const
   { return Index(index); }
 
   /**
    * Returns the index to be stored in a vertex lying in the subdomain
-   * identified by \c index.
+   * identified by `index`.
    */
   Index index_from_subdomain_index(const Subdomain_index& index) const
   { return Index(index); }
 
   /**
-   * Returns the \c Surface_patch_index of the surface patch
-   * where lies a vertex with dimension 2 and index \c index.
+   * Returns the `Surface_patch_index` of the surface patch
+   * where lies a vertex with dimension 2 and index `index`.
    */
   Surface_patch_index surface_patch_index(const Index& index) const
   { return boost::get<Surface_patch_index>(index); }
 
   /**
    * Returns the index of the subdomain containing a vertex
-   *  with dimension 3 and index \c index.
+   *  with dimension 3 and index `index`.
    */
   Subdomain_index subdomain_index(const Index& index) const
   { return boost::get<Subdomain_index>(index); }
@@ -692,13 +691,14 @@ Construct_initial_points::operator()(OutputIterator pts,
   typename IGT::Construct_vector_3 vector = IGT().construct_vector_3_object();
 
   const Bounding_box bbox = r_domain_.tree_.bbox();
-  const Point_3 center( FT( (bbox.xmin() + bbox.xmax()) / 2),
-                        FT( (bbox.ymin() + bbox.ymax()) / 2),
-                        FT( (bbox.zmin() + bbox.zmax()) / 2) );
+  Point_3 center( FT( (bbox.xmin() + bbox.xmax()) / 2),
+                  FT( (bbox.ymin() + bbox.ymax()) / 2),
+                  FT( (bbox.zmin() + bbox.zmax()) / 2) );
 
   CGAL::Random& rng = *(r_domain_.p_rng_ != 0 ?
                         r_domain_.p_rng_ :
                         new Random(0));
+
   Random_points_on_sphere_3<Point_3> random_point(1., rng);
 
   int i = n;
@@ -728,6 +728,15 @@ Construct_initial_points::operator()(OutputIterator pts,
         % (n - i)
         % n;
 # endif
+
+      // If the source of the ray is on the surface, every ray will return its source
+      // so change the source to a random point in the bounding box
+      if(std::get<0>(intersection) == ray_shot.source())
+      {
+        center = Point_3(rng.get_double(bbox.xmin(), bbox.xmax()),
+                         rng.get_double(bbox.ymin(), bbox.ymax()),
+                         rng.get_double(bbox.zmin(), bbox.zmax()));
+      }
     }
     ++random_point;
   }

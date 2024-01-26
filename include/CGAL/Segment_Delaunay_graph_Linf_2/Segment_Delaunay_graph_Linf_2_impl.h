@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.5.3/Segment_Delaunay_graph_Linf_2/include/CGAL/Segment_Delaunay_graph_Linf_2/Segment_Delaunay_graph_Linf_2_impl.h $
-// $Id: Segment_Delaunay_graph_Linf_2_impl.h 0779373 2020-03-26T13:31:46+01:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v5.6/Segment_Delaunay_graph_Linf_2/include/CGAL/Segment_Delaunay_graph_Linf_2/Segment_Delaunay_graph_Linf_2_impl.h $
+// $Id: Segment_Delaunay_graph_Linf_2_impl.h 7ea0f8b 2022-10-21T09:14:58+01:00 Andreas Fabri
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -105,6 +105,7 @@ find_faces_to_split(const Vertex_handle& v, const Site_2& t,
     Face_circulator fc_start = fc;
     int n_inf = 0;
     int n_faces = 0;
+    CGAL_USE(n_faces);
     do {
       if ( is_infinite(fc) ) { n_inf++; }
       fc++;

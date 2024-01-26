@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.5.3/Nef_2/include/CGAL/Nef_2/PM_const_decorator.h $
-// $Id: PM_const_decorator.h 4e519a3 2021-05-05T13:15:37+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v5.6/Nef_2/include/CGAL/Nef_2/PM_const_decorator.h $
+// $Id: PM_const_decorator.h 3674c93 2022-11-15T15:21:01+01:00 albert-github
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -485,6 +485,8 @@ check_integrity_and_topological_planarity(bool faces) const
   std::size_t e_num = number_of_edges();
   std::size_t c_num = number_of_connected_components() - iso_vert_num;
   std::size_t f_num = number_of_face_cycles() - c_num + 1;
+  CGAL_USE(fc_num);
+  CGAL_USE(iv_num);
   CGAL_USE(v_num);
   CGAL_USE(e_num);
   CGAL_USE(f_num);
@@ -494,7 +496,7 @@ check_integrity_and_topological_planarity(bool faces) const
   /* this means all face cycles and all isolated vertices are
      indeed referenced from a face */
   /* every isolated vertex increases the component count
-       one face cycle per component is redundent except one
+       one face cycle per component is redundant except one
        finally check the Euler formula: */
   CGAL_assertion( v_num - e_num + f_num == 1 + c_num );
 }

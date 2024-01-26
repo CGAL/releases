@@ -7,8 +7,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.5.3/Number_types/include/CGAL/Quotient.h $
-// $Id: Quotient.h a037ca1 2021-10-04T17:01:41+02:00 Dmitry Anisimov
+// $URL: https://github.com/CGAL/cgal/blob/v5.6/Number_types/include/CGAL/Quotient.h $
+// $Id: Quotient.h 3fa4364 2022-06-10T08:41:19+02:00 Sébastien Loriot
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -628,7 +628,7 @@ public:
     };
 
     typedef typename boost::mpl::if_c<
-        !boost::is_same< typename Algebraic_structure_traits<NT>::Sqrt,
+        !std::is_same< typename Algebraic_structure_traits<NT>::Sqrt,
                          Null_functor >::value,
          typename INTERN_QUOTIENT::Sqrt_selector< Type,
                                                   Is_exact >::Sqrt,

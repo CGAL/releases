@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.5.3/Nef_3/include/CGAL/Nef_3/SNC_structure.h $
-// $Id: SNC_structure.h 4c4aeb7 2022-03-29T17:47:51+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v5.6/Nef_3/include/CGAL/Nef_3/SNC_structure.h $
+// $Id: SNC_structure.h 33d9560 2023-01-19T00:39:36+00:00 Giles Bathgate
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -56,6 +56,7 @@ void merge_sets( Object o1, Object o2, Hash_map& hash, Union_find& uf) {
 template <typename K, typename I, typename M> class SNC_sphere_map;
 template <typename S> class SM_decorator;
 template <typename S> class SNC_decorator;
+template <typename S> class SNC_io_parser;
 
 /*{\Manpage {SNC_structure}{Items}{Selective Nef Complex}{C}}*/
 

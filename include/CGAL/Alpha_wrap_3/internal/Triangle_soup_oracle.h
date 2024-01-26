@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.5.3/Alpha_wrap_3/include/CGAL/Alpha_wrap_3/internal/Triangle_soup_oracle.h $
-// $Id: Triangle_soup_oracle.h 964bcd8 2022-05-25T09:37:37+02:00 Mael Rouxel-Labbé
+// $URL: https://github.com/CGAL/cgal/blob/v5.6/Alpha_wrap_3/include/CGAL/Alpha_wrap_3/internal/Triangle_soup_oracle.h $
+// $Id: Triangle_soup_oracle.h 7a8f91b 2022-11-01T16:09:26+01:00 Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Mael Rouxel-Labbé
@@ -14,7 +14,7 @@
 
 #include <CGAL/license/Alpha_wrap_3.h>
 
-#include <CGAL/Alpha_wrap_3/internal/Alpha_wrap_AABB_traits.h>
+#include <CGAL/Alpha_wrap_3/internal/Alpha_wrap_AABB_geom_traits.h>
 #include <CGAL/Alpha_wrap_3/internal/Oracle_base.h>
 #include <CGAL/Alpha_wrap_3/internal/splitting_helper.h>
 
@@ -38,7 +38,7 @@ namespace internal {
 template <typename GT_>
 struct TS_oracle_traits
 {
-  using Geom_traits = Alpha_wrap_AABB_traits<GT_>; // Wrap the kernel to add Ball_3 + custom Do_intersect_3
+  using Geom_traits = Alpha_wrap_AABB_geom_traits<GT_>; // Wrap the kernel to add Ball_3 + custom Do_intersect_3
   using Point_3 = typename Geom_traits::Point_3;
   using AABB_traits = typename AABB_tree_splitter_traits<Point_3, Geom_traits>::AABB_traits;
   using AABB_tree = typename AABB_tree_splitter_traits<Point_3, Geom_traits>::AABB_tree;

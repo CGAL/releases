@@ -3,13 +3,13 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.5.3/Installation/include/CGAL/license/Optimal_bounding_box.h $
-// $Id: Optimal_bounding_box.h 844cd55 2019-12-09T15:43:30+01:00 Mael Rouxel-Labbé
+// $URL: https://github.com/CGAL/cgal/blob/v5.6/Installation/include/CGAL/license/Optimal_bounding_box.h $
+// $Id: Optimal_bounding_box.h c1afb48 2022-07-19T09:04:19+02:00 Sébastien Loriot
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s) : Andreas Fabri
 //
-// Warning: this file is generated, see include/CGAL/licence/README.md
+// Warning: this file is generated, see include/CGAL/license/README.md
 
 #ifndef CGAL_LICENSE_OPTIMAL_BOUNDING_BOX_H
 #define CGAL_LICENSE_OPTIMAL_BOUNDING_BOX_H

@@ -2,8 +2,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.5.3/BGL/include/CGAL/boost/graph/IO/polygon_mesh_io.h $
-// $Id: polygon_mesh_io.h 75b03e6 2022-01-10T15:33:04+01:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v5.6/BGL/include/CGAL/boost/graph/IO/polygon_mesh_io.h $
+// $Id: polygon_mesh_io.h 2d203ca 2023-03-06T21:27:04+00:00 Andreas Fabri
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Maxime Gimeno
@@ -199,6 +199,13 @@ bool read_polygon_mesh(const std::string& fname,
  *     \cgalParamType{int}
  *     \cgalParamDefault{`6`}
  *     \cgalParamExtra{This parameter is only meaningful while using \ascii encoding.}
+ *   \cgalParamNEnd
+ *
+ *   \cgalParamNBegin{use_binary_mode}
+ *     \cgalParamDescription{indicates whether data should be written in binary (`true`) or in \ascii (`false`)}
+ *     \cgalParamType{Boolean}
+ *     \cgalParamDefault{`true`}
+ *     \cgalParamExtra{This parameter is only meaningful for formats that support binary encoding.}
  *   \cgalParamNEnd
  *
  *   \cgalParamNBegin{verbose}

@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.5.3/Polygon_mesh_processing/include/CGAL/Polygon_mesh_processing/remesh.h $
-// $Id: remesh.h 477353d 2022-04-20T15:55:50+02:00 Mael Rouxel-Labbé
+// $URL: https://github.com/CGAL/cgal/blob/v5.6/Polygon_mesh_processing/include/CGAL/Polygon_mesh_processing/remesh.h $
+// $Id: remesh.h e8c5de5 2022-10-06T15:37:03+02:00 Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -20,7 +20,7 @@
 #include <CGAL/Polygon_mesh_processing/internal/Isotropic_remeshing/remesh_impl.h>
 
 #include <CGAL/Named_function_parameters.h>
-#include <CGAL/Polygon_mesh_processing/internal/named_params_helper.h>
+#include <CGAL/boost/graph/named_params_helper.h>
 
 #ifdef CGAL_PMP_REMESHING_VERBOSE
 #include <CGAL/Timer.h>
@@ -377,6 +377,17 @@ void isotropic_remeshing(const FaceRange& faces
 *     \cgalParamDefault{an automatically indexed internal map}
 *   \cgalParamNEnd
 *
+*   \cgalParamNBegin{face_patch_map}
+*     \cgalParamDescription{a property map with the patch id's associated to the faces of `faces`}
+*     \cgalParamType{a class model of `ReadWritePropertyMap` with `boost::graph_traits<PolygonMesh>::%face_descriptor`
+*                    as key type and the desired property, model of `CopyConstructible` and `LessThanComparable` as value type.}
+*     \cgalParamDefault{a default property map where each face is associated with the ID of
+*                       the connected component it belongs to. Connected components are
+*                       computed with respect to the constrained edges listed in the property map
+*                       `edge_is_constrained_map`}
+*     \cgalParamExtra{The map is updated during the remeshing process while new faces are created.}
+*   \cgalParamNEnd
+*
 *   \cgalParamNBegin{edge_is_constrained_map}
 *     \cgalParamDescription{a property map containing the constrained-or-not status of each edge of `pmesh`}
 *     \cgalParamType{a class model of `ReadWritePropertyMap` with `boost::graph_traits<PolygonMesh>::%edge_descriptor`
@@ -421,14 +432,22 @@ void split_long_edges(const EdgeRange& edges
   ECMap ecmap = choose_parameter(get_parameter(np, internal_np::edge_is_constrained),
                                  Static_boolean_property_map<edge_descriptor, false>());
 
+  typedef typename internal_np::Lookup_named_param_def <
+      internal_np::face_patch_t,
+      NamedParameters,
+      internal::Connected_components_pmap<PM, FIMap>//default
+    > ::type FPMap;
+  FPMap fpmap = choose_parameter(
+    get_parameter(np, internal_np::face_patch),
+    internal::Connected_components_pmap<PM, FIMap>(faces(pmesh), pmesh, ecmap, fimap, false));
+
   typename internal::Incremental_remesher<PM, VPMap, GT, ECMap,
     Static_boolean_property_map<vertex_descriptor, false>, // no constraint pmap
-    internal::Connected_components_pmap<PM, FIMap>,
-    FIMap
+    FPMap,FIMap
   >
     remesher(pmesh, vpmap, gt, false/*protect constraints*/, ecmap,
              Static_boolean_property_map<vertex_descriptor, false>(),
-             internal::Connected_components_pmap<PM, FIMap>(faces(pmesh), pmesh, ecmap, fimap, false),
+             fpmap,
              fimap,
              false/*need aabb_tree*/);
 

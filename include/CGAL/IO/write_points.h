@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.5.3/Point_set_processing_3/include/CGAL/IO/write_points.h $
-// $Id: write_points.h 10b0af3 2022-01-13T14:43:34+01:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v5.6/Point_set_processing_3/include/CGAL/IO/write_points.h $
+// $Id: write_points.h 9dd8235 2022-08-10T23:48:47+02:00 Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s) : Maxime Gimeno
@@ -93,7 +93,7 @@ bool write_points(const std::string& fname,
                   const PointRange& points,
                   const CGAL_NP_CLASS& np = parameters::default_values(),
 #ifndef DOXYGEN_RUNNING
-                  typename boost::enable_if<internal::is_Range<PointRange> >::type* = nullptr
+                  std::enable_if_t<internal::is_Range<PointRange>::value>* = nullptr
 #endif
                   )
 {

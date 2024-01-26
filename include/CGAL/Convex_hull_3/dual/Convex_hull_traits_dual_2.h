@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.5.3/Convex_hull_3/include/CGAL/Convex_hull_3/dual/Convex_hull_traits_dual_2.h $
-// $Id: Convex_hull_traits_dual_2.h 254d60f 2019-10-19T15:23:19+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v5.6/Convex_hull_3/include/CGAL/Convex_hull_3/dual/Convex_hull_traits_dual_2.h $
+// $Id: Convex_hull_traits_dual_2.h 711d646 2022-07-02T17:19:48+02:00 Mael Rouxel-Labbé
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -114,7 +114,7 @@ namespace CGAL
                     }
                 };
 
-                struct Less_signed_distance_to_line_2 {
+                struct Compare_signed_distance_to_line_2 {
                     typedef typename R::RT        RT;
                     typedef bool result_type;
 
@@ -181,8 +181,8 @@ namespace CGAL
                     return Less_yx_2();
                 }
 
-                Less_signed_distance_to_line_2 less_signed_distance_to_line_2_object () const {
-                    return Less_signed_distance_to_line_2();
+                Compare_signed_distance_to_line_2 compare_signed_distance_to_line_2_object () const {
+                    return Compare_signed_distance_to_line_2();
                 }
 
                 Orientation_2 orientation_2_object () const {
@@ -276,7 +276,7 @@ namespace CGAL
                     }
                 };
 
-                struct Less_signed_distance_to_line_2 {
+                struct Compare_signed_distance_to_line_2 {
                     typedef typename R::RT        RT;
                     typedef bool result_type;
 
@@ -343,8 +343,8 @@ namespace CGAL
                     return Less_yx_2();
                 }
 
-                Less_signed_distance_to_line_2 less_signed_distance_to_line_2_object () const {
-                    return Less_signed_distance_to_line_2();
+                Compare_signed_distance_to_line_2 compare_signed_distance_to_line_2_object () const {
+                    return Compare_signed_distance_to_line_2();
                 }
 
                 Orientation_2 orientation_2_object () const {
@@ -438,7 +438,7 @@ namespace CGAL
                     }
                 };
 
-                struct Less_signed_distance_to_line_2 {
+                struct Compare_signed_distance_to_line_2 {
                     typedef typename R::RT        RT;
                     typedef bool result_type;
 
@@ -504,8 +504,8 @@ namespace CGAL
                     return Less_yx_2();
                 }
 
-                Less_signed_distance_to_line_2 less_signed_distance_to_line_2_object () const {
-                    return Less_signed_distance_to_line_2();
+                Compare_signed_distance_to_line_2 compare_signed_distance_to_line_2_object () const {
+                    return Compare_signed_distance_to_line_2();
                 }
 
                 Orientation_2 orientation_2_object () const {

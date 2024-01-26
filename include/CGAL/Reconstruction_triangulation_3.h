@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.5.3/Poisson_surface_reconstruction_3/include/CGAL/Reconstruction_triangulation_3.h $
-// $Id: Reconstruction_triangulation_3.h 4968d21 2022-05-17T10:31:07+01:00 Andreas Fabri
+// $URL: https://github.com/CGAL/cgal/blob/v5.6/Poisson_surface_reconstruction_3/include/CGAL/Reconstruction_triangulation_3.h $
+// $Id: Reconstruction_triangulation_3.h d3fca65 2022-09-23T12:49:40+01:00 Andreas Fabri
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -21,7 +21,7 @@
 #include <CGAL/Point_with_normal_3.h>
 #include <CGAL/Lightweight_vector_3.h>
 #include <CGAL/property_map.h>
-#include <CGAL/surface_reconstruction_points_assertions.h>
+#include <CGAL/assertions.h>
 
 #include <CGAL/Delaunay_triangulation_3.h>
 #include <CGAL/Delaunay_triangulation_cell_base_3.h>

@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.5.3/STL_Extension/include/CGAL/transforming_iterator.h $
-// $Id: transforming_iterator.h 209513d 2020-07-31T15:58:38+02:00 Dmitry Anisimov
+// $URL: https://github.com/CGAL/cgal/blob/v5.6/STL_Extension/include/CGAL/transforming_iterator.h $
+// $Id: transforming_iterator.h 4f5f834 2022-06-10T07:37:53+02:00 Sébastien Loriot
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Marc Glisse
@@ -93,8 +93,8 @@ private internal::Functor_as_base<F>
         template<class F2,class I2,class R2,class V2>
         transforming_iterator(
                 transforming_iterator<F2,I2,R2,V2> const&i,
-                typename boost::enable_if_convertible<I2, Iter>::type* = 0,
-                typename boost::enable_if_convertible<F2, F>::type* = 0)
+                std::enable_if_t<boost::is_convertible<I2, Iter>::value>* = 0,
+                std::enable_if_t<boost::is_convertible<F2, F>::value>* = 0)
                 : Base(i.base()),Functor_base(i.functor()) {}
 
 };

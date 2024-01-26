@@ -2,8 +2,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.5.3/Point_set_3/include/CGAL/Point_set_3/IO/PLY.h $
-// $Id: PLY.h e3e8545 2022-06-24T17:38:12+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v5.6/Point_set_3/include/CGAL/Point_set_3/IO/PLY.h $
+// $Id: PLY.h 1e6519e 2023-05-11T17:28:21+02:00 Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Simon Giraudot
@@ -505,7 +505,7 @@ bool write_PLY(std::ostream& os,
 
     if(prop[i] == "point")
     {
-      if(boost::is_same<typename Get_FT_from_map<typename Point_set::Point_map>::type, float>::value)
+      if(std::is_same<typename Get_FT_from_map<typename Point_set::Point_map>::type, float>::value)
       {
         os << "property float x" << std::endl
            << "property float y" << std::endl
@@ -522,7 +522,7 @@ bool write_PLY(std::ostream& os,
     }
     if(prop[i] == "normal")
     {
-      if(boost::is_same<typename Get_FT_from_map<typename Point_set::Vector_map>::type, float>::value)
+      if(std::is_same<typename Get_FT_from_map<typename Point_set::Vector_map>::type, float>::value)
       {
         os << "property float nx" << std::endl
            << "property float ny" << std::endl

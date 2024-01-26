@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.5.3/Polygon_mesh_processing/include/CGAL/Polygon_mesh_processing/tangential_relaxation.h $
-// $Id: tangential_relaxation.h 054906f 2023-04-13T15:17:04+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v5.6/Polygon_mesh_processing/include/CGAL/Polygon_mesh_processing/tangential_relaxation.h $
+// $Id: tangential_relaxation.h 318fce9 2023-04-17T10:13:24+02:00 Laurent Rineau
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -111,7 +111,7 @@ struct Allow_all_moves{
 *   \cgalParamNBegin{allow_move_functor}
 *     \cgalParamDescription{A function object used to determinate if a vertex move should be allowed or not}
 *     \cgalParamType{Unary functor that provides `bool operator()(vertex_descriptor v, Point_3 src, Point_3 tgt)` returning `true`
-*                    if the vertex `v` can be moved from `src` to `tgt`; %Point_3` being the value type of the vertex point map }
+*                    if the vertex `v` can be moved from `src` to `tgt`; `Point_3` being the value type of the vertex point map }
 *     \cgalParamDefault{If not provided, all moves are allowed.}
 *   \cgalParamNEnd
 *

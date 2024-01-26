@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.5.3/Arrangement_on_surface_2/demo/Arrangement_on_surface_2/FloodFill.h $
-// $Id: FloodFill.h a30658a 2020-09-21T09:09:48+02:00 Ahmed Essam
+// $URL: https://github.com/CGAL/cgal/blob/v5.6/Arrangement_on_surface_2/demo/Arrangement_on_surface_2/FloodFill.h $
+// $Id: FloodFill.h 014c06f 2022-11-14T15:32:47+01:00 albert-github
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s): Ahmed Essam <theartful.ae@gmail.com>
@@ -26,7 +26,7 @@ class FloodFill
 public:
   // this currently assumes that there is a "border" in the boundaries that
   // will prevent the flood fill from going there
-  // this way we don't check bounadry conditions!
+  // this way we don't check boundary conditions!
   void
   operator()(QRgb* raw_img, uint16_t width, uint16_t x, uint16_t y, QRgb color);
 

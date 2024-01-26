@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.5.3/Boolean_set_operations_2/include/CGAL/Polygon_set_2.h $
-// $Id: Polygon_set_2.h 0779373 2020-03-26T13:31:46+01:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v5.6/Boolean_set_operations_2/include/CGAL/Polygon_set_2.h $
+// $Id: Polygon_set_2.h 895c857 2022-11-02T22:36:25+02:00 Efi Fogel
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -58,7 +58,7 @@ public:
   {}
 
   /*! Constructor with traits object. */
-  Polygon_set_2 (Traits_2& tr) :
+  Polygon_set_2 (const Traits_2& tr) :
     Base(tr)
   {}
 

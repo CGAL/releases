@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.5.3/Mesh_2/include/CGAL/Delaunay_mesh_face_base_2.h $
-// $Id: Delaunay_mesh_face_base_2.h 7a6bdc1 2020-05-15T14:16:56+01:00 Andreas Fabri
+// $URL: https://github.com/CGAL/cgal/blob/v5.6/Mesh_2/include/CGAL/Delaunay_mesh_face_base_2.h $
+// $Id: Delaunay_mesh_face_base_2.h a6ae3b1 2022-03-15T10:34:36+01:00 Andreas Fabri
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -19,7 +19,10 @@
 #include <CGAL/Constrained_Delaunay_triangulation_face_base_2.h>
 #include <CGAL/Has_timestamp.h>
 
+
+
 namespace CGAL {
+
 
 template <class Gt,
           class Fb = Constrained_Delaunay_triangulation_face_base_2<Gt> >

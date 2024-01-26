@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.5.3/Arrangement_on_surface_2/include/CGAL/Arr_polycurve_traits_2.h $
-// $Id: Arr_polycurve_traits_2.h 521c72d 2021-10-04T13:22:00+02:00 Mael Rouxel-Labbé
+// $URL: https://github.com/CGAL/cgal/blob/v5.6/Arrangement_on_surface_2/include/CGAL/Arr_polycurve_traits_2.h $
+// $Id: Arr_polycurve_traits_2.h 014c06f 2022-11-14T15:32:47+01:00 albert-github
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s): Efi Fogel <efif@post.tau.ac.il>
@@ -25,10 +25,9 @@
  */
 
 #include <iterator>
+#include <type_traits>
 
 #include <boost/variant.hpp>
-#include <boost/type_traits/is_same.hpp>
-#include <boost/utility/enable_if.hpp>
 
 #include <CGAL/basic.h>
 #include <CGAL/tags.h>
@@ -819,7 +818,7 @@ public:
         //      assume that the subcurves cannot overlap more than once.
         if (! right_coincides && ! left_coincides) {
           // Non of the endpoints of the current subcurve of one polycurve
-          // coincides with the curent subcurve of the other polycurve:
+          // coincides with the current subcurve of the other polycurve:
           // Output the intersection if exists.
           std::vector<Intersection_base_result> xections;
           intersect(cv1[i1], cv2[i2], std::back_inserter(xections));
@@ -1174,7 +1173,7 @@ public:
     Curve_2 operator()(ForwardIterator begin, ForwardIterator end) const
     {
       typedef typename std::iterator_traits<ForwardIterator>::value_type VT;
-      typedef typename boost::is_same<VT, Point_2>::type Is_point;
+      typedef typename std::is_same<VT, Point_2>::type Is_point;
       // Dispatch the range to the appropriate implementation.
       return constructor_impl(begin, end, Is_point());
     }
@@ -1191,7 +1190,7 @@ public:
     template <typename ForwardIterator>
     Curve_2 constructor_impl(ForwardIterator /* begin */,
                              ForwardIterator /* end */,
-                             boost::true_type) const
+                             std::true_type) const
     {  CGAL_error_msg("Cannot construct a polycurve from a range of points!"); }
 
     /*! Construction implementation from a range of subcurves.
@@ -1202,7 +1201,7 @@ public:
      */
     template <typename ForwardIterator>
     Curve_2 constructor_impl(ForwardIterator begin, ForwardIterator end,
-                             boost::false_type) const
+                             std::false_type) const
     {
       // Range has to contain at least one subcurve
       CGAL_precondition(begin != end);

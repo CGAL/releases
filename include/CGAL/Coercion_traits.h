@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.5.3/Algebraic_foundations/include/CGAL/Coercion_traits.h $
-// $Id: Coercion_traits.h a88a84b 2021-08-13T15:46:50+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v5.6/Algebraic_foundations/include/CGAL/Coercion_traits.h $
+// $Id: Coercion_traits.h 014c06f 2022-11-14T15:32:47+01:00 albert-github
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -23,19 +23,19 @@
 #define CGAL_COERCION_TRAITS_H 1
 
 #include <iterator>
+#include <type_traits>
 
 #include <CGAL/boost/iterator/transform_iterator.hpp>
-#include <boost/type_traits/is_same.hpp>
 
 #include <CGAL/tags.h>
 
-// Makro to define an additional operator for binary functors which takes
+// Macro to define an additional operator for binary functors which takes
 // two number types as parameters that are interoperable with the
 // number type
 #define CGAL_IMPLICIT_INTEROPERABLE_BINARY_OPERATOR_WITH_RT( NT, Result_type  ) \
   template < class CT_Type_1, class CT_Type_2 >                         \
   Result_type operator()( const CT_Type_1& x, const CT_Type_2& y ) const { \
-    CGAL_static_assertion((::boost::is_same<                              \
+    CGAL_static_assertion((::std::is_same<                              \
             typename Coercion_traits< CT_Type_1, CT_Type_2 >::Type, NT  \
             >::value));                                                 \
                                                                         \

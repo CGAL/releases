@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.5.3/Hyperbolic_triangulation_2/demo/Hyperbolic_triangulation_2/include/internal/Qt/TriangulationMovingPoint.h $
-// $Id: TriangulationMovingPoint.h 0779373 2020-03-26T13:31:46+01:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v5.6/Hyperbolic_triangulation_2/demo/Hyperbolic_triangulation_2/include/internal/Qt/TriangulationMovingPoint.h $
+// $Id: TriangulationMovingPoint.h 3f49816 2022-09-26T14:10:22+02:00 Mael Rouxel-Labbé
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Andreas Fabri <Andreas.Fabri@geometryfactory.com>
@@ -68,7 +68,7 @@ TriangulationMovingPoint<T>::localize_and_insert_point(QPointF qt_point)
   if(lt != T::VERTEX){
     vh = dt->insert(p, lt, fh, li);
     insertedPoint = true;
-    emit(modelChanged());
+    Q_EMIT(modelChanged());
   } else {
     vh = fh->vertex(0);
     insertedPoint = false;
@@ -123,7 +123,7 @@ TriangulationMovingPoint<T>::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
   }
   vh = Vertex_handle();
 
-  emit(modelChanged());
+  Q_EMIT(modelChanged());
 
   movePointToInsert = false;
 }

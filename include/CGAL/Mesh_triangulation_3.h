@@ -4,8 +4,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.5.3/Mesh_3/include/CGAL/Mesh_triangulation_3.h $
-// $Id: Mesh_triangulation_3.h 91d862d 2021-12-23T11:58:19+01:00 Mael Rouxel-Labbé
+// $URL: https://github.com/CGAL/cgal/blob/v5.6/Mesh_3/include/CGAL/Mesh_triangulation_3.h $
+// $Id: Mesh_triangulation_3.h a8ffa74 2022-12-05T15:19:39+01:00 Mael Rouxel-Labbé
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -28,7 +28,7 @@
 
 #include <CGAL/Mesh_vertex_base_3.h>
 #include <CGAL/Compact_mesh_cell_base_3.h>
-#include <CGAL/Mesh_3/io_signature.h>
+#include <CGAL/SMDS_3/io_signature.h>
 
 namespace CGAL {
 
@@ -62,12 +62,14 @@ public:
   typedef typename Base::Triangle                             Triangle;
 
   typedef typename Base::Vertex_handle                        Vertex_handle;
+  typedef typename Base::Facet                                Facet;
   typedef typename Base::Cell_handle                          Cell_handle;
 
   typedef typename Geom_traits::Vector_3                      Vector;
 
   using Base::geom_traits;
   using Base::point;
+  using Base::triangle;
 
   static std::string io_signature() { return Get_io_signature<Base>()(); }
 
@@ -83,9 +85,9 @@ public:
     return q;
   }
 
-  const Triangle& get_closest_triangle(const Bare_point& /*p*/, const Triangle& t) const
+  Triangle get_incident_triangle(const Facet& f, const Vertex_handle) const
   {
-    return t;
+    return triangle(f);
   }
 
   void set_point(const Vertex_handle v,

@@ -7,8 +7,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.5.3/Homogeneous_kernel/include/CGAL/Homogeneous_converter.h $
-// $Id: Homogeneous_converter.h 3a0a4a6 2021-12-17T12:22:40+01:00 Mael Rouxel-Labbé
+// $URL: https://github.com/CGAL/cgal/blob/v5.6/Homogeneous_kernel/include/CGAL/Homogeneous_converter.h $
+// $Id: Homogeneous_converter.h 4f5f834 2022-06-10T07:37:53+02:00 Sébastien Loriot
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -89,7 +89,7 @@ public:
     template <typename T>
     T
     operator()(const T t,
-               typename std::enable_if<std::is_fundamental<T>::value>::type* = nullptr) const
+               std::enable_if_t<std::is_fundamental<T>::value>* = nullptr) const
     {
         return t;
     }

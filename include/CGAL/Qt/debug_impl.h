@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.5.3/GraphicsView/include/CGAL/Qt/debug_impl.h $
-// $Id: debug_impl.h 0779373 2020-03-26T13:31:46+01:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v5.6/GraphicsView/include/CGAL/Qt/debug_impl.h $
+// $Id: debug_impl.h 4547818 2022-11-15T13:39:40+01:00 albert-github
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -51,5 +51,5 @@ void traverse_resources(const QString& name, const QString& dirname, int indent)
   }
 }
 
-} // namesapce Qt
+} // namespace Qt
 } // namespace CGAL

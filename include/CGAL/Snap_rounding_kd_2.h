@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.5.3/Snap_rounding_2/include/CGAL/Snap_rounding_kd_2.h $
-// $Id: Snap_rounding_kd_2.h 3c7eb2c 2020-01-07T15:31:07+01:00 Mael Rouxel-Labbé
+// $URL: https://github.com/CGAL/cgal/blob/v5.6/Snap_rounding_2/include/CGAL/Snap_rounding_kd_2.h $
+// $Id: Snap_rounding_kd_2.h c5207cb 2022-11-24T09:54:56+01:00 Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -19,7 +19,6 @@
 
 #include <list>
 #include <CGAL/basic.h>
-#include <CGAL/predicates_on_points_2.h>
 #include <iostream>
 #include <CGAL/predicates_on_points_2.h>
 #include <CGAL/utility.h>
@@ -411,7 +410,7 @@ public:
     int * kd_counter = new int[number_of_trees];
     std::size_t number_of_segments = seg_list.size();
 
-    // auxilary directions
+    // auxiliary directions
     Direction_list directions;
     double buffer_angle;
     Line_2 li;

@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.5.3/TDS_3/include/CGAL/TDS_3/internal/Triangulation_ds_iterators_3.h $
-// $Id: Triangulation_ds_iterators_3.h 524ce8f 2021-09-29T11:46:55+02:00 Laurent Rineau
+// $URL: https://github.com/CGAL/cgal/blob/v5.6/TDS_3/include/CGAL/TDS_3/internal/Triangulation_ds_iterators_3.h $
+// $Id: Triangulation_ds_iterators_3.h d3fca65 2022-09-23T12:49:40+01:00 Andreas Fabri
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Monique Teillaud <Monique.Teillaud@sophia.inria.fr>
@@ -17,7 +17,6 @@
 
 #include <utility>
 
-#include <CGAL/triangulation_assertions.h>
 #include <CGAL/TDS_3/internal/Triangulation_ds_circulators_3.h>
 
 namespace CGAL { namespace internal {

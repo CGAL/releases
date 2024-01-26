@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.5.3/Number_types/include/CGAL/Sqrt_extension/Fraction_traits.h $
-// $Id: Fraction_traits.h 0779373 2020-03-26T13:31:46+01:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v5.6/Number_types/include/CGAL/Sqrt_extension/Fraction_traits.h $
+// $Id: Fraction_traits.h 3674c93 2022-11-15T15:21:01+01:00 albert-github
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -24,11 +24,11 @@ namespace CGAL {
 //################################# CGAL::Fraction_traits ##################
 // Select the right alternative as Fraction_traits
 // The actual Type traits is Intern::Sqrt_ext_Ftr_base_2
-// The selction is done in two steps:
+// The selection is done in two steps:
 // 1. Inter::Sqrt_ext_Ftr_base_1 selects by the BOOL_TAG whether the COEFF type
 //    Is_fraction
 // 2. Intern::Sqrt_ext_Ftr_base_2 checks whether the internal type of the ROOT
-//    is still implicite convertible to the new COEFF type.
+//    is still implicitly convertible to the new COEFF type.
 //    since the ROOT type it self can not be converted.
 namespace Intern{
     template <class EXT, bool> class Sqrt_ext_Ftr_base_2;
@@ -147,7 +147,7 @@ template <class COEFF, class ROOT, class ACDE_TAG, class FP_TAG>
 class Sqrt_ext_Ftr_base_1< Sqrt_extension<COEFF,ROOT,ACDE_TAG,FP_TAG>, CGAL::Tag_true >
     : public Sqrt_ext_Ftr_base_2<
     Sqrt_extension<COEFF,ROOT,ACDE_TAG,FP_TAG>,
-    ::boost::is_same< typename CGAL::Coercion_traits<ROOT,typename CGAL::Fraction_traits<COEFF>::Numerator_type>::Type,
+    ::std::is_same< typename CGAL::Coercion_traits<ROOT,typename CGAL::Fraction_traits<COEFF>::Numerator_type>::Type,
                         typename CGAL::Fraction_traits<COEFF>::Numerator_type>::value >
 {
     //nothing new

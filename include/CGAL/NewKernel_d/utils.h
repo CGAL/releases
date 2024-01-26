@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.5.3/NewKernel_d/include/CGAL/NewKernel_d/utils.h $
-// $Id: utils.h 9c28a54 2021-03-18T09:38:30+01:00 Laurent Rineau
+// $URL: https://github.com/CGAL/cgal/blob/v5.6/NewKernel_d/include/CGAL/NewKernel_d/utils.h $
+// $Id: utils.h 3674c93 2022-11-15T15:21:01+01:00 albert-github
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Marc Glisse
@@ -22,7 +22,6 @@
 
 #include <type_traits>
 #include <utility>
-#include <boost/utility/enable_if.hpp>
 #include <boost/preprocessor/repetition.hpp>
 #include <CGAL/Rational_traits.h>
 #include <CGAL/tuple.h>
@@ -39,7 +38,7 @@ template <class T, class No, bool=internal::has_type<T>::value /*false*/>
 struct Has_type_different_from : boost::false_type {};
 template <class T, class No>
 struct Has_type_different_from <T, No, true>
-: boost::mpl::not_<boost::is_same<typename T::type, No> > {};
+: boost::mpl::not_<std::is_same<typename T::type, No> > {};
 
 
         template <class T> struct Wrap_type { typedef T type; };
@@ -47,7 +46,7 @@ struct Has_type_different_from <T, No, true>
         // tell a function f(a,b,c) that its real argument is a(b,c)
         struct Eval_functor {};
 
-        // forget the first argument. Useful to make something dependant
+        // forget the first argument. Useful to make something dependent
         // (and thus usable in SFINAE), although that's not a great design.
         template<class A,class B> struct Second_arg {
                 typedef B type;
@@ -139,7 +138,7 @@ struct Has_type_different_from <T, No, true>
 }
 
 // TODO: make a Cartesian-only variant
-// WARNING: do not use the Req* parameters too much, they can cause circular instanciations and are only useful for dispatching.
+// WARNING: do not use the Req* parameters too much, they can cause circular instantiations and are only useful for dispatching.
 #define CGAL_STRIP_PAREN_(...) __VA_ARGS__
 #define CGAL_STRIP_PAREN(...) CGAL_STRIP_PAREN_ __VA_ARGS__
 // What to do with O? pass it down to other functors or drop it?

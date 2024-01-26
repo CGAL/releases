@@ -2,8 +2,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.5.3/BGL/include/CGAL/boost/graph/properties_OpenMesh.h $
-// $Id: properties_OpenMesh.h 841373d 2022-11-24T11:58:53+01:00 Mael Rouxel-Labbé
+// $URL: https://github.com/CGAL/cgal/blob/v5.6/BGL/include/CGAL/boost/graph/properties_OpenMesh.h $
+// $Id: properties_OpenMesh.h ec8ec2f 2022-11-24T11:59:24+01:00 Mael Rouxel-Labbé
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -29,11 +29,11 @@ namespace CGAL {
 template <typename Mesh, typename Descriptor, typename Value>
 class OM_pmap {
 public:
-  typedef typename boost::mpl::if_<boost::is_same<Descriptor, typename boost::graph_traits<Mesh>::vertex_descriptor>,
+  typedef typename boost::mpl::if_<std::is_same<Descriptor, typename boost::graph_traits<Mesh>::vertex_descriptor>,
                                    OpenMesh::VPropHandleT<Value>,
-                                   typename boost::mpl::if_<boost::is_same<Descriptor, typename boost::graph_traits<Mesh>::face_descriptor>,
+                                   typename boost::mpl::if_<std::is_same<Descriptor, typename boost::graph_traits<Mesh>::face_descriptor>,
                                                             OpenMesh::FPropHandleT<Value>,
-                                                            typename boost::mpl::if_<boost::is_same<Descriptor, typename boost::graph_traits<Mesh>::halfedge_descriptor>,
+                                                            typename boost::mpl::if_<std::is_same<Descriptor, typename boost::graph_traits<Mesh>::halfedge_descriptor>,
                                                                                      OpenMesh::HPropHandleT<Value>,
                                                                                      OpenMesh::EPropHandleT<Value> >::type>::type>::type H;
 

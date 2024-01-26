@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.5.3/Linear_cell_complex/examples/Linear_cell_complex/basic_viewer.h $
-// $Id: basic_viewer.h 2d5f91f 2021-05-27T09:06:59+02:00 Maxime Gimeno
+// $URL: https://github.com/CGAL/cgal/blob/v5.6/Linear_cell_complex/examples/Linear_cell_complex/basic_viewer.h $
+// $Id: basic_viewer.h 4547818 2022-11-15T13:39:40+01:00 albert-github
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Guillaume Damiand <guillaume.damiand@liris.cnrs.fr>
@@ -419,7 +419,7 @@ public:
                                                         SMOOTH_NORMAL_MONO_FACES]);
         }
         else
-        { // Here user does not provide all vertex normals: we use face normal istead
+        { // Here user does not provide all vertex normals: we use face normal instead
           // and thus we will not be able to use Gourod
          add_normal(normal, arrays[m_started_face_is_colored?
                                    SMOOTH_NORMAL_COLORED_FACES:
@@ -438,11 +438,11 @@ public:
 
         bool with_vertex_normal=(vertex_normals_for_face.size()==points_of_face.size());
 
-        // (1) We insert all the edges as contraint in the CDT.
-        typename CDT::Vertex_handle previous=NULL, first=NULL;
+        // (1) We insert all the edges as constraint in the CDT.
+        typename CDT::Vertex_descriptor previous=NULL, first=NULL;
         for (int i=0; i<points_of_face.size(); ++i)
         {
-          typename CDT::Vertex_handle vh = cdt.insert(points_of_face[i]);
+          typename CDT::Vertex_descriptor vh = cdt.insert(points_of_face[i]);
           if(first==NULL)
           { first=vh; }
 
@@ -468,13 +468,13 @@ public:
           fit->info().is_process = false;
         }
         // (2.2) We check if the facet is external or internal
-        std::queue<typename CDT::Face_handle> face_queue;
-        typename CDT::Face_handle face_internal = NULL;
+        std::queue<typename CDT::Face_descriptor> face_queue;
+        typename CDT::Face_descriptor face_internal = NULL;
         if (cdt.infinite_vertex()->face()!=NULL)
           face_queue.push(cdt.infinite_vertex()->face());
         while(! face_queue.empty() )
         {
-          typename CDT::Face_handle fh = face_queue.front();
+          typename CDT::Face_descriptor fh = face_queue.front();
           face_queue.pop();
           if(!fh->info().is_process)
           {
@@ -499,7 +499,7 @@ public:
 
         while(! face_queue.empty() )
         {
-          typename CDT::Face_handle fh = face_queue.front();
+          typename CDT::Face_descriptor fh = face_queue.front();
           face_queue.pop();
           if(!fh->info().is_process)
           {

@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.5.3/Arrangement_on_surface_2/include/CGAL/Arr_point_location/Td_traits.h $
-// $Id: Td_traits.h 6642407 2020-07-29T18:08:32+03:00 Efi Fogel
+// $URL: https://github.com/CGAL/cgal/blob/v5.6/Arrangement_on_surface_2/include/CGAL/Arr_point_location/Td_traits.h $
+// $Id: Td_traits.h 014c06f 2022-11-14T15:32:47+01:00 albert-github
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s): Oren Nechushtan <theoren@math.tau.ac.il>
@@ -352,14 +352,11 @@ public:
 
   };
 
-  /*! Obtain a Compare_y_at_x_2 functor object. */
+  /*! Obtain a Compare_curve_end_x_2 functor object. */
   Compare_curve_end_x_2 compare_curve_end_x_2_object () const
   {
     return Compare_curve_end_x_2(this);
   }
-
-
-
 
  /*! A functor that compares the y-coordinates of an edge end and a curve at
    * the point x-coordinate
@@ -1080,7 +1077,7 @@ public:
   }
 
   /*! returns true if the end point is inside the closure of the trapezoid
-      (inlcude all boundaries) */
+      (include all boundaries) */
   bool is_in_closure  (const Td_active_trapezoid& tr, const Curve_end& ce ) const
   {
     // test left and right sides
@@ -1110,7 +1107,7 @@ public:
     return false;
   }
   /*! returns true if the end point is inside the closure of the trapezoid
-      (inlcude all boundaries) */
+      (include all boundaries) */
   bool is_in_closure (const Td_active_edge& e, const Curve_end& ce ) const
   {
     // test left and right sides

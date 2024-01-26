@@ -6,8 +6,8 @@
  This file is part of a fork of the QGLViewer library version 2.7.0.
 
 *****************************************************************************/
-// $URL: https://github.com/CGAL/cgal/blob/v5.5.3/GraphicsView/include/CGAL/Qt/manipulatedFrame.h $
-// $Id: manipulatedFrame.h 9cd0d45 2021-02-09T11:31:34+01:00 Maxime Gimeno
+// $URL: https://github.com/CGAL/cgal/blob/v5.6/GraphicsView/include/CGAL/Qt/manipulatedFrame.h $
+// $Id: manipulatedFrame.h 4547818 2022-11-15T13:39:40+01:00 albert-github
 // SPDX-License-Identifier: GPL-3.0-only
 
 #ifndef QGLVIEWER_MANIPULATED_FRAME_H
@@ -308,7 +308,7 @@ protected:
                                     const Camera *const camera);
 
   MouseAction action_;
-  Constraint *previousConstraint_; // When manipulation is without Contraint.
+  Constraint *previousConstraint_; // When manipulation is without Constraint.
 
   virtual void startAction(
       int ma,

@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.5.3/Alpha_shapes_3/include/CGAL/Alpha_shapes_3/internal/Lazy_alpha_nt_3.h $
-// $Id: Lazy_alpha_nt_3.h 98e4718 2021-08-26T11:33:39+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v5.6/Alpha_shapes_3/include/CGAL/Alpha_shapes_3/internal/Lazy_alpha_nt_3.h $
+// $Id: Lazy_alpha_nt_3.h 014c06f 2022-11-14T15:32:47+01:00 albert-github
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Sébastien Loriot <sebastien.loriot@geometryfactory.com>
@@ -135,7 +135,7 @@ class Lazy_alpha_nt_3{
   typedef typename Types::Approx_point                                                          Approx_point;
   typedef typename Types::Exact_point                                                           Exact_point;
   typedef typename Types::Input_point                                                           Input_point;
-//Convertion functions
+//Conversion functions
   Approx_point to_approx(const Input_point& wp) const
   {
     // The traits class' Point_3 must be convertible using the Cartesian converter

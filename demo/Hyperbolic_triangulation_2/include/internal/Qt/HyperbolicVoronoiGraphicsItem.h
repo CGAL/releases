@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.5.3/Hyperbolic_triangulation_2/demo/Hyperbolic_triangulation_2/include/internal/Qt/HyperbolicVoronoiGraphicsItem.h $
-// $Id: HyperbolicVoronoiGraphicsItem.h 0779373 2020-03-26T13:31:46+01:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v5.6/Hyperbolic_triangulation_2/demo/Hyperbolic_triangulation_2/include/internal/Qt/HyperbolicVoronoiGraphicsItem.h $
+// $Id: HyperbolicVoronoiGraphicsItem.h 0251966 2022-09-25T01:45:23+02:00 Mael Rouxel-Labbé
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Andreas Fabri <Andreas.Fabri@geometryfactory.com>
@@ -97,9 +97,9 @@ VoronoiGraphicsItem<DT>::paint(QPainter *painter, const QStyleOptionGraphicsItem
   painter->setPen(temp);
   //
 
-  for(typename DT::All_edges_iterator eit = dt->all_edges_begin();
-      eit != dt->all_edges_end();
-      eit++)
+  for(typename DT::Hyperbolic_edges_iterator eit = dt->hyperbolic_edges_begin();
+      eit != dt->hyperbolic_edges_end();
+      ++eit)
     {
       typename DT::Hyperbolic_segment s = dt->dual(*eit);
       pos << s;

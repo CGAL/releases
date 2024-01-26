@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.5.3/Arrangement_on_surface_2/include/CGAL/Arr_topology_traits/Arr_unb_planar_construction_helper.h $
-// $Id: Arr_unb_planar_construction_helper.h ec15089 2023-03-12T14:59:40+02:00 Efi Fogel
+// $URL: https://github.com/CGAL/cgal/blob/v5.6/Arrangement_on_surface_2/include/CGAL/Arr_topology_traits/Arr_unb_planar_construction_helper.h $
+// $Id: Arr_unb_planar_construction_helper.h ae3e2b6 2023-03-31T11:10:52+02:00 Laurent Rineau
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -165,7 +165,7 @@ public:
   {
     // If we insert an edge whose right end lies on the top edge of the
     // ficititous bounding rectangle, we have to flip the order of predecessor
-    // halfegdes.
+    // halfedges.
     return ((event->parameter_space_in_x() == ARR_INTERIOR) &&
             (event->parameter_space_in_y() == ARR_TOP_BOUNDARY));
   }

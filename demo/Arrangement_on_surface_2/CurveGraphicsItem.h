@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.5.3/Arrangement_on_surface_2/demo/Arrangement_on_surface_2/CurveGraphicsItem.h $
-// $Id: CurveGraphicsItem.h a30658a 2020-09-21T09:09:48+02:00 Ahmed Essam
+// $URL: https://github.com/CGAL/cgal/blob/v5.6/Arrangement_on_surface_2/demo/Arrangement_on_surface_2/CurveGraphicsItem.h $
+// $Id: CurveGraphicsItem.h 6f103e4 2022-09-11T00:30:15+03:00 Efi Fogel
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s): Alex Tsui <alextsui05@gmail.com>
@@ -23,48 +23,47 @@
 namespace CGAL {
 namespace Qt {
 
-/**
-   Draws selected curves and vertices of an arrangement.
-*/
+/* Draws selected curves and vertices of an arrangement.
+ */
 // TODO: ArrangementGraphicsItem should probably use this class
-template < class ArrTraits >
-class CurveGraphicsItem : public GraphicsItem, public GraphicsSceneMixin
-{
+template <typename GeometryTraits>
+class CurveGraphicsItem : public GraphicsItem, public GraphicsSceneMixin {
 public:
   // known curve types
-  typedef ArrTraits Traits;
-  typedef typename Traits::Curve_2 Curve_2;
-  typedef typename Traits::X_monotone_curve_2 X_monotone_curve_2;
-  typedef typename Traits::Point_2 Point_2;
+  typedef GeometryTraits                        Traits;
+  typedef typename Traits::Curve_2              Curve_2;
+  typedef typename Traits::X_monotone_curve_2   X_monotone_curve_2;
+  typedef typename Traits::Point_2              Point_2;
 
-public: // ctors
-  CurveGraphicsItem( );
+public:
+  // Construct from traits.
+  CurveGraphicsItem(const Traits& traits);
 
 public: // methods
-  void paint(
-    QPainter* painter, const QStyleOptionGraphicsItem* /* option */,
-    QWidget* /* widget */) override;
-  QRectF boundingRect( ) const override;
-  void insert( const X_monotone_curve_2& curve );
-  void insert( const Point_2& point );
-  void clear( );
+  void paint(QPainter* painter, const QStyleOptionGraphicsItem* /* option */,
+             QWidget* /* widget */) override;
+  QRectF boundingRect() const override;
+  void insert(const X_monotone_curve_2& curve);
+  void insert(const Point_2& point);
+  void clear();
 
 public Q_SLOTS:
-  void modelChanged( ) override;
-  const QColor& edgeColor( ) const;
-  void setEdgeColor( const QColor& color );
-  int edgeWidth( ) const;
-  void setEdgeWidth( int width );
-  const QColor& vertexColor( ) const;
-  void setVertexColor( const QColor& color );
-  int vertexRadius( ) const;
-  void setVertexRadius( int radius );
+  void modelChanged() override;
+  const QColor& edgeColor() const;
+  void setEdgeColor(const QColor& color);
+  int edgeWidth() const;
+  void setEdgeWidth(int width);
+  const QColor& vertexColor() const;
+  void setVertexColor(const QColor& color);
+  int vertexRadius() const;
+  void setVertexRadius(int radius);
 
 protected: // methods
   void updateBoundingBox( );
 
 protected: // fields
-  std::vector< X_monotone_curve_2 > curves;
+  const Traits& m_traits;
+  std::vector<X_monotone_curve_2> curves;
   PointsGraphicsItem pointsGraphicsItem;
   CGAL::Bbox_2 bb;
 

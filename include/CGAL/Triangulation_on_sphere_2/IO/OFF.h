@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.5.3/Triangulation_on_sphere_2/include/CGAL/Triangulation_on_sphere_2/IO/OFF.h $
-// $Id: OFF.h 75b03e6 2022-01-10T15:33:04+01:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v5.6/Triangulation_on_sphere_2/include/CGAL/Triangulation_on_sphere_2/IO/OFF.h $
+// $Id: OFF.h d3fca65 2022-09-23T12:49:40+01:00 Andreas Fabri
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Mael Rouxel-Labbé
@@ -14,7 +14,7 @@
 
 #include <CGAL/license/Triangulation_on_sphere_2.h>
 
-#include <CGAL/triangulation_assertions.h>
+#include <CGAL/assertions.h>
 
 #include <CGAL/Named_function_parameters.h>
 #include <CGAL/boost/graph/named_params_helper.h>
@@ -94,7 +94,7 @@ bool write_OFF(std::ostream& os,
     index_of_vertex[vh] = i;
   }
 
-  CGAL_triangulation_assertion(i == n);
+  CGAL_assertion(i == n);
 
   size_type number_of_triangles = 0;
   for(Face_iterator fit = dt.all_faces_begin() ; fit != dt.all_faces_end() ; ++fit)

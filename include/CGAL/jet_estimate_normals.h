@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.5.3/Point_set_processing_3/include/CGAL/jet_estimate_normals.h $
-// $Id: jet_estimate_normals.h bccf399 2022-11-08T10:51:46+01:00 Jane Tournois
+// $URL: https://github.com/CGAL/cgal/blob/v5.6/Point_set_processing_3/include/CGAL/jet_estimate_normals.h $
+// $Id: jet_estimate_normals.h d3b13fb 2022-12-05T19:00:39+01:00 Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s) : Pierre Alliez and Laurent Saboret and Marc Pouget and Frederic Cazals
@@ -22,7 +22,7 @@
 #include <CGAL/for_each.h>
 #include <CGAL/Monge_via_jet_fitting.h>
 #include <CGAL/property_map.h>
-#include <CGAL/point_set_processing_assertions.h>
+#include <CGAL/assertions.h>
 #include <CGAL/Memory_sizer.h>
 #include <functional>
 
@@ -197,7 +197,7 @@ jet_estimate_normals(
   typedef typename GetSvdTraits<NamedParameters>::type SvdTraits;
 
   CGAL_assertion_msg(NP_helper::has_normal_map(points, np), "Error: no normal map");
-  CGAL_static_assertion_msg(!(boost::is_same<SvdTraits,
+  CGAL_static_assertion_msg(!(std::is_same<SvdTraits,
                               typename GetSvdTraits<NamedParameters>::NoTraits>::value),
                             "Error: no SVD traits");
 
@@ -215,10 +215,10 @@ jet_estimate_normals(
   // precondition: at least one element in the container.
   // to fix: should have at least three distinct points
   // but this is costly to check
-  CGAL_point_set_processing_precondition(points.begin() != points.end());
+  CGAL_precondition(points.begin() != points.end());
 
   // precondition: at least 2 nearest neighbors
-  CGAL_point_set_processing_precondition(k >= 2 || neighbor_radius > FT(0));
+  CGAL_precondition(k >= 2 || neighbor_radius > FT(0));
 
   std::size_t memory = CGAL::Memory_sizer().virtual_size();
   CGAL_TRACE_STREAM << (memory >> 20) << " Mb allocated\n";

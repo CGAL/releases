@@ -7,8 +7,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.5.3/STL_Extension/include/CGAL/tags.h $
-// $Id: tags.h 8bb22d5 2020-03-26T14:23:37+01:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v5.6/STL_Extension/include/CGAL/tags.h $
+// $Id: tags.h 2c23a6d 2022-10-12T21:24:59+02:00 Mael Rouxel-Labbé
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -81,6 +81,27 @@ Assert_compile_time_tag( const Tag&, const Derived& b)
   x.match_compile_time_tag(b);
 }
 
-} //namespace CGAL
+// To distinguish between kernel predicates for which a division-less FT is sufficient
+template <typename T>
+struct Needs_FT
+{
+  T value;
+  Needs_FT(T v) : value(v) {}
+  operator T() const { return value; }
+};
+
+template <typename T>
+struct Remove_needs_FT
+{
+  using Type = T;
+};
+
+template <typename T>
+struct Remove_needs_FT<Needs_FT<T> >
+{
+  using Type = T;
+};
+
+} // namespace CGAL
 
 #endif // CGAL_TAGS_H

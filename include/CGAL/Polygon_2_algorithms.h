@@ -7,8 +7,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.5.3/Polygon/include/CGAL/Polygon_2_algorithms.h $
-// $Id: Polygon_2_algorithms.h 875f823 2020-08-26T11:10:29+01:00 Andreas Fabri
+// $URL: https://github.com/CGAL/cgal/blob/v5.6/Polygon/include/CGAL/Polygon_2_algorithms.h $
+// $Id: Polygon_2_algorithms.h bdd2fb8 2022-09-27T08:14:30+01:00 Andreas Fabri
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -24,7 +24,7 @@
 #include <CGAL/config.h>
 #include <CGAL/enum.h>
 #include <CGAL/Bbox_2.h>
-#include <CGAL/Polygon_2/polygon_assertions.h>
+#include <CGAL/assertions.h>
 
 ///
 namespace CGAL {

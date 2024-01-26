@@ -2,8 +2,8 @@
 //
 // This file is part of CGAL (www.cgal.org);
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.5.3/Stream_support/include/CGAL/IO/PLY/PLY_reader.h $
-// $Id: PLY_reader.h 4e519a3 2021-05-05T13:15:37+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v5.6/Stream_support/include/CGAL/IO/PLY/PLY_reader.h $
+// $Id: PLY_reader.h c32b1f4 2022-11-16T13:22:39+01:00 albert-github
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Simon Giraudot
@@ -13,7 +13,7 @@
 
 #include <CGAL/Container_helper.h>
 #include <CGAL/IO/io.h>
-#include <CGAL/is_iterator.h>
+#include <CGAL/type_traits/is_iterator.h>
 #include <CGAL/Kernel_traits.h>
 #include <CGAL/property_map.h>
 
@@ -156,7 +156,7 @@ public:
 
   // The two following functions prevent the stream to only extract
   // ONE character (= what the types char imply) by requiring
-  // explicitely an integer object when reading the stream
+  // explicitly an integer object when reading the stream
   void read_ascii(std::istream& stream, char& c) const
   {
     short s;
@@ -704,9 +704,7 @@ bool read_PLY_faces(std::istream& in,
                     PolygonRange& polygons,
                     ColorOutputIterator fc_out,
                     const char* vertex_indices_tag,
-                    typename std::enable_if<
-                      CGAL::is_iterator<ColorOutputIterator>::value
-                    >::type* = nullptr)
+                    std::enable_if_t<CGAL::is_iterator<ColorOutputIterator>::value>* = nullptr)
 {
   typedef CGAL::IO::Color                                 Color_rgb;
 
@@ -775,9 +773,9 @@ bool read_PLY_faces(std::istream& in,
                     PolygonRange& polygons,
                     ColorRange& fcolors,
                     const char* vertex_indices_tag,
-                    typename boost::enable_if<
-                      typename boost::has_range_const_iterator<ColorRange>::type
-                    >::type* = nullptr)
+                    std::enable_if_t<
+                      boost::has_range_const_iterator<ColorRange>::value
+                    >* = nullptr)
 {
   return read_PLY_faces<Integer>(in, element, polygons, std::back_inserter(fcolors), vertex_indices_tag);
 }

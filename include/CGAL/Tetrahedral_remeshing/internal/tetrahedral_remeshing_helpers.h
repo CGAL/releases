@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.5.3/Tetrahedral_remeshing/include/CGAL/Tetrahedral_remeshing/internal/tetrahedral_remeshing_helpers.h $
-// $Id: tetrahedral_remeshing_helpers.h 4b87443 2022-12-05T12:20:06+01:00 Laurent Rineau
+// $URL: https://github.com/CGAL/cgal/blob/v5.6/Tetrahedral_remeshing/include/CGAL/Tetrahedral_remeshing/internal/tetrahedral_remeshing_helpers.h $
+// $Id: tetrahedral_remeshing_helpers.h 49f7a40 2023-02-09T09:42:55+00:00 Andreas Fabri
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -1313,7 +1313,7 @@ void dump_surface_off(const Tr& tr, const char* filename)
   }
 
   //write facets
-  std::size_t nbf_print = 0;
+  CGAL_assertion_code(std::size_t nbf_print = 0);
   for (Finite_facets_iterator fit = tr.finite_facets_begin();
        fit != tr.finite_facets_end(); ++fit)
   {
@@ -1324,7 +1324,7 @@ void dump_surface_off(const Tr& tr, const char* filename)
       ofs << "3  " << vertices.left.at(c->vertex((i + 1) % 4)) << " "
           << vertices.left.at(c->vertex((i + 2) % 4)) << " "
           << vertices.left.at(c->vertex((i + 3) % 4)) << std::endl;
-      ++nbf_print;
+      CGAL_assertion_code(++nbf_print);
     }
   }
   CGAL_assertion(nbf == nbf_print);
@@ -1581,7 +1581,7 @@ void dump_facets_in_complex(const C3t3& c3t3, const char* filename)
   }
 
   //write facets
-  std::size_t nbf_print = 0;
+  CGAL_assertion_code(std::size_t nbf_print = 0);
   for (Facets_in_complex_iterator fit = c3t3.facets_in_complex_begin();
        fit != c3t3.facets_in_complex_end(); ++fit)
   {
@@ -1590,7 +1590,7 @@ void dump_facets_in_complex(const C3t3& c3t3, const char* filename)
     ofs << "3  " << vertices.left.at(c->vertex((i + 1) % 4)) << " "
         << vertices.left.at(c->vertex((i + 2) % 4)) << " "
         << vertices.left.at(c->vertex((i + 3) % 4)) << std::endl;
-    ++nbf_print;
+    CGAL_assertion_code(++nbf_print);
   }
   CGAL_assertion(nbf == nbf_print);
 

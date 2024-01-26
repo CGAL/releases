@@ -2,8 +2,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.5.3/Subdivision_method_3/include/CGAL/Subdivision_method_3/subdivision_masks_3.h $
-// $Id: subdivision_masks_3.h 45696cd 2021-10-30T13:35:17+03:00 Dimitris Papavasiliou
+// $URL: https://github.com/CGAL/cgal/blob/v5.6/Subdivision_method_3/include/CGAL/Subdivision_method_3/subdivision_masks_3.h $
+// $Id: subdivision_masks_3.h dbd56de 2023-03-17T16:58:36+01:00 Andreas Fabri
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -88,7 +88,7 @@ public:
 
 public:
   Linear_mask_3(Mesh* pmesh)
-    : Base(pmesh, get(vertex_point, pmesh))
+    : Base(pmesh, get(vertex_point, *pmesh))
   { }
 
   Linear_mask_3(Mesh* pmesh, VertexPointMap vpmap)
@@ -118,7 +118,7 @@ public:
   }
 
   void border_node(halfedge_descriptor edge, Point& ept, Point& /*vpt*/){
-    edge_node(edge, ept);
+   edge_node(edge, ept);
   }
 };
 
@@ -571,12 +571,12 @@ public:
   /// computes the \f$ \sqrt{3}\f$ vertex-point `pt` of the vertex `vd`.
   void vertex_node(vertex_descriptor vertex, Point& pt) {
     Halfedge_around_target_circulator<Mesh> vcir(vertex, *(this->pmesh));
-    const typename boost::graph_traits<Mesh>::degree_size_type n = degree(vertex, *(this->pmesh));
+    const int n = static_cast<int>(degree(vertex, *(this->pmesh)));
 
     const FT a = (FT) ((4.0-2.0*std::cos(2.0*CGAL_PI/(double)n))/9.0);
 
     Vector cv = ((FT)(1.0-a)) * (get(this->vpmap, vertex) - CGAL::ORIGIN);
-    for (typename boost::graph_traits<Mesh>::degree_size_type i = 1; i <= n; ++i, --vcir) {
+    for (int i = 1; i <= n; ++i, --vcir) {
       cv = cv + (a/FT(n))*(get(this->vpmap, target(opposite(*vcir, *(this->pmesh)), *(this->pmesh)))-CGAL::ORIGIN);
     }
 

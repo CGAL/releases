@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.5.3/Point_set_processing_3/include/CGAL/pointmatcher/register_point_sets.h $
-// $Id: register_point_sets.h 75b03e6 2022-01-10T15:33:04+01:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v5.6/Point_set_processing_3/include/CGAL/pointmatcher/register_point_sets.h $
+// $Id: register_point_sets.h ac8b6d4 2022-06-10T07:59:39+02:00 Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s) : Necip Fazil Yildiran
@@ -23,9 +23,9 @@
 
 #include <CGAL/pointmatcher/compute_registration_transformation.h>
 
-#include <boost/type_traits/is_same.hpp>
-
 #include <Eigen/Dense>
+
+#include <type_traits>
 
 namespace CGAL {
 

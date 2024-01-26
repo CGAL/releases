@@ -7,18 +7,18 @@
  *
  * File: CoreAux.h
  * Synopsis:
- *      Auxilliary functions
+ *      Auxiliary functions
  *
  * Written by
  *       Chee Yap <yap@cs.nyu.edu>
  *       Chen Li <chenli@cs.nyu.edu>
  *       Zilin Du <zilin@cs.nyu.edu>
  *
- * WWW URL: http://cs.nyu.edu/exact/
+ * WWW URL: https://cs.nyu.edu/exact/
  * Email: exact@cs.nyu.edu
  *
- * $URL: https://github.com/CGAL/cgal/blob/v5.5.3/CGAL_Core/include/CGAL/CORE/CoreAux.h $
- * $Id: CoreAux.h 0779373 2020-03-26T13:31:46+01:00 Sébastien Loriot
+ * $URL: https://github.com/CGAL/cgal/blob/v5.6/CGAL_Core/include/CGAL/CORE/CoreAux.h $
+ * $Id: CoreAux.h 0ff7882 2022-12-06T22:21:06+01:00 Mael
  * SPDX-License-Identifier: LGPL-3.0-or-later
  ***************************************************************************/
 

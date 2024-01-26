@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.5.3/Mesh_3/include/CGAL/Implicit_mesh_domain_3.h $
-// $Id: Implicit_mesh_domain_3.h 254d60f 2019-10-19T15:23:19+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v5.6/Mesh_3/include/CGAL/Implicit_mesh_domain_3.h $
+// $Id: Implicit_mesh_domain_3.h 4ebbe92 2022-11-08T16:17:33+01:00 Jane Tournois
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -24,6 +24,7 @@
 
 #include <CGAL/Labeled_mesh_domain_3.h>
 #include <CGAL/Implicit_to_labeling_function_wrapper.h>
+#include <CGAL/Mesh_3/Null_subdomain_index.h>
 #include <CGAL/Random.h>
 
 namespace CGAL {
@@ -65,8 +66,8 @@ public:
                          const Sphere_3& bounding_sphere,
                          const FT& error_bound = FT(1e-6),
                          CGAL::Random* p_rng = nullptr)
-    : Base(Wrapper(f), bounding_sphere, error_bound,
-           Null_subdomain_index(), p_rng)  {}
+    : Base(parameters::function = Wrapper(f), parameters::bounding_object = bounding_sphere, parameters::relative_error_bound = error_bound,
+           parameters::null_subdomain_index = Null_subdomain_index(), parameters::p_rng = p_rng)  {}
 
   /// Destructor
   virtual ~Implicit_mesh_domain_3() {}

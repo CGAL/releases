@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.5.3/Polygon_mesh_processing/include/CGAL/Polygon_mesh_processing/clip.h $
-// $Id: clip.h 7d5e498 2022-09-13T12:32:17+02:00 Laurent Rineau
+// $URL: https://github.com/CGAL/cgal/blob/v5.6/Polygon_mesh_processing/include/CGAL/Polygon_mesh_processing/clip.h $
+// $Id: clip.h 8dd8e0d 2022-09-13T12:33:01+02:00 Laurent Rineau
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -872,7 +872,8 @@ bool clip(TriangleMesh& tm,
   *   \cgalParamNEnd
   *
   *   \cgalParamNBegin{visitor}
-  *     \cgalParamDescription{a visitor used to track the creation of new faces}
+  *     \cgalParamDescription{(`np_tm` only) a visitor used to track a series of events such as the creation
+  *                           of new faces, edges... in both `tm` and `splitter`.}
   *     \cgalParamType{a class model of `PMPCorefinementVisitor`}
   *     \cgalParamDefault{`Corefinement::Default_visitor<TriangleMesh>`}
   *   \cgalParamNEnd

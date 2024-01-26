@@ -7,8 +7,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.5.3/Number_types/include/CGAL/Interval_nt.h $
-// $Id: Interval_nt.h 6486844 2022-05-10T11:30:39+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v5.6/Number_types/include/CGAL/Interval_nt.h $
+// $Id: Interval_nt.h 4f5f834 2022-06-10T07:37:53+02:00 Sébastien Loriot
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -1463,6 +1463,7 @@ public:
   typedef double Bound;
   typedef CGAL::Tag_false With_empty_interval;
   typedef CGAL::Tag_true  Is_interval;
+  static constexpr bool is_interval_v = true;
 
  struct Construct :public CGAL::cpp98::binary_function<Bound,Bound,Interval>{
     Interval operator()( const Bound& l,const Bound& r) const {

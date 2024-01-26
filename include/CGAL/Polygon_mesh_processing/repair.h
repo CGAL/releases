@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.5.3/Polygon_mesh_processing/include/CGAL/Polygon_mesh_processing/repair.h $
-// $Id: repair.h 5a992f6 2022-11-22T10:31:34+01:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v5.6/Polygon_mesh_processing/include/CGAL/Polygon_mesh_processing/repair.h $
+// $Id: repair.h 550d86c 2022-11-22T10:48:27+01:00 Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -29,7 +29,7 @@
 namespace CGAL {
 namespace Polygon_mesh_processing {
 
-/// \ingroup PMP_repairing_grp
+/// \ingroup PMP_geometric_repair_grp
 ///
 /// \brief removes the isolated vertices from any polygon mesh.
 ///
@@ -60,7 +60,7 @@ std::size_t remove_isolated_vertices(PolygonMesh& pmesh)
   return nb_removed;
 }
 
-/// \ingroup PMP_repairing_grp
+/// \ingroup PMP_geometric_repair_grp
 ///
 /// \brief removes connected components whose area or volume is under a certain threshold value.
 ///

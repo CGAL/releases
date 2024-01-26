@@ -1,8 +1,8 @@
 // Copyright (c) 2023  GeometryFactory Sarl (France).
 // All rights reserved.
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.5.3/STL_Extension/include/CGAL/Base_with_time_stamp.h $
-// $Id: Base_with_time_stamp.h 5893f7f 2023-01-20T13:54:29+01:00 Laurent Rineau
+// $URL: https://github.com/CGAL/cgal/blob/v5.6/STL_Extension/include/CGAL/Base_with_time_stamp.h $
+// $Id: Base_with_time_stamp.h 166ff0f 2023-02-14T13:28:07+01:00 Laurent Rineau
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Laurent Rineau
@@ -20,13 +20,6 @@ template <typename Base>
 class Base_with_time_stamp : public Base {
   std::size_t time_stamp_ = -1;
 public:
-  using Base::Base;
-
-  Base_with_time_stamp(const Base_with_time_stamp& other) :
-    Base(other),
-    time_stamp_(other.time_stamp_)
-  {}
-
   typedef CGAL::Tag_true Has_timestamp;
 
   std::size_t time_stamp() const {

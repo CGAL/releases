@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.5.3/Point_set_processing_3/include/CGAL/structure_point_set.h $
-// $Id: structure_point_set.h bccf399 2022-11-08T10:51:46+01:00 Jane Tournois
+// $URL: https://github.com/CGAL/cgal/blob/v5.6/Point_set_processing_3/include/CGAL/structure_point_set.h $
+// $Id: structure_point_set.h 0ff7882 2022-12-06T22:21:06+01:00 Mael
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -19,7 +19,6 @@
 #include <CGAL/disable_warnings.h>
 
 #include <CGAL/property_map.h>
-#include <CGAL/point_set_processing_assertions.h>
 #include <CGAL/assertions.h>
 #include <CGAL/intersections.h>
 
@@ -257,7 +256,7 @@ public:
     {
       m_points.push_back (get(point_map, *it));
       m_normals.push_back (get(normal_map, *it));
-      int plane_index = get (index_map, idx);
+      int plane_index = static_cast<int>(get (index_map, idx));
       if (plane_index != -1)
       {
         m_indices_of_assigned_points[std::size_t(plane_index)].push_back(idx);
@@ -679,7 +678,7 @@ private:
           for (std::size_t i = 0; i < Nx; ++ i)
             if( point_map[i][j].size()>0)
               {
-                //inside: recenter (cell center) the first point of the cell and desactivate the others points
+                //inside: recenter (cell center) the first point of the cell and deactivate the others points
                 if (!Mask_border[i][j] && Mask[i][j])
                   {
                     double x2pt = (i+0.5) * grid_length + box_2d.xmin();
@@ -704,7 +703,7 @@ private:
                       m_status[point_map[i][j][np]] = SKIPPED;
                   }
 
-                //border: recenter (barycenter) the first point of the cell and desactivate the others points
+                //border: recenter (barycenter) the first point of the cell and deactivate the others points
                 else if (Mask_border[i][j] && Mask[i][j])
                   {
                     std::vector<Point> pts;
@@ -983,7 +982,7 @@ private:
                 std::size_t inde = division_tab[j][k];
 
                 if (CGAL::squared_distance (line, m_points[inde]) < d_DeltaEdge * d_DeltaEdge)
-                  m_status[inde] = SKIPPED; // Deactive points too close (except best, see below)
+                  m_status[inde] = SKIPPED; // Deactivate points too close (except best, see below)
 
                 double distance = CGAL::squared_distance (perfect, m_points[inde]);
                 if (distance < dist_min)

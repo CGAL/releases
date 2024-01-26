@@ -3,7 +3,7 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.5.3/Intersections_3/include/CGAL/Intersections_3/internal/Triangle_3_Triangle_3_intersection.h $
+// $URL: https://github.com/CGAL/cgal/blob/v5.6/Intersections_3/include/CGAL/Intersections_3/internal/Triangle_3_Triangle_3_intersection.h $
 // $Id: Triangle_3_Triangle_3_intersection.h c17c14f 2023-01-24T10:55:29+01:00 Mael Rouxel-Labbé
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //

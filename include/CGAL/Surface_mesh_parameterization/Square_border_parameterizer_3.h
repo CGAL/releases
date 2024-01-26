@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.5.3/Surface_mesh_parameterization/include/CGAL/Surface_mesh_parameterization/Square_border_parameterizer_3.h $
-// $Id: Square_border_parameterizer_3.h 440a8df 2022-02-03T08:41:04+00:00 Andreas Fabri
+// $URL: https://github.com/CGAL/cgal/blob/v5.6/Surface_mesh_parameterization/include/CGAL/Surface_mesh_parameterization/Square_border_parameterizer_3.h $
+// $Id: Square_border_parameterizer_3.h 9c1ad66 2022-08-24T08:35:13+01:00 Andreas Fabri
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Laurent Saboret, Pierre Alliez, Bruno Levy
@@ -273,8 +273,8 @@ public:
   ///
   /// \param mesh a triangulated surface.
   /// \param bhd a halfedge descriptor on the boundary of `mesh`.
-  /// \param uvmap an instanciation of the class `VertexUVmap`.
-  /// \param vpmap an instanciation of the class `VertexParameterizedMap`.
+  /// \param uvmap an instantiation of the class `VertexUVmap`.
+  /// \param vpmap an instantiation of the class `VertexParameterizedMap`.
   ///
   /// \pre `mesh` must be a triangular mesh.
   /// \pre The vertices must be indexed (vimap must be initialized).

@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.5.3/Polygon_mesh_processing/include/CGAL/Polygon_mesh_processing/connected_components.h $
-// $Id: connected_components.h 87f16af 2022-10-04T13:50:15+02:00 Laurent Rineau
+// $URL: https://github.com/CGAL/cgal/blob/v5.6/Polygon_mesh_processing/include/CGAL/Polygon_mesh_processing/connected_components.h $
+// $Id: connected_components.h c04dceb 2022-10-14T14:40:58+01:00 Andreas Fabri
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -32,9 +32,6 @@
 #include <CGAL/boost/graph/copy_face_graph.h>
 #include <CGAL/Container_helper.h>
 
-#include <CGAL/assertions.h>
-#include <CGAL/tuple.h>
-
 #include <CGAL/boost/graph/Dual.h>
 #include <CGAL/Default.h>
 #include <CGAL/Dynamic_property_map.h>
@@ -42,7 +39,7 @@
 #include <CGAL/tuple.h>
 
 #include <CGAL/Named_function_parameters.h>
-#include <CGAL/Polygon_mesh_processing/internal/named_params_helper.h>
+#include <CGAL/boost/graph/named_params_helper.h>
 
 namespace CGAL {
 namespace Polygon_mesh_processing{

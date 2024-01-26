@@ -3,7 +3,7 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.5.3/Spatial_searching/include/CGAL/Weighted_Minkowski_distance.h $
+// $URL: https://github.com/CGAL/cgal/blob/v5.6/Spatial_searching/include/CGAL/Weighted_Minkowski_distance.h $
 // $Id: Weighted_Minkowski_distance.h 9976577 2023-01-30T11:57:56+01:00 Mael Rouxel-Labbé
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //

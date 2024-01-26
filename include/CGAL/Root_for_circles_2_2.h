@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.5.3/Algebraic_kernel_for_circles/include/CGAL/Root_for_circles_2_2.h $
-// $Id: Root_for_circles_2_2.h 0779373 2020-03-26T13:31:46+01:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v5.6/Algebraic_kernel_for_circles/include/CGAL/Root_for_circles_2_2.h $
+// $Id: Root_for_circles_2_2.h ac8b6d4 2022-06-10T07:59:39+02:00 Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Monique Teillaud, Sylvain Pion
@@ -22,10 +22,10 @@
 
 
 #include <iostream>
+#include <type_traits>
 #include <CGAL/Bbox_2.h>
 #include <CGAL/Root_of_traits.h>
 #include <CGAL/Handle_for.h>
-#include <boost/type_traits/is_same.hpp>
 
 namespace CGAL {
 

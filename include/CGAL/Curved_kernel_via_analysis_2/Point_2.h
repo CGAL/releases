@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.5.3/Arrangement_on_surface_2/include/CGAL/Curved_kernel_via_analysis_2/Point_2.h $
-// $Id: Point_2.h a3d1765 2021-07-19T14:18:40+02:00 Maxime Gimeno
+// $URL: https://github.com/CGAL/cgal/blob/v5.6/Arrangement_on_surface_2/include/CGAL/Curved_kernel_via_analysis_2/Point_2.h $
+// $Id: Point_2.h ccdb5a0 2023-02-15T14:36:44+02:00 Efi Fogel
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -23,13 +23,14 @@
 
 #include <boost/optional.hpp>
 #include <boost/optional/optional_io.hpp>
-#include <boost/type_traits/is_same.hpp>
 
 #include <CGAL/Handle_with_policy.h>
 
 #include <CGAL/Arr_enums.h>
 
 #include <CGAL/Curved_kernel_via_analysis_2/Curved_kernel_via_analysis_2_functors.h>
+
+#include <type_traits>
 
 namespace CGAL {
 
@@ -75,8 +76,7 @@ public:
     typedef typename Curve_kernel_2::Curve_analysis_2 Curve_analysis_2;
 
     //! default constructor
-    Point_2_rep() {
-    }
+    Point_2_rep() : _m_location(CGAL::ARR_INTERIOR) {}
 
     //! constructs a "finite" point on curve,
     //! implies CGAL::NO_BOUNDARY in x/y
@@ -170,7 +170,7 @@ public:
     //!@}
 
     #if !defined(CGAL_NO_ASSERTIONS)
-    static const bool Kernel_point_2_equals_Point_2 = boost::is_same<Point_2, Kernel_point_2>::value;
+    static const bool Kernel_point_2_equals_Point_2 = std::is_same<Point_2, Kernel_point_2>::value;
     #endif
 
 public:
@@ -325,7 +325,7 @@ protected:
     //!@{
 
     /*!\brief
-     * constructs from a given represenation
+     * constructs from a given representation
      */
     /*!\brief
      * Constructor for for rebind

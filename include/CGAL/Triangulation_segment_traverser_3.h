@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.5.3/Triangulation_3/include/CGAL/Triangulation_segment_traverser_3.h $
-// $Id: Triangulation_segment_traverser_3.h 28ab0b7 2023-06-21T10:16:22+02:00 Laurent Rineau
+// $URL: https://github.com/CGAL/cgal/blob/v5.6/Triangulation_3/include/CGAL/Triangulation_segment_traverser_3.h $
+// $Id: Triangulation_segment_traverser_3.h 7e2e444 2023-06-21T10:19:52+02:00 Laurent Rineau
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s): Thijs van Lankveld, Jane Tournois
@@ -18,7 +18,7 @@
 #include <iostream>
 #include <utility>
 
-#include <CGAL/triangulation_assertions.h>
+#include <CGAL/assertions.h>
 #include <CGAL/Triangulation_utils_3.h>
 
 #include <CGAL/Triangulation_data_structure_3.h>
@@ -115,10 +115,10 @@ public:
 
     struct Simplex                                                              //< defines the simplex type
     {
-      Cell_handle cell;
-      Locate_type lt;
-      int li;
-      int lj;
+      Cell_handle cell = {};
+      Locate_type lt = Locate_type::OUTSIDE_AFFINE_HULL;
+      int li = -1;
+      int lj = -1;
     };
 
     typedef Cell                                        value_type;             //< defines the value type the iterator refers to.
@@ -168,8 +168,8 @@ public:
       } else {
         os << display_vert(c->vertex(0)) << " - " << display_vert(c->vertex(1)) << " - "
            << display_vert(c->vertex(2)) << " - " << display_vert(c->vertex(3));
+        os << display_lt(lt) << " " << i << " " << j;
       }
-      os << display_lt(lt) << " " << i << " " << j;
       return os.str();
     }
 
@@ -444,7 +444,7 @@ public:
     }
 // \}
 
-        bool            operator==( Nullptr_t CGAL_triangulation_assertion_code(n) ) const;
+        bool            operator==( Nullptr_t CGAL_assertion_code(n) ) const;
         bool            operator!=( Nullptr_t n ) const;
 
 protected:
@@ -487,9 +487,9 @@ private:
 
 private:
     inline int      edgeIndex( int i, int j ) const {
-        CGAL_triangulation_precondition( i>=0 && i<=3 );
-        CGAL_triangulation_precondition( j>=0 && j<=3 );
-        CGAL_triangulation_precondition( i != j );
+        CGAL_precondition( i>=0 && i<=3 );
+        CGAL_precondition( j>=0 && j<=3 );
+        CGAL_precondition( i != j );
         return ( i==0 || j==0 ) ? i+j-1 : i+j;
     }
 
@@ -707,12 +707,9 @@ public:
   Simplex_iterator& operator++()
   {
     auto increment_cell_iterator = [&]() {
-#if CGAL_DEBUG_TRIANGULATION_SEGMENT_TRAVERSER_3
-      std::cerr << "increment cell iterator from:\n" << _cell_iterator.debug_iterator();
-#endif
       ++_cell_iterator;
 #if CGAL_DEBUG_TRIANGULATION_SEGMENT_TRAVERSER_3
-      std::cerr << "\n > to:\n" << _cell_iterator.debug_iterator() << std::endl;
+      std::cerr << "increment cell iterator to:\n" << _cell_iterator.debug_iterator() << '\n';
 #endif
     };
     CGAL_assertion(_curr_simplex.incident_cell() != Cell_handle());

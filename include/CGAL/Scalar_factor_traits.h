@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.5.3/Algebraic_foundations/include/CGAL/Scalar_factor_traits.h $
-// $Id: Scalar_factor_traits.h 0779373 2020-03-26T13:31:46+01:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v5.6/Algebraic_foundations/include/CGAL/Scalar_factor_traits.h $
+// $Id: Scalar_factor_traits.h 3fa4364 2022-06-10T08:41:19+02:00 Sébastien Loriot
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -85,13 +85,13 @@ public:
 
         // determine extractable scalar factor
         Scalar operator () (const NT& a) {
-            CGAL_static_assertion(( ::boost::is_same< NT,Scalar >::value));
+            CGAL_static_assertion(( ::std::is_same< NT,Scalar >::value));
             typedef typename Algebraic_structure_traits<NT>::Algebraic_category SAT;
             return scalar_factor(a, SAT());
         }
         // determine extractable scalar factor
         Scalar operator () (const NT& a, const Scalar& d) {
-            CGAL_static_assertion(( ::boost::is_same< NT,Scalar >::value));
+            CGAL_static_assertion(( ::std::is_same< NT,Scalar >::value));
             typedef typename Algebraic_structure_traits<NT>::Algebraic_category SAT;
             return scalar_factor(a,d,SAT());
         }

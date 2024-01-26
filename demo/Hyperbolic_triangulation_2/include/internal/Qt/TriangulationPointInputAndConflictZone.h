@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.5.3/Hyperbolic_triangulation_2/demo/Hyperbolic_triangulation_2/include/internal/Qt/TriangulationPointInputAndConflictZone.h $
-// $Id: TriangulationPointInputAndConflictZone.h 0779373 2020-03-26T13:31:46+01:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v5.6/Hyperbolic_triangulation_2/demo/Hyperbolic_triangulation_2/include/internal/Qt/TriangulationPointInputAndConflictZone.h $
+// $Id: TriangulationPointInputAndConflictZone.h 3f49816 2022-09-26T14:10:22+02:00 Mael Rouxel-Labbé
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Andreas Fabri <Andreas.Fabri@geometryfactory.com>
@@ -15,11 +15,11 @@
 
 #include <CGAL/Qt/GraphicsViewInput.h>
 #include <CGAL/Qt/Converter.h>
+
 #include <QGraphicsSceneMouseEvent>
 #include <QEvent>
+
 #include <list>
-
-
 
 namespace CGAL {
 namespace Qt {
@@ -32,7 +32,7 @@ public:
   typedef typename DT::Face_handle Face_handle;
   typedef typename DT::Point Point;
 
-  TriangulationPointInputAndConflictZone(QGraphicsScene* s, DT  * dt_, QObject* parent);
+  TriangulationPointInputAndConflictZone(QGraphicsScene* s, DT* dt_, QObject* parent);
 
 protected:
   void localize_and_insert_point(QPointF qt_point);
@@ -44,22 +44,19 @@ protected:
 
   std::list<Face_handle> faces;
   std::list<QGraphicsPolygonItem*> qfaces;
-  DT * dt;
+  DT* dt;
   Converter<K> convert;
   QGraphicsScene *scene_;
   Point p;
 };
 
-
 template <typename T>
-TriangulationPointInputAndConflictZone<T>::TriangulationPointInputAndConflictZone(QGraphicsScene* s,
-                                                        T * dt_,
-                                                        QObject* parent)
+TriangulationPointInputAndConflictZone<T>::
+TriangulationPointInputAndConflictZone(QGraphicsScene* s,
+                                       T* dt_,
+                                       QObject* parent)
   :  GraphicsViewInput(parent), dt(dt_), scene_(s)
 {}
-
-
-
 
 template <typename T>
 void
@@ -72,39 +69,33 @@ TriangulationPointInputAndConflictZone<T>::mousePressEvent(QGraphicsSceneMouseEv
     return;
   }
 
-
   dt->find_conflicts(p, std::back_inserter(faces));
-  for(typename std::list<Face_handle>::iterator it = faces.begin();
-      it != faces.end();
-      ++it){
-    if(dt->is_Delaunay_hyperbolic(*it)){
-      QGraphicsPolygonItem *item = new QGraphicsPolygonItem(convert(dt->hyperbolic_triangle(*it)));
+
+  for(Face_handle fh : faces){
+    if(! dt->is_infinite(fh)){
+      QGraphicsPolygonItem* item = new QGraphicsPolygonItem(convert(dt->hyperbolic_triangle(fh)));
       QColor color(::Qt::blue);
       color.setAlpha(150);
       item->setBrush(color);
+      item->setPen(::Qt::NoPen);
       scene_->addItem(item);
       qfaces.push_back(item);
     }
   }
 }
 
-
 template <typename T>
 void
 TriangulationPointInputAndConflictZone<T>::mouseReleaseEvent(QGraphicsSceneMouseEvent * /*event*/)
 {
   faces.clear();
-  for(std::list<QGraphicsPolygonItem*>::iterator it = qfaces.begin();
-      it != qfaces.end();
-      ++it){
-    scene_->removeItem(*it);
-    delete *it;
+  for(QGraphicsPolygonItem* gpi : qfaces){
+    scene_->removeItem(gpi);
+    delete gpi;
   }
   qfaces.clear();
-  emit (generate(CGAL::make_object(p)));
+  Q_EMIT (generate(CGAL::make_object(p)));
 }
-
-
 
 template <typename T>
 bool
@@ -123,7 +114,6 @@ TriangulationPointInputAndConflictZone<T>::eventFilter(QObject *obj, QEvent *eve
     return QObject::eventFilter(obj, event);
   }
 }
-
 
 } // namespace Qt
 } // namespace CGAL

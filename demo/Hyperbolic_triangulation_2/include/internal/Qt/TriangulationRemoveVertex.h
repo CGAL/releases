@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.5.3/Hyperbolic_triangulation_2/demo/Hyperbolic_triangulation_2/include/internal/Qt/TriangulationRemoveVertex.h $
-// $Id: TriangulationRemoveVertex.h 0779373 2020-03-26T13:31:46+01:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v5.6/Hyperbolic_triangulation_2/demo/Hyperbolic_triangulation_2/include/internal/Qt/TriangulationRemoveVertex.h $
+// $Id: TriangulationRemoveVertex.h 3f49816 2022-09-26T14:10:22+02:00 Mael Rouxel-Labbé
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Andreas Fabri <Andreas.Fabri@geometryfactory.com>
@@ -32,25 +32,20 @@ public:
   typedef typename DT::Vertex_handle Vertex_handle;
   typedef typename DT::Point Point;
 
-  TriangulationRemoveVertex(DT  * dt_, QObject* parent);
+  TriangulationRemoveVertex(DT* dt_, QObject* parent);
 
 protected:
-
   void mousePressEvent(QGraphicsSceneMouseEvent *event);
-
   bool eventFilter(QObject *obj, QEvent *event);
 
-  DT * dt;
+  DT* dt;
 };
-
 
 template <typename T>
 TriangulationRemoveVertex<T>::TriangulationRemoveVertex(T * dt_,
                                                           QObject* parent)
   :  GraphicsViewInput(parent), dt(dt_)
 {}
-
-
 
 template <typename T>
 void
@@ -65,11 +60,9 @@ TriangulationRemoveVertex<T>::mousePressEvent(QGraphicsSceneMouseEvent *event)
       typename T::Vertex_handle selected_vertex = dt->nearest_vertex(convert(event->scenePos()));
       dt->remove(selected_vertex);
     }
-    emit (modelChanged());
+    Q_EMIT (modelChanged());
   }
 }
-
-
 
 template <typename T>
 bool

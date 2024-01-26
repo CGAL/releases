@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.5.3/Arrangement_on_surface_2/include/CGAL/Arr_tracing_traits_2.h $
-// $Id: Arr_tracing_traits_2.h 204cf9f 2023-03-21T09:58:28+02:00 Efi Fogel
+// $URL: https://github.com/CGAL/cgal/blob/v5.6/Arrangement_on_surface_2/include/CGAL/Arr_tracing_traits_2.h $
+// $Id: Arr_tracing_traits_2.h ae3e2b6 2023-03-31T11:10:52+02:00 Laurent Rineau
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s): Efi Fogel    <efif@post.tau.ac.il>
@@ -284,7 +284,7 @@ public:
       m_object(base->construct_min_vertex_2_object()), m_enabled(enabled) {}
 
     /*! Operate
-     * \param xcv the curev the left endpoint of which is obtained
+     * \param xcv the curve the left endpoint of which is obtained
      * \return the left endpoint
      */
     const Point_2 operator()(const X_monotone_curve_2& xcv) const
@@ -310,7 +310,7 @@ public:
       m_object(base->construct_max_vertex_2_object()), m_enabled(enabled) {}
 
     /*! Operate
-     * \param xcv the curev the right endpoint of which is obtained
+     * \param xcv the curve the right endpoint of which is obtained
      * \return the right endpoint
      */
     const Point_2 operator()(const X_monotone_curve_2& xcv) const

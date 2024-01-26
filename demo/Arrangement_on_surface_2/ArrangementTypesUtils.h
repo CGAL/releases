@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.5.3/Arrangement_on_surface_2/demo/Arrangement_on_surface_2/ArrangementTypesUtils.h $
-// $Id: ArrangementTypesUtils.h ae46209 2020-10-06T23:41:30+01:00 Ahmed Essam
+// $URL: https://github.com/CGAL/cgal/blob/v5.6/Arrangement_on_surface_2/demo/Arrangement_on_surface_2/ArrangementTypesUtils.h $
+// $Id: ArrangementTypesUtils.h 6f103e4 2022-09-11T00:30:15+03:00 Efi Fogel
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s): Ahmed Essam <theartful.ae@gmail.com>
@@ -100,11 +100,9 @@ static constexpr TraitsType enumFromArrType()
   return details::EnumFromTraits<typename T::Geometry_traits_2>::value;
 }
 
-template <class Lambda, class Types=DemoTypes>
-static void visitArrangementType(TraitsType tt, Lambda&& lambda)
-{
-  switch (tt)
-  {
+template <class Lambda, class Types = DemoTypes>
+static void visitArrangementType(TraitsType tt, Lambda&& lambda) {
+  switch (tt) {
   case TraitsType::SEGMENT_TRAITS:
     lambda(TypeHolder<typename Types::Seg_arr>{});
     break;

@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.5.3/Hyperbolic_triangulation_2/demo/Hyperbolic_triangulation_2/include/internal/Qt/TriangulationGraphicsItem.h $
-// $Id: TriangulationGraphicsItem.h 0779373 2020-03-26T13:31:46+01:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v5.6/Hyperbolic_triangulation_2/demo/Hyperbolic_triangulation_2/include/internal/Qt/TriangulationGraphicsItem.h $
+// $Id: TriangulationGraphicsItem.h 3f49816 2022-09-26T14:10:22+02:00 Mael Rouxel-Labbé
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -22,6 +22,7 @@
 
 #include <QGraphicsScene>
 #include <QPainter>
+#include <QRectF>
 #include <QStyleOption>
 
 namespace CGAL {
@@ -101,7 +102,7 @@ protected:
 
 template <typename T>
 TriangulationGraphicsItem<T>::TriangulationGraphicsItem(T * t_)
-  :  t(t_), painterostream(0),
+  :  t(t_), painterostream(nullptr),
      bb(0,0,0,0), bb_initialized(false),
      visible_edges(true), visible_vertices(true)
 {
@@ -142,15 +143,13 @@ template <typename T>
 void
 TriangulationGraphicsItem<T>::drawAll(QPainter *painter)
 {
-  QPen pen;
-  pen.setWidthF(0.005);
-  pen.setBrush(::Qt::black);
+  QPen pen(::Qt::black, 0.005);
   painter->setPen(edges_pen);
   painterostream = PainterOstream<Geom_traits>(painter);
 
   if(visibleEdges()) {
-    for(typename T::All_edges_iterator eit = t->all_edges_begin();
-        eit != t->all_edges_end();
+    for(typename T::Hyperbolic_edges_iterator eit = t->hyperbolic_edges_begin();
+        eit != t->hyperbolic_edges_end();
         ++eit){
       painterostream << t->hyperbolic_segment(*eit);
     }

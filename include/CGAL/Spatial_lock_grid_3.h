@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.5.3/STL_Extension/include/CGAL/Spatial_lock_grid_3.h $
-// $Id: Spatial_lock_grid_3.h 8cd8bc7 2023-06-04T20:49:02+02:00 Laurent Rineau
+// $URL: https://github.com/CGAL/cgal/blob/v5.6/STL_Extension/include/CGAL/Spatial_lock_grid_3.h $
+// $Id: Spatial_lock_grid_3.h 01e22be 2023-06-07T17:36:41+02:00 Laurent Rineau
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Clement Jamin
@@ -556,7 +556,7 @@ public:
         }
         else if (old_value > this_thread_priority)
         {
-          // Another "more prioritary" thread owns the lock, we back off
+          // Another "more priority" thread owns the lock, we back off
           return false;
         }
         else

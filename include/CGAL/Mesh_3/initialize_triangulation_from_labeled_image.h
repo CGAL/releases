@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.5.3/Mesh_3/include/CGAL/Mesh_3/initialize_triangulation_from_labeled_image.h $
-// $Id: initialize_triangulation_from_labeled_image.h 399945f 2023-01-05T14:20:16+01:00 Jane Tournois
+// $URL: https://github.com/CGAL/cgal/blob/v5.6/Mesh_3/include/CGAL/Mesh_3/initialize_triangulation_from_labeled_image.h $
+// $Id: initialize_triangulation_from_labeled_image.h 5f8930d 2023-01-27T21:16:14+01:00 Laurent Rineau
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -120,7 +120,7 @@ void initialize_triangulation_from_labeled_image(C3T3& c3t3,
   if(protect_features) {
     init_tr_from_labeled_image_call_init_features
       (c3t3, domain, criteria,
-       CGAL::Mesh_3::internal::Has_features<Mesh_domain>());
+       CGAL::internal::Has_features<Mesh_domain>());
   }
 
   const double max_v = (std::max)((std::max)(image.vx(),

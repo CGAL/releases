@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.5.3/Tetrahedral_remeshing/examples/Tetrahedral_remeshing/tetrahedral_remeshing_generate_input.h $
-// $Id: tetrahedral_remeshing_generate_input.h 4ffc949 2022-02-03T17:11:20+01:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v5.6/Tetrahedral_remeshing/examples/Tetrahedral_remeshing/tetrahedral_remeshing_generate_input.h $
+// $Id: tetrahedral_remeshing_generate_input.h 20e8d85 2022-05-17T16:08:16+02:00 Jane Tournois
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -32,14 +32,17 @@ namespace Tetrahedral_remeshing
     while (tr.number_of_vertices() < nbv)
       tr.insert(Point(rng.get_double(-1., 1.), rng.get_double(-1., 1.), rng.get_double(-1., 1.)));
 
+    using P = typename Tr::Geom_traits::Point_3;
     const typename Tr::Geom_traits::Plane_3
-      plane(Point(0, 0, 0), Point(0, 1, 0), Point(0, 0, 1));
+      plane(P(0, 0, 0), P(0, 1, 0), P(0, 0, 1));
 
     for (Cell_handle c : tr.finite_cell_handles())
     {
       if (plane.has_on_positive_side(
-        CGAL::centroid(c->vertex(0)->point(), c->vertex(1)->point(),
-                       c->vertex(2)->point(), c->vertex(3)->point())))
+        CGAL::centroid(P(c->vertex(0)->point()),
+                       P(c->vertex(1)->point()),
+                       P(c->vertex(2)->point()),
+                       P(c->vertex(3)->point()))))
         c->set_subdomain_index(1);
       else
         c->set_subdomain_index(2);

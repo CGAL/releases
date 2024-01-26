@@ -3,7 +3,7 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.5.3/Three/include/CGAL/Three/Primitive_container.h $
+// $URL: https://github.com/CGAL/cgal/blob/v5.6/Three/include/CGAL/Three/Primitive_container.h $
 // $Id: Primitive_container.h d1cda5b 2023-06-08T12:54:59+02:00 Laurent Rineau
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //

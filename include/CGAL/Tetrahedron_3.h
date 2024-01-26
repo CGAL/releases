@@ -7,8 +7,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.5.3/Kernel_23/include/CGAL/Tetrahedron_3.h $
-// $Id: Tetrahedron_3.h 8fa0f55 2021-05-27T10:27:38+02:00 Laurent Rineau
+// $URL: https://github.com/CGAL/cgal/blob/v5.6/Kernel_23/include/CGAL/Tetrahedron_3.h $
+// $Id: Tetrahedron_3.h 3fa4364 2022-06-10T08:41:19+02:00 Sébastien Loriot
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -18,10 +18,11 @@
 #define CGAL_TETRAHEDRON_3_H
 
 #include <CGAL/assertions.h>
-#include <boost/type_traits/is_same.hpp>
 #include <CGAL/Kernel/Return_base_tag.h>
 #include <CGAL/Bbox_3.h>
 #include <CGAL/Dimension.h>
+
+#include <type_traits>
 
 namespace CGAL {
 
@@ -32,7 +33,7 @@ class Tetrahedron_3 : public R_::Kernel_base::Tetrahedron_3
   typedef typename R_::Aff_transformation_3  Aff_transformation_3;
 
   typedef Tetrahedron_3                      Self;
-  CGAL_static_assertion((boost::is_same<Self, typename R_::Tetrahedron_3>::value));
+  CGAL_static_assertion((std::is_same<Self, typename R_::Tetrahedron_3>::value));
 
 public:
 

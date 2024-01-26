@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.5.3/Triangulation_2/include/CGAL/Triangulation_2_traits_3.h $
-// $Id: Triangulation_2_traits_3.h 0779373 2020-03-26T13:31:46+01:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v5.6/Triangulation_2/include/CGAL/Triangulation_2_traits_3.h $
+// $Id: Triangulation_2_traits_3.h d3fca65 2022-09-23T12:49:40+01:00 Andreas Fabri
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -22,7 +22,7 @@
 #include <CGAL/Triangle_3.h>
 #include <CGAL/Kernel/global_functions_3.h>
 
-#include <CGAL/triangulation_assertions.h>
+#include <CGAL/assertions.h>
 
 namespace CGAL {
 

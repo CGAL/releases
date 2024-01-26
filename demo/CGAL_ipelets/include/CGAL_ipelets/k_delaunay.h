@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.5.3/CGAL_ipelets/demo/CGAL_ipelets/include/CGAL_ipelets/k_delaunay.h $
-// $Id: k_delaunay.h 0779373 2020-03-26T13:31:46+01:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v5.6/CGAL_ipelets/demo/CGAL_ipelets/include/CGAL_ipelets/k_delaunay.h $
+// $Id: k_delaunay.h 7a62583 2022-11-14T19:14:33+01:00 albert-github
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -68,7 +68,7 @@ void k_delaunay(Regular& rt,input_DS& input_wpt,int order){
       pt_x = pt_x + give_x<Kernel>((**it_it_wpt));
       pt_y = pt_y + give_y<Kernel>((**it_it_wpt));
       weight = weight + order * give_weight<Kernel>((**it_it_wpt));
-      //substract form the weight the sum of the squared distances between each pair of wpoints selected
+      //subtract form the weight the sum of the squared distances between each pair of wpoints selected
       for(typename std::vector<typename input_DS::iterator>::iterator le_WptI_cgal0 = it_it_wpt+1 ;le_WptI_cgal0!=Current_sel.end();++le_WptI_cgal0){
         weight = weight - CGAL::to_double(CGAL::squared_distance(
                                             typename Kernel::Construct_point_2()(**le_WptI_cgal0),

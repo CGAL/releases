@@ -7,8 +7,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.5.3/Homogeneous_kernel/include/CGAL/Homogeneous/VectorH3.h $
-// $Id: VectorH3.h 0779373 2020-03-26T13:31:46+01:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v5.6/Homogeneous_kernel/include/CGAL/Homogeneous/VectorH3.h $
+// $Id: VectorH3.h 4f5f834 2022-06-10T07:37:53+02:00 Sébastien Loriot
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -69,9 +69,9 @@ public:
 
   template < typename Tx, typename Ty, typename Tz >
   VectorH3(const Tx & x, const Ty & y, const Tz & z,
-           typename boost::enable_if< boost::mpl::and_< boost::mpl::and_< boost::is_convertible<Tx, RT>,
+           std::enable_if_t< boost::mpl::and_< boost::mpl::and_< boost::is_convertible<Tx, RT>,
                                                                           boost::is_convertible<Ty, RT> >,
-                                                        boost::is_convertible<Tz, RT> > >::type* = 0)
+                                                        boost::is_convertible<Tz, RT> >::value >* = 0)
     : base(CGAL::make_array<RT>(x, y, z, RT(1))) {}
 
   VectorH3(const FT& x, const FT& y, const FT& z)

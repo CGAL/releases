@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.5.3/Surface_mesh_parameterization/include/CGAL/Surface_mesh_parameterization/LSCM_parameterizer_3.h $
-// $Id: LSCM_parameterizer_3.h 4ffc949 2022-02-03T17:11:20+01:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v5.6/Surface_mesh_parameterization/include/CGAL/Surface_mesh_parameterization/LSCM_parameterizer_3.h $
+// $Id: LSCM_parameterizer_3.h b4489f9 2022-08-24T12:48:21+01:00 Andreas Fabri
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Laurent Saboret, Pierre Alliez, Bruno Levy
@@ -61,7 +61,7 @@ namespace Surface_mesh_parameterization {
 ///
 /// \tparam TriangleMesh_ must be a model of `FaceGraph`.
 ///
-/// \tparam BorderParameterizer_ is a Strategy to parameterize the surface border
+/// \tparam BorderParameterizer_ is a strategy to parameterize the surface border
 ///         and must be a model of `Parameterizer_3`.<br>
 ///         <b>%Default:</b>
 /// \code
@@ -182,9 +182,9 @@ public:
   ///
   /// \param mesh a triangulated surface.
   /// \param bhd a halfedge descriptor on the boundary of `mesh`.
-  /// \param uvmap an instanciation of the class `VertexUVmap`.
-  /// \param vimap an instanciation of the class `VertexIndexMap`.
-  /// \param vpmap an instanciation of the class `VertexParameterizedMap`.
+  /// \param uvmap an instantiation of the class `VertexUVmap`.
+  /// \param vimap an instantiation of the class `VertexIndexMap`.
+  /// \param vpmap an instantiation of the class `VertexParameterizedMap`.
   ///
   /// \pre `mesh` must be a triangular mesh.
   /// \pre The vertices must be indexed (`vimap` must be initialized).

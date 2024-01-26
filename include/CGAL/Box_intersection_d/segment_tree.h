@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.5.3/Box_intersection_d/include/CGAL/Box_intersection_d/segment_tree.h $
-// $Id: segment_tree.h 79f9d82 2022-05-06T14:52:32+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v5.6/Box_intersection_d/include/CGAL/Box_intersection_d/segment_tree.h $
+// $Id: segment_tree.h 9dd8235 2022-08-10T23:48:47+02:00 Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -330,7 +330,7 @@ CGAL_CPP17_INLINE constexpr bool Has_member_report_v = Has_member_report<T>::val
 
 template <typename Callback>
 inline
-std::enable_if_t<Has_member_report_v<Callback>, bool>
+std::enable_if_t<Has_member_report<Callback>::value, bool>
 report_impl(Callback callback, int dim)
 {
   return callback.report(dim);
@@ -338,7 +338,7 @@ report_impl(Callback callback, int dim)
 
 template <typename Callback>
 inline
-std::enable_if_t<!Has_member_report_v<Callback>, bool>
+std::enable_if_t<!Has_member_report<Callback>::value, bool>
 report_impl(const Callback&, int)
 {
   return false;
@@ -346,7 +346,7 @@ report_impl(const Callback&, int)
 
 template <typename Callback>
 inline
-std::enable_if_t<Has_member_report_v<Callback>, void>
+std::enable_if_t<Has_member_report<Callback>::value, void>
 progress_impl(Callback callback, double d)
 {
   callback.progress(d);
@@ -354,7 +354,7 @@ progress_impl(Callback callback, double d)
 
 template <typename Callback>
 inline
-std::enable_if_t<!Has_member_report_v<Callback>, void>
+std::enable_if_t<!Has_member_report<Callback>::value, void>
 progress_impl(const Callback&, double)
 {}
 

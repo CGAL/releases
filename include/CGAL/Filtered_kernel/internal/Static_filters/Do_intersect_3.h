@@ -5,8 +5,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.5.3/Filtered_kernel/include/CGAL/Filtered_kernel/internal/Static_filters/Do_intersect_3.h $
-// $Id: Do_intersect_3.h c573ccb 2022-08-24T16:18:07+02:00 Laurent Rineau
+// $URL: https://github.com/CGAL/cgal/blob/v5.6/Filtered_kernel/include/CGAL/Filtered_kernel/internal/Static_filters/Do_intersect_3.h $
+// $Id: Do_intersect_3.h b5c21e1 2022-11-23T18:48:43+01:00 Mael Rouxel-Labbé
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -26,7 +26,7 @@
 
 #include <iostream>
 
-// inspired from http://cag.csail.mit.edu/~amy/papers/box-jgt.pdf
+// inspired from https://people.csail.mit.edu/amy/papers/box-jgt.pdf
 
 namespace CGAL {
 
