@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.5.2/Arrangement_on_surface_2/include/CGAL/Arr_counting_traits_2.h $
-// $Id: Arr_counting_traits_2.h 055f87d 2021-09-15T10:10:45+01:00 Andreas Fabri
+// $URL: https://github.com/CGAL/cgal/blob/v5.5.3/Arrangement_on_surface_2/include/CGAL/Arr_counting_traits_2.h $
+// $Id: Arr_counting_traits_2.h eff6474 2023-03-12T17:53:32+02:00 Efi Fogel
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s): Efi Fogel      <efif@post.tau.ac.il>
@@ -85,18 +85,17 @@ public:
   typedef Arr_counting_traits_2<Base>           Self;
 
   /*! Construct default */
-  Arr_counting_traits_2() : Base()
+  template<typename ... Args>
+  Arr_counting_traits_2(Args ... args) :
+    Base(args...)
   {
     clear_counters();
     increment();
   }
 
-  /*! Construct copy */
-  Arr_counting_traits_2(const Arr_counting_traits_2& other) : Base(other)
-  {
-    clear_counters();
-    increment();
-  }
+  /*! Disable copy constructor.
+   */
+  Arr_counting_traits_2(const Arr_counting_traits_2&) = delete;
 
   /*! Obtain the counter of the given operation */
   size_t count(Operation_id id) const

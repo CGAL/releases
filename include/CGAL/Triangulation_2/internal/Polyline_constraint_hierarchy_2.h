@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.5.2/Triangulation_2/include/CGAL/Triangulation_2/internal/Polyline_constraint_hierarchy_2.h $
-// $Id: Polyline_constraint_hierarchy_2.h bdec436 2021-06-25T10:05:19+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v5.5.3/Triangulation_2/include/CGAL/Triangulation_2/internal/Polyline_constraint_hierarchy_2.h $
+// $Id: Polyline_constraint_hierarchy_2.h e8f1f2b 2023-03-14T12:01:12+01:00 Andreas Fabri
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -332,7 +332,7 @@ copy(const Polyline_constraint_hierarchy_2& ch1, std::map<Vertex_handle,Vertex_h
     Vertex_list* hvl2 = new Vertex_list;
     vlmap[hvl1] = hvl2;
     Vertex_it vit = hvl1->skip_begin(), end = hvl1->skip_end();
-    for( ; vit != end; ++vit) hvl2->push_back(Node(vmap[*vit]));
+    for( ; vit != end; ++vit) hvl2->push_back(Node(vmap[*vit], vit.input()));
     constraint_set.insert(hvl2);
   }
   // copy sc_to_c_map

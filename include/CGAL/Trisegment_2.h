@@ -3,7 +3,7 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.5.2/Straight_skeleton_2/include/CGAL/Trisegment_2.h $
+// $URL: https://github.com/CGAL/cgal/blob/v5.5.3/Straight_skeleton_2/include/CGAL/Trisegment_2.h $
 // $Id: Trisegment_2.h b1b7cac 2023-01-04T16:26:09+01:00 Mael Rouxel-Labbé
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //

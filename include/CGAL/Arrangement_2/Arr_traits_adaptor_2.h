@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.5.2/Arrangement_on_surface_2/include/CGAL/Arrangement_2/Arr_traits_adaptor_2.h $
-// $Id: Arr_traits_adaptor_2.h 521c72d 2021-10-04T13:22:00+02:00 Mael Rouxel-Labbé
+// $URL: https://github.com/CGAL/cgal/blob/v5.5.3/Arrangement_on_surface_2/include/CGAL/Arrangement_2/Arr_traits_adaptor_2.h $
+// $Id: Arr_traits_adaptor_2.h 22d35af 2023-03-12T17:28:46+02:00 Efi Fogel
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 // $Date$
 //
@@ -3060,7 +3060,7 @@ public:
      */
     Comparison_result operator()(const Point_2& p1, const Point_2& p2) const
     {
-      Base base(m_self);
+      const Base& base = m_self;
       return base.compare_xy_2_object()(p1, p2);
     }
 

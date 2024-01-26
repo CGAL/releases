@@ -9,7 +9,7 @@
 //          Andrew Lumsdaine
 //=======================================================================
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.5.2/STL_Extension/include/CGAL/STL_Extension/internal/boost/relaxed_heap.hpp $
+// $URL: https://github.com/CGAL/cgal/blob/v5.5.3/STL_Extension/include/CGAL/STL_Extension/internal/boost/relaxed_heap.hpp $
 // $Id: relaxed_heap.hpp 4143d14 2022-08-16T17:23:07+02:00 Sébastien Loriot
 // SPDX-License-Identifier: BSL-1.0
 //

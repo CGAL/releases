@@ -3,7 +3,7 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.5.2/Polygon_mesh_processing/include/CGAL/Rigid_triangle_mesh_collision_detection.h $
+// $URL: https://github.com/CGAL/cgal/blob/v5.5.3/Polygon_mesh_processing/include/CGAL/Rigid_triangle_mesh_collision_detection.h $
 // $Id: Rigid_triangle_mesh_collision_detection.h 23678d0 2022-10-04T13:50:18+02:00 Laurent Rineau
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //

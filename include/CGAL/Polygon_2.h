@@ -7,7 +7,7 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.5.2/Polygon/include/CGAL/Polygon_2.h $
+// $URL: https://github.com/CGAL/cgal/blob/v5.5.3/Polygon/include/CGAL/Polygon_2.h $
 // $Id: Polygon_2.h 81f127d 2023-01-31T08:36:31+00:00 Andreas Fabri
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //

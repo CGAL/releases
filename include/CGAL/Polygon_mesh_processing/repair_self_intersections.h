@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.5.2/Polygon_mesh_processing/include/CGAL/Polygon_mesh_processing/repair_self_intersections.h $
-// $Id: repair_self_intersections.h 898142d 2022-12-22T09:49:35+01:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v5.5.3/Polygon_mesh_processing/include/CGAL/Polygon_mesh_processing/repair_self_intersections.h $
+// $Id: repair_self_intersections.h 9166d28 2023-03-28T11:42:49+02:00 Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Sebastien Loriot,
@@ -2450,6 +2450,7 @@ bool remove_self_intersections(const FaceRange& face_range,
   std::set<face_descriptor> working_face_range(face_range.begin(), face_range.end());
 
   visitor.start_main_loop();
+  bool self_intersects=false;
   while(++step < max_steps)
   {
 #ifdef CGAL_PMP_REMOVE_SELF_INTERSECTION_DEBUG
@@ -2488,6 +2489,8 @@ bool remove_self_intersections(const FaceRange& face_range,
 #endif
       break;
     }
+    else
+      self_intersects=true;
 
     visitor.status_update(faces_to_treat);
 
@@ -2518,7 +2521,8 @@ bool remove_self_intersections(const FaceRange& face_range,
   std::ofstream("results/final.off") << std::setprecision(17) << tmesh;
 #endif
 
-  bool self_intersects = does_self_intersect(working_face_range, tmesh, parameters::vertex_point_map(vpm).geom_traits(gt));
+  if (self_intersects)
+    self_intersects = does_self_intersect(working_face_range, tmesh, parameters::vertex_point_map(vpm).geom_traits(gt));
 
 #ifdef CGAL_PMP_REMOVE_SELF_INTERSECTION_DEBUG
   if(self_intersects)

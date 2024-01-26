@@ -3,7 +3,7 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.5.2/Polygon_mesh_processing/include/CGAL/Polygon_mesh_processing/internal/Hole_filling/Triangulate_hole_polyline.h $
+// $URL: https://github.com/CGAL/cgal/blob/v5.5.3/Polygon_mesh_processing/include/CGAL/Polygon_mesh_processing/internal/Hole_filling/Triangulate_hole_polyline.h $
 // $Id: Triangulate_hole_polyline.h 7564b76 2022-11-07T14:11:10+01:00 Mael Rouxel-Labbé
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //

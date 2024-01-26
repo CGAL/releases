@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.5.2/Triangulation_on_sphere_2/include/CGAL/Delaunay_triangulation_on_sphere_2.h $
-// $Id: Delaunay_triangulation_on_sphere_2.h d871728 2021-07-23T13:09:37+02:00 Mael Rouxel-Labbé
+// $URL: https://github.com/CGAL/cgal/blob/v5.5.3/Triangulation_on_sphere_2/include/CGAL/Delaunay_triangulation_on_sphere_2.h $
+// $Id: Delaunay_triangulation_on_sphere_2.h 77c7335 2023-05-28T23:16:46+02:00 Mael Rouxel-Labbé
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Mariette Yvinec,
@@ -27,7 +27,6 @@
 #include <CGAL/spatial_sort_on_sphere.h>
 #include <CGAL/Spatial_sort_traits_adapter_3.h>
 
-#include <boost/iterator/transform_iterator.hpp>
 #include <boost/property_map/function_property_map.hpp>
 
 #include <algorithm>

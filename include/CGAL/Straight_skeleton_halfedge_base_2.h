@@ -2,7 +2,7 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.5.2/Straight_skeleton_2/include/CGAL/Straight_skeleton_halfedge_base_2.h $
+// $URL: https://github.com/CGAL/cgal/blob/v5.5.3/Straight_skeleton_2/include/CGAL/Straight_skeleton_halfedge_base_2.h $
 // $Id: Straight_skeleton_halfedge_base_2.h 2410d8e 2023-01-04T16:36:34+01:00 Mael Rouxel-Labbé
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //

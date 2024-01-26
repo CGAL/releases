@@ -14,7 +14,7 @@
  * WWW URL: http://cs.nyu.edu/exact/
  * Email: exact@cs.nyu.edu
  *
- * $URL: https://github.com/CGAL/cgal/blob/v5.5.2/CGAL_Core/include/CGAL/CORE/CoreIO_impl.h $
+ * $URL: https://github.com/CGAL/cgal/blob/v5.5.3/CGAL_Core/include/CGAL/CORE/CoreIO_impl.h $
  * $Id: CoreIO_impl.h 8d4aaa9 2022-11-30T11:55:32+00:00 Andreas Fabri
  * SPDX-License-Identifier: LGPL-3.0-or-later
  ***************************************************************************/

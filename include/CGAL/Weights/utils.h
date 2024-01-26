@@ -3,7 +3,7 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.5.2/Weights/include/CGAL/Weights/utils.h $
+// $URL: https://github.com/CGAL/cgal/blob/v5.5.3/Weights/include/CGAL/Weights/utils.h $
 // $Id: utils.h 9ab7e1e 2022-10-20T17:21:43+02:00 Mael Rouxel-Labbé
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //

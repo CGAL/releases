@@ -2,7 +2,7 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.5.2/Straight_skeleton_2/include/CGAL/constructions/Straight_skeleton_cons_ftC2.h $
+// $URL: https://github.com/CGAL/cgal/blob/v5.5.3/Straight_skeleton_2/include/CGAL/constructions/Straight_skeleton_cons_ftC2.h $
 // $Id: Straight_skeleton_cons_ftC2.h e2f1940 2023-01-04T16:17:15+01:00 Mael Rouxel-Labbé
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //

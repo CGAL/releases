@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.5.2/Polygon_mesh_processing/include/CGAL/Polygon_mesh_processing/orientation.h $
-// $Id: orientation.h 8a3184a 2023-02-24T16:13:44+01:00 Laurent Rineau
+// $URL: https://github.com/CGAL/cgal/blob/v5.5.3/Polygon_mesh_processing/include/CGAL/Polygon_mesh_processing/orientation.h $
+// $Id: orientation.h a96af50 2023-05-09T18:54:04+02:00 Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -1626,6 +1626,10 @@ void merge_reversible_connected_components(PolygonMesh& pm,
  * identifies faces whose orientation must be reversed in order to enable stitching of connected components.
  * Each face is assigned a bit (`false` or `true`)
  * such that two faces have compatible orientations iff they are assigned the same bits.
+ * If `pm` features several connected components (ignoring edge orientations), the property map passed
+ * to the named parameter `face_partition_id_map` will indicate for each face to which connected component it belongs.
+ * Note that two faces in different connected components are not impacting each others' orientations,
+ * so comparing their associated bits in `face_bit_map` is irrelevant.
  *
  * @tparam PolygonMesh a model of `HalfedgeListGraph`, `FaceGraph`.
  * @tparam FaceBitMap a model of `WritablePropertyMap` with `face_descriptor` as key and `bool` as value_type

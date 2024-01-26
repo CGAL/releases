@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.5.2/Arrangement_on_surface_2/include/CGAL/Arr_topology_traits/Arr_unb_planar_construction_helper.h $
-// $Id: Arr_unb_planar_construction_helper.h 5985db1 2021-07-28T16:17:10+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v5.5.3/Arrangement_on_surface_2/include/CGAL/Arr_topology_traits/Arr_unb_planar_construction_helper.h $
+// $Id: Arr_unb_planar_construction_helper.h ec15089 2023-03-12T14:59:40+02:00 Efi Fogel
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -272,6 +272,21 @@ before_handle_event(Event* event)
     if (m_prev_minus_inf_x_event != nullptr)
       m_prev_minus_inf_x_event->set_halfedge_handle(m_lh->next());
     m_prev_minus_inf_x_event = event;
+
+    // If the event lies also on the top boundary, associate all curve indices
+    // of subcurves that "see" m_th from below with the top fictitious halfedge
+    // (m_th->next()).
+    if (ps_y == ARR_TOP_BOUNDARY) {
+      if (m_he_ind_map_p != nullptr) {
+        Indices_list& list_ref = (*m_he_ind_map_p)[m_th];
+        list_ref.clear();
+        list_ref.splice(list_ref.end(), m_subcurves_at_ubf);
+      }
+      else {
+        m_subcurves_at_ubf.clear();
+      }
+      CGAL_assertion(m_subcurves_at_ubf.empty());
+    }
     return;
 
    case ARR_RIGHT_BOUNDARY:

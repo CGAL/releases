@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.5.2/Mesh_3/include/CGAL/make_mesh_3.h $
-// $Id: make_mesh_3.h 3e03d50 2021-05-05T15:32:22+02:00 Maxime Gimeno
+// $URL: https://github.com/CGAL/cgal/blob/v5.5.3/Mesh_3/include/CGAL/make_mesh_3.h $
+// $Id: make_mesh_3.h de1369d 2023-02-21T10:24:25+01:00 Jane Tournois
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -325,6 +325,13 @@ struct C3t3_initializer < C3T3, MD, MC, true, CGAL::Tag_true >
 
         if (c3t3.number_of_facets() == 0) {
           need_more_init = true;
+        }
+        else
+        {
+          helper.update_restricted_cells();
+          if(c3t3.number_of_cells() == 0) {
+            need_more_init = true;
+          }
         }
       }
       if(need_more_init) {

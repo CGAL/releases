@@ -3,7 +3,7 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.5.2/Optimal_transportation_reconstruction_2/include/CGAL/Optimal_transportation_reconstruction_2.h $
+// $URL: https://github.com/CGAL/cgal/blob/v5.5.3/Optimal_transportation_reconstruction_2/include/CGAL/Optimal_transportation_reconstruction_2.h $
 // $Id: Optimal_transportation_reconstruction_2.h 793801c 2023-01-03T07:36:46+00:00 Andreas Fabri
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //

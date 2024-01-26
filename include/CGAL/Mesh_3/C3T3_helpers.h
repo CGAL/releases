@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.5.2/Mesh_3/include/CGAL/Mesh_3/C3T3_helpers.h $
-// $Id: C3T3_helpers.h a9318b3 2021-10-15T09:48:54+02:00 Jane Tournois
+// $URL: https://github.com/CGAL/cgal/blob/v5.5.3/Mesh_3/include/CGAL/Mesh_3/C3T3_helpers.h $
+// $Id: C3T3_helpers.h 7e97a91 2023-04-17T14:25:18+02:00 Jane Tournois
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -792,6 +792,7 @@ public:
                                    Moving_vertices_set& moving_vertices);
 
   void update_restricted_facets();
+  void update_restricted_cells();
 
 #ifdef CGAL_INTRUSIVE_LIST
   template <typename OutdatedCells>
@@ -1166,7 +1167,7 @@ private:
      * @brief Updates cell \c ch in c3t3
      * @param ch the cell to update
      * @param update if set to \c false, checking only is done
-     * @return true if \c ch is in c3t3
+     * @return a boost::optional<Subdomain_index>, valid iff \c ch is in c3t3
      */
     Subdomain operator()(const Cell_handle& ch, const bool update = true) const
     {
@@ -2923,6 +2924,18 @@ update_restricted_facets()
     fit = tr_.finite_facets_begin();
     fit != tr_.finite_facets_end(); ++fit)
     updater(*fit);
+}
+
+template <typename C3T3, typename MD>
+void
+C3T3_helpers<C3T3, MD>::
+update_restricted_cells()
+{
+  Update_c3t3 updater(domain_, c3t3_);
+  for (typename C3T3::Triangulation::Finite_cells_iterator
+    cit = tr_.finite_cells_begin();
+    cit != tr_.finite_cells_end(); ++cit)
+    updater(cit);
 }
 
 template <typename C3T3, typename MD>

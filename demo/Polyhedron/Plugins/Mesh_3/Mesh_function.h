@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.5.2/Polyhedron/demo/Polyhedron/Plugins/Mesh_3/Mesh_function.h $
-// $Id: Mesh_function.h 4b3fee8 2021-09-23T11:37:35+02:00 Jane Tournois
+// $URL: https://github.com/CGAL/cgal/blob/v5.5.3/Polyhedron/demo/Polyhedron/Plugins/Mesh_3/Mesh_function.h $
+// $Id: Mesh_function.h 4a56178 2023-04-17T14:32:22+02:00 Jane Tournois
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -316,6 +316,11 @@ launch()
 #endif
 
 #if CGAL_MESH_3_MESHER_STATUS_ACTIVATED
+  // First we have to ensure that no old cell will be left in c3t3
+  // Second, the c3t3 object could have been corrupted,
+  // for example by inserting new vertices in the triangulation.
+  c3t3_.clear_cells_and_facets_from_c3t3();
+
   mesher_->initialize();
   while ( ! mesher_->is_algorithm_done() && ! stop_ )
   {
