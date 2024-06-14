@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6/Surface_mesh_segmentation/include/CGAL/Surface_mesh_segmentation/internal/Surface_mesh_segmentation.h $
-// $Id: Surface_mesh_segmentation.h 98e4718 2021-08-26T11:33:39+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Surface_mesh_segmentation/include/CGAL/Surface_mesh_segmentation/internal/Surface_mesh_segmentation.h $
+// $Id: Surface_mesh_segmentation.h e3e5bcd 2023-11-29T15:25:44+01:00 Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Ilker O. Yaz
@@ -324,8 +324,8 @@ private:
 
     CGAL_precondition( (! (face(edge,mesh)==boost::graph_traits<Polyhedron>::null_face()))
                        && (! (face(opposite(edge,mesh),mesh)==boost::graph_traits<Polyhedron>::null_face())) );
-    const Point a = get(vertex_point_pmap,target(edge,mesh));
-    const Point b = get(vertex_point_pmap,target(prev(edge,mesh),mesh));
+    const Point a = get(vertex_point_pmap,source(edge,mesh));
+    const Point b = get(vertex_point_pmap,target(edge,mesh));
     const Point c = get(vertex_point_pmap,target(next(edge,mesh),mesh));
     const Point d = get(vertex_point_pmap,target(next(opposite(edge,mesh),mesh),mesh));
     // As far as I check: if, say, dihedral angle is 5, this returns 175,

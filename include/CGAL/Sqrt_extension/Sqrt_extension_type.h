@@ -3,7 +3,7 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6/Number_types/include/CGAL/Sqrt_extension/Sqrt_extension_type.h $
+// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Number_types/include/CGAL/Sqrt_extension/Sqrt_extension_type.h $
 // $Id: Sqrt_extension_type.h 058ce7c 2023-03-16T13:52:56+01:00 Andreas Fabri
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //

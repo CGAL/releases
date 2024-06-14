@@ -3,7 +3,7 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6/Shape_detection/include/CGAL/Shape_detection/Region_growing/Point_set/Least_squares_circle_fit_region.h $
+// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Shape_detection/include/CGAL/Shape_detection/Region_growing/Point_set/Least_squares_circle_fit_region.h $
 // $Id: Least_squares_circle_fit_region.h 67f615c 2023-05-17T15:00:13+02:00 Sven Oesau
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //

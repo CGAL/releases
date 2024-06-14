@@ -3,7 +3,7 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6/Polyhedron/demo/Polyhedron/include/CGAL/IO/read_surf_trianglemesh.h $
+// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Polyhedron/demo/Polyhedron/include/CGAL/IO/read_surf_trianglemesh.h $
 // $Id: read_surf_trianglemesh.h bb62879 2022-10-13T15:17:44+02:00 Laurent Rineau
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //

@@ -3,7 +3,7 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6/Circular_kernel_2/include/CGAL/IO/Dxf_reader.h $
+// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Circular_kernel_2/include/CGAL/IO/Dxf_reader.h $
 // $Id: Dxf_reader.h b5c21e1 2022-11-23T18:48:43+01:00 Mael Rouxel-Labbé
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //

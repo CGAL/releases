@@ -3,7 +3,7 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6/Boolean_set_operations_2/include/CGAL/Boolean_set_operations_2/symmetric_difference.h $
+// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Boolean_set_operations_2/include/CGAL/Boolean_set_operations_2/symmetric_difference.h $
 // $Id: symmetric_difference.h b96f6d5 2022-06-10T09:43:59+02:00 Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //

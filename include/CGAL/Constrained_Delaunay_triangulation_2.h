@@ -3,7 +3,7 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6/Triangulation_2/include/CGAL/Constrained_Delaunay_triangulation_2.h $
+// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Triangulation_2/include/CGAL/Constrained_Delaunay_triangulation_2.h $
 // $Id: Constrained_Delaunay_triangulation_2.h dd5989d 2023-03-21T16:28:53+01:00 Andreas Fabri
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //

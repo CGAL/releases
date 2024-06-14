@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6/Nef_2/include/CGAL/Nef_2/PM_const_decorator.h $
-// $Id: PM_const_decorator.h 3674c93 2022-11-15T15:21:01+01:00 albert-github
+// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Nef_2/include/CGAL/Nef_2/PM_const_decorator.h $
+// $Id: PM_const_decorator.h 965d4fd 2023-08-22T17:01:46+01:00 Andreas Fabri
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -434,9 +434,10 @@ check_integrity_and_topological_planarity(bool faces) const
   /* check the source links of out edges and count isolated vertices */
   for (vit = vertices_begin() ; vit != vend; ++vit) {
     if ( is_isolated(vit) ) {
-      if ( faces )
-        CGAL_assertion_msg( vit->face() != Face_const_handle(),
-                            VI(vit).c_str());
+        if (faces) {
+            CGAL_assertion_msg(vit->face() != Face_const_handle(),
+                VI(vit).c_str());
+        }
       ++iso_vert_num;
     } else {
       CGAL_assertion_msg( vit->halfedge() != Halfedge_const_handle(),
@@ -480,6 +481,8 @@ check_integrity_and_topological_planarity(bool faces) const
     }
     first=false;
   }
+
+  CGAL_assertion(iso_vert_num == iv_num);
 
   std::size_t v_num = number_of_vertices() - iso_vert_num;
   std::size_t e_num = number_of_edges();

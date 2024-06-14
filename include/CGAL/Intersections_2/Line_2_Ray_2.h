@@ -7,7 +7,7 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6/Intersections_2/include/CGAL/Intersections_2/Line_2_Ray_2.h $
+// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Intersections_2/include/CGAL/Intersections_2/Line_2_Ray_2.h $
 // $Id: Line_2_Ray_2.h 3a4e230 2022-11-22T12:22:42+01:00 Mael Rouxel-Labbé
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //

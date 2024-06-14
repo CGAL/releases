@@ -3,7 +3,7 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6/Combinatorial_map/include/CGAL/Combinatorial_map_functors.h $
+// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Combinatorial_map/include/CGAL/Combinatorial_map_functors.h $
 // $Id: Combinatorial_map_functors.h 999a813 2022-05-05T13:34:19+02:00 Guillaume Damiand
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //

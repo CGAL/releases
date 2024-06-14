@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6/Segment_Delaunay_graph_2/include/CGAL/Segment_Delaunay_graph_2.h $
-// $Id: Segment_Delaunay_graph_2.h 98e4718 2021-08-26T11:33:39+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Segment_Delaunay_graph_2/include/CGAL/Segment_Delaunay_graph_2.h $
+// $Id: Segment_Delaunay_graph_2.h 23e56a8 2024-01-11T08:43:48+00:00 Andreas Fabri
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -632,11 +632,11 @@ public:
   }
 
   template <class Segment_2>
-  static const Point_2& get_source(const Segment_2& segment){
+  static Point_2 get_source(const Segment_2& segment){
     return segment.source();
   }
   template <class Segment_2>
-  static const Point_2& get_target(const Segment_2& segment){
+  static Point_2 get_target(const Segment_2& segment){
     return segment.target();
   }
 

@@ -7,7 +7,7 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6/Polygon/include/CGAL/Polygon_2.h $
+// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Polygon/include/CGAL/Polygon_2.h $
 // $Id: Polygon_2.h 9408024 2023-02-10T15:40:39+01:00 Laurent Rineau
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //

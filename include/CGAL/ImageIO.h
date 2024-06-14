@@ -5,7 +5,7 @@
 //
 // This file is part of the ImageIO Library, and as been adapted for CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6/CGAL_ImageIO/include/CGAL/ImageIO.h $
+// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/CGAL_ImageIO/include/CGAL/ImageIO.h $
 // $Id: ImageIO.h e8e3eaa 2023-02-21T11:05:30+01:00 Jane Tournois
 // SPDX-License-Identifier: LGPL-3.0-or-later
 //

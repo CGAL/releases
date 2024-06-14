@@ -3,7 +3,7 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6/Partition_2/include/CGAL/Partition_2/partition_y_monotone_2.h $
+// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Partition_2/include/CGAL/Partition_2/partition_y_monotone_2.h $
 // $Id: partition_y_monotone_2.h eed54a0 2022-11-15T18:45:39+01:00 albert-github
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //

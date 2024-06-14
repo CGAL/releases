@@ -3,7 +3,7 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6/Intersections_3/include/CGAL/Intersections_3/internal/Ray_3_Triangle_3_intersection.h $
+// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Intersections_3/include/CGAL/Intersections_3/internal/Ray_3_Triangle_3_intersection.h $
 // $Id: Ray_3_Triangle_3_intersection.h 4547818 2022-11-15T13:39:40+01:00 albert-github
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //

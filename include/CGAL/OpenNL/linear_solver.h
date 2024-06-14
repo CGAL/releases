@@ -22,7 +22,7 @@
  *      - Added SymmetricLinearSolverTraits
  *      - copied Jacobi preconditioner from Graphite 1.9 code
  *
- * $URL: https://github.com/CGAL/cgal/blob/v5.6/OpenNL/include/CGAL/OpenNL/linear_solver.h $
+ * $URL: https://github.com/CGAL/cgal/blob/v5.6.1/OpenNL/include/CGAL/OpenNL/linear_solver.h $
  * $Id: linear_solver.h 0ff7882 2022-12-06T22:21:06+01:00 Mael
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */

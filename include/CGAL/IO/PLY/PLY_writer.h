@@ -2,8 +2,8 @@
 //
 // This file is part of CGAL (www.cgal.org);
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6/Stream_support/include/CGAL/IO/PLY/PLY_writer.h $
-// $Id: PLY_writer.h aa9f521 2022-06-24T17:21:37+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Stream_support/include/CGAL/IO/PLY/PLY_writer.h $
+// $Id: PLY_writer.h 32078f1 2024-01-26T14:35:26+00:00 Andreas Fabri
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Simon Giraudot
@@ -266,7 +266,7 @@ public:
   virtual void print(std::ostream& stream, const Index& index)
   {
     if(get_mode(stream) == CGAL::IO::ASCII)
-      stream << get(m_pmap, index);
+      stream << no_char_character(get(m_pmap, index));
     else
     {
       Type t = Type(get(m_pmap, index));

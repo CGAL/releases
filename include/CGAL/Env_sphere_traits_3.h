@@ -3,7 +3,7 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6/Envelope_3/include/CGAL/Env_sphere_traits_3.h $
+// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Envelope_3/include/CGAL/Env_sphere_traits_3.h $
 // $Id: Env_sphere_traits_3.h ccdb5a0 2023-02-15T14:36:44+02:00 Efi Fogel
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //

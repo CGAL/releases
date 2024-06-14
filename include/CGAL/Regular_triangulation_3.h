@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6/Triangulation_3/include/CGAL/Regular_triangulation_3.h $
-// $Id: Regular_triangulation_3.h 01e22be 2023-06-07T17:36:41+02:00 Laurent Rineau
+// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Triangulation_3/include/CGAL/Regular_triangulation_3.h $
+// $Id: Regular_triangulation_3.h 9cefb1a 2023-10-19T11:40:35+02:00 Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -2066,7 +2066,7 @@ Regular_triangulation_3<Gt,Tds,Lds>::
 side_of_power_sphere(Cell_handle c, const Weighted_point& p, bool perturb) const
 {
   CGAL_precondition(dimension() == 3);
-  int i3;
+  int i3=3;
   if(! c->has_vertex(infinite_vertex(), i3))
   {
     return Bounded_side(side_of_oriented_power_sphere(c->vertex(0)->point(),
@@ -2175,7 +2175,7 @@ side_of_power_circle(Cell_handle c, int i, const Weighted_point& p,
                      bool perturb) const
 {
   CGAL_precondition(dimension() >= 2);
-  int i3 = 5;
+  int i3 = 3;
   if(dimension() == 2)
   {
     CGAL_precondition(i == 3);

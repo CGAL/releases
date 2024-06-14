@@ -3,7 +3,7 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6/Shape_detection/include/CGAL/Shape_detection/Region_growing/Point_set/Least_squares_sphere_fit_sorting.h $
+// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Shape_detection/include/CGAL/Shape_detection/Region_growing/Point_set/Least_squares_sphere_fit_sorting.h $
 // $Id: Least_squares_sphere_fit_sorting.h 0e8bc6a 2023-02-07T13:10:14+01:00 Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //

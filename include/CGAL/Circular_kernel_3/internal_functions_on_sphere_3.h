@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6/Circular_kernel_3/include/CGAL/Circular_kernel_3/internal_functions_on_sphere_3.h $
-// $Id: internal_functions_on_sphere_3.h 0779373 2020-03-26T13:31:46+01:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Circular_kernel_3/include/CGAL/Circular_kernel_3/internal_functions_on_sphere_3.h $
+// $Id: internal_functions_on_sphere_3.h 5223c8e 2023-08-28T15:19:27+02:00 Laurent Rineau
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s) : Monique Teillaud, Sylvain Pion, Pedro Machado
@@ -278,6 +278,7 @@ namespace CGAL {
        typedef typename SK::Point_3  Point_3;
        typedef typename SK::Sphere_3  Sphere_3;
        typedef typename SK::Algebraic_kernel  Algebraic_kernel;
+       typedef typename SK::Boolean Bool;
        typedef typename SK3_Intersection_traits<SK, Sphere_3, Sphere_3, Sphere_3>::type result_type;
 
        CGAL_kernel_precondition(!s1.is_degenerate());
@@ -317,7 +318,7 @@ namespace CGAL {
              return res;
          }
          if(const Circle_3* c = CGAL::Intersections::internal::intersect_get<Circle_3>(v)) {
-            if(SK().has_on_3_object()(s3, *c)) {
+            if(static_cast<Bool>(SK().has_on_3_object()(s3, *c))) {
               *res++ = result_type(*c);
             }
            return res;

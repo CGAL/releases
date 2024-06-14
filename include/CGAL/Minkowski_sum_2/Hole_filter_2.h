@@ -3,7 +3,7 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6/Minkowski_sum_2/include/CGAL/Minkowski_sum_2/Hole_filter_2.h $
+// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Minkowski_sum_2/include/CGAL/Minkowski_sum_2/Hole_filter_2.h $
 // $Id: Hole_filter_2.h ef773ab 2023-03-19T15:37:01+02:00 Efi Fogel
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //

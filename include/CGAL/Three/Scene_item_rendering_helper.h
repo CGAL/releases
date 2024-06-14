@@ -3,7 +3,7 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6/Three/include/CGAL/Three/Scene_item_rendering_helper.h $
+// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Three/include/CGAL/Three/Scene_item_rendering_helper.h $
 // $Id: Scene_item_rendering_helper.h 3ee53a4 2023-05-26T18:11:51+02:00 Mael Rouxel-Labbé
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //

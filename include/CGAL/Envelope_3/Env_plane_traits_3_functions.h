@@ -3,7 +3,7 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6/Envelope_3/include/CGAL/Envelope_3/Env_plane_traits_3_functions.h $
+// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Envelope_3/include/CGAL/Envelope_3/Env_plane_traits_3_functions.h $
 // $Id: Env_plane_traits_3_functions.h 96a8d91 2022-11-16T13:45:12+01:00 albert-github
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //

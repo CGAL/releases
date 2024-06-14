@@ -7,7 +7,7 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6/Number_types/include/CGAL/number_type_config.h $
+// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Number_types/include/CGAL/number_type_config.h $
 // $Id: number_type_config.h 2f88b29 2023-04-28T17:54:07+02:00 Jane Tournois
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //

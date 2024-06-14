@@ -3,7 +3,7 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6/Three/include/CGAL/Three/Point_container.h $
+// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Three/include/CGAL/Three/Point_container.h $
 // $Id: Point_container.h 97bd67d 2023-06-09T16:26:23+02:00 Laurent Rineau
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //

@@ -5,7 +5,7 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6/Alpha_shapes_2/include/CGAL/Alpha_shape_2.h $
+// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Alpha_shapes_2/include/CGAL/Alpha_shape_2.h $
 // $Id: Alpha_shape_2.h 014c06f 2022-11-14T15:32:47+01:00 albert-github
 // Author(s)     : Tran Kai Frank DA
 //                 Andreas Fabri <Andreas.Fabri@geometryfactory.com>

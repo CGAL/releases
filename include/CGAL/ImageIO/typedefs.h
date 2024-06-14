@@ -3,7 +3,7 @@
 //
 // This file is part of the ImageIO Library, and as been adapted for CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6/CGAL_ImageIO/include/CGAL/ImageIO/typedefs.h $
+// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/CGAL_ImageIO/include/CGAL/ImageIO/typedefs.h $
 // $Id: typedefs.h 0ff7882 2022-12-06T22:21:06+01:00 Mael
 // SPDX-License-Identifier: LGPL-3.0-or-later
 //

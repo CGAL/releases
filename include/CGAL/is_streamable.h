@@ -1,7 +1,7 @@
 // Copyright (c) 2012  GeometryFactory Sarl (France)
 // All rights reserved.
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6/STL_Extension/include/CGAL/is_streamable.h $
+// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/STL_Extension/include/CGAL/is_streamable.h $
 // $Id: is_streamable.h 3fa4364 2022-06-10T08:41:19+02:00 Sébastien Loriot
 // SPDX-License-Identifier: BSL-1.0
 //

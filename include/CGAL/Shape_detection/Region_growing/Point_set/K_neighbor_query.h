@@ -3,7 +3,7 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6/Shape_detection/include/CGAL/Shape_detection/Region_growing/Point_set/K_neighbor_query.h $
+// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Shape_detection/include/CGAL/Shape_detection/Region_growing/Point_set/K_neighbor_query.h $
 // $Id: K_neighbor_query.h 0e8bc6a 2023-02-07T13:10:14+01:00 Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //

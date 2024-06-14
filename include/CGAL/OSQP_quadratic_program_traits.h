@@ -3,7 +3,7 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6/Solver_interface/include/CGAL/OSQP_quadratic_program_traits.h $
+// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Solver_interface/include/CGAL/OSQP_quadratic_program_traits.h $
 // $Id: OSQP_quadratic_program_traits.h deda05c 2023-06-08T10:37:29+02:00 Sven Oesau
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //

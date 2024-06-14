@@ -3,7 +3,7 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6/Installation/include/CGAL/license/Interpolation.h $
+// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Installation/include/CGAL/license/Interpolation.h $
 // $Id: Interpolation.h c1afb48 2022-07-19T09:04:19+02:00 Sébastien Loriot
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //

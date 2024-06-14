@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6/Envelope_3/include/CGAL/Envelope_3/Envelope_divide_and_conquer_3.h $
-// $Id: Envelope_divide_and_conquer_3.h 4547818 2022-11-15T13:39:40+01:00 albert-github
+// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Envelope_3/include/CGAL/Envelope_3/Envelope_divide_and_conquer_3.h $
+// $Id: Envelope_divide_and_conquer_3.h 6e6598c 2023-10-10T19:32:59+02:00 Jane Tournois
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Michal Meyerovitch     <gorgymic@post.tau.ac.il>
@@ -38,7 +38,7 @@
 #ifdef CGAL_ENVELOPE_USE_BFS_FACE_ORDER
 #include <CGAL/Arr_face_index_map.h>
 #include <CGAL/graph_traits_dual_arrangement_on_surface_2.h>
-#include <CGAL/boost/graph/dijkstra_shortest_paths.h>
+#include <boost/graph/dijkstra_shortest_paths.hpp>
 #endif
 
 // this base divide & conquer algorithm splits the input into 2 groups,

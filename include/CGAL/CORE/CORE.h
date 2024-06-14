@@ -18,7 +18,7 @@
  * WWW URL: https://cs.nyu.edu/exact/
  * Email: exact@cs.nyu.edu
  *
- * $URL: https://github.com/CGAL/cgal/blob/v5.6/CGAL_Core/include/CGAL/CORE/CORE.h $
+ * $URL: https://github.com/CGAL/cgal/blob/v5.6.1/CGAL_Core/include/CGAL/CORE/CORE.h $
  * $Id: CORE.h b5c21e1 2022-11-23T18:48:43+01:00 Mael Rouxel-Labbé
  * SPDX-License-Identifier: LGPL-3.0-or-later
  ***************************************************************************/

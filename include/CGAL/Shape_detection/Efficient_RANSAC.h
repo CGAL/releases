@@ -3,7 +3,7 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6/Shape_detection/include/CGAL/Shape_detection/Efficient_RANSAC.h $
+// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Shape_detection/include/CGAL/Shape_detection/Efficient_RANSAC.h $
 // $Id: Efficient_RANSAC.h 1c7ba09 2021-06-30T12:46:41+02:00 Dmitry Anisimov
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //

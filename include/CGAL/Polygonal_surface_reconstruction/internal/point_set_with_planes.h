@@ -2,7 +2,7 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6/Polygonal_surface_reconstruction/include/CGAL/Polygonal_surface_reconstruction/internal/point_set_with_planes.h $
+// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Polygonal_surface_reconstruction/include/CGAL/Polygonal_surface_reconstruction/internal/point_set_with_planes.h $
 // $Id: point_set_with_planes.h e72f6b5 2023-05-31T18:04:03+02:00 Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //

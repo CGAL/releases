@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6/TDS_3/include/CGAL/Triangulation_utils_3.h $
-// $Id: Triangulation_utils_3.h c32b1f4 2022-11-16T13:22:39+01:00 albert-github
+// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/TDS_3/include/CGAL/Triangulation_utils_3.h $
+// $Id: Triangulation_utils_3.h ef653f0 2023-12-11T13:50:15+01:00 Laurent Rineau
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Monique Teillaud <Monique.Teillaud@sophia.inria.fr>
@@ -80,6 +80,7 @@ struct Triangulation_utils_3
     CGAL_precondition( ( i >= 0 && i < 4 ) &&
                        ( j >= 0 && j < 4 ) &&
                        ( i != j ) );
+    CGAL_assume(i!=j);
     return tab_next_around_edge[i][j];
   }
 

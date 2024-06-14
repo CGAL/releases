@@ -3,7 +3,7 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6/Periodic_2_triangulation_2/include/CGAL/draw_periodic_2_triangulation_2.h $
+// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Periodic_2_triangulation_2/include/CGAL/draw_periodic_2_triangulation_2.h $
 // $Id: draw_periodic_2_triangulation_2.h 4547818 2022-11-15T13:39:40+01:00 albert-github
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //

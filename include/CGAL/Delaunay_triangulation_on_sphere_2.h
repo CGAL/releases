@@ -3,7 +3,7 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6/Triangulation_on_sphere_2/include/CGAL/Delaunay_triangulation_on_sphere_2.h $
+// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Triangulation_on_sphere_2/include/CGAL/Delaunay_triangulation_on_sphere_2.h $
 // $Id: Delaunay_triangulation_on_sphere_2.h f15b144 2023-06-05T15:10:11+02:00 Laurent Rineau
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //

@@ -1,7 +1,7 @@
 // Copyright (c) 2023  GeometryFactory Sarl (France).
 // All rights reserved.
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6/STL_Extension/include/CGAL/Base_with_time_stamp.h $
+// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/STL_Extension/include/CGAL/Base_with_time_stamp.h $
 // $Id: Base_with_time_stamp.h 166ff0f 2023-02-14T13:28:07+01:00 Laurent Rineau
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //

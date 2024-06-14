@@ -3,7 +3,7 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6/Surface_sweep_2/include/CGAL/Surface_sweep_2/No_overlap_event_base.h $
+// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Surface_sweep_2/include/CGAL/Surface_sweep_2/No_overlap_event_base.h $
 // $Id: No_overlap_event_base.h 9c2f8ff 2023-01-13T18:51:28+01:00 albert-github
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //

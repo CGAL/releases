@@ -4,7 +4,7 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6/SMDS_3/include/CGAL/IO/File_medit.h $
+// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/SMDS_3/include/CGAL/IO/File_medit.h $
 // $Id: File_medit.h 7789d06 2022-11-29T12:14:31+01:00 Mael Rouxel-Labbé
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //

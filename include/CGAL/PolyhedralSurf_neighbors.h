@@ -3,7 +3,7 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6/Ridges_3/include/CGAL/PolyhedralSurf_neighbors.h $
+// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Ridges_3/include/CGAL/PolyhedralSurf_neighbors.h $
 // $Id: PolyhedralSurf_neighbors.h eed54a0 2022-11-15T18:45:39+01:00 albert-github
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //

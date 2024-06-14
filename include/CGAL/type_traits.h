@@ -3,7 +3,7 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6/STL_Extension/include/CGAL/type_traits.h $
+// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/STL_Extension/include/CGAL/type_traits.h $
 // $Id: type_traits.h 2e90313 2022-11-09T10:50:01+01:00 Laurent Rineau
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //

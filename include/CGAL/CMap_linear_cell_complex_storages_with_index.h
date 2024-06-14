@@ -3,7 +3,7 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6/Linear_cell_complex/include/CGAL/CMap_linear_cell_complex_storages_with_index.h $
+// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Linear_cell_complex/include/CGAL/CMap_linear_cell_complex_storages_with_index.h $
 // $Id: CMap_linear_cell_complex_storages_with_index.h 804f288 2023-03-10T13:31:56+01:00 Guillaume Damiand
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //

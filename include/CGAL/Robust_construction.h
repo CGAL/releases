@@ -3,7 +3,7 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6/Filtered_kernel/include/CGAL/Robust_construction.h $
+// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Filtered_kernel/include/CGAL/Robust_construction.h $
 // $Id: Robust_construction.h 4547818 2022-11-15T13:39:40+01:00 albert-github
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //

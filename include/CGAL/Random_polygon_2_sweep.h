@@ -7,7 +7,7 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6/Generator/include/CGAL/Random_polygon_2_sweep.h $
+// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Generator/include/CGAL/Random_polygon_2_sweep.h $
 // $Id: Random_polygon_2_sweep.h a8dc42d 2022-09-27T13:49:31+01:00 Andreas Fabri
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //

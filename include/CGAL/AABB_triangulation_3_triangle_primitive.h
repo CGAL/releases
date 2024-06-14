@@ -3,7 +3,7 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6/AABB_tree/include/CGAL/AABB_triangulation_3_triangle_primitive.h $
+// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/AABB_tree/include/CGAL/AABB_triangulation_3_triangle_primitive.h $
 // $Id: AABB_triangulation_3_triangle_primitive.h ac8b6d4 2022-06-10T07:59:39+02:00 Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //

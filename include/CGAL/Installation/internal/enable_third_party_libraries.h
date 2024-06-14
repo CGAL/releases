@@ -2,7 +2,7 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6/Installation/include/CGAL/Installation/internal/enable_third_party_libraries.h $
+// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Installation/include/CGAL/Installation/internal/enable_third_party_libraries.h $
 // $Id: enable_third_party_libraries.h 6b71a94 2023-04-07T13:59:38+02:00 Sébastien Loriot
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //

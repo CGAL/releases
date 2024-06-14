@@ -5,8 +5,8 @@
 //
 // This file is part of the ImageIO Library, and as been adapted for CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6/CGAL_ImageIO/include/CGAL/ImageIO_impl.h $
-// $Id: ImageIO_impl.h 7a62583 2022-11-14T19:14:33+01:00 albert-github
+// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/CGAL_ImageIO/include/CGAL/ImageIO_impl.h $
+// $Id: ImageIO_impl.h 3527e8e 2023-08-29T09:37:51+02:00 Laurent Rineau
 // SPDX-License-Identifier: LGPL-3.0-or-later
 //
 
@@ -1242,7 +1242,7 @@ static void _swapImageData( _image *im )
    Swap bytes depending on the endianness and the current architecture  */
 CGAL_INLINE_FUNCTION
 int _readImageData(_image *im) {
-  unsigned long size, nread;
+  std::size_t size, nread;
 
   if(im->openMode != OM_CLOSE) {
     size = im->xdim * im->ydim * im->zdim * im->vdim * im->wdim;
@@ -1279,7 +1279,7 @@ int _readImageData(_image *im) {
    Swap bytes depending on the endianness and the current architecture. */
 CGAL_INLINE_FUNCTION
 int _readNonInterlacedImageData(_image *im) {
-  unsigned long size, nread;
+  std::size_t size, nread;
   unsigned char **vp, *buf;
   unsigned int i, j, k, v, w;
 
@@ -1356,7 +1356,7 @@ int _readNonInterlacedImageData(_image *im) {
    been read by _readImageHeader. The image buffer is interlaced. */
 CGAL_INLINE_FUNCTION
 int _readNonInterlacedFileData(_image *im) {
-  unsigned long size, nread;
+  std::size_t size, nread;
   unsigned char *ptr1, *vp, *buf;
   unsigned int i, j, k, v, w;
 

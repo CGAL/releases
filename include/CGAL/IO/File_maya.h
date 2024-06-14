@@ -3,7 +3,7 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6/SMDS_3/include/CGAL/IO/File_maya.h $
+// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/SMDS_3/include/CGAL/IO/File_maya.h $
 // $Id: File_maya.h a19190b 2022-03-25T10:03:40+01:00 Jane Tournois
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //

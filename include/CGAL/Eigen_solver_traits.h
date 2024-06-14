@@ -2,7 +2,7 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6/Solver_interface/include/CGAL/Eigen_solver_traits.h $
+// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Solver_interface/include/CGAL/Eigen_solver_traits.h $
 // $Id: Eigen_solver_traits.h fef1a43 2022-12-15T10:43:27+01:00 Sébastien Loriot
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //

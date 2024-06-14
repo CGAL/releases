@@ -3,7 +3,7 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6/Algebraic_kernel_d/include/CGAL/Algebraic_kernel_d/Algebraic_real_quadratic_refinement_rep_bfi.h $
+// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Algebraic_kernel_d/include/CGAL/Algebraic_kernel_d/Algebraic_real_quadratic_refinement_rep_bfi.h $
 // $Id: Algebraic_real_quadratic_refinement_rep_bfi.h 0ff7882 2022-12-06T22:21:06+01:00 Mael
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //

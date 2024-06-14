@@ -3,7 +3,7 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6/Circular_kernel_3/include/CGAL/Circular_kernel_3/Circular_arc_3.h $
+// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Circular_kernel_3/include/CGAL/Circular_kernel_3/Circular_arc_3.h $
 // $Id: Circular_arc_3.h 4547818 2022-11-15T13:39:40+01:00 albert-github
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //

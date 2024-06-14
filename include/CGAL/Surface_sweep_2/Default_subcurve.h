@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6/Surface_sweep_2/include/CGAL/Surface_sweep_2/Default_subcurve.h $
-// $Id: Default_subcurve.h c32b1f4 2022-11-16T13:22:39+01:00 albert-github
+// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Surface_sweep_2/include/CGAL/Surface_sweep_2/Default_subcurve.h $
+// $Id: Default_subcurve.h 47e728f 2023-12-22T17:14:12+01:00 Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s) : Tali Zvi <talizvi@post.tau.ac.il>,
@@ -104,6 +104,17 @@ protected:
 
 
 public:
+
+  void reset_left_event()
+  {
+    this->set_left_event(static_cast<Event*>(nullptr));
+    if (m_orig_subcurve1)
+    {
+      m_orig_subcurve1->reset_left_event();
+      m_orig_subcurve2->reset_left_event();
+    }
+  }
+
   /*! Get the subcurves that originate an overlap. */
   Subcurve* originating_subcurve1() { return m_orig_subcurve1; }
 

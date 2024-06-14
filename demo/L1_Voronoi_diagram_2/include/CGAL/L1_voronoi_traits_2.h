@@ -3,7 +3,7 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6/GraphicsView/demo/L1_Voronoi_diagram_2/include/CGAL/L1_voronoi_traits_2.h $
+// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/GraphicsView/demo/L1_Voronoi_diagram_2/include/CGAL/L1_voronoi_traits_2.h $
 // $Id: L1_voronoi_traits_2.h 9d709b1 2022-11-21T10:40:28+01:00 albert-github
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //

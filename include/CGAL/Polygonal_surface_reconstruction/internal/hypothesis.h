@@ -2,7 +2,7 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6/Polygonal_surface_reconstruction/include/CGAL/Polygonal_surface_reconstruction/internal/hypothesis.h $
+// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Polygonal_surface_reconstruction/include/CGAL/Polygonal_surface_reconstruction/internal/hypothesis.h $
 // $Id: hypothesis.h d8c92fc 2022-08-02T13:32:36+02:00 Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //

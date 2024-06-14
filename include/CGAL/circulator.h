@@ -7,7 +7,7 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6/Circulator/include/CGAL/circulator.h $
+// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Circulator/include/CGAL/circulator.h $
 // $Id: circulator.h 9e27798 2023-01-24T13:42:06+01:00 Laurent Rineau
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //

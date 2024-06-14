@@ -3,7 +3,7 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6/Circular_kernel_2/include/CGAL/Filtered_bbox_circular_kernel_2/interface_macros.h $
+// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Circular_kernel_2/include/CGAL/Filtered_bbox_circular_kernel_2/interface_macros.h $
 // $Id: interface_macros.h 7a62583 2022-11-14T19:14:33+01:00 albert-github
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //

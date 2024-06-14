@@ -3,7 +3,7 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6/QP_solver/include/CGAL/QP_models.h $
+// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/QP_solver/include/CGAL/QP_models.h $
 // $Id: QP_models.h eed54a0 2022-11-15T18:45:39+01:00 albert-github
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //

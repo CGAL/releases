@@ -3,7 +3,7 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6/Principal_component_analysis/include/CGAL/PCA_util_Eigen.h $
+// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Principal_component_analysis/include/CGAL/PCA_util_Eigen.h $
 // $Id: PCA_util_Eigen.h be85b37 2023-04-04T10:42:43+01:00 Andreas Fabri
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //

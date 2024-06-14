@@ -3,7 +3,7 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6/Weights/include/CGAL/Weights/mixed_voronoi_region_weights.h $
+// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Weights/include/CGAL/Weights/mixed_voronoi_region_weights.h $
 // $Id: mixed_voronoi_region_weights.h 7eb3002 2022-10-20T17:25:52+02:00 Mael Rouxel-Labbé
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //

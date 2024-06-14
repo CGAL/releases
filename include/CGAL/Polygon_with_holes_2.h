@@ -7,7 +7,7 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6/Polygon/include/CGAL/Polygon_with_holes_2.h $
+// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Polygon/include/CGAL/Polygon_with_holes_2.h $
 // $Id: Polygon_with_holes_2.h abbcfbb 2023-03-02T09:34:48-05:00 Brendan Vessels
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //

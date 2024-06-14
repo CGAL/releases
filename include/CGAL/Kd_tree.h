@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6/Spatial_searching/include/CGAL/Kd_tree.h $
-// $Id: Kd_tree.h c32b1f4 2022-11-16T13:22:39+01:00 albert-github
+// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Spatial_searching/include/CGAL/Kd_tree.h $
+// $Id: Kd_tree.h e8d8197 2023-09-06T11:52:40+02:00 Laurent Rineau
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Hans Tangelder (<hanst@cs.uu.nl>),
@@ -137,7 +137,7 @@ private:
   mutable CGAL_MUTEX building_mutex;//mutex used to protect const calls inducing build()
   #endif
   bool built_;
-  bool removed_;
+  std::size_t removed_=0;
 
   // protected copy constructor
   Kd_tree(const Tree& tree)
@@ -278,13 +278,13 @@ private:
 public:
 
   Kd_tree(Splitter s = Splitter(),const SearchTraits traits=SearchTraits())
-    : traits_(traits),split(s), built_(false), removed_(false)
+    : traits_(traits),split(s), built_(false)
   {}
 
   template <class InputIterator>
   Kd_tree(InputIterator first, InputIterator beyond,
           Splitter s = Splitter(),const SearchTraits traits=SearchTraits())
-    : traits_(traits), split(s), pts(first, beyond), built_(false), removed_(false)
+    : traits_(traits), split(s), pts(first, beyond), built_(false)
   { }
 
   bool empty() const {
@@ -324,7 +324,7 @@ public:
     // must call invalidate_build() first.
     CGAL_assertion(!is_built());
     CGAL_assertion(!pts.empty());
-    CGAL_assertion(!removed_);
+    CGAL_assertion(removed_==0);
     const Point_d& p = *pts.begin();
     typename SearchTraits::Construct_cartesian_const_iterator_d ccci=traits_.construct_cartesian_const_iterator_d_object();
     dim_ = static_cast<int>(std::distance(ccci(p), ccci(p,0)));
@@ -432,14 +432,14 @@ public:
 
   void invalidate_build()
   {
-    if(removed_){
+    if(removed_!=0){
       // Walk the tree to collect the remaining points.
       // Writing directly to pts would likely work, but better be safe.
       std::vector<Point_d> ptstmp;
       //ptstmp.resize(root()->num_items());
       root()->tree_items(std::back_inserter(ptstmp));
       pts.swap(ptstmp);
-      removed_=false;
+      removed_=0;
       CGAL_assertion(is_built()); // the rest of the cleanup must happen
     }
     if(is_built()){
@@ -455,7 +455,7 @@ public:
   {
     invalidate_build();
     pts.clear();
-    removed_ = false;
+    removed_ = 0;
   }
 
   void
@@ -512,8 +512,8 @@ public:
     CGAL_assertion(success);
 
     // Do not set the flag is the tree has been cleared.
-    if(is_built())
-      removed_ |= success;
+    if(is_built() && success)
+      ++removed_;
   }
 private:
   template<class Equal>
@@ -684,7 +684,7 @@ public:
   size_type
   size() const
   {
-    return pts.size();
+    return pts.size()-removed_;
   }
 
   // Print statistics of the tree.

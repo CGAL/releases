@@ -3,7 +3,7 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6/Nef_3/include/CGAL/draw_nef_3.h $
+// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Nef_3/include/CGAL/draw_nef_3.h $
 // $Id: draw_nef_3.h afb4ac6 2023-04-14T09:52:28+02:00 Guillaume Damiand
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //

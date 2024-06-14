@@ -3,7 +3,7 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6/Alpha_wrap_3/include/CGAL/Alpha_wrap_3/internal/Triangle_soup_oracle.h $
+// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Alpha_wrap_3/include/CGAL/Alpha_wrap_3/internal/Triangle_soup_oracle.h $
 // $Id: Triangle_soup_oracle.h 7a8f91b 2022-11-01T16:09:26+01:00 Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //

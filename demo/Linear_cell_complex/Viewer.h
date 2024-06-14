@@ -3,7 +3,7 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6/Linear_cell_complex/demo/Linear_cell_complex/Viewer.h $
+// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Linear_cell_complex/demo/Linear_cell_complex/Viewer.h $
 // $Id: Viewer.h 999a813 2022-05-05T13:34:19+02:00 Guillaume Damiand
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //

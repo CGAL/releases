@@ -4,7 +4,7 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6/Surface_mesh/include/CGAL/Surface_mesh/Properties.h $
+// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Surface_mesh/include/CGAL/Surface_mesh/Properties.h $
 // $Id: Properties.h 2c7f775 2023-01-30T20:47:18+00:00 Giles Bathgate
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //

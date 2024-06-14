@@ -3,7 +3,7 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6/Polyhedron/demo/Polyhedron/Plugins/Mesh_3/Mesh_function.h $
+// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Polyhedron/demo/Polyhedron/Plugins/Mesh_3/Mesh_function.h $
 // $Id: Mesh_function.h 73a7d4f 2023-05-05T09:17:33+02:00 Jane Tournois
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //

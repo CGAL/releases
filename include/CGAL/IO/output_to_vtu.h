@@ -5,7 +5,7 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6/SMDS_3/include/CGAL/IO/output_to_vtu.h $
+// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/SMDS_3/include/CGAL/IO/output_to_vtu.h $
 // $Id: output_to_vtu.h fb9f59d 2023-05-30T16:35:10+10:00 Rebecca Dengate
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //

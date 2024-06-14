@@ -4,7 +4,7 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6/SMDS_3/include/CGAL/Mesh_complex_3_in_triangulation_3.h $
+// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/SMDS_3/include/CGAL/Mesh_complex_3_in_triangulation_3.h $
 // $Id: Mesh_complex_3_in_triangulation_3.h e8e3eaa 2023-02-21T11:05:30+01:00 Jane Tournois
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //

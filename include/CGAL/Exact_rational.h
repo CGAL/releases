@@ -7,7 +7,7 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6/Number_types/include/CGAL/Exact_rational.h $
+// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Number_types/include/CGAL/Exact_rational.h $
 // $Id: Exact_rational.h e46196d 2023-07-12T13:40:24+02:00 Sébastien Loriot
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //

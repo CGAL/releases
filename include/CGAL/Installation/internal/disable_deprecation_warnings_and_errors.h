@@ -2,7 +2,7 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6/Installation/include/CGAL/Installation/internal/disable_deprecation_warnings_and_errors.h $
+// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Installation/include/CGAL/Installation/internal/disable_deprecation_warnings_and_errors.h $
 // $Id: disable_deprecation_warnings_and_errors.h 4547818 2022-11-15T13:39:40+01:00 albert-github
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //

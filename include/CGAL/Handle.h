@@ -7,8 +7,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6/STL_Extension/include/CGAL/Handle.h $
-// $Id: Handle.h 2923eff 2022-09-02T11:33:07+02:00 Laurent Rineau
+// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/STL_Extension/include/CGAL/Handle.h $
+// $Id: Handle.h a8fae00 2023-09-07T10:31:02+02:00 Laurent Rineau
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -18,6 +18,7 @@
 #define CGAL_HANDLE_H
 
 #include <cstddef>
+#include <cstdint>
 #include <atomic>
 #include <CGAL/Handle_for.h>
 #include <CGAL/assertions.h>

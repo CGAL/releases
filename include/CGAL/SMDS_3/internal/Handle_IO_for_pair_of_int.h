@@ -3,7 +3,7 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6/SMDS_3/include/CGAL/SMDS_3/internal/Handle_IO_for_pair_of_int.h $
+// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/SMDS_3/include/CGAL/SMDS_3/internal/Handle_IO_for_pair_of_int.h $
 // $Id: Handle_IO_for_pair_of_int.h 355b52d 2022-03-01T11:30:21+01:00 Jane Tournois
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //

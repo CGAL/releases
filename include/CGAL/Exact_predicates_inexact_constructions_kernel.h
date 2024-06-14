@@ -7,7 +7,7 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6/Kernel_23/include/CGAL/Exact_predicates_inexact_constructions_kernel.h $
+// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Kernel_23/include/CGAL/Exact_predicates_inexact_constructions_kernel.h $
 // $Id: Exact_predicates_inexact_constructions_kernel.h bf114a4 2022-11-22T16:13:35+01:00 Laurent Rineau
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //

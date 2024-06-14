@@ -7,7 +7,7 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6/Number_types/include/CGAL/CORE_Expr.h $
+// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Number_types/include/CGAL/CORE_Expr.h $
 // $Id: CORE_Expr.h e845fb2 2023-04-04T10:44:42+01:00 Andreas Fabri
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //

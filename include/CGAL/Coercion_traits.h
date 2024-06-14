@@ -3,7 +3,7 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6/Algebraic_foundations/include/CGAL/Coercion_traits.h $
+// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Algebraic_foundations/include/CGAL/Coercion_traits.h $
 // $Id: Coercion_traits.h 014c06f 2022-11-14T15:32:47+01:00 albert-github
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //

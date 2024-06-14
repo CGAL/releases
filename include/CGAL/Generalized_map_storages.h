@@ -3,7 +3,7 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6/Generalized_map/include/CGAL/Generalized_map_storages.h $
+// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Generalized_map/include/CGAL/Generalized_map_storages.h $
 // $Id: Generalized_map_storages.h fbd8b8a 2022-07-27T16:28:59+02:00 Sébastien Loriot
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //

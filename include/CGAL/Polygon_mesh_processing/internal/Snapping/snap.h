@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6/Polygon_mesh_processing/include/CGAL/Polygon_mesh_processing/internal/Snapping/snap.h $
-// $Id: snap.h b724def 2023-05-30T19:15:30+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Polygon_mesh_processing/include/CGAL/Polygon_mesh_processing/internal/Snapping/snap.h $
+// $Id: snap.h 5cc58a4 2023-08-17T15:02:48+02:00 Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -134,6 +134,7 @@ void simplify_range(HalfedgeRange& halfedge_range,
     {
       const halfedge_descriptor prev_h = prev(h, tm);
       const halfedge_descriptor next_h = next(h, tm);
+      const halfedge_descriptor prev_oh = prev(opposite(h, tm), tm);
 
       // check that the border has at least 4 edges not to create degenerate volumes
       if(border_size(h, tm) >= 4)
@@ -156,7 +157,7 @@ void simplify_range(HalfedgeRange& halfedge_range,
         bool do_collapse = true;
         for(halfedge_descriptor he : halfedges_around_target(h, tm))
         {
-          if(he != h &&
+          if(he != prev_oh && // ignore the triangle incident to h that will disappear
              !is_border(he, tm) &&
              collinear(get(vpm, source(he, tm)), new_p, get(vpm, target(next(he,tm),tm))))
           {

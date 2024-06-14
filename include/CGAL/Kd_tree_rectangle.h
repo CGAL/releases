@@ -3,7 +3,7 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6/Spatial_searching/include/CGAL/Kd_tree_rectangle.h $
+// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Spatial_searching/include/CGAL/Kd_tree_rectangle.h $
 // $Id: Kd_tree_rectangle.h 1c5454d 2022-10-27T11:42:13+02:00 Laurent Rineau
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //

@@ -3,7 +3,7 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6/Hyperbolic_triangulation_2/demo/Hyperbolic_triangulation_2/include/internal/Qt/HyperbolicVoronoiGraphicsItem.h $
+// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Hyperbolic_triangulation_2/demo/Hyperbolic_triangulation_2/include/internal/Qt/HyperbolicVoronoiGraphicsItem.h $
 // $Id: HyperbolicVoronoiGraphicsItem.h 0251966 2022-09-25T01:45:23+02:00 Mael Rouxel-Labbé
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //

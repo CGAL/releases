@@ -7,7 +7,7 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6/Number_types/include/CGAL/Number_types/internal/Exact_type_selector.h $
+// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Number_types/include/CGAL/Number_types/internal/Exact_type_selector.h $
 // $Id: Exact_type_selector.h 3614612 2023-07-17T15:28:31+02:00 Sébastien Loriot
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //

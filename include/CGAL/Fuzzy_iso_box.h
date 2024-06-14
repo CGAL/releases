@@ -3,7 +3,7 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6/Spatial_searching/include/CGAL/Fuzzy_iso_box.h $
+// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Spatial_searching/include/CGAL/Fuzzy_iso_box.h $
 // $Id: Fuzzy_iso_box.h 37580e9 2022-06-14T11:22:58+02:00 Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //

@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6/Point_set_3/include/CGAL/Point_set_3.h $
-// $Id: Point_set_3.h 9242a81 2023-02-07T11:31:55+01:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Point_set_3/include/CGAL/Point_set_3.h $
+// $Id: Point_set_3.h 32da839 2023-12-14T15:26:44+01:00 Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -75,8 +75,8 @@ namespace internal {
     Point_set_3_index operator++ (int) { Point_set_3_index tmp(*this); ++value; return tmp; }
     Point_set_3_index operator-- (int) { Point_set_3_index tmp(*this); --value; return tmp; }
 };
-/// \endcond
 } // namespace internal
+/// \endcond
 
 /*!
 

@@ -3,7 +3,7 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6/Snap_rounding_2/include/CGAL/Snap_rounding_kd_2.h $
+// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Snap_rounding_2/include/CGAL/Snap_rounding_kd_2.h $
 // $Id: Snap_rounding_kd_2.h c5207cb 2022-11-24T09:54:56+01:00 Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //

@@ -3,7 +3,7 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6/Intersections_3/include/CGAL/Intersections_3/internal/Tetrahedron_3_Triangle_3_intersection.h $
+// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Intersections_3/include/CGAL/Intersections_3/internal/Tetrahedron_3_Triangle_3_intersection.h $
 // $Id: Tetrahedron_3_Triangle_3_intersection.h d896940 2022-09-07T16:08:58+02:00 Sebastien Loriot
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //

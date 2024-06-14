@@ -9,7 +9,7 @@
 //          Andrew Lumsdaine
 //=======================================================================
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6/STL_Extension/include/CGAL/STL_Extension/internal/boost/relaxed_heap.hpp $
+// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/STL_Extension/include/CGAL/STL_Extension/internal/boost/relaxed_heap.hpp $
 // $Id: relaxed_heap.hpp b5c21e1 2022-11-23T18:48:43+01:00 Mael Rouxel-Labbé
 // SPDX-License-Identifier: BSL-1.0
 //

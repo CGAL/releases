@@ -3,7 +3,7 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6/Envelope_3/include/CGAL/Env_surface_data_traits_3.h $
+// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Envelope_3/include/CGAL/Env_surface_data_traits_3.h $
 // $Id: Env_surface_data_traits_3.h 4547818 2022-11-15T13:39:40+01:00 albert-github
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //

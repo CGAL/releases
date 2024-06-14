@@ -3,7 +3,7 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6/Generalized_map/include/CGAL/GMap_cell_iterators.h $
+// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Generalized_map/include/CGAL/GMap_cell_iterators.h $
 // $Id: GMap_cell_iterators.h 861588a 2022-08-03T20:19:51+02:00 Sébastien Loriot
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //

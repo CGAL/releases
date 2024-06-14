@@ -2,7 +2,7 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6/Polynomial/include/CGAL/Polynomial/Algebraic_structure_traits.h $
+// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Polynomial/include/CGAL/Polynomial/Algebraic_structure_traits.h $
 // $Id: Algebraic_structure_traits.h ac8b6d4 2022-06-10T07:59:39+02:00 Sébastien Loriot
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //

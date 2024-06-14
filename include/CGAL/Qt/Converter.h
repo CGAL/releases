@@ -3,7 +3,7 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6/GraphicsView/include/CGAL/Qt/Converter.h $
+// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/GraphicsView/include/CGAL/Qt/Converter.h $
 // $Id: Converter.h 42752d0 2023-03-29T11:39:37-03:00 Luiz Georg
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //

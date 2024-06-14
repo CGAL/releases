@@ -3,7 +3,7 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6/Polygon_mesh_processing/include/CGAL/Polygon_mesh_processing/internal/Smoothing/mesh_smoothing_impl.h $
+// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Polygon_mesh_processing/include/CGAL/Polygon_mesh_processing/internal/Smoothing/mesh_smoothing_impl.h $
 // $Id: mesh_smoothing_impl.h cf07ee9 2023-05-22T10:54:42+02:00 Charles Gueunet
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //

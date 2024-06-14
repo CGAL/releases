@@ -3,7 +3,7 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6/Convex_decomposition_3/include/CGAL/Convex_decomposition_3/External_structure_builder.h $
+// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Convex_decomposition_3/include/CGAL/Convex_decomposition_3/External_structure_builder.h $
 // $Id: External_structure_builder.h 0de5f61 2023-01-18T21:37:59+00:00 Giles Bathgate
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //

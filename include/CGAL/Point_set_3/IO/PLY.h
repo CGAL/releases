@@ -2,7 +2,7 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6/Point_set_3/include/CGAL/Point_set_3/IO/PLY.h $
+// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Point_set_3/include/CGAL/Point_set_3/IO/PLY.h $
 // $Id: PLY.h 1e6519e 2023-05-11T17:28:21+02:00 Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //

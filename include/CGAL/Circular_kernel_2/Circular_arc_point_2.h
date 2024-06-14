@@ -3,7 +3,7 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6/Circular_kernel_2/include/CGAL/Circular_kernel_2/Circular_arc_point_2.h $
+// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Circular_kernel_2/include/CGAL/Circular_kernel_2/Circular_arc_point_2.h $
 // $Id: Circular_arc_point_2.h ac8b6d4 2022-06-10T07:59:39+02:00 Sébastien Loriot
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
