@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Triangulation_3/include/CGAL/Triangulation_hierarchy_3.h $
-// $Id: Triangulation_hierarchy_3.h d3fca65 2022-09-23T12:49:40+01:00 Andreas Fabri
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Triangulation_3/include/CGAL/Triangulation_hierarchy_3.h $
+// $Id: include/CGAL/Triangulation_hierarchy_3.h 50219fc33bc $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Olivier Devillers <Olivier.Devillers@sophia.inria.fr>
@@ -48,7 +48,6 @@
 #include <boost/iterator/zip_iterator.hpp>
 #include <boost/mpl/and.hpp>
 #include <boost/mpl/identity.hpp>
-#include <boost/mpl/if.hpp>
 
 #include <array>
 #include <CGAL/array.h>
@@ -180,7 +179,7 @@ public:
   std::ptrdiff_t
   insert( InputIterator first, InputIterator last,
           std::enable_if_t<
-            boost::is_convertible<
+            std::is_convertible<
                 typename std::iterator_traits<InputIterator>::value_type,
                 Point
             >::value
@@ -317,7 +316,7 @@ public:
   insert( InputIterator first,
           InputIterator last,
           std::enable_if_t<
-            boost::is_convertible<
+            std::is_convertible<
               typename std::iterator_traits<InputIterator>::value_type,
               std::pair<Point,typename internal::Info_check<Vertex>::type>
             >::value >* =nullptr
@@ -331,10 +330,8 @@ public:
   insert( boost::zip_iterator< boost::tuple<InputIterator_1,InputIterator_2> > first,
           boost::zip_iterator< boost::tuple<InputIterator_1,InputIterator_2> > last,
           std::enable_if_t<
-            boost::mpl::and_<
-              boost::is_convertible< typename std::iterator_traits<InputIterator_1>::value_type, Point >,
-              boost::is_convertible< typename std::iterator_traits<InputIterator_2>::value_type, typename internal::Info_check<Vertex>::type >
-            >::value
+              std::is_convertible_v< typename std::iterator_traits<InputIterator_1>::value_type, Point > &&
+              std::is_convertible_v< typename std::iterator_traits<InputIterator_2>::value_type, typename internal::Info_check<Vertex>::type >
           >* =nullptr
   )
   {

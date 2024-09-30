@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Generalized_map/include/CGAL/Generalized_map/internal/Generalized_map_sewable.h $
-// $Id: Generalized_map_sewable.h 999a813 2022-05-05T13:34:19+02:00 Guillaume Damiand
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Generalized_map/include/CGAL/Generalized_map/internal/Generalized_map_sewable.h $
+// $Id: include/CGAL/Generalized_map/internal/Generalized_map_sewable.h 50219fc33bc $
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Guillaume Damiand <guillaume.damiand@liris.cnrs.fr>

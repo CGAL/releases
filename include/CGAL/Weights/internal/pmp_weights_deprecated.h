@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Weights/include/CGAL/Weights/internal/pmp_weights_deprecated.h $
-// $Id: pmp_weights_deprecated.h 72fdfbe 2022-11-08T14:44:57+01:00 Mael Rouxel-Labbé
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Weights/include/CGAL/Weights/internal/pmp_weights_deprecated.h $
+// $Id: include/CGAL/Weights/internal/pmp_weights_deprecated.h 50219fc33bc $
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 //

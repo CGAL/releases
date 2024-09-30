@@ -40,8 +40,8 @@
  * WWW URL: https://cs.nyu.edu/exact/
  * Email: exact@cs.nyu.edu
  *
- * $URL: https://github.com/CGAL/cgal/blob/v5.6.1/CGAL_Core/include/CGAL/CORE/poly/Sturm.h $
- * $Id: Sturm.h 0ff7882 2022-12-06T22:21:06+01:00 Mael
+ * $URL: https://github.com/CGAL/cgal/blob/v6.0/CGAL_Core/include/CGAL/CORE/poly/Sturm.h $
+ * $Id: include/CGAL/CORE/poly/Sturm.h 50219fc33bc $
  * SPDX-License-Identifier: LGPL-3.0-or-later
  ***************************************************************************/
 
@@ -607,8 +607,7 @@ public:
       if (ff == 0) {
         NEWTON_DIV_BY_ZERO = true;
         del = 0;
-        core_error("Zero divisor in Newton Iteration",
-                __FILE__, __LINE__, false);
+        CGAL_CORE_warning_msg(false, "Zero divisor in Newton Iteration");
         return 0;
       }
 
@@ -680,8 +679,7 @@ public:
       stepsize++; // heuristic
     } while ((del != 0) && ((del.uMSB() >= -prec) && (count >0))) ;
 
-    if (count == 0) core_error("newtonIterE: reached count=0",
-                            __FILE__, __LINE__, true);
+    CGAL_assertion_msg(count != 0, "newtonIterE: reached count=0");
     del = BigFloat(core_abs(del.m()), err, del.exp() );
     del.makeCeilExact();
     return val;

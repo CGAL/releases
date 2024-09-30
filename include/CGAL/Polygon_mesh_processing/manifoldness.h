@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Polygon_mesh_processing/include/CGAL/Polygon_mesh_processing/manifoldness.h $
-// $Id: manifoldness.h 550d86c 2022-11-22T10:48:27+01:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Polygon_mesh_processing/include/CGAL/Polygon_mesh_processing/manifoldness.h $
+// $Id: include/CGAL/Polygon_mesh_processing/manifoldness.h 50219fc33bc $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Sebastien Loriot,
@@ -58,9 +58,7 @@ bool is_non_manifold_vertex(typename boost::graph_traits<PolygonMesh>::vertex_de
   typedef typename boost::property_map<PolygonMesh, Halfedge_property_tag>::const_type  Visited_halfedge_map;
 
   // Dynamic pmaps do not have default initialization values (yet)
-  Visited_halfedge_map visited_halfedges = get(Halfedge_property_tag(), pm);
-  for(halfedge_descriptor h : halfedges(pm))
-    put(visited_halfedges, h, false);
+  Visited_halfedge_map visited_halfedges = get(Halfedge_property_tag(), pm, false);
 
   std::size_t incident_null_faces_counter = 0;
   for(halfedge_descriptor h : halfedges_around_target(v, pm))
@@ -324,20 +322,11 @@ OutputIterator non_manifold_vertices(const PolygonMesh& pm,
   typedef CGAL::dynamic_halfedge_property_t<bool>                                       Halfedge_property_tag;
   typedef typename boost::property_map<PolygonMesh, Halfedge_property_tag>::const_type  Visited_halfedge_map;
 
-  Known_manifold_vertex_map known_nm_vertices = get(Vertex_bool_tag(), pm);
-  Visited_vertex_map visited_vertices = get(Vertex_halfedge_tag(), pm);
-  Visited_halfedge_map visited_halfedges = get(Halfedge_property_tag(), pm);
-
   halfedge_descriptor null_h = boost::graph_traits<PolygonMesh>::null_halfedge();
 
-  // Dynamic pmaps do not have default initialization values (yet)
-  for(vertex_descriptor v : vertices(pm))
-  {
-    put(known_nm_vertices, v, false);
-    put(visited_vertices, v, null_h);
-  }
-  for(halfedge_descriptor h : halfedges(pm))
-    put(visited_halfedges, h, false);
+  Known_manifold_vertex_map known_nm_vertices = get(Vertex_bool_tag(), pm, false);
+  Visited_vertex_map visited_vertices = get(Vertex_halfedge_tag(), pm, null_h);
+  Visited_halfedge_map visited_halfedges = get(Halfedge_property_tag(), pm, false);
 
   for(halfedge_descriptor h : halfedges(pm))
   {

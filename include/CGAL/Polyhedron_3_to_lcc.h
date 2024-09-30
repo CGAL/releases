@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Polyhedron/include/CGAL/Polyhedron_3_to_lcc.h $
-// $Id: Polyhedron_3_to_lcc.h 4547818 2022-11-15T13:39:40+01:00 albert-github
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Polyhedron/include/CGAL/Polyhedron_3_to_lcc.h $
+// $Id: include/CGAL/Polyhedron_3_to_lcc.h 50219fc33bc $
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Guillaume Damiand <guillaume.damiand@liris.cnrs.fr>
@@ -12,6 +12,9 @@
 
 #ifndef CGAL_POLYHEDRON_3_TO_LCC_H
 #define CGAL_POLYHEDRON_3_TO_LCC_H
+
+#include <CGAL/license/Polyhedron.h>
+
 
 #include <CGAL/Polyhedron_3.h>
 #include <CGAL/assertions.h>
@@ -30,7 +33,7 @@ namespace CGAL {
   typename LCC::Dart_descriptor import_from_polyhedron_3(LCC& alcc,
                                                      const Polyhedron &apoly)
   {
-    CGAL_static_assertion( LCC::dimension>=2 && LCC::ambient_dimension==3 );
+    static_assert( LCC::dimension>=2 && LCC::ambient_dimension==3 );
 
     typedef typename Polyhedron::Halfedge_const_handle  Halfedge_handle;
     typedef typename Polyhedron::Facet_const_iterator   Facet_iterator;

@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Apollonius_graph_2/include/CGAL/Parabola_segment_2.h $
-// $Id: Parabola_segment_2.h 0779373 2020-03-26T13:31:46+01:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Apollonius_graph_2/include/CGAL/Parabola_segment_2.h $
+// $Id: include/CGAL/Parabola_segment_2.h 50219fc33bc $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -27,7 +27,7 @@ namespace Qt {
 }
 
 template < class Gt >
-class Parabola_segment_2 : public Parabola_2< Gt >
+struct Parabola_segment_2 : public Parabola_2< Gt >
 {
   typedef CGAL::Parabola_2<Gt>            Base;
   typedef typename Base::Site_2           Site_2;
@@ -39,10 +39,10 @@ class Parabola_segment_2 : public Parabola_2< Gt >
   using Base::t;
   using Base::f;
 
-protected:
+
   Point_2 p1, p2;
 
-public:
+
   Parabola_segment_2() : Parabola_2< Gt >() {}
 
   template<class ApolloniusSite>

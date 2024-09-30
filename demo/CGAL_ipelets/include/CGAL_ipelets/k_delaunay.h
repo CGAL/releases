@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/CGAL_ipelets/demo/CGAL_ipelets/include/CGAL_ipelets/k_delaunay.h $
-// $Id: k_delaunay.h 7a62583 2022-11-14T19:14:33+01:00 albert-github
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/CGAL_ipelets/demo/CGAL_ipelets/include/CGAL_ipelets/k_delaunay.h $
+// $Id: demo/CGAL_ipelets/include/CGAL_ipelets/k_delaunay.h 50219fc33bc $
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -30,17 +30,17 @@ void k_delaunay(Regular& rt,input_DS& input_wpt,int order){
   typedef typename Kernel::Point_2 Point_2;
   typedef typename Kernel::Weighted_point_2  Weighted_point_2;
 
-  std::vector<typename input_DS::iterator> Current_sel;//DS that will contain all possible combinaisons of k points (iterator), where k is the order
+  std::vector<typename input_DS::iterator> Current_sel;//DS that will contain all possible combinations of k points (iterator), where k is the order
   typename input_DS::iterator it_wpt = input_wpt.begin();
   typename input_DS::iterator stop_combi = input_wpt.end();
   for(int i=0;i<order-1;++i){       //First fill the DS with the k fist wpoints
-    Current_sel.push_back(it_wpt);//Useful to know when all combinaisons have been treated
+    Current_sel.push_back(it_wpt);//Useful to know when all combinations have been treated
     ++it_wpt;
   }
   --it_wpt;
   Current_sel.push_back(it_wpt);
 
-  for(int i=0;i<order;++i){    //Fix end point for combinaison searching
+  for(int i=0;i<order;++i){    //Fix end point for combination searching
     --stop_combi;
   }
   do{

@@ -2,8 +2,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Straight_skeleton_2/include/CGAL/Straight_skeleton_2/Polygon_iterators.h $
-// $Id: Polygon_iterators.h 15c674d 2023-02-14T14:59:10+01:00 Mael Rouxel-Labbé
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Straight_skeleton_2/include/CGAL/Straight_skeleton_2/Polygon_iterators.h $
+// $Id: include/CGAL/Straight_skeleton_2/Polygon_iterators.h 50219fc33bc $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Fernando Cacciola <fernando_cacciola@ciudad.com.ar>
@@ -15,7 +15,7 @@
 
 #include <CGAL/Straight_skeleton_2/Straight_skeleton_aux.h>
 
-#include <boost/shared_ptr.hpp>
+#include <memory>
 
 #include <type_traits>
 
@@ -37,13 +37,13 @@ vertices_end(const Poly& aPoly,
 
 template <typename Poly>
 inline typename Poly::const_iterator
-vertices_begin(const boost::shared_ptr<Poly>& aPoly,
+vertices_begin(const std::shared_ptr<Poly>& aPoly,
                std::enable_if_t<!has_Hole_const_iterator<Poly>::value>* = nullptr)
 { return aPoly->begin(); }
 
 template <typename Poly>
 inline typename Poly::const_iterator
-vertices_end(const boost::shared_ptr<Poly> & aPoly,
+vertices_end(const std::shared_ptr<Poly> & aPoly,
              std::enable_if_t<!has_Hole_const_iterator<Poly>::value>* = nullptr)
 { return aPoly->end(); }
 
@@ -62,13 +62,13 @@ vertices_end(const PolyWithHoles& aPoly,
 
 template <typename PolyWithHoles>
 inline typename PolyWithHoles::Polygon_2::const_iterator
-vertices_begin(const boost::shared_ptr<PolyWithHoles>& aPoly,
+vertices_begin(const std::shared_ptr<PolyWithHoles>& aPoly,
                std::enable_if_t<has_Hole_const_iterator<PolyWithHoles>::value>* = nullptr)
 { return aPoly->outer_boundary().begin(); }
 
 template <typename PolyWithHoles>
 inline typename PolyWithHoles::Polygon_2::const_iterator
-vertices_end(const boost::shared_ptr<PolyWithHoles>& aPoly,
+vertices_end(const std::shared_ptr<PolyWithHoles>& aPoly,
              std::enable_if_t<has_Hole_const_iterator<PolyWithHoles>::value>* = nullptr)
 { return aPoly->outer_boundary().end(); }
 

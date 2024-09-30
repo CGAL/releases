@@ -2,8 +2,8 @@
 //
 // This file is part of CGAL (www.cgal.org);
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Stream_support/include/CGAL/IO/PLY/PLY_writer.h $
-// $Id: PLY_writer.h 32078f1 2024-01-26T14:35:26+00:00 Andreas Fabri
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Stream_support/include/CGAL/IO/PLY/PLY_writer.h $
+// $Id: include/CGAL/IO/PLY/PLY_writer.h 50219fc33bc $
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Simon Giraudot

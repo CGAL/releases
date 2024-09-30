@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Polygon_mesh_processing/include/CGAL/Polygon_mesh_processing/random_perturbation.h $
-// $Id: random_perturbation.h e8c5de5 2022-10-06T15:37:03+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Polygon_mesh_processing/include/CGAL/Polygon_mesh_processing/random_perturbation.h $
+// $Id: include/CGAL/Polygon_mesh_processing/random_perturbation.h 50219fc33bc $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -23,7 +23,7 @@
 #include <CGAL/boost/graph/named_params_helper.h>
 
 #include <CGAL/AABB_tree.h>
-#include <CGAL/AABB_traits.h>
+#include <CGAL/AABB_traits_3.h>
 #include <CGAL/AABB_face_graph_triangle_primitive.h>
 
 #include <CGAL/Random.h>
@@ -67,7 +67,7 @@ namespace internal {
     typedef typename GT::Point_3    Point_3;
 
     typedef CGAL::AABB_face_graph_triangle_primitive<PM> Primitive;
-    typedef CGAL::AABB_traits<GT, Primitive> Traits;
+    typedef CGAL::AABB_traits_3<GT, Primitive> Traits;
     typedef CGAL::AABB_tree<Traits> Tree;
 
     Tree tree;

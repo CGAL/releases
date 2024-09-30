@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Nef_2/include/CGAL/Nef_2/gen_point_location.h $
-// $Id: gen_point_location.h f79d8bb 2022-11-30T10:31:13+01:00 albert-github
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Nef_2/include/CGAL/Nef_2/gen_point_location.h $
+// $Id: include/CGAL/Nef_2/gen_point_location.h 50219fc33bc $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -27,7 +27,7 @@
 #ifdef CGAL_I_DO_WANT_TO_USE_GENINFO
 #include <CGAL/Nef_2/geninfo.h>
 #else
-#include <boost/any.hpp>
+#include <any>
 #endif
 
 
@@ -55,7 +55,7 @@ class GenericLocation {
   #ifdef CGAL_I_DO_WANT_TO_USE_GENINFO
   typedef void*  GenPtr;
   #else
-  typedef boost::any GenPtr;
+  typedef std::any GenPtr;
   #endif
 public:
 /*{\Mtypes}*/
@@ -89,7 +89,7 @@ public:
       return geninfo<Node>::const_access(value);
       #else
       return
-        *boost::any_cast<Node>(&value);
+        *std::any_cast<Node>(&value);
       #endif
     }
     /*{\Mconversion converts |\Mvar| into a node.\\
@@ -105,7 +105,7 @@ public:
       return geninfo<Edge>::const_access(value);
       #else
       return
-        *boost::any_cast<Edge>(&value);
+        *std::any_cast<Edge>(&value);
       #endif
     }
     /*{\Mconversion converts |\Mvar| into an edge.\\
@@ -159,8 +159,8 @@ public:
        case NODE: geninfo<Node>::clear(value); break;
        case EDGE: geninfo<Edge>::clear(value); break;
       #else
-       case NODE: value=boost::any(); break;
-       case EDGE: value=boost::any(); break;
+       case NODE: value=std::any(); break;
+       case EDGE: value=std::any(); break;
       #endif
        case NIL: break;
       }
@@ -174,14 +174,14 @@ public:
         #ifdef CGAL_I_DO_WANT_TO_USE_GENINFO
          geninfo<Node>::access(value) = geninfo<Node>::const_access(L.value);
         #else
-         *boost_any_cast<Node>(&value) = boost::any_cast<Node>(L.value);
+         *boost_any_cast<Node>(&value) = std::any_cast<Node>(L.value);
         #endif
          break;
        case EDGE:
         #ifdef CGAL_I_DO_WANT_TO_USE_GENINFO
          geninfo<Edge>::access(value) = geninfo<Edge>::const_access(L.value);
         #else
-         *boost::any_cast<Edge>(&value) = boost::any_cast<Edge>(L.value);
+         *std::any_cast<Edge>(&value) = std::any_cast<Edge>(L.value);
         #endif
          break;
        case NIL: break;

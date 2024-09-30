@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Point_set_processing_3/include/CGAL/bilateral_smooth_point_set.h $
-// $Id: bilateral_smooth_point_set.h 9e137bc 2023-01-31T12:26:55+01:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Point_set_processing_3/include/CGAL/bilateral_smooth_point_set.h $
+// $Id: include/CGAL/bilateral_smooth_point_set.h 50219fc33bc $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s) : Shihao Wu, Clement Jamin, Pierre Alliez

@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Polynomial/include/CGAL/polynomial_utils.h $
-// $Id: polynomial_utils.h 0779373 2020-03-26T13:31:46+01:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Polynomial/include/CGAL/polynomial_utils.h $
+// $Id: include/CGAL/polynomial_utils.h 50219fc33bc $
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -197,6 +197,14 @@ square_free_factorize(const Polynomial_d& p, OutputIterator oi){
   typedef Polynomial_traits_d<Polynomial_d> PT;
   return typename PT::Square_free_factorize()(p,oi);
 }
+
+template <typename Polynomial_d, typename OutputIterator>  inline
+OutputIterator
+square_free_factorize(const Polynomial_d& p, OutputIterator oi, const typename Polynomial_traits_d<Polynomial_d>::Innermost_coefficient_type& a){
+  typedef Polynomial_traits_d<Polynomial_d> PT;
+  return typename PT::Square_free_factorize()(p,oi,a);
+}
+
 // MakeSquareFree
 CGAL_UNARY_POLY_FUNCTION(Make_square_free, make_square_free)
 // IsSquareFree

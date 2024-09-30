@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Arrangement_on_surface_2/include/CGAL/Arrangement_2/Arr_on_surface_with_history_2_impl.h $
-// $Id: Arr_on_surface_with_history_2_impl.h 0779373 2020-03-26T13:31:46+01:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Arrangement_on_surface_2/include/CGAL/Arrangement_2/Arr_on_surface_with_history_2_impl.h $
+// $Id: include/CGAL/Arrangement_2/Arr_on_surface_with_history_2_impl.h 50219fc33bc $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -112,7 +112,7 @@ assign(const Self& arr)
   }
 
   // Go over the list of halfedges in our arrangement. The curves associated
-  // with these edges sotre pointers to the curves in the original
+  // with these edges store pointers to the curves in the original
   // arrangement, so we now have to modify these pointers, according to the
   // mapping we have just created. While doing so, we also construct the set
   // of edges associated with each (duplicated) curve in our arrangement.
@@ -271,29 +271,6 @@ bool Arrangement_on_surface_with_history_2<GeomTr,TopTr>::are_mergeable
   // Check whether the curves associated with the two edges are mergeable.
   return (this->m_geom_traits->are_mergeable_2_object()(e1->curve(),
                                                         e2->curve()));
-}
-
-//-----------------------------------------------------------------------------
-// Register a new observer (so it starts receiving notifications).
-//
-template<class GeomTr, class TopTr>
-void Arrangement_on_surface_with_history_2<GeomTr,TopTr>::
-_register_observer(Arr_observer<Self> *p_obs)
-{
-  Base_arr_2::_register_observer
-    (reinterpret_cast<Arr_observer<Base_arr_2>*>(p_obs));
-  return;
-}
-
-//-----------------------------------------------------------------------------
-// Unregister an observer (so it stops receiving notifications).
-//
-template<class GeomTr, class TopTr>
-bool Arrangement_on_surface_with_history_2<GeomTr,TopTr>::
-_unregister_observer(Arr_observer<Self> *p_obs)
-{
-  return (Base_arr_2::_unregister_observer
-          (reinterpret_cast<Arr_observer<Base_arr_2>*>(p_obs)));
 }
 
 } //namespace CGAL

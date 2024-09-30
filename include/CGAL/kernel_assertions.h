@@ -7,8 +7,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Kernel_23/include/CGAL/kernel_assertions.h $
-// $Id: kernel_assertions.h d3fca65 2022-09-23T12:49:40+01:00 Andreas Fabri
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Kernel_23/include/CGAL/kernel_assertions.h $
+// $Id: include/CGAL/kernel_assertions.h 50219fc33bc $
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 //

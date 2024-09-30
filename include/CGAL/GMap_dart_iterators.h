@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Generalized_map/include/CGAL/GMap_dart_iterators.h $
-// $Id: GMap_dart_iterators.h 999a813 2022-05-05T13:34:19+02:00 Guillaume Damiand
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Generalized_map/include/CGAL/GMap_dart_iterators.h $
+// $Id: include/CGAL/GMap_dart_iterators.h 50219fc33bc $
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Guillaume Damiand <guillaume.damiand@liris.cnrs.fr>
@@ -96,7 +96,7 @@ namespace CGAL {
 
     typedef Tag_false Use_mark;      ///< True iff this iterator uses mark
 
-    CGAL_static_assertion( Ai>=0 && Ai<=Map::dimension );
+    static_assert( Ai>=0 && Ai<=Map::dimension );
 
   public:
     /// Main constructor.
@@ -154,7 +154,7 @@ namespace CGAL {
     typedef Tag_false Use_mark;      ///< True iff this iterator uses mark
     typedef Tag_true Basic_iterator; ///< True iff this iterator is basic
 
-    CGAL_static_assertion( (0<=Ai && Ai+delta<=Map::dimension && delta>1) );
+    static_assert(0<=Ai && Ai+delta<=Map::dimension && delta>1);
 
   public:
     /// Main constructor.
@@ -269,7 +269,7 @@ namespace CGAL {
     typedef Tag_false Use_mark;      ///< True iff this iterator uses mark
     typedef Tag_true Basic_iterator; ///< True iff this iterator is basic
 
-    CGAL_static_assertion(0<=Ai && Ai+1<=Map_::dimension);
+    static_assert(0<=Ai && Ai+1<=Map_::dimension);
 
   public:
     /// Main constructor.
@@ -468,9 +468,9 @@ namespace CGAL {
     typedef Tag_false Use_mark;      ///< True iff this iterator uses mark
     typedef Tag_true Basic_iterator; ///< True iff this iterator is basic
 
-    CGAL_static_assertion( (0<=Ai && delta1<delta2 &&
+    static_assert(0<=Ai && delta1<delta2 &&
                             Ai+delta2<=Map::dimension &&
-                            delta1>1) );
+                            delta1>1);
 
   public:
     /// Main constructor.
@@ -508,7 +508,7 @@ namespace CGAL {
 
     typedef Tag_true Basic_iterator; ///< True iff this iterator is basic
 
-    CGAL_static_assertion( Ai<Aj && Aj<Ak && Ak<=Map::dimension );
+    static_assert( Ai<Aj && Aj<Ak && Ak<=Map::dimension );
 
   public:
     /// Main constructor.
@@ -590,7 +590,7 @@ namespace CGAL {
     typedef Tag_true Use_mark; ///< True iff this iterator uses mark
     typedef Tag_true Basic_iterator; ///< True iff this iterator is basic
 
-    CGAL_static_assertion( i>=0 && i<=Map::dimension+1 );
+    static_assert( i>=0 && i<=Map::dimension+1 );
 
   public:
     /// Main constructor.

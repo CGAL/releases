@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Polygon_mesh_processing/include/CGAL/Polygon_mesh_processing/smooth_shape.h $
-// $Id: smooth_shape.h 4a5ada0 2023-02-23T11:35:12+00:00 Andreas Fabri
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Polygon_mesh_processing/include/CGAL/Polygon_mesh_processing/smooth_shape.h $
+// $Id: include/CGAL/Polygon_mesh_processing/smooth_shape.h 50219fc33bc $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -154,11 +154,11 @@ void smooth_shape(const FaceRange& faces,
 #endif
 
 #if defined(CGAL_EIGEN3_ENABLED)
-  CGAL_static_assertion_msg(
+  static_assert(
       (!std::is_same<typename GetSolver<NamedParameters, Default_solver>::type, bool>::value) || EIGEN_VERSION_AT_LEAST(3, 2, 0),
       "Eigen3 version 3.2 or later is required.");
 #else
-  CGAL_static_assertion_msg(
+  static_assert(
       (!std::is_same<typename GetSolver<NamedParameters, Default_solver>::type, bool>::value),
       "Eigen3 version 3.2 or later is required.");
 #endif

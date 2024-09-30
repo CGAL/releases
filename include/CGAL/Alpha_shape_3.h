@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Alpha_shapes_3/include/CGAL/Alpha_shape_3.h $
-// $Id: Alpha_shape_3.h 014c06f 2022-11-14T15:32:47+01:00 albert-github
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Alpha_shapes_3/include/CGAL/Alpha_shape_3.h $
+// $Id: include/CGAL/Alpha_shape_3.h 50219fc33bc $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Tran Kai Frank DA <Frank.Da@sophia.inria.fr>
@@ -97,7 +97,7 @@ public:
   // because the periodic triangulations' point() function returns a temporary
   // value while the lazy predicate evaluations that are used when the Exact tag
   // is set to true rely on a permanent and safe access to the points.
-  CGAL_static_assertion(
+  static_assert(
    (std::is_same<ExactAlphaComparisonTag, Tag_false>::value) ||
    (std::is_same<typename Dt::Periodic_tag, Tag_false>::value));
 
@@ -108,8 +108,8 @@ public:
   typedef typename Gt::FT Coord_type;
 
   //checks whether tags are correctly set in Vertex and Cell classes
-  CGAL_static_assertion( (std::is_same<NT,typename Dt::Cell::NT>::value) );
-  CGAL_static_assertion( (std::is_same<NT,typename Dt::Vertex::Alpha_status::NT>::value) );
+  static_assert(std::is_same<NT,typename Dt::Cell::NT>::value);
+  static_assert(std::is_same<NT,typename Dt::Vertex::Alpha_status::NT>::value);
 
   typedef typename Dt::Point Point;
 

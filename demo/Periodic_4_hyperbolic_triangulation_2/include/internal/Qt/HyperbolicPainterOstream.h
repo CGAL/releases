@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Periodic_4_hyperbolic_triangulation_2/demo/Periodic_4_hyperbolic_triangulation_2/include/internal/Qt/HyperbolicPainterOstream.h $
-// $Id: HyperbolicPainterOstream.h 0779373 2020-03-26T13:31:46+01:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Periodic_4_hyperbolic_triangulation_2/demo/Periodic_4_hyperbolic_triangulation_2/include/internal/Qt/HyperbolicPainterOstream.h $
+// $Id: demo/Periodic_4_hyperbolic_triangulation_2/include/internal/Qt/HyperbolicPainterOstream.h 50219fc33bc $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Mikhail Bogdanov
@@ -77,12 +77,12 @@ public:
   using Base::operator <<;
 
   PainterOstream& operator << (Hyperbolic_segment_2 s) {
-    if(const Euclidean_segment_2* seg = boost::get<Euclidean_segment_2>(&s)) {
+    if(const Euclidean_segment_2* seg = std::get_if<Euclidean_segment_2>(&s)) {
     CGAL::Qt::PainterOstream<K>::operator << (*seg);
     return *this;
     }
 
-    Circular_arc_2* arc = boost::get<Circular_arc_2>(&s);
+    Circular_arc_2* arc = std::get_if<Circular_arc_2>(&s);
 
     if(arc->squared_radius() > 100) {
       Euclidean_segment_2 seg(arc->source(), arc->target());

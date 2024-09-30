@@ -7,8 +7,8 @@
 //
 // This file is part of CGAL (www.cgal.org);
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Stream_support/include/CGAL/IO/OFF/File_header_OFF.h $
-// $Id: File_header_OFF.h 4547818 2022-11-15T13:39:40+01:00 albert-github
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Stream_support/include/CGAL/IO/OFF/File_header_OFF.h $
+// $Id: include/CGAL/IO/OFF/File_header_OFF.h 50219fc33bc $
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 //

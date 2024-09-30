@@ -2,8 +2,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Straight_skeleton_2/include/CGAL/Polygon_offset_builder_traits_2.h $
-// $Id: Polygon_offset_builder_traits_2.h a0ed893 2023-03-27T12:54:56+02:00 Mael Rouxel-Labbé
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Straight_skeleton_2/include/CGAL/Polygon_offset_builder_traits_2.h $
+// $Id: include/CGAL/Polygon_offset_builder_traits_2.h 50219fc33bc $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Fernando Cacciola <fernando_cacciola@ciudad.com.ar>
@@ -18,7 +18,7 @@
 #include <CGAL/predicates/Polygon_offset_pred_ftC2.h>
 #include <CGAL/constructions/Polygon_offset_cons_ftC2.h>
 
-#include <boost/optional/optional.hpp>
+#include <optional>
 
 namespace CGAL {
 
@@ -50,7 +50,7 @@ struct Construct_offset_point_2 : Functor_base_2<K>
   typedef typename Base::Segment_2_with_ID Segment_2_with_ID ;
   typedef typename Base::Trisegment_2_ptr Trisegment_2_ptr ;
 
-  typedef boost::optional<Point_2> result_type ;
+  typedef std::optional<Point_2> result_type ;
 
   result_type operator() ( FT                const& aT
                          , Segment_2_with_ID const& aE0

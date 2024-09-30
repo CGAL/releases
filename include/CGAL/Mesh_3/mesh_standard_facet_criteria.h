@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Mesh_3/include/CGAL/Mesh_3/mesh_standard_facet_criteria.h $
-// $Id: mesh_standard_facet_criteria.h d7843a2 2022-12-14T17:05:57+01:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Mesh_3/include/CGAL/Mesh_3/mesh_standard_facet_criteria.h $
+// $Id: include/CGAL/Mesh_3/mesh_standard_facet_criteria.h 50219fc33bc $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -102,14 +102,14 @@ protected:
     CGAL_assertion (f.first->is_facet_on_surface(f.second));
     CGAL_assertion (B_ != 0);
 
-    typedef typename Tr::Geom_traits      Gt;
+    typedef typename Tr::Geom_traits      GT;
     typedef typename Tr::Bare_point       Bare_point;
     typedef typename Tr::Weighted_point   Weighted_point;
 
-    typedef typename Gt::Compute_squared_area_3     Area;
-    typedef typename Gt::Compute_squared_distance_3 Distance;
-    typedef typename Gt::Construct_point_3          Construct_point_3;
-    typedef typename Gt::Construct_triangle_3       Construct_triangle_3;
+    typedef typename GT::Compute_squared_area_3     Area;
+    typedef typename GT::Compute_squared_distance_3 Distance;
+    typedef typename GT::Construct_point_3          Construct_point_3;
+    typedef typename GT::Construct_triangle_3       Construct_triangle_3;
 
     Area area = tr.geom_traits().compute_squared_area_3_object();
     Distance distance = tr.geom_traits().compute_squared_distance_3_object();
@@ -127,7 +127,7 @@ protected:
     const FT d12 = distance(p1,p2);
     const FT d13 = distance(p1,p3);
     const FT d23 = distance(p2,p3);
-    const FT min_d123 = details::min_3<Gt>(d12,d13,d23);
+    const FT min_d123 = details::min_3<GT>(d12,d13,d23);
 
     const FT aspect_ratio = 4 * triangle_area * min_d123 / (d12*d13*d23);
 
@@ -193,11 +193,11 @@ protected:
     CGAL_assertion(f.first->is_facet_on_surface(f.second));
     CGAL_assertion (B_ != 0);
 
-    typedef typename Tr::Geom_traits    Gt;
+    typedef typename Tr::Geom_traits    GT;
     typedef typename Tr::Weighted_point Weighted_point;
     typedef typename Tr::Bare_point Bare_point;
 
-    typename Gt::Construct_weighted_circumcenter_3 weighted_circumcenter =
+    typename GT::Construct_weighted_circumcenter_3 weighted_circumcenter =
         tr.geom_traits().construct_weighted_circumcenter_3_object();
 
     const Weighted_point& p1 = tr.point(f.first, (f.second+1)&3);
@@ -264,11 +264,11 @@ protected:
   {
     CGAL_assertion (f.first->is_facet_on_surface(f.second));
 
-    typedef typename Tr::Geom_traits    Gt;
+    typedef typename Tr::Geom_traits    GT;
     typedef typename Tr::Weighted_point Weighted_point;
     typedef typename Tr::Bare_point Bare_point;
 
-    typename Gt::Construct_weighted_circumcenter_3 weighted_circumcenter =
+    typename GT::Construct_weighted_circumcenter_3 weighted_circumcenter =
       tr.geom_traits().construct_weighted_circumcenter_3_object();
 
     const Weighted_point& p1 = tr.point(f.first, (f.second+1)&3);
@@ -346,11 +346,11 @@ protected:
   {
     CGAL_assertion (f.first->is_facet_on_surface(f.second));
 
-    typedef typename Tr::Geom_traits    Gt;
+    typedef typename Tr::Geom_traits    GT;
     typedef typename Tr::Bare_point     Bare_point;
     typedef typename Tr::Weighted_point Weighted_point;
 
-    typename Gt::Construct_point_3 cp = tr.geom_traits().construct_point_3_object();
+    typename GT::Construct_point_3 cp = tr.geom_traits().construct_point_3_object();
 
     const Weighted_point& wp1 = tr.point(f.first, (f.second+1)&3);
     const Bare_point& p1 = cp(wp1);
@@ -426,11 +426,11 @@ protected:
     CGAL_assertion (f.first->is_facet_on_surface(f.second));
     CGAL_assertion (B_ != 0);
 
-    typedef typename Tr::Geom_traits        Gt;
+    typedef typename Tr::Geom_traits        GT;
     typedef typename Tr::Bare_point         Bare_point;
     typedef typename Tr::Weighted_point     Weighted_point;
 
-    typename Gt::Construct_point_3 cp = tr.geom_traits().construct_point_3_object();
+    typename GT::Construct_point_3 cp = tr.geom_traits().construct_point_3_object();
 
     const Weighted_point& wp1 = tr.point(f.first, (f.second+1)&3);
     const Bare_point p1 = cp(wp1);
@@ -653,8 +653,8 @@ class Facet_criterion_visitor_with_features
   typedef Mesh_3::Criterion_visitor<Tr, typename Tr::Facet> Base;
   typedef Facet_criterion_visitor_with_features<Tr> Self;
 
-  typedef typename Tr::Geom_traits  Gt;
-  typedef typename Gt::FT           FT;
+  typedef typename Tr::Geom_traits  GT;
+  typedef typename GT::FT           FT;
 
 public:
   typedef typename Base::Quality  Facet_quality;
@@ -672,15 +672,15 @@ public:
     , angle_ratio_(0.5*0.5*4.)
     , size_ratio_(0.4*0.4*4.)
   {
-    typedef typename Tr::Geom_traits    Gt;
+    typedef typename Tr::Geom_traits    GT;
     typedef typename Tr::Weighted_point Weighted_point;
     typedef typename Tr::Cell_handle    Cell_handle;
 
-    typename Gt::Compute_squared_radius_smallest_orthogonal_sphere_3 sq_radius =
+    typename GT::Compute_squared_radius_smallest_orthogonal_sphere_3 sq_radius =
       tr.geom_traits().compute_squared_radius_smallest_orthogonal_sphere_3_object();
-    typename Gt::Compute_weight_3 cw =
+    typename GT::Compute_weight_3 cw =
       tr.geom_traits().compute_weight_3_object();
-    typename Gt::Compare_weighted_squared_radius_3 compare =
+    typename GT::Compare_weighted_squared_radius_3 compare =
       tr.geom_traits().compare_weighted_squared_radius_3_object();
 
     const Cell_handle& c = fh.first;
@@ -817,8 +817,8 @@ class Facet_criterion_visitor_with_radius_lower_bound
   typedef Facet_criterion_visitor_with_features<Tr> Base;
   typedef Facet_criterion_visitor_with_radius_lower_bound<Tr> Self;
 
-  typedef typename Tr::Geom_traits  Gt;
-  typedef typename Gt::FT           FT;
+  typedef typename Tr::Geom_traits  GT;
+  typedef typename GT::FT           FT;
 
 public:
   typedef typename Base::Quality  Facet_quality;

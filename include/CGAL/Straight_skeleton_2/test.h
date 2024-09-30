@@ -2,8 +2,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Straight_skeleton_2/include/CGAL/Straight_skeleton_2/test.h $
-// $Id: test.h 4952eb2 2023-02-23T10:35:29+01:00 Mael Rouxel-Labbé
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Straight_skeleton_2/include/CGAL/Straight_skeleton_2/test.h $
+// $Id: include/CGAL/Straight_skeleton_2/test.h 50219fc33bc $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Fernando Cacciola <fernando_cacciola@ciudad.com.ar>

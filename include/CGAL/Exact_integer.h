@@ -7,8 +7,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Number_types/include/CGAL/Exact_integer.h $
-// $Id: Exact_integer.h e46196d 2023-07-12T13:40:24+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Number_types/include/CGAL/Exact_integer.h $
+// $Id: include/CGAL/Exact_integer.h 50219fc33bc $
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -30,8 +30,7 @@ It is a typedef of another number type. Its exact definition depends on
 the availability the third-party libraries \gmp, \core, and \leda. \cgal must
 be configured with at least one of those libraries.
 
-\cgalModels `EuclideanRing`
-\cgalModels `RealEmbeddable`
+\cgalModels{EuclideanRing,RealEmbeddable}
 
 */
 #if DOXYGEN_RUNNING

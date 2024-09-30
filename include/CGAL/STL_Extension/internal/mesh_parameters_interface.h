@@ -2,8 +2,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/STL_Extension/include/CGAL/STL_Extension/internal/mesh_parameters_interface.h $
-// $Id: mesh_parameters_interface.h dd0cc2e 2023-12-05T22:15:01+01:00 Mael Rouxel-Labbé
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/STL_Extension/include/CGAL/STL_Extension/internal/mesh_parameters_interface.h $
+// $Id: include/CGAL/STL_Extension/internal/mesh_parameters_interface.h 50219fc33bc $
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 //

@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Triangulation_2/include/CGAL/Constrained_triangulation_face_base_2.h $
-// $Id: Constrained_triangulation_face_base_2.h d3fca65 2022-09-23T12:49:40+01:00 Andreas Fabri
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Triangulation_2/include/CGAL/Constrained_triangulation_face_base_2.h $
+// $Id: include/CGAL/Constrained_triangulation_face_base_2.h 50219fc33bc $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //

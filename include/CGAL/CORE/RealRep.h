@@ -19,8 +19,8 @@
  * WWW URL: https://cs.nyu.edu/exact/
  * Email: exact@cs.nyu.edu
  *
- * $URL: https://github.com/CGAL/cgal/blob/v5.6.1/CGAL_Core/include/CGAL/CORE/RealRep.h $
- * $Id: RealRep.h 0ff7882 2022-12-06T22:21:06+01:00 Mael
+ * $URL: https://github.com/CGAL/cgal/blob/v6.0/CGAL_Core/include/CGAL/CORE/RealRep.h $
+ * $Id: include/CGAL/CORE/RealRep.h 50219fc33bc $
  * SPDX-License-Identifier: LGPL-3.0-or-later
  ***************************************************************************/
 #ifndef _CORE_REALREP_H_
@@ -92,10 +92,10 @@ public:
   int ID() const;
 
   long longValue() const {
-    return ker.longValue();
+    return CORE::longValue(ker);
   }
   double doubleValue() const {
-    return ker.doubleValue();
+    return CORE::doubleValue(ker);
   }
   BigInt BigIntValue() const {
     return BigInt(ker);
@@ -231,7 +231,7 @@ inline BigInt   RealBigInt::BigIntValue() const {
 }
 template<>
 inline BigInt   RealBigRat::BigIntValue() const {
-  return ker.BigIntValue();
+  return CORE::BigIntValue(ker);
 }
 template<>
 inline BigInt RealBigFloat::BigIntValue() const {
@@ -500,11 +500,11 @@ inline unsigned long RealBigRat::height() const {
 // toString()
 template<>
 inline std::string RealBigInt::toString(long, bool) const {
-  return ker.get_str();
+  return ker.convert_to<std::string>();
 }
 template<>
 inline std::string RealBigRat::toString(long, bool) const {
-  return ker.get_str();
+  return ker.convert_to<std::string>();
 }
 template<>
 inline std::string RealBigFloat::toString(long prec, bool sci) const {

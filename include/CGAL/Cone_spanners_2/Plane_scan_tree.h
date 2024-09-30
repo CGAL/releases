@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Cone_spanners_2/include/CGAL/Cone_spanners_2/Plane_scan_tree.h $
-// $Id: Plane_scan_tree.h 0d66e19 2020-07-24T17:05:10+02:00 Mael Rouxel-Labbé
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Cone_spanners_2/include/CGAL/Cone_spanners_2/Plane_scan_tree.h $
+// $Id: include/CGAL/Cone_spanners_2/Plane_scan_tree.h 50219fc33bc $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -32,7 +32,7 @@
 
 namespace CGAL {
 
-/* This namespace contains the internal implementation of the tree for builiding Theta graph.
+/* This namespace contains the internal implementation of the tree for building Theta graph.
  * This is not meant to be imported by other code.
  */
 namespace ThetaDetail {
@@ -100,7 +100,7 @@ public:
         : less (comp), vless (vcomp), root (nullptr), m_min (nullptr),
           m_max (nullptr), _size (0)
     {
-        // buids the tree
+        // builds the tree
         /* Note: a more efficient algorithm building the tree bottom up may be
           worth implementing later */
         for (; first != last; ++first)

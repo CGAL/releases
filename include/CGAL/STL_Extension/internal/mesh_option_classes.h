@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/STL_Extension/include/CGAL/STL_Extension/internal/mesh_option_classes.h $
-// $Id: mesh_option_classes.h 9179a2d 2022-10-24T09:12:44+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/STL_Extension/include/CGAL/STL_Extension/internal/mesh_option_classes.h $
+// $Id: include/CGAL/STL_Extension/internal/mesh_option_classes.h 50219fc33bc $
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 

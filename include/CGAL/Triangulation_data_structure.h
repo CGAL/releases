@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Triangulation/include/CGAL/Triangulation_data_structure.h $
-// $Id: Triangulation_data_structure.h 29d543c 2022-10-04T09:16:32+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Triangulation/include/CGAL/Triangulation_data_structure.h $
+// $Id: include/CGAL/Triangulation_data_structure.h 50219fc33bc $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)    : Samuel Hornus
@@ -828,8 +828,8 @@ Triangulation_data_structure<Dim, Vb, Fcb>
         delete_vertex(v);
         delete_full_cell(s);
         inf1->set_vertex(1, Vertex_handle());
-        inf1->set_vertex(1, Vertex_handle());
-        inf2->set_neighbor(1, Full_cell_handle());
+        inf2->set_vertex(1, Vertex_handle());
+        inf1->set_neighbor(1, Full_cell_handle());
         inf2->set_neighbor(1, Full_cell_handle());
         associate_vertex_with_full_cell(inf1, 0, star);
         associate_vertex_with_full_cell(inf2, 0, v2);

@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Convex_hull_d/include/CGAL/Regular_complex_d.h $
-// $Id: Regular_complex_d.h 7a62583 2022-11-14T19:14:33+01:00 albert-github
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Convex_hull_d/include/CGAL/Regular_complex_d.h $
+// $Id: include/CGAL/Regular_complex_d.h 50219fc33bc $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -530,7 +530,7 @@ void associate_point_with_vertex(Vertex_handle v, const Point_d& p)
 { v -> set_point(p); }
 
 void set_neighbor(Simplex_handle s, int i, Simplex_handle s1, int j)
-/*{\Mop sets the neihbor opposite to vertex $i$ of |s| to |s1| and
+/*{\Mop sets the neighbor opposite to vertex $i$ of |s| to |s1| and
         records vertex $j$ of |s1| as the vertex opposite to $i$.}*/
 { s  -> set_neighbor(i,s1);
   s1 -> set_neighbor(j,s);

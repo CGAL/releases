@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Shape_detection/include/CGAL/Shape_detection/Region_growing/Segment_set/Least_squares_line_fit_sorting.h $
-// $Id: Least_squares_line_fit_sorting.h 8a0b214 2023-04-11T17:38:37+02:00 albert-github
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Shape_detection/include/CGAL/Shape_detection/Region_growing/Segment_set/Least_squares_line_fit_sorting.h $
+// $Id: include/CGAL/Shape_detection/Region_growing/Segment_set/Least_squares_line_fit_sorting.h 50219fc33bc $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //

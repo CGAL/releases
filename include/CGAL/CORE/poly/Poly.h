@@ -39,8 +39,8 @@
  * WWW URL: https://cs.nyu.edu/exact/
  * Email: exact@cs.nyu.edu
  *
- * $URL: https://github.com/CGAL/cgal/blob/v5.6.1/CGAL_Core/include/CGAL/CORE/poly/Poly.h $
- * $Id: Poly.h b5c21e1 2022-11-23T18:48:43+01:00 Mael Rouxel-Labbé
+ * $URL: https://github.com/CGAL/cgal/blob/v6.0/CGAL_Core/include/CGAL/CORE/poly/Poly.h $
+ * $Id: include/CGAL/CORE/poly/Poly.h 50219fc33bc $
  * SPDX-License-Identifier: LGPL-3.0-or-later
  ***************************************************************************/
 
@@ -48,6 +48,7 @@
 #define CORE_POLY_H
 
 #include <CGAL/CORE/BigFloat.h>
+#include <CGAL/CORE/BigRat.h>
 #include <CGAL/CORE/Promote.h>
 #include <vector>
 #include <CGAL/assertions.h>
@@ -196,12 +197,10 @@ public:
   /// In particular, if the value is 0, we return 0.
   /// @param oldMSB is any estimate of the negative log of the evaluation
   BigFloat evalExactSign(const BigFloat& val, const extLong& oldMSB=54) const;
+
   /// Polynomial evaluation that return the same type as its argument
-  /// Caution: The type T must be greater or equal to the type NT
-  ///         NOTE: Eventually, we will remove this restriction by
-  ///         introduce MaxType(NT,T) for the return type.
   template <class T>
-  MAX_TYPE(NT, T) eval(const T&) const;
+  CORE_MAX_TYPE(NT, T) eval(const T&) const;
 
   // Bounds
   BigFloat CauchyUpperBound() const;  // Cauchy Root Upper Bound

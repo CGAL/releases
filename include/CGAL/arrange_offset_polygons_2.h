@@ -3,8 +3,8 @@
 // This file is part of CGAL (www.cgal.org).
 //
 
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Straight_skeleton_2/include/CGAL/arrange_offset_polygons_2.h $
-// $Id: arrange_offset_polygons_2.h 66fe079 2023-03-23T11:49:18+01:00 Mael Rouxel-Labbé
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Straight_skeleton_2/include/CGAL/arrange_offset_polygons_2.h $
+// $Id: include/CGAL/arrange_offset_polygons_2.h 50219fc33bc $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Fernando Cacciola <fernando_cacciola@ciudad.com.ar>
@@ -20,7 +20,7 @@
 #include <CGAL/Polygon_with_holes_2.h>
 
 #include <boost/range/value_type.hpp>
-#include <boost/shared_ptr.hpp>
+#include <memory>
 
 #include <algorithm>
 #include <iostream>
@@ -49,7 +49,7 @@ bool arrange_offset_polygons_2 ( InputPolygonPtrIterator           aBegin
   typedef typename std::iterator_traits<InputPolygonPtrIterator>::difference_type difference_type ;
   typedef typename std::iterator_traits<InputPolygonPtrIterator>::value_type PolygonPtr ;
 
-  typedef boost::shared_ptr<PolygonWithHoles> PolygonWithHolesPtr ;
+  typedef std::shared_ptr<PolygonWithHoles> PolygonWithHolesPtr ;
 
   difference_type lSize = std::distance(aBegin,aEnd);
 
@@ -108,18 +108,18 @@ bool arrange_offset_polygons_2 ( InputPolygonPtrIterator           aBegin
 }
 
 template<class PolygonWithHoles, class Polygon>
-std::vector< boost::shared_ptr<PolygonWithHoles> >
+std::vector< std::shared_ptr<PolygonWithHoles> >
 inline
-arrange_offset_polygons_2 ( std::vector<boost::shared_ptr<Polygon> > const& aPolygons,
+arrange_offset_polygons_2 ( std::vector<std::shared_ptr<Polygon> > const& aPolygons,
                             bool& no_error)
 {
-  typedef std::vector< boost::shared_ptr<PolygonWithHoles> > result_type ;
+  typedef std::vector< std::shared_ptr<PolygonWithHoles> > result_type ;
   typedef std::back_insert_iterator<result_type> Back_inserter;
 
   typedef typename PolygonWithHoles::General_polygon_2 Polygon_2 ;
   typedef typename Kernel_traits<typename boost::range_value<Polygon_2>::type>::Kernel K ;
 
-  typedef typename std::vector<boost::shared_ptr<Polygon> >::const_iterator PolygonIterator ;
+  typedef typename std::vector<std::shared_ptr<Polygon> >::const_iterator PolygonIterator ;
 
   result_type rResult ;
   no_error = arrange_offset_polygons_2<K, PolygonIterator, Back_inserter, PolygonWithHoles>(
@@ -129,9 +129,9 @@ arrange_offset_polygons_2 ( std::vector<boost::shared_ptr<Polygon> > const& aPol
 }
 
 template<class PolygonWithHoles, class Polygon>
-std::vector< boost::shared_ptr<PolygonWithHoles> >
+std::vector< std::shared_ptr<PolygonWithHoles> >
 inline
-arrange_offset_polygons_2 ( std::vector<boost::shared_ptr<Polygon> > const& aPolygons)
+arrange_offset_polygons_2 ( std::vector<std::shared_ptr<Polygon> > const& aPolygons)
 {
   bool no_error;
   return arrange_offset_polygons_2<PolygonWithHoles>(aPolygons, no_error);

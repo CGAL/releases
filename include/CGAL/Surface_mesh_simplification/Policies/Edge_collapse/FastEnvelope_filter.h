@@ -2,8 +2,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Surface_mesh_simplification/include/CGAL/Surface_mesh_simplification/Policies/Edge_collapse/FastEnvelope_filter.h $
-// $Id: FastEnvelope_filter.h c32b1f4 2022-11-16T13:22:39+01:00 albert-github
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Surface_mesh_simplification/include/CGAL/Surface_mesh_simplification/Policies/Edge_collapse/FastEnvelope_filter.h $
+// $Id: include/CGAL/Surface_mesh_simplification/Policies/Edge_collapse/FastEnvelope_filter.h 50219fc33bc $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Andreas Fabri
@@ -22,7 +22,7 @@
 #include <fastenvelope/FastEnvelope.h>
 #include <fastenvelope/Types.hpp>
 
-#include <boost/optional.hpp>
+#include <optional>
 
 #include <vector>
 #include <type_traits>
@@ -43,7 +43,7 @@ private:
   template <typename Profile>
   void initialize_envelope(const Profile& profile) const
   {
-    CGAL_static_assertion((std::is_same<GeomTraits, typename Profile::Geom_traits>::value));
+    static_assert(std::is_same<GeomTraits, typename Profile::Geom_traits>::value);
 
     typedef typename Profile::Triangle_mesh                                   Triangle_mesh;
     typedef typename boost::graph_traits<Triangle_mesh>::halfedge_descriptor  halfedge_descriptor;
@@ -97,8 +97,8 @@ public:
 
 
   template <typename Profile>
-  boost::optional<typename Profile::Point>
-  operator()(const Profile& profile, boost::optional<typename Profile::Point> op) const
+  std::optional<typename Profile::Point>
+  operator()(const Profile& profile, std::optional<typename Profile::Point> op) const
   {
     typedef typename Profile::Point Point;
     typedef typename Profile::vertex_descriptor_vector Link;
@@ -116,7 +116,7 @@ public:
 
       if(m_fast_envelope->is_outside(vecp)){
         // the new placement is outside envelope
-        return boost::none;
+        return std::nullopt;
       }
 
       const Link link = profile.link();
@@ -134,7 +134,7 @@ public:
 
         if(m_fast_envelope->is_outside(triangle)){
           // the triangle intersects the envelope
-          return boost::none;
+          return std::nullopt;
         }
         vecv = vecw;
 

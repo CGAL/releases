@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Surface_mesher/include/CGAL/Surface_mesher/Combining_oracle.h $
-// $Id: Combining_oracle.h 3fa4364 2022-06-10T08:41:19+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Surface_mesher/include/CGAL/Surface_mesher/Combining_oracle.h $
+// $Id: include/CGAL/Surface_mesher/Combining_oracle.h 50219fc33bc $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -15,6 +15,11 @@
 #define CGAL_SURFACE_MESHER_COMBINING_ORACLE_H
 
 #include <CGAL/license/Surface_mesher.h>
+
+#define CGAL_DEPRECATED_HEADER "<CGAL/Surface_mesher/Combining_oracle.h>"
+#define CGAL_DEPRECATED_MESSAGE_DETAILS \
+  "The 3D Mesh Generation package (see https://doc.cgal.org/latest/Mesh_3/) should be used instead."
+#include <CGAL/Installation/internal/deprecation_warning.h>
 
 #include <CGAL/disable_warnings.h>
 
@@ -51,9 +56,9 @@ namespace CGAL {
 
     typedef typename Oracle_a::Intersection_point Intersection_point;
 
-    CGAL_static_assertion((::std::is_same<
+    static_assert(::std::is_same<
                          Intersection_point,
-                         typename Oracle_b::Intersection_point>::value));
+                         typename Oracle_b::Intersection_point>::value);
 
 
     typedef ::CGAL::Multi_surface_3<typename Oracle_a::Surface_3,

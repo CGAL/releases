@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Nef_S2/include/CGAL/Nef_S2/SM_const_decorator.h $
-// $Id: SM_const_decorator.h 49f7a40 2023-02-09T09:42:55+00:00 Andreas Fabri
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Nef_S2/include/CGAL/Nef_S2/SM_const_decorator.h $
+// $Id: include/CGAL/Nef_S2/SM_const_decorator.h 50219fc33bc $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -32,7 +32,7 @@
 #define CGAL_NEF_DEBUG 67
 #include <CGAL/Nef_2/debug.h>
 #ifndef CGAL_I_DO_WANT_TO_USE_GENINFO
-#include <boost/any.hpp>
+#include <any>
 #endif
 
 namespace CGAL {
@@ -75,7 +75,7 @@ typedef size_t Size_type;
 #ifdef CGAL_I_DO_WANT_TO_USE_GENINFO
 typedef void*  GenPtr;
 #else
-typedef boost::any GenPtr;
+typedef std::any GenPtr;
 #endif
 
 

@@ -4,8 +4,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Mesh_2/include/CGAL/Mesh_2/Mesh_global_optimizer_2.h $
-// $Id: Mesh_global_optimizer_2.h 9d9a517 2023-02-09T23:27:01+01:00 Mael Rouxel-Labbé
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Mesh_2/include/CGAL/Mesh_2/Mesh_global_optimizer_2.h $
+// $Id: include/CGAL/Mesh_2/Mesh_global_optimizer_2.h 50219fc33bc $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s) : Jane Tournois, Raul Gallegos, Pierre Alliez, Stéphane Tayeb
@@ -29,12 +29,11 @@
 #include <CGAL/Constrained_voronoi_diagram_2.h>
 
 #include <vector>
+#include <set>
 #include <list>
 #include <algorithm>
 #include <iterator>
 
-#include <boost/lambda/lambda.hpp>
-#include <boost/lambda/bind.hpp>
 #include <boost/format.hpp>
 #include <boost/math/constants/constants.hpp>
 
@@ -329,7 +328,7 @@ private:
       typename FT_list::iterator pos = std::find_if(
         big_moves_.begin(),
         big_moves_.end(),
-        boost::lambda::_1 < new_sq_move );
+        [&](const FT& v) { return v< new_sq_move; } );
 
       big_moves_.insert(pos, new_sq_move);
     }
@@ -343,8 +342,6 @@ private:
 
   bool check_convergence() const
   {
-    namespace bl = boost::lambda;
-
     FT sum(0);
     for(typename FT_list::const_iterator it = big_moves_.begin();
         it != big_moves_.end();

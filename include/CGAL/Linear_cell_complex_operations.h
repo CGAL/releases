@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Linear_cell_complex/include/CGAL/Linear_cell_complex_operations.h $
-// $Id: Linear_cell_complex_operations.h 999a813 2022-05-05T13:34:19+02:00 Guillaume Damiand
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Linear_cell_complex/include/CGAL/Linear_cell_complex_operations.h $
+// $Id: include/CGAL/Linear_cell_complex_operations.h 50219fc33bc $
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Guillaume Damiand <guillaume.damiand@liris.cnrs.fr>
@@ -120,7 +120,7 @@ namespace CGAL {
     static typename LCC::Point run(const LCC& amap,
                                    typename LCC::Dart_const_descriptor adart)
     {
-      CGAL_static_assertion(0<i && i<=LCC::dimension);
+      static_assert(0<i && i<=LCC::dimension);
       CGAL_assertion(adart != LCC::null_descriptor);
 
       typename LCC::Vector vec
@@ -151,7 +151,7 @@ namespace CGAL {
     static typename LCC::Point run(const LCC& amap,
                                    typename LCC::Dart_const_descriptor adart)
     {
-      CGAL_static_assertion(1<=LCC::dimension);
+      static_assert(1<=LCC::dimension);
       CGAL_assertion(adart != LCC::null_descriptor);
       typename LCC::Dart_const_descriptor d2=amap.other_extremity(adart);
       if (d2==amap.null_descriptor) return amap.point(adart);
@@ -168,7 +168,7 @@ namespace CGAL {
     static typename LCC::Point run(const LCC& amap,
                                    typename LCC::Dart_const_descriptor adart)
     {
-      CGAL_static_assertion(2<=LCC::dimension);
+      static_assert(2<=LCC::dimension);
       CGAL_assertion(adart != LCC::null_descriptor);
 
       // We go to the beginning of the face (first dart, case of open face)

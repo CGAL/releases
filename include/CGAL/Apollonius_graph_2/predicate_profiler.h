@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Apollonius_graph_2/include/CGAL/Apollonius_graph_2/predicate_profiler.h $
-// $Id: predicate_profiler.h 3e03d50 2021-05-05T15:32:22+02:00 Maxime Gimeno
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Apollonius_graph_2/include/CGAL/Apollonius_graph_2/predicate_profiler.h $
+// $Id: include/CGAL/Apollonius_graph_2/predicate_profiler.h 50219fc33bc $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //

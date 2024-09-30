@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Surface_mesh_segmentation/include/CGAL/Surface_mesh_segmentation/internal/Surface_mesh_segmentation.h $
-// $Id: Surface_mesh_segmentation.h e3e5bcd 2023-11-29T15:25:44+01:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Surface_mesh_segmentation/include/CGAL/Surface_mesh_segmentation/internal/Surface_mesh_segmentation.h $
+// $Id: include/CGAL/Surface_mesh_segmentation/internal/Surface_mesh_segmentation.h 50219fc33bc $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Ilker O. Yaz

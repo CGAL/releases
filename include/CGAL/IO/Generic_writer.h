@@ -7,8 +7,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Stream_support/include/CGAL/IO/Generic_writer.h $
-// $Id: Generic_writer.h 75b03e6 2022-01-10T15:33:04+01:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Stream_support/include/CGAL/IO/Generic_writer.h $
+// $Id: include/CGAL/IO/Generic_writer.h 50219fc33bc $
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -55,7 +55,7 @@ public:
     for(std::size_t i=0, end=points.size(); i<end; ++i)
     {
       const typename boost::property_traits<PointMap>::value_type& p = get(point_map, points[i]);
-      m_writer.write_vertex(p.x(), p.y(), p.z());
+      m_writer.write_vertex(to_double(p.x()), to_double(p.y()), to_double(p.z()));
     }
 
     m_writer.write_facet_header();

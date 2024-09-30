@@ -3,8 +3,8 @@
 //
 // This file is part of the ImageIO Library, and as been adapted for CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/CGAL_ImageIO/include/CGAL/ImageIO/recbuffer.h $
-// $Id: recbuffer.h b5c21e1 2022-11-23T18:48:43+01:00 Mael Rouxel-Labbé
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/CGAL_ImageIO/include/CGAL/ImageIO/recbuffer.h $
+// $Id: include/CGAL/ImageIO/recbuffer.h 50219fc33bc $
 // SPDX-License-Identifier: LGPL-3.0-or-later
 //
 //
@@ -13,7 +13,7 @@
 /*************************************************************************
  * recbuffer.h - tools for recursive filtering of 3D and 2D image buffers
  *
- * $Id: recbuffer.h b5c21e1 2022-11-23T18:48:43+01:00 Mael Rouxel-Labbé
+ * $Id: include/CGAL/ImageIO/recbuffer.h 50219fc33bc $
  *
  * Copyright©INRIA 1999
  *

@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Combinatorial_map/include/CGAL/Dart.h $
-// $Id: Dart.h 781f9a2 2022-11-17T10:25:10+01:00 albert-github
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Combinatorial_map/include/CGAL/Dart.h $
+// $Id: include/CGAL/Dart.h 50219fc33bc $
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Guillaume Damiand <guillaume.damiand@liris.cnrs.fr>
@@ -226,7 +226,7 @@ namespace CGAL {
     template<int i>
     typename Attribute_descriptor<i>::type attribute()
     {
-      CGAL_static_assertion_msg(Helper::template Dimension_index<i>::value>=0,
+      static_assert(Helper::template Dimension_index<i>::value>=0,
                      "attribute<i> called but i-attributes are disabled.");
       return std::get<Helper::template Dimension_index<i>::value>
         (mattribute_descriptors);
@@ -234,7 +234,7 @@ namespace CGAL {
     template<int i>
     typename Attribute_const_descriptor<i>::type attribute() const
     {
-      CGAL_static_assertion_msg(Helper::template Dimension_index<i>::value>=0,
+      static_assert(Helper::template Dimension_index<i>::value>=0,
                      "attribute<i> called but i-attributes are disabled.");
       return std::get<Helper::template Dimension_index<i>::value>
         (mattribute_descriptors);

@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Nef_S2/include/CGAL/Nef_S2/SM_decorator.h $
-// $Id: SM_decorator.h 3674c93 2022-11-15T15:21:01+01:00 albert-github
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Nef_S2/include/CGAL/Nef_S2/SM_decorator.h $
+// $Id: include/CGAL/Nef_S2/SM_decorator.h 50219fc33bc $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -31,7 +31,7 @@
 #include <CGAL/Unique_hash_map.h>
 #include <CGAL/IO/Verbose_ostream.h>
 #ifndef CGAL_I_DO_WANT_TO_USE_GENINFO
-#include <boost/any.hpp>
+#include <any>
 #endif
 
 namespace CGAL {
@@ -84,7 +84,7 @@ typedef typename Sphere_kernel::Aff_transformation_3 Aff_transformation_3;
 #ifdef CGAL_I_DO_WANT_TO_USE_GENINFO
 typedef void*  GenPtr;
 #else
-typedef boost::any GenPtr;
+typedef std::any GenPtr;
 #endif
 typedef typename Map::SVertex                   SVertex;
 typedef typename Map::SVertex_handle            SVertex_handle;

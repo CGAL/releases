@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Mesh_3/include/CGAL/Mesh_3/Detect_features_on_image_bbox.h $
-// $Id: Detect_features_on_image_bbox.h b014f5a 2023-04-25T15:45:36+02:00 Jane Tournois
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Mesh_3/include/CGAL/Mesh_3/Detect_features_on_image_bbox.h $
+// $Id: include/CGAL/Mesh_3/Detect_features_on_image_bbox.h 50219fc33bc $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //

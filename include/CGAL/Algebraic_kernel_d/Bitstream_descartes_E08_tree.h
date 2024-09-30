@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Algebraic_kernel_d/include/CGAL/Algebraic_kernel_d/Bitstream_descartes_E08_tree.h $
-// $Id: Bitstream_descartes_E08_tree.h 0ff7882 2022-12-06T22:21:06+01:00 Mael
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Algebraic_kernel_d/include/CGAL/Algebraic_kernel_d/Bitstream_descartes_E08_tree.h $
+// $Id: include/CGAL/Algebraic_kernel_d/Bitstream_descartes_E08_tree.h 50219fc33bc $
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -31,7 +31,7 @@
 #include <CGAL/Random.h>
 #include <CGAL/tss.h>
 
-#include <boost/optional.hpp>
+#include <optional>
 
 /*
  *  AUXILIARY CLASSES AND FUNCTIONS
@@ -303,7 +303,7 @@ public:
             Integer alpha_num = Integer(1), int log_denom = 1
     ) : alpha_num_(alpha_num),
         beta_num_((Integer(1) << log_denom) - alpha_num),
-        half_((log_denom > 0) ? (Integer(1) << log_denom-1) : 0),
+        half_((log_denom > 0) ? Integer(Integer(1) << log_denom-1) : 0),
         log_denom_(log_denom)
     {
         CGAL_precondition(log_denom_ >= 0);

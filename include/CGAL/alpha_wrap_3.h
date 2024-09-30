@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Alpha_wrap_3/include/CGAL/alpha_wrap_3.h $
-// $Id: alpha_wrap_3.h 728be94 2022-10-12T09:45:31+02:00 Mael Rouxel-Labbé
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Alpha_wrap_3/include/CGAL/alpha_wrap_3.h $
+// $Id: include/CGAL/alpha_wrap_3.h 50219fc33bc $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Pierre Alliez
@@ -105,7 +105,7 @@ void alpha_wrap_3(const PointRange& points,
   using NP_helper = Point_set_processing_3_np_helper<PointRange, InputNamedParameters>;
   using Geom_traits = typename NP_helper::Geom_traits;
   using Oracle = Alpha_wraps_3::internal::Triangle_soup_oracle<Geom_traits>;
-  using AW3 = Alpha_wraps_3::internal::Alpha_wrap_3<Oracle>;
+  using AW3 = Alpha_wraps_3::internal::Alpha_wrapper_3<Oracle>;
 
   Geom_traits gt = choose_parameter<Geom_traits>(get_parameter(in_np, internal_np::geom_traits));
 
@@ -254,7 +254,7 @@ void alpha_wrap_3(const TriangleMesh& tmesh,
 
   using Geom_traits = typename GetGeomTraits<TriangleMesh, InputNamedParameters>::type;
   using Oracle = Alpha_wraps_3::internal::Triangle_mesh_oracle<Geom_traits>;
-  using AW3 = Alpha_wraps_3::internal::Alpha_wrap_3<Oracle>;
+  using AW3 = Alpha_wraps_3::internal::Alpha_wrapper_3<Oracle>;
 
   Geom_traits gt = choose_parameter<Geom_traits>(get_parameter(in_np, internal_np::geom_traits));
 
@@ -350,7 +350,7 @@ void alpha_wrap_3(const PointRange& points,
   using NP_helper = Point_set_processing_3_np_helper<PointRange, InputNamedParameters>;
   using Geom_traits = typename NP_helper::Geom_traits;
   using Oracle = Alpha_wraps_3::internal::Point_set_oracle<Geom_traits>;
-  using AW3 = Alpha_wraps_3::internal::Alpha_wrap_3<Oracle>;
+  using AW3 = Alpha_wraps_3::internal::Alpha_wrapper_3<Oracle>;
 
   Geom_traits gt = choose_parameter<Geom_traits>(get_parameter(in_np, internal_np::geom_traits));
 

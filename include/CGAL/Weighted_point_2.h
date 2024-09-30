@@ -7,8 +7,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Kernel_23/include/CGAL/Weighted_point_2.h $
-// $Id: Weighted_point_2.h 5872413 2022-06-10T08:48:53+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Kernel_23/include/CGAL/Weighted_point_2.h $
+// $Id: include/CGAL/Weighted_point_2.h 50219fc33bc $
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -34,7 +34,7 @@ class Weighted_point_2 : public R_::Kernel_base::Weighted_point_2
   typedef typename R_::FT                             RT;
 
   typedef Weighted_point_2<R_>                        Self;
-  CGAL_static_assertion((std::is_same<Self, typename R_::Weighted_point_2>::value));
+  static_assert(std::is_same<Self, typename R_::Weighted_point_2>::value);
 
 public:
   typedef Dimension_tag<2>                            Ambient_dimension;

@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/GraphicsView/demo/Periodic_2_triangulation_2/include/CGAL/Qt/PeriodicVoronoiGraphicsItem.h $
-// $Id: PeriodicVoronoiGraphicsItem.h 0779373 2020-03-26T13:31:46+01:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/GraphicsView/demo/Periodic_2_triangulation_2/include/CGAL/Qt/PeriodicVoronoiGraphicsItem.h $
+// $Id: demo/Periodic_2_triangulation_2/include/CGAL/Qt/PeriodicVoronoiGraphicsItem.h 50219fc33bc $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //

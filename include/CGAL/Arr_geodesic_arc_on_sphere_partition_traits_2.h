@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Arrangement_on_surface_2/include/CGAL/Arr_geodesic_arc_on_sphere_partition_traits_2.h $
-// $Id: Arr_geodesic_arc_on_sphere_partition_traits_2.h 014c06f 2022-11-14T15:32:47+01:00 albert-github
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Arrangement_on_surface_2/include/CGAL/Arr_geodesic_arc_on_sphere_partition_traits_2.h $
+// $Id: include/CGAL/Arr_geodesic_arc_on_sphere_partition_traits_2.h 50219fc33bc $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -22,7 +22,7 @@
  * The partition traits class for geodesic arcs on the sphere enables
  * the partition of geodesic polygons to convex polygons. It models the
  * concept YMonotonePartitionTraits_2.
- * This partition of geodesic polygons is garenteed to work only for polygons
+ * This partition of geodesic polygons is guaranteed to work only for polygons
  * that are contained in a hemisphere and that do not intersect one of the
  * boundaries.
  * For larger polygons there is a chance that at least one steiner point may
@@ -314,8 +314,8 @@ public:
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Arrangement_on_surface_2/include/CGAL/Arr_geodesic_arc_on_sphere_partition_traits_2.h $
-// $Id: Arr_geodesic_arc_on_sphere_partition_traits_2.h 014c06f 2022-11-14T15:32:47+01:00 albert-github
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Arrangement_on_surface_2/include/CGAL/Arr_geodesic_arc_on_sphere_partition_traits_2.h $
+// $Id: include/CGAL/Arr_geodesic_arc_on_sphere_partition_traits_2.h 50219fc33bc $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -329,7 +329,7 @@ public:
  * The partition traits class for geodesic arcs on the sphere enables
  * the partition of geodesic polygons to convex polygons. It models the
  * concept YMonotonePartitionTraits_2.
- * This partition of geodesic polygons is garenteed to work only for polygons
+ * This partition of geodesic polygons is guaranteed to work only for polygons
  * that are contained in a hemisphere and that do not intersect one of the
  * boundaries.
  * For larger polygons there is a chance that at least one steiner point may

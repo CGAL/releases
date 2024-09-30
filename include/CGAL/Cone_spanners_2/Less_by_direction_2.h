@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Cone_spanners_2/include/CGAL/Cone_spanners_2/Less_by_direction_2.h $
-// $Id: Less_by_direction_2.h 0779373 2020-03-26T13:31:46+01:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Cone_spanners_2/include/CGAL/Cone_spanners_2/Less_by_direction_2.h $
+// $Id: include/CGAL/Cone_spanners_2/Less_by_direction_2.h 50219fc33bc $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -22,7 +22,6 @@
 #include <CGAL/Polynomial.h>
 #include <CGAL/number_utils.h>
 #include <CGAL/enum.h>
-#include <CGAL/Exact_predicates_exact_constructions_kernel_with_sqrt.h>
 #include <CGAL/Aff_transformation_2.h>
 
 #include <boost/config.hpp>

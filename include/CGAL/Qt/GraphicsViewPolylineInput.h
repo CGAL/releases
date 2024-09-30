@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/GraphicsView/include/CGAL/Qt/GraphicsViewPolylineInput.h $
-// $Id: GraphicsViewPolylineInput.h 4547818 2022-11-15T13:39:40+01:00 albert-github
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/GraphicsView/include/CGAL/Qt/GraphicsViewPolylineInput.h $
+// $Id: include/CGAL/Qt/GraphicsViewPolylineInput.h 50219fc33bc $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //

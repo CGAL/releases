@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Partition_2/include/CGAL/partition_is_valid_2.h $
-// $Id: partition_is_valid_2.h 1ad69e0 2022-09-27T08:32:49+01:00 Andreas Fabri
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Partition_2/include/CGAL/partition_is_valid_2.h $
+// $Id: include/CGAL/partition_is_valid_2.h 50219fc33bc $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //

@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Alpha_wrap_3/include/CGAL/Alpha_wrap_3/internal/Alpha_wrap_AABB_geom_traits.h $
-// $Id: Alpha_wrap_AABB_geom_traits.h 9c2d913 2022-11-01T19:48:55+01:00 Mael
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Alpha_wrap_3/include/CGAL/Alpha_wrap_3/internal/Alpha_wrap_AABB_geom_traits.h $
+// $Id: include/CGAL/Alpha_wrap_3/internal/Alpha_wrap_AABB_geom_traits.h 50219fc33bc $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Pierre Alliez
@@ -36,24 +36,24 @@ struct Tetrahedron_with_outside_info
   using Triangle_3 = typename Kernel::Triangle_3;
 
   template <typename CellHandle>
-  Tetrahedron_with_outside_info(const CellHandle ch, const K& k)
+  Tetrahedron_with_outside_info(const CellHandle c, const K& k)
   {
     typename K::Construct_bbox_3 bbox = k.construct_bbox_3_object();
     typename K::Construct_tetrahedron_3 tetrahedron = k.construct_tetrahedron_3_object();
     typename K::Construct_triangle_3 triangle = k.construct_triangle_3_object();
 
-    m_tet = tetrahedron(ch->vertex(0)->point(), ch->vertex(1)->point(),
-                        ch->vertex(2)->point(), ch->vertex(3)->point());
+    m_tet = tetrahedron(c->vertex(0)->point(), c->vertex(1)->point(),
+                        c->vertex(2)->point(), c->vertex(3)->point());
     m_bbox = bbox(m_tet);
 
     for(int i=0; i<4; ++i)
     {
-      if(ch->neighbor(i)->info().is_outside)
+      if(c->neighbor(i)->is_outside())
         m_b.set(i, true);
 
-      m_triangles[i] = triangle(ch->vertex((i+1)& 3)->point(),
-                                ch->vertex((i+2)& 3)->point(),
-                                ch->vertex((i+3)& 3)->point());
+      m_triangles[i] = triangle(c->vertex((i+1)& 3)->point(),
+                                c->vertex((i+2)& 3)->point(),
+                                c->vertex((i+3)& 3)->point());
       m_tbox[i] = bbox(m_triangles[i]);
     }
   }

@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Triangulation_3/include/CGAL/Robust_weighted_circumcenter_filtered_traits_3.h $
-// $Id: Robust_weighted_circumcenter_filtered_traits_3.h 8f8280c 2023-11-23T19:37:23+00:00 Andreas Fabri
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Triangulation_3/include/CGAL/Robust_weighted_circumcenter_filtered_traits_3.h $
+// $Id: include/CGAL/Robust_weighted_circumcenter_filtered_traits_3.h 50219fc33bc $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //

@@ -4,8 +4,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Surface_mesher/include/CGAL/Surface_mesher/Surface_mesher.h $
-// $Id: Surface_mesher.h 4547818 2022-11-15T13:39:40+01:00 albert-github
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Surface_mesher/include/CGAL/Surface_mesher/Surface_mesher.h $
+// $Id: include/CGAL/Surface_mesher/Surface_mesher.h 50219fc33bc $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -21,6 +21,11 @@
 #define CGAL_SURFACE_MESHER_SURFACE_MESHER_H
 
 #include <CGAL/license/Surface_mesher.h>
+
+#define CGAL_DEPRECATED_HEADER "<CGAL/Surface_mesher/Surface_mesher.h>"
+#define CGAL_DEPRECATED_MESSAGE_DETAILS \
+  "The 3D Mesh Generation package (see https://doc.cgal.org/latest/Mesh_3/) should be used instead."
+#include <CGAL/Installation/internal/deprecation_warning.h>
 
 #include <CGAL/disable_warnings.h>
 

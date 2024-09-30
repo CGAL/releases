@@ -7,8 +7,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Cartesian_kernel/include/CGAL/Cartesian/Vector_3.h $
-// $Id: Vector_3.h cca0a19 2022-04-12T16:14:39+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Cartesian_kernel/include/CGAL/Cartesian/Vector_3.h $
+// $Id: include/CGAL/Cartesian/Vector_3.h 50219fc33bc $
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -65,7 +65,10 @@ public:
   { *this = R().construct_vector_3_object()(l); }
 
   VectorC3(const FT_ &x, const FT_ &y, const FT_ &z)
-    : base(CGAL::make_array(x, y, z)) {}
+    : base{x, y, z} {}
+
+  VectorC3(FT_&& x, FT_&& y, FT_&& z)
+    : base{std::move(x), std::move(y), std::move(z)} {}
 
   VectorC3(const FT_ &x, const FT_ &y, const FT_ &z, const FT_ &w)
     : base( w != FT_(1) ? CGAL::make_array<FT_>(x/w, y/w, z/w)

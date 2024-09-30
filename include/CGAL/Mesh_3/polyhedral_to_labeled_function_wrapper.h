@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Mesh_3/include/CGAL/Mesh_3/polyhedral_to_labeled_function_wrapper.h $
-// $Id: polyhedral_to_labeled_function_wrapper.h 0fa0c4f 2019-12-05T11:05:35+01:00 Laurent Rineau
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Mesh_3/include/CGAL/Mesh_3/polyhedral_to_labeled_function_wrapper.h $
+// $Id: include/CGAL/Mesh_3/polyhedral_to_labeled_function_wrapper.h 50219fc33bc $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -23,7 +23,7 @@
 
 
 #include <CGAL/AABB_tree.h>
-#include <CGAL/AABB_traits.h>
+#include <CGAL/AABB_traits_3.h>
 #include <CGAL/AABB_polyhedron_triangle_primitive.h>
 #include <CGAL/AABB_polyhedron_segment_primitive.h>
 
@@ -68,7 +68,7 @@ public:
   // AABB_tree Types
   typedef class AABB_const_polyhedron_triangle_primitive<BGT, Polyhedron_>
                                                     AABB_primitive;
-  typedef class AABB_traits<BGT,AABB_primitive>     AABB_traits;
+  typedef class AABB_traits_3<BGT,AABB_primitive>   AABB_traits;
   typedef class AABB_tree<AABB_traits>              AABB_tree;
   typedef typename AABB_traits::Bounding_box        Bounding_box;
 
@@ -189,7 +189,7 @@ public:
   // AABB_tree Types
   typedef class AABB_const_polyhedron_triangle_primitive<BGT, Polyhedron_>
                                                     AABB_primitive;
-  typedef class AABB_traits<BGT,AABB_primitive>     AABB_traits;
+  typedef class AABB_traits_3<BGT,AABB_primitive>   AABB_traits;
   typedef class AABB_tree<AABB_traits>              AABB_tree;
   typedef typename AABB_traits::Bounding_box        Bounding_box;
 
@@ -264,7 +264,7 @@ public:
   // AABB_tree Types
   typedef class AABB_const_polyhedron_edge_primitive<BGT, Polyhedron_>
                                                     AABB_primitive;
-  typedef class AABB_traits<BGT,AABB_primitive>     AABB_traits;
+  typedef class AABB_traits_3<BGT,AABB_primitive>   AABB_traits;
   typedef class AABB_tree<AABB_traits>              AABB_tree;
   typedef typename AABB_traits::Bounding_box        Bounding_box;
 

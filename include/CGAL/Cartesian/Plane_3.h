@@ -7,8 +7,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Cartesian_kernel/include/CGAL/Cartesian/Plane_3.h $
-// $Id: Plane_3.h 71bba3e 2022-03-17T22:35:09+01:00 Andreas Fabri
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Cartesian_kernel/include/CGAL/Cartesian/Plane_3.h $
+// $Id: include/CGAL/Cartesian/Plane_3.h 50219fc33bc $
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -64,7 +64,7 @@ public:
   { *this = plane_from_point_direction<R>(o, v.direction()); }
 
   PlaneC3(const FT &a, const FT &b, const FT &c, const FT &d)
-    : base(CGAL::make_array(a, b, c, d)) {}
+    : base{a, b, c, d} {}
 
   PlaneC3(const Line_3 &l, const Point_3 &p)
   { *this = plane_from_points<R>(l.point(),

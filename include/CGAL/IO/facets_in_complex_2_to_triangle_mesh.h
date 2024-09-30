@@ -4,8 +4,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Surface_mesher/include/CGAL/IO/facets_in_complex_2_to_triangle_mesh.h $
-// $Id: facets_in_complex_2_to_triangle_mesh.h e7bf5b6 2022-02-04T10:22:26+01:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Surface_mesher/include/CGAL/IO/facets_in_complex_2_to_triangle_mesh.h $
+// $Id: include/CGAL/IO/facets_in_complex_2_to_triangle_mesh.h 50219fc33bc $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s) : Maxime Gimeno, Pierre Alliez
@@ -14,6 +14,11 @@
 #define CGAL_FACETS_IN_COMPLEX_2_TO_TRIANGLE_MESH_H
 
 #include <CGAL/license/Surface_mesher.h>
+
+#define CGAL_DEPRECATED_HEADER "<CGAL/IO/facets_in_complex_2_to_triangle_mesh.h>"
+#define CGAL_DEPRECATED_MESSAGE_DETAILS \
+  "The 3D Mesh Generation package (see https://doc.cgal.org/latest/Mesh_3/) should be used instead."
+#include <CGAL/Installation/internal/deprecation_warning.h>
 
 #include <CGAL/disable_warnings.h>
 

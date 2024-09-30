@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Mesh_3/include/CGAL/Mesh_3/mesh_standard_cell_criteria.h $
-// $Id: mesh_standard_cell_criteria.h d7843a2 2022-12-14T17:05:57+01:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Mesh_3/include/CGAL/Mesh_3/mesh_standard_cell_criteria.h $
+// $Id: include/CGAL/Mesh_3/mesh_standard_cell_criteria.h 50219fc33bc $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -202,7 +202,7 @@ protected:
     {
 #ifdef CGAL_MESH_3_DEBUG_FACET_CRITERIA
       std::cerr << "Cell too small (uniform size): sq_radius[" << size
-        << "] bound[" << B_ << "]\n";
+        << "] bound[" << sq_radius_bound_ << "]\n";
 #endif
       return Is_bad(Quality(sq_radius_bound_/size));
     }
@@ -395,8 +395,8 @@ class Cell_criteria_visitor_with_features
   typedef Criterion_visitor<Tr, typename Tr::Cell_handle> Base;
   typedef Cell_criteria_visitor_with_features<Tr> Self;
 
-  typedef typename Tr::Geom_traits    Gt;
-  typedef typename Gt::FT             FT;
+  typedef typename Tr::Geom_traits    GT;
+  typedef typename GT::FT             FT;
   typedef typename Tr::Weighted_point Weighted_point;
 
 
@@ -414,11 +414,11 @@ public:
     , ratio_(0)
     , size_ratio_(0.5*0.5*4.)
   {
-    typename Gt::Compare_weighted_squared_radius_3 compare =
+    typename GT::Compare_weighted_squared_radius_3 compare =
       tr.geom_traits().compare_weighted_squared_radius_3_object();
-    typename Gt::Compute_weight_3 cw =
+    typename GT::Compute_weight_3 cw =
       tr.geom_traits().compute_weight_3_object();
-    typename Gt::Compute_squared_radius_smallest_orthogonal_sphere_3 sq_radius =
+    typename GT::Compute_squared_radius_smallest_orthogonal_sphere_3 sq_radius =
       tr.geom_traits().compute_squared_radius_smallest_orthogonal_sphere_3_object();
 
     int k1 = 0;
@@ -560,8 +560,8 @@ class Cell_criterion_visitor_with_radius_lower_bound
   typedef Cell_criteria_visitor_with_features<Tr> Base;
   typedef Cell_criterion_visitor_with_radius_lower_bound<Tr> Self;
 
-  typedef typename Tr::Geom_traits    Gt;
-  typedef typename Gt::FT             FT;
+  typedef typename Tr::Geom_traits    GT;
+  typedef typename GT::FT             FT;
 
 public:
   typedef typename Base::Quality  Cell_quality;

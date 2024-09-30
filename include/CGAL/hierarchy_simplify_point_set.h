@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Point_set_processing_3/include/CGAL/hierarchy_simplify_point_set.h $
-// $Id: hierarchy_simplify_point_set.h 13882cc 2022-11-08T17:29:15+01:00 Jane Tournois
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Point_set_processing_3/include/CGAL/hierarchy_simplify_point_set.h $
+// $Id: include/CGAL/hierarchy_simplify_point_set.h 50219fc33bc $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s) : Simon Giraudot, Pierre Alliez

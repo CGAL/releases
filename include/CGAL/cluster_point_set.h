@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Point_set_processing_3/include/CGAL/cluster_point_set.h $
-// $Id: cluster_point_set.h d3fca65 2022-09-23T12:49:40+01:00 Andreas Fabri
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Point_set_processing_3/include/CGAL/cluster_point_set.h $
+// $Id: include/CGAL/cluster_point_set.h 50219fc33bc $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Simon Giraudot
@@ -145,7 +145,7 @@ std::size_t cluster_point_set (PointRange& points,
   typedef typename NP_helper::Geom_traits Kernel;
   typedef typename Point_set_processing_3::GetAdjacencies<PointRange, NamedParameters>::type Adjacencies;
 
-  CGAL_static_assertion_msg(!(std::is_same<typename GetSvdTraits<NamedParameters>::type,
+  static_assert(!(std::is_same<typename GetSvdTraits<NamedParameters>::type,
                                            typename GetSvdTraits<NamedParameters>::NoTraits>::value),
                             "Error: no SVD traits");
 

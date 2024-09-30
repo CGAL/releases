@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Boolean_set_operations_2/include/CGAL/Boolean_set_operations_2/Gps_on_surface_base_2.h $
-// $Id: Gps_on_surface_base_2.h 62a31ba 2022-11-14T17:44:33+01:00 albert-github
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Boolean_set_operations_2/include/CGAL/Boolean_set_operations_2/Gps_on_surface_base_2.h $
+// $Id: include/CGAL/Boolean_set_operations_2/Gps_on_surface_base_2.h 50219fc33bc $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Baruch Zukerman <baruchzu@post.tau.ac.il>
@@ -642,6 +642,7 @@ public:
     unsigned int i = 1;
     for (InputIterator itr = begin; itr != end; ++itr, ++i)
     {
+      ValidationPolicy::is_valid((*itr), *m_traits);
       arr_vec[i].first = new Aos_2(m_traits);
       _insert(*itr, *(arr_vec[i].first));
     }
@@ -666,6 +667,7 @@ public:
     unsigned int i = 1;
     for (InputIterator itr = begin; itr!=end; ++itr, ++i)
     {
+      ValidationPolicy::is_valid((*itr), *m_traits);
       arr_vec[i].first = new Aos_2(m_traits);
       _insert(*itr, *(arr_vec[i].first));
     }

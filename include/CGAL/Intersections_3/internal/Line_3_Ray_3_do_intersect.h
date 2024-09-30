@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Intersections_3/include/CGAL/Intersections_3/internal/Line_3_Ray_3_do_intersect.h $
-// $Id: Line_3_Ray_3_do_intersect.h 3a4e230 2022-11-22T12:22:42+01:00 Mael Rouxel-Labbé
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Intersections_3/include/CGAL/Intersections_3/internal/Line_3_Ray_3_do_intersect.h $
+// $Id: include/CGAL/Intersections_3/internal/Line_3_Ray_3_do_intersect.h 50219fc33bc $
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -38,11 +38,8 @@ do_intersect(const typename K::Line_3& l,
   if(p0p1s == COLLINEAR)
     return true;
 
-  CGAL::Orientation stp0 = pred(r.source(), r.second_point(), l.point(0));
-  if(stp0 == COLLINEAR)
-    return Ray_3_has_on_collinear_Point_3(r,l.point(0),k);
-
-  return (p0p1s != stp0);
+  typename K::Point_3 lst = l.point(0) + (r.point(1) - r.point(0));
+  return (pred(l.point(0), l.point(1), r.point(0), lst) != CGAL::POSITIVE);
 }
 
 template <class K>

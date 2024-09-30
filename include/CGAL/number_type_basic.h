@@ -7,8 +7,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Number_types/include/CGAL/number_type_basic.h $
-// $Id: number_type_basic.h ac8b6d4 2022-06-10T07:59:39+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Number_types/include/CGAL/number_type_basic.h $
+// $Id: include/CGAL/number_type_basic.h 50219fc33bc $
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 //

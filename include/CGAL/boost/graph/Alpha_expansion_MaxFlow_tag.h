@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Surface_mesh_segmentation/include/CGAL/boost/graph/Alpha_expansion_MaxFlow_tag.h $
-// $Id: Alpha_expansion_MaxFlow_tag.h b45e788 2022-06-23T16:25:21+01:00 Andreas Fabri
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Surface_mesh_segmentation/include/CGAL/boost/graph/Alpha_expansion_MaxFlow_tag.h $
+// $Id: include/CGAL/boost/graph/Alpha_expansion_MaxFlow_tag.h 50219fc33bc $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Ilker O. Yaz, Simon Giraudot
@@ -67,6 +67,19 @@ public:
   double max_flow()
   {
     return graph.maxflow();
+  }
+
+  template <typename VertexLabelMap, typename VertexIndexMap, typename InputVertexDescriptorRange>
+  void get_labels(VertexLabelMap vertex_label_map, VertexIndexMap vertex_index_map,
+    const std::vector<Vertex_descriptor>& inserted_vertices,
+    InputVertexDescriptorRange& input_range) {
+    CGAL_assertion(inserted_vertices.size() == input_range.size());
+
+    for (auto vd : input_range) {
+      std::size_t index = get(vertex_index_map, vd);
+      int label = graph.what_segment(inserted_vertices[index]); // Source = 0, Sink = 1
+      put(vertex_label_map, vd, label);
+    }
   }
 
   template <typename VertexLabelMap, typename InputVertexDescriptor>

@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Mesh_3/include/CGAL/Mesh_3/features_detection/postprocess_weights.h $
-// $Id: postprocess_weights.h 4be918b 2023-04-18T17:10:41+02:00 Jane Tournois
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Mesh_3/include/CGAL/Mesh_3/features_detection/postprocess_weights.h $
+// $Id: include/CGAL/Mesh_3/features_detection/postprocess_weights.h 50219fc33bc $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //

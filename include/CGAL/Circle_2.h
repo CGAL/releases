@@ -7,8 +7,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Kernel_23/include/CGAL/Circle_2.h $
-// $Id: Circle_2.h 5872413 2022-06-10T08:48:53+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Kernel_23/include/CGAL/Circle_2.h $
+// $Id: include/CGAL/Circle_2.h 50219fc33bc $
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -35,7 +35,7 @@ class Circle_2 : public R_::Kernel_base::Circle_2
   typedef typename R_::Aff_transformation_2  Aff_transformation_2;
 
   typedef Circle_2                           Self;
-  CGAL_static_assertion((std::is_same<Self, typename R_::Circle_2>::value));
+  static_assert(std::is_same<Self, typename R_::Circle_2>::value);
 
 public:
 

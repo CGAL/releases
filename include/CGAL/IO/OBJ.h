@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Stream_support/include/CGAL/IO/OBJ.h $
-// $Id: OBJ.h 4d76e06 2023-04-24T14:08:22+02:00 Laurent Rineau
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Stream_support/include/CGAL/IO/OBJ.h $
+// $Id: include/CGAL/IO/OBJ.h 50219fc33bc $
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s) : Lutz Kettner
@@ -136,8 +136,11 @@ bool read_OBJ(std::istream& is,
         }
 
         // the format can be "f v1/vt1/vn1 v2/vt2/vn2 v3/vt3/vn3 ..." and we only read vertex ids for now,
-        // so skip to the next vertex
-        iss.ignore(256, ' ');
+        // so skip to the next vertex, but be tolerant about which whitespace is used
+        if (!std::isspace(iss.peek())) {
+          std::string ignoreme;
+          iss >> ignoreme;
+        }
       }
 
       if(iss.bad())

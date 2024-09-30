@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Mesh_3/include/CGAL/perturb_mesh_3.h $
-// $Id: perturb_mesh_3.h 51ebe94 2024-02-12T12:12:10+01:00 Jane Tournois
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Mesh_3/include/CGAL/perturb_mesh_3.h $
+// $Id: include/CGAL/perturb_mesh_3.h 50219fc33bc $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //

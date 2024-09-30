@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Algebraic_kernel_d/include/CGAL/Algebraic_kernel_d/Real_embeddable_extension.h $
-// $Id: Real_embeddable_extension.h 014c06f 2022-11-14T15:32:47+01:00 albert-github
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Algebraic_kernel_d/include/CGAL/Algebraic_kernel_d/Real_embeddable_extension.h $
+// $Id: include/CGAL/Algebraic_kernel_d/Real_embeddable_extension.h 50219fc33bc $
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -327,7 +327,7 @@ public:
     long operator()( CORE::BigFloat x ) const {
       CGAL_precondition(!CGAL::zero_in(x));
       x = CGAL::abs(x);
-      return CORE::floorLg(x.m()-x.err())+x.exp()*CORE::CHUNK_BIT;
+      return CORE::floorLg(CORE::BigInt(x.m()-x.err()))+x.exp()*CORE::CHUNK_BIT;
     }
   };
 
@@ -337,7 +337,7 @@ public:
       // (already commented out in EXACUS)...
       //   NiX_precond(!(NiX::in_zero(x) && NiX::singleton(x)));
       x = CGAL::abs(x);
-      return CORE::ceilLg(x.m()+x.err())+x.exp()*CORE::CHUNK_BIT;
+      return CORE::ceilLg(CORE::BigInt(x.m()+x.err()))+x.exp()*CORE::CHUNK_BIT;
     }
   };
 

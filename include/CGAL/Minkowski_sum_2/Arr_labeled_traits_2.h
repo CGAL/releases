@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Minkowski_sum_2/include/CGAL/Minkowski_sum_2/Arr_labeled_traits_2.h $
-// $Id: Arr_labeled_traits_2.h 3674c93 2022-11-15T15:21:01+01:00 albert-github
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Minkowski_sum_2/include/CGAL/Minkowski_sum_2/Arr_labeled_traits_2.h $
+// $Id: include/CGAL/Minkowski_sum_2/Arr_labeled_traits_2.h 50219fc33bc $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s): Ron Wein   <wein_r@yahoo.com>
@@ -297,11 +297,8 @@ public:
                               OutputIterator oi) const
     {
       typedef std::pair<Base_point_2, Multiplicity>     Intersection_base_point;
-      typedef boost::variant<Intersection_base_point, Base_x_monotone_curve_2>
+      typedef std::variant<Intersection_base_point, Base_x_monotone_curve_2>
                                                         Intersection_base_result;
-      typedef std::pair<Point_2, Multiplicity>     Intersection_point;
-      typedef boost::variant<Intersection_point, X_monotone_curve_2>
-                                                        Intersection_result;
 
       // In case the curves are adjacent in their curve sequence, we do
       // not have to compute their intersection (we already know that they
@@ -317,24 +314,22 @@ public:
       // Attach labels to the intersection objects.
       for (const auto& xection : xections) {
         const Intersection_base_point* base_pt =
-          boost::get<Intersection_base_point>(&xection);
+          std::get_if<Intersection_base_point>(&xection);
 
         if (base_pt != nullptr) {
           // Attach an invalid label to an itersection point.
-          *oi++ = Intersection_result(std::make_pair(Point_2(base_pt->first),
-                                                     base_pt->second));
+          *oi++ = std::make_pair(Point_2(base_pt->first), base_pt->second);
           continue;
         }
 
         const Base_x_monotone_curve_2* base_xcv =
-          boost::get<Base_x_monotone_curve_2>(&xection);
+          std::get_if<Base_x_monotone_curve_2>(&xection);
         CGAL_assertion(base_xcv != nullptr);
 
         // Attach a merged label to the overlapping curve.
-        *oi++ =
-          Intersection_result(X_monotone_curve_2(*base_xcv,
-                                                 X_curve_label(cv1.label(),
-                                                               cv2.label())));
+        *oi++ = X_monotone_curve_2(*base_xcv,
+                                   X_curve_label(cv1.label(),
+                                   cv2.label()));
       }
 
       return oi;

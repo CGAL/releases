@@ -5,8 +5,8 @@
  *
  * This file is part of CGAL (www.cgal.org).
  *
- * $URL: https://github.com/CGAL/cgal/blob/v5.6.1/CGAL_Core/include/CGAL/CORE/Config.h $
- * $Id: Config.h 26fb266 2019-10-19T16:28:33+02:00 Sébastien Loriot
+ * $URL: https://github.com/CGAL/cgal/blob/v6.0/CGAL_Core/include/CGAL/CORE/Config.h $
+ * $Id: include/CGAL/CORE/Config.h 50219fc33bc $
  * SPDX-License-Identifier: LGPL-3.0-or-later
  ***************************************************************************/
 
@@ -28,5 +28,14 @@
 #include <CGAL/auto_link/CORE.h>
 
 #include <CGAL/export/CORE.h>
+
+#ifdef CGAL_TEST_SUITE
+// disabled for the testsuite to avoid `w`
+#define CGAL_CORE_warning_msg(X ,Y)
+// if (!(X)) CGAL_error_msg(Y)
+#else
+#define CGAL_CORE_warning_msg(X ,Y) CGAL_warning_msg(X ,Y)
+#endif
+
 
 #endif // _CORE_CONFIG_H_

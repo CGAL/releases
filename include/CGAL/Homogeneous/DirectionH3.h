@@ -7,8 +7,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Homogeneous_kernel/include/CGAL/Homogeneous/DirectionH3.h $
-// $Id: DirectionH3.h d39c774 2022-03-17T12:14:43+01:00 Andreas Fabri
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Homogeneous_kernel/include/CGAL/Homogeneous/DirectionH3.h $
+// $Id: include/CGAL/Homogeneous/DirectionH3.h 50219fc33bc $
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 //

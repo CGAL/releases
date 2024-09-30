@@ -3,15 +3,18 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Arrangement_on_surface_2/include/CGAL/Curved_kernel_via_analysis_2/Curve_interval_arcno_cache.h $
-// $Id: Curve_interval_arcno_cache.h 014c06f 2022-11-14T15:32:47+01:00 albert-github
-// SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Arrangement_on_surface_2/include/CGAL/Curved_kernel_via_analysis_2/Curve_interval_arcno_cache.h $
+// $Id: include/CGAL/Curved_kernel_via_analysis_2/Curve_interval_arcno_cache.h 50219fc33bc $
+// SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
 // Author(s)     : Pavel Emeliyanenko <asm@mpi-sb.mpg.de>
 
 #ifndef CGAL_CURVED_KERNEL_VIA_ANALYSIS_2_CURVE_INTERVAL_ARCNO_CACHE_H
 #define CGAL_CURVED_KERNEL_VIA_ANALYSIS_2_CURVE_INTERVAL_ARCNO_CACHE_H
+
+#include <CGAL/license/Arrangement_on_surface_2.h>
+
 
 /*!\file include/CGAL/Curved_kernel_via_analysis_2/Curve_interval_arcno_cache.h
  * \brief defines \c Curve_interval_arcno_cache functor
@@ -62,7 +65,7 @@ struct Curve_interval_arcno_cache {
     //! type of second argument
     typedef bool                  second_argument_type;
 
-    //! type of third arguent
+    //! type of third argument
     typedef int                   third_argument_type;
 
     //! the result type

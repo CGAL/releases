@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Triangulation_on_sphere_2/include/CGAL/Projection_on_sphere_traits_3.h $
-// $Id: Projection_on_sphere_traits_3.h d3fca65 2022-09-23T12:49:40+01:00 Andreas Fabri
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Triangulation_on_sphere_2/include/CGAL/Projection_on_sphere_traits_3.h $
+// $Id: include/CGAL/Projection_on_sphere_traits_3.h 50219fc33bc $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Mariette Yvinec,
@@ -37,7 +37,7 @@ private:
   mutable Base_point proj_pt;
 
 public:
-  Point_with_scale() : Base_point() { } // vertex base wants a default constructor
+  Point_with_scale() : Base_point(), cached(false) { } // vertex base wants a default constructor
   Point_with_scale(const Base_point& p) : Base_point(p), cached(false) { }
 
   const Base_point& get_projection(const Base_point& center,

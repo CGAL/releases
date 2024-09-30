@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Ridges_3/include/CGAL/PolyhedralSurf_neighbors.h $
-// $Id: PolyhedralSurf_neighbors.h eed54a0 2022-11-15T18:45:39+01:00 albert-github
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Ridges_3/include/CGAL/PolyhedralSurf_neighbors.h $
+// $Id: include/CGAL/PolyhedralSurf_neighbors.h 50219fc33bc $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Marc Pouget and Frédéric Cazals

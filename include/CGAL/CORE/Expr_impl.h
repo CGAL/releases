@@ -19,8 +19,8 @@
  * WWW URL: https://cs.nyu.edu/exact/
  * Email: exact@cs.nyu.edu
  *
- * $URL: https://github.com/CGAL/cgal/blob/v5.6.1/CGAL_Core/include/CGAL/CORE/Expr_impl.h $
- * $Id: Expr_impl.h 0ff7882 2022-12-06T22:21:06+01:00 Mael
+ * $URL: https://github.com/CGAL/cgal/blob/v6.0/CGAL_Core/include/CGAL/CORE/Expr_impl.h $
+ * $Id: include/CGAL/CORE/Expr_impl.h 50219fc33bc $
  * SPDX-License-Identifier: LGPL-3.0-or-later
  ***************************************************************************/
 
@@ -702,7 +702,7 @@ void computeExactFlags_temp(ConstRep* t, const Real &value) {
   } else {
     t->uMSB() = value.uMSB();
     t->lMSB() = value.lMSB();
-    core_error("Leaves in DAG is not exact!", __FILE__, __LINE__, true);
+    CGAL_error_msg("Leafs in DAG is not exact!");
   }
 
   t->sign() = value.sign();
@@ -809,8 +809,7 @@ void SqrtRep::computeExactFlags() {
 
   sign() = child->sign();
   if (sign() < 0)
-    core_error("squareroot is called with negative operand.",
-               __FILE__, __LINE__, true);
+    CGAL_error_msg("square root is called with negative operand.");
 
   uMSB() = child->uMSB() / EXTLONG_TWO;
   lMSB() = child->lMSB() / EXTLONG_TWO;
@@ -928,7 +927,7 @@ void DivRep::computeExactFlags() {
     second->computeExactFlags();
 
   if (!second->sign())
-    core_error("zero divisor.", __FILE__, __LINE__, true);
+    CGAL_error_msg("zero divisor.");
 
   if (!first->sign()) {// value must be exactly zero.
     reduceToZero();
@@ -1025,8 +1024,7 @@ void MultRep::computeApproxValue(const extLong& relPrec,
   {
     std::ostringstream oss;
     oss << "CORE WARNING: a huge lMSB in AddSubRep " <<  lMSB();
-    core_error(oss.str(),
-                 __FILE__, __LINE__, false);
+    CGAL_CORE_warning_msg(false, oss.str().c_str());
   }
 
   extLong r   = relPrec + EXTLONG_FOUR;
@@ -1048,8 +1046,7 @@ void DivRep::computeApproxValue(const extLong& relPrec,
   {
     std::ostringstream oss;
     oss << "CORE WARNING: a huge lMSB in AddSubRep " << lMSB();
-    core_error(oss.str(),
-                 __FILE__, __LINE__, false);
+    CGAL_CORE_warning_msg(false, oss.str().c_str());
   }
 
   extLong rr  = relPrec + EXTLONG_SEVEN;                // These rules come from
@@ -1082,7 +1079,9 @@ void Expr::debug(int mode, int level, int depthLimit) const {
   else if (mode == Expr::TREE_MODE)
     rep->debugTree(level, 0, depthLimit);
   else
-    core_error("unknown debugging mode", __FILE__, __LINE__, false);
+  {
+    CGAL_CORE_warning_msg(false, "unknown debugging mode");
+  }
   std::cout << "---- End Expr debug(): " << std::endl;
 }
 
@@ -1215,8 +1214,6 @@ void BinOpRep::debugTree(int level, int indent, int depthLimit) const {
   second->debugTree(level, indent + 2, depthLimit - 1);
 }
 
-CORE_MEMORY_IMPL(BigIntRep)
-CORE_MEMORY_IMPL(BigRatRep)
 CORE_MEMORY_IMPL(ConstDoubleRep)
 CORE_MEMORY_IMPL(ConstRealRep)
 

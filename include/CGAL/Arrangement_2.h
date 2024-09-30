@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Arrangement_on_surface_2/include/CGAL/Arrangement_2.h $
-// $Id: Arrangement_2.h d91194f 2019-12-02T21:22:25+02:00 Efi Fogel
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Arrangement_on_surface_2/include/CGAL/Arrangement_2.h $
+// $Id: include/CGAL/Arrangement_2.h 50219fc33bc $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -25,6 +25,7 @@
 #include <CGAL/Arr_tags.h>
 #include <CGAL/Arrangement_on_surface_2.h>
 #include <CGAL/Arrangement_2/Arr_default_planar_topology.h>
+#include <CGAL/Arr_default_dcel.h>
 
 namespace CGAL {
 
@@ -115,12 +116,9 @@ public:
   typedef typename Base::Inner_ccb_const_iterator  Hole_const_iterator;
 
 private:
-
-  friend class Arr_observer<Self>;
   friend class Arr_accessor<Self>;
 
 public:
-
   /// \name Constructors.
   //@{
 
@@ -215,34 +213,6 @@ public:
   }
 
   //@}
-
-protected:
-
-  /// \name Managing and notifying the arrangement observers.
-  //@{
-  typedef Arr_observer<Self>                      Observer;
-
-  /*!
-   * Register a new observer (so it starts receiving notifications).
-   * \param p_obs A pointer to the observer object.
-   */
-  void _register_observer (Observer *p_obs)
-  {
-    Base::_register_observer ((typename Base::Observer*)p_obs);
-    return;
-  }
-
-  /*!
-   * Unregister a new observer (so it stops receiving notifications).
-   * \param p_obs A pointer to the observer object.
-   * \return Whether the observer was successfully unregistered.
-   */
-  bool _unregister_observer (Observer *p_obs)
-  {
-    return (Base::_unregister_observer ((typename Base::Observer*)p_obs));
-  }
-  //@}
-
 };
 
 } //namespace CGAL

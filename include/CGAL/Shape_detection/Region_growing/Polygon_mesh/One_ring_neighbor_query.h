@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Shape_detection/include/CGAL/Shape_detection/Region_growing/Polygon_mesh/One_ring_neighbor_query.h $
-// $Id: One_ring_neighbor_query.h 2c1a0fd 2022-07-19T16:07:09+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Shape_detection/include/CGAL/Shape_detection/Region_growing/Polygon_mesh/One_ring_neighbor_query.h $
+// $Id: include/CGAL/Shape_detection/Region_growing/Polygon_mesh/One_ring_neighbor_query.h 50219fc33bc $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -38,7 +38,7 @@ namespace Polygon_mesh {
     a model of `ConstRange` whose iterator type is `RandomAccessIterator` and
     value type is the face type of a polygon mesh
 
-    \cgalModels `NeighborQuery`
+    \cgalModels{NeighborQuery}
   */
   template<typename PolygonMesh>
   class One_ring_neighbor_query

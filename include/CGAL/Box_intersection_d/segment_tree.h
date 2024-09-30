@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Box_intersection_d/include/CGAL/Box_intersection_d/segment_tree.h $
-// $Id: segment_tree.h 9dd8235 2022-08-10T23:48:47+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Box_intersection_d/include/CGAL/Box_intersection_d/segment_tree.h $
+// $Id: include/CGAL/Box_intersection_d/segment_tree.h 50219fc33bc $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -326,7 +326,7 @@ public:
 };
 
 template <class T>
-CGAL_CPP17_INLINE constexpr bool Has_member_report_v = Has_member_report<T>::value;
+inline constexpr bool Has_member_report_v = Has_member_report<T>::value;
 
 template <typename Callback>
 inline

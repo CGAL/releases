@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Mesher_level/include/CGAL/Mesh_optimization_return_code.h $
-// $Id: Mesh_optimization_return_code.h 0779373 2020-03-26T13:31:46+01:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Mesher_level/include/CGAL/Mesh_optimization_return_code.h $
+// $Id: include/CGAL/Mesh_optimization_return_code.h 50219fc33bc $
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 //

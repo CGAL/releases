@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Skin_surface_3/include/CGAL/Skin_surface_base_3.h $
-// $Id: Skin_surface_base_3.h 363d1da 2022-09-23T15:19:51+02:00 Mael Rouxel-Labbé
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Skin_surface_3/include/CGAL/Skin_surface_base_3.h $
+// $Id: include/CGAL/Skin_surface_base_3.h 50219fc33bc $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -42,7 +42,6 @@
 
 #include <CGAL/STL_Extension/internal/Has_nested_type_Bare_point.h>
 
-#include <boost/mpl/if.hpp>
 #include <boost/mpl/identity.hpp>
 
 namespace CGAL {

@@ -3,9 +3,9 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Arrangement_on_surface_2/include/CGAL/Curved_kernel_via_analysis_2/Curve_renderer_facade.h $
-// $Id: Curve_renderer_facade.h 014c06f 2022-11-14T15:32:47+01:00 albert-github
-// SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Arrangement_on_surface_2/include/CGAL/Curved_kernel_via_analysis_2/Curve_renderer_facade.h $
+// $Id: include/CGAL/Curved_kernel_via_analysis_2/Curve_renderer_facade.h 50219fc33bc $
+// SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Pavel Emeliyanenko <asm@mpi-sb.mpg.de>
 //
@@ -21,6 +21,9 @@
 #ifndef CGAL_CKVA_CURVE_RENDERER_FACADE_H
 #define CGAL_CKVA_CURVE_RENDERER_FACADE_H
 
+#include <CGAL/license/Arrangement_on_surface_2.h>
+
+
 // do not compile curve renderer code (for fast debugging)
 //#define CGAL_CKVA_DUMMY_RENDERER
 
@@ -29,7 +32,7 @@
 // whether to use exact rational arithmetic
 #define CGAL_CKVA_USE_RATIONAL_ARITHMETIC
 
-// this turns on a signleton curve renderer
+// this turns on a singleton curve renderer
 // (not recommended for multi-threaded applications)
 //#define CGAL_CKVA_USE_STATIC_RENDERER
 
@@ -62,7 +65,6 @@
 #include <CGAL/Bbox_2.h>
 #include <CGAL/Arithmetic_kernel.h>
 
-#include <boost/array.hpp>
 #include <CGAL/Curved_kernel_via_analysis_2/gfx/Curve_renderer_2.h>
 
 
@@ -253,8 +255,8 @@ public:
         class Allocator >
     inline void draw(const Arc_2& arc,
             Container< std::vector< Coord_2 >, Allocator >& pts,
-            boost::optional< Coord_2 > *end_pt1 = nullptr,
-            boost::optional< Coord_2 > *end_pt2 = nullptr) {
+            std::optional< Coord_2 > *end_pt1 = nullptr,
+            std::optional< Coord_2 > *end_pt2 = nullptr) {
 
 #ifndef CGAL_CKVA_DUMMY_RENDERER
         Bbox_2 bbox;

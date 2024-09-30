@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/QP_solver/include/CGAL/QP_solver/QP_functions_impl.h $
-// $Id: QP_functions_impl.h 0779373 2020-03-26T13:31:46+01:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/QP_solver/include/CGAL/QP_solver/QP_functions_impl.h $
+// $Id: include/CGAL/QP_solver/QP_functions_impl.h 50219fc33bc $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -36,7 +36,7 @@ namespace QP_functions_detail {
     return true;
   }
 
-  // test whether the row vectors of A that correpsond to equations
+  // test whether the row vectors of A that correspond to equations
   // are linearly independent; this is done using type ET. The value
   // type of LinearInequalitySystem must be convertible to ET
   template <class Ar, class ET>

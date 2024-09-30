@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Heat_method_3/include/CGAL/Heat_method_3/Surface_mesh_geodesic_distances_3.h $
-// $Id: Surface_mesh_geodesic_distances_3.h 83b0b0b 2022-11-07T14:23:29+01:00 Mael Rouxel-Labbé
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Heat_method_3/include/CGAL/Heat_method_3/Surface_mesh_geodesic_distances_3.h $
+// $Id: include/CGAL/Heat_method_3/Surface_mesh_geodesic_distances_3.h 50219fc33bc $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -25,6 +25,8 @@
 #include <CGAL/Dynamic_property_map.h>
 #include <CGAL/squared_distance_3.h>
 #include <CGAL/number_utils.h>
+#include <CGAL/Default.h>
+
 #ifdef CGAL_EIGEN3_ENABLED
 #include <CGAL/Eigen_solver_traits.h>
 #endif
@@ -752,8 +754,8 @@ class Surface_mesh_geodesic_distances_3
     >
 #endif
 {
-  CGAL_static_assertion((std::is_same<Mode, Direct>::value) ||
-                        (std::is_same<Mode, Intrinsic_Delaunay>::value));
+  static_assert(std::is_same<Mode, Direct>::value ||
+                std::is_same<Mode, Intrinsic_Delaunay>::value);
 
   // extract real types from Default
 #ifdef CGAL_EIGEN3_ENABLED

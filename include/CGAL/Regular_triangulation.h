@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Triangulation/include/CGAL/Regular_triangulation.h $
-// $Id: Regular_triangulation.h c32b1f4 2022-11-16T13:22:39+01:00 albert-github
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Triangulation/include/CGAL/Regular_triangulation.h $
+// $Id: include/CGAL/Regular_triangulation.h 50219fc33bc $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Clement Jamin
@@ -129,12 +129,12 @@ private:
   // Wrapper
   struct Power_side_of_power_sphere_for_non_maximal_dim_d
   {
-    boost::optional<Flat_orientation_d>* fop;
+    std::optional<Flat_orientation_d>* fop;
     Construct_flat_orientation_d cfo;
     In_flat_power_side_of_power_sphere_d ifpt;
 
     Power_side_of_power_sphere_for_non_maximal_dim_d(
-      boost::optional<Flat_orientation_d>& x,
+      std::optional<Flat_orientation_d>& x,
       Construct_flat_orientation_d const&y,
       In_flat_power_side_of_power_sphere_d const&z)
     : fop(&x), cfo(y), ifpt(z) {}
@@ -144,7 +144,7 @@ private:
     {
       if(!*fop)
         *fop=cfo(a,b);
-      return ifpt(fop->get(),a,b,p);
+      return ifpt(fop->value(),a,b,p);
     }
   };
 

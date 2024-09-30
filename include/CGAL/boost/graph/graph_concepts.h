@@ -2,8 +2,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/BGL/include/CGAL/boost/graph/graph_concepts.h $
-// $Id: graph_concepts.h c9af7a1 2020-10-14T10:59:46+02:00 Mael Rouxel-Labbé
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/BGL/include/CGAL/boost/graph/graph_concepts.h $
+// $Id: include/CGAL/boost/graph/graph_concepts.h 50219fc33bc $
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 //

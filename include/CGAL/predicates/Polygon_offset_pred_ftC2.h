@@ -2,8 +2,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Straight_skeleton_2/include/CGAL/predicates/Polygon_offset_pred_ftC2.h $
-// $Id: Polygon_offset_pred_ftC2.h a0ed893 2023-03-27T12:54:56+02:00 Mael Rouxel-Labbé
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Straight_skeleton_2/include/CGAL/predicates/Polygon_offset_pred_ftC2.h $
+// $Id: include/CGAL/predicates/Polygon_offset_pred_ftC2.h 50219fc33bc $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Fernando Cacciola <fernando_cacciola@ciudad.com.ar>
@@ -17,7 +17,7 @@
 #include <CGAL/Straight_skeleton_2/Straight_skeleton_builder_traits_2_aux.h>
 #include <CGAL/Uncertain.h>
 
-#include <boost/optional/optional.hpp>
+#include <optional>
 
 namespace CGAL {
 
@@ -37,7 +37,7 @@ compare_offset_against_isec_timeC2 ( typename K::FT const& t,
   typedef Rational<FT> Rational ;
   typedef Quotient<FT> Quotient ;
 
-  typedef boost::optional<Rational> Optional_rational ;
+  typedef std::optional<Rational> Optional_rational ;
 
   Uncertain<Comparison_result> rResult = Uncertain<Comparison_result>::indeterminate();
 

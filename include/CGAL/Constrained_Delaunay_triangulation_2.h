@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Triangulation_2/include/CGAL/Constrained_Delaunay_triangulation_2.h $
-// $Id: Constrained_Delaunay_triangulation_2.h dd5989d 2023-03-21T16:28:53+01:00 Andreas Fabri
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Triangulation_2/include/CGAL/Constrained_Delaunay_triangulation_2.h $
+// $Id: include/CGAL/Constrained_Delaunay_triangulation_2.h 50219fc33bc $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -316,7 +316,7 @@ public:
   std::ptrdiff_t
   insert( InputIterator first, InputIterator last,
           std::enable_if_t<
-            boost::is_convertible<
+            std::is_convertible<
                 typename internal::Get_iterator_value_type< InputIterator >::type,
                 Point
             >::value
@@ -341,6 +341,25 @@ public:
 
       return number_of_vertices() - n;
     }
+
+  // function usable only if no constraint has been inserted
+  void restore_Delaunay(Vertex_handle v)
+  {
+    if(this->dimension() <= 1) return;
+
+    Face_handle f=v->face();
+    Face_handle next;
+    int i;
+    Face_handle start(f);
+    do {
+      i = f->index(v);
+      next = f->neighbor(ccw(i));  // turn ccw around v
+      propagating_flip(f,i);
+      f = next;
+    } while(next != start);
+    return;
+  }
+
 
 #ifndef CGAL_TRIANGULATION_2_DONT_INSERT_RANGE_OF_POINTS_WITH_INFO
 private:
@@ -398,7 +417,7 @@ public:
   insert( InputIterator first,
           InputIterator last,
           std::enable_if_t<
-            boost::is_convertible<
+            std::is_convertible<
               typename internal::Get_iterator_value_type< InputIterator >::type,
               std::pair<Point,typename internal::Info_check<typename Tds::Vertex>::type>
             >::value
@@ -413,10 +432,8 @@ public:
   insert( boost::zip_iterator< boost::tuple<InputIterator_1,InputIterator_2> > first,
           boost::zip_iterator< boost::tuple<InputIterator_1,InputIterator_2> > last,
           std::enable_if_t<
-            boost::mpl::and_<
-              boost::is_convertible< typename std::iterator_traits<InputIterator_1>::value_type, Point >,
-              boost::is_convertible< typename std::iterator_traits<InputIterator_2>::value_type, typename internal::Info_check<typename Tds::Vertex>::type >
-            >::value
+              std::is_convertible_v< typename std::iterator_traits<InputIterator_1>::value_type, Point > &&
+              std::is_convertible_v< typename std::iterator_traits<InputIterator_2>::value_type, typename internal::Info_check<typename Tds::Vertex>::type >
           >* =nullptr
   )
   {

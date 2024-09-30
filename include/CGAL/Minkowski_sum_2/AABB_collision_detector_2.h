@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Minkowski_sum_2/include/CGAL/Minkowski_sum_2/AABB_collision_detector_2.h $
-// $Id: AABB_collision_detector_2.h 254d60f 2019-10-19T15:23:19+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Minkowski_sum_2/include/CGAL/Minkowski_sum_2/AABB_collision_detector_2.h $
+// $Id: include/CGAL/Minkowski_sum_2/AABB_collision_detector_2.h 50219fc33bc $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s): Sebastian Morr    <sebastian@morr.cc>
@@ -37,7 +37,7 @@ public:
   typedef typename Polygon_2::Edge_const_iterator       Edge_iterator;
   typedef AABB_segment_2_primitive<Kernel, Edge_iterator, Polygon_with_holes_2>
                                                         Tree_segment_2;
-  typedef AABB_traits_2<Kernel, Tree_segment_2>         Tree_traits;
+  typedef Minkowski_sum::AABB_traits_2<Kernel, Tree_segment_2>         Tree_traits;
   typedef AABB_tree_with_join<Tree_traits>              Tree_2;
 
 public:
@@ -86,7 +86,7 @@ public:
       *m_p.holes_begin()->vertices_begin() + Vector_2(ORIGIN, t);
 
     // Use bounded_side_2() instead of on_bounded_side() because the latter
-    // checks vor simplicity every time.
+    // checks for simplicity every time.
     bool in_mp(true);
     if (! m_p.outer_boundary().is_empty())
       in_mp =

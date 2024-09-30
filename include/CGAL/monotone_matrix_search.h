@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Matrix_search/include/CGAL/monotone_matrix_search.h $
-// $Id: monotone_matrix_search.h 74e4d89 2022-09-27T10:42:05+01:00 Andreas Fabri
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Matrix_search/include/CGAL/monotone_matrix_search.h $
+// $Id: include/CGAL/monotone_matrix_search.h 50219fc33bc $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //

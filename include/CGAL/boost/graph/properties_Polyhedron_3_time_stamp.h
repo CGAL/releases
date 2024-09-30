@@ -2,15 +2,18 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Polyhedron/include/CGAL/boost/graph/properties_Polyhedron_3_time_stamp.h $
-// $Id: properties_Polyhedron_3_time_stamp.h 968e9cf 2022-06-16T13:29:20+02:00 Sébastien Loriot
-// SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Polyhedron/include/CGAL/boost/graph/properties_Polyhedron_3_time_stamp.h $
+// $Id: include/CGAL/boost/graph/properties_Polyhedron_3_time_stamp.h 50219fc33bc $
+// SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
 // Author(s)     : Andreas Fabri
 
 #ifndef CGAL_PROPERTIES_POLYHEDRON_3_TIME_STAMP_H
 #define CGAL_PROPERTIES_POLYHEDRON_3_TIME_STAMP_H
+
+#include <CGAL/license/Polyhedron.h>
+
 
 #include <CGAL/Polyhedron_3.h>
 

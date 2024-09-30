@@ -6,8 +6,8 @@
  This file is part of a fork of the QGLViewer library version 2.7.0.
 
 *****************************************************************************/
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/GraphicsView/include/CGAL/Qt/vec.h $
-// $Id: vec.h f1b07a3 2023-05-23T19:00:52+02:00 Mael Rouxel-Labbé
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/GraphicsView/include/CGAL/Qt/vec.h $
+// $Id: include/CGAL/Qt/vec.h 50219fc33bc $
 // SPDX-License-Identifier: GPL-3.0-only
 
 #ifndef QGLVIEWER_VEC_H

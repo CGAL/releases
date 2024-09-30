@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Circular_kernel_3/include/CGAL/Circular_kernel_3/Circular_arc_3.h $
-// $Id: Circular_arc_3.h 4547818 2022-11-15T13:39:40+01:00 albert-github
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Circular_kernel_3/include/CGAL/Circular_kernel_3/Circular_arc_3.h $
+// $Id: include/CGAL/Circular_kernel_3/Circular_arc_3.h 50219fc33bc $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s) : Monique Teillaud, Sylvain Pion, Pedro Machado,
@@ -167,11 +167,11 @@ namespace CGAL {
          CGAL_kernel_precondition(sols1.size() > 0);
          CGAL_kernel_precondition(sols2.size() > 0);
          const std::pair<typename SK::Circular_arc_point_3, unsigned>& pair1=
-            *boost::get<std::pair<typename SK::Circular_arc_point_3, unsigned> >(
+            *std::get<std::pair<typename SK::Circular_arc_point_3, unsigned> >(
               &sols1[(sols1.size()==1)?(0):(less_xyz_s1?0:1)]
             );
          const std::pair<typename SK::Circular_arc_point_3, unsigned>& pair2=
-            *boost::get<std::pair<typename SK::Circular_arc_point_3, unsigned> >(
+            *std::get<std::pair<typename SK::Circular_arc_point_3, unsigned> >(
               &sols2[(sols2.size()==1)?(0):(less_xyz_s2?0:1)]
             );
          // the source and target must be different
@@ -194,11 +194,11 @@ namespace CGAL {
          CGAL_kernel_precondition(sols1.size() > 0);
          CGAL_kernel_precondition(sols2.size() > 0);
          const std::pair<typename SK::Circular_arc_point_3, unsigned>& pair1=
-           *boost::get<std::pair<typename SK::Circular_arc_point_3, unsigned> >(
+           *std::get<std::pair<typename SK::Circular_arc_point_3, unsigned> >(
               &sols1[(sols1.size()==1)?(0):(less_xyz_p1?0:1)]
             );
          const std::pair<typename SK::Circular_arc_point_3, unsigned>& pair2=
-           *boost::get<std::pair<typename SK::Circular_arc_point_3, unsigned> >(
+           *std::get<std::pair<typename SK::Circular_arc_point_3, unsigned> >(
               &sols2[(sols2.size()==1)?(0):(less_xyz_p2?0:1)]
             );
          // the source and target must be different

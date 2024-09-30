@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Nef_3/include/CGAL/Nef_3/SNC_simplify.h $
-// $Id: SNC_simplify.h 3674c93 2022-11-15T15:21:01+01:00 albert-github
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Nef_3/include/CGAL/Nef_3/SNC_simplify.h $
+// $Id: include/CGAL/Nef_3/SNC_simplify.h 50219fc33bc $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -169,7 +169,7 @@ class SNC_simplify_base : public SNC_decorator<SNC_structure> {
   }
 
   bool is_part_of_edge(Vertex_handle v) {
-    /* determines if a vertex v is part of a edge, checking at its local
+    /* determines if a vertex v is part of an edge, checking at its local
        graph for exactly two antipodal vertices  */
 
     SM_decorator SD(&*v);

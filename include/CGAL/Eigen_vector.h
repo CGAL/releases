@@ -2,8 +2,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Solver_interface/include/CGAL/Eigen_vector.h $
-// $Id: Eigen_vector.h b5c21e1 2022-11-23T18:48:43+01:00 Mael Rouxel-Labbé
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Solver_interface/include/CGAL/Eigen_vector.h $
+// $Id: include/CGAL/Eigen_vector.h 50219fc33bc $
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Gael Guennebaud
@@ -23,8 +23,7 @@ The class `Eigen_vector` is a wrapper around `Eigen`
 <a href="https://eigen.tuxfamily.org/dox/classEigen_1_1Matrix.html">vector type</a>,
 which is a simple array of numbers.
 
-\cgalModels `SvdTraits::Vector`
-\cgalModels `SparseLinearAlgebraTraits_d::Vector`.
+\cgalModels{SvdTraits::Vector,SparseLinearAlgebraTraits_d::Vector}
 
 \tparam T Number type.
 

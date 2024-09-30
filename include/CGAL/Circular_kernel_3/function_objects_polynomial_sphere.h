@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Circular_kernel_3/include/CGAL/Circular_kernel_3/function_objects_polynomial_sphere.h $
-// $Id: function_objects_polynomial_sphere.h b96f6d5 2022-06-10T09:43:59+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Circular_kernel_3/include/CGAL/Circular_kernel_3/function_objects_polynomial_sphere.h $
+// $Id: include/CGAL/Circular_kernel_3/function_objects_polynomial_sphere.h 50219fc33bc $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s) : Monique Teillaud, Sylvain Pion, Pedro Machado,

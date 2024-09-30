@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Mesh_3/include/CGAL/Mesh_3/Concurrent_mesher_config.h $
-// $Id: Concurrent_mesher_config.h 0779373 2020-03-26T13:31:46+01:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Mesh_3/include/CGAL/Mesh_3/Concurrent_mesher_config.h $
+// $Id: include/CGAL/Mesh_3/Concurrent_mesher_config.h 50219fc33bc $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -35,7 +35,8 @@ class Concurrent_mesher_config
 {
   // Private constructor (singleton)
   Concurrent_mesher_config()
-  : locking_grid_num_cells_per_axis(50),
+  : num_threads(-1),
+    locking_grid_num_cells_per_axis(50),
     first_grid_lock_radius(0),
     work_stats_grid_num_cells_per_axis(5),
     num_work_items_per_batch(50),
@@ -48,14 +49,14 @@ class Concurrent_mesher_config
   {}
 
 public:
-  static Concurrent_mesher_config &get()
+  static Concurrent_mesher_config& get()
   {
     static Concurrent_mesher_config singleton;
     return singleton;
   }
 
   static bool load_config_file(const char *filename,
-    bool reload_if_already_loaded = false)
+                               bool reload_if_already_loaded = false)
   {
     return get().load_file(filename, reload_if_already_loaded);
   }
@@ -64,6 +65,7 @@ public:
   //=============== PUBLIC PARAMETERS ==============
 
   // From config file (or default)
+  int     num_threads;
   int     locking_grid_num_cells_per_axis;
   int     first_grid_lock_radius;
   int     work_stats_grid_num_cells_per_axis;
@@ -81,9 +83,8 @@ public:
 
 protected:
 
-  bool load_file(
-    const char *filename,
-    bool reload_if_already_loaded = false)
+  bool load_file(const char *filename,
+                 bool reload_if_already_loaded = false)
   {
     CGAL_USE(reload_if_already_loaded);
 #ifdef CGAL_USE_BOOST_PROGRAM_OPTIONS
@@ -104,6 +105,7 @@ protected:
       // Declare the supported options.
       po::options_description desc("Allowed options");
       desc.add_options()
+        ("num_threads", po::value<int>(), "")
         ("locking_grid_num_cells_per_axis", po::value<int>(), "")
         ("first_grid_lock_radius", po::value<int>(), "")
         ("work_stats_grid_num_cells_per_axis", po::value<int>(), "")
@@ -125,6 +127,8 @@ protected:
       return false;
     }
 
+    num_threads =
+      get_config_file_option_value<int>("num_threads");
     locking_grid_num_cells_per_axis =
       get_config_file_option_value<int>("locking_grid_num_cells_per_axis");
     first_grid_lock_radius =

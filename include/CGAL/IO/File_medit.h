@@ -4,8 +4,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/SMDS_3/include/CGAL/IO/File_medit.h $
-// $Id: File_medit.h 7789d06 2022-11-29T12:14:31+01:00 Mael Rouxel-Labbé
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/SMDS_3/include/CGAL/IO/File_medit.h $
+// $Id: include/CGAL/IO/File_medit.h 50219fc33bc $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //

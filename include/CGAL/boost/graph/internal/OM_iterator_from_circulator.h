@@ -2,8 +2,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/BGL/include/CGAL/boost/graph/internal/OM_iterator_from_circulator.h $
-// $Id: OM_iterator_from_circulator.h 4f5f834 2022-06-10T07:37:53+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/BGL/include/CGAL/boost/graph/internal/OM_iterator_from_circulator.h $
+// $Id: include/CGAL/boost/graph/internal/OM_iterator_from_circulator.h 50219fc33bc $
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -19,8 +19,6 @@
 
 #include <boost/operators.hpp>
 #include <boost/concept_check.hpp>
-
-#include <boost/mpl/if.hpp>
 
 namespace CGAL {
 
@@ -45,23 +43,20 @@ public:
 
   typedef typename I__traits::iterator_category iterator_category;
 
-  typedef typename
-  boost::mpl::if_c<  Prevent_deref
-                   , C
-                   , typename C::value_type
-                  >::type             value_type;
+  typedef std::conditional_t<  Prevent_deref
+                             , C
+                             , typename C::value_type>
+                                                         value_type;
 
   typedef typename C::difference_type difference_type;
-  typedef typename
-  boost::mpl::if_c<  Prevent_deref
-                   , C&
-                   , typename C::reference
-                  >::type             reference;
-  typedef typename
-  boost::mpl::if_c<  Prevent_deref
-                   , C*
-                   , typename C::reference
-                  >::type             pointer;
+  typedef std::conditional_t<  Prevent_deref
+                             , C&
+                             , typename C::reference
+                            >             reference;
+  typedef std::conditional_t<  Prevent_deref
+                             , C*
+                             , typename C::reference
+                            >             pointer;
 
   OM_iterator_from_circulator(){}
 

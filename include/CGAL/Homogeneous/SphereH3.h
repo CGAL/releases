@@ -7,8 +7,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Homogeneous_kernel/include/CGAL/Homogeneous/SphereH3.h $
-// $Id: SphereH3.h 3640099 2021-09-28T15:36:51+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Homogeneous_kernel/include/CGAL/Homogeneous/SphereH3.h $
+// $Id: include/CGAL/Homogeneous/SphereH3.h 50219fc33bc $
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 //

@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Envelope_3/include/CGAL/Envelope_3/set_dividors.h $
-// $Id: set_dividors.h 4547818 2022-11-15T13:39:40+01:00 albert-github
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Envelope_3/include/CGAL/Envelope_3/set_dividors.h $
+// $Id: include/CGAL/Envelope_3/set_dividors.h 50219fc33bc $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //

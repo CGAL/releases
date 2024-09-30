@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Bounding_volumes/include/CGAL/Approximate_min_ellipsoid_d/Approximate_min_ellipsoid_d_debug.h $
-// $Id: Approximate_min_ellipsoid_d_debug.h 96a8d91 2022-11-16T13:45:12+01:00 albert-github
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Bounding_volumes/include/CGAL/Approximate_min_ellipsoid_d/Approximate_min_ellipsoid_d_debug.h $
+// $Id: include/CGAL/Approximate_min_ellipsoid_d/Approximate_min_ellipsoid_d_debug.h 50219fc33bc $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //

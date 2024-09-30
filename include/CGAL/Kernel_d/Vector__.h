@@ -7,8 +7,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Kernel_d/include/CGAL/Kernel_d/Vector__.h $
-// $Id: Vector__.h 78ff918 2021-06-23T23:34:14+02:00 Mael Rouxel-Labbé
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Kernel_d/include/CGAL/Kernel_d/Vector__.h $
+// $Id: include/CGAL/Kernel_d/Vector__.h 50219fc33bc $
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 //

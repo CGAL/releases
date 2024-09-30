@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Bounding_volumes/include/CGAL/Min_sphere_of_spheres_d/Min_sphere_of_spheres_d_support_set_impl.h $
-// $Id: Min_sphere_of_spheres_d_support_set_impl.h 62a31ba 2022-11-14T17:44:33+01:00 albert-github
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Bounding_volumes/include/CGAL/Min_sphere_of_spheres_d/Min_sphere_of_spheres_d_support_set_impl.h $
+// $Id: include/CGAL/Min_sphere_of_spheres_d/Min_sphere_of_spheres_d_support_set_impl.h 50219fc33bc $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //

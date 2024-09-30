@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/AABB_tree/include/CGAL/AABB_triangulation_3_cell_primitive.h $
-// $Id: AABB_triangulation_3_cell_primitive.h 8166579 2021-10-11T19:58:07+02:00 Mael Rouxel-Labbé
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/AABB_tree/include/CGAL/AABB_triangulation_3_cell_primitive.h $
+// $Id: include/CGAL/AABB_triangulation_3_cell_primitive.h 50219fc33bc $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -36,7 +36,7 @@ namespace CGAL
           std::declval<int>())) reference;
       // typedef decltype(
       //   typename GeomTraits::Construct_vertex_3()(
-      //     *std::declval<key_type&>(), 0)) reference; // fails polyhedron demo!
+      //     *std::declval<key_type&>(), 0)) reference; // fails CGAL Lab!
       typedef boost::readable_property_map_tag category;
       typedef Point_from_cell_iterator_proprety_map<GeomTraits, Iterator> Self;
 

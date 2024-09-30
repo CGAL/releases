@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Alpha_wrap_3/include/CGAL/Alpha_wrap_3/internal/Oracle_base.h $
-// $Id: Oracle_base.h 46c9fa1 2022-09-03T14:00:20+02:00 Mael Rouxel-Labbé
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Alpha_wrap_3/include/CGAL/Alpha_wrap_3/internal/Oracle_base.h $
+// $Id: include/CGAL/Alpha_wrap_3/internal/Oracle_base.h 50219fc33bc $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Mael Rouxel-Labbé
@@ -49,7 +49,7 @@ struct AABB_tree_oracle_helper
   using GT = typename AABB_traits::Geom_traits;
 
   using FT = typename AABB_traits::FT;
-  using Point_3 = typename AABB_traits::Point_3;
+  using Point_3 = typename AABB_traits::Point;
 
   template <typename Query>
   static bool do_intersect(const Query& query,
@@ -321,7 +321,6 @@ public:
   typename AABB_tree::Bounding_box bbox() const
   {
     CGAL_precondition(!empty());
-
     return tree().bbox();
   }
 

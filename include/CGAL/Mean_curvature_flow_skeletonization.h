@@ -2,8 +2,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Surface_mesh_skeletonization/include/CGAL/Mean_curvature_flow_skeletonization.h $
-// $Id: Mean_curvature_flow_skeletonization.h 9cc1dda 2023-06-26T16:30:17+01:00 Andreas Fabri
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Surface_mesh_skeletonization/include/CGAL/Mean_curvature_flow_skeletonization.h $
+// $Id: include/CGAL/Mean_curvature_flow_skeletonization.h 50219fc33bc $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Xiang Gao <gaox@ethz.ch>
@@ -528,6 +528,7 @@ public:
   /// after a number of `contract_geometry()`, keeping the specified
   /// vertices fixed in place.
   /// \tparam InputIterator a model of `InputIterator` with `boost::graph_traits<TriangleMesh>::%vertex_descriptor` as value type.
+  ///
   /// \cgalAdvancedEnd
   template<class InputIterator>
   void set_fixed_vertices(InputIterator begin, InputIterator end)

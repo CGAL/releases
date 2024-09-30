@@ -2,8 +2,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Straight_skeleton_2/include/CGAL/Straight_skeleton_2/Straight_skeleton_builder_events_2.h $
-// $Id: Straight_skeleton_builder_events_2.h 7b3ef62 2023-03-06T20:44:14+01:00 Mael Rouxel-Labbé
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Straight_skeleton_2/include/CGAL/Straight_skeleton_2/Straight_skeleton_builder_events_2.h $
+// $Id: include/CGAL/Straight_skeleton_2/Straight_skeleton_builder_events_2.h 50219fc33bc $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Fernando Cacciola <fernando_cacciola@ciudad.com.ar>

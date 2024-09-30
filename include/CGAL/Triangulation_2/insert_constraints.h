@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Triangulation_2/include/CGAL/Triangulation_2/insert_constraints.h $
-// $Id: insert_constraints.h dd5989d 2023-03-21T16:28:53+01:00 Andreas Fabri
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Triangulation_2/include/CGAL/Triangulation_2/insert_constraints.h $
+// $Id: include/CGAL/Triangulation_2/insert_constraints.h 50219fc33bc $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -84,7 +84,6 @@ namespace CGAL {
                                    ConstraintIterator first,
                                    ConstraintIterator beyond)
   {
-    typedef typename T::Point Point;
     typedef typename T::Point Point;
     std::vector<Point> points;
     for (ConstraintIterator s_it=first; s_it!=beyond; ++s_it)

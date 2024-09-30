@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Arrangement_on_surface_2/include/CGAL/Arr_spherical_gaussian_map_3/Arr_spherical_gaussian_map_3.h $
-// $Id: Arr_spherical_gaussian_map_3.h 014c06f 2022-11-14T15:32:47+01:00 albert-github
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Arrangement_on_surface_2/include/CGAL/Arr_spherical_gaussian_map_3/Arr_spherical_gaussian_map_3.h $
+// $Id: include/CGAL/Arr_spherical_gaussian_map_3/Arr_spherical_gaussian_map_3.h 50219fc33bc $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s): Efi Fogel         <efif@post.tau.ac.il>
@@ -154,14 +154,14 @@ public:
   OutputIterator insert(const Vector_3 & normal1, const Vector_3 & normal2,
                         OutputIterator oi)
   {
-    typedef boost::variant<Point_2, X_monotone_curve_2>
+    typedef std::variant<Point_2, X_monotone_curve_2>
       Make_x_monotone_result;
 
     std::list<Make_x_monotone_result> x_objects;
     make_x_monotone(normal1, normal2, std::back_inserter(x_objects));
 
     auto it = x_objects.begin();
-    const auto* xc = boost::get<X_monotone_curve_2>(&(*it));
+    const auto* xc = std::get_if<X_monotone_curve_2>(&(*it));
 #if CGAL_ARR_SPHERICAL_GAUSSIAN_MAP_3_DEBUG==1
     std::cout << "1.a. insert_in_face_interior(" << *xc << ")" << std::endl;
 #endif
@@ -172,7 +172,7 @@ public:
     ++it;
     if (it == x_objects.end()) return oi;
 
-    xc = boost::get<X_monotone_curve_2>(&(*it));
+    xc = std::get_if<X_monotone_curve_2>(&(*it));
 #if CGAL_ARR_SPHERICAL_GAUSSIAN_MAP_3_DEBUG==1
     std::cout << "1.b. insert_from_vertex(" << *xc << ")" << std::endl;
 #endif
@@ -195,14 +195,14 @@ public:
                         const Vector_3 & normal2,
                         OutputIterator oi)
   {
-    typedef boost::variant<Point_2, X_monotone_curve_2>
+    typedef std::variant<Point_2, X_monotone_curve_2>
       Make_x_monotone_result;
 
     std::list<Make_x_monotone_result> x_objects;
     make_x_monotone(normal1, normal2, std::back_inserter(x_objects));
 
     auto it = x_objects.begin();
-    const auto* xc = boost::get<X_monotone_curve_2>(&(*it));
+    const auto* xc = std::get_if<X_monotone_curve_2>(&(*it));
 #if CGAL_ARR_SPHERICAL_GAUSSIAN_MAP_3_DEBUG==1
     std::cout << "2.a. insert_from_vertex(" << *xc << ", "
               << vertex1->point() << ")" << std::endl;
@@ -216,7 +216,7 @@ public:
     ++it;
     if (it == x_objects.end()) return oi;
 
-    xc = boost::get<X_monotone_curve_2>(&(*it));
+    xc = std::get_if<X_monotone_curve_2>(&(*it));
 #if CGAL_ARR_SPHERICAL_GAUSSIAN_MAP_3_DEBUG==1
     std::cout << "2.b. insert_from_vertex(" << *xc << ")" << std::endl;
 #endif
@@ -239,7 +239,7 @@ public:
                         const Vector_3 & normal2, Vertex_handle vertex2,
                         OutputIterator oi)
   {
-    typedef boost::variant<Point_2, X_monotone_curve_2>
+    typedef std::variant<Point_2, X_monotone_curve_2>
       Make_x_monotone_result;
 
     std::list<Make_x_monotone_result> x_objects;
@@ -247,7 +247,7 @@ public:
 
     auto it = x_objects.begin();
     if (x_objects.size() == 1) {
-      const auto* xc = boost::get<X_monotone_curve_2>(&(*it));
+      const auto* xc = std::get_if<X_monotone_curve_2>(&(*it));
 #if CGAL_ARR_SPHERICAL_GAUSSIAN_MAP_3_DEBUG==1
       std::cout << "3. insert_from_vertex(" << *xc << ")" << std::endl;
 #endif
@@ -258,8 +258,8 @@ public:
       return oi;
     }
 
-    const X_monotone_curve_2* xc1 = boost::get<X_monotone_curve_2>(&(*it++));
-    const X_monotone_curve_2* xc2 = boost::get<X_monotone_curve_2>(&(*it));
+    const X_monotone_curve_2* xc1 = std::get_if<X_monotone_curve_2>(&(*it++));
+    const X_monotone_curve_2* xc2 = std::get_if<X_monotone_curve_2>(&(*it));
 
 #if CGAL_ARR_SPHERICAL_GAUSSIAN_MAP_3_DEBUG==1
     std::cout << "3.a. insert_from_vertex(" << *xc2 << ")" << std::endl;
@@ -294,13 +294,13 @@ public:
                         const Vector_3 & normal2, Vertex_handle vertex2,
                         OutputIterator oi)
   {
-    typedef boost::variant<Point_2, X_monotone_curve_2>
+    typedef std::variant<Point_2, X_monotone_curve_2>
       Make_x_monotone_result;
     std::list<Make_x_monotone_result> x_objects;
     make_x_monotone(normal1, normal2, std::back_inserter(x_objects));
     auto it = x_objects.begin();
     if (x_objects.size() == 1) {
-      const auto* xc = boost::get<X_monotone_curve_2>(&(*it));
+      const auto* xc = std::get_if<X_monotone_curve_2>(&(*it));
 #if CGAL_ARR_SPHERICAL_GAUSSIAN_MAP_3_DEBUG==1
       std::cout << "4. insert_at_vertices(" << *xc << ")" << std::endl;
 #endif
@@ -308,8 +308,8 @@ public:
       return oi;
     }
 
-    const X_monotone_curve_2 * xc1 = boost::get<X_monotone_curve_2>(&(*it++));
-    const X_monotone_curve_2 * xc2 = boost::get<X_monotone_curve_2>(&(*it));
+    const X_monotone_curve_2 * xc1 = std::get_if<X_monotone_curve_2>(&(*it++));
+    const X_monotone_curve_2 * xc2 = std::get_if<X_monotone_curve_2>(&(*it));
 
 #if CGAL_ARR_SPHERICAL_GAUSSIAN_MAP_3_DEBUG==1
     std::cout << "4.a. insert_from_vertex(" << *xc1

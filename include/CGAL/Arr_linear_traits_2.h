@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Arrangement_on_surface_2/include/CGAL/Arr_linear_traits_2.h $
-// $Id: Arr_linear_traits_2.h 014c06f 2022-11-14T15:32:47+01:00 albert-github
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Arrangement_on_surface_2/include/CGAL/Arr_linear_traits_2.h $
+// $Id: include/CGAL/Arr_linear_traits_2.h 50219fc33bc $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -26,7 +26,7 @@
 
 #include <fstream>
 
-#include <boost/variant.hpp>
+#include <variant>
 
 #include <CGAL/tags.h>
 #include <CGAL/intersections.h>
@@ -1249,7 +1249,7 @@ public:
     OutputIterator operator()(const Curve_2& cv, OutputIterator oi) const
     {
       // Wrap the segment with a variant.
-      typedef boost::variant<Point_2, X_monotone_curve_2>
+      typedef std::variant<Point_2, X_monotone_curve_2>
         Make_x_monotone_result;
       *oi++ = Make_x_monotone_result(cv);
       return oi;
@@ -1326,8 +1326,6 @@ public:
                               OutputIterator oi) const
     {
       typedef std::pair<Point_2, Multiplicity>          Intersection_point;
-      typedef boost::variant<Intersection_point, X_monotone_curve_2>
-                                                        Intersection_result;
 
       CGAL_precondition(! cv1.is_degenerate());
       CGAL_precondition(! cv2.is_degenerate());
@@ -1340,7 +1338,7 @@ public:
       if (! res) return oi;
 
       // Check whether we have a single intersection point.
-      const Point_2* ip = boost::get<Point_2>(&*res);
+      const Point_2* ip = std::get_if<Point_2>(&*res);
       if (ip != nullptr) {
         // Check whether the intersection point ip lies on both segments.
         const bool ip_on_cv1 = cv1.is_vertical() ?
@@ -1354,7 +1352,7 @@ public:
             // Create a pair representing the point with its multiplicity,
             // which is always 1 for line segments.
             Intersection_point ip_mult(*ip, 1);
-            *oi++ = Intersection_result(ip_mult);
+            *oi++ = ip_mult;
           }
         }
         return oi;
@@ -1398,14 +1396,14 @@ public:
 
       if (cmp_res == SMALLER) {
         // We have discovered a true overlapping subcurve:
-        *oi++ = Intersection_result(ovlp);
+        *oi++ = ovlp;
       }
       else if (cmp_res == EQUAL) {
         // The two objects have the same supporting line, but they just share
         // a common endpoint. Thus we have an intersection point, but we leave
         // the multiplicity of this point undefined.
         Intersection_point ip_mult(ovlp.left(), 0);
-        *oi++ = Intersection_result(ip_mult);
+        *oi++ = ip_mult;
       }
 
       return oi;

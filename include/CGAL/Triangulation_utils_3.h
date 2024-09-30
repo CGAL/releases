@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/TDS_3/include/CGAL/Triangulation_utils_3.h $
-// $Id: Triangulation_utils_3.h ef653f0 2023-12-11T13:50:15+01:00 Laurent Rineau
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/TDS_3/include/CGAL/Triangulation_utils_3.h $
+// $Id: include/CGAL/Triangulation_utils_3.h 50219fc33bc $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Monique Teillaud <Monique.Teillaud@sophia.inria.fr>
@@ -55,7 +55,7 @@ template < class T >
 const int Triangulation_utils_base_3<T>::cw_map[3] = {2, 0, 1};
 
 // We derive from Triangulation_cw_ccw_2 because we still use cw() and ccw()
-// in the 2D part of the code.  Ideally, this should go away when we re-use
+// in the 2D part of the code.  Ideally, this should go away when we reuse
 // T2D entirely.
 
 struct Triangulation_utils_3

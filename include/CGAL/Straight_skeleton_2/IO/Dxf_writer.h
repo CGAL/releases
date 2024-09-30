@@ -2,9 +2,9 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Straight_skeleton_2/include/CGAL/Straight_skeleton_2/IO/Dxf_writer.h $
-// $Id: Dxf_writer.h d55d6c8 2023-03-20T15:31:24+01:00 Mael Rouxel-Labbé
-// SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Straight_skeleton_2/include/CGAL/Straight_skeleton_2/IO/Dxf_writer.h $
+// $Id: include/CGAL/Straight_skeleton_2/IO/Dxf_writer.h 50219fc33bc $
+// SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
 // Author(s)     : Fernando Cacciola
@@ -14,6 +14,9 @@
 
 #ifndef CGAL_IO_DXF_WRITER_H
 #define CGAL_IO_DXF_WRITER_H
+
+#include <CGAL/license/Straight_skeleton_2.h>
+
 
 #include <CGAL/disable_warnings.h>
 

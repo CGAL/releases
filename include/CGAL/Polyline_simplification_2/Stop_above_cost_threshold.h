@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Polyline_simplification_2/include/CGAL/Polyline_simplification_2/Stop_above_cost_threshold.h $
-// $Id: Stop_above_cost_threshold.h 0779373 2020-03-26T13:31:46+01:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Polyline_simplification_2/include/CGAL/Polyline_simplification_2/Stop_above_cost_threshold.h $
+// $Id: include/CGAL/Polyline_simplification_2/Stop_above_cost_threshold.h 50219fc33bc $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Andreas Fabri, Fernando Cacciola
@@ -28,7 +28,7 @@ namespace Polyline_simplification_2
 /// This class is a stop predicate returning `true` when the cost for
 /// simplifying a vertex is greater than a certain threshold.
 ///
-/// \cgalModels `PolylineSimplificationStopPredicate`.
+/// \cgalModels{PolylineSimplificationStopPredicate}
 class Stop_above_cost_threshold
 {
 public :
@@ -36,7 +36,7 @@ public :
   /// Initializes it with the given threshold value.
   Stop_above_cost_threshold( double threshold ) : mThres(threshold) {}
 
-  /// Returns `true` when `cost` is smaller or equal than the threshold.
+  /// Returns `true` when `cost` is  greater or equal than the threshold.
   /// \tparam CDT  must be `CGAL::Constrained_Delaunay_triangulation_2` with a vertex type that
   /// is model of  `PolylineSimplificationVertexBase_2`.
 
@@ -61,4 +61,3 @@ private:
 } //namespace CGAL
 
 #endif // CGAL_POLYLINE_SIMPLIFICATION_2_STOP_ABOVE_COST_THRESHOLD_H
-

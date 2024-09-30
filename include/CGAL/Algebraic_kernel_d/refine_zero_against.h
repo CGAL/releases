@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Algebraic_kernel_d/include/CGAL/Algebraic_kernel_d/refine_zero_against.h $
-// $Id: refine_zero_against.h 9d9a517 2023-02-09T23:27:01+01:00 Mael Rouxel-Labbé
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Algebraic_kernel_d/include/CGAL/Algebraic_kernel_d/refine_zero_against.h $
+// $Id: include/CGAL/Algebraic_kernel_d/refine_zero_against.h 50219fc33bc $
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 //

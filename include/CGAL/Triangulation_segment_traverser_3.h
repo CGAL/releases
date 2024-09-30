@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Triangulation_3/include/CGAL/Triangulation_segment_traverser_3.h $
-// $Id: Triangulation_segment_traverser_3.h 7e2e444 2023-06-21T10:19:52+02:00 Laurent Rineau
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Triangulation_3/include/CGAL/Triangulation_segment_traverser_3.h $
+// $Id: include/CGAL/Triangulation_segment_traverser_3.h 50219fc33bc $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s): Thijs van Lankveld, Jane Tournois
@@ -81,7 +81,7 @@ struct Incrementer {
  *
  *        \tparam Tr_ is the triangulation type to traverse.
  *
- *  \cgalModels{ForwardIterator}
+ *        \cgalModels{ForwardIterator}
  *
  *        \sa `Triangulation_3`
  *        \sa `Forward_circulator_base`
@@ -328,7 +328,7 @@ public:
     //  provides a conversion operator.
     /*         \return a handle to the current cell.
          */
-    operator Cell_handle() const
+    operator const Cell_handle&() const
     {
       return _cur.cell;
     }

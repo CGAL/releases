@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Visibility_2/include/CGAL/Triangular_expansion_visibility_2.h $
-// $Id: Triangular_expansion_visibility_2.h c32b1f4 2022-11-16T13:22:39+01:00 albert-github
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Visibility_2/include/CGAL/Triangular_expansion_visibility_2.h $
+// $Id: include/CGAL/Triangular_expansion_visibility_2.h 50219fc33bc $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -21,7 +21,6 @@
 #include <memory>
 #include <CGAL/boost/iterator/transform_iterator.hpp>
 #include <CGAL/Constrained_Delaunay_triangulation_2.h>
-#include <CGAL/Arr_observer.h>
 #include <CGAL/assertions.h>
 #include <CGAL/use.h>
 
@@ -86,63 +85,83 @@ private:
   };
 
   // Observer to track any changes of the attached arrangement.
-  class Observer : public Arr_observer<Arrangement_2>
+  class Observer : public Arrangement_2::Observer
   {
-
-      typedef Arr_observer<Arrangement_2>                           Base;
-      typedef Observer                                              Self;
-
+      using Base = typename Arrangement_2::Observer;
+      using Self = Observer;
 
   public:
+      using Base_aos = typename Arrangement_2::Base_aos;
+      using Vertex_handle = typename Base_aos::Vertex_handle;
+      using Halfedge_handle = typename Base_aos::Halfedge_handle;
+      using Face_handle = typename Base_aos::Face_handle;
+      using Ccb_halfedge_circulator = typename Base_aos::Ccb_halfedge_circulator;
+
       bool has_changed;
 
-      Observer() : Base(), has_changed(false)
+      Observer() : Base(), has_changed(false) {}
+
+      Observer(const Base_aos& arr) :
+        Base(const_cast<Base_aos&>(arr)), has_changed(false)
       {}
 
-      Observer(const Arrangement_2& arr)
-          : Base(const_cast<Arrangement_2&>(arr)), has_changed(false)
-      {}
+      // Aos_observer interface
 
-      // Arr_observer interface
+      virtual void after_attach() override { has_changed = false; }
 
-      void after_attach() { has_changed = false; }
-
-
-      void after_global_change() { has_changed = true; }
-      void after_create_vertex(Vertex_handle) { has_changed = true; }
-      void after_create_boundary_vertex(Vertex_handle) { has_changed = true; }
-      void after_create_edge(Halfedge_handle) { has_changed = true; }
-      void after_modify_vertex(Vertex_handle) { has_changed = true; }
-      void after_modify_edge(Halfedge_handle) { has_changed = true; }
-      void after_split_edge(Halfedge_handle, Halfedge_handle) {
-          has_changed = true; }
-      void after_split_fictitious_edge(Halfedge_handle, Halfedge_handle) {
-          has_changed = true; }
-      void after_split_face(Face_handle, Face_handle, bool) {
-          has_changed = true; }
-      void after_split_outer_ccb(Face_handle, Ccb_halfedge_circulator,
-                                 Ccb_halfedge_circulator) {
-          has_changed = true; }
-      void after_split_inner_ccb(Face_handle, Ccb_halfedge_circulator,
-                                 Ccb_halfedge_circulator) {
-          has_changed = true; }
-      void after_add_outer_ccb(Ccb_halfedge_circulator) { has_changed = true; }
-      void after_add_inner_ccb(Ccb_halfedge_circulator) { has_changed = true; }
-      void after_add_isolated_vertex(Vertex_handle) { has_changed = true; }
-      void after_merge_edge(Halfedge_handle) { has_changed = true; }
-      void after_merge_fictitious_edge(Halfedge_handle) { has_changed = true; }
-      void after_merge_face(Face_handle) { has_changed = true; }
-      void after_merge_outer_ccb(Face_handle, Ccb_halfedge_circulator) {
-          has_changed = true; }
-      void after_merge_inner_ccb(Face_handle, Ccb_halfedge_circulator) {
-          has_changed = true; }
-      void after_move_outer_ccb(Ccb_halfedge_circulator) { has_changed = true; }
-      void after_move_inner_ccb(Ccb_halfedge_circulator) { has_changed = true; }
-      void after_move_isolated_vertex(Vertex_handle) { has_changed = true; }
-      void after_remove_vertex() { has_changed = true; }
-      void after_remove_edge() { has_changed = true; }
-      void after_remove_outer_ccb(Face_handle) { has_changed = true; }
-      void after_remove_inner_ccb(Face_handle) { has_changed = true; }
+      virtual void after_global_change() override { has_changed = true; }
+      virtual void after_create_vertex(Vertex_handle) override
+      { has_changed = true; }
+      virtual void after_create_boundary_vertex(Vertex_handle) override
+      { has_changed = true; }
+      virtual void after_create_edge(Halfedge_handle) override
+      { has_changed = true; }
+      virtual void after_modify_vertex(Vertex_handle) override
+      { has_changed = true; }
+      virtual void after_modify_edge(Halfedge_handle) override
+      { has_changed = true; }
+      virtual void after_split_edge(Halfedge_handle, Halfedge_handle) override
+      { has_changed = true; }
+      virtual void after_split_fictitious_edge(Halfedge_handle, Halfedge_handle)
+        override
+      { has_changed = true; }
+      virtual void after_split_face(Face_handle, Face_handle, bool) override
+      { has_changed = true; }
+      virtual void after_split_outer_ccb(Face_handle, Ccb_halfedge_circulator,
+                                         Ccb_halfedge_circulator) override
+      { has_changed = true; }
+      virtual void after_split_inner_ccb(Face_handle, Ccb_halfedge_circulator,
+                                         Ccb_halfedge_circulator) override
+      { has_changed = true; }
+      virtual void after_add_outer_ccb(Ccb_halfedge_circulator) override
+      { has_changed = true; }
+      virtual void after_add_inner_ccb(Ccb_halfedge_circulator) override
+      { has_changed = true; }
+      virtual void after_add_isolated_vertex(Vertex_handle) override
+      { has_changed = true; }
+      virtual void after_merge_edge(Halfedge_handle) override
+      { has_changed = true; }
+      virtual void after_merge_fictitious_edge(Halfedge_handle) override
+      { has_changed = true; }
+      virtual void after_merge_face(Face_handle) override { has_changed = true; }
+      virtual void after_merge_outer_ccb(Face_handle, Ccb_halfedge_circulator)
+        override
+      { has_changed = true; }
+      virtual void after_merge_inner_ccb(Face_handle, Ccb_halfedge_circulator)
+        override
+      { has_changed = true; }
+      virtual void after_move_outer_ccb(Ccb_halfedge_circulator) override
+      { has_changed = true; }
+      virtual void after_move_inner_ccb(Ccb_halfedge_circulator) override
+      { has_changed = true; }
+      virtual void after_move_isolated_vertex(Vertex_handle) override
+      { has_changed = true; }
+      virtual void after_remove_vertex() override { has_changed = true; }
+      virtual void after_remove_edge() override { has_changed = true; }
+      virtual void after_remove_outer_ccb(Face_handle) override
+      { has_changed = true; }
+      virtual void after_remove_inner_ccb(Face_handle) override
+      { has_changed = true; }
   };
 
 

@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Three/include/CGAL/Three/Scene_transparent_interface.h $
-// $Id: Scene_transparent_interface.h 254d60f 2019-10-19T15:23:19+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Three/include/CGAL/Three/Scene_transparent_interface.h $
+// $Id: include/CGAL/Three/Scene_transparent_interface.h 50219fc33bc $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Maxime GIMENO
@@ -31,5 +31,5 @@ public:
 };
 }
 }
-Q_DECLARE_INTERFACE(CGAL::Three::Scene_transparent_interface, "com.geometryfactory.PolyhedronDemo.TransparentInterface/1.0")
+Q_DECLARE_INTERFACE(CGAL::Three::Scene_transparent_interface, "com.geometryfactory.CGALLab.TransparentInterface/1.0")
 #endif // SCENE_TRANSPARENT_INTERFACE_H

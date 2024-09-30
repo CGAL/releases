@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Mesher_level/include/CGAL/Meshes/Triangulation_mesher_level_traits_3.h $
-// $Id: Triangulation_mesher_level_traits_3.h 62f44e3 2023-05-04T15:51:45+02:00 Laurent Rineau
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Mesher_level/include/CGAL/Meshes/Triangulation_mesher_level_traits_3.h $
+// $Id: include/CGAL/Meshes/Triangulation_mesher_level_traits_3.h 50219fc33bc $
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Laurent RINEAU

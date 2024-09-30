@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Boolean_set_operations_2/include/CGAL/connect_holes.h $
-// $Id: connect_holes.h 3674c93 2022-11-15T15:21:01+01:00 albert-github
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Boolean_set_operations_2/include/CGAL/connect_holes.h $
+// $Id: include/CGAL/connect_holes.h 50219fc33bc $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Ron Wein   <wein@post.tau.ac.il>
@@ -48,7 +48,7 @@ struct _Less_handle
 
 /*!
  * Connect the given polygon with holes, turning it into a sequence of
- * points, where the holes are connceted to the outer boundary using
+ * points, where the holes are connected to the outer boundary using
  * zero-width passages.
  * For example:
  *              Input                             Output

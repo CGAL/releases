@@ -7,8 +7,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Number_types/include/CGAL/CORE_Expr.h $
-// $Id: CORE_Expr.h e845fb2 2023-04-04T10:44:42+01:00 Andreas Fabri
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Number_types/include/CGAL/CORE_Expr.h $
+// $Id: include/CGAL/CORE_Expr.h 50219fc33bc $
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -113,6 +113,14 @@ template <> class Algebraic_structure_traits< CORE::Expr >
 
             return Type(polynomial,interval);
         };  */
+    };
+
+    class Is_zero
+      : public CGAL::cpp98::unary_function< Type, bool > {
+      public:
+        bool operator()( const Type& x ) const {
+          return x.isZero();
+        }
     };
 
 };

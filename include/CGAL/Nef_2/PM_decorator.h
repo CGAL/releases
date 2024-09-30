@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Nef_2/include/CGAL/Nef_2/PM_decorator.h $
-// $Id: PM_decorator.h 1dca582 2023-08-23T13:53:03+01:00 Andreas Fabri
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Nef_2/include/CGAL/Nef_2/PM_decorator.h $
+// $Id: include/CGAL/Nef_2/PM_decorator.h 50219fc33bc $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -19,7 +19,7 @@
 #ifdef CGAL_I_DO_WANT_TO_USE_GENINFO
 #include <CGAL/Nef_2/geninfo.h>
 #else
-#include <boost/any.hpp>
+#include <any>
 #endif
 #include <CGAL/Unique_hash_map.h>
 #include <vector>

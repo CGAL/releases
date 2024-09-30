@@ -7,8 +7,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Cartesian_kernel/include/CGAL/Cartesian/Point_2.h $
-// $Id: Point_2.h cca0a19 2022-04-12T16:14:39+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Cartesian_kernel/include/CGAL/Cartesian/Point_2.h $
+// $Id: include/CGAL/Cartesian/Point_2.h 50219fc33bc $
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -44,11 +44,14 @@ public:
   PointC2(const Origin &)
     : base(NULL_VECTOR) {}
 
-  PointC2(const FT &x, const FT &y)
-    : base(x, y) {}
+  template <class T1, class T2>
+  PointC2(T1 &&x, T2 &&y)
+    : base(std::forward<T1>(x), std::forward<T2>(y))
+  {}
 
-  PointC2(const FT &hx, const FT &hy, const FT &hw)
-    : base(hx, hy, hw) {}
+  template <class T1, class T2, class T3>
+  PointC2(T1 &&hx, T2 &&hy, T3 &&hw)
+    : base(std::forward<T1>(hx), std::forward<T2>(hy), std::forward<T3>(hw)) {}
 
   friend void swap(Self& a, Self& b)
 #if !defined(__INTEL_COMPILER) && defined(__cpp_lib_is_swappable)

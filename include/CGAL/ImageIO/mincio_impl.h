@@ -3,8 +3,8 @@
 //
 // This file is part of the ImageIO Library, and as been adapted for CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/CGAL_ImageIO/include/CGAL/ImageIO/mincio_impl.h $
-// $Id: mincio_impl.h 0779373 2020-03-26T13:31:46+01:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/CGAL_ImageIO/include/CGAL/ImageIO/mincio_impl.h $
+// $Id: include/CGAL/ImageIO/mincio_impl.h 50219fc33bc $
 // SPDX-License-Identifier: LGPL-3.0-or-later
 //
 //
@@ -357,7 +357,7 @@ int writeMincFile( const _image* im, const char *filename,
         strcat(newname, filename + i + 1);
       }
       else
-        sprintf(newname, "#TMP#%s", filename);
+        snprintf(newname,strlen(filename) + 10, "#TMP#%s", filename);
     }
   }
 

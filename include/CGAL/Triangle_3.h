@@ -7,8 +7,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Kernel_23/include/CGAL/Triangle_3.h $
-// $Id: Triangle_3.h 3933d0b 2022-11-08T12:07:14+01:00 Laurent Rineau
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Kernel_23/include/CGAL/Triangle_3.h $
+// $Id: include/CGAL/Triangle_3.h 50219fc33bc $
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -36,7 +36,7 @@ class Triangle_3 : public R_::Kernel_base::Triangle_3
   typedef typename R_::Aff_transformation_3  Aff_transformation_3;
 
   typedef Triangle_3                         Self;
-  CGAL_static_assertion((std::is_same<Self, typename R_::Triangle_3>::value));
+  static_assert(std::is_same<Self, typename R_::Triangle_3>::value);
 
 public:
 

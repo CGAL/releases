@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Principal_component_analysis_LGPL/include/CGAL/centroid.h $
-// $Id: centroid.h 70a06b4 2022-06-27T08:58:17+01:00 Andreas Fabri
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Principal_component_analysis_LGPL/include/CGAL/centroid.h $
+// $Id: include/CGAL/centroid.h 50219fc33bc $
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 //

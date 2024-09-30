@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Filtered_kernel/include/CGAL/Kernel_profiler.h $
-// $Id: Kernel_profiler.h 8bb22d5 2020-03-26T14:23:37+01:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Filtered_kernel/include/CGAL/Kernel_profiler.h $
+// $Id: include/CGAL/Kernel_profiler.h 50219fc33bc $
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 //

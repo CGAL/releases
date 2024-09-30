@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Convex_decomposition_3/include/CGAL/Convex_decomposition_3/SFace_separator.h $
-// $Id: SFace_separator.h e8b66f2 2023-01-18T22:41:52+00:00 Giles Bathgate
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Convex_decomposition_3/include/CGAL/Convex_decomposition_3/SFace_separator.h $
+// $Id: include/CGAL/Convex_decomposition_3/SFace_separator.h 50219fc33bc $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //

@@ -7,8 +7,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/STL_Extension/include/CGAL/In_place_list.h $
-// $Id: In_place_list.h 9242a81 2023-02-07T11:31:55+01:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/STL_Extension/include/CGAL/In_place_list.h $
+// $Id: include/CGAL/In_place_list.h 50219fc33bc $
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 //

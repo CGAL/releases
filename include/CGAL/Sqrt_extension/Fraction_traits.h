@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Number_types/include/CGAL/Sqrt_extension/Fraction_traits.h $
-// $Id: Fraction_traits.h 3674c93 2022-11-15T15:21:01+01:00 albert-github
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Number_types/include/CGAL/Sqrt_extension/Fraction_traits.h $
+// $Id: include/CGAL/Sqrt_extension/Fraction_traits.h 50219fc33bc $
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -41,9 +41,9 @@ namespace Intern{
  *
  *  Extensions provide suitable specializations of \c CGAL::Fraction_traits.
  *  They are decomposable iff their coefficient type is.
- *  The denominator \e d of a Extension \e ext is a low common multiple
+ *  The denominator \e d of an extension \e ext is a low common multiple
  *  (see \c CGAL::Fraction_traits::Common_factor for details) of the
- *  denominators of its coefficients.  The numerator is the Extenion
+ *  denominators of its coefficients.  The numerator is the extension
  *  \e d*ext with a fraction-free coefficient type.
  *
  *  This works for nested Sqrt_extensions, too.

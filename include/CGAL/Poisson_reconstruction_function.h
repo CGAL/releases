@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Poisson_surface_reconstruction_3/include/CGAL/Poisson_reconstruction_function.h $
-// $Id: Poisson_reconstruction_function.h d3fca65 2022-09-23T12:49:40+01:00 Andreas Fabri
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Poisson_surface_reconstruction_3/include/CGAL/Poisson_reconstruction_function.h $
+// $Id: include/CGAL/Poisson_reconstruction_function.h 50219fc33bc $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Laurent Saboret, Pierre Alliez
@@ -45,8 +45,6 @@
 #include <CGAL/Timer.h>
 
 #include <memory>
-#include <boost/array.hpp>
-#include <boost/type_traits/is_convertible.hpp>
 #include <boost/iterator/indirect_iterator.hpp>
 
 /*!
@@ -147,7 +145,7 @@ Delaunay triangulation instead of an adaptive octree.
 
 \tparam Gt Geometric traits class.
 
-\cgalModels `ImplicitFunction`
+\cgalModels{ImplicitFunction}
 
 */
 template <class Gt>
@@ -262,7 +260,10 @@ private:
 
     Cell_handle get() const
     {
-      return Triangulation_data_structure::Cell_range::s_iterator_to(*m_cell);
+      if(m_cell == nullptr)
+        return {};
+      else
+        return Triangulation_data_structure::Cell_range::s_iterator_to(*m_cell);
     }
     void set (Cell_handle ch) { m_cell = ch.operator->(); }
   };
@@ -381,7 +382,7 @@ public:
     InputIterator beyond, ///< past-the-end iterator over the input points.
     NormalPMap normal_pmap, ///< property map: `value_type of InputIterator` -> `Vector` (the *oriented* normal of an input point).
     std::enable_if_t<
-      boost::is_convertible<typename std::iterator_traits<InputIterator>::value_type, Point>::value
+      std::is_convertible<typename std::iterator_traits<InputIterator>::value_type, Point>::value
     >* = 0
   )
     : m_tr(new Triangulation), m_bary(new std::vector<Cached_bary_coord>)

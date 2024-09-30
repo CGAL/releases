@@ -3,12 +3,14 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Periodic_3_triangulation_3/include/CGAL/Periodic_3_triangulation_3/internal/Periodic_3_triangulation_dummy_generator.h $
-// $Id: Periodic_3_triangulation_dummy_generator.h d8f4bc0 2023-05-03T12:24:23+02:00 Mael Rouxel-Labbé
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Periodic_3_triangulation_3/include/CGAL/Periodic_3_triangulation_3/internal/Periodic_3_triangulation_dummy_generator.h $
+// $Id: include/CGAL/Periodic_3_triangulation_3/internal/Periodic_3_triangulation_dummy_generator.h 50219fc33bc $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
 // Author(s)     : Mael Rouxel-Labbé
+
+#include <CGAL/license/Periodic_3_triangulation_3.h>
 
 #ifdef CGAL_INCLUDE_FROM_PERIODIC_3_TRIANGULATION_3_H
 
@@ -129,7 +131,7 @@ insert_generic_dummy_points()
     return goff;
   };
 
-  // This should be prefered from building points from the lattice offset
+  // This should be preferred from building points from the lattice offset
   // because the grid offset (by construction) aligns with the canonical domain,
   // and there is thus fewer numerical errors.
   auto construct_point_from_grid_offset = [&](const Offset& goff) -> Point_3

@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Spatial_searching/include/CGAL/Incremental_neighbor_search.h $
-// $Id: Incremental_neighbor_search.h e837d1d 2023-01-13T18:59:45+01:00 albert-github
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Spatial_searching/include/CGAL/Incremental_neighbor_search.h $
+// $Id: include/CGAL/Incremental_neighbor_search.h 50219fc33bc $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //

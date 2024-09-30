@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Surface_mesher/include/CGAL/Surface_mesher/Sphere_oracle_3.h $
-// $Id: Sphere_oracle_3.h c32b1f4 2022-11-16T13:22:39+01:00 albert-github
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Surface_mesher/include/CGAL/Surface_mesher/Sphere_oracle_3.h $
+// $Id: include/CGAL/Surface_mesher/Sphere_oracle_3.h 50219fc33bc $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -14,6 +14,11 @@
 #define CGAL_SURFACE_MESHER_SPHERE_ORACLE_3_H
 
 #include <CGAL/license/Surface_mesher.h>
+
+#define CGAL_DEPRECATED_HEADER "<CGAL/Surface_mesher/Sphere_oracle_3.h>"
+#define CGAL_DEPRECATED_MESSAGE_DETAILS \
+  "The 3D Mesh Generation package (see https://doc.cgal.org/latest/Mesh_3/) should be used instead."
+#include <CGAL/Installation/internal/deprecation_warning.h>
 
 #include <CGAL/disable_warnings.h>
 

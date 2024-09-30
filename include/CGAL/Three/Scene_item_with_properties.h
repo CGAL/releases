@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Three/include/CGAL/Three/Scene_item_with_properties.h $
-// $Id: Scene_item_with_properties.h c32b1f4 2022-11-16T13:22:39+01:00 albert-github
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Three/include/CGAL/Three/Scene_item_with_properties.h $
+// $Id: include/CGAL/Three/Scene_item_with_properties.h 50219fc33bc $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Maxime GIMENO
@@ -13,7 +13,7 @@
 #define SCENE_ITEM_WITH_PROPERTIES_H
 
 #include <CGAL/license/Three.h>
-
+#include <QtGlobal>
 #ifdef demo_framework_EXPORTS
 #  define DEMO_FRAMEWORK_EXPORT Q_DECL_EXPORT
 #else
@@ -30,7 +30,7 @@ namespace Three {
 //! the position of its manipulated frame, ...
 class DEMO_FRAMEWORK_EXPORT Scene_item_with_properties {
 public:
-  virtual ~Scene_item_with_properties(){}
+  virtual ~Scene_item_with_properties();
  //!\brief Copies properties from another Scene_item.
  //!
  //! Override this function to specify what must be copied.

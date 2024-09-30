@@ -3,8 +3,8 @@
 //
 // This file is part of the ImageIO Library, and as been adapted for CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/CGAL_ImageIO/include/CGAL/ImageIO/recline.h $
-// $Id: recline.h b5c21e1 2022-11-23T18:48:43+01:00 Mael Rouxel-Labbé
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/CGAL_ImageIO/include/CGAL/ImageIO/recline.h $
+// $Id: include/CGAL/ImageIO/recline.h 50219fc33bc $
 // SPDX-License-Identifier: LGPL-3.0-or-later
 //
 //
@@ -13,7 +13,7 @@
 /*************************************************************************
  * recline.h - tools for recursive filtering of 1D lines
  *
- * $Id: recline.h b5c21e1 2022-11-23T18:48:43+01:00 Mael Rouxel-Labbé
+ * $Id: include/CGAL/ImageIO/recline.h 50219fc33bc $
  *
  * Copyright©INRIA 1998
  *
@@ -47,7 +47,7 @@
  *
  * DESCRIPTION:
  *
- * - ALPHA_DERICHE is the first recurvise filter designed
+ * - ALPHA_DERICHE is the first recursive filter designed
  *   by R. Deriche. See REFERENCES.
  *
  * - with ALPHA_DERICHE's filters, one can either compute

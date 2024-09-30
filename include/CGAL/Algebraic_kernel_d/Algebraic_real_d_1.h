@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Algebraic_kernel_d/include/CGAL/Algebraic_kernel_d/Algebraic_real_d_1.h $
-// $Id: Algebraic_real_d_1.h ac8b6d4 2022-06-10T07:59:39+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Algebraic_kernel_d/include/CGAL/Algebraic_kernel_d/Algebraic_real_d_1.h $
+// $Id: include/CGAL/Algebraic_kernel_d/Algebraic_real_d_1.h 50219fc33bc $
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -71,7 +71,7 @@ class Algebraic_real_d_1 :
     public ::CGAL::Handle_with_policy< AlgebraicRealRep_d_1, HandlePolicy > {
 
   // currently Rational is the only supported Bound type.
-  CGAL_static_assertion(
+  static_assert(
       (   ::std::is_same <Rational_,
           typename Get_arithmetic_kernel<Coefficient_>::Arithmetic_kernel::Rational>::value));
 
@@ -174,7 +174,7 @@ public:
       long old_precision = get_precision( BFI() );
       set_precision( BFI(), 53 );
       std::pair<double, double> interval = CGAL::to_interval( convert_to_bfi( (*this)));
-      this->ptr()->interval_option = boost::optional< std::pair<double, double> >(interval);
+      this->ptr()->interval_option = std::optional< std::pair<double, double> >(interval);
       set_precision( BFI(), old_precision );
       return *(this->ptr()->interval_option);
     }

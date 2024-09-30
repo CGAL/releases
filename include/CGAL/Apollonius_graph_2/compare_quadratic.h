@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Apollonius_graph_2/include/CGAL/Apollonius_graph_2/compare_quadratic.h $
-// $Id: compare_quadratic.h 0779373 2020-03-26T13:31:46+01:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Apollonius_graph_2/include/CGAL/Apollonius_graph_2/compare_quadratic.h $
+// $Id: include/CGAL/Apollonius_graph_2/compare_quadratic.h 50219fc33bc $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -31,7 +31,7 @@ namespace ApolloniusGraph_2 {
 
 
 //--------------------------------------------------------------------
-// help functions for the compulation of various quantites
+// help functions for the compulation of various quantities
 
 template < class FT >
 inline FT

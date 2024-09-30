@@ -4,8 +4,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Mesh_3/include/CGAL/Compact_mesh_cell_base_3.h $
-// $Id: Compact_mesh_cell_base_3.h fef1a43 2022-12-15T10:43:27+01:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Mesh_3/include/CGAL/Compact_mesh_cell_base_3.h $
+// $Id: include/CGAL/Compact_mesh_cell_base_3.h 50219fc33bc $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Laurent Rineau, Stephane Tayeb, Andreas Fabri
@@ -437,7 +437,7 @@ public:
 
   // CHECKING
 
-  // the following trivial is_valid allows
+  // the following trivial is_valid enables
   // the user of derived cell base classes
   // to add their own purpose checking
   bool is_valid(bool = false, int = 0) const
@@ -485,8 +485,8 @@ public:
   template<typename GT_>
   const Point_3& weighted_circumcenter(const GT_& gt) const
   {
-    CGAL_static_assertion((std::is_same<Point_3,
-      typename GT_::Construct_weighted_circumcenter_3::result_type>::value));
+    static_assert(std::is_same<Point_3,
+      typename GT_::Construct_weighted_circumcenter_3::result_type>::value);
     if (internal_tbb::is_null(weighted_circumcenter_)) {
       this->try_to_set_circumcenter(
         new Point_3(gt.construct_weighted_circumcenter_3_object()
@@ -724,7 +724,7 @@ belong. That parameter is only used by the rebind mechanism (see
 `::TriangulationDSCellBase_3::Rebind_TDS`). Users should always use the
 default parameter value `void`.
 
-\cgalModels `MeshCellBase_3`
+\cgalModels{MeshCellBase_3}
 
 \sa `CGAL::Mesh_complex_3_in_triangulation_3<Tr,CornerIndex,CurveIndex>`
 \sa `CGAL::Mesh_cell_base_3<GT, MD, Cb>`

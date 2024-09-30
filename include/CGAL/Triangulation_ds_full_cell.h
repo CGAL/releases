@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Triangulation/include/CGAL/Triangulation_ds_full_cell.h $
-// $Id: Triangulation_ds_full_cell.h 98e4718 2021-08-26T11:33:39+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Triangulation/include/CGAL/Triangulation_ds_full_cell.h $
+// $Id: include/CGAL/Triangulation_ds_full_cell.h 50219fc33bc $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)    : Samuel Hornus
@@ -249,7 +249,9 @@ private:
     const Vertex_handle_array & vertices() const {return combinatorics_.vertices_; }
 
     // DATA MEMBERS
-    Combinatorics       combinatorics_;
+    // With the Itanium ABI, [[no_unique_address]] allows tda_data_ to reuse the
+    // padding bytes at the end of combinatorics_ when using the mirror policy.
+    CGAL_NO_UNIQUE_ADDRESS Combinatorics combinatorics_;
     mutable TDS_data    tds_data_;
 };
 

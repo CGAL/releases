@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Hyperbolic_triangulation_2/include/CGAL/Hyperbolic_triangulation_face_base_2.h $
-// $Id: Hyperbolic_triangulation_face_base_2.h c04dceb 2022-10-14T14:40:58+01:00 Andreas Fabri
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Hyperbolic_triangulation_2/include/CGAL/Hyperbolic_triangulation_face_base_2.h $
+// $Id: include/CGAL/Hyperbolic_triangulation_face_base_2.h 50219fc33bc $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Monique Teillaud <Monique.Teillaud@inria.fr>
@@ -23,7 +23,7 @@ namespace CGAL {
 
 class Hyperbolic_data
 {
-  typedef boost::int8_t Id;
+  typedef std::int8_t Id;
 
 private:
   // - 2 for infinite face

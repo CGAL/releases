@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Arrangement_on_surface_2/include/CGAL/Arr_geometry_traits/Bezier_cache.h $
-// $Id: Bezier_cache.h 014c06f 2022-11-14T15:32:47+01:00 albert-github
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Arrangement_on_surface_2/include/CGAL/Arr_geometry_traits/Bezier_cache.h $
+// $Id: include/CGAL/Arr_geometry_traits/Bezier_cache.h 50219fc33bc $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -588,7 +588,7 @@ bool _Bezier_cache<NtTraits>::_intersection_params
   Integer                  coeff;
   int                      k;
 
-  // Consruct the bivariate polynomial that corresponds to Equation I.
+  // Construct the bivariate polynomial that corresponds to Equation I.
   // Note that we represent a bivariate polynomial as a vector of univariate
   // polynomials, whose i'th entry corresponds to the coefficient of t^i,
   // which is in turn a polynomial it s.
@@ -602,7 +602,7 @@ bool _Bezier_cache<NtTraits>::_intersection_params
   }
   coeffsX_st[0] = coeffsX_st[0] - nt_traits.scale (polyX_1, normX_2);
 
-  // Consruct the bivariate polynomial that corresponds to Equation II.
+  // Construct the bivariate polynomial that corresponds to Equation II.
   const int                degY_2 = nt_traits.degree (polyY_2);
   std::vector<Polynomial>  coeffsY_st (degY_2 < 0 ? 1 : (degY_2 + 1));
 
@@ -655,7 +655,7 @@ void _Bezier_cache<NtTraits>::_self_intersection_params
   Integer                 *coeffs;
   int                      i;
 
-  // Consruct the bivariate polynomial that corresponds to Equation I.
+  // Construct the bivariate polynomial that corresponds to Equation I.
   // Note that we represent a bivariate polynomial as a vector of univariate
   // polynomials, whose i'th entry corresponds to the coefficient of t^i,
   // which is in turn a polynomial it s.
@@ -675,7 +675,7 @@ void _Bezier_cache<NtTraits>::_self_intersection_params
 
   delete[] coeffs;
 
-  // Consruct the bivariate polynomial that corresponds to Equation II.
+  // Construct the bivariate polynomial that corresponds to Equation II.
   const int                degY = nt_traits.degree (polyY);
   CGAL_assertion(degY > 0);
   if (degY <= 0) return; //no self intersection if Y is constant

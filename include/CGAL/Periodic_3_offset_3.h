@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Periodic_3_triangulation_3/include/CGAL/Periodic_3_offset_3.h $
-// $Id: Periodic_3_offset_3.h d0f63f5 2023-05-02T14:14:27+02:00 Mael Rouxel-Labbé
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Periodic_3_triangulation_3/include/CGAL/Periodic_3_offset_3.h $
+// $Id: include/CGAL/Periodic_3_offset_3.h 50219fc33bc $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //

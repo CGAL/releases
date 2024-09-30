@@ -7,8 +7,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Homogeneous_kernel/include/CGAL/Homogeneous/ConicHPA2.h $
-// $Id: ConicHPA2.h 29b2957 2020-04-06T21:46:00+02:00 Mael Rouxel-Labbé
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Homogeneous_kernel/include/CGAL/Homogeneous/ConicHPA2.h $
+// $Id: include/CGAL/Homogeneous/ConicHPA2.h 50219fc33bc $
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 //

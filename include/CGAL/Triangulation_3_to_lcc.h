@@ -3,15 +3,18 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Triangulation_3/include/CGAL/Triangulation_3_to_lcc.h $
-// $Id: Triangulation_3_to_lcc.h 999a813 2022-05-05T13:34:19+02:00 Guillaume Damiand
-// SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Triangulation_3/include/CGAL/Triangulation_3_to_lcc.h $
+// $Id: include/CGAL/Triangulation_3_to_lcc.h 50219fc33bc $
+// SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Guillaume Damiand <guillaume.damiand@liris.cnrs.fr>
 //
 
 #ifndef CGAL_TRIANGULATION_3_TO_LCC_H
 #define CGAL_TRIANGULATION_3_TO_LCC_H
+
+#include <CGAL/license/Triangulation_3.h>
+
 
 #include <CGAL/assertions.h>
 #include <map>
@@ -49,7 +52,7 @@ namespace CGAL {
    std::map<typename Triangulation::Cell_handle,
             typename LCC::Dart_descriptor >* avol_to_dart=nullptr)
   {
-    CGAL_static_assertion( LCC::dimension>=3 && LCC::ambient_dimension==3 );
+    static_assert( LCC::dimension>=3 && LCC::ambient_dimension==3 );
 
     // Case of empty triangulations.
     if (atr.number_of_vertices() == 0) return LCC::null_descriptor;

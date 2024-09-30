@@ -6,8 +6,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Stream_support/include/CGAL/IO/STL.h $
-// $Id: STL.h 9dd8235 2022-08-10T23:48:47+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Stream_support/include/CGAL/IO/STL.h $
+// $Id: include/CGAL/IO/STL.h 50219fc33bc $
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Maxime Gimeno
@@ -308,7 +308,7 @@ bool write_STL(std::ostream& os,
   if(get_mode(os) == BINARY)
   {
     os << "FileType: Binary                                                                ";
-    const boost::uint32_t N32 = static_cast<boost::uint32_t>(facets.size());
+    const std::uint32_t N32 = static_cast<std::uint32_t>(facets.size());
     os.write(reinterpret_cast<const char *>(&N32), sizeof(N32));
 
     for(const Triangle& face : facets)

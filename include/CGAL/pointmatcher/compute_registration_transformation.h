@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Point_set_processing_3/include/CGAL/pointmatcher/compute_registration_transformation.h $
-// $Id: compute_registration_transformation.h ac8b6d4 2022-06-10T07:59:39+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Point_set_processing_3/include/CGAL/pointmatcher/compute_registration_transformation.h $
+// $Id: include/CGAL/pointmatcher/compute_registration_transformation.h 50219fc33bc $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s) : Necip Fazil Yildiran
@@ -607,14 +607,14 @@ compute_registration_transformation (const PointRange1& point_set_1, const Point
   // property map types
   typedef typename NP_helper1::Const_point_map PointMap1;
   typedef typename NP_helper2::Const_point_map PointMap2;
-  CGAL_static_assertion_msg((std::is_same< typename boost::property_traits<PointMap1>::value_type,
-                                           typename boost::property_traits<PointMap2>::value_type> ::value),
+  static_assert(std::is_same< typename boost::property_traits<PointMap1>::value_type,
+                                           typename boost::property_traits<PointMap2>::value_type> ::value,
                             "The point type of input ranges must be the same");
 
   typedef typename NP_helper1::Normal_map NormalMap1;
   typedef typename NP_helper2::Normal_map NormalMap2;
-  CGAL_static_assertion_msg((std::is_same< typename boost::property_traits<NormalMap1>::value_type,
-                                           typename boost::property_traits<NormalMap2>::value_type> ::value),
+  static_assert(std::is_same< typename boost::property_traits<NormalMap1>::value_type,
+                                           typename boost::property_traits<NormalMap2>::value_type> ::value,
                             "The vector type of input ranges must be the same");
 
   typedef typename std::iterator_traits<typename PointRange1::iterator>::value_type key_type1;
@@ -630,8 +630,8 @@ compute_registration_transformation (const PointRange1& point_set_1, const Point
   NormalMap2 normal_map2 = NP_helper2::get_normal_map(point_set_2, np2);
   auto weight_map2 = choose_parameter(get_parameter(np2, internal_np::scalar_map), DefaultWeightMap2(Scalar(1)));
 
-  CGAL_static_assertion_msg((std::is_same< typename boost::property_traits<decltype(weight_map1)>::value_type,
-                                           typename boost::property_traits<decltype(weight_map2)>::value_type> ::value),
+  static_assert(std::is_same< typename boost::property_traits<decltype(weight_map1)>::value_type,
+                                           typename boost::property_traits<decltype(weight_map2)>::value_type> ::value,
                             "The scalar type of input ranges must be the same");
 
   // initial transformation

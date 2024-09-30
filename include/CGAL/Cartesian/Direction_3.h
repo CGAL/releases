@@ -7,8 +7,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Cartesian_kernel/include/CGAL/Cartesian/Direction_3.h $
-// $Id: Direction_3.h d39c774 2022-03-17T12:14:43+01:00 Andreas Fabri
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Cartesian_kernel/include/CGAL/Cartesian/Direction_3.h $
+// $Id: include/CGAL/Cartesian/Direction_3.h 50219fc33bc $
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -45,7 +45,7 @@ public:
   DirectionC3() {}
 
   explicit DirectionC3(const Vector_3 &v)
-    : base(CGAL::make_array(v.x(), v.y(), v.z())) {}
+    : base{v.x(), v.y(), v.z()} {}
   // { *this = v.direction(); }
 
   explicit DirectionC3(const Line_3 &l)
@@ -58,7 +58,7 @@ public:
   { *this = s.rep().direction(); }
 
   DirectionC3(const FT &x, const FT &y, const FT &z)
-    : base(CGAL::make_array(x, y, z)) {}
+    : base{x, y, z} {}
 
   typename R::Boolean   operator==(const DirectionC3 &d) const;
   typename R::Boolean   operator!=(const DirectionC3 &d) const;

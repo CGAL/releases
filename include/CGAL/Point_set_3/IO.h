@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Point_set_3/include/CGAL/Point_set_3/IO.h $
-// $Id: IO.h 7935bcf 2023-12-14T10:10:17+01:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Point_set_3/include/CGAL/Point_set_3/IO.h $
+// $Id: include/CGAL/Point_set_3/IO.h 50219fc33bc $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //

@@ -7,8 +7,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Homogeneous_kernel/include/CGAL/Homogeneous/PointH3.h $
-// $Id: PointH3.h 4f5f834 2022-06-10T07:37:53+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Homogeneous_kernel/include/CGAL/Homogeneous/PointH3.h $
+// $Id: include/CGAL/Homogeneous/PointH3.h 50219fc33bc $
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -52,9 +52,9 @@ public:
 
   template < typename Tx, typename Ty, typename Tz >
   PointH3(const Tx & x, const Ty & y, const Tz & z,
-          std::enable_if_t< boost::mpl::and_< boost::mpl::and_< boost::is_convertible<Tx, RT>,
-                                                                         boost::is_convertible<Ty, RT> >,
-                                                       boost::is_convertible<Tz, RT> >::value >* = 0)
+          std::enable_if_t<std::is_convertible_v<Tx, RT> &&
+                           std::is_convertible_v<Ty, RT> &&
+                           std::is_convertible_v<Tz, RT>>* = 0)
     : base(x, y, z) {}
 
   PointH3(const FT& x, const FT& y, const FT& z)

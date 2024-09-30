@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Periodic_2_triangulation_2/include/CGAL/Periodic_2_triangulation_hierarchy_2.h $
-// $Id: Periodic_2_triangulation_hierarchy_2.h eed54a0 2022-11-15T18:45:39+01:00 albert-github
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Periodic_2_triangulation_2/include/CGAL/Periodic_2_triangulation_hierarchy_2.h $
+// $Id: include/CGAL/Periodic_2_triangulation_hierarchy_2.h 50219fc33bc $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Olivier Devillers <Olivivier.Devillers@sophia.inria.fr>

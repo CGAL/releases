@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Surface_mesh_parameterization/include/CGAL/Surface_mesh_parameterization/Barycentric_mapping_parameterizer_3.h $
-// $Id: Barycentric_mapping_parameterizer_3.h a8a2b0a 2022-08-24T13:13:55+01:00 Andreas Fabri
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Surface_mesh_parameterization/include/CGAL/Surface_mesh_parameterization/Barycentric_mapping_parameterizer_3.h $
+// $Id: include/CGAL/Surface_mesh_parameterization/Barycentric_mapping_parameterizer_3.h 50219fc33bc $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Laurent Saboret, Pierre Alliez, Bruno Levy
@@ -49,7 +49,7 @@ namespace Surface_mesh_parameterization {
 ///   the matrix `A` for `j` neighbor vertex of `i`, based on Tutte Barycentric
 ///   Mapping method.
 ///
-/// \cgalModels `Parameterizer_3`
+/// \cgalModels{Parameterizer_3}
 ///
 /// \tparam TriangleMesh_ must be a model of `FaceGraph`.
 ///

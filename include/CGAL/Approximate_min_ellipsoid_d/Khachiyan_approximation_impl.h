@@ -3,12 +3,17 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Bounding_volumes/include/CGAL/Approximate_min_ellipsoid_d/Khachiyan_approximation_impl.h $
-// $Id: Khachiyan_approximation_impl.h 62a31ba 2022-11-14T17:44:33+01:00 albert-github
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Bounding_volumes/include/CGAL/Approximate_min_ellipsoid_d/Khachiyan_approximation_impl.h $
+// $Id: include/CGAL/Approximate_min_ellipsoid_d/Khachiyan_approximation_impl.h 50219fc33bc $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
 // Author(s)     : Kaspar Fischer <fischerk@inf.ethz.ch>
+
+#ifndef CGAL_APPROX_MIN_ELLIPSOID_KHACHIYAN_APPROX_IMPL_H
+#define CGAL_APPROX_MIN_ELLIPSOID_KHACHIYAN_APPROX_IMPL_H
+
+#include <CGAL/license/Bounding_volumes.h>
 
 // Note: whenever a comment refers to "Khachiyan's paper" then the
 // paper "Rounding of polytopes in the real number model of
@@ -663,3 +668,5 @@ namespace CGAL {
   }
 
 }
+
+#endif // CGAL_APPROX_MIN_ELLIPSOID_KHACHIYAN_APPROX_IMPL_H

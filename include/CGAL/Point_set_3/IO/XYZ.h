@@ -2,8 +2,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Point_set_3/include/CGAL/Point_set_3/IO/XYZ.h $
-// $Id: XYZ.h eed54a0 2022-11-15T18:45:39+01:00 albert-github
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Point_set_3/include/CGAL/Point_set_3/IO/XYZ.h $
+// $Id: include/CGAL/Point_set_3/IO/XYZ.h 50219fc33bc $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Simon Giraudot
@@ -93,12 +93,6 @@ bool read_XYZ(const std::string& fname, CGAL::Point_set_3<Point, Vector>& point_
 
 #ifndef CGAL_NO_DEPRECATED_CODE
 
-/*!
-  \ingroup PkgPointSet3IODeprecated
-
-  \deprecated This function is deprecated since \cgal 5.3,
-              \link PkgPointSet3IO `CGAL::IO::read_XYZ()` \endlink  should be used instead.
- */
 template <typename Point, typename Vector>
 CGAL_DEPRECATED bool read_xyz_point_set(std::istream& is, CGAL::Point_set_3<Point, Vector>& point_set)
 {
@@ -187,12 +181,6 @@ bool write_XYZ(const std::string& fname, const CGAL::Point_set_3<Point, Vector>&
 
 #ifndef CGAL_NO_DEPRECATED_CODE
 
-/*!
-  \ingroup PkgPointSet3IODeprecated
-
-  \deprecated This function is deprecated since \cgal 5.3,
-              \link PkgPointSet3IO `CGAL::IO::write_XYZ()` \endlink  should be used instead.
- */
 template <typename Point, typename Vector>
 CGAL_DEPRECATED bool write_xyz_point_set(std::ostream& os, const CGAL::Point_set_3<Point, Vector>& point_set)
 {

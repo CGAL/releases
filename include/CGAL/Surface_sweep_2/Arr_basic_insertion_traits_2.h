@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Arrangement_on_surface_2/include/CGAL/Surface_sweep_2/Arr_basic_insertion_traits_2.h $
-// $Id: Arr_basic_insertion_traits_2.h 014c06f 2022-11-14T15:32:47+01:00 albert-github
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Arrangement_on_surface_2/include/CGAL/Surface_sweep_2/Arr_basic_insertion_traits_2.h $
+// $Id: include/CGAL/Surface_sweep_2/Arr_basic_insertion_traits_2.h 50219fc33bc $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -440,7 +440,7 @@ public:
     { return (m_base_eq(p1.base(), p2.base())); }
   };
 
-  /*! Obtain a Equal_2 function object */
+  /*! Obtain an `Equal_2` function object */
   Equal_2 equal_2_object() const
   { return (Equal_2(m_base_traits->equal_2_object())); }
 

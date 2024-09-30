@@ -7,8 +7,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Number_types/include/CGAL/Quotient.h $
-// $Id: Quotient.h 3fa4364 2022-06-10T08:41:19+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Number_types/include/CGAL/Quotient.h $
+// $Id: include/CGAL/Quotient.h 50219fc33bc $
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -421,7 +421,6 @@ operator>>(std::istream& in, Quotient<NT>& r)
   NT num,den=1;
   in >> num;
   if(!in) return in;
-  std::istream::sentry s(in); // skip whitespace
   if(in.peek()!='/'){
           if(!in.good()){
                   in.clear(std::ios_base::eofbit);
@@ -627,13 +626,13 @@ public:
 
     };
 
-    typedef typename boost::mpl::if_c<
-        !std::is_same< typename Algebraic_structure_traits<NT>::Sqrt,
-                         Null_functor >::value,
+    typedef std::conditional_t<
+        !std::is_same_v< typename Algebraic_structure_traits<NT>::Sqrt,
+                         Null_functor >,
          typename INTERN_QUOTIENT::Sqrt_selector< Type,
                                                   Is_exact >::Sqrt,
          Null_functor
-                            >::type Sqrt;
+                            > Sqrt;
 
     class Simplify
       : public CGAL::cpp98::unary_function< Type&, void > {

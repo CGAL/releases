@@ -7,8 +7,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Cartesian_kernel/include/CGAL/predicates/kernel_ftC3.h $
-// $Id: kernel_ftC3.h 0ff7882 2022-12-06T22:21:06+01:00 Mael
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Cartesian_kernel/include/CGAL/predicates/kernel_ftC3.h $
+// $Id: include/CGAL/predicates/kernel_ftC3.h 50219fc33bc $
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -102,12 +102,14 @@ collinearC3(const FT &px, const FT &py, const FT &pz,
   FT dqx = qx-rx;
   FT dpy = py-ry;
   FT dqy = qy-ry;
-  if (sign_of_determinant(dpx, dqx, dpy, dqy) != ZERO)
+
+  auto is_zero = sign_of_determinant(dpx, dqx, dpy, dqy) == ZERO;
+  if (certainly_not(is_zero))
       return false;
   FT dpz = pz-rz;
   FT dqz = qz-rz;
-  return CGAL_AND( sign_of_determinant(dpx, dqx, dpz, dqz) == ZERO ,
-                   sign_of_determinant(dpy, dqy, dpz, dqz) == ZERO );
+      return is_zero & CGAL_AND( sign_of_determinant(dpx, dqx, dpz, dqz) == ZERO ,
+                                 sign_of_determinant(dpy, dqy, dpz, dqz) == ZERO );
 }
 
 template < class FT >

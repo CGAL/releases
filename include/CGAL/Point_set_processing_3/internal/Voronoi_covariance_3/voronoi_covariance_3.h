@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Point_set_processing_3/include/CGAL/Point_set_processing_3/internal/Voronoi_covariance_3/voronoi_covariance_3.h $
-// $Id: voronoi_covariance_3.h 13882cc 2022-11-08T17:29:15+01:00 Jane Tournois
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Point_set_processing_3/include/CGAL/Point_set_processing_3/internal/Voronoi_covariance_3/voronoi_covariance_3.h $
+// $Id: include/CGAL/Point_set_processing_3/internal/Voronoi_covariance_3/voronoi_covariance_3.h 50219fc33bc $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s) : Jocelyn Meyron and Quentin Mérigot
@@ -167,7 +167,7 @@ namespace CGAL {
                       (planes.begin(),
                        planes.end(),
                        P,
-                       boost::make_optional(Point(CGAL::ORIGIN)));
+                       std::make_optional(Point(CGAL::ORIGIN)));
 
                     // apply f to the triangles on the boundary of P
                     for(typename boost::graph_traits<Polyhedron>::face_descriptor fd : faces(P))

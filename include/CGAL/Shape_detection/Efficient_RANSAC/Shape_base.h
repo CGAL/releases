@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Shape_detection/include/CGAL/Shape_detection/Efficient_RANSAC/Shape_base.h $
-// $Id: Shape_base.h ae8ec55 2021-01-19T09:54:58+01:00 Simon Giraudot
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Shape_detection/include/CGAL/Shape_detection/Efficient_RANSAC/Shape_base.h $
+// $Id: include/CGAL/Shape_detection/Efficient_RANSAC/Shape_base.h 50219fc33bc $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -374,7 +374,7 @@ namespace CGAL {
      */
     typename boost::property_traits< typename Traits::Point_map >::reference
     point(std::size_t i) const {
-      return get(this->m_point_pmap, *(this->m_first + i));
+      return get(this->m_point_pmap.value(), *(this->m_first + i));
     }
 
     /*!
@@ -382,7 +382,7 @@ namespace CGAL {
      */
     typename boost::property_traits< typename Traits::Normal_map >::reference
     normal(std::size_t i) const {
-      return get(this->m_normal_pmap, *(this->m_first + i));
+      return get(this->m_normal_pmap.value(), *(this->m_first + i));
     }
 
     /*!
@@ -694,8 +694,8 @@ namespace CGAL {
     Input_iterator m_first;
 
     Traits m_traits;
-    Point_map m_point_pmap;
-    Normal_map m_normal_pmap;
+    std::optional<Point_map> m_point_pmap;
+    std::optional<Normal_map> m_normal_pmap;
     /// \endcond
   };
 }

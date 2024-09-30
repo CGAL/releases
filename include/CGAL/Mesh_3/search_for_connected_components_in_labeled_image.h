@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Mesh_3/include/CGAL/Mesh_3/search_for_connected_components_in_labeled_image.h $
-// $Id: search_for_connected_components_in_labeled_image.h 3b90060 2022-11-07T10:08:30+01:00 Laurent Rineau
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Mesh_3/include/CGAL/Mesh_3/search_for_connected_components_in_labeled_image.h $
+// $Id: include/CGAL/Mesh_3/search_for_connected_components_in_labeled_image.h 50219fc33bc $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -47,7 +47,7 @@ search_for_connected_components_in_labeled_image(const CGAL::Image_3& image,
   const std::size_t nz = image.zdim();
   const std::size_t size = nx * ny * nz;
 
-  typedef boost::uint16_t uint;
+  typedef std::uint16_t uint;
 
   if(nx > 65535 || ny > 65535 || nz > 65535)
   {

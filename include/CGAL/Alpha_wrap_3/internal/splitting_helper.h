@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Alpha_wrap_3/include/CGAL/Alpha_wrap_3/internal/splitting_helper.h $
-// $Id: splitting_helper.h 9242a81 2023-02-07T11:31:55+01:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Alpha_wrap_3/include/CGAL/Alpha_wrap_3/internal/splitting_helper.h $
+// $Id: include/CGAL/Alpha_wrap_3/internal/splitting_helper.h 50219fc33bc $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Mael Rouxel-Labbé
@@ -18,7 +18,7 @@
 
 #include <CGAL/AABB_tree/internal/AABB_traversal_traits.h>
 #include <CGAL/AABB_primitive.h>
-#include <CGAL/AABB_traits.h>
+#include <CGAL/AABB_traits_3.h>
 #include <CGAL/AABB_tree.h>
 #include <CGAL/array.h>
 #include <CGAL/Bbox_3.h>
@@ -83,7 +83,7 @@ struct Splitter_traversal_traits
     : public CGAL::internal::AABB_tree::Projection_traits<AABBTraits>
   {
     using Base = CGAL::internal::AABB_tree::Projection_traits<AABBTraits>;
-    using Point = typename AABBTraits::Point_3;
+    using Point = typename AABBTraits::Point;
     using Primitive = typename AABBTraits::Primitive;
 
     std::unordered_set<std::size_t> visited_data;
@@ -192,7 +192,7 @@ struct AABB_tree_splitter_traits
                                          CGAL::Tag_true /*external pmaps*/,
                                          CGAL::Tag_false /*no caching*/>;
 
-  using AABB_traits = CGAL::AABB_traits<GT, Primitive, BPM>;
+  using AABB_traits = CGAL::AABB_traits_3<GT, Primitive, BPM>;
   using AABB_tree = CGAL::AABB_tree<AABB_traits>;
 };
 

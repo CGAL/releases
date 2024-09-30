@@ -7,8 +7,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Kernel_23/include/CGAL/enum.h $
-// $Id: enum.h 5c8df66 2020-09-25T14:25:14+02:00 Jane Tournois
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Kernel_23/include/CGAL/enum.h $
+// $Id: include/CGAL/enum.h 50219fc33bc $
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 //

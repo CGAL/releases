@@ -4,8 +4,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Mesh_3/include/CGAL/Mesh_3/experimental/AABB_filtered_projection_traits.h $
-// $Id: AABB_filtered_projection_traits.h 873d98f 2023-03-22T15:50:31+01:00 Laurent Rineau
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Mesh_3/include/CGAL/Mesh_3/experimental/AABB_filtered_projection_traits.h $
+// $Id: include/CGAL/Mesh_3/experimental/AABB_filtered_projection_traits.h 50219fc33bc $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -37,7 +37,7 @@ template <typename AABBTraits,
 class Filtered_projection_traits
 {
   typedef typename AABBTraits::FT FT;
-  typedef typename AABBTraits::Point_3 Point_3;
+  typedef typename AABBTraits::Point Point_3;
   typedef typename AABBTraits::Primitive Primitive;
   typedef typename AABBTraits::Bounding_box Bounding_box;
   typedef typename AABBTraits::Primitive::Id Primitive_id;

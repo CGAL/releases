@@ -4,8 +4,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Periodic_3_mesh_3/include/CGAL/Periodic_3_mesh_3/config.h $
-// $Id: config.h 984cc77 2022-10-25T23:36:59+02:00 Mael Rouxel-Labbé
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Periodic_3_mesh_3/include/CGAL/Periodic_3_mesh_3/config.h $
+// $Id: include/CGAL/Periodic_3_mesh_3/config.h 50219fc33bc $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Aymeric Pellé

@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Tetrahedral_remeshing/include/CGAL/Tetrahedral_remeshing/Remeshing_triangulation_3.h $
-// $Id: Remeshing_triangulation_3.h 861588a 2022-08-03T20:19:51+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Tetrahedral_remeshing/include/CGAL/Tetrahedral_remeshing/Remeshing_triangulation_3.h $
+// $Id: include/CGAL/Tetrahedral_remeshing/Remeshing_triangulation_3.h 50219fc33bc $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -45,14 +45,14 @@ triangulation data structure.
 Possible values are `Sequential_tag` (the default), `Parallel_tag`,
 and `Parallel_if_available_tag`.
 
-\tparam Vb is a model of `RemeshingVertexBase_3`. It has the default value ` Remeshing_vertex_base_3<Gt>`.
-\tparam Cb is a model of `RemeshingCellBase_3`. It has the default value ` Remeshing_cell_base_3<Gt>`.
+\tparam Vb must be a model of `RemeshingVertexBase_3`.
 
+\tparam Cb must be model of `RemeshingCellBase_3`.
 */
 template<typename Gt,
          typename Concurrency_tag = CGAL::Sequential_tag,
          typename Vb = Remeshing_vertex_base_3<Gt>,
-         typename Cb = Remeshing_cell_base_3<>
+         typename Cb = Remeshing_cell_base_3<Gt>
 >
 class Remeshing_triangulation_3
   : public CGAL::Triangulation_3<Gt, CGAL::Triangulation_data_structure_3<Vb,Cb> >

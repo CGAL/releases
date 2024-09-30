@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Spatial_searching/include/CGAL/Search_traits_adapter.h $
-// $Id: Search_traits_adapter.h 5f8930d 2023-01-27T21:16:14+01:00 Laurent Rineau
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Spatial_searching/include/CGAL/Search_traits_adapter.h $
+// $Id: include/CGAL/Search_traits_adapter.h 50219fc33bc $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -224,16 +224,16 @@ public:
 
   // Select type of iterator + construct class depending on whether
   // point map is lvalue or not
-  typedef typename boost::mpl::if_<
-              boost::is_reference<typename boost::property_traits<PointPropertyMap>::reference>,
+  typedef std::conditional_t<
+              std::is_reference_v<typename boost::property_traits<PointPropertyMap>::reference>,
               typename Base::Cartesian_const_iterator_d,
-              No_lvalue_iterator>::type
+              No_lvalue_iterator>
     Cartesian_const_iterator_d;
 
-  typedef typename boost::mpl::if_<
-              boost::is_reference<typename boost::property_traits<PointPropertyMap>::reference>,
+  typedef std::conditional_t<
+              std::is_reference_v<typename boost::property_traits<PointPropertyMap>::reference>,
               Construct_cartesian_const_iterator_d_lvalue,
-              Construct_cartesian_const_iterator_d_no_lvalue>::type
+              Construct_cartesian_const_iterator_d_no_lvalue>
     Construct_cartesian_const_iterator_d;
 
   struct Construct_iso_box_d: public Base::Construct_iso_box_d{

@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Mesh_3/include/CGAL/Mesh_3/Mesh_surface_cell_base_3.h $
-// $Id: Mesh_surface_cell_base_3.h cbfeb98 2022-10-05T15:39:04+02:00 Sebastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Mesh_3/include/CGAL/Mesh_3/Mesh_surface_cell_base_3.h $
+// $Id: include/CGAL/Mesh_3/Mesh_surface_cell_base_3.h 50219fc33bc $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //

@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Periodic_3_triangulation_3/include/CGAL/Periodic_3_triangulation_3/internal/canonicalize_helper.h $
-// $Id: canonicalize_helper.h 5656a7d 2023-05-26T11:17:47+02:00 Mael Rouxel-Labbé
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Periodic_3_triangulation_3/include/CGAL/Periodic_3_triangulation_3/internal/canonicalize_helper.h $
+// $Id: include/CGAL/Periodic_3_triangulation_3/internal/canonicalize_helper.h 50219fc33bc $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Mael Rouxel-Labbé

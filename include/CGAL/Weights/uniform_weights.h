@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Weights/include/CGAL/Weights/uniform_weights.h $
-// $Id: uniform_weights.h b9e7c2a 2022-10-20T17:35:19+02:00 Mael Rouxel-Labbé
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Weights/include/CGAL/Weights/uniform_weights.h $
+// $Id: include/CGAL/Weights/uniform_weights.h 50219fc33bc $
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -93,8 +93,8 @@ typename GeomTraits::FT uniform_weight(const CGAL::Point_3<GeomTraits>& p0,
 // It is currently used in:
 // Polygon_mesh_processing -> triangulate_hole_Polyhedron_3_test.cpp
 // Polygon_mesh_processing -> triangulate_hole_Polyhedron_3_no_delaunay_test.cpp
-// Polyhedron demo -> Fairing_plugin.cpp
-// Polyhedron demo -> Hole_filling_plugin.cpp
+// CGAL Lab -> Fairing_plugin.cpp
+// CGAL Lab -> Hole_filling_plugin.cpp
 template<class PolygonMesh>
 class Uniform_weight
 {

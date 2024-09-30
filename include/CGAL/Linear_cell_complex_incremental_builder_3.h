@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Linear_cell_complex/include/CGAL/Linear_cell_complex_incremental_builder_3.h $
-// $Id: Linear_cell_complex_incremental_builder_3.h 5797ddb 2023-01-31T10:10:03+00:00 Andreas Fabri
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Linear_cell_complex/include/CGAL/Linear_cell_complex_incremental_builder_3.h $
+// $Id: include/CGAL/Linear_cell_complex_incremental_builder_3.h 50219fc33bc $
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Guillaume Damiand <guillaume.damiand@liris.cnrs.fr>

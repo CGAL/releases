@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Interpolation/include/CGAL/regular_neighbor_coordinates_2.h $
-// $Id: regular_neighbor_coordinates_2.h 70a06b4 2022-06-27T08:58:17+01:00 Andreas Fabri
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Interpolation/include/CGAL/regular_neighbor_coordinates_2.h $
+// $Id: include/CGAL/regular_neighbor_coordinates_2.h 50219fc33bc $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Julia Floetotto
@@ -21,8 +21,6 @@
 #include <CGAL/utility.h>
 #include <CGAL/function_objects.h>
 #include <CGAL/Polygon_2_algorithms.h>
-
-#include <boost/type_traits/is_convertible.hpp>
 
 #include <iterator>
 #include <list>
@@ -343,7 +341,7 @@ regular_neighbor_coordinates_2(const Rt& rt,
                                OutputIterator out,
                                OutputFunctor fct,
                                std::enable_if_t<
-                                 !boost::is_convertible<OutputFunctor,
+                                 !std::is_convertible<OutputFunctor,
                                                        typename Rt::Face_handle>::value
                                >* = 0)
 {

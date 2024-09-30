@@ -4,8 +4,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Poisson_surface_reconstruction_3/include/CGAL/Poisson_implicit_surface_3.h $
-// $Id: Poisson_implicit_surface_3.h 0779373 2020-03-26T13:31:46+01:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Poisson_surface_reconstruction_3/include/CGAL/Poisson_implicit_surface_3.h $
+// $Id: include/CGAL/Poisson_implicit_surface_3.h 50219fc33bc $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Laurent RINEAU
@@ -108,15 +108,6 @@ namespace CGAL {
     typedef Poisson_implicit_surface_3<GT, Function> surface;
     return surface(f, sphere, error_bound);
   }
-
-//   template <typename GT, typename Function>
-//   struct Surface_mesh_traits_generator_3<Poisson_implicit_surface_3<GT, Function> >
-//   {
-//     typedef Poisson_implicit_surface_3<GT, Function> Surface_type;
-//     typedef typename Surface_mesher::Poisson_implicit_surface_oracle_3<GT,
-//                                                              Surface_type> Type;
-//     typedef Type type; // Boost meta-programming compatibility
-//   };
 
   // non documented class
   template <typename FT, typename Point>

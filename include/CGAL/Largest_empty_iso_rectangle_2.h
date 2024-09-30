@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Inscribed_areas/include/CGAL/Largest_empty_iso_rectangle_2.h $
-// $Id: Largest_empty_iso_rectangle_2.h 7fe663c 2023-02-10T15:40:42+01:00 Laurent Rineau
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Inscribed_areas/include/CGAL/Largest_empty_iso_rectangle_2.h $
+// $Id: include/CGAL/Largest_empty_iso_rectangle_2.h 50219fc33bc $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -46,7 +46,7 @@ namespace CGAL {
 
   The algorithm checks all the empty rectangles that are bounded by either
   points or edges of the bounding box (other empty rectangles can be enlarged
-  and remain empty). There are O(n^2) such rectangles. It is done in three
+  and remain empty). There are \cgalBigO{n^2} such rectangles. It is done in three
   phases. In the first one empty rectangles that are bounded by two opposite
   edges of the bounding box are checked. In the second one, other empty
   rectangles that are bounded by one or two edges of the bounding box are

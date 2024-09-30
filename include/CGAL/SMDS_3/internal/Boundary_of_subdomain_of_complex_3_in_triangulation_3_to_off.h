@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/SMDS_3/include/CGAL/SMDS_3/internal/Boundary_of_subdomain_of_complex_3_in_triangulation_3_to_off.h $
-// $Id: Boundary_of_subdomain_of_complex_3_in_triangulation_3_to_off.h 355b52d 2022-03-01T11:30:21+01:00 Jane Tournois
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/SMDS_3/include/CGAL/SMDS_3/internal/Boundary_of_subdomain_of_complex_3_in_triangulation_3_to_off.h $
+// $Id: include/CGAL/SMDS_3/internal/Boundary_of_subdomain_of_complex_3_in_triangulation_3_to_off.h 50219fc33bc $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Laurent Rineau and Sebastien Loriot

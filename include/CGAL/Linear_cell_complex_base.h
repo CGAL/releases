@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Linear_cell_complex/include/CGAL/Linear_cell_complex_base.h $
-// $Id: Linear_cell_complex_base.h 4547818 2022-11-15T13:39:40+01:00 albert-github
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Linear_cell_complex/include/CGAL/Linear_cell_complex_base.h $
+// $Id: include/CGAL/Linear_cell_complex_base.h 50219fc33bc $
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Guillaume Damiand <guillaume.damiand@liris.cnrs.fr>
@@ -775,7 +775,7 @@ namespace CGAL {
     Dart_descriptor insert_point_in_cell(Dart_descriptor dh, const Point& p,
                                      bool update_attributes=true)
     {
-      CGAL_static_assertion(1<=i && i<=2);
+      static_assert(1<=i && i<=2);
       if (i==1) return insert_point_in_cell_1(dh, p, update_attributes);
       return insert_point_in_cell_2(dh, p, update_attributes);
     }
@@ -806,7 +806,7 @@ namespace CGAL {
 
     /** Compute the dual of a Linear_cell_complex.
      * @param alcc the lcc in which we build the dual of this lcc.
-     * @param adart a dart of the initial lcc, nullptr by default.
+     * @param adart a dart of the initial lcc, `nullptr` by default.
      * @return adart of the dual lcc, the dual of adart if adart!=nullptr,
      *         any dart otherwise.
      * As soon as we don't modify this lcc and alcc lcc, we can iterate

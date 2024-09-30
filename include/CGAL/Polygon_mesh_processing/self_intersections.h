@@ -4,8 +4,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Polygon_mesh_processing/include/CGAL/Polygon_mesh_processing/self_intersections.h $
-// $Id: self_intersections.h ee1fa58 2023-12-18T13:31:06+01:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Polygon_mesh_processing/include/CGAL/Polygon_mesh_processing/self_intersections.h $
+// $Id: include/CGAL/Polygon_mesh_processing/self_intersections.h 50219fc33bc $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -423,7 +423,7 @@ self_intersections_impl(const FaceRange& face_range,
   Throwing_filter throwing_filter(tmesh, vpmap, gt, Throwing_output_iterator());
 
 #if !defined(CGAL_LINKED_WITH_TBB)
-  CGAL_static_assertion_msg (!(std::is_convertible<ConcurrencyTag, Parallel_tag>::value),
+  static_assert (!(std::is_convertible<ConcurrencyTag, Parallel_tag>::value),
                              "Parallel_tag is enabled but TBB is unavailable.");
 #else
   if(std::is_convertible<ConcurrencyTag, Parallel_tag>::value)

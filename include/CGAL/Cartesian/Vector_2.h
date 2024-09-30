@@ -7,8 +7,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Cartesian_kernel/include/CGAL/Cartesian/Vector_2.h $
-// $Id: Vector_2.h cca0a19 2022-04-12T16:14:39+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Cartesian_kernel/include/CGAL/Cartesian/Vector_2.h $
+// $Id: include/CGAL/Cartesian/Vector_2.h 50219fc33bc $
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -50,7 +50,10 @@ public:
   VectorC2() {}
 
   VectorC2(const FT &x, const FT &y)
-    : base(CGAL::make_array(x, y)) {}
+    : base{x, y} {}
+
+  VectorC2(FT&& x, FT&& y)
+    : base{std::move(x), std::move(y)} {}
 
   VectorC2(const FT &hx, const FT &hy, const FT &hw)
     : base( hw != FT(1) ? CGAL::make_array<FT>(hx/hw, hy/hw)

@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Installation/include/CGAL/license/SMDS_3.h $
-// $Id: SMDS_3.h c1afb48 2022-07-19T09:04:19+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Installation/include/CGAL/license/SMDS_3.h $
+// $Id: include/CGAL/license/SMDS_3.h 50219fc33bc $
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s) : Andreas Fabri
@@ -24,12 +24,12 @@
 #    if defined(CGAL_LICENSE_WARNING)
 
        CGAL_pragma_warning("Your commercial license for CGAL does not cover "
-                           "this release of the 3D Mesh Data Structure package.")
+                           "this release of the 3D Simplicial Mesh Data Structure package.")
 #    endif
 
 #    ifdef CGAL_LICENSE_ERROR
 #      error "Your commercial license for CGAL does not cover this release \
-              of the 3D Mesh Data Structure package. \
+              of the 3D Simplicial Mesh Data Structure package. \
               You get this error, as you defined CGAL_LICENSE_ERROR."
 #    endif // CGAL_LICENSE_ERROR
 

@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Point_set_processing_3/include/CGAL/Point_set_processing_3/internal/bbox_diagonal.h $
-// $Id: bbox_diagonal.h d6cf972 2020-04-17T09:22:57+02:00 Mael Rouxel-Labbé
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Point_set_processing_3/include/CGAL/Point_set_processing_3/internal/bbox_diagonal.h $
+// $Id: include/CGAL/Point_set_processing_3/internal/bbox_diagonal.h 50219fc33bc $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s) : Simon Giraudot

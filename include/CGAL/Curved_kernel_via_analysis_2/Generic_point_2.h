@@ -3,15 +3,18 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Arrangement_on_surface_2/include/CGAL/Curved_kernel_via_analysis_2/Generic_point_2.h $
-// $Id: Generic_point_2.h 9d709b1 2022-11-21T10:40:28+01:00 albert-github
-// SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Arrangement_on_surface_2/include/CGAL/Curved_kernel_via_analysis_2/Generic_point_2.h $
+// $Id: include/CGAL/Curved_kernel_via_analysis_2/Generic_point_2.h 50219fc33bc $
+// SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
 // Author(s)     : Pavel Emeliyanenko <asm@mpi-sb.mpg.de>
 
 #ifndef CGAL_CURVED_KERNEL_VIA_ANALYSIS_2_GENERIC_POINT_2_H
 #define CGAL_CURVED_KERNEL_VIA_ANALYSIS_2_GENERIC_POINT_2_H
+
+#include <CGAL/license/Arrangement_on_surface_2.h>
+
 
 /*!\file include/CGAL/Curved_kernel_via_analysis_2/Generic_point_2.h
  * \brief defines class \c Generic_point_2
@@ -67,12 +70,12 @@ public:
         _m_point(p) {
     }
 
-    mutable boost::optional<Arc_2> _m_arc; // supporting arc for points at inf
+    mutable std::optional<Arc_2> _m_arc; // supporting arc for points at inf
 
     // stores respective curve end if this is a point at infinity
     CGAL::Arr_curve_end _m_end;
 
-    mutable boost::optional<Point_2> _m_point; // stores a finite point
+    mutable std::optional<Point_2> _m_point; // stores a finite point
 
     // befriending the handle
     friend class Generic_point_2<Sweep_curves_adaptor_2, Self>;

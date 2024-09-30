@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Shape_detection/include/CGAL/Shape_detection/Region_growing/Region_growing.h $
-// $Id: Region_growing.h 8682331 2023-05-19T12:27:18+01:00 Andreas Fabri
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Shape_detection/include/CGAL/Shape_detection/Region_growing/Region_growing.h $
+// $Id: include/CGAL/Shape_detection/Region_growing/Region_growing.h 50219fc33bc $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //

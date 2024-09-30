@@ -7,8 +7,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Kernel_23/include/CGAL/Iso_rectangle_2.h $
-// $Id: Iso_rectangle_2.h 39e6369 2023-05-12T10:32:54+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Kernel_23/include/CGAL/Iso_rectangle_2.h $
+// $Id: include/CGAL/Iso_rectangle_2.h 50219fc33bc $
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -33,7 +33,7 @@ class Iso_rectangle_2 : public R_::Kernel_base::Iso_rectangle_2
   typedef typename R_::Aff_transformation_2  Aff_transformation_2;
 
   typedef Iso_rectangle_2                    Self;
-  CGAL_static_assertion((std::is_same<Self, typename R_::Iso_rectangle_2>::value));
+  static_assert(std::is_same<Self, typename R_::Iso_rectangle_2>::value);
 
 public:
 

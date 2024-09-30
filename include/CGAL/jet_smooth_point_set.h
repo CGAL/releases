@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Point_set_processing_3/include/CGAL/jet_smooth_point_set.h $
-// $Id: jet_smooth_point_set.h eed54a0 2022-11-15T18:45:39+01:00 albert-github
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Point_set_processing_3/include/CGAL/jet_smooth_point_set.h $
+// $Id: include/CGAL/jet_smooth_point_set.h 50219fc33bc $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s) : Pierre Alliez, Marc Pouget and Laurent Saboret
@@ -200,7 +200,7 @@ jet_smooth_point_set(
   typedef typename NP_helper::Geom_traits Kernel;
   typedef typename GetSvdTraits<NamedParameters>::type SvdTraits;
 
-  CGAL_static_assertion_msg(!(std::is_same<SvdTraits,
+  static_assert(!(std::is_same<SvdTraits,
                               typename GetSvdTraits<NamedParameters>::NoTraits>::value),
                             "Error: no SVD traits");
 

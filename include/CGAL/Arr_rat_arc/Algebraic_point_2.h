@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Arrangement_on_surface_2/include/CGAL/Arr_rat_arc/Algebraic_point_2.h $
-// $Id: Algebraic_point_2.h 4e519a3 2021-05-05T13:15:37+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Arrangement_on_surface_2/include/CGAL/Arr_rat_arc/Algebraic_point_2.h $
+// $Id: include/CGAL/Arr_rat_arc/Algebraic_point_2.h 50219fc33bc $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Oren Salzman <orenzalz@post.tau.ac.il >
@@ -225,10 +225,11 @@ public:
         if (CGAL::compare(
                 CGAL::width(y_bfi),
                 CGAL::lower(CGAL::abs(y_bfi)) * eps)
-            == SMALLER)
+            == SMALLER){
           return std::make_pair(
               Bound(CGAL::lower(y_bfi)),
               Bound(CGAL::upper(y_bfi)));
+        }
       }
       else precision*=2;
     }
@@ -287,10 +288,11 @@ private:
       if (CGAL::zero_in(y_denom_bfi) == false)
       {
         BFI y_bfi(y_numer_bfi/y_denom_bfi);
-        if (CGAL::width(y_bfi) < eps )
+        if (CGAL::width(y_bfi) < eps ){
           return std::make_pair(
               Bound(CGAL::lower(y_bfi)),
               Bound(CGAL::upper(y_bfi)));
+        }
 
       }
       else precision*=2;

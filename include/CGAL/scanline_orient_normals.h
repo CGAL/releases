@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Point_set_processing_3/include/CGAL/scanline_orient_normals.h $
-// $Id: scanline_orient_normals.h 9e137bc 2023-01-31T12:26:55+01:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Point_set_processing_3/include/CGAL/scanline_orient_normals.h $
+// $Id: include/CGAL/scanline_orient_normals.h 50219fc33bc $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Simon Giraudot
@@ -373,10 +373,10 @@ void orient_scanline (Iterator begin, Iterator end,
    iterating on `points`:
 
    - if the named parameter `scanline_id_map` is provided, the range
-     is cut everytime the id changes.
+     is cut every time the id changes.
 
    - if no scanline ID map is provided, a fallback method simply cuts
-     the range everytime 3 consecutive points form an acute angle on
+     the range every time 3 consecutive points form an acute angle on
      the projected XY-plane. This fallback method gives suboptimal
      results.
 

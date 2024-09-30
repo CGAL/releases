@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Minkowski_sum_2/include/CGAL/Polygon_vertical_decomposition_2.h $
-// $Id: Polygon_vertical_decomposition_2.h 3674c93 2022-11-15T15:21:01+01:00 albert-github
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Minkowski_sum_2/include/CGAL/Polygon_vertical_decomposition_2.h $
+// $Id: include/CGAL/Polygon_vertical_decomposition_2.h 50219fc33bc $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s) : Efi Fogel   <efifogel@gmail.com>
@@ -77,12 +77,15 @@ private:
 
   // An arrangement observer, used to receive notifications of face splits and
   // face mergers.
-  class My_observer : public CGAL::Arr_observer<Arrangement_2> {
+  class My_observer : public Arrangement_2::Observer {
   public:
-    My_observer(Arrangement_2& arr) : Arr_observer<Arrangement_2>(arr) {}
+    using Base_aos = typename Arrangement_2::Base_aos;
+    using Face_handle = typename Base_aos::Face_handle;
+
+    My_observer(Base_aos& arr) : Arrangement_2::Observer(arr) {}
 
     virtual void after_split_face(Face_handle f, Face_handle new_f,
-                                  bool /* is_hole */)
+                                  bool /* is_hole */) override
     { if (f->contained()) new_f->set_contained(true); }
   };
 
@@ -280,7 +283,7 @@ private:
     CGAL::decompose(arr, std::back_inserter(vd_list));
 
     // Go over the vertices (given in ascending lexicographical xy-order),
-    // and add segments to the feautres below and above it.
+    // and add segments to the features below and above it.
     typename Vert_decomp_list::iterator it, prev = vd_list.end();
     for (it = vd_list.begin(); it != vd_list.end(); ++it) {
       // If the feature above the previous vertex is not the current vertex,

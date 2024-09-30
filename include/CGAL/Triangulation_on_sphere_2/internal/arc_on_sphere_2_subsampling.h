@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Triangulation_on_sphere_2/include/CGAL/Triangulation_on_sphere_2/internal/arc_on_sphere_2_subsampling.h $
-// $Id: arc_on_sphere_2_subsampling.h d3fca65 2022-09-23T12:49:40+01:00 Andreas Fabri
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Triangulation_on_sphere_2/include/CGAL/Triangulation_on_sphere_2/internal/arc_on_sphere_2_subsampling.h $
+// $Id: include/CGAL/Triangulation_on_sphere_2/internal/arc_on_sphere_2_subsampling.h 50219fc33bc $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Sébastien Loriot
@@ -56,7 +56,7 @@ double get_theta(typename Kernel::Point_3& pt,
 #endif
                                 >::type                              Col;
 
-  CGAL_static_assertion_msg(!(std::is_same<Matrix, EigenlessDefault>::value),
+  static_assert(!(std::is_same<Matrix, EigenlessDefault>::value),
                             "Eigen is required to perform arc subsampling!");
 
   auto V1c = V1.cartesian_begin(), V2c = V2.cartesian_begin(), V3c = V3.cartesian_begin();

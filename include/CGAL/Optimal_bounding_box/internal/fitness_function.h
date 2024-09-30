@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Optimal_bounding_box/include/CGAL/Optimal_bounding_box/internal/fitness_function.h $
-// $Id: fitness_function.h 13882cc 2022-11-08T17:29:15+01:00 Jane Tournois
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Optimal_bounding_box/include/CGAL/Optimal_bounding_box/internal/fitness_function.h $
+// $Id: include/CGAL/Optimal_bounding_box/internal/fitness_function.h 50219fc33bc $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //

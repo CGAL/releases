@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Combinatorial_map/include/CGAL/Compact_container_with_index.h $
-// $Id: Compact_container_with_index.h 52d7876 2023-03-10T13:25:44+01:00 Guillaume Damiand
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Combinatorial_map/include/CGAL/Compact_container_with_index.h $
+// $Id: include/CGAL/Compact_container_with_index.h 50219fc33bc $
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Guillaume Damiand <guillaume.damiand@liris.cnrs.fr>
@@ -738,6 +738,9 @@ public:
   size_type index(const_iterator cit) const
   { return static_cast<size_type>(cit); }
 
+  size_type index(Index idx) const
+  { return static_cast<size_type>(idx); }
+
   // Returns whether the iterator "cit" is in the range [begin(), end()].
   // This function is mostly useful for purposes of efficient debugging at
   // higher levels.
@@ -858,14 +861,13 @@ namespace internal {
     typedef typename DSC::value_type                  value_type;
     typedef typename DSC::size_type                   size_type;
     typedef typename DSC::difference_type             difference_type;
-    typedef typename boost::mpl::if_c< Const, const value_type*,
-                                       value_type*>::type pointer;
-    typedef typename boost::mpl::if_c< Const, const value_type&,
-                                       value_type&>::type reference;
+    typedef std::conditional_t< Const, const value_type*,
+                                       value_type*>   pointer;
+    typedef std::conditional_t< Const, const value_type&,
+                                       value_type&>  reference;
     typedef std::bidirectional_iterator_tag           iterator_category;
 
-    typedef typename boost::mpl::if_c< Const, const DSC*, DSC*>::type
-    cc_pointer;
+    typedef std::conditional_t< Const, const DSC*, DSC*> cc_pointer;
 
     CC_iterator_with_index(): m_ptr_to_cc(nullptr),
       m_index(0)

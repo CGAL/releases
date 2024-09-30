@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Scale_space_reconstruction_3/include/CGAL/Scale_space_surface_reconstruction_3.h $
-// $Id: Scale_space_surface_reconstruction_3.h 2d71f22 2023-05-17T15:12:36+01:00 Andreas Fabri
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Scale_space_reconstruction_3/include/CGAL/Scale_space_surface_reconstruction_3.h $
+// $Id: include/CGAL/Scale_space_surface_reconstruction_3.h 50219fc33bc $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s):      Thijs van Lankveld, Simon Giraudot

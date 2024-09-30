@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Arrangement_on_surface_2/include/CGAL/Arr_point_location/Arr_walk_along_line_pl_impl.h $
-// $Id: Arr_walk_along_line_pl_impl.h 3674c93 2022-11-15T15:21:01+01:00 albert-github
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Arrangement_on_surface_2/include/CGAL/Arr_point_location/Arr_walk_along_line_pl_impl.h $
+// $Id: include/CGAL/Arr_point_location/Arr_walk_along_line_pl_impl.h 50219fc33bc $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -113,7 +113,7 @@ Arr_walk_along_line_point_location<Arrangement>::locate(const Point_2& p) const
         face = closest_he->twin()->face();
 
         // Perform a vertical walk along the faces of the hole until locating
-        // a face that contains the qeury point.
+        // a face that contains the query point.
         do {
           CGAL_assertion_code
             (Halfedge_const_handle  old_closest_he = closest_he);
@@ -256,7 +256,7 @@ _vertical_ray_shoot(const Point_2& p, bool shoot_up) const
         face = closest_he->twin()->face();
 
         // Perform a vertical walk along the faces of the hole until locating
-        // a face that contains the qeury point.
+        // a face that contains the query point.
         do {
           CGAL_assertion_code (
             Halfedge_const_handle  old_closest_he = closest_he;

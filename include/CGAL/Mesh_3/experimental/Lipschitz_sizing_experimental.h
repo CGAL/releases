@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Mesh_3/include/CGAL/Mesh_3/experimental/Lipschitz_sizing_experimental.h $
-// $Id: Lipschitz_sizing_experimental.h 2c14df7 2022-02-15T15:29:31+01:00 Jane Tournois
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Mesh_3/include/CGAL/Mesh_3/experimental/Lipschitz_sizing_experimental.h $
+// $Id: include/CGAL/Mesh_3/experimental/Lipschitz_sizing_experimental.h 50219fc33bc $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -17,8 +17,8 @@
 #include <CGAL/license/Mesh_3.h>
 
 #include <CGAL/AABB_tree.h>
-#include <CGAL/AABB_traits.h>
-#include <CGAL/AABB_triangle_primitive.h>
+#include <CGAL/AABB_traits_3.h>
+#include <CGAL/AABB_triangle_primitive_3.h>
 
 #include <CGAL/Mesh_3/experimental/AABB_filtered_projection_traits.h>
 #include <CGAL/Mesh_3/experimental/Facet_patch_id_map.h>
@@ -58,8 +58,8 @@ public:
   typedef typename Kernel::Point_3    Point_3;
 
   typedef typename std::list<Triangle>::iterator        Tr_iterator;
-  typedef CGAL::AABB_triangle_primitive<K, Tr_iterator> Primitive;
-  typedef CGAL::AABB_traits<K, Primitive>               AABB_tr_traits;
+  typedef CGAL::AABB_triangle_primitive_3<K, Tr_iterator> Primitive;
+  typedef CGAL::AABB_traits_3<K, Primitive>             AABB_tr_traits;
   typedef CGAL::AABB_tree<AABB_tr_traits>               AABB_tree;
 
   typedef typename CGAL::Default::Get<AABBTreeTemplate, AABB_tree>::type Tree;

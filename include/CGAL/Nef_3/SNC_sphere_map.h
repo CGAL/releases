@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Nef_3/include/CGAL/Nef_3/SNC_sphere_map.h $
-// $Id: SNC_sphere_map.h b66ee56 2023-01-18T23:27:25+00:00 Giles Bathgate
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Nef_3/include/CGAL/Nef_3/SNC_sphere_map.h $
+// $Id: include/CGAL/Nef_3/SNC_sphere_map.h 50219fc33bc $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //

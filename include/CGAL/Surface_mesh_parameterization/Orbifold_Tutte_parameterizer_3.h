@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Surface_mesh_parameterization/include/CGAL/Surface_mesh_parameterization/Orbifold_Tutte_parameterizer_3.h $
-// $Id: Orbifold_Tutte_parameterizer_3.h d2bc415 2023-05-04T16:37:17+02:00 Laurent Rineau
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Surface_mesh_parameterization/include/CGAL/Surface_mesh_parameterization/Orbifold_Tutte_parameterizer_3.h $
+// $Id: include/CGAL/Surface_mesh_parameterization/Orbifold_Tutte_parameterizer_3.h 50219fc33bc $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Mael Rouxel-Labbé
@@ -38,7 +38,6 @@
 #endif
 #endif
 
-#include <boost/array.hpp>
 #include <boost/tuple/tuple.hpp>
 
 #include <unordered_map>
@@ -384,7 +383,7 @@ class Orbifold_Tutte_parameterizer_3
 public:
 #ifndef DOXYGEN_RUNNING
   #if !defined(CGAL_EIGEN3_ENABLED)
-  CGAL_static_assertion_msg(!(std::is_same<SolverTraits_, Default>::value),
+  static_assert(!(std::is_same<SolverTraits_, Default>::value),
                             "Error: You must either provide 'SolverTraits_' or link CGAL with the Eigen library");
   #endif
 
@@ -716,7 +715,7 @@ private:
     // The other parts of M(i,j) and M(i,k) will be added when this function
     // is called from the neighboring faces of F_ijk that share the vertex i
 
-    // @fixme unefficient: lengths are computed (and inversed!) twice per edge
+    // @fixme inefficient: lengths are computed (and inversed!) twice per edge
 
     // Set w_i_base: - tan(alpha / 2)
     const Point_3& p = pk;

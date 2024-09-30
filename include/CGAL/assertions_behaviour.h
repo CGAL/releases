@@ -7,8 +7,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/STL_Extension/include/CGAL/assertions_behaviour.h $
-// $Id: assertions_behaviour.h f3d0d76 2022-10-06T15:35:41+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/STL_Extension/include/CGAL/assertions_behaviour.h $
+// $Id: include/CGAL/assertions_behaviour.h 50219fc33bc $
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 //

@@ -2,8 +2,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/BGL/include/CGAL/boost/graph/internal/Has_member_clear.h $
-// $Id: Has_member_clear.h 27514ed 2022-06-10T09:59:02+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/BGL/include/CGAL/boost/graph/internal/Has_member_clear.h $
+// $Id: include/CGAL/boost/graph/internal/Has_member_clear.h 50219fc33bc $
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s) : Philipp Moeller
@@ -29,7 +29,7 @@ public:
 };
 
 template<class T>
-CGAL_CPP17_INLINE constexpr bool Has_member_clear_v = Has_member_clear<T>::value;
+inline constexpr bool Has_member_clear_v = Has_member_clear<T>::value;
 
 }  // internal
 }  // cgal

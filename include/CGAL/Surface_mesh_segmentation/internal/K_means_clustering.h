@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Surface_mesh_segmentation/include/CGAL/Surface_mesh_segmentation/internal/K_means_clustering.h $
-// $Id: K_means_clustering.h c32b1f4 2022-11-16T13:22:39+01:00 albert-github
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Surface_mesh_segmentation/include/CGAL/Surface_mesh_segmentation/internal/K_means_clustering.h $
+// $Id: include/CGAL/Surface_mesh_segmentation/internal/K_means_clustering.h 50219fc33bc $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Ilker O. Yaz
@@ -48,7 +48,7 @@ public:
    * T2 should be constructable by T1
    *
    * Implementation note: it is a variant of Floyd generator, and has uniform distribution
-   * where k = number of centers = complexity is O(k log k), and mem overhead is O(k)
+   * where k = number of centers = complexity is \cgalBigO{k log k}, and mem overhead is \cgalBigO{k}
    *
    * I also left previous implementation below, it might be useful where number of centers close to number of points
    */
@@ -78,7 +78,7 @@ public:
 
   // To future reference, I also left prev implementation which is a variant of Fisher–Yates shuffle, however to keep `points` intact I use another vector to
   // store and swap indices.
-  // where n = number of points; complexity = O(n), memory overhead = O(n)
+  // where n = number of points; complexity = \cgalBigO{n}, memory overhead = \cgalBigO{n}
   /*
   template<class T1, class T2>
   void forgy_initialization(std::size_t number_of_centers, const std::vector<T1>& points, std::vector<T2>& centers)

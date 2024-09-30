@@ -7,8 +7,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/STL_Extension/include/CGAL/assertions.h $
-// $Id: assertions.h d076b25 2023-05-12T11:01:11+01:00 Andreas Fabri
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/STL_Extension/include/CGAL/assertions.h $
+// $Id: include/CGAL/assertions.h 50219fc33bc $
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -136,12 +136,6 @@ inline bool possibly(Uncertain<bool> c);
 #  else // not def CGAL_UNREACHABLE
 #    define CGAL_unreachable()  CGAL_assertion(false)
 #  endif // CGAL_UNREACHABLE
-
-# define CGAL_static_assertion(EX) \
-     static_assert(EX, #EX)
-
-# define CGAL_static_assertion_msg(EX,MSG) \
-     static_assert(EX, MSG)
 
 #if defined(CGAL_NO_ASSERTIONS) || !defined(CGAL_CHECK_EXACTNESS)
 #  define CGAL_exactness_assertion(EX) (static_cast<void>(0))

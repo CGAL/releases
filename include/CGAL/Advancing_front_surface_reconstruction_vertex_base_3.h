@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Advancing_front_surface_reconstruction/include/CGAL/Advancing_front_surface_reconstruction_vertex_base_3.h $
-// $Id: Advancing_front_surface_reconstruction_vertex_base_3.h 98f324a 2022-11-23T21:15:38+01:00 Mael Rouxel-Labbé
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Advancing_front_surface_reconstruction/include/CGAL/Advancing_front_surface_reconstruction_vertex_base_3.h $
+// $Id: include/CGAL/Advancing_front_surface_reconstruction_vertex_base_3.h 50219fc33bc $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Frank Da, David Cohen-Steiner, Andreas Fabri

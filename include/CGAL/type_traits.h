@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/STL_Extension/include/CGAL/type_traits.h $
-// $Id: type_traits.h 2e90313 2022-11-09T10:50:01+01:00 Laurent Rineau
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/STL_Extension/include/CGAL/type_traits.h $
+// $Id: include/CGAL/type_traits.h 50219fc33bc $
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Andreas Meyer
@@ -21,13 +21,19 @@ namespace CGAL {
 
 template< class Base, class Derived >
 struct is_same_or_derived :
-  public ::boost::mpl::or_<
-    ::std::is_same< Base, Derived >,
-    ::boost::is_base_and_derived< Base, Derived >
-  >::type
+  public std::bool_constant<
+    ::std::is_same_v< Base, Derived > ||
+    ::boost::is_base_and_derived< Base, Derived >::value
+  >
 {};
 
 namespace cpp20 {
+
+  template<class T>
+  struct type_identity { using type = T; };
+
+  template<class T>
+  using type_identity_t = typename type_identity<T>::type;
 
   template< class T >
   struct remove_cvref {
@@ -38,6 +44,26 @@ namespace cpp20 {
   using remove_cvref_t = typename remove_cvref<T>::type;
 
 } // end namespace cpp20
+
+namespace details {
+  template <typename From, typename To, typename = void>
+  struct is_convertible_without_narrowing : std::false_type
+  {};
+
+  template <typename From, typename To>
+  struct is_convertible_without_narrowing<From,
+                                          To,
+                                          std::void_t<decltype(cpp20::type_identity_t<To[]>{std::declval<From>()})>>
+      : std::is_convertible<From, To>
+  {};
+}
+
+template <typename From, typename To>
+struct is_convertible_without_narrowing : details::is_convertible_without_narrowing<From, To>
+{};
+
+template <typename From, typename To>
+inline constexpr bool is_convertible_without_narrowing_v = is_convertible_without_narrowing<From, To>::value;
 
 } // end namespace CGAL
 

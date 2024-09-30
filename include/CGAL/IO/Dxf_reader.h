@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Circular_kernel_2/include/CGAL/IO/Dxf_reader.h $
-// $Id: Dxf_reader.h b5c21e1 2022-11-23T18:48:43+01:00 Mael Rouxel-Labbé
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Circular_kernel_2/include/CGAL/IO/Dxf_reader.h $
+// $Id: include/CGAL/IO/Dxf_reader.h 50219fc33bc $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Monique Teillaud, Sylvain Pion, Andreas Fabri

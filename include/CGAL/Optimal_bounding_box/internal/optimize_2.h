@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Optimal_bounding_box/include/CGAL/Optimal_bounding_box/internal/optimize_2.h $
-// $Id: optimize_2.h 13882cc 2022-11-08T17:29:15+01:00 Jane Tournois
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Optimal_bounding_box/include/CGAL/Optimal_bounding_box/internal/optimize_2.h $
+// $Id: include/CGAL/Optimal_bounding_box/internal/optimize_2.h 50219fc33bc $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Mael Rouxel-Labbé
@@ -119,7 +119,7 @@ void optimize_along_OBB_axes(typename Traits::Matrix& rot,
   typedef typename Traits::Matrix                                    Matrix;
   typedef typename Traits::Vector                                    Vector;
 
-  CGAL_static_assertion((std::is_same<typename boost::range_value<PointRange>::type, Point>::value));
+  static_assert(std::is_same<typename boost::range_value<PointRange>::type, Point>::value);
 
   std::vector<Point> rotated_points;
   rotated_points.reserve(points.size());

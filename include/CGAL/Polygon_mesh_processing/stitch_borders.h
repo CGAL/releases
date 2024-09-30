@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Polygon_mesh_processing/include/CGAL/Polygon_mesh_processing/stitch_borders.h $
-// $Id: stitch_borders.h 550d86c 2022-11-22T10:48:27+01:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Polygon_mesh_processing/include/CGAL/Polygon_mesh_processing/stitch_borders.h $
+// $Id: include/CGAL/Polygon_mesh_processing/stitch_borders.h 50219fc33bc $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -190,7 +190,7 @@ struct Boundary_cycle_rep_maintainer
   Boundary_cycle_rep_maintainer(PolygonMesh& pmesh)
     : m_pmesh(pmesh)
   {
-    m_candidate_halfedges = get(Candidate_tag(), pmesh);
+    m_candidate_halfedges = get(Candidate_tag(), pmesh, false);
   }
 
 public:

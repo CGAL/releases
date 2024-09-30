@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Classification/include/CGAL/Classification/Cluster.h $
-// $Id: Cluster.h 8166579 2021-10-11T19:58:07+02:00 Mael Rouxel-Labbé
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Classification/include/CGAL/Classification/Cluster.h $
+// $Id: include/CGAL/Classification/Cluster.h 50219fc33bc $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Simon Giraudot

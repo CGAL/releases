@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Arrangement_on_surface_2/include/CGAL/Arrangement_2/arrangement_type_traits.h $
-// $Id: arrangement_type_traits.h 014c06f 2022-11-14T15:32:47+01:00 albert-github
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Arrangement_on_surface_2/include/CGAL/Arrangement_2/arrangement_type_traits.h $
+// $Id: include/CGAL/Arrangement_2/arrangement_type_traits.h 50219fc33bc $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -24,7 +24,7 @@
 #include <CGAL/license/Arrangement_on_surface_2.h>
 
 
-#include <boost/type_traits/integral_constant.hpp>
+#include <type_traits>
 
 namespace CGAL
 {
@@ -62,7 +62,7 @@ namespace CGAL
 
 // In the meanwhile we use a default implementation.
 template <class T>
-class is_arrangement_2 : public boost::false_type
+class is_arrangement_2 : public std::false_type
 {};
 
 //--------------------------------  Arrangement_2
@@ -74,7 +74,7 @@ class Arrangement_2;
 template <class GeomTraits_, class DCEL_>
 class is_arrangement_2<
   Arrangement_2<GeomTraits_, DCEL_>
-> : public boost::false_type
+> : public std::false_type
 {};
 
 
@@ -87,7 +87,7 @@ class Arrangement_on_surface_2;
 template <class GeomTraits_, class TopTraits_>
 class is_arrangement_2<
   Arrangement_on_surface_2<GeomTraits_, TopTraits_>
-> : public boost::true_type
+> : public std::true_type
 {};
 
 } // namespace CGAL

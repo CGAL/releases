@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/QP_solver/include/CGAL/QP_functions.h $
-// $Id: QP_functions.h 0779373 2020-03-26T13:31:46+01:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/QP_solver/include/CGAL/QP_functions.h $
+// $Id: include/CGAL/QP_functions.h 50219fc33bc $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -30,7 +30,7 @@ namespace QP_functions_detail {
   //    p is treated as LinearProgram / QuadraticProgram
   // Is_nonnegative == Tag_true / Tag_false
   //    p is treated as Nonnegative / Arbitrary
-  // the dmatrix parameter specificies whether the quadratic matrix (if any)
+  // the dmatrix parameter specifies whether the quadratic matrix (if any)
   // is written in DMATRIX format (no multiplication by two, good for
   // cross-checking output, or in QMATRIX format (good for using other
   // solvers like CPLEX)
@@ -83,7 +83,7 @@ namespace QP_functions_detail {
   bool is_in_equational_form (const R& r);
 
   // internal routine:
-  // test whether the row vectors of A that correpsond to equations
+  // test whether the row vectors of A that correspond to equations
   // are linearly independent; this is done using type ET. The value
   // type of LinearInequalitySystem must be convertible to ET
   template <class Ar, class ET>

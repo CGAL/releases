@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Alpha_shapes_3/include/CGAL/Fixed_alpha_shape_3.h $
-// $Id: Fixed_alpha_shape_3.h 014c06f 2022-11-14T15:32:47+01:00 albert-github
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Alpha_shapes_3/include/CGAL/Fixed_alpha_shape_3.h $
+// $Id: include/CGAL/Fixed_alpha_shape_3.h 50219fc33bc $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -27,7 +27,6 @@
 #include <utility>
 #include <iostream>
 #include <queue>
-#include <boost/next_prior.hpp>
 
 #include <CGAL/Triangulation_utils_3.h>
 #include <CGAL/Unique_hash_map.h>
@@ -255,7 +254,7 @@ public:
                               std::back_inserter(cells),
                               Emptyset_iterator()));
 
-    Facet facet=*boost::prior(facets_on_the_boundary_of_the_hole.end());
+    Facet facet=*std::prev(facets_on_the_boundary_of_the_hole.end());
 
     // Remember the points that are hidden by the conflicting cells,
     // as they will be deleted during the insertion.

@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Filtered_kernel/include/CGAL/Filtered_kernel.h $
-// $Id: Filtered_kernel.h 873cc88 2022-09-22T12:03:25+02:00 Mael Rouxel-Labbé
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Filtered_kernel/include/CGAL/Filtered_kernel.h $
+// $Id: include/CGAL/Filtered_kernel.h 50219fc33bc $
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -20,10 +20,6 @@
 #include <CGAL/Simple_cartesian.h>
 #include <CGAL/Kernel/Type_equality_wrapper.h>
 #include <CGAL/Exact_kernel_selector.h>
-
-#include <CGAL/MP_Float.h>
-#include <CGAL/Quotient.h>
-#include <CGAL/Number_types/internal/Exact_type_selector.h>
 
 #include <CGAL/Filtered_kernel/internal/Static_filters/Static_filters.h>
 #include <boost/type_traits.hpp>

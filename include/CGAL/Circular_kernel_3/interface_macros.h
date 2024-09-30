@@ -3,12 +3,14 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Circular_kernel_3/include/CGAL/Circular_kernel_3/interface_macros.h $
-// $Id: interface_macros.h 7a62583 2022-11-14T19:14:33+01:00 albert-github
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Circular_kernel_3/include/CGAL/Circular_kernel_3/interface_macros.h $
+// $Id: include/CGAL/Circular_kernel_3/interface_macros.h 50219fc33bc $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s) : Monique Teillaud, Sylvain Pion, Pedro Machado,
 //             Sebastien Loriot, Julien Hazebrouck, Damien Leroy
+
+#include <CGAL/license/Circular_kernel_3.h>
 
 // Partially supported by the IST Programme of the EU as a
 // STREP (FET Open) Project under Contract No  IST-006413

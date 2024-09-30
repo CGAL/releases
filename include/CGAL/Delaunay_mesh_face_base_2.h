@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Mesh_2/include/CGAL/Delaunay_mesh_face_base_2.h $
-// $Id: Delaunay_mesh_face_base_2.h a6ae3b1 2022-03-15T10:34:36+01:00 Andreas Fabri
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Mesh_2/include/CGAL/Delaunay_mesh_face_base_2.h $
+// $Id: include/CGAL/Delaunay_mesh_face_base_2.h 50219fc33bc $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //

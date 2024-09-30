@@ -3,15 +3,18 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Arrangement_on_surface_2/include/CGAL/Curved_kernel_via_analysis_2/test/simple_models.h $
-// $Id: simple_models.h 014c06f 2022-11-14T15:32:47+01:00 albert-github
-// SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Arrangement_on_surface_2/include/CGAL/Curved_kernel_via_analysis_2/test/simple_models.h $
+// $Id: include/CGAL/Curved_kernel_via_analysis_2/test/simple_models.h 50219fc33bc $
+// SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
 // Author(s)     : Pavel Emeliyanenko <asm@mpi-sb.mpg.de>
 
 #ifndef CGAL_CURVED_KERNEL_VIA_ANALYSIS_2_TEST_SIMPLE_MODELS_H
 #define CGAL_CURVED_KERNEL_VIA_ANALYSIS_2_TEST_SIMPLE_MODELS_H
+
+#include <CGAL/license/Arrangement_on_surface_2.h>
+
 
 /*!\file include/CGAL/Curved_kernel_via_analysis_2/test/simple_models.h
  * \brief defines dummy implementations satisfying Curve_kernel_2
@@ -1234,7 +1237,7 @@ public:
     //! \brief checks whether curve has only finitely many self-intersection
     //! points, i.e., it has no self-overlapped continuous parts
     //!
-    //! for algerbaic curves this means that supporting polynomial is
+    //! for algebraic curves this means that supporting polynomial is
     //! square-free
     struct Has_finite_number_of_self_intersections_2 :
             public CGAL::cpp98::unary_function< Polynomial_2, bool > {
@@ -1249,7 +1252,7 @@ public:
     //! \brief checks whether a curve pair has finitely many intersections,
     //! in other words, whether two curves have no continuous common part
     //!
-    //! in case of algerbaic curves: checks whether supporting polynomials are
+    //! in case of algebraic curves: checks whether supporting polynomials are
     //! coprime
     struct Has_finite_number_of_intersections_2 :
         public CGAL::cpp98::binary_function< Curve_analysis_2, Curve_analysis_2, bool > {

@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Linear_cell_complex/include/CGAL/Linear_cell_complex_constructors.h $
-// $Id: Linear_cell_complex_constructors.h 612991f 2023-02-01T13:08:51+01:00 Guillaume Damiand
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Linear_cell_complex/include/CGAL/Linear_cell_complex_constructors.h $
+// $Id: include/CGAL/Linear_cell_complex_constructors.h 50219fc33bc $
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Guillaume Damiand <guillaume.damiand@liris.cnrs.fr>
@@ -48,7 +48,7 @@ namespace CGAL {
     typedef typename std::list<Dart_descriptor>::iterator List_iterator;
     typedef typename LCC::Point Point;
 
-    CGAL_static_assertion( LCC::dimension>=2 && LCC::ambient_dimension==2 );
+    static_assert( LCC::dimension>=2 && LCC::ambient_dimension==2 );
     CGAL_assertion(edge_indices.size() % 2 == 0);
 
     std::vector< typename LCC::Vertex_attribute_descriptor > initVertices;

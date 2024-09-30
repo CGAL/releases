@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Combinatorial_map/include/CGAL/Combinatorial_map/internal/Combinatorial_map_internal_functors.h $
-// $Id: Combinatorial_map_internal_functors.h 7a62583 2022-11-14T19:14:33+01:00 albert-github
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Combinatorial_map/include/CGAL/Combinatorial_map/internal/Combinatorial_map_internal_functors.h $
+// $Id: include/CGAL/Combinatorial_map/internal/Combinatorial_map_internal_functors.h 50219fc33bc $
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Guillaume Damiand <guillaume.damiand@liris.cnrs.fr>
@@ -220,7 +220,7 @@ struct Test_is_valid_attribute_functor
                   typename CMap::Dart_const_descriptor adart,
                   std::vector<size_type>& marks, bool& ares)
   {
-    CGAL_static_assertion_msg(CMap::Helper::template
+    static_assert(CMap::Helper::template
                               Dimension_index<i>::value>=0,
                               "Test_is_valid_attribute_functor<i> but "
                               " i-attributes are disabled");
@@ -304,7 +304,7 @@ struct Correct_invalid_attributes_functor
                   typename CMap::Dart_descriptor adart,
                   std::vector<size_type>& marks)
   {
-    CGAL_static_assertion_msg(CMap::Helper::template
+    static_assert(CMap::Helper::template
                               Dimension_index<i>::value>=0,
                               "Correct_invalid_attributes_functor<i> but "
                               " i-attributes are disabled");
@@ -362,7 +362,7 @@ struct Cleanup_useless_attributes
   template <unsigned int i>
   static void run(CMap& amap)
   {
-    CGAL_static_assertion_msg(CMap::Helper::template
+    static_assert(CMap::Helper::template
                               Dimension_index<i>::value>=0,
                               "Cleanup_useless_attributes<i> but "
                               " i-attributes are disabled");
@@ -707,7 +707,7 @@ struct Test_is_same_attribute_point_functor
                   typename Map1::Dart_const_descriptor dh1,
                   typename Map2::Dart_const_descriptor dh2)
   {
-    CGAL_static_assertion( Withpoint1==true && Withpoint2==true );
+    static_assert( Withpoint1==true && Withpoint2==true );
     if (m1.template attribute<i>(dh1)==Map1::null_descriptor &&
         m2.template attribute<i>(dh2)==Map2::null_descriptor)
       return true;

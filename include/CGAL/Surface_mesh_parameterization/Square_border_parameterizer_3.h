@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Surface_mesh_parameterization/include/CGAL/Surface_mesh_parameterization/Square_border_parameterizer_3.h $
-// $Id: Square_border_parameterizer_3.h 9c1ad66 2022-08-24T08:35:13+01:00 Andreas Fabri
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Surface_mesh_parameterization/include/CGAL/Surface_mesh_parameterization/Square_border_parameterizer_3.h $
+// $Id: include/CGAL/Surface_mesh_parameterization/Square_border_parameterizer_3.h 50219fc33bc $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Laurent Saboret, Pierre Alliez, Bruno Levy
@@ -61,7 +61,7 @@ namespace Surface_mesh_parameterization {
 /// `TriangleMesh` class and does not know the parameterization algorithm
 /// requirements or the kind of sparse linear system used.
 ///
-/// \cgalModels `Parameterizer_3`
+/// \cgalModels{Parameterizer_3}
 ///
 /// \tparam TriangleMesh_ must be a model of `FaceGraph`.
 ///
@@ -234,7 +234,7 @@ private:
       // If the target is a corner vertex, we have the complete length of a side in 'len'
       // and we must "normalize" the previous entries
       if(get(vpmap, vt)) {
-        // If both extremeties of a segment are corners, offsets are already correct
+        // If both extremities of a segment are corners, offsets are already correct
         if(!get(vpmap, vs)) {
           CGAL_assertion(len != 0.0);
           double ld = 1.0 / len;
@@ -398,7 +398,7 @@ public:
 ///            if an input border vertex has valence `1` and if it is mapped to the same edge of the square
 ///            as its two adjacent (border) vertices, for example.
 ///
-/// \cgalModels `Parameterizer_3`
+/// \cgalModels{Parameterizer_3}
 ///
 /// \sa `CGAL::Surface_mesh_parameterization::Square_border_parameterizer_3<TriangleMesh>`
 /// \sa `CGAL::Surface_mesh_parameterization::Square_border_arc_length_parameterizer_3<TriangleMesh>`
@@ -470,7 +470,7 @@ protected:
 ///
 /// \tparam TriangleMesh_ must be a model of `FaceGraph`.
 ///
-/// \cgalModels `Parameterizer_3`
+/// \cgalModels{Parameterizer_3}
 ///
 /// \sa `CGAL::Surface_mesh_parameterization::Square_border_parameterizer_3<TriangleMesh>`
 /// \sa `CGAL::Surface_mesh_parameterization::Square_border_uniform_parameterizer_3<TriangleMesh>`

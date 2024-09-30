@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Generalized_map/include/CGAL/GMap_cell_iterators.h $
-// $Id: GMap_cell_iterators.h 861588a 2022-08-03T20:19:51+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Generalized_map/include/CGAL/GMap_cell_iterators.h $
+// $Id: include/CGAL/GMap_cell_iterators.h 50219fc33bc $
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Guillaume Damiand <guillaume.damiand@liris.cnrs.fr>
@@ -70,8 +70,8 @@ namespace CGAL {
       Base(amap),
       mmark_number(amap.get_new_mark())
     {
-      CGAL_static_assertion( (std::is_same<typename Base::Basic_iterator,
-                              Tag_true>::value) );
+      static_assert(std::is_same<typename Base::Basic_iterator,
+                              Tag_true>::value);
       CGAL_assertion(amap.is_whole_map_unmarked(mmark_number));
       mark_cell<Map,i,dim>(amap, (*this), mmark_number);
     }
@@ -183,8 +183,8 @@ namespace CGAL {
       Base(amap),
       mmark_number(amap.get_new_mark())
     {
-      CGAL_static_assertion( (std::is_same<typename Base::Basic_iterator,
-                              Tag_true>::value) );
+      static_assert(std::is_same<typename Base::Basic_iterator,
+                              Tag_true>::value);
       CGAL_assertion(amap.is_whole_map_unmarked(mmark_number));
       mark_cell<Map,i,dim>(amap, (*this), mmark_number);
     }

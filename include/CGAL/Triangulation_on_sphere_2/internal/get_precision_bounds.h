@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Triangulation_on_sphere_2/include/CGAL/Triangulation_on_sphere_2/internal/get_precision_bounds.h $
-// $Id: get_precision_bounds.h c32b1f4 2022-11-16T13:22:39+01:00 albert-github
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Triangulation_on_sphere_2/include/CGAL/Triangulation_on_sphere_2/internal/get_precision_bounds.h $
+// $Id: include/CGAL/Triangulation_on_sphere_2/internal/get_precision_bounds.h 50219fc33bc $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Mael Rouxel-Labbé

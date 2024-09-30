@@ -3,13 +3,17 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Bounding_volumes/include/CGAL/Approximate_min_ellipsoid_d/Approximate_min_ellipsoid_d_impl.h $
-// $Id: Approximate_min_ellipsoid_d_impl.h 62a31ba 2022-11-14T17:44:33+01:00 albert-github
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Bounding_volumes/include/CGAL/Approximate_min_ellipsoid_d/Approximate_min_ellipsoid_d_impl.h $
+// $Id: include/CGAL/Approximate_min_ellipsoid_d/Approximate_min_ellipsoid_d_impl.h 50219fc33bc $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
 // Author(s)     : Kaspar Fischer <fischerk@inf.ethz.ch>
 
+#ifndef CGAL_APPROXIMATE_MIN_ELLIPSOID_D_APPROXIMATE_MIN_ELLIPSOID_D_IMPL_H
+#define CGAL_APPROXIMATE_MIN_ELLIPSOID_D_APPROXIMATE_MIN_ELLIPSOID_D_IMPL_H
+
+#include <CGAL/license/Bounding_volumes.h>
 
 #include <CGAL/Default_diagonalize_traits.h>
 
@@ -272,3 +276,5 @@ namespace CGAL {
   }
 
 }
+
+#endif //CGAL_APPROXIMATE_MIN_ELLIPSOID_D_APPROXIMATE_MIN_ELLIPSOID_D_IMPL_H

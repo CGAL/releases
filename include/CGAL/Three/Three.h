@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Three/include/CGAL/Three/Three.h $
-// $Id: Three.h 720b2dd 2021-08-30T12:47:10+02:00 Maxime Gimeno
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Three/include/CGAL/Three/Three.h $
+// $Id: include/CGAL/Three/Three.h 50219fc33bc $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -31,16 +31,12 @@
 #  define THREE_EXPORT Q_DECL_IMPORT
 #endif
 
-#if QT_VERSION < QT_VERSION_CHECK(5, 15, 0)
-#define CGAL_QT_SKIP_EMPTY_PARTS QString::SkipEmptyParts
-#else
 #define CGAL_QT_SKIP_EMPTY_PARTS ::Qt::SkipEmptyParts
-#endif
 
 namespace CGAL{
 namespace Three{
 //define enum depending on Qt version
-class Polyhedron_demo_plugin_interface;
+class CGAL_Lab_plugin_interface;
 class THREE_EXPORT Three{
 public:
 
@@ -84,7 +80,7 @@ public:
    *  a corresponding slot named `on_ActionsName_triggered()`
    * in the plugin.
    */
-  static void autoConnectActions(CGAL::Three::Polyhedron_demo_plugin_interface* plugin);
+  static void autoConnectActions(CGAL::Three::CGAL_Lab_plugin_interface* plugin);
   /*!
    * Displays in the console a blue text preceded by the mention
    * "INFO: ".

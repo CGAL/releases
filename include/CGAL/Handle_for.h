@@ -7,8 +7,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/STL_Extension/include/CGAL/Handle_for.h $
-// $Id: Handle_for.h b5c21e1 2022-11-23T18:48:43+01:00 Mael Rouxel-Labbé
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/STL_Extension/include/CGAL/Handle_for.h $
+// $Id: include/CGAL/Handle_for.h 50219fc33bc $
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -42,7 +42,7 @@ class Handle_for
         T t;
         std::atomic_uint count;
         template <class... U>
-        RefCounted(U&&...u ) : t(std::forward<U>(u)...), count(1) {}
+        RefCounted(U&&...u ) : t{std::forward<U>(u)...}, count(1) {}
     };
 
 

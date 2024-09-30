@@ -7,8 +7,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Number_types/include/CGAL/Counted_number.h $
-// $Id: Counted_number.h 59a0da4 2021-05-19T17:23:53+02:00 Laurent Rineau
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Number_types/include/CGAL/Counted_number.h $
+// $Id: include/CGAL/Counted_number.h 50219fc33bc $
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -121,8 +121,12 @@ class Counted_number {
     Counted_number() {}
     //explicit Counted_number(int n) :m_rep(n){}
     explicit Counted_number(NT n) :m_rep(n){}
+
     Counted_number operator-() const
-            {inc_neg_count();return Counted_number(-m_rep);}
+    {
+        inc_neg_count(); NT neg = -m_rep;  return Counted_number(neg);
+    }
+
     Counted_number const & operator+=(Counted_number const &n)
             {
                 inc_add_count();
@@ -352,7 +356,7 @@ Counted_number<NT>
 operator+(Counted_number<NT> const &n1, Counted_number<NT> const &n2)
 {
     Counted_number<NT>::inc_add_count();
-    return Counted_number<NT>(n1.rep() + n2.rep());
+    return Counted_number<NT>(NT(n1.rep() + n2.rep()));
 }
 
 template <class NT>
@@ -360,7 +364,7 @@ Counted_number<NT>
 operator-(Counted_number<NT> const &n1, Counted_number<NT> const &n2)
 {
     Counted_number<NT>::inc_sub_count();
-    return Counted_number<NT>(n1.rep() - n2.rep());
+    return Counted_number<NT>(NT(n1.rep() - n2.rep()));
 }
 
 template <class NT>
@@ -368,7 +372,7 @@ Counted_number<NT>
 operator*(Counted_number<NT> const &n1, Counted_number<NT> const &n2)
 {
     Counted_number<NT>::inc_mul_count();
-    return Counted_number<NT>(n1.rep() * n2.rep());
+    return Counted_number<NT>(NT(n1.rep() * n2.rep()));
 }
 
 template <class NT>
@@ -376,7 +380,7 @@ Counted_number<NT>
 operator/(Counted_number<NT> const &n1, Counted_number<NT> const &n2)
 {
     Counted_number<NT>::inc_div_count();
-    return Counted_number<NT>(n1.rep() / n2.rep());
+    return Counted_number<NT>(NT(n1.rep() / n2.rep()));
 }
 
 template< class NT >

@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Polynomial/include/CGAL/Polynomial/polynomial_gcd_implementations.h $
-// $Id: polynomial_gcd_implementations.h eed54a0 2022-11-15T18:45:39+01:00 albert-github
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Polynomial/include/CGAL/Polynomial/polynomial_gcd_implementations.h $
+// $Id: include/CGAL/Polynomial/polynomial_gcd_implementations.h 50219fc33bc $
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -168,7 +168,7 @@ Polynomial<NT> gcd_utcf_Integral_domain( Polynomial<NT> p1, Polynomial<NT> p2){
 
     Polynomial<NT> q, r;
 
-    // TODO measure performance of both methodes with respect to
+    // TODO measure performance of both methods with respect to
     // univariat polynomials on Integeres
     // univariat polynomials on Sqrt_extension<Integer,Integer>
     // multivariat polynomials

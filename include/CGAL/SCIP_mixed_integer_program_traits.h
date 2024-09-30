@@ -2,8 +2,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Solver_interface/include/CGAL/SCIP_mixed_integer_program_traits.h $
-// $Id: SCIP_mixed_integer_program_traits.h 99a6283 2023-06-08T14:33:18+02:00 Sven Oesau
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Solver_interface/include/CGAL/SCIP_mixed_integer_program_traits.h $
+// $Id: include/CGAL/SCIP_mixed_integer_program_traits.h 50219fc33bc $
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s) : Liangliang Nan
@@ -36,7 +36,7 @@ namespace CGAL {
 /// constrained or unconstrained mixed integer programs using
 /// \ref thirdpartySCIP (which must be available on the system).
 ///
-/// \cgalModels `MixedIntegerProgramTraits`
+/// \cgalModels{MixedIntegerProgramTraits}
 ///
 /// \sa `GLPK_mixed_integer_program_traits`
 template <typename FT>

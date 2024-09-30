@@ -2,8 +2,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/STL_Extension/include/CGAL/Container_helper.h $
-// $Id: Container_helper.h 4f5f834 2022-06-10T07:37:53+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/STL_Extension/include/CGAL/Container_helper.h $
+// $Id: include/CGAL/Container_helper.h 50219fc33bc $
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -38,10 +38,8 @@ void resize(Container& c, std::size_t size,
 // Container without a resize() function, but with a size() function (e.g. an array)
 template <class Container>
 void resize(Container& CGAL_assertion_code(array), std::size_t CGAL_assertion_code(size),
-            std::enable_if_t<
-              boost::mpl::and_<
-                boost::mpl::not_<has_resize<Container> >,
-                                 has_size<Container> >::value >* = nullptr)
+            std::enable_if_t<!has_resize<Container>::value &&
+                              has_size<Container>::value >* = nullptr)
 {
   CGAL_assertion(array.size() == size);
 }
@@ -50,8 +48,8 @@ void resize(Container& CGAL_assertion_code(array), std::size_t CGAL_assertion_co
 template <class Container>
 void resize(Container&, std::size_t,
             std::enable_if_t<
-              !boost::mpl::or_<has_resize<Container>,
-                               has_size<Container> >::value >* = nullptr)
+              !(has_resize<Container>::value ||
+                has_size<Container>::value)>* = nullptr)
 {
 }
 

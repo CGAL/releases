@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Classification/include/CGAL/Classification/Point_set_neighborhood.h $
-// $Id: Point_set_neighborhood.h 7a62583 2022-11-14T19:14:33+01:00 albert-github
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Classification/include/CGAL/Classification/Point_set_neighborhood.h $
+// $Id: include/CGAL/Classification/Point_set_neighborhood.h 50219fc33bc $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Simon Giraudot
@@ -96,7 +96,7 @@ public:
     Functor that computes the neighborhood of an input point with a
     fixed number of neighbors.
 
-    \cgalModels CGAL::Classification::NeighborQuery
+    \cgalModels{CGAL::Classification::NeighborQuery}
 
     \sa Point_set_neighborhood
   */
@@ -131,7 +131,7 @@ public:
     as the points lying in a sphere of fixed radius centered at the
     input point.
 
-    \cgalModels CGAL::Classification::NeighborQuery
+    \cgalModels{CGAL::Classification::NeighborQuery}
 
     \sa Point_set_neighborhood
   */

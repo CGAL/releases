@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Algebraic_kernel_d/include/CGAL/Algebraic_kernel_d/Status_line_CA_1.h $
-// $Id: Status_line_CA_1.h 014c06f 2022-11-14T15:32:47+01:00 albert-github
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Algebraic_kernel_d/include/CGAL/Algebraic_kernel_d/Status_line_CA_1.h $
+// $Id: include/CGAL/Algebraic_kernel_d/Status_line_CA_1.h 50219fc33bc $
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -127,7 +127,7 @@ public:
     //Arc_pair _m_num_arcs;
 
     //! sequence of arcs crossing this status line (valid only event lines)
-    mutable boost::optional<Arc_container> _m_arcs;
+    mutable std::optional<Arc_container> _m_arcs;
 
     //! number of arcs intersecting this status line
     mutable int _m_total_arcs;
@@ -135,7 +135,7 @@ public:
     //! curve has vertical line at this x-coordinate
     mutable bool _m_vertical_line;
 
-    //! decsribes an event
+    //! describes an event
     mutable bool _m_event;
 
     //! number of arcs running down the pole
@@ -160,10 +160,10 @@ public:
     std::vector< int > multiplicities_;*/
 
     // stores algebraic real over the vertical line
-    mutable std::vector<boost::optional< Algebraic_real_2 > >_m_xy_coords;
+    mutable std::vector<std::optional< Algebraic_real_2 > >_m_xy_coords;
 
     // stores the isolator instance
-    mutable boost::optional<Bitstream_descartes> isolator;
+    mutable std::optional<Bitstream_descartes> isolator;
 
      // befriending the handle
     friend class Status_line_CA_1<Curve_analysis_2, Self>;
@@ -555,7 +555,7 @@ public:
     //! Returns the isolator instance
     Bitstream_descartes& isolator() const {
         CGAL_assertion(bool(this->ptr()->isolator));
-        return this->ptr()->isolator.get();
+        return this->ptr()->isolator.value();
     }
 
     //! Returns whether an isolator has been given for that status line

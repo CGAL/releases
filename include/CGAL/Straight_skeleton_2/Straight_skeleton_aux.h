@@ -2,8 +2,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Straight_skeleton_2/include/CGAL/Straight_skeleton_2/Straight_skeleton_aux.h $
-// $Id: Straight_skeleton_aux.h fa20e12 2023-03-10T09:24:34+01:00 Mael Rouxel-Labbé
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Straight_skeleton_2/include/CGAL/Straight_skeleton_2/Straight_skeleton_aux.h $
+// $Id: include/CGAL/Straight_skeleton_2/Straight_skeleton_aux.h 50219fc33bc $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Fernando Cacciola <fernando_cacciola@ciudad.com.ar>
@@ -20,10 +20,8 @@
 #include <CGAL/Polygon_with_holes_2.h>
 
 #include <boost/mpl/has_xxx.hpp>
-#include <boost/mpl/if.hpp>
 #include <boost/mpl/or.hpp>
-#include <boost/none.hpp>
-#include <boost/optional/optional.hpp>
+#include <optional>
 
 #include <iostream>
 #include <type_traits>
@@ -37,12 +35,10 @@ struct Has_inexact_constructions
 {
   typedef typename K::FT FT ;
 
-  typedef typename boost::mpl::if_< boost::mpl::or_< std::is_same<FT,double>
-                                                   , std::is_same<FT,Interval_nt_advanced>
-                                                   >
-                                  , Tag_true
-                                  , Tag_false
-                                  >::type type ;
+  typedef std::conditional_t< std::is_same_v<FT,double> || std::is_same_v<FT,Interval_nt_advanced>
+                              , Tag_true
+                              , Tag_false
+                              > type ;
 } ;
 
 template <class K>

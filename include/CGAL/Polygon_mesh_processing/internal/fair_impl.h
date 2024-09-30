@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Polygon_mesh_processing/include/CGAL/Polygon_mesh_processing/internal/fair_impl.h $
-// $Id: fair_impl.h eed54a0 2022-11-15T18:45:39+01:00 albert-github
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Polygon_mesh_processing/include/CGAL/Polygon_mesh_processing/internal/fair_impl.h $
+// $Id: include/CGAL/Polygon_mesh_processing/internal/fair_impl.h 50219fc33bc $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -122,8 +122,8 @@ public:
       return false;
     }
 
-    std::set<vertex_descriptor> interior_vertices(boost::begin(vertices),
-                                                  boost::end(vertices));
+    std::set<vertex_descriptor> interior_vertices(std::begin(vertices),
+                                                  std::end(vertices));
     if(interior_vertices.empty()) { return true; }
 
     #ifdef CGAL_PMP_FAIR_DEBUG

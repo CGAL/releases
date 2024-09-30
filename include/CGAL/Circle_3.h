@@ -9,8 +9,8 @@
 // and a STREP (FET Open) Project under Contract No  IST-006413
 // (ACS -- Algorithms for Complex Shapes)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Kernel_23/include/CGAL/Circle_3.h $
-// $Id: Circle_3.h 5872413 2022-06-10T08:48:53+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Kernel_23/include/CGAL/Circle_3.h $
+// $Id: include/CGAL/Circle_3.h 50219fc33bc $
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s) : Monique Teillaud <Monique.Teillaud@sophia.inria.fr>
@@ -43,7 +43,7 @@ template <class R_>
   typedef typename R_::Direction_3           Direction_3;
 
   typedef Circle_3                           Self;
-  CGAL_static_assertion((std::is_same<Self, typename R_::Circle_3>::value));
+  static_assert(std::is_same<Self, typename R_::Circle_3>::value);
 
 public:
 

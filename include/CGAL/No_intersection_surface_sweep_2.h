@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Surface_sweep_2/include/CGAL/No_intersection_surface_sweep_2.h $
-// $Id: No_intersection_surface_sweep_2.h c32b1f4 2022-11-16T13:22:39+01:00 albert-github
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Surface_sweep_2/include/CGAL/No_intersection_surface_sweep_2.h $
+// $Id: include/CGAL/No_intersection_surface_sweep_2.h 50219fc33bc $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s) : Baruch Zukerman <baruchzu@post.tau.ac.il>
@@ -129,8 +129,8 @@ public:
   typedef typename Traits_adaptor_2::Top_side_category    Top_side_category;
   typedef typename Traits_adaptor_2::Right_side_category  Right_side_category;
 
-  CGAL_static_assertion((Arr_sane_identified_tagging< Left_side_category, Bottom_side_category,
-                          Top_side_category, Right_side_category >::value));
+  static_assert(Arr_sane_identified_tagging< Left_side_category, Bottom_side_category,
+                          Top_side_category, Right_side_category >::value);
 
 protected:
   /*!

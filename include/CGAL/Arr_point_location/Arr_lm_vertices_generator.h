@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Arrangement_on_surface_2/include/CGAL/Arr_point_location/Arr_lm_vertices_generator.h $
-// $Id: Arr_lm_vertices_generator.h 254d60f 2019-10-19T15:23:19+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Arrangement_on_surface_2/include/CGAL/Arr_point_location/Arr_lm_vertices_generator.h $
+// $Id: include/CGAL/Arr_point_location/Arr_lm_vertices_generator.h 50219fc33bc $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Idit Haran   <haranidi@post.tau.ac.il>
@@ -98,14 +98,13 @@ public:
   virtual void build_landmark_set()
   {
     // Go over the arrangement, and insert all its vertices as landmarks.
-    NN_Point_list         nnp_list;
-    const Arrangement_2*  arr = this->arrangement();
-    Vertex_const_iterator vit;
+    NN_Point_list nnp_list;
+    const auto* arr = this->arrangement();
     num_landmarks = 0;
-    for (vit = arr->vertices_begin(); vit != arr->vertices_end(); ++vit) {
+    for (auto vit = arr->vertices_begin(); vit != arr->vertices_end(); ++vit) {
       Vertex_const_handle vh = vit;
       nnp_list.push_back(NN_Point_2(vh->point(), this->pl_make_result(vh)));
-      num_landmarks++;
+      ++num_landmarks;
     }
 
     // Update the search structure.

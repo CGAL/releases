@@ -7,8 +7,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Kernel_23/include/CGAL/Point_2.h $
-// $Id: Point_2.h 3fa4364 2022-06-10T08:41:19+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Kernel_23/include/CGAL/Point_2.h $
+// $Id: include/CGAL/Point_2.h 50219fc33bc $
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -37,7 +37,7 @@ class Point_2 : public R_::Kernel_base::Point_2
   typedef typename R_::Kernel_base::Point_2  RPoint_2;
 
   typedef Point_2                            Self;
-  CGAL_static_assertion((std::is_same<Self, typename R_::Point_2>::value));
+  static_assert(std::is_same<Self, typename R_::Point_2>::value);
 
 public:
 
@@ -79,9 +79,11 @@ public:
     : Rep(wp.point())
   {}
 
-  template < typename T1, typename T2 >
-  Point_2(const T1 &x, const T2 &y)
-    : Rep(typename R::Construct_point_2()(Return_base_tag(), x, y))
+  template < typename T1, typename T2>
+  Point_2(T1&& x, T2&& y)
+    : Rep(typename R::Construct_point_2()(Return_base_tag(),
+                                          std::forward<T1>(x),
+                                          std::forward<T2>(y)))
   {}
 
   Point_2(const RT& hx, const RT& hy, const RT& hw)
@@ -255,7 +257,7 @@ extract(std::istream& is, Point_2<R>& p, const Cartesian_tag&)
         break;
     }
     if (is)
-      p = Point_2<R>(x, y);
+      p = Point_2<R>(std::move(x), std::move(y));
     return is;
 }
 

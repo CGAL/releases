@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Three/include/CGAL/Three/Scene_item.h $
-// $Id: Scene_item.h c32b1f4 2022-11-16T13:22:39+01:00 albert-github
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Three/include/CGAL/Three/Scene_item.h $
+// $Id: include/CGAL/Three/Scene_item.h 50219fc33bc $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -64,25 +64,25 @@ public:
    */
   enum OpenGL_program_IDs
   {
-    ROGRAM_WITH_LIGHT = 0,      //! Used to render a surface or an edge affected by the light. It uses a per fragment lighting model, and renders the selected item brighter.
-    PROGRAM_WITHOUT_LIGHT,       //! Used to render a polyhedron edge or points. It renders in a uniform color and is not affected by light. \attention It renders the selected item in black.
-    PROGRAM_NO_SELECTION,        //! Used to render a polyline or a surface that is not affected by light, like a cutting plane. It renders in a uniform color that does not change with selection.
-    PROGRAM_WITH_TEXTURE,        //! Used to render a textured polyhedron. Affected by light.
-    PROGRAM_PLANE_TWO_FACES,     //! Used to render a two-faced plane. The two faces have a different color. Not affected by light.
-    PROGRAM_WITH_TEXTURED_EDGES, //! Used to render the edges of a textured polyhedron. Not affected by light.
-    PROGRAM_INSTANCED,           //! Used to display instanced rendered spheres.Affected by light.
-    PROGRAM_INSTANCED_WIRE,      //! Used to display instanced rendered wired spheres. Not affected by light.
-    PROGRAM_C3T3,                //! Used to render a c3t3_item. It discards any fragment on a side of a plane, meaning that nothing is displayed on this side of the plane. Affected by light.
-    PROGRAM_C3T3_EDGES,          //! Used to render the edges of a c3t3_item. It discards any fragment on a side of a plane, meaning that nothing is displayed on this side of the plane. Not affected by light.
-    PROGRAM_CUTPLANE_SPHERES,    //! Used to render the spheres of an item with a cut plane.
-    PROGRAM_SPHERES,             //! Used to render one or several spheres.
-    PROGRAM_DARK_SPHERES,        //! Used to render one or several spheres without light (for picking for example).
-    PROGRAM_FLAT,                /** Used to render flat shading without pre computing normals*/
-    PROGRAM_OLD_FLAT,            /** Used to render flat shading without pre computing normals without geometry shader*/
-    PROGRAM_SOLID_WIREFRAME,     //! Used to render edges with width superior to 1.
-    PROGRAM_NO_INTERPOLATION,   //! Used to render faces without interpolating their color.
-    PROGRAM_HEAT_INTENSITY,      //! Used to render special item in Display_property_plugin
-    NB_OF_PROGRAMS               //! Holds the number of different programs in this enum.
+    ROGRAM_WITH_LIGHT = 0,       //!< Used to render a surface or an edge affected by the light. It uses a per fragment lighting model, and renders the selected item brighter.
+    PROGRAM_WITHOUT_LIGHT,       //!< Used to render a polyhedron edge or points. It renders in a uniform color and is not affected by light. \attention It renders the selected item in black.
+    PROGRAM_NO_SELECTION,        //!< Used to render a polyline or a surface that is not affected by light, like a cutting plane. It renders in a uniform color that does not change with selection.
+    PROGRAM_WITH_TEXTURE,        //!< Used to render a textured polyhedron. Affected by light.
+    PROGRAM_PLANE_TWO_FACES,     //!< Used to render a two-faced plane. The two faces have a different color. Not affected by light.
+    PROGRAM_WITH_TEXTURED_EDGES, //!< Used to render the edges of a textured polyhedron. Not affected by light.
+    PROGRAM_INSTANCED,           //!< Used to display instanced rendered spheres.Affected by light.
+    PROGRAM_INSTANCED_WIRE,      //!< Used to display instanced rendered wired spheres. Not affected by light.
+    PROGRAM_C3T3,                //!< Used to render a c3t3_item. It discards any fragment on a side of a plane, meaning that nothing is displayed on this side of the plane. Affected by light.
+    PROGRAM_C3T3_EDGES,          //!< Used to render the edges of a c3t3_item. It discards any fragment on a side of a plane, meaning that nothing is displayed on this side of the plane. Not affected by light.
+    PROGRAM_CUTPLANE_SPHERES,    //!< Used to render the spheres of an item with a cut plane.
+    PROGRAM_SPHERES,             //!< Used to render one or several spheres.
+    PROGRAM_DARK_SPHERES,        //!< Used to render one or several spheres without light (for picking for example).
+    PROGRAM_FLAT,                //!< Used to render flat shading without pre computing normals
+    PROGRAM_OLD_FLAT,            //!< Used to render flat shading without pre computing normals without geometry shader
+    PROGRAM_SOLID_WIREFRAME,     //!< Used to render edges with width superior to 1.
+    PROGRAM_NO_INTERPOLATION,    //!< Used to render faces without interpolating their color.
+    PROGRAM_HEAT_INTENSITY,      //!< Used to render special item in Heat_method_plugin
+    NB_OF_PROGRAMS               //!< Holds the number of different programs in this enum.
   };
   typedef CGAL::Bbox_3 Bbox;
   typedef CGAL::qglviewer::ManipulatedFrame ManipulatedFrame;
@@ -187,11 +187,11 @@ public:
   //! If the diagonal's length has never been computed, computes it and
   //! saves the result for further calls.
   //! @returns the item's bounding box's diagonal length.
-  virtual double diagonalBbox() const {
-   if(!is_diag_bbox_computed)
-       compute_diag_bbox();
-   is_diag_bbox_computed = true;
-   return _diag_bbox;
+  virtual double bboxDiagonal() const {
+    if(!is_bbox_diag_computed)
+      compute_diag_bbox();
+    is_bbox_diag_computed = true;
+    return _diag_bbox;
   }
 
   // Function about manipulation
@@ -413,7 +413,7 @@ protected:
   mutable Bbox _bbox;
   mutable double _diag_bbox;
   mutable bool is_bbox_computed;
-  mutable bool is_diag_bbox_computed;
+  mutable bool is_bbox_diag_computed;
   virtual void compute_bbox()const{}
   virtual void compute_diag_bbox()const;
   // The four basic properties

@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Polygon_mesh_processing/include/CGAL/Polygon_mesh_processing/fair.h $
-// $Id: fair.h 4d22c90 2023-01-04T10:06:45+01:00 Mael
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Polygon_mesh_processing/include/CGAL/Polygon_mesh_processing/fair.h $
+// $Id: include/CGAL/Polygon_mesh_processing/fair.h 50219fc33bc $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -151,11 +151,11 @@ bool fair(TriangleMesh& tmesh,
 #endif
 
 #if defined(CGAL_EIGEN3_ENABLED)
-    CGAL_static_assertion_msg(
+    static_assert(
       (!std::is_same<typename GetSolver<NamedParameters, Default_solver>::type, bool>::value) || EIGEN_VERSION_AT_LEAST(3, 2, 0),
       "The function `fair` requires Eigen3 version 3.2 or later.");
 #else
-    CGAL_static_assertion_msg(
+    static_assert(
       (!std::is_same<typename GetSolver<NamedParameters, Default_solver>::type, bool>::value),
       "The function `fair` requires Eigen3 version 3.2 or later.");
 #endif

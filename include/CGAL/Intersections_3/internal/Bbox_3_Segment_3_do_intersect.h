@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Intersections_3/include/CGAL/Intersections_3/internal/Bbox_3_Segment_3_do_intersect.h $
-// $Id: Bbox_3_Segment_3_do_intersect.h e8ec440 2022-12-05T14:51:31+01:00 Laurent Rineau
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Intersections_3/include/CGAL/Intersections_3/internal/Bbox_3_Segment_3_do_intersect.h $
+// $Id: include/CGAL/Intersections_3/internal/Bbox_3_Segment_3_do_intersect.h 50219fc33bc $
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -66,7 +66,7 @@ class Do_intersect_bbox_segment_aux_is_greater<FT, bounded_0, true>
   double dmax;
 
 public:
-  CGAL_static_assertion((std::is_same<FT, double>::value));
+  static_assert(std::is_same<FT, double>::value);
 
   Do_intersect_bbox_segment_aux_is_greater() : error(0.), tmax(0.), dmax(0.) {}
 

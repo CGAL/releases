@@ -3,9 +3,9 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Nef_2/include/CGAL/Nef_2/Polynomial.h $
-// $Id: Polynomial.h 3674c93 2022-11-15T15:21:01+01:00 albert-github
-// SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Nef_2/include/CGAL/Nef_2/Polynomial.h $
+// $Id: include/CGAL/Nef_2/Polynomial.h 50219fc33bc $
+// SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
 // Author(s)     : Michael Seel <seel@mpi-sb.mpg.de>
@@ -13,6 +13,9 @@
 
 #ifndef CGAL_NEF_2_POLYNOMIAL_H
 #define CGAL_NEF_2_POLYNOMIAL_H
+
+#include <CGAL/license/Nef_2.h>
+
 
 #include <CGAL/basic.h>
 #include <CGAL/kernel_assertions.h>

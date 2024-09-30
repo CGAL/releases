@@ -7,8 +7,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Kernel_23/include/CGAL/Line_3.h $
-// $Id: Line_3.h c685810 2022-10-27T21:42:59+02:00 Laurent Rineau
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Kernel_23/include/CGAL/Line_3.h $
+// $Id: include/CGAL/Line_3.h 50219fc33bc $
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -38,7 +38,7 @@ class Line_3 : public R_::Kernel_base::Line_3
   typedef typename R_::Aff_transformation_3  Aff_transformation_3;
 
   typedef Line_3                             Self;
-  CGAL_static_assertion((std::is_same<Self, typename R_::Line_3>::value));
+  static_assert(std::is_same<Self, typename R_::Line_3>::value);
 
 public:
 

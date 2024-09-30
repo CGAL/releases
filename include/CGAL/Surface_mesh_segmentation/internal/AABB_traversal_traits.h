@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Surface_mesh_segmentation/include/CGAL/Surface_mesh_segmentation/internal/AABB_traversal_traits.h $
-// $Id: AABB_traversal_traits.h c32b1f4 2022-11-16T13:22:39+01:00 albert-github
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Surface_mesh_segmentation/include/CGAL/Surface_mesh_segmentation/internal/AABB_traversal_traits.h $
+// $Id: include/CGAL/Surface_mesh_segmentation/internal/AABB_traversal_traits.h 50219fc33bc $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Ilker O. Yaz
@@ -54,7 +54,7 @@ public:
 
     if ( GeomTraits().do_intersect_3_object()(query,
          primitive.datum(m_traits.shared_data())) ) {
-      boost::optional<Intersection_and_primitive_id> intersection
+      std::optional<Intersection_and_primitive_id> intersection
         = m_traits.intersection_object()(query, primitive);
       if(intersection) {
         *m_out_it++ = *intersection;

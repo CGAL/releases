@@ -26,8 +26,8 @@
  * WWW URL: https://cs.nyu.edu/exact/
  * Email: exact@cs.nyu.edu
  *
- * $URL: https://github.com/CGAL/cgal/blob/v5.6.1/CGAL_Core/include/CGAL/CORE/Timer.h $
- * $Id: Timer.h b5c21e1 2022-11-23T18:48:43+01:00 Mael Rouxel-Labbé
+ * $URL: https://github.com/CGAL/cgal/blob/v6.0/CGAL_Core/include/CGAL/CORE/Timer.h $
+ * $Id: include/CGAL/CORE/Timer.h 50219fc33bc $
  * SPDX-License-Identifier: LGPL-3.0-or-later
  ***************************************************************************/
 

@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Nef_3/include/CGAL/Nef_3/SHalfedge.h $
-// $Id: SHalfedge.h b66ee56 2023-01-18T23:27:25+00:00 Giles Bathgate
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Nef_3/include/CGAL/Nef_3/SHalfedge.h $
+// $Id: include/CGAL/Nef_3/SHalfedge.h 50219fc33bc $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -30,7 +30,7 @@
 #include <CGAL/Nef_2/debug.h>
 
 #ifndef CGAL_I_DO_WANT_TO_USE_GENINFO
-#include <boost/any.hpp>
+#include <any>
 #endif
 
 namespace CGAL {
@@ -40,7 +40,7 @@ class SHalfedge_base  {
   #ifdef CGAL_I_DO_WANT_TO_USE_GENINFO
   typedef void* GenPtr;
   #else
-  typedef boost::any GenPtr;
+  typedef std::any GenPtr;
   #endif
   typedef typename Refs::Mark  Mark;
   typedef typename Refs::Sphere_circle  Sphere_circle;

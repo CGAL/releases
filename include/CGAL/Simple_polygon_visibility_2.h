@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Visibility_2/include/CGAL/Simple_polygon_visibility_2.h $
-// $Id: Simple_polygon_visibility_2.h c32b1f4 2022-11-16T13:22:39+01:00 albert-github
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Visibility_2/include/CGAL/Simple_polygon_visibility_2.h $
+// $Id: include/CGAL/Simple_polygon_visibility_2.h 50219fc33bc $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -306,7 +306,7 @@ namespace CGAL {
     Location_result result = point_location.ray_shoot_up(q);
 
     if(const Halfedge_const_handle* e =
-       boost::get<Halfedge_const_handle>(&(result)))
+       std::get_if<Halfedge_const_handle>(&(result)))
       {
         CGAL_assertion((*e)->face() == face);
         Point_2 p(q.x(),
@@ -321,7 +321,7 @@ namespace CGAL {
         return (*e)->next()->ccb();
       }
     else if (const Vertex_const_handle* v =
-             boost::get<Vertex_const_handle>(&(result)))
+             std::get_if<Vertex_const_handle>(&(result)))
       {
         Halfedge_around_vertex_const_circulator cir =
         (*v)->incident_halfedges();

@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Mesh_3/include/CGAL/Mesh_3/features_detection/features_detection.h $
-// $Id: features_detection.h 75806c2 2023-05-02T12:39:46+02:00 Jane Tournois
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Mesh_3/include/CGAL/Mesh_3/features_detection/features_detection.h $
+// $Id: include/CGAL/Mesh_3/features_detection/features_detection.h 50219fc33bc $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -3802,7 +3802,7 @@ inline constexpr Cube convert_to_cube(unsigned int n) {
 // User-defined literal operator.  Given an integer in octal notation, like
 // 01234567, gives the cube with the same colors. For example, `01234567_c`
 // is `Cube{0, 1, 2, 3, 4, 5, 6, 7}`.
-inline constexpr Cube operator"" _c(unsigned long long n)
+inline constexpr Cube operator""_c(unsigned long long n)
 {
   #if !defined(_MSC_VER) ||  (_MSC_VER > 1900)
   assert(n < (1 << 24));

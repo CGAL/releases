@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Linear_cell_complex/include/CGAL/Cell_attribute_with_point.h $
-// $Id: Cell_attribute_with_point.h c25da7a 2022-05-23T13:28:00+02:00 Guillaume Damiand
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Linear_cell_complex/include/CGAL/Cell_attribute_with_point.h $
+// $Id: include/CGAL/Cell_attribute_with_point.h 50219fc33bc $
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Guillaume Damiand <guillaume.damiand@liris.cnrs.fr>
@@ -91,10 +91,10 @@ namespace CGAL {
 
   public:
     typedef Cell_attribute_with_point<LCC, Info_, Tag, Functor_on_merge_,
-                                      Functor_on_split_> Self;
+                                      Functor_on_split_, WithID> Self;
 
     typedef Cell_attribute<LCC, Info_, Tag,
-                           Functor_on_merge_, Functor_on_split_> Base1;
+                           Functor_on_merge_, Functor_on_split_, WithID> Base1;
     typedef Point_for_cell<typename LCC::Point> Base2;
 
     typedef typename LCC::Point             Point;

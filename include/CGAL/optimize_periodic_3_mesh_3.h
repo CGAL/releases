@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Periodic_3_mesh_3/include/CGAL/optimize_periodic_3_mesh_3.h $
-// $Id: optimize_periodic_3_mesh_3.h 759d820 2023-02-20T15:10:31+01:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Periodic_3_mesh_3/include/CGAL/optimize_periodic_3_mesh_3.h $
+// $Id: include/CGAL/optimize_periodic_3_mesh_3.h 50219fc33bc $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     :  Stephane Tayeb,

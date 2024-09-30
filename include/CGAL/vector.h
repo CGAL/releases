@@ -7,8 +7,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/STL_Extension/include/CGAL/vector.h $
-// $Id: vector.h 697e1ab 2022-02-24T11:34:31+01:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/STL_Extension/include/CGAL/vector.h $
+// $Id: include/CGAL/vector.h 50219fc33bc $
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -25,9 +25,6 @@
 #include <memory>
 #include <cstddef>
 #include <functional>
-#include <boost/type_traits/remove_const.hpp>
-#include <boost/type_traits/remove_reference.hpp>
-#include <boost/type_traits/remove_pointer.hpp>
 
 namespace CGAL {
 
@@ -118,19 +115,19 @@ public:
     bool operator>=( const Self& i) const { return !(*this < i); }
 
     vector_iterator<  T,
-                      typename boost::remove_const<
-                        typename boost::remove_reference<Ref>::type
-                      >::type&,
-                      typename boost::remove_const<
-                          typename boost::remove_pointer<Ptr>::type
-                      >::type* >
+                      std::remove_const_t<
+                        std::remove_reference_t<Ref>
+                      >&,
+                      std::remove_const_t<
+                          std::remove_pointer_t<Ptr>
+                      >* >
     remove_const() const
     {
-      typedef typename boost::remove_const<
-                typename boost::remove_pointer<Ptr>::type
-              >::type* Ptr_no_c;
+      typedef std::remove_const_t<
+                std::remove_pointer_t<Ptr>
+              >* Ptr_no_c;
       return  vector_iterator< T,
-                     typename boost::remove_const<typename boost::remove_reference<Ref>::type>::type&,
+                     std::remove_const_t<std::remove_reference_t<Ref>>&,
                      Ptr_no_c>
               ( const_cast<Ptr_no_c>(ptr) );
     }

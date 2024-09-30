@@ -3,15 +3,18 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Convex_hull_2/include/CGAL/Convex_hull_traits_adapter_2.h $
-// $Id: Convex_hull_traits_adapter_2.h 75441da 2022-07-01T23:49:57+02:00 Mael Rouxel-Labbé
-// SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Convex_hull_2/include/CGAL/Convex_hull_traits_adapter_2.h $
+// $Id: include/CGAL/Convex_hull_traits_adapter_2.h 50219fc33bc $
+// SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Sebastien Loriot
 
 
 #ifndef CGAL_CONVEX_HULL_TRAITS_ADAPTER_2_H
 #define CGAL_CONVEX_HULL_TRAITS_ADAPTER_2_H
+
+#include <CGAL/license/Convex_hull_2.h>
+
 
 #include <boost/call_traits.hpp>
 

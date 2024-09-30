@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Nef_S2/include/CGAL/Nef_S2/Sphere_direction.h $
-// $Id: Sphere_direction.h 78e2d5e 2023-03-02T13:42:35+01:00 Laurent Rineau
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Nef_S2/include/CGAL/Nef_S2/Sphere_direction.h $
+// $Id: include/CGAL/Nef_S2/Sphere_direction.h 50219fc33bc $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //

@@ -3,9 +3,9 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Arrangement_on_surface_2/include/CGAL/Curved_kernel_via_analysis_2/Generic_arc_2.h $
-// $Id: Generic_arc_2.h 014c06f 2022-11-14T15:32:47+01:00 albert-github
-// SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Arrangement_on_surface_2/include/CGAL/Curved_kernel_via_analysis_2/Generic_arc_2.h $
+// $Id: include/CGAL/Curved_kernel_via_analysis_2/Generic_arc_2.h 50219fc33bc $
+// SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
 // Author(s)     : Pavel Emeliyanenko <asm@mpi-sb.mpg.de>
@@ -13,6 +13,9 @@
 
 #ifndef CGAL_CURVED_KERNEL_VIA_ANALYSIS_2_GENERIC_ARC_2_H
 #define CGAL_CURVED_KERNEL_VIA_ANALYSIS_2_GENERIC_ARC_2_H
+
+#include <CGAL/license/Arrangement_on_surface_2.h>
+
 
 /*!\file include/CGAL/Curved_kernel_via_analysis_2/Generic_arc_2.h
  * \brief defines class \c Generic_arc_2
@@ -83,9 +86,9 @@ public:
     // end-points (in degenerate case both point to the same object)
     mutable Generic_point_2 _m_min;
 
-    mutable boost::optional<Generic_point_2> _m_max;
+    mutable std::optional<Generic_point_2> _m_max;
     // stores native arc object (only for non-degenerate case)
-    mutable boost::optional<Arc_2> _m_arc;
+    mutable std::optional<Arc_2> _m_arc;
 
     // whether an arc is degenerate
     //bool _m_is_degenerate;

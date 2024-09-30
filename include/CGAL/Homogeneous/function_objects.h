@@ -7,8 +7,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Homogeneous_kernel/include/CGAL/Homogeneous/function_objects.h $
-// $Id: function_objects.h 4547818 2022-11-15T13:39:40+01:00 albert-github
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Homogeneous_kernel/include/CGAL/Homogeneous/function_objects.h $
+// $Id: include/CGAL/Homogeneous/function_objects.h 50219fc33bc $
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -189,7 +189,7 @@ namespace HomogeneousKernelFunctors {
       // want to solve  alpha*v1 + beta*v2 + gamma*v3 == vp
       // let vi' == vi*vi.hw()
       // we solve alpha'*v1' + beta'*v2' + gamma'*v3' == vp' / vp.hw()
-      //          muliplied by vp.hw()
+      //          multiplied by vp.hw()
       // then we have  alpha = alpha'*v1.hw() / vp.hw()
       // and           beta  = beta' *v2.hw() / vp.hw()
       // and           gamma = gamma'*v3.hw() / vp.hw()

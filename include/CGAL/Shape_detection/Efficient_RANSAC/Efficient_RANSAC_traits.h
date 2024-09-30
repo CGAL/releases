@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Shape_detection/include/CGAL/Shape_detection/Efficient_RANSAC/Efficient_RANSAC_traits.h $
-// $Id: Efficient_RANSAC_traits.h 0779373 2020-03-26T13:31:46+01:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Shape_detection/include/CGAL/Shape_detection/Efficient_RANSAC/Efficient_RANSAC_traits.h $
+// $Id: include/CGAL/Shape_detection/Efficient_RANSAC/Efficient_RANSAC_traits.h 50219fc33bc $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -23,7 +23,7 @@ namespace CGAL {
     \ingroup PkgShapeDetectionRANSAC
     \brief %Default traits class for the `CGAL::Shape_detection::Efficient_RANSAC`.
 
-    \cgalModels `EfficientRANSACTraits`
+    \cgalModels{EfficientRANSACTraits}
 
     \tparam Gt must be a model of the concept `Kernel` with `Gt::FT` being `float` or `double`.
 
@@ -39,6 +39,8 @@ namespace CGAL {
             class InputPointMap,
             class InputNormalMap>
   struct Efficient_RANSAC_traits {
+    ///
+    typedef Gt GeomTraits;
     ///
     typedef typename Gt::FT FT;
     ///

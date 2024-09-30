@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Linear_cell_complex/demo/Linear_cell_complex/typedefs.h $
-// $Id: typedefs.h 94cd1b4 2022-05-25T11:07:44+02:00 Guillaume Damiand
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Linear_cell_complex/demo/Linear_cell_complex/typedefs.h $
+// $Id: demo/Linear_cell_complex/typedefs.h 50219fc33bc $
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Guillaume Damiand <guillaume.damiand@liris.cnrs.fr>
@@ -165,8 +165,9 @@ public:
 };
 
 typedef CGAL::Linear_cell_complex_for_combinatorial_map<3,3,Mytraits,Myitems> LCC;
-typedef LCC::Dart_descriptor      Dart_descriptor;
-typedef LCC::Vertex_attribute Vertex;
+typedef LCC::Dart_descriptor       Dart_descriptor;
+typedef LCC::Dart_const_descriptor Dart_const_descriptor;
+typedef LCC::Vertex_attribute      Vertex;
 
 typedef LCC::Point    Point_3;
 typedef LCC::Vector   Vector_3;

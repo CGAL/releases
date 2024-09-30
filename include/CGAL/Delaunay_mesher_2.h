@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Mesh_2/include/CGAL/Delaunay_mesher_2.h $
-// $Id: Delaunay_mesher_2.h 4382398 2022-10-04T19:31:50+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Mesh_2/include/CGAL/Delaunay_mesher_2.h $
+// $Id: include/CGAL/Delaunay_mesher_2.h 50219fc33bc $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //

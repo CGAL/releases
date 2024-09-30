@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Alpha_shapes_3/include/CGAL/Alpha_shapes_3/internal/Lazy_alpha_nt_3.h $
-// $Id: Lazy_alpha_nt_3.h 014c06f 2022-11-14T15:32:47+01:00 albert-github
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Alpha_shapes_3/include/CGAL/Alpha_shapes_3/internal/Lazy_alpha_nt_3.h $
+// $Id: include/CGAL/Alpha_shapes_3/internal/Lazy_alpha_nt_3.h 50219fc33bc $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Sébastien Loriot <sebastien.loriot@geometryfactory.com>
@@ -22,7 +22,7 @@
 
 #include <memory>
 #include <boost/type_traits.hpp>
-#include <boost/optional.hpp>
+#include <optional>
 
 #include <iostream>
 
@@ -139,8 +139,8 @@ class Lazy_alpha_nt_3{
   Approx_point to_approx(const Input_point& wp) const
   {
     // The traits class' Point_3 must be convertible using the Cartesian converter
-    CGAL_static_assertion((Is_traits_point_convertible_3<
-                            Input_traits, Kernel_approx, Kernel_exact, Weighted_tag>::value));
+    static_assert(Is_traits_point_convertible_3<
+                            Input_traits, Kernel_approx, Kernel_exact, Weighted_tag>::value);
 
     To_approx converter;
     return converter(wp);
@@ -149,8 +149,8 @@ class Lazy_alpha_nt_3{
   Exact_point to_exact(const Input_point& wp) const
   {
     // The traits class' Point_3 must be convertible using the Cartesian converter
-    CGAL_static_assertion((Is_traits_point_convertible_3<
-                            Input_traits, Kernel_approx, Kernel_exact, Weighted_tag>::value));
+    static_assert(Is_traits_point_convertible_3<
+                            Input_traits, Kernel_approx, Kernel_exact, Weighted_tag>::value);
 
     To_exact converter;
     return converter(wp);
@@ -158,7 +158,7 @@ class Lazy_alpha_nt_3{
 
 //members
   //the members can be updated when calling method exact()
-  mutable boost::optional<NT_exact> exact_;
+  mutable std::optional<NT_exact> exact_;
   mutable NT_approx approx_;
 
 //private functions
@@ -229,7 +229,7 @@ public:
   }
 
   const NT_exact& exact() const {
-    if (exact_ == boost::none){
+    if (exact_ == std::nullopt){
       update_exact();
       approx_=to_interval(*exact_);
     }
@@ -417,7 +417,7 @@ struct Alpha_nt_selector_3
              GeomTraits,
              // If the base traits is already exact then we don't need to do anything,
              // and we can simply directly use the traits class
-             Boolean_tag<boost::is_floating_point<typename GeomTraits::FT>::value &&
+             Boolean_tag<std::is_floating_point<typename GeomTraits::FT>::value &&
                          ExactAlphaComparisonTag::value >,
              Weighted_tag>
 { };

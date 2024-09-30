@@ -7,8 +7,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Kernel_23/include/CGAL/Line_2.h $
-// $Id: Line_2.h 3933d0b 2022-11-08T12:07:14+01:00 Laurent Rineau
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Kernel_23/include/CGAL/Line_2.h $
+// $Id: include/CGAL/Line_2.h 50219fc33bc $
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -41,7 +41,7 @@ class Line_2 : public R_::Kernel_base::Line_2
   typedef typename R_::Kernel_base::Line_2   RLine_2;
 
   typedef Line_2                             Self;
-  CGAL_static_assertion((std::is_same<Self, typename R_::Line_2>::value));
+  static_assert(std::is_same<Self, typename R_::Line_2>::value);
 
 public:
 

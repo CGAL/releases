@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/SMDS_3/include/CGAL/SMDS_3/tet_soup_to_c3t3.h $
-// $Id: tet_soup_to_c3t3.h 885647f 2024-01-19T15:17:04+01:00 Laurent Rineau
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/SMDS_3/include/CGAL/SMDS_3/tet_soup_to_c3t3.h $
+// $Id: include/CGAL/SMDS_3/tet_soup_to_c3t3.h 50219fc33bc $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //

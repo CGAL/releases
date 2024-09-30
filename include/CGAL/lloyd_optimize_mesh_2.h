@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Mesh_2/include/CGAL/lloyd_optimize_mesh_2.h $
-// $Id: lloyd_optimize_mesh_2.h 601c5d0 2022-10-25T14:07:07+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Mesh_2/include/CGAL/lloyd_optimize_mesh_2.h $
+// $Id: include/CGAL/lloyd_optimize_mesh_2.h 50219fc33bc $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s) : Jane Tournois

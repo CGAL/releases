@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Point_set_processing_3/include/CGAL/mst_orient_normals.h $
-// $Id: mst_orient_normals.h 6e6598c 2023-10-10T19:32:59+02:00 Jane Tournois
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Point_set_processing_3/include/CGAL/mst_orient_normals.h $
+// $Id: include/CGAL/mst_orient_normals.h 50219fc33bc $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s) : Laurent Saboret and Andreas Fabri
@@ -548,9 +548,6 @@ create_mst_graph(
    and returns an iterator over the first point with an unoriented normal (see erase-remove idiom).
    For this reason it should not be called on sorted containers.
    It is based on \cgalCite{cgal:hddms-srup-92}.
-
-   \warning This function may fail when Boost version 1.54 is used,
-   because of the following bug: https://svn.boost.org/trac/boost/ticket/9012
 
    \pre Normals must be unit vectors
    \pre `k >= 2`

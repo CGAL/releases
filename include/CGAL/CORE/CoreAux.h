@@ -17,8 +17,8 @@
  * WWW URL: https://cs.nyu.edu/exact/
  * Email: exact@cs.nyu.edu
  *
- * $URL: https://github.com/CGAL/cgal/blob/v5.6.1/CGAL_Core/include/CGAL/CORE/CoreAux.h $
- * $Id: CoreAux.h 0ff7882 2022-12-06T22:21:06+01:00 Mael
+ * $URL: https://github.com/CGAL/cgal/blob/v6.0/CGAL_Core/include/CGAL/CORE/CoreAux.h $
+ * $Id: include/CGAL/CORE/CoreAux.h 50219fc33bc $
  * SPDX-License-Identifier: LGPL-3.0-or-later
  ***************************************************************************/
 
@@ -156,12 +156,6 @@ CGAL_CORE_EXPORT double IntMantissa(double d);
 //      (See CORE_PATH/progs/ieee/frexp.cpp for details)
 CGAL_CORE_EXPORT int IntExponent(double d);
 
-/// Writes out an error or warning message in the local file CORE_DIAGFILE
-/** If last argument (err) is TRUE, then this is considered an error
- *  (not just warning).  In this case, the message is also printed in
- *  std::cerr, using std::perror().
- *  */
-CGAL_CORE_EXPORT void core_error(std::string msg, std::string file, int lineno, bool err);
 
 /// This is for debugging messages
 inline void core_debug(std::string msg){

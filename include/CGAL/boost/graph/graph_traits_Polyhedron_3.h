@@ -2,15 +2,18 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Polyhedron/include/CGAL/boost/graph/graph_traits_Polyhedron_3.h $
-// $Id: graph_traits_Polyhedron_3.h 968e9cf 2022-06-16T13:29:20+02:00 Sébastien Loriot
-// SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Polyhedron/include/CGAL/boost/graph/graph_traits_Polyhedron_3.h $
+// $Id: include/CGAL/boost/graph/graph_traits_Polyhedron_3.h 50219fc33bc $
+// SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
 // Author(s)     : Andreas Fabri, Fernando Cacciola
 
 #ifndef CGAL_BOOST_GRAPH_GRAPH_TRAITS_POLYHEDRON_3_H
 #define CGAL_BOOST_GRAPH_GRAPH_TRAITS_POLYHEDRON_3_H
+
+#include <CGAL/license/Polyhedron.h>
+
 
 #include <CGAL/boost/graph/graph_traits_HalfedgeDS.h>
 
@@ -310,6 +313,12 @@ set_halfedge(typename boost::graph_traits< CGAL::Polyhedron_3<Gt,I,HDS,A> >::ver
   static_cast<Sneak&>(*v).set_halfedge(h);
 }
 
+template<class Gt, class I, CGAL_HDS_PARAM_, class A>
+void
+remove_all_elements(CGAL::Polyhedron_3<Gt,I,HDS,A>& g)
+{
+  g.clear();
+}
 
 //
 // HalfedgeGraph

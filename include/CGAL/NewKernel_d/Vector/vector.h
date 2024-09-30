@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/NewKernel_d/include/CGAL/NewKernel_d/Vector/vector.h $
-// $Id: vector.h 4f5f834 2022-06-10T07:37:53+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/NewKernel_d/include/CGAL/NewKernel_d/Vector/vector.h $
+// $Id: include/CGAL/NewKernel_d/Vector/vector.h 50219fc33bc $
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Marc Glisse
@@ -29,7 +29,7 @@ template<class NT_,class Dim_,class Max_dim_=Dim_> struct Vector_vector {
         struct Rebind_dimension {
           typedef Vector_vector< NT, D2, D3 > Other;
         };
-        template<class> struct Property : boost::false_type {};
+        template<class> struct Property : std::false_type {};
 
         struct Construct_vector {
                 struct Dimension {

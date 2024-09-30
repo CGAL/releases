@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Algebraic_kernel_d/include/CGAL/Algebraic_kernel_d/Xy_coordinate_2.h $
-// $Id: Xy_coordinate_2.h 014c06f 2022-11-14T15:32:47+01:00 albert-github
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Algebraic_kernel_d/include/CGAL/Algebraic_kernel_d/Xy_coordinate_2.h $
+// $Id: include/CGAL/Algebraic_kernel_d/Xy_coordinate_2.h 50219fc33bc $
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -81,10 +81,10 @@ public:
     mutable int _m_arcno;
 
     // y-coordinate
-    mutable boost::optional< Algebraic_real_1 > _m_y;
+    mutable std::optional< Algebraic_real_1 > _m_y;
 
     //! A bounding box for the given point
-    mutable boost::optional< std::pair<double,Bbox_2> > _m_bbox_2_pair;
+    mutable std::optional< std::pair<double,Bbox_2> > _m_bbox_2_pair;
 
 };
 
@@ -254,7 +254,7 @@ public:
     /*!
      * \brief y-coordinate of this point
      *
-     * Note: In general, this method results in a extremely large polynomial
+     * Note: In general, this method results in an extremely large polynomial
      * for the y-coordinate. It is recommended to use it carefully,
      * and using get_approximation_y() instead whenever approximations suffice.
      */

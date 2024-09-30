@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Arrangement_on_surface_2/demo/Arrangement_on_surface_2/CurveInputMethods.h $
-// $Id: CurveInputMethods.h 614d7fe 2020-10-06T19:26:53+01:00 Ahmed Essam
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Arrangement_on_surface_2/demo/Arrangement_on_surface_2/CurveInputMethods.h $
+// $Id: demo/Arrangement_on_surface_2/CurveInputMethods.h 50219fc33bc $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s): Ahmed Essam <theartful.ae@gmail.com>

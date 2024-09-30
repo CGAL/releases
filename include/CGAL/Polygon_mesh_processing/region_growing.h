@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Shape_detection/include/CGAL/Polygon_mesh_processing/region_growing.h $
-// $Id: region_growing.h 7431715 2024-01-22T18:02:48+01:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Shape_detection/include/CGAL/Polygon_mesh_processing/region_growing.h $
+// $Id: include/CGAL/Polygon_mesh_processing/region_growing.h 50219fc33bc $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -354,6 +354,7 @@ detect_corners_of_regions(
   using parameters::get_parameter;
   using parameters::is_default_parameter;
 
+  using VPM = typename GetVertexPointMap < PolygonMesh, NamedParameters>::const_type;
   using Traits = typename GetGeomTraits<PolygonMesh, NamedParameters>::type;
   using Graph_traits = boost::graph_traits<PolygonMesh>;
   using halfedge_descriptor = typename Graph_traits::halfedge_descriptor;
@@ -377,7 +378,7 @@ detect_corners_of_regions(
   }
   Ecm ecm = choose_parameter(get_parameter(np, internal_np::edge_is_constrained), dynamic_ecm);
 
-  using Polyline_graph     = CGAL::Shape_detection::Polygon_mesh::Polyline_graph<PolygonMesh>;
+  using Polyline_graph     = CGAL::Shape_detection::Polygon_mesh::Polyline_graph<PolygonMesh, VPM>;
   using Segment_map        = typename Polyline_graph::Segment_map;
   using Item               = typename Polyline_graph::Item;
 
@@ -424,7 +425,7 @@ detect_corners_of_regions(
       filtered_edges.push_back(e);
   }
 
-  Polyline_graph pgraph(mesh, filtered_edges, region_map);
+  Polyline_graph pgraph(mesh, filtered_edges, region_map, np);
   const auto& segment_range = pgraph.segment_range();
 
   Line_region line_region(np.segment_map(pgraph.segment_map()));

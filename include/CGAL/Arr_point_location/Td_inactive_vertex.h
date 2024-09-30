@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Arrangement_on_surface_2/include/CGAL/Arr_point_location/Td_inactive_vertex.h $
-// $Id: Td_inactive_vertex.h 781f9a2 2022-11-17T10:25:10+01:00 albert-github
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Arrangement_on_surface_2/include/CGAL/Arr_point_location/Td_inactive_vertex.h $
+// $Id: include/CGAL/Arr_point_location/Td_inactive_vertex.h 50219fc33bc $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)         : Oren Nechushtan <theoren@math.tau.ac.il>
@@ -21,7 +21,7 @@
  */
 
 #include <CGAL/Arr_point_location/Trapezoidal_decomposition_2.h>
-#include <boost/variant.hpp>
+#include <variant>
 
 
 #ifdef CGAL_TD_DEBUG

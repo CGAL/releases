@@ -7,8 +7,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Stream_support/include/CGAL/IO/Ostream_iterator.h $
-// $Id: Ostream_iterator.h 580a1ef 2020-05-22T15:31:50+02:00 Mael Rouxel-Labbé
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Stream_support/include/CGAL/IO/Ostream_iterator.h $
+// $Id: include/CGAL/IO/Ostream_iterator.h 50219fc33bc $
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -46,7 +46,7 @@ public:
 The class `Ostream_iterator` is an output iterator adaptor for the
 output stream class `Stream` and value type `T`.
 
-\cgalModels `OutputIterator`
+\cgalModels{OutputIterator}
 
 \cgalHeading{Implementation}
 

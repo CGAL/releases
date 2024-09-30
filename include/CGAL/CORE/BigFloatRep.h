@@ -17,8 +17,8 @@
  * WWW URL: https://cs.nyu.edu/exact/
  * Email: exact@cs.nyu.edu
  *
- * $URL: https://github.com/CGAL/cgal/blob/v5.6.1/CGAL_Core/include/CGAL/CORE/BigFloatRep.h $
- * $Id: BigFloatRep.h 0ff7882 2022-12-06T22:21:06+01:00 Mael
+ * $URL: https://github.com/CGAL/cgal/blob/v6.0/CGAL_Core/include/CGAL/CORE/BigFloatRep.h $
+ * $Id: include/CGAL/CORE/BigFloatRep.h 50219fc33bc $
  * SPDX-License-Identifier: LGPL-3.0-or-later
  ***************************************************************************/
 
@@ -317,7 +317,7 @@ inline void BigFloatRep::eliminateTrailingZeroes() {
 //  builtin functions
 inline extLong BigFloatRep::lMSB() const {
   if (!isZeroIn())
-    return extLong(floorLg(abs(m) - err)) + bits(exp);
+    return extLong(floorLg(BigInt(abs(m) - err))) + bits(exp);
   else
     return extLong(CORE_negInfty);
 }
@@ -327,7 +327,7 @@ inline extLong BigFloatRep::lMSB() const {
  * Not well-defined if zero is in the interval.
  */
 inline extLong BigFloatRep::uMSB() const {
-  return extLong(floorLg(abs(m) + err)) + bits(exp);
+  return extLong(floorLg(BigInt(abs(m) + err))) + bits(exp);
 }
 
 inline extLong BigFloatRep::MSB() const {

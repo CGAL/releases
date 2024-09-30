@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Arrangement_on_surface_2/include/CGAL/Arr_unb_planar_topology_traits_2.h $
-// $Id: Arr_unb_planar_topology_traits_2.h 37580e9 2022-06-14T11:22:58+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Arrangement_on_surface_2/include/CGAL/Arr_unb_planar_topology_traits_2.h $
+// $Id: include/CGAL/Arr_unb_planar_topology_traits_2.h 50219fc33bc $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s): Ron Wein   <wein@post.tau.ac.il>
@@ -23,6 +23,7 @@
  */
 
 #include <CGAL/Arr_tags.h>
+#include <CGAL/Arr_default_dcel.h>
 #include <CGAL/Arr_topology_traits/Arr_planar_topology_traits_base_2.h>
 #include <CGAL/Arr_topology_traits/Arr_unb_planar_construction_helper.h>
 #include <CGAL/Arr_topology_traits/Arr_unb_planar_insertion_helper.h>
@@ -87,14 +88,14 @@ public:
   typedef typename Gt_adaptor_2::Top_side_category    Top_side_category;
   typedef typename Gt_adaptor_2::Right_side_category  Right_side_category;
 
-  CGAL_static_assertion((std::is_same< Left_side_category, Arr_oblivious_side_tag >::value ||
-                         std::is_same< Left_side_category, Arr_open_side_tag >::value));
-  CGAL_static_assertion((std::is_same< Bottom_side_category, Arr_oblivious_side_tag >::value ||
-                         std::is_same< Bottom_side_category, Arr_open_side_tag >::value));
-  CGAL_static_assertion((std::is_same< Top_side_category, Arr_oblivious_side_tag>::value ||
-                         std::is_same< Top_side_category, Arr_open_side_tag >::value));
-  CGAL_static_assertion((std::is_same< Right_side_category, Arr_oblivious_side_tag >::value ||
-                         std::is_same< Right_side_category, Arr_open_side_tag >::value));
+  static_assert(std::is_same< Left_side_category, Arr_oblivious_side_tag >::value ||
+                         std::is_same< Left_side_category, Arr_open_side_tag >::value);
+  static_assert(std::is_same< Bottom_side_category, Arr_oblivious_side_tag >::value ||
+                         std::is_same< Bottom_side_category, Arr_open_side_tag >::value);
+  static_assert(std::is_same< Top_side_category, Arr_oblivious_side_tag>::value ||
+                         std::is_same< Top_side_category, Arr_open_side_tag >::value);
+  static_assert(std::is_same< Right_side_category, Arr_oblivious_side_tag >::value ||
+                         std::is_same< Right_side_category, Arr_open_side_tag >::value);
   //@}
 
   /*! \struct
@@ -291,7 +292,7 @@ public:
    * \return An object that contains the curve end.
    *         In our case this object always wraps a fictitious edge.
    */
-  boost::optional<boost::variant<Vertex*, Halfedge*> >
+  std::optional<std::variant<Vertex*, Halfedge*> >
   place_boundary_vertex(Face* f,
                         const X_monotone_curve_2& cv,
                         Arr_curve_end ind,
@@ -330,7 +331,7 @@ public:
    *         In our case this object may either wrap an unbounded face,
    *         or an edge with an end-vertex at infinity (in case of an overlap).
    */
-  boost::variant<Vertex*, Halfedge*, Face*>
+  std::variant<Vertex*, Halfedge*, Face*>
   locate_curve_end(const X_monotone_curve_2& cv,
                    Arr_curve_end ind,
                    Arr_parameter_space ps_x,

@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Arrangement_on_surface_2/include/CGAL/Arr_accessor.h $
-// $Id: Arr_accessor.h 3674c93 2022-11-15T15:21:01+01:00 albert-github
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Arrangement_on_surface_2/include/CGAL/Arr_accessor.h $
+// $Id: include/CGAL/Arr_accessor.h 50219fc33bc $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -114,13 +114,13 @@ public:
     auto obj = p_arr->topology_traits()->locate_curve_end(cv, ind, ps_x, ps_y);
 
     // Return a handle to the DCEL feature.
-    DFace** f_p = boost::get<DFace*>(&obj);
+    DFace** f_p = std::get_if<DFace*>(&obj);
     if (f_p) return (Pl_result::make_result(p_arr->_const_handle_for(*f_p)));
 
-    DHalfedge** he_p = boost::get<DHalfedge*>(&obj);
+    DHalfedge** he_p = std::get_if<DHalfedge*>(&obj);
     if (he_p) return (Pl_result::make_result(p_arr->_const_handle_for(*he_p)));
 
-    DVertex** v_p = boost::get<DVertex*>(&obj);
+    DVertex** v_p = std::get_if<DVertex*>(&obj);
     if (v_p) return (Pl_result::make_result(p_arr->_const_handle_for(*v_p)));
 
     // We should never reach here:

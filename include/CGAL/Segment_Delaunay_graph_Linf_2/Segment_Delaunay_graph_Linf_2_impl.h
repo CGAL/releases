@@ -3,13 +3,18 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Segment_Delaunay_graph_Linf_2/include/CGAL/Segment_Delaunay_graph_Linf_2/Segment_Delaunay_graph_Linf_2_impl.h $
-// $Id: Segment_Delaunay_graph_Linf_2_impl.h 7ea0f8b 2022-10-21T09:14:58+01:00 Andreas Fabri
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Segment_Delaunay_graph_Linf_2/include/CGAL/Segment_Delaunay_graph_Linf_2/Segment_Delaunay_graph_Linf_2_impl.h $
+// $Id: include/CGAL/Segment_Delaunay_graph_Linf_2/Segment_Delaunay_graph_Linf_2_impl.h 50219fc33bc $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
 // Author(s)     : Panagiotis Cheilaris, Sandeep Kumar Dey, Evanthia Papadopoulou
 //philaris@gmail.com, sandeep.kr.dey@gmail.com, evanthia.papadopoulou@usi.ch
+
+#ifndef CGAL_SEGMENT_DELAUNAY_GRAPH_LINF_2_SDG_LINF_2_IMPL_H
+#define CGAL_SEGMENT_DELAUNAY_GRAPH_LINF_2_SDG_LINF_2_IMPL_H
+
+#include <CGAL/license/Segment_Delaunay_graph_Linf_2.h>
 
 namespace CGAL {
 
@@ -759,3 +764,5 @@ insert_point_on_segment(const Storage_site_2& ss, const Site_2& ,
 } //namespace CGAL
 
 // EOF
+
+#endif // CGAL_SEGMENT_DELAUNAY_GRAPH_LINF_2_SDG_LINF_2_IMPL_H

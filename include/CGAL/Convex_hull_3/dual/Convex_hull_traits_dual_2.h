@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Convex_hull_3/include/CGAL/Convex_hull_3/dual/Convex_hull_traits_dual_2.h $
-// $Id: Convex_hull_traits_dual_2.h 711d646 2022-07-02T17:19:48+02:00 Mael Rouxel-Labbé
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Convex_hull_3/include/CGAL/Convex_hull_3/dual/Convex_hull_traits_dual_2.h $
+// $Id: include/CGAL/Convex_hull_3/dual/Convex_hull_traits_dual_2.h 50219fc33bc $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //

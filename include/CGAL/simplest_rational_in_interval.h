@@ -7,8 +7,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Number_types/include/CGAL/simplest_rational_in_interval.h $
-// $Id: simplest_rational_in_interval.h 3fa4364 2022-06-10T08:41:19+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Number_types/include/CGAL/simplest_rational_in_interval.h $
+// $Id: include/CGAL/simplest_rational_in_interval.h 50219fc33bc $
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -43,10 +43,10 @@ simplest_rational_in_interval(double x, double y) {
 
     // Must be a fraction
     CGAL_USE_TYPE(Is_fraction);
-    CGAL_static_assertion((::std::is_same<Is_fraction, Tag_true>::value));
+    static_assert(::std::is_same<Is_fraction, Tag_true>::value);
     // Numerator_type,Denominator_type must be the same
     CGAL_USE_TYPE(Denominator_type);
-    CGAL_static_assertion((::std::is_same<Numerator_type, Denominator_type>::value));
+    static_assert(::std::is_same<Numerator_type, Denominator_type>::value);
 
 
   if(x == y){

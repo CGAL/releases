@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Arrangement_on_surface_2/include/CGAL/IO/Arrangement_2_reader.h $
-// $Id: Arrangement_2_reader.h 3674c93 2022-11-15T15:21:01+01:00 albert-github
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Arrangement_on_surface_2/include/CGAL/IO/Arrangement_2_reader.h $
+// $Id: include/CGAL/IO/Arrangement_2_reader.h 50219fc33bc $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -317,7 +317,7 @@ namespace CGAL {
     }
 
     /*!
-     * Read a circular boundary of a conncted component.
+     * Read a circular boundary of a connected component.
      * \param formatter The formatter.
      * \param boundary_size The number of halfedges along the boundary.
      * \param p_outer The outer CCB.

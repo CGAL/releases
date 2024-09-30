@@ -7,8 +7,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Intersections_2/include/CGAL/Intersections_2/Segment_2_Segment_2.h $
-// $Id: Segment_2_Segment_2.h b36c05f 2023-02-10T15:40:52+01:00 Laurent Rineau
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Intersections_2/include/CGAL/Intersections_2/Segment_2_Segment_2.h $
+// $Id: include/CGAL/Intersections_2/Segment_2_Segment_2.h 50219fc33bc $
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 //

@@ -2,8 +2,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Subdivision_method_3/include/CGAL/Subdivision_method_3/internal/subdivision_hosts_impl_3.h $
-// $Id: subdivision_hosts_impl_3.h 5693780 2023-03-17T14:46:49+01:00 Andreas Fabri
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Subdivision_method_3/include/CGAL/Subdivision_method_3/internal/subdivision_hosts_impl_3.h $
+// $Id: include/CGAL/Subdivision_method_3/internal/subdivision_hosts_impl_3.h 50219fc33bc $
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 //

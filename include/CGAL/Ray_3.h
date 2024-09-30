@@ -7,8 +7,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Kernel_23/include/CGAL/Ray_3.h $
-// $Id: Ray_3.h 5872413 2022-06-10T08:48:53+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Kernel_23/include/CGAL/Ray_3.h $
+// $Id: include/CGAL/Ray_3.h 50219fc33bc $
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -36,7 +36,7 @@ class Ray_3 : public R_::Kernel_base::Ray_3
   typedef typename R_::Aff_transformation_3  Aff_transformation_3;
 
   typedef Ray_3                            Self;
-  CGAL_static_assertion((std::is_same<Self, typename R_::Ray_3>::value));
+  static_assert(std::is_same<Self, typename R_::Ray_3>::value);
 
 public:
 

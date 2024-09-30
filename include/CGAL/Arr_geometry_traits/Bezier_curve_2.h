@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Arrangement_on_surface_2/include/CGAL/Arr_geometry_traits/Bezier_curve_2.h $
-// $Id: Bezier_curve_2.h 014c06f 2022-11-14T15:32:47+01:00 albert-github
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Arrangement_on_surface_2/include/CGAL/Arr_geometry_traits/Bezier_curve_2.h $
+// $Id: include/CGAL/Arr_geometry_traits/Bezier_curve_2.h 50219fc33bc $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -800,7 +800,7 @@ typename _Bezier_curve_2<RatKer, AlgKer, NtTrt, BndTrt>::Rat_point_2
 _Bezier_curve_2<RatKer, AlgKer, NtTrt, BndTrt>::operator()
         (const Rational& t) const
 {
-  // Check for extermal t values (either 0 or 1).
+  // Check for external t values (either 0 or 1).
   const CGAL::Sign   sign_t = CGAL::sign (t);
 
   CGAL_precondition (sign_t != NEGATIVE);
@@ -851,7 +851,7 @@ typename _Bezier_curve_2<RatKer, AlgKer, NtTrt, BndTrt>::Alg_point_2
 _Bezier_curve_2<RatKer, AlgKer, NtTrt, BndTrt>::operator()
           (const Algebraic& t) const
 {
-  // Check for extermal t values (either 0 or 1).
+  // Check for external t values (either 0 or 1).
   Nt_traits          nt_traits;
   const CGAL::Sign   sign_t = CGAL::sign (t);
 

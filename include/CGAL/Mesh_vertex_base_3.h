@@ -4,8 +4,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Mesh_3/include/CGAL/Mesh_vertex_base_3.h $
-// $Id: Mesh_vertex_base_3.h fef1a43 2022-12-15T10:43:27+01:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Mesh_3/include/CGAL/Mesh_vertex_base_3.h $
+// $Id: include/CGAL/Mesh_vertex_base_3.h 50219fc33bc $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Stéphane Tayeb, Andreas Fabri
@@ -115,6 +115,7 @@ public:
   // Types
   typedef Index_                      Index;
   typedef typename GT::FT             FT;
+  typedef typename Vb::Point          Point;
 
   // Constructor
   Mesh_vertex_3()
@@ -309,7 +310,7 @@ of the concept `MeshDomain_3`.
 of the concept `RegularTriangulationVertexBase_3` and defaults to
 `Regular_triangulation_vertex_base_3<GT>`.
 
-\cgalModels `MeshVertexBase_3`
+\cgalModels{MeshVertexBase_3}
 
 \sa `CGAL::Mesh_complex_3_in_triangulation_3<Tr,CornerIndex,CurveIndex>`
 */
@@ -324,6 +325,7 @@ struct Mesh_vertex_base_3 {
 #endif
   using Vertex_handle = typename Triangulation_data_structure::Vertex_handle;
   using Cell_handle = typename Triangulation_data_structure::Cell_handle;
+  using Point = typename Vb::Point;
 
   template < class TDS3 >
   struct Rebind_TDS {

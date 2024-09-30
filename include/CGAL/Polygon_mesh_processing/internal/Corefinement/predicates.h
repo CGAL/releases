@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Polygon_mesh_processing/include/CGAL/Polygon_mesh_processing/internal/Corefinement/predicates.h $
-// $Id: predicates.h 00c185b 2021-03-12T12:06:20+01:00 Dmitry Anisimov
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Polygon_mesh_processing/include/CGAL/Polygon_mesh_processing/internal/Corefinement/predicates.h $
+// $Id: include/CGAL/Polygon_mesh_processing/internal/Corefinement/predicates.h 50219fc33bc $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -13,7 +13,7 @@
 #ifndef CGAL_POLYGON_MESH_PROCESSING_INTERNAL_COREFINEMENT_PREDICATES_H
 #define CGAL_POLYGON_MESH_PROCESSING_INTERNAL_COREFINEMENT_PREDICATES_H
 
-#include <CGAL/license/Polygon_mesh_processing/corefinement.h>
+#include <CGAL/license/Polygon_mesh_processing/core.h>
 
 
 #include <boost/graph/graph_traits.hpp>

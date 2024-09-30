@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Linear_cell_complex/include/CGAL/Cell_attribute_with_point_and_id.h $
-// $Id: Cell_attribute_with_point_and_id.h 4547818 2022-11-15T13:39:40+01:00 albert-github
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Linear_cell_complex/include/CGAL/Cell_attribute_with_point_and_id.h $
+// $Id: include/CGAL/Cell_attribute_with_point_and_id.h 50219fc33bc $
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Guillaume Damiand <guillaume.damiand@liris.cnrs.fr>
@@ -31,6 +31,9 @@ namespace CGAL {
 
     template <class, class>
     friend class Concurrent_compact_container;
+
+    template <class, class, class, class>
+    friend class Compact_container_with_index;
 
   public:
     typedef typename Base::Point Point;
@@ -63,6 +66,9 @@ namespace CGAL {
 
     template <class, class>
     friend class Concurrent_compact_container;
+
+    template <class, class, class, class>
+    friend class Compact_container_with_index;
 
   public:
     typedef typename Base::Point Point;

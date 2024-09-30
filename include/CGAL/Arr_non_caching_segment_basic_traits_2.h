@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Arrangement_on_surface_2/include/CGAL/Arr_non_caching_segment_basic_traits_2.h $
-// $Id: Arr_non_caching_segment_basic_traits_2.h 1c277cd 2023-05-09T18:38:16+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Arrangement_on_surface_2/include/CGAL/Arr_non_caching_segment_basic_traits_2.h $
+// $Id: include/CGAL/Arr_non_caching_segment_basic_traits_2.h 50219fc33bc $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s): Efi Fogel <efif@post.tau.ac.il>

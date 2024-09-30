@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Polygon_mesh_processing/include/CGAL/Polygon_mesh_processing/connected_components.h $
-// $Id: connected_components.h c04dceb 2022-10-14T14:40:58+01:00 Andreas Fabri
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Polygon_mesh_processing/include/CGAL/Polygon_mesh_processing/connected_components.h $
+// $Id: include/CGAL/Polygon_mesh_processing/connected_components.h 50219fc33bc $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -423,7 +423,7 @@ std::size_t keep_largest_connected_components(PolygonMesh& pmesh,
 
   if(nb_components_to_keep == 0)
   {
-    CGAL::clear(pmesh);
+    remove_all_elements(pmesh);
     return num;
   }
 
@@ -553,7 +553,7 @@ std::size_t keep_large_connected_components(PolygonMesh& pmesh,
                                                       >::type             FaceSizeMap;
   typedef typename boost::property_traits<FaceSizeMap>::value_type        Face_size;
 
-  CGAL_static_assertion((std::is_convertible<ThresholdValueType, Face_size>::value));
+  static_assert(std::is_convertible<ThresholdValueType, Face_size>::value);
 
   typedef typename internal_np::Lookup_named_param_def<internal_np::output_iterator_t,
                                                        NamedParameters,

@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Nef_2/include/CGAL/Nef_2/PM_const_decorator.h $
-// $Id: PM_const_decorator.h 965d4fd 2023-08-22T17:01:46+01:00 Andreas Fabri
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Nef_2/include/CGAL/Nef_2/PM_const_decorator.h $
+// $Id: include/CGAL/Nef_2/PM_const_decorator.h 50219fc33bc $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -28,7 +28,7 @@
 #include <CGAL/Nef_2/debug.h>
 
 #ifndef CGAL_I_DO_WANT_TO_USE_GENINFO
-#include <boost/any.hpp>
+#include <any>
 #endif
 
 #include <CGAL/use.h>
@@ -137,7 +137,7 @@ typedef size_t Size_type;
 /*{\Mtypemember The size type.}*/
 typedef void*  GenPtr;
 #else
-typedef boost::any GenPtr;
+typedef std::any GenPtr;
 #endif
 
 

@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Weights/include/CGAL/Weights/cotangent_weights.h $
-// $Id: cotangent_weights.h 3abb736 2022-11-22T17:46:01+01:00 Mael Rouxel-Labbé
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Weights/include/CGAL/Weights/cotangent_weights.h $
+// $Id: include/CGAL/Weights/cotangent_weights.h 50219fc33bc $
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -17,6 +17,7 @@
 #include <CGAL/Weights/utils.h>
 
 #include <CGAL/boost/graph/helpers.h>
+#include <CGAL/boost/graph/named_params_helper.h>
 #include <CGAL/Kernel_traits.h>
 #include <CGAL/Point_2.h>
 #include <CGAL/Point_3.h>
@@ -304,7 +305,7 @@ public:
 // This class is using a special clamped version of the cotangent weights.
 // This version is currently used in:
 // Polygon_mesh_processing -> fair.h
-// Polyhedron demo -> Hole_filling_plugin.cpp
+// CGAL Lab -> Hole_filling_plugin.cpp
 template<typename PolygonMesh,
          typename VertexPointMap,
          typename GeomTraits>

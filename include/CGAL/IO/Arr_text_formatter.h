@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Arrangement_on_surface_2/include/CGAL/IO/Arr_text_formatter.h $
-// $Id: Arr_text_formatter.h 11de0a7 2023-03-12T16:41:27+02:00 Efi Fogel
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Arrangement_on_surface_2/include/CGAL/IO/Arr_text_formatter.h $
+// $Id: include/CGAL/IO/Arr_text_formatter.h 50219fc33bc $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -524,7 +524,7 @@ public:
 /*! \class
  * A class defining a textual (\ascii) input/output format for arrangements
  * that store auxiliary dat with all their DCEL records, as they are templated
- * by a extended DCEL class.
+ * by an extended DCEL class.
  */
 template <class Arrangement_>
 class Arr_extended_dcel_text_formatter :

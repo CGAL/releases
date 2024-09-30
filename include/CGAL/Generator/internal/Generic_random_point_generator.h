@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Generator/include/CGAL/Generator/internal/Generic_random_point_generator.h $
-// $Id: Generic_random_point_generator.h 98e4718 2021-08-26T11:33:39+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Generator/include/CGAL/Generator/internal/Generic_random_point_generator.h $
+// $Id: include/CGAL/Generator/internal/Generic_random_point_generator.h 50219fc33bc $
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -105,7 +105,7 @@ void Generic_random_point_generator<Id, ObjectFromIdMap,  GeneratorOnObject, P>:
   );
 
   // generate the points
-  GeneratorOnObject pointCreator(object_from_id_map(ids[target]));
+  GeneratorOnObject pointCreator(object_from_id_map(ids[target]), random);
   this->d_item = *pointCreator;
 }
 
@@ -118,8 +118,8 @@ struct Apply_approx_sqrt
   Apply_approx_sqrt(const Functor& f) : Functor(f) { }
 
   template <class T>
-  typename boost::remove_reference<
-             typename cpp11::result_of<Functor(const T&)>::type>::type
+  std::remove_reference_t<
+             typename cpp11::result_of<Functor(const T&)>::type>
   operator()(const T& t) const
   {
     return approximate_sqrt( static_cast<const Functor&>(*this)(t) );

@@ -3,13 +3,18 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Bounding_volumes/include/CGAL/Min_sphere_d/Min_sphere_d_impl.h $
-// $Id: Min_sphere_d_impl.h 74e4d89 2022-09-27T10:42:05+01:00 Andreas Fabri
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Bounding_volumes/include/CGAL/Min_sphere_d/Min_sphere_d_impl.h $
+// $Id: include/CGAL/Min_sphere_d/Min_sphere_d_impl.h 50219fc33bc $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
 // Author(s)     : Sven Schoenherr <sven@inf.fu-berlin.de>
 //                 Bernd Gaertner
+
+#ifndef CGAL_MIN_SPHERE_D_MIN_SPHERE_D_IMPL_H
+#define CGAL_MIN_SPHERE_D_MIN_SPHERE_D_IMPL_H
+
+#include <CGAL/license/Bounding_volumes.h>
 
 #include <iterator>
 
@@ -105,3 +110,5 @@ operator >> ( std::istream& is, Min_sphere_d<Traits>& min_sphere)
 } //namespace CGAL
 
 // ===== EOF ==================================================================
+
+#endif //CGAL_MIN_SPHERE_D_MIN_SPHERE_D_IMPL_H

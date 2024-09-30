@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Arrangement_on_surface_2/include/CGAL/Arr_geometry_traits/Bezier_bounding_rational_traits.h $
-// $Id: Bezier_bounding_rational_traits.h 014c06f 2022-11-14T15:32:47+01:00 albert-github
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Arrangement_on_surface_2/include/CGAL/Arr_geometry_traits/Bezier_bounding_rational_traits.h $
+// $Id: include/CGAL/Arr_geometry_traits/Bezier_bounding_rational_traits.h 50219fc33bc $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -1264,22 +1264,22 @@ private:
         Control_points  aux_vec;
 
         auto res1 = f_intersect(skew1a, skew2a);
-        const Point_2* p1 = boost::get<Point_2>(&*res1);
+        const Point_2* p1 = std::get_if<Point_2>(&*res1);
         if (! p1) CGAL_error();
         aux_vec.push_back(*p1);
 
         auto res2 = f_intersect(skew1a, skew2b);
-        const Point_2* p2 = boost::get<Point_2>(&*res2);
+        const Point_2* p2 = std::get_if<Point_2>(&*res2);
         if (! p2) CGAL_error();
         aux_vec.push_back(*p2);
 
         auto res3 = f_intersect(skew1b, skew2a);
-        const Point_2* p3 = boost::get<Point_2>(&*res3);
+        const Point_2* p3 = std::get_if<Point_2>(&*res3);
         if (! p3) CGAL_error();
         aux_vec.push_back(*p3);
 
         auto res4 = f_intersect (skew1b, skew2b);
-        const Point_2* p4 = boost::get<Point_2>(&*res4);
+        const Point_2* p4 = std::get_if<Point_2>(&*res4);
         if (! p4) CGAL_error();
         aux_vec.push_back(*p4);
 

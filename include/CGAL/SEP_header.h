@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/CGAL_ImageIO/include/CGAL/SEP_header.h $
-// $Id: SEP_header.h 7a62583 2022-11-14T19:14:33+01:00 albert-github
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/CGAL_ImageIO/include/CGAL/SEP_header.h $
+// $Id: include/CGAL/SEP_header.h 50219fc33bc $
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Laurent Rineau
@@ -20,7 +20,6 @@
 
 #include <boost/tuple/tuple.hpp>
 #include <boost/fusion/adapted/boost_tuple.hpp>
-#include <boost/array.hpp>
 #include <boost/spirit/include/qi.hpp>
 #include <boost/phoenix/core.hpp>
 #include <boost/phoenix/operator.hpp>
@@ -57,12 +56,12 @@ public:
   {
     using boost::get;
     visitor vis(this, get<0>(tuple));
-    boost::apply_visitor(vis, get<1>(tuple));
+    std::visit(vis, get<1>(tuple));
     return *this;
   }
 
 private:
-  struct visitor : public boost::static_visitor<> {
+  struct visitor {
     SEP_header_aux* self;
     std::string key;
     visitor(SEP_header_aux* header, std::string key)
@@ -106,9 +105,9 @@ namespace CGAL {
 
 class SEP_header {
 
-  boost::array<std::size_t, 3> _n;
-  boost::array<double, 3> _d;
-  boost::array<double, 3> _o;
+  std::array<std::size_t, 3> _n;
+  std::array<double, 3> _d;
+  std::array<double, 3> _o;
 
   SEP_header_aux::String_dict _string_dict;
 
@@ -262,7 +261,7 @@ private:
 #endif // CGAL_SEP_READER_DEBUG
     } // end constructor of sep_header_grammar
 
-    typedef boost::variant<double,
+    typedef std::variant<double,
                            int,
                            std::string> value;
     typedef boost::tuple<std::string, value> entry_type;

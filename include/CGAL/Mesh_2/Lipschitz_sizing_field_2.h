@@ -4,8 +4,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Mesh_2/include/CGAL/Mesh_2/Lipschitz_sizing_field_2.h $
-// $Id: Lipschitz_sizing_field_2.h 36cf65d 2022-11-22T16:38:19+01:00 Laurent Rineau
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Mesh_2/include/CGAL/Mesh_2/Lipschitz_sizing_field_2.h $
+// $Id: include/CGAL/Mesh_2/Lipschitz_sizing_field_2.h 50219fc33bc $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //

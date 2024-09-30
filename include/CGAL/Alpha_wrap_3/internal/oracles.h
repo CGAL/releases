@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Alpha_wrap_3/include/CGAL/Alpha_wrap_3/internal/oracles.h $
-// $Id: oracles.h 7a8f91b 2022-11-01T16:09:26+01:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Alpha_wrap_3/include/CGAL/Alpha_wrap_3/internal/oracles.h $
+// $Id: include/CGAL/Alpha_wrap_3/internal/oracles.h 50219fc33bc $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Mael Rouxel-Labbé

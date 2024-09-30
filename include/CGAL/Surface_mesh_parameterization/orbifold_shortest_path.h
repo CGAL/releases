@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Surface_mesh_parameterization/include/CGAL/Surface_mesh_parameterization/orbifold_shortest_path.h $
-// $Id: orbifold_shortest_path.h 6e6598c 2023-10-10T19:32:59+02:00 Jane Tournois
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Surface_mesh_parameterization/include/CGAL/Surface_mesh_parameterization/orbifold_shortest_path.h $
+// $Id: include/CGAL/Surface_mesh_parameterization/orbifold_shortest_path.h 50219fc33bc $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Mael Rouxel-Labbé

@@ -7,8 +7,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Cartesian_kernel/include/CGAL/Cartesian/Direction_2.h $
-// $Id: Direction_2.h 0779373 2020-03-26T13:31:46+01:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Cartesian_kernel/include/CGAL/Cartesian/Direction_2.h $
+// $Id: include/CGAL/Cartesian/Direction_2.h 50219fc33bc $
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -47,7 +47,7 @@ public:
   DirectionC2() {}
 
   DirectionC2(const FT &x, const FT &y)
-    : base(CGAL::make_array(x, y)) {}
+    : base{x, y} {}
 
   bool operator==(const DirectionC2 &d) const;
   bool operator!=(const DirectionC2 &d) const;

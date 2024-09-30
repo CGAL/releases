@@ -2,8 +2,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/BGL/include/CGAL/boost/graph/graph_traits_OpenMesh.h $
-// $Id: graph_traits_OpenMesh.h 7360250 2022-05-10T11:00:47+01:00 Andreas Fabri
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/BGL/include/CGAL/boost/graph/graph_traits_OpenMesh.h $
+// $Id: include/CGAL/boost/graph/graph_traits_OpenMesh.h 50219fc33bc $
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -607,7 +607,7 @@ remove_face(typename boost::graph_traits<OPEN_MESH_CLASS >::face_descriptor f,
   sm.status(f).set_deleted(true);
 }
 
-#if 0 // conflits with function in Euler_operations.h
+#if 0 // conflicts with function in Euler_operations.h
 template<typename K>
 std::pair<typename boost::graph_traits<OPEN_MESH_CLASS >::edge_descriptor,
           bool>

@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Orthtree/include/CGAL/Orthtree/Cartesian_ranges.h $
-// $Id: Cartesian_ranges.h 4d761ed 2021-04-01T14:21:01+02:00 Simon Giraudot
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Orthtree/include/CGAL/Orthtree/Cartesian_ranges.h $
+// $Id: include/CGAL/Orthtree/Cartesian_ranges.h 50219fc33bc $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Simon Giraudot
@@ -29,8 +29,8 @@ namespace internal
 template <typename Traits>
 struct Cartesian_ranges
 {
-  typedef typename Traits::Point_d Point;
-  typedef typename Traits::Cartesian_const_iterator_d Cartesian_const_iterator;
+  using Point = typename Traits::Point_d;
+  using Cartesian_const_iterator = typename Traits::Cartesian_const_iterator_d;
 
   using Range_single = CGAL::Iterator_range<Cartesian_const_iterator>;
 

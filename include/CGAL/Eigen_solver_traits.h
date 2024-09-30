@@ -2,8 +2,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Solver_interface/include/CGAL/Eigen_solver_traits.h $
-// $Id: Eigen_solver_traits.h fef1a43 2022-12-15T10:43:27+01:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Solver_interface/include/CGAL/Eigen_solver_traits.h $
+// $Id: include/CGAL/Eigen_solver_traits.h 50219fc33bc $
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Gael Guennebaud
@@ -68,7 +68,7 @@ struct Get_eigen_matrix< ::Eigen::SparseLU<EigenMatrix, EigenOrdering >, FT>
 The class `Eigen_solver_traits` provides an interface to the sparse solvers of \ref thirdpartyEigen "Eigen".
 \ref thirdpartyEigen "Eigen" version 3.1 (or later) must be available on the system.
 
-\cgalModels `SparseLinearAlgebraWithFactorTraits_d` and `NormalEquationSparseLinearAlgebraTraits_d`
+\cgalModels{SparseLinearAlgebraWithFactorTraits_d,NormalEquationSparseLinearAlgebraTraits_d}
 
 \tparam EigenSolverT A sparse solver of \ref thirdpartyEigen "Eigen". The default solver is the iterative bi-conjugate gradient stabilized solver  `Eigen::BiCGSTAB` for `double`.
 

@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Mesh_2/include/CGAL/Mesh_2/Refine_edges.h $
-// $Id: Refine_edges.h 8f703b5 2023-01-27T21:48:32+01:00 Mael
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Mesh_2/include/CGAL/Mesh_2/Refine_edges.h $
+// $Id: include/CGAL/Mesh_2/Refine_edges.h 50219fc33bc $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //

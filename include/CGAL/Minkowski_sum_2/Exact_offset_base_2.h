@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Minkowski_sum_2/include/CGAL/Minkowski_sum_2/Exact_offset_base_2.h $
-// $Id: Exact_offset_base_2.h 488ba8c 2022-08-10T23:32:42+03:00 Efi Fogel
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Minkowski_sum_2/include/CGAL/Minkowski_sum_2/Exact_offset_base_2.h $
+// $Id: include/CGAL/Minkowski_sum_2/Exact_offset_base_2.h 50219fc33bc $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Ron Wein   <wein_r@yahoo.com>
@@ -117,7 +117,7 @@ protected:
     Algebraic a, b, c;
 
     unsigned int curve_index(0);
-    std::list<Object> xobjs;
+    std::list<std::variant<typename Traits_2::Point_2,X_monotone_curve_2>> xobjs;
 
     Traits_2 traits;
     auto nt_traits = traits.nt_traits();
@@ -126,8 +126,6 @@ protected:
 
     auto alg_ker = traits.alg_kernel();
     auto f_equal = alg_ker->equal_2_object();
-
-    bool assign_success;
 
     do {
       // Get a circulator for the next vertex (in the proper orientation).
@@ -185,13 +183,11 @@ protected:
           f_make_x_monotone(arc, std::back_inserter(xobjs));
 
           for (auto xobj_it = xobjs.begin(); xobj_it != xobjs.end(); ++xobj_it) {
-            X_monotone_curve_2 xarc;
-            assign_success = CGAL::assign(xarc, *xobj_it);
-            CGAL_assertion (assign_success);
-            CGAL_USE(assign_success);
+            const X_monotone_curve_2* xarc = std::get_if<X_monotone_curve_2>(&(*xobj_it));
+            CGAL_assertion (xarc!=nullptr);
 
-            *oi++ = Labeled_curve_2(xarc, X_curve_label(xarc.is_directed_right(),
-                                                        cycle_id, curve_index));
+            *oi++ = Labeled_curve_2(*xarc, X_curve_label(xarc->is_directed_right(),
+                                                         cycle_id, curve_index));
             curve_index++;
           }
         }
@@ -237,15 +233,13 @@ protected:
 
       auto xobj_it = xobjs.begin();
       while (xobj_it != xobjs.end()) {
-        X_monotone_curve_2 xarc;
-        assign_success = CGAL::assign(xarc, *xobj_it);
-        CGAL_assertion (assign_success);
-        CGAL_USE(assign_success);
+        const X_monotone_curve_2* xarc = std::get_if<X_monotone_curve_2>(&(*xobj_it));
+        CGAL_assertion (xarc!=nullptr);
 
         ++xobj_it;
         is_last = (xobj_it == xobjs.end());
 
-        *oi++ = Labeled_curve_2(xarc, X_curve_label(xarc.is_directed_right(),
+        *oi++ = Labeled_curve_2(*xarc, X_curve_label(xarc->is_directed_right(),
                                                     cycle_id, curve_index,
                                                     is_last));
         curve_index++;

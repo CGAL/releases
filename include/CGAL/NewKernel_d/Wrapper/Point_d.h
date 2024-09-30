@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/NewKernel_d/include/CGAL/NewKernel_d/Wrapper/Point_d.h $
-// $Id: Point_d.h ac8b6d4 2022-06-10T07:59:39+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/NewKernel_d/include/CGAL/NewKernel_d/Wrapper/Point_d.h $
+// $Id: include/CGAL/NewKernel_d/Wrapper/Point_d.h 50219fc33bc $
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Marc Glisse
@@ -40,7 +40,7 @@ class Point_d : public Get_type<typename R_::Kernel_base, Point_tag>::type
 
 
   typedef Point_d                            Self;
-  CGAL_static_assertion((std::is_same<Self, typename Get_type<R_, Point_tag>::type>::value));
+  static_assert(std::is_same<Self, typename Get_type<R_, Point_tag>::type>::value);
 
 public:
 

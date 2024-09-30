@@ -2,8 +2,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Straight_skeleton_2/include/CGAL/Straight_skeleton_2/Straight_skeleton_builder_traits_2_caches.h $
-// $Id: Straight_skeleton_builder_traits_2_caches.h 5372f67 2023-03-27T23:23:31+02:00 Mael Rouxel-Labbé
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Straight_skeleton_2/include/CGAL/Straight_skeleton_2/Straight_skeleton_builder_traits_2_caches.h $
+// $Id: include/CGAL/Straight_skeleton_2/Straight_skeleton_builder_traits_2_caches.h 50219fc33bc $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Fernando Cacciola <fernando_cacciola@ciudad.com.ar>
@@ -83,13 +83,13 @@ struct Info_cache
 };
 
 template <typename K>
-using Coeff_cache = Info_cache<boost::optional<typename K::Line_2> > ;
+using Coeff_cache = Info_cache<std::optional<typename K::Line_2> > ;
 
 template <typename K>
-using Time_cache = Info_cache<boost::optional<Rational<typename K::FT> > > ;
+using Time_cache = Info_cache<std::optional<Rational<typename K::FT> > > ;
 
 template <typename K>
-using Point_cache = Info_cache<boost::optional<typename K::Point_2> > ;
+using Point_cache = Info_cache<std::optional<typename K::Point_2> > ;
 
 template <typename K>
 struct Caches
@@ -118,9 +118,9 @@ struct No_caches
 {
   void Reset ( std::size_t ) { }
 
-  No_cache<boost::optional<typename K::Line_2> > mCoeff_cache;
-  No_cache<boost::optional<Rational<typename K::FT> > > mTime_cache;
-  No_cache<boost::optional<typename K::Point_2> > mPoint_cache;
+  No_cache<std::optional<typename K::Line_2> > mCoeff_cache;
+  No_cache<std::optional<Rational<typename K::FT> > > mTime_cache;
+  No_cache<std::optional<typename K::Point_2> > mPoint_cache;
 };
 
 } // namespace CGAL_SS_i

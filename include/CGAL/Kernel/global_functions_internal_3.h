@@ -7,8 +7,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Kernel_23/include/CGAL/Kernel/global_functions_internal_3.h $
-// $Id: global_functions_internal_3.h 0cac6a9 2022-10-25T14:55:57+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Kernel_23/include/CGAL/Kernel/global_functions_internal_3.h $
+// $Id: include/CGAL/Kernel/global_functions_internal_3.h 50219fc33bc $
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -331,6 +331,32 @@ compare_angle(const typename K::Point_3& a,
               const K& k)
 {
   return k.compare_angle_3_object()(a, b, c, cosine);
+}
+
+template < class K >
+inline
+typename K::Comparison_result
+compare_angle(const typename K::Point_3& a1,
+              const typename K::Point_3& b1,
+              const typename K::Point_3& c1,
+              const typename K::Point_3& a2,
+              const typename K::Point_3& b2,
+              const typename K::Point_3& c2,
+              const K& k)
+{
+  return k.compare_angle_3_object()(a1, b1, c1, a2, b2, c2);
+}
+
+template < class K >
+inline
+typename K::Comparison_result
+compare_angle(const typename K::Vector_3& u1,
+              const typename K::Vector_3& v1,
+              const typename K::Vector_3& u2,
+              const typename K::Vector_3& v2,
+              const K& k)
+{
+  return k.compare_angle_3_object()(u1, v1, u2, v2);
 }
 
 template < class K >
@@ -1110,6 +1136,22 @@ squared_area(const typename K::Point_3 &p,
              const typename K::Point_3 &r, const K &k)
 {
   return k.compute_squared_area_3_object()(p, q, r);
+}
+
+template <typename K>
+inline
+typename K::FT
+squared_length(const typename K::Vector_3 &v, const K &k)
+{
+  return k.compute_squared_length_3_object()(v);
+}
+
+template <typename K>
+inline
+typename K::FT
+squared_length(const typename K::Segment_3 &s, const K &k)
+{
+  return k.compute_squared_length_3_object()(s);
 }
 
 template < class K >

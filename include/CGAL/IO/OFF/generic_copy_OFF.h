@@ -7,8 +7,8 @@
 //
 // This file is part of CGAL (www.cgal.org);
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Stream_support/include/CGAL/IO/OFF/generic_copy_OFF.h $
-// $Id: generic_copy_OFF.h 32f40d8 2021-11-11T15:19:28+01:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Stream_support/include/CGAL/IO/OFF/generic_copy_OFF.h $
+// $Id: include/CGAL/IO/OFF/generic_copy_OFF.h 50219fc33bc $
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 //

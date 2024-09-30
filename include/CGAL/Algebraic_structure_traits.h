@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Algebraic_foundations/include/CGAL/Algebraic_structure_traits.h $
-// $Id: Algebraic_structure_traits.h 3fa4364 2022-06-10T08:41:19+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Algebraic_foundations/include/CGAL/Algebraic_structure_traits.h $
+// $Id: include/CGAL/Algebraic_structure_traits.h 50219fc33bc $
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -353,8 +353,7 @@ class Algebraic_structure_traits_base< Type_,
             typedef Coercion_traits< NT1, NT2 > CT;
             typedef typename CT::Type Coercion_type_NT1_NT2;
             CGAL_USE_TYPE(Coercion_type_NT1_NT2);
-            CGAL_static_assertion((
-              ::std::is_same<Coercion_type_NT1_NT2 , Type >::value));
+            static_assert(::std::is_same<Coercion_type_NT1_NT2 , Type >::value);
 
             typename Coercion_traits< NT1, NT2 >::Cast cast;
             operator()( cast(x), cast(y), q, r );

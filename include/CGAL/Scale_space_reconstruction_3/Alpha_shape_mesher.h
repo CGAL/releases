@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Scale_space_reconstruction_3/include/CGAL/Scale_space_reconstruction_3/Alpha_shape_mesher.h $
-// $Id: Alpha_shape_mesher.h 46969d6 2022-10-14T10:34:54+01:00 Andreas Fabri
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Scale_space_reconstruction_3/include/CGAL/Scale_space_reconstruction_3/Alpha_shape_mesher.h $
+// $Id: include/CGAL/Scale_space_reconstruction_3/Alpha_shape_mesher.h 50219fc33bc $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s):      Thijs van Lankveld, Simon Giraudot
@@ -47,7 +47,7 @@ namespace Scale_space_reconstruction_3
  *  component of the surface where connected facets are locally oriented
  *  towards the same side of the surface.
  *
- *  \cgalModels CGAL::Scale_space_reconstruction_3::Mesher
+ *  \cgalModels{CGAL::Scale_space_reconstruction_3::Mesher}
  *
  *  \tparam Geom_traits is the geometric traits class. It must be a
  *  model of `DelaunayTriangulationTraits_3`. It must have a
@@ -123,7 +123,7 @@ private:
   // The shape must be a pointer, because the alpha of a Fixed_alpha_shape_3
   // can only be set at construction and its assignment operator is private.
   // We want to be able to set the alpha after constructing the scale-space
-  // reconstructer object.
+  // reconstructor object.
   Shape*          _shape;
 
   // The surface. If the surface is collected per shell, the triples of the

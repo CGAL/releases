@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/QP_solver/include/CGAL/QP_solver/QP_solver_impl.h $
-// $Id: QP_solver_impl.h eed54a0 2022-11-15T18:45:39+01:00 albert-github
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/QP_solver/include/CGAL/QP_solver/QP_solver_impl.h $
+// $Id: include/CGAL/QP_solver/QP_solver_impl.h 50219fc33bc $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -12,6 +12,11 @@
 //                 Bernd Gaertner <gaertner@inf.ethz.ch>
 //                 Franz Wessendorp
 //                 Kaspar Fischer
+
+#ifndef CGAL_QP_SOLVER_IMPL_H
+#define CGAL_QP_SOLVER_IMPL_H
+
+#include <CGAL/license/QP_solver.h>
 
 #include <CGAL/QP_solver/Initialization.h>
 #include <CGAL/NT_converter.h>
@@ -1048,7 +1053,7 @@ ratio_test_2( Tag_false)
     // optimal BEFORE a variable drops to zero.  As delta = mu_j - mu_j(t_1),
     // the latter is precisely the case if delta_min >= -mu_j(t_1).
     //
-    // (Note: please forget the crap identitiy between (2.11) and (2.12); the
+    // (Note: please forget the crap identity between (2.11) and (2.12); the
     // notation is misleading.)
     //
     // Now to the nonstandard-form case.
@@ -3393,3 +3398,5 @@ get_l() const
 } //namespace CGAL
 
 // ===== EOF ==================================================================
+
+#endif //CGAL_QP_SOLVER_IMPL_H

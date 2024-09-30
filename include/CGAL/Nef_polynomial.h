@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Nef_2/include/CGAL/Nef_polynomial.h $
-// $Id: Nef_polynomial.h 9d16a42 2020-06-15T17:07:35+02:00 Laurent Rineau
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Nef_2/include/CGAL/Nef_polynomial.h $
+// $Id: include/CGAL/Nef_polynomial.h 50219fc33bc $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //

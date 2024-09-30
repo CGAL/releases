@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Shape_detection/include/CGAL/Shape_detection/Region_growing/Point_set/K_neighbor_query.h $
-// $Id: K_neighbor_query.h 0e8bc6a 2023-02-07T13:10:14+01:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Shape_detection/include/CGAL/Shape_detection/Region_growing/Point_set/K_neighbor_query.h $
+// $Id: include/CGAL/Shape_detection/Region_growing/Point_set/K_neighbor_query.h 50219fc33bc $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -49,7 +49,7 @@ namespace Point_set {
     a model of `ReadablePropertyMap` whose key type is the value type of the input
     range and value type is `Kernel::Point_2` or `Kernel::Point_3`
 
-    \cgalModels `NeighborQuery`
+    \cgalModels{NeighborQuery}
   */
   template<
   typename GeomTraits,

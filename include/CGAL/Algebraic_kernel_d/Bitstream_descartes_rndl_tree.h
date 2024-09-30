@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Algebraic_kernel_d/include/CGAL/Algebraic_kernel_d/Bitstream_descartes_rndl_tree.h $
-// $Id: Bitstream_descartes_rndl_tree.h 0ff7882 2022-12-06T22:21:06+01:00 Mael
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Algebraic_kernel_d/include/CGAL/Algebraic_kernel_d/Bitstream_descartes_rndl_tree.h $
+// $Id: include/CGAL/Algebraic_kernel_d/Bitstream_descartes_rndl_tree.h 50219fc33bc $
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -206,7 +206,7 @@ polynomial_power_to_bernstein_approx(
     std::vector<Integer> f(n+1);
     polynomial_affine_transform_approx_log_denom(
             first, beyond, f.begin(),
-            upper_num - lower_num, lower_num, log_denom,
+            Integer(upper_num - lower_num), lower_num, log_denom,
             p+q,
             approx, log, logl
     );

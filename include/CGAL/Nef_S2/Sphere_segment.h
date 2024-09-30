@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Nef_S2/include/CGAL/Nef_S2/Sphere_segment.h $
-// $Id: Sphere_segment.h 3674c93 2022-11-15T15:21:01+01:00 albert-github
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Nef_S2/include/CGAL/Nef_S2/Sphere_segment.h $
+// $Id: include/CGAL/Nef_S2/Sphere_segment.h 50219fc33bc $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -33,7 +33,10 @@ template <class R_> class Sphere_segment_rep
   typedef Sphere_segment_rep<R_> Rep;
   friend class Sphere_segment<R_>;
 public:
-Sphere_segment_rep() { ps_ = pt_ = Point(); c_ = Circle(); }
+
+Sphere_segment_rep() :
+  ps_(), pt_(), c_()
+{}
 
 Sphere_segment_rep(const Point& p1, const Point& p2,
                    bool shorter_arc=true) :
@@ -147,13 +150,13 @@ const Sphere_circle<R>& sphere_circle() const { return this->ptr()->c_; }
 /*{\Mop the great circle supporting |\Mvar|.}*/
 
 Sphere_segment<R> opposite() const
-/*{\Mop returns the sperical segment oriented from |target()|
+/*{\Mop returns the spherical segment oriented from |target()|
   to |source()| with the same point set as |\Mvar|. }*/
 { return Sphere_segment<R>(
     target(),source(),sphere_circle().opposite()); }
 
 Sphere_segment<R> complement() const
-/*{\Mop returns the sperical segment oriented from |target()|
+/*{\Mop returns the spherical segment oriented from |target()|
   to |source()| with the point set completing |\Mvar| to a
   full circle. }*/
 { return Sphere_segment<R>(target(),source(),sphere_circle()); }

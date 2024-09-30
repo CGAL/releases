@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Three/include/CGAL/Three/TextRenderer.h $
-// $Id: TextRenderer.h 4547818 2022-11-15T13:39:40+01:00 albert-github
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Three/include/CGAL/Three/TextRenderer.h $
+// $Id: include/CGAL/Three/TextRenderer.h 50219fc33bc $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -52,12 +52,7 @@ public :
         :x(p_x), y(p_y), z(p_z),_3D(p_3D), _is_always_visible(always_visible), m_text(p_text), m_font(font), m_color(p_color)
     {
        QFontMetrics fm(m_font);
-#if QT_VERSION >= QT_VERSION_CHECK(5, 11, 0)
        _width = float(fm.horizontalAdvance(m_text)+2);
-#else
-       _width = float(fm.width(m_text)+2);
-#endif
-
        _height = float(fm.height());
     }
     //!\brief Accessor for the string

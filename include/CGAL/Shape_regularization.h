@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Shape_regularization/include/CGAL/Shape_regularization.h $
-// $Id: Shape_regularization.h cfd9b85 2021-06-30T11:51:19+02:00 Dmitry Anisimov
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Shape_regularization/include/CGAL/Shape_regularization.h $
+// $Id: include/CGAL/Shape_regularization.h 50219fc33bc $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //

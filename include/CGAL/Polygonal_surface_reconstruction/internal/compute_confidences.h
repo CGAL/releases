@@ -2,8 +2,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Polygonal_surface_reconstruction/include/CGAL/Polygonal_surface_reconstruction/internal/compute_confidences.h $
-// $Id: compute_confidences.h d8c92fc 2022-08-02T13:32:36+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Polygonal_surface_reconstruction/include/CGAL/Polygonal_surface_reconstruction/internal/compute_confidences.h $
+// $Id: include/CGAL/Polygonal_surface_reconstruction/internal/compute_confidences.h 50219fc33bc $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s) : Liangliang Nan
@@ -115,7 +115,7 @@ namespace internal {
 
                         // The supporting planar segment of each face
                         typename Polygon_mesh::template Property_map<Face_descriptor, Planar_segment*> face_supporting_segments =
-                                mesh.template property_map<Face_descriptor, Planar_segment*>("f:supp_segment").first;
+                                mesh.template property_map<Face_descriptor, Planar_segment*>("f:supp_segment").value();
 
                         Planar_segment* segment = face_supporting_segments[face];
                         if (segment == nullptr)
@@ -123,7 +123,7 @@ namespace internal {
 
                         // The supporting plane of each face
                         typename Polygon_mesh::template Property_map<Face_descriptor, const Plane*> face_supporting_planes =
-                                mesh.template property_map<Face_descriptor, const Plane*>("f:supp_plane").first;
+                                mesh.template property_map<Face_descriptor, const Plane*>("f:supp_plane").value();
                         // We do everything by projecting the point onto the face's supporting plane
                         const Plane* supporting_plane = face_supporting_planes[face];
                         CGAL_assertion(supporting_plane == segment->supporting_plane());
@@ -186,7 +186,7 @@ namespace internal {
 
                         // The supporting plane of each face
                         typename Polygon_mesh::template Property_map<Face_descriptor, const Plane*> face_supporting_planes =
-                                mesh.template property_map<Face_descriptor, const Plane*>("f:supp_plane").first;
+                                mesh.template property_map<Face_descriptor, const Plane*>("f:supp_plane").value();
 
                         FT degenerate_face_area_threshold = CGAL::snap_squared_distance_threshold<FT>() * CGAL::snap_squared_distance_threshold<FT>();
 

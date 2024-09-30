@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Algebraic_kernel_d/include/CGAL/Algebraic_kernel_d/algebraic_curve_kernel_2_tools.h $
-// $Id: algebraic_curve_kernel_2_tools.h 014c06f 2022-11-14T15:32:47+01:00 albert-github
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Algebraic_kernel_d/include/CGAL/Algebraic_kernel_d/algebraic_curve_kernel_2_tools.h $
+// $Id: include/CGAL/Algebraic_kernel_d/algebraic_curve_kernel_2_tools.h 50219fc33bc $
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -186,7 +186,7 @@ template<typename AlgebraicKernel_1,
                                           InputIterator start,
                                           InputIterator end,
                                           OutputIterator output) {
-    CGAL_static_assertion
+    static_assert
       ((::std::is_same
         <typename AlgebraicKernel_1::Algebraic_real_1,
         typename std::iterator_traits<InputIterator>::value_type >::value));
@@ -224,14 +224,14 @@ template<typename Poly_coer_1,typename Polynomial_1>
   void cast_back_utcf(const Poly_coer_1& p,Polynomial_1& q) {
   // We can assume that both template arguments are polynomial types
   typedef CGAL::Fraction_traits<Poly_coer_1> FT;
-  CGAL_static_assertion((::std::is_same<typename FT::Is_fraction,
-                       CGAL::Tag_true>::value));
+  static_assert(::std::is_same<typename FT::Is_fraction,
+                       CGAL::Tag_true>::value);
   typedef typename FT::Numerator_type Numerator;
   typedef typename FT::Denominator_type Denominator;
   typedef CGAL::Coercion_traits<Numerator,Polynomial_1> Num_coercion;
-  CGAL_static_assertion((::std::is_same
+  static_assert(::std::is_same
                        <Polynomial_1,
-                       typename Num_coercion::Type>::value));
+                       typename Num_coercion::Type>::value);
   Numerator p_num;
   Denominator p_denom;
   typename FT::Decompose()(p,p_num,p_denom);

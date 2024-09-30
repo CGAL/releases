@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Generalized_map/include/CGAL/Generalized_map_iterators_base.h $
-// $Id: Generalized_map_iterators_base.h 861588a 2022-08-03T20:19:51+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Generalized_map/include/CGAL/Generalized_map_iterators_base.h $
+// $Id: include/CGAL/Generalized_map_iterators_base.h 50219fc33bc $
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Guillaume Damiand <guillaume.damiand@liris.cnrs.fr>
@@ -19,7 +19,6 @@
 #include <CGAL/Compact_container.h>
 #include <queue>
 #include <type_traits>
-#include <boost/mpl/if.hpp>
 
 namespace CGAL {
 
@@ -59,8 +58,8 @@ namespace CGAL {
 
     typedef Tag_true Use_mark;
 
-    CGAL_static_assertion( (Ai<=Map::dimension &&
-                            std::is_same<Ite_has_stack,Tag_false>::value) );
+    static_assert(Ai<=Map::dimension &&
+                            std::is_same<Ite_has_stack,Tag_false>::value);
 
   public:
     /// Main constructor.

@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Surface_mesh_shortest_path/include/CGAL/Surface_mesh_shortest_path/Surface_mesh_shortest_path.h $
-// $Id: Surface_mesh_shortest_path.h c32b1f4 2022-11-16T13:22:39+01:00 albert-github
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Surface_mesh_shortest_path/include/CGAL/Surface_mesh_shortest_path/Surface_mesh_shortest_path.h $
+// $Id: include/CGAL/Surface_mesh_shortest_path/Surface_mesh_shortest_path.h 50219fc33bc $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Stephen Kiazyk
@@ -45,7 +45,7 @@ namespace CGAL {
 
 \brief Computes shortest surface paths from one or more source points on a surface mesh.
 
-\details Uses an optimized variation of Chen and Han's \f$ O(n^2) \f$ algorithm by Xin and Wang.
+\details Uses an optimized variation of Chen and Han's \cgalBigO{n^2} algorithm by Xin and Wang.
 Refer to those respective papers for the details of the implementation.
 
 \tparam Traits a model of `SurfaceMeshShortestPathTraits`.
@@ -1082,7 +1082,7 @@ private:
     {
       const auto cgalIntersection = i2(cl2(segment), cl2(leftBoundary));
 
-      if (!cgalIntersection || !boost::get<Point_2>(&*cgalIntersection))
+      if (!cgalIntersection || !std::get_if<Point_2>(&*cgalIntersection))
       {
         if (m_debugOutput)
         {
@@ -1092,7 +1092,7 @@ private:
       }
       else
       {
-        const Point_2* result = boost::get<Point_2>(&*cgalIntersection);
+        const Point_2* result = std::get_if<Point_2>(&*cgalIntersection);
         FT t0 = pdas2(cs2(segment), ct2(segment), *result);
 
         if (t0 >= FT(1))
@@ -1140,7 +1140,7 @@ private:
     {
       const auto cgalIntersection = i2(cl2(segment), cl2(rightBoundary));
 
-      if (!cgalIntersection || !boost::get<Point_2>(&*cgalIntersection))
+      if (!cgalIntersection || !std::get_if<Point_2>(&*cgalIntersection))
       {
         if (m_debugOutput)
         {
@@ -1150,7 +1150,7 @@ private:
       }
       else
       {
-        const Point_2* result = boost::get<Point_2>(&*cgalIntersection);
+        const Point_2* result = std::get_if<Point_2>(&*cgalIntersection);
         FT t0 = pdas2(cs2(segment), ct2(segment), *result);
 
         if (t0 <= FT(0))
@@ -1778,7 +1778,7 @@ private:
 
           CGAL_assertion(bool(cgalIntersection));
 
-          const Point_2* result = boost::get<Point_2>(&*cgalIntersection);
+          const Point_2* result = std::get_if<Point_2>(&*cgalIntersection);
           if (!result)
             result = &currentSourceImage;
 
@@ -3049,7 +3049,7 @@ public:
     typename Traits::Construct_barycentric_coordinates cbc(traits.construct_barycentric_coordinates_object());
     typename Traits::Compute_squared_distance_3 csd3(traits.compute_squared_distance_3_object());
     typedef typename AABB_face_graph_tree::template Intersection_and_primitive_id<Ray_3>::Type Intersection_type;
-    typedef boost::optional<Intersection_type> Ray_intersection;
+    typedef std::optional<Intersection_type> Ray_intersection;
 
     std::vector<Ray_intersection> intersections;
 
@@ -3064,7 +3064,7 @@ public:
     {
       if (intersections[i])
       {
-        Point_3* intersectionPoint = boost::get<Point_3>(&(intersections[i]->first));
+        Point_3* intersectionPoint = std::get_if<Point_3>(&(intersections[i]->first));
 
         if (intersectionPoint)
         {

@@ -7,8 +7,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Polygon/include/CGAL/General_polygon_with_holes_2.h $
-// $Id: General_polygon_with_holes_2.h 74746e5 2023-05-08T17:26:35+03:00 Efi Fogel
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Polygon/include/CGAL/General_polygon_with_holes_2.h $
+// $Id: include/CGAL/General_polygon_with_holes_2.h 50219fc33bc $
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -28,13 +28,13 @@ namespace CGAL {
  *
  * The class `General_polygon_with_holes_2` models the concept
  * `GeneralPolygonWithHoles_2`. It represents a general polygon with holes.
- * It is parameterized with a type `Polygon` used to define the exposed
- * type `Polygon_2`. This type represents the outer boundary of the general
+ * It is parameterized with a type `Polygon_` used to define the exposed
+ * type `%Polygon_2`. This type represents the outer boundary of the general
  * polygon and each hole.
  *
  * \tparam Polygon_ must have input and output operators.
  *
- * \cgalModels `GeneralPolygonWithHoles_2`
+ * \cgalModels{GeneralPolygonWithHoles_2}
  */
 template <typename Polygon_>
 class General_polygon_with_holes_2 {
@@ -57,7 +57,7 @@ public:
 
   typedef unsigned int                                Size;
 
-  General_polygon_with_holes_2() : m_pgn() {}
+  General_polygon_with_holes_2() = default;
 
 
   explicit General_polygon_with_holes_2(const Polygon_2& pgn_boundary) :
@@ -122,6 +122,19 @@ public:
   }
 
   bool is_plane() const { return (m_pgn.is_empty() && m_holes.empty()); }
+
+  bool is_empty() const
+  {
+    if(! outer_boundary().is_empty()) {
+        return false;
+      }
+    for(const auto& h : holes()){
+      if(! h.is_empty()){
+        return false;
+      }
+    }
+    return true;
+  }
 
 protected:
   Polygon_2 m_pgn;

@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Convex_hull_2/include/CGAL/Convex_hull_2/ch_bykat_impl.h $
-// $Id: ch_bykat_impl.h dc531cb 2022-09-27T08:40:26+01:00 Andreas Fabri
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Convex_hull_2/include/CGAL/Convex_hull_2/ch_bykat_impl.h $
+// $Id: include/CGAL/Convex_hull_2/ch_bykat_impl.h 50219fc33bc $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //

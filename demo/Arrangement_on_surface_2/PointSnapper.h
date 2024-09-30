@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Arrangement_on_surface_2/demo/Arrangement_on_surface_2/PointSnapper.h $
-// $Id: PointSnapper.h 1d3815f 2020-10-02T17:29:03+02:00 Ahmed Essam
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Arrangement_on_surface_2/demo/Arrangement_on_surface_2/PointSnapper.h $
+// $Id: demo/Arrangement_on_surface_2/PointSnapper.h 50219fc33bc $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s): Ahmed Essam <theartful.ae@gmail.com>
@@ -50,7 +50,7 @@ public:
 protected:
   PointSnapperBase(QGraphicsScene* scene, GridGraphicsItem* grid);
   Point_2 snapToGrid(const QPointF& qpt);
-  virtual boost::optional<Point_2> snapToArrangement(const QPointF& qpt) = 0;
+  virtual std::optional<Point_2> snapToArrangement(const QPointF& qpt) = 0;
 
   GridGraphicsItem* gridGraphicsItem;
   bool snapToGridEnabled;

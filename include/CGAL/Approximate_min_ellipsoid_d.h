@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Bounding_volumes/include/CGAL/Approximate_min_ellipsoid_d.h $
-// $Id: Approximate_min_ellipsoid_d.h 62a31ba 2022-11-14T17:44:33+01:00 albert-github
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Bounding_volumes/include/CGAL/Approximate_min_ellipsoid_d.h $
+// $Id: include/CGAL/Approximate_min_ellipsoid_d.h 50219fc33bc $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -195,7 +195,7 @@ namespace CGAL {
     //      where alpha = (1+a_eps)(d+1) with a_eps the return value
     //      of achieved_epsilon().
     //
-    // The ellipsoid E* we actuallly want is the intersection of E' with
+    // The ellipsoid E* we actually want is the intersection of E' with
     // the hyperplane { (y,z) in R^{d+1} | y = 1}.  Writing
     //
     //       [ M'  m  ]                 [ y ]

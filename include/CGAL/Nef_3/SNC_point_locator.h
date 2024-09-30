@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Nef_3/include/CGAL/Nef_3/SNC_point_locator.h $
-// $Id: SNC_point_locator.h 0570e6a 2022-06-03T15:30:05+01:00 Giles Bathgate
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Nef_3/include/CGAL/Nef_3/SNC_point_locator.h $
+// $Id: include/CGAL/Nef_3/SNC_point_locator.h 50219fc33bc $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //

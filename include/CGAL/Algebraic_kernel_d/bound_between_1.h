@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Algebraic_kernel_d/include/CGAL/Algebraic_kernel_d/bound_between_1.h $
-// $Id: bound_between_1.h 26355e2 2020-06-25T12:31:21+02:00 Mael Rouxel-Labbé
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Algebraic_kernel_d/include/CGAL/Algebraic_kernel_d/bound_between_1.h $
+// $Id: include/CGAL/Algebraic_kernel_d/bound_between_1.h 50219fc33bc $
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -220,7 +220,7 @@ simple_bound_between(const Algebraic_real& a,
             final_mantissa = final_mantissa << 1;
             final_mantissa++;
             y_log--;
-            x_m = x_m==0 ? 0 : x_m & ((Integer(1) << x_log) - 1); //x_m - CGAL::ipower(Integer(2),x_log);
+            x_m = x_m==0 ? 0 : Integer(x_m & ((Integer(1) << x_log) - 1)); //x_m - CGAL::ipower(Integer(2),x_log);
             x_log = x_m==0 ? -1 : CGAL::internal::floor_log2_abs(x_m);
         }
         final_mantissa = final_mantissa << 1;

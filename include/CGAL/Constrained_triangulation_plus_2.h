@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Triangulation_2/include/CGAL/Constrained_triangulation_plus_2.h $
-// $Id: Constrained_triangulation_plus_2.h e8d1095 2023-01-20T16:35:15+01:00 Laurent Rineau
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Triangulation_2/include/CGAL/Constrained_triangulation_plus_2.h $
+// $Id: include/CGAL/Constrained_triangulation_plus_2.h 50219fc33bc $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -582,7 +582,7 @@ public:
       insert_incident_faces(vcit, out);
     }
     //AF    vertices_in_constraint_begin(ca)->fixed() = true;
-    // Vertices_in_constraint_iterator end = boost::prior(vertices_in_constraint_end(ca));
+    // Vertices_in_constraint_iterator end = std::prev(vertices_in_constraint_end(ca));
     // end->fixed() = true;
     fc.write_faces(out);
 
@@ -753,8 +753,8 @@ public:
 
   void simplify(Vertices_in_constraint_iterator v)
   {
-    Vertices_in_constraint_iterator u = boost::prior(v);
-    Vertices_in_constraint_iterator w = boost::next(v);
+    Vertices_in_constraint_iterator u = std::prev(v);
+    Vertices_in_constraint_iterator w = std::next(v);
     bool unew = (*u != *w);
     hierarchy.simplify(u,v,w);
 

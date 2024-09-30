@@ -4,8 +4,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Classification/include/CGAL/Classification/Feature/Vertical_range.h $
-// $Id: Vertical_range.h 19004a7 2020-08-04T13:41:48+02:00 Simon Giraudot
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Classification/include/CGAL/Classification/Feature/Vertical_range.h $
+// $Id: include/CGAL/Classification/Feature/Vertical_range.h 50219fc33bc $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Florent Lafarge, Simon Giraudot

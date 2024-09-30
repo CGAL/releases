@@ -6,8 +6,8 @@
  This file is part of a fork of the QGLViewer library version 2.7.0.
 
 *****************************************************************************/
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/GraphicsView/include/CGAL/Qt/camera_impl.h $
-// $Id: camera_impl.h 4547818 2022-11-15T13:39:40+01:00 albert-github
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/GraphicsView/include/CGAL/Qt/camera_impl.h $
+// $Id: include/CGAL/Qt/camera_impl.h 50219fc33bc $
 // SPDX-License-Identifier: GPL-3.0-only
 
 #ifdef CGAL_HEADER_ONLY
@@ -155,7 +155,7 @@ since the latter automatically updates these values when it is resized (hence
 overwriting your values).
 
 Non-positive dimension are silently replaced by a 1 pixel value to ensure
-frustrum coherence.
+frustum coherence.
 
 If your Camera is used without a CGAL::QGLViewer (offscreen rendering, shadow maps),
 use setAspectRatio() instead to define the projection matrix. */

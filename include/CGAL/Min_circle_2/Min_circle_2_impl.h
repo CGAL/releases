@@ -3,12 +3,17 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Bounding_volumes/include/CGAL/Min_circle_2/Min_circle_2_impl.h $
-// $Id: Min_circle_2_impl.h 74e4d89 2022-09-27T10:42:05+01:00 Andreas Fabri
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Bounding_volumes/include/CGAL/Min_circle_2/Min_circle_2_impl.h $
+// $Id: include/CGAL/Min_circle_2/Min_circle_2_impl.h 50219fc33bc $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
 // Author(s)     : Sven Schoenherr <sven@inf.ethz.ch>, Bernd Gaertner
+
+#ifndef CGAL_MIN_CIRCLE_2_MIN_CIRCLE_2_IMPL_H
+#define CGAL_MIN_CIRCLE_2_MIN_CIRCLE_2_IMPL_H
+
+#include <CGAL/license/Bounding_volumes.h>
 
 #include <iterator>
 
@@ -98,3 +103,5 @@ operator >> ( std::istream& is, CGAL::Min_circle_2<Traits_>& min_circle)
 } //namespace CGAL
 
 // ===== EOF ==================================================================
+
+#endif // CGAL_MIN_CIRCLE_2_MIN_CIRCLE_2_IMPL_H

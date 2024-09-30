@@ -2,8 +2,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Subdivision_method_3/include/CGAL/Subdivision_method_3/subdivision_masks_3.h $
-// $Id: subdivision_masks_3.h dbd56de 2023-03-17T16:58:36+01:00 Andreas Fabri
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Subdivision_method_3/include/CGAL/Subdivision_method_3/subdivision_masks_3.h $
+// $Id: include/CGAL/Subdivision_method_3/subdivision_masks_3.h 50219fc33bc $
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -142,7 +142,7 @@ such as `Polyhedron_3` and `Surface_mesh`.
 \image html CCBorderMask.svg
 
 
-\cgalModels `PQQMask_3`
+\cgalModels{PQQMask_3}
 
 \sa `CGAL::Subdivision_method_3`
 */
@@ -266,7 +266,7 @@ such as `Polyhedron_3` and `Surface_mesh`.
 \image html LoopBorderMask.png
 \image latex LoopBorderMask.png
 
-\cgalModels `PTQMask_3`
+\cgalModels{PTQMask_3}
 
 \sa `CGAL::Subdivision_method_3`
 
@@ -429,7 +429,7 @@ such as `Polyhedron_3` and `Surface_mesh`.
 \image html DSCornerMask.png
 \image latex DSCornerMask.png
 
-\cgalModels `DQQMask_3`
+\cgalModels{DQQMask_3}
 
 \sa `CGAL::Subdivision_method_3`
 
@@ -523,7 +523,7 @@ such as `Polyhedron_3` and `Surface_mesh`.
 \tparam PolygonMesh must be a model of the concept `MutableFaceGraph`. Additionally all faces must be triangles.
 \tparam VertexPointMap must be a model of `WritablePropertyMap` with value type `Point_3`
 
-\cgalModels `Sqrt3Mask_3`
+\cgalModels{Sqrt3Mask_3}
 
 \sa `CGAL::Subdivision_method_3`
 

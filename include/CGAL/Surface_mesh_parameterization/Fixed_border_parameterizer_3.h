@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Surface_mesh_parameterization/include/CGAL/Surface_mesh_parameterization/Fixed_border_parameterizer_3.h $
-// $Id: Fixed_border_parameterizer_3.h 9e137bc 2023-01-31T12:26:55+01:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Surface_mesh_parameterization/include/CGAL/Surface_mesh_parameterization/Fixed_border_parameterizer_3.h $
+// $Id: include/CGAL/Surface_mesh_parameterization/Fixed_border_parameterizer_3.h 50219fc33bc $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Laurent Saboret, Pierre Alliez, Bruno Levy
@@ -64,7 +64,7 @@ namespace Surface_mesh_parameterization {
 // from the linear systems in order to have a symmetric positive definite
 // matrix for Tutte Barycentric Mapping and Discrete Conformal Map algorithms.
 ///
-/// \cgalModels `Parameterizer_3`
+/// \cgalModels{Parameterizer_3}
 ///
 /// \tparam TriangleMesh_ must be a model of `FaceGraph`.
 ///
@@ -104,7 +104,7 @@ public:
     Circular_border_arc_length_parameterizer_3<TriangleMesh_> >::type  Border_parameterizer;
 
   #if !defined(CGAL_EIGEN3_ENABLED)
-  CGAL_static_assertion_msg(!(std::is_same<SolverTraits_, Default>::value),
+  static_assert(!(std::is_same<SolverTraits_, Default>::value),
                             "Error: You must either provide 'SolverTraits_' or link CGAL with the Eigen library");
   #endif
 

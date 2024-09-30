@@ -3,13 +3,17 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Segment_Delaunay_graph_2/include/CGAL/Segment_Delaunay_graph_2/Segment_Delaunay_graph_2_impl.h $
-// $Id: Segment_Delaunay_graph_2_impl.h c32b1f4 2022-11-16T13:22:39+01:00 albert-github
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Segment_Delaunay_graph_2/include/CGAL/Segment_Delaunay_graph_2/Segment_Delaunay_graph_2_impl.h $
+// $Id: include/CGAL/Segment_Delaunay_graph_2/Segment_Delaunay_graph_2_impl.h 50219fc33bc $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
 // Author(s)     : Menelaos Karavelas <mkaravel@iacm.forth.gr>
 
+#ifndef CGAL_SEGMENT_DELAUNAY_GRAPH_2_SDG_2_IMPL_H
+#define CGAL_SEGMENT_DELAUNAY_GRAPH_2_SDG_2_IMPL_H
+
+#include <CGAL/license/Segment_Delaunay_graph_2.h>
 
 // class implementation continued
 //=================================
@@ -2545,7 +2549,7 @@ arrangement_type(const Site_2& p, const Site_2& q) const
 
   Arrangement_type res = geom_traits().arrangement_type_2_object()(p, q);
 
-  // The valeus that have to be treated are the following:
+  // The values that have to be treated are the following:
   // DISJOINT, TOUCH_1, TOUCH_2, CROSSING, IDENTICAL, INTERIOR,
   // TOUCH_11_INTERIOR_1, TOUCH_12_INTERIOR_1, TOUCH_21_INTERIOR_1 and
   // TOUCH_22_INTERIOR_1.
@@ -3325,3 +3329,5 @@ file_input(std::istream& is, bool read_handle_vector,
 } //namespace CGAL
 
 // EOF
+
+#endif // CGAL_SEGMENT_DELAUNAY_GRAPH_2_SDG_2_IMPL_H

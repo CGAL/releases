@@ -4,8 +4,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/STL_Extension/include/CGAL/exceptions.h $
-// $Id: exceptions.h 22b0697 2023-01-15T17:23:04+00:00 Giles Bathgate
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/STL_Extension/include/CGAL/exceptions.h $
+// $Id: include/CGAL/exceptions.h 50219fc33bc $
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 //

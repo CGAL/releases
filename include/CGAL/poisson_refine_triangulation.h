@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Poisson_surface_reconstruction_3/include/CGAL/poisson_refine_triangulation.h $
-// $Id: poisson_refine_triangulation.h eed54a0 2022-11-15T18:45:39+01:00 albert-github
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Poisson_surface_reconstruction_3/include/CGAL/poisson_refine_triangulation.h $
+// $Id: include/CGAL/poisson_refine_triangulation.h 50219fc33bc $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Laurent RINEAU, Laurent Saboret
@@ -21,7 +21,7 @@
 #include <CGAL/Mesh_3/Poisson_refine_cells_3.h>
 #include <CGAL/Poisson_mesh_cell_criteria_3.h>
 #include <CGAL/assertions.h>
-#include <CGAL/Surface_mesh_traits_generator_3.h>
+#include <CGAL/Poisson_surface_reconstruction_3/internal/Poisson_mesh_traits_generator_3.h>
 
 namespace CGAL {
 
@@ -142,7 +142,7 @@ private:
 template <typename Tr,
           typename Criteria,
           typename Surface,
-          typename Oracle = typename CGAL::Surface_mesh_traits_generator_3<Surface>::type,
+          typename Oracle = typename CGAL::Poisson_mesh_traits_generator_3<Surface>::type,
           typename PreviousLevel = Null_mesher_level
  >
 class Poisson_mesher_level :
@@ -220,7 +220,7 @@ unsigned int poisson_refine_triangulation(
     , Sizing_field
     , Second_sizing_field
     > Tets_criteria;
-  typedef typename CGAL::Surface_mesh_traits_generator_3<Surface>::type Oracle;
+  typedef typename CGAL::Poisson_mesh_traits_generator_3<Surface>::type Oracle;
   typedef Poisson_mesher_level<Tr, Tets_criteria, Surface, Oracle, Null_mesher_level> Refiner;
 
 

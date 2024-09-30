@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.1...3.23)
+cmake_minimum_required(VERSION 3.12...3.29)
 project(Mesh_3_Examples)
 
 add_definitions(-DCGAL_MESH_3_NO_DEPRECATED_SURFACE_INDEX
@@ -26,19 +26,11 @@ if(NOT TARGET CGAL::Eigen3_support)
   return()
 endif()
 
-find_package(VTK QUIET COMPONENTS vtkImagingGeneral vtkIOImage NO_MODULE)
+find_package(VTK 9.0
+             COMPONENTS ImagingGeneral IOImage
+             QUIET)
 if(VTK_FOUND)
-  if(VTK_USE_FILE)
-    include(${VTK_USE_FILE})
-  endif()
-  if("${VTK_VERSION_MAJOR}" GREATER "5" OR VTK_VERSION VERSION_GREATER 5)
-    message(STATUS "VTK found")
-    if(TARGET VTK::IOImage)
-      set(VTK_LIBRARIES VTK::ImagingGeneral VTK::IOImage)
-    endif()
-  else()
-    message(STATUS "VTK version 6.0 or greater is required")
-  endif()
+  message(STATUS "VTK ${VTK_VERSION} found ${VTK_LIBRARIES}")
 else()
   message(STATUS "VTK was not found")
 endif()
@@ -48,6 +40,9 @@ target_link_libraries(mesh_hybrid_mesh_domain PUBLIC CGAL::Eigen3_support)
 
 create_single_source_cgal_program("mesh_implicit_sphere.cpp")
 target_link_libraries(mesh_implicit_sphere PUBLIC CGAL::Eigen3_support)
+
+create_single_source_cgal_program("mesh_implicit_ellipsoid.cpp")
+target_link_libraries(mesh_implicit_ellipsoid PUBLIC CGAL::Eigen3_support)
 
 create_single_source_cgal_program("mesh_implicit_sphere_variable_size.cpp")
 target_link_libraries(mesh_implicit_sphere_variable_size PUBLIC CGAL::Eigen3_support)
@@ -100,6 +95,10 @@ create_single_source_cgal_program("mesh_polyhedral_domain_with_features_sizing.c
 target_link_libraries(mesh_polyhedral_domain_with_features_sizing
                       PUBLIC CGAL::Eigen3_support)
 
+                    create_single_source_cgal_program("mesh_polyhedral_domain_with_edge_distance.cpp")
+target_link_libraries(mesh_polyhedral_domain_with_edge_distance
+                      PUBLIC CGAL::Eigen3_support)
+
 create_single_source_cgal_program("mesh_polyhedral_domain_with_features_sm.cpp")
 target_link_libraries(mesh_polyhedral_domain_with_features_sm
                       PUBLIC CGAL::Eigen3_support)
@@ -116,14 +115,12 @@ create_single_source_cgal_program("mesh_polyhedral_complex_sm.cpp")
 target_link_libraries(mesh_polyhedral_complex_sm PUBLIC CGAL::Eigen3_support)
 
 if(TARGET CGAL::CGAL_ImageIO)
-  if(VTK_FOUND AND ("${VTK_VERSION_MAJOR}" GREATER "5" OR VTK_VERSION
-                                                          VERSION_GREATER 5))
-    add_executable(mesh_3D_gray_vtk_image mesh_3D_gray_vtk_image.cpp)
-    target_link_libraries(
-      mesh_3D_gray_vtk_image
-      PUBLIC CGAL::Eigen3_support CGAL::CGAL CGAL::CGAL_ImageIO
-             ${CGAL_LIBRARIES} ${CGAL_3RD_PARTY_LIBRARIES} ${VTK_LIBRARIES})
-    cgal_add_test(mesh_3D_gray_vtk_image)
+  if(VTK_FOUND)
+    create_single_source_cgal_program("mesh_3D_gray_vtk_image.cpp")
+    target_link_libraries(mesh_3D_gray_vtk_image
+                          PUBLIC CGAL::Eigen3_support
+                                 CGAL::CGAL_ImageIO
+                          PRIVATE ${VTK_LIBRARIES})
     add_to_cached_list(CGAL_EXECUTABLE_TARGETS mesh_3D_gray_vtk_image)
   endif()
 
@@ -168,9 +165,13 @@ if(TARGET CGAL::CGAL_ImageIO)
     target_link_libraries(mesh_3D_image_variable_size
                           PUBLIC CGAL::Eigen3_support)
 
-    find_package(ITK NAMES ITK InsightToolkit QUIET COMPONENTS ITKCommon ITKThresholding ITKSmoothing ITKImageIntensity)
+    find_package(ITK NAMES ITK InsightToolkit
+                     QUIET COMPONENTS ITKCommon ITKThresholding ITKSmoothing ITKImageIntensity)
     if(ITK_FOUND)
       include(CGAL_ITK_support)
+      message(STATUS "ITK found")
+      include(${ITK_USE_FILE})
+
       create_single_source_cgal_program("mesh_3D_weighted_image.cpp")
       target_link_libraries(mesh_3D_weighted_image
                             PUBLIC CGAL::Eigen3_support CGAL::ITK_support)
@@ -178,9 +179,9 @@ if(TARGET CGAL::CGAL_ImageIO)
       create_single_source_cgal_program("mesh_3D_weighted_image_with_detection_of_features.cpp")
       target_link_libraries(mesh_3D_weighted_image_with_detection_of_features
                             PUBLIC CGAL::Eigen3_support CGAL::ITK_support)
-    else(ITK_FOUND)
+    else()
       message(STATUS "NOTICE: The examples that need ITK will not be compiled.")
-    endif(ITK_FOUND)
+    endif()
 
   else()
     message(STATUS "NOTICE: The examples mesh_3D_image.cpp, mesh_3D_weighted_image.cpp, mesh_3D_image_variable_size.cpp, mesh_optimization_example.cpp and mesh_optimization_lloyd_example.cpp need CGAL_ImageIO to be configured with ZLIB support, and will not be compiled.")
@@ -195,6 +196,7 @@ if(CGAL_ACTIVATE_CONCURRENT_MESH_3 AND TARGET CGAL::TBB_support)
     target
     mesh_3D_image
     mesh_3D_weighted_image
+    mesh_3D_weighted_image_with_detection_of_features
     mesh_3D_image_variable_size
     mesh_3D_image_with_custom_initialization
     mesh_3D_gray_image_with_custom_initialization
@@ -212,6 +214,7 @@ if(CGAL_ACTIVATE_CONCURRENT_MESH_3 AND TARGET CGAL::TBB_support)
     mesh_polyhedral_domain_sm
     mesh_polyhedral_domain_with_features
     mesh_polyhedral_domain_with_features_sizing
+    mesh_polyhedral_domain_with_edge_distance
     mesh_polyhedral_domain_with_features_sm
     mesh_polyhedral_domain_with_lipschitz_sizing
     mesh_two_implicit_spheres_with_balls)

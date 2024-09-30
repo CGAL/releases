@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Arrangement_on_surface_2/demo/Arrangement_on_surface_2/OverlayDialog.h $
-// $Id: OverlayDialog.h 86e4235 2020-10-04T14:18:34+01:00 Ahmed Essam
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Arrangement_on_surface_2/demo/Arrangement_on_surface_2/OverlayDialog.h $
+// $Id: demo/Arrangement_on_surface_2/OverlayDialog.h 50219fc33bc $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Alex Tsui <alextsui05@gmail.com>

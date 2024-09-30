@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/AABB_tree/include/CGAL/AABB_tree/internal/triangle_datum_covering.h $
-// $Id: triangle_datum_covering.h ee246c8 2023-01-25T17:08:27+01:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/AABB_tree/include/CGAL/AABB_tree/internal/triangle_datum_covering.h $
+// $Id: include/CGAL/AABB_tree/internal/triangle_datum_covering.h 50219fc33bc $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s) : Mael Rouxel-Labbé
@@ -19,7 +19,7 @@
 
 #include <CGAL/AABB_tree/internal/AABB_traversal_traits.h>
 #include <CGAL/AABB_primitive.h>
-#include <CGAL/AABB_traits.h>
+#include <CGAL/AABB_traits_3.h>
 #include <CGAL/AABB_tree.h>
 #include <CGAL/array.h>
 #include <CGAL/Bbox_3.h>
@@ -161,7 +161,7 @@ struct AABB_covered_triangle_tree_traits
                                          CGAL::Tag_false /*no caching*/>;
 
   using AABB_geom_traits = Kernel;
-  using AABB_traits = CGAL::AABB_traits<AABB_geom_traits, Primitive, BPM>;
+  using AABB_traits = CGAL::AABB_traits_3<AABB_geom_traits, Primitive, BPM>;
   using AABB_tree = CGAL::AABB_tree<AABB_traits>;
 };
 

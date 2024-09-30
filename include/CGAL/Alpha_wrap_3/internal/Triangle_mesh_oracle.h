@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Alpha_wrap_3/include/CGAL/Alpha_wrap_3/internal/Triangle_mesh_oracle.h $
-// $Id: Triangle_mesh_oracle.h 7a8f91b 2022-11-01T16:09:26+01:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Alpha_wrap_3/include/CGAL/Alpha_wrap_3/internal/Triangle_mesh_oracle.h $
+// $Id: include/CGAL/Alpha_wrap_3/internal/Triangle_mesh_oracle.h 50219fc33bc $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Mael Rouxel-Labbé
@@ -135,7 +135,7 @@ public:
     if(is_empty(tmesh))
     {
 #ifdef CGAL_AW3_DEBUG
-      std::cout << "Warning: Input is empty " << std::endl;
+      std::cout << "Warning: Input is empty (TM)" << std::endl;
 #endif
       return;
     }
@@ -146,14 +146,19 @@ public:
 
     VPM vpm = choose_parameter(get_parameter(np, internal_np::vertex_point),
                                get_const_property_map(vertex_point, tmesh));
-    CGAL_static_assertion((std::is_same<typename boost::property_traits<VPM>::value_type, Point_3>::value));
+    static_assert(std::is_same<typename boost::property_traits<VPM>::value_type, Point_3>::value);
 
     Splitter_base::reserve(num_faces(tmesh));
 
     for(face_descriptor f : faces(tmesh))
     {
       if(Polygon_mesh_processing::is_degenerate_triangle_face(f, tmesh, np))
+      {
+#ifdef CGAL_AW3_DEBUG
+        std::cerr << "Warning: ignoring degenerate face " << f << std::endl;
+#endif
         continue;
+      }
 
       const Point_ref p0 = get(vpm, source(halfedge(f, tmesh), tmesh));
       const Point_ref p1 = get(vpm, target(halfedge(f, tmesh), tmesh));
@@ -163,6 +168,12 @@ public:
 
       Splitter_base::split_and_insert_datum(tr, this->tree(), this->geom_traits());
     }
+
+    // Manually constructing it here purely for profiling reasons: if we keep the lazy approach,
+    // it will be done at the first treatment of a facet that needs a Steiner point.
+    // So if one wanted to bench the flood fill runtime, it would be skewed by the time it takes
+    // to accelerate the tree.
+    this->tree().accelerate_distance_queries();
 
 #ifdef CGAL_AW3_DEBUG
     std::cout << "Tree: " << this->tree().size() << " primitives (" << num_faces(tmesh) << " faces in input)" << std::endl;

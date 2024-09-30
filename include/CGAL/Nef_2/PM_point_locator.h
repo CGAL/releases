@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Nef_2/include/CGAL/Nef_2/PM_point_locator.h $
-// $Id: PM_point_locator.h a358aac 2023-08-28T13:40:10+02:00 Sebastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Nef_2/include/CGAL/Nef_2/PM_point_locator.h $
+// $Id: include/CGAL/Nef_2/PM_point_locator.h 50219fc33bc $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -28,7 +28,7 @@
 #ifdef CGAL_I_DO_WANT_TO_USE_GENINFO
 #include <CGAL/Nef_2/geninfo.h>
 #else
-#include <boost/any.hpp>
+#include <any>
 #endif
 
 #ifdef CGAL_USE_LEDA_LIBRARY
@@ -159,7 +159,7 @@ public:
     const Direction& d, bool& collinear) const
   /*{\Xop returns a halfedge |e| bounding a wedge in between two
   neighbored edges in the adjacency list of |v| which contains |d|.
-  If |d| extends along a edge then |e| is this edge. If |d| extends
+  If |d| extends along an edge then |e| is this edge. If |d| extends
   into the interior of such a wedge then |e| is the first edge hit
   when |d| is rotated clockwise. \precond |v| is not isolated.}*/
   { CGAL_NEF_TRACEN("out_wedge "<<PV(v));
@@ -496,7 +496,7 @@ protected:
     return geninfo<VF_pair>::const_access(CT.info(v)).first;
     #else
     return
-      boost::any_cast<VF_pair>(CT.info(v)).first;
+      std::any_cast<VF_pair>(CT.info(v)).first;
     #endif
   }
 
@@ -506,7 +506,7 @@ protected:
     return geninfo<EF_pair>::const_access(CT.info(e)).first;
     #else
     return
-      boost::any_cast<EF_pair>(CT.info(e)).first;
+      std::any_cast<EF_pair>(CT.info(e)).first;
     #endif
   }
 
@@ -516,7 +516,7 @@ protected:
     return geninfo<EF_pair>::const_access(CT.info(e)).second;
     #else
     return
-      boost::any_cast<EF_pair>(CT.info(e)).second;
+      std::any_cast<EF_pair>(CT.info(e)).second;
     #endif
   }
 
@@ -583,10 +583,10 @@ protected:
         f = geninfo<EF_pair>::access(info(e_from)).second;
         #else
         f =
-          boost::any_cast<VF_pair>(info(source(e))).second;
+          std::any_cast<VF_pair>(info(source(e))).second;
       else
         f =
-          boost::any_cast<EF_pair>(info(e_from)).second;
+          std::any_cast<EF_pair>(info(e_from)).second;
         #endif
       mark(e) = _DP.mark(f);
       #ifdef CGAL_I_DO_WANT_TO_USE_GENINFO
@@ -967,7 +967,7 @@ PM_point_locator<PMD,GEO>::
     #ifdef CGAL_I_DO_WANT_TO_USE_GENINFO
     geninfo<VF_pair>::clear(CT.info(vit));
     #else
-    CT.info(vit)=boost::any();
+    CT.info(vit)=std::any();
     #endif
   }
   Halfedge_iterator eit, eend = CT.halfedges_end();
@@ -975,7 +975,7 @@ PM_point_locator<PMD,GEO>::
     #ifdef CGAL_I_DO_WANT_TO_USE_GENINFO
     geninfo<EF_pair>::clear(CT.info(eit));
     #else
-    CT.info(eit)=boost::any();
+    CT.info(eit)=std::any();
     #endif
   }
   CT.clear();

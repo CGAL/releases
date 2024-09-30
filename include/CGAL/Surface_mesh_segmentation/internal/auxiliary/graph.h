@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Surface_mesh_segmentation/include/CGAL/Surface_mesh_segmentation/internal/auxiliary/graph.h $
-// $Id: graph.h 0ff7882 2022-12-06T22:21:06+01:00 Mael
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Surface_mesh_segmentation/include/CGAL/Surface_mesh_segmentation/internal/auxiliary/graph.h $
+// $Id: include/CGAL/Surface_mesh_segmentation/internal/auxiliary/graph.h 50219fc33bc $
 // Re-licensed for CGAL distribution to:
 // SPDX-License-Identifier: GPL-3.0-or-later
 // Original license is:
@@ -661,7 +661,7 @@ private:
   DBlock<nodeptr>                *nodeptr_block;
 
   void        (*error_function)(const char
-                          *);        /* this function is called if a error occurs,
+                          *);        /* this function is called if an error occurs,
                                                                                    with a corresponding error message
                                                                                    (or exit(1) is called if it's nullptr) */
 

@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Boolean_set_operations_2/include/CGAL/Boolean_set_operations_2/Gps_bfs_base_visitor.h $
-// $Id: Gps_bfs_base_visitor.h 62a31ba 2022-11-14T17:44:33+01:00 albert-github
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Boolean_set_operations_2/include/CGAL/Boolean_set_operations_2/Gps_bfs_base_visitor.h $
+// $Id: include/CGAL/Boolean_set_operations_2/Gps_bfs_base_visitor.h 50219fc33bc $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //

@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Cone_spanners_2/include/CGAL/Compute_cone_boundaries_2.h $
-// $Id: Compute_cone_boundaries_2.h 6486844 2022-05-10T11:30:39+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Cone_spanners_2/include/CGAL/Compute_cone_boundaries_2.h $
+// $Id: include/CGAL/Compute_cone_boundaries_2.h 50219fc33bc $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -30,7 +30,9 @@
 #include <CGAL/Polynomial.h>
 #include <CGAL/number_type_config.h>    // CGAL_PI is defined there
 #include <CGAL/enum.h>
+#if defined(CGAL_USE_LEDA) || defined(CGAL_USE_CORE)
 #include <CGAL/Exact_predicates_exact_constructions_kernel_with_root_of.h>
+#endif
 #include <CGAL/Aff_transformation_2.h>
 
 namespace CGAL {
@@ -111,7 +113,7 @@ public:
 
 };
 
-
+#if defined(CGAL_USE_LEDA) || defined(CGAL_USE_CORE)
 /*
  The specialised functor for computing the directions of cone boundaries exactly
  with a given cone number and a given initial direction.
@@ -209,6 +211,7 @@ public:
 
     }   // end of operator()
 };      // end of functor specialization: Compute_cone_..._2
+#endif
 
 }  // namespace CGAL
 

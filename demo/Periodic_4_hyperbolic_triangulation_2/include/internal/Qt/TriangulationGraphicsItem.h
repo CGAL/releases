@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Periodic_4_hyperbolic_triangulation_2/demo/Periodic_4_hyperbolic_triangulation_2/include/internal/Qt/TriangulationGraphicsItem.h $
-// $Id: TriangulationGraphicsItem.h 0779373 2020-03-26T13:31:46+01:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Periodic_4_hyperbolic_triangulation_2/demo/Periodic_4_hyperbolic_triangulation_2/include/internal/Qt/TriangulationGraphicsItem.h $
+// $Id: demo/Periodic_4_hyperbolic_triangulation_2/include/internal/Qt/TriangulationGraphicsItem.h 50219fc33bc $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Andreas Fabri <Andreas.Fabri@geometryfactory.com>
@@ -14,7 +14,6 @@
 #define CGAL_QT_TRIANGULATION_GRAPHICS_ITEM_H
 
 #include <CGAL/Bbox_2.h>
-#include <CGAL/apply_to_range.h>
 #include <CGAL/Qt/PainterOstream.h>
 
 #include <CGAL/Qt/GraphicsItem.h>

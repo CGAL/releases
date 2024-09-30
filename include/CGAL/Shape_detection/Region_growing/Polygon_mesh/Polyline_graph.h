@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Shape_detection/include/CGAL/Shape_detection/Region_growing/Polygon_mesh/Polyline_graph.h $
-// $Id: Polyline_graph.h 0177465 2022-08-03T09:18:27+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Shape_detection/include/CGAL/Shape_detection/Region_growing/Polygon_mesh/Polyline_graph.h $
+// $Id: include/CGAL/Shape_detection/Region_growing/Polygon_mesh/Polyline_graph.h 50219fc33bc $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -38,7 +38,7 @@ namespace Polygon_mesh {
     a model of `ReadablePropertyMap` whose key type is the vertex type of a polygon mesh and
     value type is `Point_3` from a \cgal %Kernel
 
-    \cgalModels `NeighborQuery`
+    \cgalModels{NeighborQuery}
   */
   template<
     typename PolygonMesh,

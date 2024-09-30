@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Three/include/CGAL/Three/Edge_container.h $
-// $Id: Edge_container.h 431a63e 2022-09-24T14:50:09+02:00 albert-github
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Three/include/CGAL/Three/Edge_container.h $
+// $Id: include/CGAL/Three/Edge_container.h 50219fc33bc $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Maxime Gimeno
@@ -67,7 +67,7 @@ struct DEMO_FRAMEWORK_EXPORT Edge_container :public Primitive_container
   //!
   //! \param viewer the active `Viewer_interface`.
   //!
-  void initGL(Viewer_interface *viewer)  Q_DECL_OVERRIDE;
+  void initGL(Viewer_interface *viewer)  override;
 
   //!
   //! \brief draw is the function that actually renders the data.
@@ -75,9 +75,9 @@ struct DEMO_FRAMEWORK_EXPORT Edge_container :public Primitive_container
   //! \param is_color_uniform must be `false` if `VBOs`[`Colors`] is not empty, `true` otherwise.
   //!
   void draw(CGAL::Three::Viewer_interface* viewer,
-            bool is_color_uniform)  Q_DECL_OVERRIDE;
+            bool is_color_uniform)  override;
 
-  void initializeBuffers(Viewer_interface *viewer) Q_DECL_OVERRIDE;
+  void initializeBuffers(Viewer_interface *viewer) override;
 
   /// \name Getters and Setters for the shaders parameters.
   ///

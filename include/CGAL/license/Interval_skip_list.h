@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Installation/include/CGAL/license/Interval_skip_list.h $
-// $Id: Interval_skip_list.h c1afb48 2022-07-19T09:04:19+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Installation/include/CGAL/license/Interval_skip_list.h $
+// $Id: include/CGAL/license/Interval_skip_list.h 50219fc33bc $
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s) : Andreas Fabri

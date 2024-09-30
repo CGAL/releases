@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Algebraic_kernel_d/include/CGAL/Algebraic_kernel_d/Bitstream_descartes_rndl_tree_traits.h $
-// $Id: Bitstream_descartes_rndl_tree_traits.h 0779373 2020-03-26T13:31:46+01:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Algebraic_kernel_d/include/CGAL/Algebraic_kernel_d/Bitstream_descartes_rndl_tree_traits.h $
+// $Id: include/CGAL/Algebraic_kernel_d/Bitstream_descartes_rndl_tree_traits.h 50219fc33bc $
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -27,31 +27,10 @@
 
 #include <vector>
 
-#if CGAL_USE_CORE
-namespace CORE { class BigInt; }
-#endif
-
 namespace CGAL {
 
 namespace internal {
 
-#if CGAL_USE_CORE
-// bugfix for CORE by Michael Kerber
-// why is there a specialized function for CORE?
-inline CORE::BigInt shift_integer_by(CORE::BigInt x, long shift){
-  if( shift > 0 ){
-    while(shift>63) {
-      x = (x >> 63);
-      shift-=63;
-    }
-    x = (x >> shift);
-  }else{
-    // add 0 bits
-    x = (x << -shift);
-  }
-  return x;
-}
-#endif
 
 template <class Shiftable>
 Shiftable shift_integer_by(Shiftable x, long shift){

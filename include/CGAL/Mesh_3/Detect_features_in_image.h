@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Mesh_3/include/CGAL/Mesh_3/Detect_features_in_image.h $
-// $Id: Detect_features_in_image.h 662534e 2023-04-07T15:52:47+02:00 Jane Tournois
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Mesh_3/include/CGAL/Mesh_3/Detect_features_in_image.h $
+// $Id: include/CGAL/Mesh_3/Detect_features_in_image.h 50219fc33bc $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -57,9 +57,9 @@ std::vector<std::vector<P>>
 detect_features_in_image_with_know_word_type(const CGAL::Image_3& image,
                                              CGAL::Image_3& weights)
 {
-  using Gt = typename CGAL::Kernel_traits<P>::Kernel;
+  using GT = typename CGAL::Kernel_traits<P>::Kernel;
   using Point_3 = P;
-  using Vector_3 = typename Gt::Vector_3;
+  using Vector_3 = typename GT::Vector_3;
   using Polyline_type = std::vector<Point_3>;
   using Polylines = std::vector<Polyline_type>;
 
@@ -86,7 +86,7 @@ detect_features_in_image_with_know_word_type(const CGAL::Image_3& image,
 
   using CGAL::IMAGEIO::static_evaluate;
 
-  using Del = CGAL::Delaunay_triangulation_3<Gt>;
+  using Del = CGAL::Delaunay_triangulation_3<GT>;
   using Cell_handle = typename Del::Cell_handle;
   using Vertex_handle = typename Del::Vertex_handle;
   Del triangulation;

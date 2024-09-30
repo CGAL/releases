@@ -8,8 +8,8 @@
 // https://www.boost.org/LICENSE_1_0.txt)
 //=======================================================================
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/STL_Extension/include/CGAL/STL_Extension/internal/boost/array_binary_tree.hpp $
-// $Id: array_binary_tree.hpp a93dda8 2021-09-10T17:43:47+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/STL_Extension/include/CGAL/STL_Extension/internal/boost/array_binary_tree.hpp $
+// $Id: include/CGAL/STL_Extension/internal/boost/array_binary_tree.hpp 50219fc33bc $
 // SPDX-License-Identifier: BSL-1.0
 //
 // NOTE: this file have been taken from boost 1.46.1 for using
@@ -30,7 +30,7 @@ namespace CGAL { namespace internal {
 namespace boost_ {
 
 /*
- * Note: array_binary_tree is a completey balanced binary tree.
+ * Note: array_binary_tree is a completely balanced binary tree.
  */
 #if !defined BOOST_NO_STD_ITERATOR_TRAITS
   template <class RandomAccessIterator, class ID>

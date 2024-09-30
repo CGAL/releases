@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Arithmetic_kernel/include/CGAL/BOOST_MP_arithmetic_kernel.h $
-// $Id: BOOST_MP_arithmetic_kernel.h ed79fea 2021-09-23T13:02:58+02:00 Dmitry Anisimov
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Arithmetic_kernel/include/CGAL/BOOST_MP_arithmetic_kernel.h $
+// $Id: include/CGAL/BOOST_MP_arithmetic_kernel.h 50219fc33bc $
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author: Marc Glisse <marc.glisse@inria.fr>
@@ -19,6 +19,10 @@
 
 #ifdef CGAL_USE_BOOST_MP
 
+#ifdef CGAL_USE_CORE
+#include <CGAL/CORE_arithmetic_kernel.h>
+#endif
+
 //Currently already included in boost_mp.h
 //#include <boost/multiprecision/cpp_int.hpp>
 //#ifdef CGAL_USE_GMP
@@ -26,20 +30,29 @@
 //#endif
 
 // FIXME: the could be several kernels based on Boost.Multiprecision.
-
 namespace CGAL {
 /** \ingroup CGAL_Arithmetic_kernel
  *  \brief The Boost.Multiprecision set of exact number types
  */
+
+#if !defined(CGAL_USE_CORE) || defined(CGAL_CORE_USE_GMP_BACKEND)
 struct BOOST_cpp_arithmetic_kernel : internal::Arithmetic_kernel_base {
   typedef boost::multiprecision::cpp_int Integer;
   typedef boost::multiprecision::cpp_rational Rational;
 };
+#else
+typedef CORE_arithmetic_kernel BOOST_cpp_arithmetic_kernel;
+#endif
+
 #ifdef CGAL_USE_GMP
+#if !defined(CGAL_USE_CORE) || !defined(CGAL_CORE_USE_GMP_BACKEND)
 struct BOOST_gmp_arithmetic_kernel : internal::Arithmetic_kernel_base {
   typedef boost::multiprecision::mpz_int Integer;
   typedef boost::multiprecision::mpq_rational Rational;
 };
+#else
+typedef CORE_arithmetic_kernel BOOST_gmp_arithmetic_kernel;
+#endif
 #endif
 
 template <class T1, class T2, class T3, class T4, class T5>

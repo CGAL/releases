@@ -2,8 +2,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Polygonal_surface_reconstruction/include/CGAL/Polygonal_surface_reconstruction/internal/point_set_with_planes.h $
-// $Id: point_set_with_planes.h e72f6b5 2023-05-31T18:04:03+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Polygonal_surface_reconstruction/include/CGAL/Polygonal_surface_reconstruction/internal/point_set_with_planes.h $
+// $Id: include/CGAL/Polygonal_surface_reconstruction/internal/point_set_with_planes.h 50219fc33bc $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s) : Liangliang Nan
@@ -67,6 +67,18 @@ namespace CGAL {
                                         delete supporting_plane_;
                                 supporting_plane_ = new Plane;
                                 CGAL::linear_least_squares_fitting_3(pts.begin(), pts.end(), *supporting_plane_, CGAL::Dimension_tag<0>());
+
+                                // Check orientation
+                                int vote_for_opposite = 0;
+                                for (std::size_t i = 0; i < size(); i++)
+                                  if (supporting_plane_->orthogonal_vector() * point_set_->normal_map()[at(i)] < 0)
+                                    vote_for_opposite++;
+                                  else
+                                    vote_for_opposite--;
+
+                                if (vote_for_opposite > 0)
+                                  *supporting_plane_ = supporting_plane_->opposite();
+
                                 return supporting_plane_;
                         }
 

@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Shape_detection/include/CGAL/Shape_detection/Region_growing/Point_set/Least_squares_sphere_fit_region.h $
-// $Id: Least_squares_sphere_fit_region.h 67f615c 2023-05-17T15:00:13+02:00 Sven Oesau
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Shape_detection/include/CGAL/Shape_detection/Region_growing/Point_set/Least_squares_sphere_fit_region.h $
+// $Id: include/CGAL/Shape_detection/Region_growing/Point_set/Least_squares_sphere_fit_region.h 50219fc33bc $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -50,7 +50,7 @@ namespace Point_set {
     a model of `ReadablePropertyMap` whose key type is the value type of the input
     range and value type is `Kernel::Vector_3`
 
-    \cgalModels `RegionType`
+    \cgalModels{RegionType}
   */
   template<
   typename GeomTraits,

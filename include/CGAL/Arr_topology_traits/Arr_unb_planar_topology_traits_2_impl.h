@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Arrangement_on_surface_2/include/CGAL/Arr_topology_traits/Arr_unb_planar_topology_traits_2_impl.h $
-// $Id: Arr_unb_planar_topology_traits_2_impl.h 3674c93 2022-11-15T15:21:01+01:00 albert-github
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Arrangement_on_surface_2/include/CGAL/Arr_topology_traits/Arr_unb_planar_topology_traits_2_impl.h $
+// $Id: include/CGAL/Arr_topology_traits/Arr_unb_planar_topology_traits_2_impl.h 50219fc33bc $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -296,8 +296,8 @@ are_equal(const Vertex *v,
 // represent the curve end along the face boundary.
 //
 template <typename GeomTraits, typename Dcel_>
-boost::optional
-  <boost::variant
+std::optional
+  <std::variant
     <typename Arr_unb_planar_topology_traits_2<GeomTraits, Dcel_>::Vertex*,
      typename Arr_unb_planar_topology_traits_2<GeomTraits, Dcel_>::Halfedge*> >
 Arr_unb_planar_topology_traits_2<GeomTraits, Dcel_>::
@@ -305,8 +305,8 @@ place_boundary_vertex(Face* f,
                       const X_monotone_curve_2& cv, Arr_curve_end ind,
                       Arr_parameter_space ps_x, Arr_parameter_space ps_y)
 {
-  typedef boost::variant<Vertex*, Halfedge*>    Non_optional_result;
-  typedef boost::optional<Non_optional_result>  Result;
+  typedef std::variant<Vertex*, Halfedge*>    Non_optional_result;
+  typedef std::optional<Non_optional_result>  Result;
 
   // Get a halfedge on the outer CCB of f and start traversing the CCB.
   Halfedge* first = *(f->outer_ccbs_begin());
@@ -331,14 +331,14 @@ place_boundary_vertex(Face* f,
   // If we reached here, we did not find a suitable halfedge, which should
   // never happen.
   CGAL_error();
-  return boost::none;
+  return std::nullopt;
 }
 
 //-----------------------------------------------------------------------------
 // Locate a DCEL feature that contains the given unbounded curve end.
 //
 template <typename GeomTraits, typename Dcel_>
-boost::variant
+std::variant
 <typename Arr_unb_planar_topology_traits_2<GeomTraits, Dcel_>::Vertex*,
  typename Arr_unb_planar_topology_traits_2<GeomTraits, Dcel_>::Halfedge*,
  typename Arr_unb_planar_topology_traits_2<GeomTraits, Dcel_>::Face*>
@@ -346,7 +346,7 @@ Arr_unb_planar_topology_traits_2<GeomTraits, Dcel_>::
 locate_curve_end (const X_monotone_curve_2& cv, Arr_curve_end ind,
                   Arr_parameter_space ps_x, Arr_parameter_space ps_y)
 {
-  typedef boost::variant<Vertex*, Halfedge*, Face*>     Result;
+  typedef std::variant<Vertex*, Halfedge*, Face*>     Result;
 
   // Start traversing the inner CCB of the fictitious face and try to locate
   // a feature that contains the curve end.

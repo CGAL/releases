@@ -2,9 +2,9 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Surface_mesh/include/CGAL/boost/graph/graph_traits_Surface_mesh.h $
-// $Id: graph_traits_Surface_mesh.h b597aa8 2022-10-04T22:19:35+02:00 Mael Rouxel-Labbé
-// SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Surface_mesh/include/CGAL/boost/graph/graph_traits_Surface_mesh.h $
+// $Id: include/CGAL/boost/graph/graph_traits_Surface_mesh.h 50219fc33bc $
+// SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
 // Author(s)     : Andreas Fabri, Philipp Moeller
@@ -472,7 +472,6 @@ remove_vertex(typename boost::graph_traits<CGAL::Surface_mesh<P> >::vertex_descr
   sm.remove_vertex(v);
 }
 
-
 template <typename P>
 void
 remove_edge(typename boost::graph_traits<CGAL::Surface_mesh<P> >::vertex_descriptor u,
@@ -491,7 +490,6 @@ remove_edge(typename boost::graph_traits<CGAL::Surface_mesh<P> >::edge_descripto
   sm.remove_edge(e);
 }
 
-
 template <typename P>
 void
 remove_edge(typename boost::graph_traits<CGAL::Surface_mesh<P> >::edge_iterator eiter,
@@ -506,6 +504,13 @@ remove_face(typename boost::graph_traits<CGAL::Surface_mesh<P> >::face_descripto
             CGAL::Surface_mesh<P>& sm)
 {
   sm.remove_face(f);
+}
+
+template<typename P>
+void
+remove_all_elements(CGAL::Surface_mesh<P>& sm)
+{
+  sm.clear_without_removing_property_maps();
 }
 
 template<typename P>

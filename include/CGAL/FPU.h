@@ -7,8 +7,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Number_types/include/CGAL/FPU.h $
-// $Id: FPU.h 0ff7882 2022-12-06T22:21:06+01:00 Mael
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Number_types/include/CGAL/FPU.h $
+// $Id: include/CGAL/FPU.h 50219fc33bc $
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 //

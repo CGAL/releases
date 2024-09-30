@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Surface_mesh_parameterization/include/CGAL/Surface_mesh_parameterization/Circular_border_parameterizer_3.h $
-// $Id: Circular_border_parameterizer_3.h 9c1ad66 2022-08-24T08:35:13+01:00 Andreas Fabri
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Surface_mesh_parameterization/include/CGAL/Surface_mesh_parameterization/Circular_border_parameterizer_3.h $
+// $Id: include/CGAL/Surface_mesh_parameterization/Circular_border_parameterizer_3.h 50219fc33bc $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Laurent Saboret, Pierre Alliez, Bruno Levy
@@ -50,7 +50,7 @@ namespace Surface_mesh_parameterization {
 /// `TriangleMesh` class and does not know the parameterization algorithm
 /// requirements or the kind of sparse linear system used.
 ///
-/// \cgalModels `Parameterizer_3`
+/// \cgalModels{Parameterizer_3}
 ///
 /// \tparam TriangleMesh_ must be a model of `FaceGraph`.
 ///
@@ -182,7 +182,7 @@ public:
 /// algorithm. This class implements only `compute_edge_length()` to compute a
 /// segment's length.
 ///
-/// \cgalModels `Parameterizer_3`
+/// \cgalModels{Parameterizer_3}
 ///
 /// \sa `CGAL::Surface_mesh_parameterization::Circular_border_parameterizer_3<TriangleMesh>`
 /// \sa `CGAL::Surface_mesh_parameterization::Circular_border_arc_length_parameterizer_3<TriangleMesh>`
@@ -231,7 +231,7 @@ public:
 /// The class `Circular_border_parameterizer_3` implements most of the border
 /// parameterization algorithm.
 ///
-/// \cgalModels `Parameterizer_3`
+/// \cgalModels{Parameterizer_3}
 ///
 /// \tparam TriangleMesh_ must be a model of `FaceGraph`.
 ///

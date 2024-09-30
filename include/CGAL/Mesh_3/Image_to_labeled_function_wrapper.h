@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Mesh_3/include/CGAL/Mesh_3/Image_to_labeled_function_wrapper.h $
-// $Id: Image_to_labeled_function_wrapper.h cbfeb98 2022-10-05T15:39:04+02:00 Sebastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Mesh_3/include/CGAL/Mesh_3/Image_to_labeled_function_wrapper.h $
+// $Id: include/CGAL/Mesh_3/Image_to_labeled_function_wrapper.h 50219fc33bc $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -26,7 +26,6 @@
 #include <CGAL/Image_3.h>
 #include <CGAL/function_objects.h>
 #include <functional>
-#include <boost/mpl/if.hpp>
 
 namespace CGAL {
 

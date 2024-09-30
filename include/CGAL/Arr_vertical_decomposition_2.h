@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Arrangement_on_surface_2/include/CGAL/Arr_vertical_decomposition_2.h $
-// $Id: Arr_vertical_decomposition_2.h 014c06f 2022-11-14T15:32:47+01:00 albert-github
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Arrangement_on_surface_2/include/CGAL/Arr_vertical_decomposition_2.h $
+// $Id: include/CGAL/Arr_vertical_decomposition_2.h 50219fc33bc $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s): Ron Wein <wein@post.tau.ac.il>
@@ -24,7 +24,6 @@
 #include <CGAL/Surface_sweep_2/Arr_vert_decomp_ss_visitor.h>
 
 #include <vector>
-#include <boost/mpl/if.hpp>
 #include <boost/type_traits.hpp>
 
 namespace CGAL {
@@ -109,7 +108,7 @@ decompose(const Arrangement_on_surface_2<GeometryTraits_2, TopologyTraits>& arr,
     }
   }
 
-  // Obtain a extended traits-class object.
+  // Obtain an extended traits-class object.
   const Gt2* geom_traits = arr.geometry_traits();
 
   /* We would like to avoid copy construction of the geometry traits class.
@@ -124,7 +123,7 @@ decompose(const Arrangement_on_surface_2<GeometryTraits_2, TopologyTraits>& arr,
    * Use the form 'A a(*b);' and not ''A a = b;' to handle the case where A has
    * only an implicit constructor, (which takes *b as a parameter).
    */
-  typename boost::mpl::if_<std::is_same<Gt2, Vgt2>, const Vgt2&, Vgt2>::type
+  std::conditional_t<std::is_same_v<Gt2, Vgt2>, const Vgt2&, Vgt2>
     ex_traits(*geom_traits);
 
   // Define the sweep-line visitor and perform the sweep.

@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Polygon_mesh_processing/include/CGAL/Side_of_triangle_mesh.h $
-// $Id: Side_of_triangle_mesh.h bb0b9a8 2022-03-07T15:32:37+01:00 Mael Rouxel-Labbé
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Polygon_mesh_processing/include/CGAL/Side_of_triangle_mesh.h $
+// $Id: include/CGAL/Side_of_triangle_mesh.h 50219fc33bc $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -23,7 +23,7 @@
 #include <CGAL/AABB_face_graph_triangle_primitive.h>
 
 #include <CGAL/AABB_tree.h>
-#include <CGAL/AABB_traits.h>
+#include <CGAL/AABB_traits_3.h>
 #include <CGAL/boost/graph/helpers.h>
 
 namespace CGAL {
@@ -81,7 +81,7 @@ class Side_of_triangle_mesh
   struct AABB_tree_default {
     typedef CGAL::AABB_face_graph_triangle_primitive<TriangleMesh_,
                                                      VertexPointMap__> Primitive;
-    typedef CGAL::AABB_traits<GeomTraits_, Primitive> Traits;
+    typedef CGAL::AABB_traits_3<GeomTraits_, Primitive> Traits;
     typedef CGAL::AABB_tree<Traits> type;
   };
   typedef typename Default::Lazy_get<AABBTree,
@@ -99,7 +99,7 @@ class Side_of_triangle_mesh
   typename GeomTraits::Construct_ray_3     ray_functor;
   typename GeomTraits::Construct_vector_3  vector_functor;
   const TriangleMesh* tm_ptr;
-  boost::optional<VertexPointMap> opt_vpm;
+  std::optional<VertexPointMap> opt_vpm;
   bool own_tree;
   CGAL::Bbox_3 box;
 #ifdef CGAL_HAS_THREADS
@@ -255,7 +255,7 @@ public:
         CGAL_SCOPED_LOCK(tree_mutex);
         tree_ptr = const_cast<AABB_tree_*>(atomic_tree_ptr.load(std::memory_order_relaxed));
 #endif
-        CGAL_assertion(tm_ptr != nullptr && opt_vpm!=boost::none);
+        CGAL_assertion(tm_ptr != nullptr && opt_vpm!=std::nullopt);
         if (tree_ptr==nullptr)
         {
           tree_ptr = new AABB_tree(faces(*tm_ptr).first,
@@ -297,7 +297,7 @@ public:
       CGAL_SCOPED_LOCK(tree_mutex);
       tree_ptr = const_cast<AABB_tree_*>(atomic_tree_ptr.load(std::memory_order_relaxed));
 #endif
-      CGAL_assertion(tm_ptr != nullptr && opt_vpm!=boost::none);
+      CGAL_assertion(tm_ptr != nullptr && opt_vpm!=std::nullopt);
       if (tree_ptr==nullptr)
       {
         tree_ptr = new AABB_tree(faces(*tm_ptr).first,

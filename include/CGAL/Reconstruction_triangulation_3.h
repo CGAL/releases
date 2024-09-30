@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Poisson_surface_reconstruction_3/include/CGAL/Reconstruction_triangulation_3.h $
-// $Id: Reconstruction_triangulation_3.h 25e597a 2023-11-23T15:22:20+00:00 Andreas Fabri
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Poisson_surface_reconstruction_3/include/CGAL/Reconstruction_triangulation_3.h $
+// $Id: include/CGAL/Reconstruction_triangulation_3.h 50219fc33bc $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //

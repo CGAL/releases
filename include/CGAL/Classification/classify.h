@@ -4,8 +4,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Classification/include/CGAL/Classification/classify.h $
-// $Id: classify.h 0e934b1 2020-08-04T13:16:13+02:00 Simon Giraudot
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Classification/include/CGAL/Classification/classify.h $
+// $Id: include/CGAL/Classification/classify.h 50219fc33bc $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Simon Giraudot, Florent Lafarge

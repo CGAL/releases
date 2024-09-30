@@ -7,8 +7,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Kernel_23/include/CGAL/Vector_3.h $
-// $Id: Vector_3.h 5872413 2022-06-10T08:48:53+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Kernel_23/include/CGAL/Vector_3.h $
+// $Id: include/CGAL/Vector_3.h 50219fc33bc $
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -42,7 +42,7 @@ class Vector_3 : public R_::Kernel_base::Vector_3
   typedef typename R_::Aff_transformation_3  Aff_transformation_3;
 
   typedef Vector_3                            Self;
-  CGAL_static_assertion((std::is_same<Self, typename R_::Vector_3>::value));
+  static_assert(std::is_same<Self, typename R_::Vector_3>::value);
 
 public:
 
@@ -88,8 +88,11 @@ public:
     : Rep(typename R::Construct_vector_3()(Return_base_tag(), v)) {}
 
   template < typename T1, typename T2, typename T3 >
-  Vector_3(const T1 &x, const T2 &y, const T3 &z)
-    : Rep(typename R::Construct_vector_3()(Return_base_tag(), x, y, z)) {}
+  Vector_3(T1&& x, T2&& y, T3&& z)
+    : Rep(typename R::Construct_vector_3()(Return_base_tag(), std::forward<T1>(x),
+                                                              std::forward<T2>(y),
+                                                              std::forward<T3>(z)))
+  {}
 
   Vector_3(const RT& x, const RT& y, const RT& z, const RT& w)
     : Rep(typename R::Construct_vector_3()(Return_base_tag(), x, y, z, w)) {}

@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/AABB_tree/include/CGAL/AABB_tree/internal/Is_ray_intersection_geomtraits.h $
-// $Id: Is_ray_intersection_geomtraits.h 98e4718 2021-08-26T11:33:39+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/AABB_tree/include/CGAL/AABB_tree/internal/Is_ray_intersection_geomtraits.h $
+// $Id: include/CGAL/AABB_tree/internal/Is_ray_intersection_geomtraits.h 50219fc33bc $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -24,19 +24,34 @@ namespace CGAL {
 namespace internal {
 namespace AABB_tree {
 
-BOOST_MPL_HAS_XXX_TRAIT_NAMED_DEF(Has_ray_3,Ray_3,false)
-BOOST_MPL_HAS_XXX_TRAIT_NAMED_DEF(Has_construct_source_3,Construct_source_3,false)
-BOOST_MPL_HAS_XXX_TRAIT_NAMED_DEF(Has_vector_3,Construct_vector_3,false)
-BOOST_MPL_HAS_XXX_TRAIT_NAMED_DEF(Has_construct_cartesian_const_iterator_3,Construct_cartesian_const_iterator_3,false)
-BOOST_MPL_HAS_XXX_TRAIT_NAMED_DEF(Has_cartesian_const_iterator_3,Cartesian_const_iterator_3,false)
+BOOST_MPL_HAS_XXX_TRAIT_NAMED_DEF(Has_ray_3, Ray_3, false)
+BOOST_MPL_HAS_XXX_TRAIT_NAMED_DEF(Has_construct_source_3, Construct_source_3, false)
+BOOST_MPL_HAS_XXX_TRAIT_NAMED_DEF(Has_vector_3, Construct_vector_3, false)
+BOOST_MPL_HAS_XXX_TRAIT_NAMED_DEF(Has_construct_cartesian_const_iterator_3, Construct_cartesian_const_iterator_3, false)
+BOOST_MPL_HAS_XXX_TRAIT_NAMED_DEF(Has_cartesian_const_iterator_3, Cartesian_const_iterator_3, false)
+
+BOOST_MPL_HAS_XXX_TRAIT_NAMED_DEF(Has_ray_2, Ray_2, false)
+BOOST_MPL_HAS_XXX_TRAIT_NAMED_DEF(Has_construct_source_2, Construct_source_2, false)
+BOOST_MPL_HAS_XXX_TRAIT_NAMED_DEF(Has_vector_2, Construct_vector_2, false)
+BOOST_MPL_HAS_XXX_TRAIT_NAMED_DEF(Has_construct_cartesian_const_iterator_2, Construct_cartesian_const_iterator_2, false)
+BOOST_MPL_HAS_XXX_TRAIT_NAMED_DEF(Has_cartesian_const_iterator_2, Cartesian_const_iterator_2, false)
+
+template<typename GeomTraits>
+struct Is_ray_intersection_geomtraits_2
+: std::bool_constant< Has_ray_2<GeomTraits>::value &&
+                      Has_construct_source_2<GeomTraits>::value &&
+                      Has_vector_2<GeomTraits>::value &&
+                      Has_construct_cartesian_const_iterator_2<GeomTraits>::value &&
+                      Has_cartesian_const_iterator_2<GeomTraits>::value >
+{};
 
 template<typename GeomTraits>
 struct Is_ray_intersection_geomtraits
-: boost::mpl::and_< Has_ray_3<GeomTraits>,
-                    Has_construct_source_3<GeomTraits>,
-                    Has_vector_3<GeomTraits>,
-                    Has_construct_cartesian_const_iterator_3<GeomTraits>,
-                    Has_cartesian_const_iterator_3<GeomTraits> >::type
+: std::bool_constant< Has_ray_3<GeomTraits>::value&&
+                      Has_construct_source_3<GeomTraits>::value&&
+                      Has_vector_3<GeomTraits>::value&&
+                      Has_construct_cartesian_const_iterator_3<GeomTraits>::value&&
+                      Has_cartesian_const_iterator_3<GeomTraits>::value >
 {};
 
 

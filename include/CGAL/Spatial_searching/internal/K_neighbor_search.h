@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Spatial_searching/include/CGAL/Spatial_searching/internal/K_neighbor_search.h $
-// $Id: K_neighbor_search.h 9c2f8ff 2023-01-13T18:51:28+01:00 albert-github
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Spatial_searching/include/CGAL/Spatial_searching/internal/K_neighbor_search.h $
+// $Id: include/CGAL/Spatial_searching/internal/K_neighbor_search.h 50219fc33bc $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //

@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Arithmetic_kernel/include/CGAL/CORE_arithmetic_kernel.h $
-// $Id: CORE_arithmetic_kernel.h 014c06f 2022-11-14T15:32:47+01:00 albert-github
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Arithmetic_kernel/include/CGAL/CORE_arithmetic_kernel.h $
+// $Id: include/CGAL/CORE_arithmetic_kernel.h 50219fc33bc $
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Michael Hemmer <mhemmer@uni-mainz.de>
@@ -56,14 +56,6 @@ public:
 
 
 template <>
-struct Get_arithmetic_kernel<CORE::BigInt>{
-  typedef CORE_arithmetic_kernel Arithmetic_kernel;
-};
-template <>
-struct Get_arithmetic_kernel<CORE::BigRat>{
-  typedef CORE_arithmetic_kernel Arithmetic_kernel;
-};
-template <>
 struct Get_arithmetic_kernel<CORE::Expr>{
   typedef CORE_arithmetic_kernel Arithmetic_kernel;
 };
@@ -73,6 +65,8 @@ struct Get_arithmetic_kernel<CORE::BigFloat>{
 };
 
 } //namespace CGAL
+
+#include <CGAL/BOOST_MP_arithmetic_kernel.h>
 
 #endif // CGAL_USE_CORE
 

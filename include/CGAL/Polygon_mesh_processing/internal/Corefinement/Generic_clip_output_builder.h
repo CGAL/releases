@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Polygon_mesh_processing/include/CGAL/Polygon_mesh_processing/internal/Corefinement/Generic_clip_output_builder.h $
-// $Id: Generic_clip_output_builder.h dbccebf 2023-02-06T18:32:41+01:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Polygon_mesh_processing/include/CGAL/Polygon_mesh_processing/internal/Corefinement/Generic_clip_output_builder.h $
+// $Id: include/CGAL/Polygon_mesh_processing/internal/Corefinement/Generic_clip_output_builder.h 50219fc33bc $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //

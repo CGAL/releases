@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/GraphicsView/include/CGAL/Qt/DemosMainWindow.h $
-// $Id: DemosMainWindow.h 1a6ece1 2023-04-27T17:27:23+02:00 Laurent Rineau
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/GraphicsView/include/CGAL/Qt/DemosMainWindow.h $
+// $Id: include/CGAL/Qt/DemosMainWindow.h 50219fc33bc $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -79,7 +79,9 @@ protected:
   void setupOptionsMenu(QMenu* menu  = nullptr);
   void addAboutCGAL(QMenu* menu  = nullptr);
   void addAboutDemo(QString htmlResourceName, QMenu* menu  = nullptr);
+#if QT_SVG_LIB
   void setupExportSVG(QAction*, QGraphicsView*);
+#endif
 
   void addRecentFiles(QMenu* menu, QAction* insertBefore = nullptr);
 
@@ -89,7 +91,6 @@ protected:
 
 protected Q_SLOTS:
   void setUseAntialiasing(bool checked);
-  void setUseOpenGL(bool checked);
   void popupAboutCGAL();
   void popupAboutDemo();
 
@@ -108,7 +109,6 @@ protected:
   GraphicsViewNavigation* navigation;
   QLabel* xycoord ;
 
-  QAction *actionUse_OpenGL;
   QAction *actionUse_Antialiasing;
   QAction *actionAbout;
   QAction *actionAboutCGAL;

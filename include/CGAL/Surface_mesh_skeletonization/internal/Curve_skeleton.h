@@ -2,8 +2,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Surface_mesh_skeletonization/include/CGAL/Surface_mesh_skeletonization/internal/Curve_skeleton.h $
-// $Id: Curve_skeleton.h 0f4e66f 2022-05-03T10:03:04+01:00 Andreas Fabri
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Surface_mesh_skeletonization/include/CGAL/Surface_mesh_skeletonization/internal/Curve_skeleton.h $
+// $Id: include/CGAL/Surface_mesh_skeletonization/internal/Curve_skeleton.h 50219fc33bc $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Xiang Gao <gaox@ethz.ch>

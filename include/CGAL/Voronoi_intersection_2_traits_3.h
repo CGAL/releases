@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Interpolation/include/CGAL/Voronoi_intersection_2_traits_3.h $
-// $Id: Voronoi_intersection_2_traits_3.h 254d60f 2019-10-19T15:23:19+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Interpolation/include/CGAL/Voronoi_intersection_2_traits_3.h $
+// $Id: include/CGAL/Voronoi_intersection_2_traits_3.h 50219fc33bc $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Julia Floetotto, Mael Rouxel-Labbé
@@ -291,6 +291,24 @@ public:
   typedef typename Rep::Less_distance_to_point_3    Less_distance_to_point_2;
   typedef typename Rep::Compute_squared_distance_3  Compute_squared_distance_2;
 
+  struct Compare_xy_2 {
+    Compare_x_2 cx_2;
+    Compare_y_2 cy_2;
+
+    Compare_xy_2(const Compare_x_2& cx_2, const Compare_y_2& cy_2)
+      : cx_2(cx_2), cy_2(cy_2)
+    {}
+
+    Comparison_result operator()(const Point_2& p, const Point_2& q) const
+    {
+       Comparison_result res = cx_2(p, q);
+       if (res == EQUAL) {
+         return cy_2(p, q);
+       }
+       return res;
+    }
+  };
+
   //instantiations and creation of functors:
   //for the triangulation:
   Orientation_2
@@ -311,6 +329,10 @@ public:
   Compare_y_2
   compare_y_2_object() const
   { return Compare_y_2(normal); }
+
+  Compare_xy_2
+  compare_xy_2_object() const
+  { return Compare_xy_2(compare_x_2_object(), compare_y_2_object()); }
 
   Less_x_2
   less_x_2_object() const

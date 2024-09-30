@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Nef_S2/include/CGAL/Nef_S2/SM_overlayer.h $
-// $Id: SM_overlayer.h 3674c93 2022-11-15T15:21:01+01:00 albert-github
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Nef_S2/include/CGAL/Nef_S2/SM_overlayer.h $
+// $Id: include/CGAL/Nef_S2/SM_overlayer.h 50219fc33bc $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -23,7 +23,7 @@
 #ifdef CGAL_I_DO_WANT_TO_USE_GENINFO
 #include <CGAL/Nef_2/geninfo.h>
 #else
-#include <boost/any.hpp>
+#include <any>
 #endif
 #include <CGAL/Nef_S2/Sphere_geometry.h>
 #include <CGAL/Nef_S2/SM_decorator.h>
@@ -106,7 +106,7 @@ struct SMO_from_segs {
     return geninfo<Halfedge_handle>::access(G.info(v));
     #else
     return
-      boost::any_cast<Halfedge_handle>( G.info(v) );
+      std::any_cast<Halfedge_handle>( G.info(v) );
     #endif
   }
 
@@ -122,7 +122,7 @@ struct SMO_from_segs {
     #ifdef CGAL_I_DO_WANT_TO_USE_GENINFO
     geninfo<Halfedge_handle>::clear(G.info(v));
     #else
-    G.info(v)=boost::any();
+    G.info(v)=std::any();
     #endif
   }
 
@@ -141,7 +141,7 @@ struct SMO_from_segs {
     #ifdef CGAL_I_DO_WANT_TO_USE_GENINFO
       geninfo<Halfedge_handle>::clear(G.info(v));
     #else
-    G.info(v)=boost::any();
+    G.info(v)=std::any();
     #endif
 
   }
@@ -564,7 +564,7 @@ public:
     #ifdef CGAL_I_DO_WANT_TO_USE_GENINFO
     geninfo<vertex_info>::clear(info(v));
     #else
-    info(v)=boost::any();
+    info(v)=std::any();
     #endif
   }
 
@@ -574,7 +574,7 @@ public:
     return geninfo<vertex_info>::access(info(v));
     #else
     return
-      *boost::any_cast<vertex_info>(&info(v));
+      *std::any_cast<vertex_info>(&info(v));
     #endif
   }
 
@@ -618,8 +618,8 @@ public:
     geninfo<edge_info>::clear(info(e));
     geninfo<edge_info>::clear(info(e->twin()));
     #else
-    info(e)=boost::any();
-    info(e->twin())=boost::any();
+    info(e)=std::any();
+    info(e->twin())=std::any();
     #endif
   }
 
@@ -629,7 +629,7 @@ public:
     return geninfo<edge_info>::access(info(e));
     #else
     return
-      *boost::any_cast<edge_info>(&info(e));
+      *std::any_cast<edge_info>(&info(e));
     #endif
   }
 
@@ -671,7 +671,7 @@ public:
     #ifdef CGAL_I_DO_WANT_TO_USE_GENINFO
     geninfo<face_info>::clear(info(f));
     #else
-    info(f)=boost::any();
+    info(f)=std::any();
     #endif
   }
 
@@ -681,7 +681,7 @@ public:
     return geninfo<face_info>::access(info(f));
     #else
     return
-      *boost::any_cast<face_info>(&info(f));
+      *std::any_cast<face_info>(&info(f));
     #endif
   }
 
@@ -1020,7 +1020,7 @@ check_sphere(const Seg_list& L, bool compute_halfsphere[3][2]) const {
 //    int l = it->compare_length_to_halfcircle();
     CGAL_NEF_TRACEN("source " << it->source());
     CGAL_NEF_TRACEN("target " << it->target());
-    CGAL_NEF_TRACEN("cicle  " << it->sphere_circle());
+    CGAL_NEF_TRACEN("circle " << it->sphere_circle());
     CGAL_NEF_TRACEN("is long " << it->is_long());
 
     if(it->is_short()) continue;

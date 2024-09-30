@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Principal_component_analysis/include/CGAL/PCA_util_Eigen.h $
-// $Id: PCA_util_Eigen.h be85b37 2023-04-04T10:42:43+01:00 Andreas Fabri
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Principal_component_analysis/include/CGAL/PCA_util_Eigen.h $
+// $Id: include/CGAL/PCA_util_Eigen.h 50219fc33bc $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s) : Pierre Alliez and Sylvain Pion and Ankit Gupta and Simon Giraudot

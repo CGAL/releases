@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/AABB_tree/include/CGAL/AABB_triangulation_3_triangle_primitive.h $
-// $Id: AABB_triangulation_3_triangle_primitive.h ac8b6d4 2022-06-10T07:59:39+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/AABB_tree/include/CGAL/AABB_triangulation_3_triangle_primitive.h $
+// $Id: include/CGAL/AABB_triangulation_3_triangle_primitive.h 50219fc33bc $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -28,7 +28,7 @@ namespace CGAL {
     // the TriangleMesh from which the AABB tree is built should not be
     // deleted while the AABB tree is in use.
     //
-    // \cgalModels `AABBPrimitive`
+    // \cgalModels{AABBPrimitive}
     // \tparam GeomTraits must provides a \c %Point_3
     // type, used as \c Point, and a \c %Triangle_3 type, used as \c
     // Datum and constructible from three arguments of type \c

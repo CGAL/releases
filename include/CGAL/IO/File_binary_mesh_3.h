@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/SMDS_3/include/CGAL/IO/File_binary_mesh_3.h $
-// $Id: File_binary_mesh_3.h 572f1b5 2022-06-17T14:13:24+02:00 Jane Tournois
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/SMDS_3/include/CGAL/IO/File_binary_mesh_3.h $
+// $Id: include/CGAL/IO/File_binary_mesh_3.h 50219fc33bc $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //

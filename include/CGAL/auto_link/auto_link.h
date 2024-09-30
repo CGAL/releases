@@ -9,8 +9,8 @@
 //  (C) Copyright John Maddock 2003.
 //
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Installation/include/CGAL/auto_link/auto_link.h $
-// $Id: auto_link.h 4547818 2022-11-15T13:39:40+01:00 albert-github
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Installation/include/CGAL/auto_link/auto_link.h $
+// $Id: include/CGAL/auto_link/auto_link.h 50219fc33bc $
 // SPDX-License-Identifier: BSL-1.0
 //
  /*

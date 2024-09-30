@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Polygon_mesh_processing/include/CGAL/Polygon_mesh_processing/polygon_mesh_to_polygon_soup.h $
-// $Id: polygon_mesh_to_polygon_soup.h 0ff7882 2022-12-06T22:21:06+01:00 Mael
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Polygon_mesh_processing/include/CGAL/Polygon_mesh_processing/polygon_mesh_to_polygon_soup.h $
+// $Id: include/CGAL/Polygon_mesh_processing/polygon_mesh_to_polygon_soup.h 50219fc33bc $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -39,7 +39,7 @@ struct PM_to_PS_point_converter
 {
   PS_Point operator()(const PM_Point& p) const
   {
-    CGAL_static_assertion((std::is_convertible<PM_Point, PS_Point>::value));
+    static_assert(std::is_convertible<PM_Point, PS_Point>::value);
     return PS_Point(p);
   }
 };

@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Polygon_mesh_processing/include/CGAL/Polygon_mesh_processing/internal/Corefinement/intersection_of_coplanar_triangles_3.h $
-// $Id: intersection_of_coplanar_triangles_3.h eed54a0 2022-11-15T18:45:39+01:00 albert-github
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Polygon_mesh_processing/include/CGAL/Polygon_mesh_processing/internal/Corefinement/intersection_of_coplanar_triangles_3.h $
+// $Id: include/CGAL/Polygon_mesh_processing/internal/Corefinement/intersection_of_coplanar_triangles_3.h 50219fc33bc $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -32,8 +32,8 @@ struct Intersect_coplanar_faces_3
  // typedefs
   typedef typename boost::property_traits<VertexPointMap1>::value_type Point;
 
-  CGAL_static_assertion((std::is_same<typename boost::property_traits<VertexPointMap1>::value_type,
-                                      typename boost::property_traits<VertexPointMap2>::value_type>::value));
+  static_assert(std::is_same<typename boost::property_traits<VertexPointMap1>::value_type,
+                             typename boost::property_traits<VertexPointMap2>::value_type>::value);
 
   typedef typename CGAL::Kernel_traits<Point>::Kernel Input_kernel;
 
@@ -243,9 +243,9 @@ struct Intersect_coplanar_faces_3
 
     CGAL_assertion_code(int pt_added=0;)
 
-    Inter_pt_info* prev = &(*boost::prior(inter_pts.end()));
+    Inter_pt_info* prev = &(*std::prev(inter_pts.end()));
     bool inter_pts_size_g_2 = inter_pts.size() > 2;
-    Iterator stop = inter_pts_size_g_2 ? inter_pts.end() : boost::prior(inter_pts.end());
+    Iterator stop = inter_pts_size_g_2 ? inter_pts.end() : std::prev(inter_pts.end());
     for (Iterator it=inter_pts.begin();it!=stop;++it)
     {
       Inter_pt_info* curr=&(*it);
@@ -253,7 +253,7 @@ struct Intersect_coplanar_faces_3
       Orientation or_prev=orientations[prev],or_curr=orientations[curr];
       if ( (or_prev==POSITIVE && or_curr==NEGATIVE) || (or_prev==NEGATIVE && or_curr==POSITIVE) )
       {
-        Iterator it_curr = inter_pts_size_g_2 ? it:boost::next(it);
+        Iterator it_curr = inter_pts_size_g_2 ? it:std::next(it);
         prev=&(* inter_pts.insert( it_curr,operator()(*prev,*curr,h1,h2) ) );
         orientations[prev]=COLLINEAR;
         CGAL_assertion_code(++pt_added;)
@@ -278,7 +278,7 @@ struct Intersect_coplanar_faces_3
     {
       if (orientations[&(*it)]==NEGATIVE){
         inter_pts.erase(it++);
-        if (--nb_interpt == 2 && it!=inter_pts.end() && boost::next(it)==inter_pts.end()) should_revert_list=true;
+        if (--nb_interpt == 2 && it!=inter_pts.end() && std::next(it)==inter_pts.end()) should_revert_list=true;
       }
       else
         ++it;

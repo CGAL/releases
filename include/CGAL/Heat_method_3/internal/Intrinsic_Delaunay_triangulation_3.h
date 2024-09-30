@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Heat_method_3/include/CGAL/Heat_method_3/internal/Intrinsic_Delaunay_triangulation_3.h $
-// $Id: Intrinsic_Delaunay_triangulation_3.h 987391d 2022-11-07T10:08:34+01:00 Laurent Rineau
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Heat_method_3/include/CGAL/Heat_method_3/internal/Intrinsic_Delaunay_triangulation_3.h $
+// $Id: include/CGAL/Heat_method_3/internal/Intrinsic_Delaunay_triangulation_3.h 50219fc33bc $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -24,7 +24,6 @@
 #include <CGAL/Dynamic_property_map.h>
 #include <CGAL/squared_distance_3.h>
 #include <CGAL/number_utils.h>
-#include <CGAL/Iterator_range.h>
 #include <CGAL/Iterator_range.h>
 #include <CGAL/boost/graph/helpers.h>
 #include <CGAL/boost/graph/copy_face_graph.h>
@@ -146,7 +145,7 @@ struct Intrinsic_Delaunay_triangulation_3_vertex_iterator_functor
  * \tparam TriangleMesh a triangulated surface mesh, model of `FaceListGraph` and `HalfedgeListGraph`
  * \tparam Traits a model of `HeatMethodTraits_3`
  *
- * \cgalModels `FaceListGraph`
+ * \cgalModels{FaceListGraph}
  */
 
 template <typename TriangleMesh,

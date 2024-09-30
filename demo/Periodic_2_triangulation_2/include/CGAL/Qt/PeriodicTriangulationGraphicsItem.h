@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/GraphicsView/demo/Periodic_2_triangulation_2/include/CGAL/Qt/PeriodicTriangulationGraphicsItem.h $
-// $Id: PeriodicTriangulationGraphicsItem.h cc99fd9 2021-02-19T16:02:12+01:00 Maxime Gimeno
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/GraphicsView/demo/Periodic_2_triangulation_2/include/CGAL/Qt/PeriodicTriangulationGraphicsItem.h $
+// $Id: demo/Periodic_2_triangulation_2/include/CGAL/Qt/PeriodicTriangulationGraphicsItem.h 50219fc33bc $
 //
 //
 // Author(s)     : Andreas Fabri <Andreas.Fabri@geometryfactory.com>

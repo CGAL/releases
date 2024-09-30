@@ -7,8 +7,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Homogeneous_kernel/include/CGAL/Homogeneous/DirectionH2.h $
-// $Id: DirectionH2.h 0779373 2020-03-26T13:31:46+01:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Homogeneous_kernel/include/CGAL/Homogeneous/DirectionH2.h $
+// $Id: include/CGAL/Homogeneous/DirectionH2.h 50219fc33bc $
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -56,7 +56,7 @@ public:
    DirectionH2() {}
 
    DirectionH2(const RT& x, const RT& y)
-      : base(CGAL::make_array(x, y, RT(1))) {}
+      : base{x, y, RT(1)} {}
 
    // TODO Not documented : should not exist, not used.
    // we should also change array<RT, 3> -> array<RT, 2>

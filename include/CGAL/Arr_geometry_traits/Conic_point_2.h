@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Arrangement_on_surface_2/include/CGAL/Arr_geometry_traits/Conic_point_2.h $
-// $Id: Conic_point_2.h 7988148 2022-06-19T12:39:43+03:00 Efi Fogel
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Arrangement_on_surface_2/include/CGAL/Arr_geometry_traits/Conic_point_2.h $
+// $Id: include/CGAL/Arr_geometry_traits/Conic_point_2.h 50219fc33bc $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -82,10 +82,10 @@ public:
   /*! Default constructors. */
   Conic_point_2() : Base() {}
 
-  /*! Constrcutor from the base class. */
+  /*! Constructor from the base class. */
   Conic_point_2(const Base& p) : Base(p) {}
 
-  /*! Constructor with homegeneous coordinates. */
+  /*! Constructor with homogeneous coordinates. */
   Conic_point_2(const Algebraic& hx, const Algebraic& hy, const Algebraic& hz) :
     Base(hx, hy, hz)
   {}

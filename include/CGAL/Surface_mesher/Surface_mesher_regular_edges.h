@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Surface_mesher/include/CGAL/Surface_mesher/Surface_mesher_regular_edges.h $
-// $Id: Surface_mesher_regular_edges.h c352a9c 2022-10-11T07:45:45+01:00 Andreas Fabri
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Surface_mesher/include/CGAL/Surface_mesher/Surface_mesher_regular_edges.h $
+// $Id: include/CGAL/Surface_mesher/Surface_mesher_regular_edges.h 50219fc33bc $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -14,6 +14,11 @@
 #define CGAL_SURFACE_MESHER_REGULAR_EDGES_H
 
 #include <CGAL/license/Surface_mesher.h>
+
+#define CGAL_DEPRECATED_HEADER "<CGAL/Surface_mesher/Surface_mesher_regular_edges.h>"
+#define CGAL_DEPRECATED_MESSAGE_DETAILS \
+  "The 3D Mesh Generation package (see https://doc.cgal.org/latest/Mesh_3/) should be used instead."
+#include <CGAL/Installation/internal/deprecation_warning.h>
 
 #include <CGAL/disable_warnings.h>
 

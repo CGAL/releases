@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Spatial_searching/include/CGAL/Fuzzy_iso_box.h $
-// $Id: Fuzzy_iso_box.h 37580e9 2022-06-14T11:22:58+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Spatial_searching/include/CGAL/Fuzzy_iso_box.h $
+// $Id: include/CGAL/Fuzzy_iso_box.h 50219fc33bc $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -21,10 +21,6 @@
 
 #include <CGAL/Kd_tree_rectangle.h>
 #include <CGAL/Search_traits_adapter.h>
-
-#include <boost/mpl/if.hpp>
-#include <boost/type_traits/remove_cv.hpp>
-#include <boost/type_traits/remove_reference.hpp>
 
 #include <type_traits>
 
@@ -63,9 +59,9 @@ namespace CGAL {
 
     private:
 
-    typename boost::remove_cv<
-      typename boost::remove_reference< typename Construct_min_vertex_d::result_type >::type
-      >::type min, max;
+    std::remove_cv_t<
+      std::remove_reference_t< typename Construct_min_vertex_d::result_type >
+      > min, max;
     Cartesian_const_iterator_d min_begin, max_begin;
     FT eps;
     unsigned int dim;

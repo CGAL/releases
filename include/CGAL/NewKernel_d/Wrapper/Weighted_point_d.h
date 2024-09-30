@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/NewKernel_d/include/CGAL/NewKernel_d/Wrapper/Weighted_point_d.h $
-// $Id: Weighted_point_d.h 3fa4364 2022-06-10T08:41:19+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/NewKernel_d/include/CGAL/NewKernel_d/Wrapper/Weighted_point_d.h $
+// $Id: include/CGAL/NewKernel_d/Wrapper/Weighted_point_d.h 50219fc33bc $
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Marc Glisse

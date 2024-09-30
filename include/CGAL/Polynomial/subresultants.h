@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Polynomial/include/CGAL/Polynomial/subresultants.h $
-// $Id: subresultants.h 0779373 2020-03-26T13:31:46+01:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Polynomial/include/CGAL/Polynomial/subresultants.h $
+// $Id: include/CGAL/Polynomial/subresultants.h 50219fc33bc $
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Michael Kerber <mkerber@mpi-inf.mpg.de>
@@ -130,7 +130,7 @@ namespace CGAL {
      * This is an implementation of Ducos' algorithm. It improves on the
      * classical methods for subresultant computation by reducing the
      * swell-up of intermediate results. For all details, see
-     * L.Ducos: Optimazations of the Subresultant algorithm. <i>Journal of Pure
+     * L.Ducos: Optimizations of the Subresultant algorithm. <i>Journal of Pure
      * and Applied Algebra</i> <b>145</b> (2000) 149--163
      */
   template <typename Polynomial_traits_d,typename OutputIterator> inline
@@ -775,7 +775,7 @@ namespace CGAL {
        CGAL::Integral_domain_without_division_tag) {
         // polynomial_subresultants_with_cofactors requires
         // a model of IntegralDomain as coefficient type;
-        CGAL_static_assertion(sizeof(Polynomial_traits_d)==0);
+        static_assert(sizeof(Polynomial_traits_d)==0);
         return sres_out;
     }
 

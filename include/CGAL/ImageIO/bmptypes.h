@@ -3,8 +3,8 @@
 //
 // This file is part of the ImageIO Library, and as been adapted for CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/CGAL_ImageIO/include/CGAL/ImageIO/bmptypes.h $
-// $Id: bmptypes.h 7a62583 2022-11-14T19:14:33+01:00 albert-github
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/CGAL_ImageIO/include/CGAL/ImageIO/bmptypes.h $
+// $Id: include/CGAL/ImageIO/bmptypes.h 50219fc33bc $
 // SPDX-License-Identifier: LGPL-3.0-or-later
 //
 //
@@ -39,10 +39,10 @@
 
 typedef char            CGAL_INT8;
 typedef short           CGAL_INT16;
-typedef boost::int32_t  CGAL_INT32;
+typedef std::int32_t  CGAL_INT32;
 typedef unsigned char   CGAL_UINT8;
 typedef unsigned short  CGAL_UINT16;
-typedef boost::uint32_t CGAL_UINT32;
+typedef std::uint32_t CGAL_UINT32;
 
 /*****************************************************************************
 *

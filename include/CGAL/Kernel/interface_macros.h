@@ -7,8 +7,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Kernel_23/include/CGAL/Kernel/interface_macros.h $
-// $Id: interface_macros.h fbe559a 2023-02-14T08:32:33+01:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Kernel_23/include/CGAL/Kernel/interface_macros.h $
+// $Id: include/CGAL/Kernel/interface_macros.h 50219fc33bc $
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -398,6 +398,12 @@ CGAL_Kernel_cons(Construct_plane_3,
                  construct_plane_3_object)
 CGAL_Kernel_cons(Construct_plane_line_intersection_point_3,
                  construct_plane_line_intersection_point_3_object)
+CGAL_Kernel_cons(Construct_planes_intersection_point_3,
+                 construct_planes_intersection_point_3_object)
+CGAL_Kernel_cons(Construct_coplanar_segments_intersection_point_3,
+                 construct_coplanar_segments_intersection_point_3_object)
+CGAL_Kernel_cons(Compute_alpha_for_coplanar_triangle_intersection_3,
+                 compute_alpha_for_coplanar_triangle_intersection_3_object)
 CGAL_Kernel_cons(Construct_point_on_2,
                  construct_point_on_2_object)
 CGAL_Kernel_cons(Construct_point_on_3,

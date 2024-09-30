@@ -7,8 +7,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Kernel_23/include/CGAL/Kernel/global_functions_2.h $
-// $Id: global_functions_2.h 92d90a4 2021-08-12T10:12:26+02:00 Sebastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Kernel_23/include/CGAL/Kernel/global_functions_2.h $
+// $Id: include/CGAL/Kernel/global_functions_2.h 50219fc33bc $
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -1112,6 +1112,22 @@ side_of_oriented_circle(const Point_2<K> &p,
                         const Point_2<K> &t)
 {
   return internal::side_of_oriented_circle(p, q, r, t, K());
+}
+
+template < class K >
+inline
+typename K::FT
+squared_length(const Vector_2<K> &v)
+{
+  return internal::squared_length(v, K());
+}
+
+template < class K >
+inline
+typename K::FT
+squared_length(const Segment_2<K> &s)
+{
+  return internal::squared_length(s, K());
 }
 
 template < class K >

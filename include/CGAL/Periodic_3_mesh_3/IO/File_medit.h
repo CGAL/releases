@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Periodic_3_mesh_3/include/CGAL/Periodic_3_mesh_3/IO/File_medit.h $
-// $Id: File_medit.h f29872c 2023-01-30T17:06:13+01:00 Mael Rouxel-Labbé
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Periodic_3_mesh_3/include/CGAL/Periodic_3_mesh_3/IO/File_medit.h $
+// $Id: include/CGAL/Periodic_3_mesh_3/IO/File_medit.h 50219fc33bc $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Mikhail Bogdanov

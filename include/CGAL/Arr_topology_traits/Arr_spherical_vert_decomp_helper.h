@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Arrangement_on_surface_2/include/CGAL/Arr_topology_traits/Arr_spherical_vert_decomp_helper.h $
-// $Id: Arr_spherical_vert_decomp_helper.h 014c06f 2022-11-14T15:32:47+01:00 albert-github
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Arrangement_on_surface_2/include/CGAL/Arr_topology_traits/Arr_spherical_vert_decomp_helper.h $
+// $Id: include/CGAL/Arr_topology_traits/Arr_spherical_vert_decomp_helper.h 50219fc33bc $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s): Ron Wein <wein@post.tau.ac.il>
@@ -48,9 +48,9 @@ public:
   typedef typename Arrangement_2::Halfedge_const_handle Halfedge_const_handle;
   typedef typename Arrangement_2::Face_const_handle     Face_const_handle;
 
-  typedef boost::variant<Vertex_const_handle, Halfedge_const_handle,
+  typedef std::variant<Vertex_const_handle, Halfedge_const_handle,
                          Face_const_handle>             Cell_type;
-  typedef boost::optional<Cell_type>                    Vert_type;
+  typedef std::optional<Cell_type>                    Vert_type;
 
 protected:
   typedef typename Arrangement_2::Topology_traits       Topology_traits;

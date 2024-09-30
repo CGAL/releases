@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Surface_mesh_topology/include/CGAL/Face_graph_wrapper.h $
-// $Id: Face_graph_wrapper.h 999a813 2022-05-05T13:34:19+02:00 Guillaume Damiand
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Surface_mesh_topology/include/CGAL/Face_graph_wrapper.h $
+// $Id: include/CGAL/Face_graph_wrapper.h 50219fc33bc $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Guillaume Damiand <guillaume.damiand@liris.cnrs.fr>
@@ -40,7 +40,7 @@ class Face_graph_wrapper
 public:
   typedef HEG_                    HEG;
   typedef Face_graph_wrapper<HEG> Self;
-  typedef boost::uint32_t /*std::size_t*/ size_type;
+  typedef std::uint32_t /*std::size_t*/ size_type;
   typedef Self                    Refs;
 
   struct Dart_container

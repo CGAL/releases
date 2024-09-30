@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/BGL/include/CGAL/boost/graph/METIS/partition_dual_graph.h $
-// $Id: partition_dual_graph.h 75b03e6 2022-01-10T15:33:04+01:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/BGL/include/CGAL/boost/graph/METIS/partition_dual_graph.h $
+// $Id: include/CGAL/boost/graph/METIS/partition_dual_graph.h 50219fc33bc $
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Mael Rouxel-Labbé
@@ -32,6 +32,8 @@
 namespace CGAL {
 
 namespace METIS {
+
+#ifndef DOXYGEN_RUNNING
 
 template<typename TriangleMesh, typename METIS_options, typename NamedParameters>
 void partition_dual_graph(const TriangleMesh& tm,
@@ -127,6 +129,8 @@ void partition_dual_graph(const TriangleMesh& tm, int nparts,
   METIS_SetDefaultOptions(options);
   return partition_dual_graph(tm, nparts, &options, np);
 }
+
+#endif
 
 /// \ingroup PkgBGLPartition
 ///

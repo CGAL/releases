@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Three/include/CGAL/Three/Scene_interface.h $
-// $Id: Scene_interface.h c32b1f4 2022-11-16T13:22:39+01:00 albert-github
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Three/include/CGAL/Three/Scene_interface.h $
+// $Id: include/CGAL/Three/Scene_interface.h 50219fc33bc $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -58,7 +58,6 @@ namespace Three{
  * */
 class Scene_interface {
 public:
-
   //!A bounding box is a box with each face corresponding to an extremum of its contents.
 
   typedef CGAL::Bbox_3 Bbox;
@@ -88,7 +87,7 @@ public:
    * @returns -1 if the list is empty.*/
   virtual Item_id erase(Item_id) = 0;
   /*! Deletes the items with the target indices.
-   * @returns the index of the polyhedron just before the
+   * @returns the index of the item just before the
    * one that is erased, or just after. Returns -1 if
    * the list is empty.
    */

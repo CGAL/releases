@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Surface_mesh_parameterization/include/CGAL/Surface_mesh_parameterization/Discrete_authalic_parameterizer_3.h $
-// $Id: Discrete_authalic_parameterizer_3.h 83b0b0b 2022-11-07T14:23:29+01:00 Mael Rouxel-Labbé
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Surface_mesh_parameterization/include/CGAL/Surface_mesh_parameterization/Discrete_authalic_parameterizer_3.h $
+// $Id: include/CGAL/Surface_mesh_parameterization/Discrete_authalic_parameterizer_3.h 50219fc33bc $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Laurent Saboret, Pierre Alliez, Bruno Levy
@@ -50,7 +50,7 @@ namespace Surface_mesh_parameterization {
 /// - implements `compute_w_ij()` to compute `w_ij`, the `(i,j)`-coefficient of the matrix `A`
 ///   for `j` neighbor vertex of `i`, based on Discrete Authalic Parameterization algorithm.
 ///
-/// \cgalModels `Parameterizer_3`
+/// \cgalModels{Parameterizer_3}
 ///
 /// \tparam TriangleMesh_ must be a model of `FaceGraph`.
 ///

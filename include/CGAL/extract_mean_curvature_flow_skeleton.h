@@ -2,8 +2,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Surface_mesh_skeletonization/include/CGAL/extract_mean_curvature_flow_skeleton.h $
-// $Id: extract_mean_curvature_flow_skeleton.h b075c70 2022-05-03T12:06:29+01:00 Andreas Fabri
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Surface_mesh_skeletonization/include/CGAL/extract_mean_curvature_flow_skeleton.h $
+// $Id: include/CGAL/extract_mean_curvature_flow_skeleton.h 50219fc33bc $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Sebastien Loriot

@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Periodic_2_triangulation_2/include/CGAL/Periodic_2_Delaunay_triangulation_2.h $
-// $Id: Periodic_2_Delaunay_triangulation_2.h eed54a0 2022-11-15T18:45:39+01:00 albert-github
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Periodic_2_triangulation_2/include/CGAL/Periodic_2_Delaunay_triangulation_2.h $
+// $Id: include/CGAL/Periodic_2_Delaunay_triangulation_2.h 50219fc33bc $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Nico Kruithof <Nico@nghk.nl>
@@ -208,7 +208,7 @@ public:
   insert(InputIterator first, InputIterator last,
          bool is_large_point_set = true,
          std::enable_if_t <
-         boost::is_convertible <
+         std::is_convertible <
          typename std::iterator_traits<InputIterator>::value_type,
          Point
          >::value >* = nullptr)
@@ -420,7 +420,7 @@ public:
           InputIterator last,
           bool is_large_point_set = true,
           std::enable_if_t <
-          boost::is_convertible <
+          std::is_convertible <
           typename std::iterator_traits<InputIterator>::value_type,
           std::pair<Point, typename internal::Info_check<typename Tds::Vertex>::type>
           >::value >* = nullptr
@@ -435,10 +435,9 @@ public:
           boost::zip_iterator< boost::tuple<InputIterator_1, InputIterator_2> > last,
           bool is_large_point_set = true,
           std::enable_if_t <
-          boost::mpl::and_ <
-          boost::is_convertible< typename std::iterator_traits<InputIterator_1>::value_type, Point >,
-          boost::is_convertible< typename std::iterator_traits<InputIterator_2>::value_type, typename internal::Info_check<typename Tds::Vertex>::type >
-          >::value >* = nullptr)
+            std::is_convertible_v< typename std::iterator_traits<InputIterator_1>::value_type, Point > &&
+            std::is_convertible_v< typename std::iterator_traits<InputIterator_2>::value_type, typename internal::Info_check<typename Tds::Vertex>::type >
+          >* = nullptr)
   {
     return insert_with_info< boost::tuple<Point, typename internal::Info_check<typename Tds::Vertex>::type> >(first, last, is_large_point_set);
   }

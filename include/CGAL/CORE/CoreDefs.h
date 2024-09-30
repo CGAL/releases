@@ -20,8 +20,8 @@
  * WWW URL: https://cs.nyu.edu/exact/
  * Email: exact@cs.nyu.edu
  *
- * $URL: https://github.com/CGAL/cgal/blob/v5.6.1/CGAL_Core/include/CGAL/CORE/CoreDefs.h $
- * $Id: CoreDefs.h b5c21e1 2022-11-23T18:48:43+01:00 Mael Rouxel-Labbé
+ * $URL: https://github.com/CGAL/cgal/blob/v6.0/CGAL_Core/include/CGAL/CORE/CoreDefs.h $
+ * $Id: include/CGAL/CORE/CoreDefs.h 50219fc33bc $
  * SPDX-License-Identifier: LGPL-3.0-or-later
  ***************************************************************************/
 
@@ -79,7 +79,7 @@ CGAL_GLOBAL_STATE_VAR(bool, AbortFlag, true)
 CGAL_GLOBAL_STATE_VAR(std::atomic<bool>, AbortFlag, true)
 #endif
 
-/// Invalid Flag -- initiallly value is non-negative
+/// Invalid Flag -- initially value is non-negative
 /** If the Abort Flag is false, then the Invalid flag will be set to
  *  a negative value whenever an invalid expression is constructed.
  *  It is the user's responsibility to check this flag and to make

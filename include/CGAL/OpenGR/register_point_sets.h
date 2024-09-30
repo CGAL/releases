@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Point_set_processing_3/include/CGAL/OpenGR/register_point_sets.h $
-// $Id: register_point_sets.h eed54a0 2022-11-15T18:45:39+01:00 albert-github
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Point_set_processing_3/include/CGAL/OpenGR/register_point_sets.h $
+// $Id: include/CGAL/OpenGR/register_point_sets.h 50219fc33bc $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s) : Sebastien Loriot, Necip Fazil Yildiran
@@ -222,14 +222,14 @@ register_point_sets (const PointRange1& point_set_1, PointRange2& point_set_2,
   typedef Point_set_processing_3_np_helper<PointRange2, NamedParameters2> NP_helper2;
   typedef typename NP_helper1::Const_point_map PointMap1;
   typedef typename NP_helper2::Const_point_map PointMap2;
-  CGAL_static_assertion_msg((std::is_same< typename boost::property_traits<PointMap1>::value_type,
-                                           typename boost::property_traits<PointMap2>::value_type> ::value),
+  static_assert(std::is_same< typename boost::property_traits<PointMap1>::value_type,
+                                           typename boost::property_traits<PointMap2>::value_type> ::value,
                             "The point type of input ranges must be the same");
 
   typedef typename NP_helper1::Normal_map NormalMap1;
   typedef typename NP_helper2::Normal_map NormalMap2;
-  CGAL_static_assertion_msg((std::is_same< typename boost::property_traits<NormalMap1>::value_type,
-                                           typename boost::property_traits<NormalMap2>::value_type> ::value),
+  static_assert(std::is_same< typename boost::property_traits<NormalMap1>::value_type,
+                                           typename boost::property_traits<NormalMap2>::value_type> ::value,
                             "The vector type of input ranges must be the same");
 
   typedef typename NP_helper1::Geom_traits Kernel;

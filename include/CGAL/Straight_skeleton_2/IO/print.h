@@ -2,15 +2,18 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Straight_skeleton_2/include/CGAL/Straight_skeleton_2/IO/print.h $
-// $Id: print.h 228db6b 2023-03-25T00:15:48+01:00 Mael Rouxel-Labbé
-// SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Straight_skeleton_2/include/CGAL/Straight_skeleton_2/IO/print.h $
+// $Id: include/CGAL/Straight_skeleton_2/IO/print.h 50219fc33bc $
+// SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
 // Author(s)     : Fernando Cacciola
 
 #ifndef CGAL_SLS_IO_PRINT_H
 #define CGAL_SLS_IO_PRINT_H
+
+#include <CGAL/license/Straight_skeleton_2.h>
+
 
 #include <CGAL/Point_2.h>
 #include <CGAL/Polygon_2.h>
@@ -50,9 +53,9 @@ void print_polygon ( CGAL::Polygon_2<K,C> const& poly )
 }
 
 template<class K, class C>
-void print_polygons ( std::vector< boost::shared_ptr< CGAL::Polygon_2<K,C> > > const& polies )
+void print_polygons ( std::vector< std::shared_ptr< CGAL::Polygon_2<K,C> > > const& polies )
 {
-  typedef std::vector< boost::shared_ptr< CGAL::Polygon_2<K,C> > > PolygonVector ;
+  typedef std::vector< std::shared_ptr< CGAL::Polygon_2<K,C> > > PolygonVector ;
 
   std::cout << "Polygon list with " << polies.size() << " polygons" << std::endl ;
 
@@ -74,10 +77,10 @@ void print_polygon_with_holes ( CGAL::Polygon_with_holes_2<K,C> const& polywh )
 }
 
 template<class K, class C>
-void print_polygons_with_holes ( std::vector< boost::shared_ptr< CGAL::Polygon_with_holes_2<K,C> > > const& polies )
+void print_polygons_with_holes ( std::vector< std::shared_ptr< CGAL::Polygon_with_holes_2<K,C> > > const& polies )
 {
 
-  typedef std::vector< boost::shared_ptr< CGAL::Polygon_with_holes_2<K,C> > > PolygonWithHolesVector ;
+  typedef std::vector< std::shared_ptr< CGAL::Polygon_with_holes_2<K,C> > > PolygonWithHolesVector ;
 
   std::cout << "Polygon_with_holes list with " << polies.size() << " element" << std::endl ;
 

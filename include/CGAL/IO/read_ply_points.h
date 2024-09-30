@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Point_set_processing_3/include/CGAL/IO/read_ply_points.h $
-// $Id: read_ply_points.h d3b13fb 2022-12-05T19:00:39+01:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Point_set_processing_3/include/CGAL/IO/read_ply_points.h $
+// $Id: include/CGAL/IO/read_ply_points.h 50219fc33bc $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s) : Simon Giraudot
@@ -138,8 +138,6 @@ bool read_PLY_with_properties(std::istream& is,
                               PointOutputIterator output,
                               PropertyHandler&& ... properties)
 {
-  typedef typename value_type_traits<PointOutputIterator>::type OutputValueType;
-
   if(!is)
     return false;
 
@@ -168,7 +166,7 @@ bool read_PLY_with_properties(std::istream& is,
 
       if(element.name() == "vertex" || element.name() == "vertices")
       {
-        OutputValueType new_element;
+        OutputIteratorValueType new_element;
         internal::process_properties(element, new_element, std::forward<PropertyHandler>(properties)...);
         *(output ++) = new_element;
       }
@@ -434,24 +432,13 @@ bool read_ply_points(std::istream& is, ///< input stream.
 
 /// \endcond
 
-/**
- \ingroup PkgPointSetProcessing3IODeprecated
-
- \deprecated This function is deprecated since \cgal 5.3,
-             \link PkgPointSetProcessing3IOPly `CGAL::IO::read_PLY_with_properties()` \endlink should be used instead.
-  */
 template <typename OutputIteratorValueType, typename OutputIterator, typename ... PropertyHandler>
 CGAL_DEPRECATED bool read_ply_points_with_properties(std::istream& is, OutputIterator output, PropertyHandler&& ... properties)
 {
   return IO::read_PLY_with_properties(is, output, std::forward<PropertyHandler>(properties)...);
 }
 
-/**
-  \ingroup PkgPointSetProcessing3IODeprecated
 
-   \deprecated This function is deprecated since \cgal 5.3,
-               \link PkgPointSetProcessing3IOPly `CGAL::IO::read_PLY()` \endlink should be used instead.
-  */
 template <typename OutputIteratorValueType, typename OutputIterator, typename CGAL_NP_TEMPLATE_PARAMETERS>
 CGAL_DEPRECATED bool read_ply_points(std::istream& is, OutputIterator output, const CGAL_NP_CLASS& np = parameters::default_values())
 {

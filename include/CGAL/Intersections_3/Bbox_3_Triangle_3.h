@@ -9,8 +9,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Intersections_3/include/CGAL/Intersections_3/Bbox_3_Triangle_3.h $
-// $Id: Bbox_3_Triangle_3.h 3a4e230 2022-11-22T12:22:42+01:00 Mael Rouxel-Labbé
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Intersections_3/include/CGAL/Intersections_3/Bbox_3_Triangle_3.h $
+// $Id: include/CGAL/Intersections_3/Bbox_3_Triangle_3.h 50219fc33bc $
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 //

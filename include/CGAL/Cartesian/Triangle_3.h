@@ -7,8 +7,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Cartesian_kernel/include/CGAL/Cartesian/Triangle_3.h $
-// $Id: Triangle_3.h 0779373 2020-03-26T13:31:46+01:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Cartesian_kernel/include/CGAL/Cartesian/Triangle_3.h $
+// $Id: include/CGAL/Cartesian/Triangle_3.h 50219fc33bc $
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -42,7 +42,7 @@ public:
   TriangleC3() {}
 
   TriangleC3(const Point_3 &p, const Point_3 &q, const Point_3 &r)
-    : base(CGAL::make_array(p, q, r)) {}
+    : base{p, q, r} {}
 
   bool       operator==(const TriangleC3 &t) const;
   bool       operator!=(const TriangleC3 &t) const;

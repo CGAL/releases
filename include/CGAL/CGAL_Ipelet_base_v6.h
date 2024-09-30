@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/CGAL_ipelets/include/CGAL/CGAL_Ipelet_base_v6.h $
-// $Id: CGAL_Ipelet_base_v6.h 7a62583 2022-11-14T19:14:33+01:00 albert-github
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/CGAL_ipelets/include/CGAL/CGAL_Ipelet_base_v6.h $
+// $Id: include/CGAL/CGAL_Ipelet_base_v6.h 50219fc33bc $
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -317,10 +317,10 @@ public:
     IpeSegmentSubPath*
     create_polyline(const iterator first, const iterator last,bool setclose=false) const
     {
-      if (boost::next(first)!=last){
+      if (std::next(first)!=last){
         IpeSegmentSubPath* SSP_ipe = new IpeSegmentSubPath();
         IpeVector Prev_pt=IpeVector(CGAL::to_double(first->x()),CGAL::to_double(first->y())) ;
-        for (iterator it = boost::next(first);it!=last;++it){
+        for (iterator it = std::next(first);it!=last;++it){
           IpeVector Cur_pt=IpeVector(CGAL::to_double(it->x()),CGAL::to_double(it->y()));
           SSP_ipe -> AppendSegment(Prev_pt,Cur_pt);
           Prev_pt=Cur_pt;
@@ -636,12 +636,11 @@ public:
     template<class iterator>
     void
     draw_in_ipe(const iterator begin,const iterator end,const Iso_rectangle_2& bbox,bool make_grp=true,bool deselect_all=false,
-     std::enable_if_t<  boost::mpl::or_< std::is_same<typename std::iterator_traits<iterator>::value_type,Point_2> ,
-                        boost::mpl::or_< std::is_same<typename std::iterator_traits<iterator>::value_type,Segment_2> ,
-                        boost::mpl::or_< std::is_same<typename std::iterator_traits<iterator>::value_type,Circle_2> ,
-                        boost::mpl::or_< std::is_same<typename std::iterator_traits<iterator>::value_type,Circular_arc_2> ,
-                                         std::is_same<typename std::iterator_traits<iterator>::value_type,Polygon_2>
-                                      > > > >::value
+     std::enable_if_t<  std::is_same_v<typename std::iterator_traits<iterator>::value_type,Point_2> ||
+                        std::is_same_v<typename std::iterator_traits<iterator>::value_type,Segment_2> ||
+                        std::is_same_v<typename std::iterator_traits<iterator>::value_type,Circle_2> ||
+                        std::is_same_v<typename std::iterator_traits<iterator>::value_type,Circular_arc_2> ||
+                        std::is_same_v<typename std::iterator_traits<iterator>::value_type,Polygon_2>
                     >* = nullptr) const
     {
       for (iterator it=begin;it!=end;++it)

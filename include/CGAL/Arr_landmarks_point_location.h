@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Arrangement_on_surface_2/include/CGAL/Arr_landmarks_point_location.h $
-// $Id: Arr_landmarks_point_location.h 014c06f 2022-11-14T15:32:47+01:00 albert-github
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Arrangement_on_surface_2/include/CGAL/Arr_landmarks_point_location.h $
+// $Id: include/CGAL/Arr_landmarks_point_location.h 50219fc33bc $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -35,7 +35,7 @@ namespace CGAL {
 /*! \class Arr_landmarks_point_location
  * A class that answers point-location queries on an arrangement using the
  * landmarks algorithm, namely by locating the (approximately) nearest
- * landmark point to the qury point and walking from it toward the query
+ * landmark point to the query point and walking from it toward the query
  * point.
  * This class-template has two parameters:
  * Arrangement corresponds to an arrangement-on-surface instantiation.

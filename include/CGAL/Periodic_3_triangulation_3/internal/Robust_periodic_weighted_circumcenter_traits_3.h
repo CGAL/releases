@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Periodic_3_triangulation_3/include/CGAL/Periodic_3_triangulation_3/internal/Robust_periodic_weighted_circumcenter_traits_3.h $
-// $Id: Robust_periodic_weighted_circumcenter_traits_3.h d9b6eb8 2023-01-30T17:14:33+01:00 Mael Rouxel-Labbé
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Periodic_3_triangulation_3/include/CGAL/Periodic_3_triangulation_3/internal/Robust_periodic_weighted_circumcenter_traits_3.h $
+// $Id: include/CGAL/Periodic_3_triangulation_3/internal/Robust_periodic_weighted_circumcenter_traits_3.h 50219fc33bc $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Mael Rouxel-Labbé

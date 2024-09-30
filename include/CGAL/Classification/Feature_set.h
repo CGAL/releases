@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Classification/include/CGAL/Classification/Feature_set.h $
-// $Id: Feature_set.h 473d30b 2021-04-06T15:12:45+02:00 Laurent Rineau
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Classification/include/CGAL/Classification/Feature_set.h $
+// $Id: include/CGAL/Classification/Feature_set.h 50219fc33bc $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Simon Giraudot

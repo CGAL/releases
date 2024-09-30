@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Periodic_3_triangulation_3/include/CGAL/Periodic_3_regular_triangulation_3.h $
-// $Id: Periodic_3_regular_triangulation_3.h d9b6eb8 2023-01-30T17:14:33+01:00 Mael Rouxel-Labbé
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Periodic_3_triangulation_3/include/CGAL/Periodic_3_regular_triangulation_3.h $
+// $Id: include/CGAL/Periodic_3_regular_triangulation_3.h 50219fc33bc $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Monique Teillaud <Monique.Teillaud@inria.fr>
@@ -31,7 +31,6 @@
 #include <CGAL/spatial_sort.h>
 #include <CGAL/utility.h>
 
-#include <boost/mpl/if.hpp>
 #include <boost/mpl/identity.hpp>
 #include <boost/property_map/function_property_map.hpp>
 #include <boost/unordered_set.hpp>
@@ -909,7 +908,7 @@ public:
       std::cout << "four offsets: " << std::endl;
 #endif
 
-      boost::array<int, 4> offsets;
+      std::array<int, 4> offsets;
       for(int i=0; i<4; ++i)
       {
 #ifdef CGAL_PERIODIC_SET_POINT_VERBOSE
@@ -932,7 +931,7 @@ public:
 
         CGAL_assertion(this->int_to_off(offsets[i])[0] == 0 || this->int_to_off(offsets[i])[0] == 1);
         CGAL_assertion(this->int_to_off(offsets[i])[1] == 0 || this->int_to_off(offsets[i])[1] == 1);
-        CGAL_assertion(this->int_to_off(offsets[i])[1] == 0 || this->int_to_off(offsets[i])[1] == 1);
+        CGAL_assertion(this->int_to_off(offsets[i])[2] == 0 || this->int_to_off(offsets[i])[2] == 1);
       }
 
       c->set_offsets(offsets[0], offsets[1], offsets[2], offsets[3]);

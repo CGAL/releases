@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Box_intersection_d/include/CGAL/Box_intersection_d/box_limits.h $
-// $Id: box_limits.h 0779373 2020-03-26T13:31:46+01:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Box_intersection_d/include/CGAL/Box_intersection_d/box_limits.h $
+// $Id: include/CGAL/Box_intersection_d/box_limits.h 50219fc33bc $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //

@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Polygon_mesh_processing/include/CGAL/Polygon_mesh_processing/merge_border_vertices.h $
-// $Id: merge_border_vertices.h 0ff7882 2022-12-06T22:21:06+01:00 Mael
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Polygon_mesh_processing/include/CGAL/Polygon_mesh_processing/merge_border_vertices.h $
+// $Id: include/CGAL/Polygon_mesh_processing/merge_border_vertices.h 50219fc33bc $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -222,7 +222,7 @@ void merge_vertices_in_range(const HalfedgeRange& sorted_hedges,
   typedef typename boost::graph_traits<PolygonMesh>::halfedge_descriptor halfedge_descriptor;
   typedef typename boost::graph_traits<PolygonMesh>::vertex_descriptor vertex_descriptor;
 
-  halfedge_descriptor in_h_kept = *boost::begin(sorted_hedges);
+  halfedge_descriptor in_h_kept = *std::begin(sorted_hedges);
   halfedge_descriptor out_h_kept = next(in_h_kept, pm);
   vertex_descriptor v_kept = target(in_h_kept, pm);
 

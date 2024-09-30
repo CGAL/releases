@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Polygon_mesh_processing/include/CGAL/Polygon_mesh_processing/internal/refine_impl.h $
-// $Id: refine_impl.h aa12591 2023-05-16T15:48:50+02:00 Mael Rouxel-Labbé
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Polygon_mesh_processing/include/CGAL/Polygon_mesh_processing/internal/refine_impl.h $
+// $Id: include/CGAL/Polygon_mesh_processing/internal/refine_impl.h 50219fc33bc $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -306,7 +306,7 @@ public:
               double alpha)
   {
       // do not use just std::set, the order effects the output (for the same input we want to get same output)
-    std::set<face_descriptor> interior_map(boost::begin(faces), boost::end(faces));
+    std::set<face_descriptor> interior_map(std::begin(faces), std::end(faces));
 
     // store boundary edges - to be used in relax
     std::set<halfedge_descriptor> border_edges;
@@ -325,7 +325,7 @@ public:
     std::map<vertex_descriptor, double> scale_attribute;
     calculate_scale_attribute(faces, interior_map, scale_attribute, accept_internal_facets);
 
-    std::vector<face_descriptor> all_faces(boost::begin(faces), boost::end(faces));
+    std::vector<face_descriptor> all_faces(std::begin(faces), std::end(faces));
     #ifdef CGAL_PMP_REFINE_DEBUG
     CGAL::Timer total_timer; total_timer.start();
     #endif

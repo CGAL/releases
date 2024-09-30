@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Surface_mesh_segmentation/include/CGAL/Surface_mesh_segmentation/internal/Filters.h $
-// $Id: Filters.h c32b1f4 2022-11-16T13:22:39+01:00 albert-github
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Surface_mesh_segmentation/include/CGAL/Surface_mesh_segmentation/internal/Filters.h $
+// $Id: include/CGAL/Surface_mesh_segmentation/internal/Filters.h 50219fc33bc $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Ilker O. Yaz
@@ -28,7 +28,7 @@
 #include <queue>
 #include <cmath>
 
-#include <boost/optional.hpp>
+#include <optional>
 #include <CGAL/boost/graph/iterator.h>
 #include <CGAL/number_utils.h>
 #include <CGAL/double.h>
@@ -63,8 +63,8 @@ public:
   void operator()(const Polyhedron& mesh,
                   std::size_t window_size,
                   ValuePropertyMap values,
-                  boost::optional<double> spatial_parameter = boost::optional<double>(),
-                  boost::optional<double> range_parameter = boost::optional<double>()
+                  std::optional<double> spatial_parameter = std::optional<double>(),
+                  std::optional<double> range_parameter = std::optional<double>()
                  ) const {
     typedef typename boost::graph_traits<Polyhedron>::face_descriptor face_descriptor;
     typedef typename boost::graph_traits<Polyhedron>::face_iterator face_iterator;

@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Installation/include/CGAL/license/Polygon_mesh_processing/combinatorial_repair.h $
-// $Id: combinatorial_repair.h 5a992f6 2022-11-22T10:31:34+01:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Installation/include/CGAL/license/Polygon_mesh_processing/combinatorial_repair.h $
+// $Id: include/CGAL/license/Polygon_mesh_processing/combinatorial_repair.h 50219fc33bc $
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s) : Andreas Fabri

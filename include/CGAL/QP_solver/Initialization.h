@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/QP_solver/include/CGAL/QP_solver/Initialization.h $
-// $Id: Initialization.h eed54a0 2022-11-15T18:45:39+01:00 albert-github
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/QP_solver/include/CGAL/QP_solver/Initialization.h $
+// $Id: include/CGAL/QP_solver/Initialization.h 50219fc33bc $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -12,6 +12,11 @@
 //                 Bernd Gaertner <gaertner@inf.ethz.ch>
 //                 Franz Wessendorp
 //                 Kaspar Fischer
+
+#ifndef CGAL_QP_SOLVER_INITIALIZATION_H
+#define CGAL_QP_SOLVER_INITIALIZATION_H
+
+#include <CGAL/license/QP_solver.h>
 
 #include<CGAL/QP_functions.h>
 #include<CGAL/NT_converter.h>
@@ -664,3 +669,5 @@ init_additional_data_members()
 } //namespace CGAL
 
 // ===== EOF ==================================================================
+
+#endif //CGAL_QP_SOLVER_INITIALIZATION_H

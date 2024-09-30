@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/NewKernel_d/include/CGAL/NewKernel_d/Wrapper/Segment_d.h $
-// $Id: Segment_d.h ac8b6d4 2022-06-10T07:59:39+02:00 Sébastien Loriot
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/NewKernel_d/include/CGAL/NewKernel_d/Wrapper/Segment_d.h $
+// $Id: include/CGAL/NewKernel_d/Wrapper/Segment_d.h 50219fc33bc $
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Marc Glisse
@@ -35,7 +35,7 @@ class Segment_d : public Get_type<typename R_::Kernel_base, Segment_tag>::type
   typedef typename Get_functor<Kbase, Segment_extremity_tag>::type CSEBase;
 
   typedef Segment_d                            Self;
-  CGAL_static_assertion((std::is_same<Self, typename Get_type<R_, Segment_tag>::type>::value));
+  static_assert(std::is_same<Self, typename Get_type<R_, Segment_tag>::type>::value);
 
 public:
 

@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Mesh_3/include/CGAL/Mesh_3/Image_plus_weights_to_labeled_function_wrapper.h $
-// $Id: Image_plus_weights_to_labeled_function_wrapper.h 63398aa 2023-06-22T11:58:45+02:00 Laurent Rineau
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Mesh_3/include/CGAL/Mesh_3/Image_plus_weights_to_labeled_function_wrapper.h $
+// $Id: include/CGAL/Mesh_3/Image_plus_weights_to_labeled_function_wrapper.h 50219fc33bc $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //

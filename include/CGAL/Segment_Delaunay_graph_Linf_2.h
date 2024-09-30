@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v5.6.1/Segment_Delaunay_graph_Linf_2/include/CGAL/Segment_Delaunay_graph_Linf_2.h $
-// $Id: Segment_Delaunay_graph_Linf_2.h 7ea0f8b 2022-10-21T09:14:58+01:00 Andreas Fabri
+// $URL: https://github.com/CGAL/cgal/blob/v6.0/Segment_Delaunay_graph_Linf_2/include/CGAL/Segment_Delaunay_graph_Linf_2.h $
+// $Id: include/CGAL/Segment_Delaunay_graph_Linf_2.h 50219fc33bc $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
