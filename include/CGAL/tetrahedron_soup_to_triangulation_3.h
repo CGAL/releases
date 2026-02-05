@@ -4,8 +4,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.1/SMDS_3/include/CGAL/tetrahedron_soup_to_triangulation_3.h $
-// $Id: include/CGAL/tetrahedron_soup_to_triangulation_3.h 50cfbde3b84 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.0.2/SMDS_3/include/CGAL/tetrahedron_soup_to_triangulation_3.h $
+// $Id: include/CGAL/tetrahedron_soup_to_triangulation_3.h e13ef800cb7 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -189,20 +189,24 @@ namespace CGAL {
                              internal_np::surface_facets_t,
                              NamedParameters,
                              Default_facet_map>::reference;
+    using Subdomain_index = typename Triangulation::Cell::Subdomain_index;
+    using Default_subdomains = std::vector<Subdomain_index>;
     using Subdomains_ref_type
       = typename internal_np::Lookup_named_param_def<
                               internal_np::subdomain_indices_t,
                               NamedParameters,
-                              int>::reference;
+                              Default_subdomains>::reference;
 
     Triangulation tr;
     Default_facet_map empty_map;
+    Default_subdomains subdomain_indices(tets.size(), Subdomain_index(1));
+
     const Facet_map_ref_type& facets = choose_parameter(
           get_parameter_reference(np, internal_np::surface_facets),
           empty_map);
     const Subdomains_ref_type& subdomains = choose_parameter(
           get_parameter_reference(np, internal_np::subdomain_indices),
-          1);
+          subdomain_indices);
     const bool non_manifold = choose_parameter(
           get_parameter(np, internal_np::allow_non_manifold),
           false);

@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.1/Kernel_23/include/CGAL/Kernel_23/internal/Projection_traits_base_3.h $
-// $Id: include/CGAL/Kernel_23/internal/Projection_traits_base_3.h 50cfbde3b84 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.0.2/Kernel_23/include/CGAL/Kernel_23/internal/Projection_traits_base_3.h $
+// $Id: include/CGAL/Kernel_23/internal/Projection_traits_base_3.h e13ef800cb7 $
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -372,6 +372,35 @@ public:
   }
 }; // end class Less_xy_along_axis
 
+template <class Traits>
+class Compare_xy_along_axis
+{
+  // private members
+  typedef typename Traits::Vector_3 Vector_3;
+  typedef typename Traits::Point_2 Point;
+  Vector_3 base1, base2;
+
+public:
+  Compare_xy_along_axis(const Vector_3& base1, const Vector_3& base2) : base1(base1), base2(base2)
+  {
+    CGAL_PROFILER("Construct Compare_xy_along_axis")
+    CGAL_TIME_PROFILER("Construct Compare_xy_along_axis")
+  }
+
+  typedef Comparison_result result_type;
+
+  Comparison_result operator()(const Point& p, const Point& q) const
+  {
+    Compare_along_axis<Traits> cx(base1);
+    Comparison_result crx = cx(p, q);
+    if (crx != EQUAL) {
+      return crx;
+    }
+    Compare_along_axis<Traits> cy(base2);
+    return cy(p, q);
+  }
+}; // end class Compare_xy_along_axis
+
 } // end namespace TriangulationProjectionTraitsCartesianFunctors
 
 
@@ -426,12 +455,13 @@ public:
   typedef typename K::Line_3      Line_2;
 
   typedef typename K::Angle_3                                Angle_2;
-  typedef typename K::Compare_xyz_3                          Compare_xy_2;
 
   typedef TriangulationProjectionTraitsCartesianFunctors::
     Compare_along_axis<Self>                                 Compare_x_2;
   typedef TriangulationProjectionTraitsCartesianFunctors::
     Compare_along_axis<Self>                                 Compare_y_2;
+  typedef TriangulationProjectionTraitsCartesianFunctors::
+    Compare_xy_along_axis<Self>                              Compare_xy_2;
 
   typedef TriangulationProjectionTraitsCartesianFunctors::
     Less_along_axis<Self>                                    Less_x_2;
@@ -498,6 +528,12 @@ public:
     return Compare_y_2(this->base2());
   }
 
+  Compare_xy_2
+  compare_xy_2_object() const
+  {
+    return Compare_xy_2(this->base1(), this->base2());
+  }
+
   Orientation_2
   orientation_2_object() const
   {
@@ -524,9 +560,6 @@ public:
 
   Angle_2  angle_2_object() const
     {return Angle_2();}
-
-  Compare_xy_2  compare_xy_2_object() const
-    {return Compare_xy_2();}
 
   Construct_point_2  construct_point_2_object() const
     {return Construct_point_2();}

@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.1/Nef_3/include/CGAL/Nef_3/SNC_intersection.h $
-// $Id: include/CGAL/Nef_3/SNC_intersection.h 50cfbde3b84 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.0.2/Nef_3/include/CGAL/Nef_3/SNC_intersection.h $
+// $Id: include/CGAL/Nef_3/SNC_intersection.h e13ef800cb7 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -139,7 +139,7 @@ class SNC_intersection {
     if( !CGAL::assign( p, o))
       return false;
     CGAL_NEF_TRACEN( "-> intersection point: " << p );
-    CGAL_NEF_TRACEN( "-> point in facet interior? "<<point_in_facet_interior( f, p));
+    // CGAL_NEF_TRACEN( "-> point in facet interior? "<<point_in_facet_interior( f, p));
     return point_in_facet_interior( p, f);
   }
 
@@ -159,7 +159,7 @@ class SNC_intersection {
     if( !CGAL::assign( p, o))
       return false;
     CGAL_NEF_TRACEN( "-> intersection point: " << p );
-    CGAL_NEF_TRACEN( "-> point in facet interior? "<<point_in_facet_interior( f, p));
+    // CGAL_NEF_TRACEN( "-> point in facet interior? "<<point_in_facet_interior( f, p));
     return point_in_facet_interior( p, f);
   }
 

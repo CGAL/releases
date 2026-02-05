@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.1/Polygon_mesh_processing/include/CGAL/Polygon_mesh_processing/smooth_mesh.h $
-// $Id: include/CGAL/Polygon_mesh_processing/smooth_mesh.h 50cfbde3b84 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.0.2/Polygon_mesh_processing/include/CGAL/Polygon_mesh_processing/smooth_mesh.h $
+// $Id: include/CGAL/Polygon_mesh_processing/smooth_mesh.h e13ef800cb7 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -31,7 +31,7 @@ namespace Polygon_mesh_processing {
 * \ingroup PMPDeprecated
 *
 * \deprecated This function is deprecated since \cgal 5.5,
-* `CGAL::angle_and_area_smoothing()` should be used instead.
+* `CGAL::Polygon_mesh_processing::angle_and_area_smoothing()` should be used instead.
 */
 template<typename TriangleMesh, typename FaceRange, typename NamedParameters = parameters::Default_named_parameters>
 CGAL_DEPRECATED void smooth_mesh(const FaceRange& faces,

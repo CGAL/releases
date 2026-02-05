@@ -7,8 +7,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.1/Number_types/include/CGAL/FPU.h $
-// $Id: include/CGAL/FPU.h 50cfbde3b84 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.0.2/Number_types/include/CGAL/FPU.h $
+// $Id: include/CGAL/FPU.h e13ef800cb7 $
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -628,7 +628,9 @@ inline double IA_sqrt_toward_zero(double d) {
 } //namespace CGAL
 
 #ifdef CGAL_HEADER_ONLY
+#ifndef CGAL_DISABLE_ROUNDING_MATH_CHECK
 #include <CGAL/test_FPU_rounding_mode_impl.h>
+#endif
 #endif // CGAL_HEADER_ONLY
 
 #endif // CGAL_FPU_H

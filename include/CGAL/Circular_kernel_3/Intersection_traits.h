@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.1/Circular_kernel_3/include/CGAL/Circular_kernel_3/Intersection_traits.h $
-// $Id: include/CGAL/Circular_kernel_3/Intersection_traits.h 50cfbde3b84 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.0.2/Circular_kernel_3/include/CGAL/Circular_kernel_3/Intersection_traits.h $
+// $Id: include/CGAL/Circular_kernel_3/Intersection_traits.h e13ef800cb7 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //

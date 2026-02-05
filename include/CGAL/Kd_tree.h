@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.1/Spatial_searching/include/CGAL/Kd_tree.h $
-// $Id: include/CGAL/Kd_tree.h 50cfbde3b84 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.0.2/Spatial_searching/include/CGAL/Kd_tree.h $
+// $Id: include/CGAL/Kd_tree.h e13ef800cb7 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Hans Tangelder (<hanst@cs.uu.nl>),
@@ -196,7 +196,7 @@ private:
     if (try_parallel_internal_node_creation (nh, c, c_low, tag))
       return;
 
-    if (c_low.size() > split.bucket_size())
+    if (c_low.size() > split.bucket_size() && !CGAL::is_zero(c_low.max_tight_spread()))
     {
       nh->lower_ch = new_internal_node();
       create_internal_node (nh->lower_ch, c_low, tag);
@@ -204,7 +204,7 @@ private:
     else
       nh->lower_ch = create_leaf_node(c_low);
 
-    if (c.size() > split.bucket_size())
+    if (c.size() > split.bucket_size() && !CGAL::is_zero(c.max_tight_spread()))
     {
       nh->upper_ch = new_internal_node();
       create_internal_node (nh->upper_ch, c, tag);
@@ -350,7 +350,7 @@ public:
 
     Point_container c(dim_, data.begin(), data.end(),traits_);
     bbox = new Kd_tree_rectangle<FT,D>(c.bounding_box());
-    if (c.size() <= split.bucket_size()){
+    if (c.size() <= split.bucket_size() || CGAL::is_zero(c.max_tight_spread())){
       tree_root = create_leaf_node(c);
     }else {
        tree_root = new_internal_node();

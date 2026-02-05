@@ -6,8 +6,8 @@
  This file is part of a fork of the QGLViewer library version 2.7.0.
 
 *****************************************************************************/
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.1/GraphicsView/include/CGAL/Qt/image_interface.h $
-// $Id: include/CGAL/Qt/image_interface.h 50cfbde3b84 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.0.2/GraphicsView/include/CGAL/Qt/image_interface.h $
+// $Id: include/CGAL/Qt/image_interface.h e13ef800cb7 $
 // SPDX-License-Identifier: GPL-3.0-only
 
 #ifndef CGAL_IMAGE_INTERFACE_H

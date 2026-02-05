@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.1/Partition_2/include/CGAL/Partition_2/Partition_vertex_map.h $
-// $Id: include/CGAL/Partition_2/Partition_vertex_map.h 50cfbde3b84 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.0.2/Partition_2/include/CGAL/Partition_2/Partition_vertex_map.h $
+// $Id: include/CGAL/Partition_2/Partition_vertex_map.h e13ef800cb7 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //

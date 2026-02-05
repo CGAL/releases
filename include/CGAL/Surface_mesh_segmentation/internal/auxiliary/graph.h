@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.1/Surface_mesh_segmentation/include/CGAL/Surface_mesh_segmentation/internal/auxiliary/graph.h $
-// $Id: include/CGAL/Surface_mesh_segmentation/internal/auxiliary/graph.h 50cfbde3b84 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.0.2/Surface_mesh_segmentation/include/CGAL/Surface_mesh_segmentation/internal/auxiliary/graph.h $
+// $Id: include/CGAL/Surface_mesh_segmentation/internal/auxiliary/graph.h e13ef800cb7 $
 // Re-licensed for CGAL distribution to:
 // SPDX-License-Identifier: GPL-3.0-or-later
 // Original license is:

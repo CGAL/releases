@@ -7,8 +7,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.1/Number_types/include/CGAL/Interval_nt.h $
-// $Id: include/CGAL/Interval_nt.h 50cfbde3b84 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.0.2/Number_types/include/CGAL/Interval_nt.h $
+// $Id: include/CGAL/Interval_nt.h e13ef800cb7 $
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -285,9 +285,9 @@ private:
       // the 2 negations and we get wrong rounding.
       typename Interval_nt<>::Internal_protector P;
       CGAL_assertion_msg(-CGAL_IA_MUL(-1.1, 10.1) != CGAL_IA_MUL(1.1, 10.1),
-                         "Wrong rounding: did you forget the  -frounding-math  option if you use GCC (or  -fp-model strict  for Intel)?");
+                         "Wrong rounding: did you forget the  -frounding-math  option if you use GCC (or  -fp-model=strict  for Intel)?");
       CGAL_assertion_msg(-CGAL_IA_DIV(-1., 10) != CGAL_IA_DIV(1., 10),
-                         "Wrong rounding: did you forget the  -frounding-math  option if you use GCC (or  -fp-model strict  for Intel)?");
+                         "Wrong rounding: did you forget the  -frounding-math  option if you use GCC (or  -fp-model=strict  for Intel)?");
     }
   };
 

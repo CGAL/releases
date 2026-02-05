@@ -5,8 +5,8 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.1/Alpha_shapes_2/include/CGAL/Alpha_shape_2.h $
-// $Id: include/CGAL/Alpha_shape_2.h 50cfbde3b84 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.0.2/Alpha_shapes_2/include/CGAL/Alpha_shape_2.h $
+// $Id: include/CGAL/Alpha_shape_2.h e13ef800cb7 $
 // Author(s)     : Tran Kai Frank DA
 //                 Andreas Fabri <Andreas.Fabri@geometryfactory.com>
 
@@ -1442,7 +1442,7 @@ Alpha_shape_2<Dt,EACT>::find_alpha_solid() const
   // takes O(#alpha_shape) time
   Type_of_alpha alpha_solid = 0;
 
-  if (number_of_vertices()<3) return alpha_solid;
+  if (dimension()!=2) return alpha_solid;
 
   Finite_vertices_iterator vertex_it;
   // only finite vertices

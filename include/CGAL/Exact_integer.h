@@ -7,8 +7,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.1/Number_types/include/CGAL/Exact_integer.h $
-// $Id: include/CGAL/Exact_integer.h 50cfbde3b84 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.0.2/Number_types/include/CGAL/Exact_integer.h $
+// $Id: include/CGAL/Exact_integer.h e13ef800cb7 $
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -27,8 +27,7 @@ namespace CGAL {
 `Exact_integer` is an exact integer number type.
 
 It is a typedef of another number type. Its exact definition depends on
-the availability the third-party libraries \gmp, \core, and \leda. \cgal must
-be configured with at least one of those libraries.
+the availability the third-party libraries \gmp and \leda.
 
 \cgalModels{EuclideanRing,RealEmbeddable}
 

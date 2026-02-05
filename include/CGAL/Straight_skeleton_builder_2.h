@@ -3,8 +3,8 @@
 // This file is part of CGAL (www.cgal.org).
 //
 
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.1/Straight_skeleton_2/include/CGAL/Straight_skeleton_builder_2.h $
-// $Id: include/CGAL/Straight_skeleton_builder_2.h 50cfbde3b84 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.0.2/Straight_skeleton_2/include/CGAL/Straight_skeleton_builder_2.h $
+// $Id: include/CGAL/Straight_skeleton_builder_2.h e13ef800cb7 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Fernando Cacciola <fernando_cacciola@ciudad.com.ar>
@@ -1454,10 +1454,10 @@ public:
       CGAL_assertion(fit != mSSkel->SSkel::Base::faces_end());
 
       Halfedge_handle lBorder = fit->halfedge();
-      FT lWeight = *aWeightsBegin;
       CGAL_assertion(lBorder->opposite()->is_border());
-      CGAL_STSKEL_BUILDER_TRACE(4, "Assign " << lWeight << " cvt to " << cvt(lWeight) << " to E" << lBorder->id());
-      lBorder->set_weight(cvt(lWeight));
+      FT lWeight = cvt(*aWeightsBegin);
+      CGAL_STSKEL_BUILDER_TRACE(4, "Assign " << *aWeightsBegin << " (converted to " << cvt(lWeight) << ") to E" << lBorder->id());
+      lBorder->set_weight(lWeight);
     }
 
     return *this;

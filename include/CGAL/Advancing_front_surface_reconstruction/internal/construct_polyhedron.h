@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.1/Advancing_front_surface_reconstruction/include/CGAL/Advancing_front_surface_reconstruction/internal/construct_polyhedron.h $
-// $Id: include/CGAL/Advancing_front_surface_reconstruction/internal/construct_polyhedron.h 50cfbde3b84 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.0.2/Advancing_front_surface_reconstruction/include/CGAL/Advancing_front_surface_reconstruction/internal/construct_polyhedron.h $
+// $Id: include/CGAL/Advancing_front_surface_reconstruction/internal/construct_polyhedron.h e13ef800cb7 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Frank Da, David Cohen-Steiner, Andreas Fabri

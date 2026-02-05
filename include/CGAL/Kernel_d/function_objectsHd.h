@@ -7,8 +7,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.1/Kernel_d/include/CGAL/Kernel_d/function_objectsHd.h $
-// $Id: include/CGAL/Kernel_d/function_objectsHd.h 50cfbde3b84 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.0.2/Kernel_d/include/CGAL/Kernel_d/function_objectsHd.h $
+// $Id: include/CGAL/Kernel_d/function_objectsHd.h e13ef800cb7 $
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 //

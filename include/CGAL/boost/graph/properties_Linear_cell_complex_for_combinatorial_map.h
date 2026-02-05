@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.1/Linear_cell_complex/include/CGAL/boost/graph/properties_Linear_cell_complex_for_combinatorial_map.h $
-// $Id: include/CGAL/boost/graph/properties_Linear_cell_complex_for_combinatorial_map.h 50cfbde3b84 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.0.2/Linear_cell_complex/include/CGAL/boost/graph/properties_Linear_cell_complex_for_combinatorial_map.h $
+// $Id: include/CGAL/boost/graph/properties_Linear_cell_complex_for_combinatorial_map.h e13ef800cb7 $
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Guillaume Damiand <guillaume.damiand@liris.cnrs.fr>
@@ -443,11 +443,11 @@ template <unsigned int d_, unsigned int ambient_dim,        \
 typename boost::property_map< \
   Linear_cell_complex_for_combinatorial_map<d_, ambient_dim, Traits_, Items_, Alloc_, CMap , Storage_>, \
   TAG<T> >::const_type \
-get(TAG<T>, const Linear_cell_complex_for_combinatorial_map<d_, ambient_dim, Traits_, Items_, Alloc_, CMap , Storage_>&) \
+get(TAG<T>, const Linear_cell_complex_for_combinatorial_map<d_, ambient_dim, Traits_, Items_, Alloc_, CMap , Storage_>&, const T& default_value = T()) \
 { \
   typedef Linear_cell_complex_for_combinatorial_map<d_, ambient_dim, Traits_, Items_, Alloc_, CMap , Storage_> LCC;\
   typedef typename boost::graph_traits<LCC>::DESC DESC; \
-  return internal::Dynamic_property_map<DESC,T>();\
+  return internal::Dynamic_property_map<DESC,T>(default_value);\
 } \
 \
 template <unsigned int d_, unsigned int ambient_dim,        \
@@ -461,11 +461,11 @@ template <unsigned int d_, unsigned int ambient_dim,        \
 typename boost::property_map< \
   Linear_cell_complex_for_combinatorial_map<d_, ambient_dim, Traits_, Items_, Alloc_, CMap , Storage_>, \
   TAG<T> >::type \
-get(TAG<T>, Linear_cell_complex_for_combinatorial_map<d_, ambient_dim, Traits_, Items_, Alloc_, CMap , Storage_>&) \
+get(TAG<T>, Linear_cell_complex_for_combinatorial_map<d_, ambient_dim, Traits_, Items_, Alloc_, CMap , Storage_>&, const T& default_value = T()) \
 { \
   typedef Linear_cell_complex_for_combinatorial_map<d_, ambient_dim, Traits_, Items_, Alloc_, CMap , Storage_> LCC;\
   typedef typename boost::graph_traits<LCC>::DESC DESC; \
-  return internal::Dynamic_property_map<DESC,T>();\
+  return internal::Dynamic_property_map<DESC,T>(default_value);\
 } \
 }
 

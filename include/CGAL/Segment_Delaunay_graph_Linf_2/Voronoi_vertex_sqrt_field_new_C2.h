@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.1/Segment_Delaunay_graph_Linf_2/include/CGAL/Segment_Delaunay_graph_Linf_2/Voronoi_vertex_sqrt_field_new_C2.h $
-// $Id: include/CGAL/Segment_Delaunay_graph_Linf_2/Voronoi_vertex_sqrt_field_new_C2.h 50cfbde3b84 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.0.2/Segment_Delaunay_graph_Linf_2/include/CGAL/Segment_Delaunay_graph_Linf_2/Voronoi_vertex_sqrt_field_new_C2.h $
+// $Id: include/CGAL/Segment_Delaunay_graph_Linf_2/Voronoi_vertex_sqrt_field_new_C2.h e13ef800cb7 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //

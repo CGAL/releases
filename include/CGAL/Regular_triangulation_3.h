@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.1/Triangulation_3/include/CGAL/Regular_triangulation_3.h $
-// $Id: include/CGAL/Regular_triangulation_3.h 50cfbde3b84 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.0.2/Triangulation_3/include/CGAL/Regular_triangulation_3.h $
+// $Id: include/CGAL/Regular_triangulation_3.h e13ef800cb7 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -664,6 +664,9 @@ public:
                  bool *the_facet_is_in_its_cz = nullptr) const
   {
     CGAL_precondition(dimension() >= 2);
+
+    if(the_facet_is_in_its_cz)
+      *the_facet_is_in_its_cz = false;
 
     std::vector<Cell_handle> cells;
     cells.reserve(32);

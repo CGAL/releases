@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.1/Combinatorial_map/include/CGAL/Combinatorial_map_iterators_base.h $
-// $Id: include/CGAL/Combinatorial_map_iterators_base.h 50cfbde3b84 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.0.2/Combinatorial_map/include/CGAL/Combinatorial_map_iterators_base.h $
+// $Id: include/CGAL/Combinatorial_map_iterators_base.h e13ef800cb7 $
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Guillaume Damiand <guillaume.damiand@liris.cnrs.fr>
@@ -162,7 +162,7 @@ namespace CGAL {
 
     /// test if adart->beta(ai)->beta(aj) exists and is not marked for amark
     bool is_unmarked2(Dart_descriptor adart, unsigned int ai, unsigned int aj,
-                      typename Map::size_type amark) const
+                      size_type amark) const
     { return
         !mmap->is_marked(mmap->beta(adart, ai, aj), amark);
     }
@@ -206,6 +206,8 @@ namespace CGAL {
 
     /// true iff this iterator is basic
     typedef Tag_true Basic_iterator;
+
+    typedef typename Map::size_type size_type;
 
   public:
     /// Main constructor.
@@ -261,7 +263,7 @@ namespace CGAL {
 
   protected:
     /// test if adart->beta(ai) exists and is not marked for amark
-    bool is_unmarked(Dart_descriptor adart, unsigned int ai, unsigned amark) const
+    bool is_unmarked(Dart_descriptor adart, unsigned int ai, size_type amark) const
     { return !mmap->is_marked(mmap->beta(adart,ai), amark); }
 
     /// test if adart->beta(ai)->beta(aj) exists
@@ -270,7 +272,7 @@ namespace CGAL {
 
     /// test if adart->beta(ai)->beta(aj) exists and is not marked for amark
     bool is_unmarked2(Dart_descriptor adart, unsigned int ai, unsigned int aj,
-                      unsigned amark) const
+                    size_type amark) const
     { return !mmap->is_marked(mmap->beta(adart, ai, aj), amark); }
 
   protected:

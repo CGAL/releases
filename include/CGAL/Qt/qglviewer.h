@@ -6,8 +6,8 @@
  This file is part of a fork of the QGLViewer library version 2.7.0.
 
 *****************************************************************************/
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.1/GraphicsView/include/CGAL/Qt/qglviewer.h $
-// $Id: include/CGAL/Qt/qglviewer.h 50cfbde3b84 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.0.2/GraphicsView/include/CGAL/Qt/qglviewer.h $
+// $Id: include/CGAL/Qt/qglviewer.h e13ef800cb7 $
 // SPDX-License-Identifier: GPL-3.0-only
 
 #ifndef QGLVIEWER_QGLVIEWER_H
@@ -33,6 +33,13 @@
 #include <QOpenGLWidget>
 #include <QMouseEvent>
 #include <QKeyCombination>
+
+#ifndef APIENTRY
+#define APIENTRY QT_APIENTRY
+#endif
+#ifndef APIENTRYP
+#define APIENTRYP APIENTRY *
+#endif
 
 class QTabWidget;
 class QImage;

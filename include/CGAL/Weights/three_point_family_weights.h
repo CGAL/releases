@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.1/Weights/include/CGAL/Weights/three_point_family_weights.h $
-// $Id: include/CGAL/Weights/three_point_family_weights.h 50cfbde3b84 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.0.2/Weights/include/CGAL/Weights/three_point_family_weights.h $
+// $Id: include/CGAL/Weights/three_point_family_weights.h e13ef800cb7 $
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 //

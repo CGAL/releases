@@ -4,8 +4,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.1/Mesh_2/include/CGAL/Mesh_2/Clusters.h $
-// $Id: include/CGAL/Mesh_2/Clusters.h 50cfbde3b84 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.0.2/Mesh_2/include/CGAL/Mesh_2/Clusters.h $
+// $Id: include/CGAL/Mesh_2/Clusters.h e13ef800cb7 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //

@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.1/Polygon_mesh_processing/include/CGAL/Polyhedral_envelope.h $
-// $Id: include/CGAL/Polyhedral_envelope.h 50cfbde3b84 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.0.2/Polygon_mesh_processing/include/CGAL/Polyhedral_envelope.h $
+// $Id: include/CGAL/Polyhedral_envelope.h e13ef800cb7 $
 // SPDX-License-Identifier: ( GPL-3.0-or-later OR LicenseRef-Commercial ) AND MIT
 //
 // Author(s)     : Andreas Fabri
@@ -712,9 +712,7 @@ private:
   bool
   point_out_prism_return_local_id(const Point_3 &point, const ePoint_3 &epoint, const std::vector<unsigned int> &prismindex, const unsigned int jump, int &id) const
   {
-    Vector_3 bmin, bmax;
-
-    Orientation ori;
+    Orientation ori = ON_ORIENTED_BOUNDARY; // to avoid maybe uninitialized warning
 
     for (unsigned int i = 0; i < prismindex.size(); i++){
       if (prismindex[i] == jump){

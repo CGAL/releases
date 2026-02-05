@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.1/Periodic_4_hyperbolic_triangulation_2/include/CGAL/Periodic_4_hyperbolic_triangulation_vertex_base_2.h $
-// $Id: include/CGAL/Periodic_4_hyperbolic_triangulation_vertex_base_2.h 50cfbde3b84 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.0.2/Periodic_4_hyperbolic_triangulation_2/include/CGAL/Periodic_4_hyperbolic_triangulation_vertex_base_2.h $
+// $Id: include/CGAL/Periodic_4_hyperbolic_triangulation_vertex_base_2.h e13ef800cb7 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Iordan Iordanov  <Iordan.Iordanov@loria.fr>

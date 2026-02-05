@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.1/Polyline_simplification_2/include/CGAL/Polyline_simplification_2/simplify.h $
-// $Id: include/CGAL/Polyline_simplification_2/simplify.h 50cfbde3b84 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.0.2/Polyline_simplification_2/include/CGAL/Polyline_simplification_2/simplify.h $
+// $Id: include/CGAL/Polyline_simplification_2/simplify.h e13ef800cb7 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Andreas Fabri
@@ -154,8 +154,11 @@ public:
       (*it)->set_removable(false);
       ++it;
       for(; it != ite; ++it){
-        if((std::next(it) != ite) && (std::prev(it)== std::next(it))){
-          (*it)->set_removable(false);
+        if(std::next(it) != ite){
+          Vertex_handle vp = *std::prev(it), vn = *std::next(it);
+          if(vp == vn){
+            (*it)->set_removable(false);
+          }
         }
       }
       it = std::prev(it);

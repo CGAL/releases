@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.1/Convex_hull_3/include/CGAL/Convex_hull_3/internal/Indexed_triangle_set.h $
-// $Id: include/CGAL/Convex_hull_3/internal/Indexed_triangle_set.h 50cfbde3b84 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.0.2/Convex_hull_3/include/CGAL/Convex_hull_3/internal/Indexed_triangle_set.h $
+// $Id: include/CGAL/Convex_hull_3/internal/Indexed_triangle_set.h e13ef800cb7 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //

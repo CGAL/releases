@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.1/Point_set_processing_3/include/CGAL/OpenGR/register_point_sets.h $
-// $Id: include/CGAL/OpenGR/register_point_sets.h 50cfbde3b84 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.0.2/Point_set_processing_3/include/CGAL/OpenGR/register_point_sets.h $
+// $Id: include/CGAL/OpenGR/register_point_sets.h e13ef800cb7 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s) : Sebastien Loriot, Necip Fazil Yildiran

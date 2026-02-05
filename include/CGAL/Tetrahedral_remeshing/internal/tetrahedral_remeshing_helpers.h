@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.1/Tetrahedral_remeshing/include/CGAL/Tetrahedral_remeshing/internal/tetrahedral_remeshing_helpers.h $
-// $Id: include/CGAL/Tetrahedral_remeshing/internal/tetrahedral_remeshing_helpers.h 50cfbde3b84 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.0.2/Tetrahedral_remeshing/include/CGAL/Tetrahedral_remeshing/internal/tetrahedral_remeshing_helpers.h $
+// $Id: include/CGAL/Tetrahedral_remeshing/internal/tetrahedral_remeshing_helpers.h e13ef800cb7 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -257,7 +257,7 @@ struct Dihedral_angle_cosine
       CGAL_assertion(l.m_sgn != CGAL::POSITIVE);
       CGAL_assertion(r.m_sgn != CGAL::POSITIVE);
 
-      return (l.m_sq_num * r.m_sq_den >= r.m_sq_num* l.m_sq_den);
+      return (l.m_sq_num * r.m_sq_den > r.m_sq_num* l.m_sq_den);
     }
   }
 

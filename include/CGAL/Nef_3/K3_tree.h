@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.1/Nef_3/include/CGAL/Nef_3/K3_tree.h $
-// $Id: include/CGAL/Nef_3/K3_tree.h 50cfbde3b84 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.0.2/Nef_3/include/CGAL/Nef_3/K3_tree.h $
+// $Id: include/CGAL/Nef_3/K3_tree.h e13ef800cb7 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -517,7 +517,7 @@ Node_handle build_kdtree(Vertex_list& V, Halfedge_list& E, Halffacet_list& F,
 
   int coord = depth%3;
   Point_3 point_on_plane = find_median_point(V, coord);
-  CGAL_NEF_TRACEN("build_kdtree: plane: "<<partition_plane<< " " << point_on_plane);
+//  CGAL_NEF_TRACEN("build_kdtree: plane: "<<partition_plane<< " " << point_on_plane);
 
 #ifdef CGAL_NEF_EXPLOIT_REFERENCE_COUNTING
   Side_of_plane sop(point_on_plane, coord, reference_counted);

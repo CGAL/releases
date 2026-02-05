@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.1/Three/include/CGAL/Three/Scene_transparent_interface.h $
-// $Id: include/CGAL/Three/Scene_transparent_interface.h 50cfbde3b84 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.0.2/Three/include/CGAL/Three/Scene_transparent_interface.h $
+// $Id: include/CGAL/Three/Scene_transparent_interface.h e13ef800cb7 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Maxime GIMENO

@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.1/Boolean_set_operations_2/include/CGAL/Boolean_set_operations_2/Gps_polygon_validation.h $
-// $Id: include/CGAL/Boolean_set_operations_2/Gps_polygon_validation.h 50cfbde3b84 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.0.2/Boolean_set_operations_2/include/CGAL/Boolean_set_operations_2/Gps_polygon_validation.h $
+// $Id: include/CGAL/Boolean_set_operations_2/Gps_polygon_validation.h e13ef800cb7 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -622,7 +622,7 @@ bool are_holes_and_boundary_pairwise_disjoint
                                                         Topology_traits;
   typedef CGAL::Gps_on_surface_base_2<Traits_2, Topology_traits>
                                                         Polygon_set_2;
-  typedef typename Polygon_set_2::Size                  Size;
+  // typedef typename Polygon_set_2::Size                  Size;
   typedef  typename Traits_2::Polygon_2                 Polygon_2;
   typedef typename Traits_2::Polygon_with_holes_2       Polygon_with_holes_2;
   typedef typename Polygon_with_holes_2::Hole_const_iterator
@@ -677,7 +677,7 @@ bool are_holes_and_boundary_pairwise_disjoint
   Polygon_set_2 gps(traits);
   // check for 2D  intersections of holes (holes must be disjoint except for
   // vertices)
-  Size num_of_holes = 0;
+  // Size num_of_holes = 0;
   // functors for creating a pwh needed for inserting pgns into the arrangement
   // quickly
   Construct_polygon_with_holes_2 construct_pwh_functor =
@@ -701,7 +701,7 @@ bool are_holes_and_boundary_pairwise_disjoint
       // traits.Construct_polygon_with_holes_2 (hole);
       // Polygon_with_holes_2 empty_pwh(hole);
       gps.insert(empty_pwh);
-      num_of_holes++;
+    //  num_of_holes++;
     }
   }
   /* not good - doesn't work if intersection at vertices is legal.

@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.1/Kinetic_surface_reconstruction/include/CGAL/KSR_3/Graphcut.h $
-// $Id: include/CGAL/KSR_3/Graphcut.h 50cfbde3b84 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.0.2/Kinetic_surface_reconstruction/include/CGAL/KSR_3/Graphcut.h $
+// $Id: include/CGAL/KSR_3/Graphcut.h e13ef800cb7 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -21,8 +21,6 @@
 #include <CGAL/boost/graph/alpha_expansion_graphcut.h>
 #include <CGAL/boost/graph/Alpha_expansion_MaxFlow_tag.h>
 #include <CGAL/Exact_predicates_inexact_constructions_kernel.h>
-#include <CGAL/Delaunay_triangulation_2.h>
-#include <CGAL/Delaunay_triangulation_3.h>
 #include <CGAL/Cartesian_converter.h>
 
 // Internal includes.

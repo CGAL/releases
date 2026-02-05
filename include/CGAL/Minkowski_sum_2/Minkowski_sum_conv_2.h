@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.1/Minkowski_sum_2/include/CGAL/Minkowski_sum_2/Minkowski_sum_conv_2.h $
-// $Id: include/CGAL/Minkowski_sum_2/Minkowski_sum_conv_2.h 50cfbde3b84 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.0.2/Minkowski_sum_2/include/CGAL/Minkowski_sum_2/Minkowski_sum_conv_2.h $
+// $Id: include/CGAL/Minkowski_sum_2/Minkowski_sum_conv_2.h e13ef800cb7 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s) : Ron Wein   <wein_r@yahoo.com>
@@ -611,7 +611,7 @@ private:
         res = f_compare_xy(curr_pt, next_pt);
 
         if (res != EQUAL) {
-          cycle.insert(curr,
+          after_next = cycle.insert(curr,
                        Labeled_segment_2(Segment_2(curr_pt, next_pt),
                                          X_curve_label((res == SMALLER),
                                                        cycle_id,

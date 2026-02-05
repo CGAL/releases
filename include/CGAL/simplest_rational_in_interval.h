@@ -7,8 +7,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.1/Number_types/include/CGAL/simplest_rational_in_interval.h $
-// $Id: include/CGAL/simplest_rational_in_interval.h 50cfbde3b84 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.0.2/Number_types/include/CGAL/simplest_rational_in_interval.h $
+// $Id: include/CGAL/simplest_rational_in_interval.h e13ef800cb7 $
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 //

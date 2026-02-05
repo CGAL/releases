@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.1/Arrangement_on_surface_2/include/CGAL/Arr_spherical_gaussian_map_3/Arr_transform_on_sphere.h $
-// $Id: include/CGAL/Arr_spherical_gaussian_map_3/Arr_transform_on_sphere.h 50cfbde3b84 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.0.2/Arrangement_on_surface_2/include/CGAL/Arr_spherical_gaussian_map_3/Arr_transform_on_sphere.h $
+// $Id: include/CGAL/Arr_spherical_gaussian_map_3/Arr_transform_on_sphere.h e13ef800cb7 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Naama mayer         <naamamay@post.tau.ac.il>

@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.1/Triangulation_2/include/CGAL/Constrained_triangulation_plus_2.h $
-// $Id: include/CGAL/Constrained_triangulation_plus_2.h 50cfbde3b84 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.0.2/Triangulation_2/include/CGAL/Constrained_triangulation_plus_2.h $
+// $Id: include/CGAL/Constrained_triangulation_plus_2.h e13ef800cb7 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -738,9 +738,9 @@ public:
         ++it){
       if(! is_subconstraint(*it, *succ)){ // this checks whether other constraints pass
         Face_handle fh;
-        int i;
-        bool b = Triangulation::is_edge(*it, *succ, fh, i);
-        CGAL_assume(b);
+        int i = -1;
+        Triangulation::is_edge(*it, *succ, fh, i);
+        CGAL_assertion(i != -1);
         Triangulation::remove_constrained_edge(fh,i, out); // this does also flipping if necessary.
       }
     }

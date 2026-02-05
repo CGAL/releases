@@ -4,8 +4,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.1/Periodic_3_mesh_3/include/CGAL/make_periodic_3_mesh_3.h $
-// $Id: include/CGAL/make_periodic_3_mesh_3.h 50cfbde3b84 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.0.2/Periodic_3_mesh_3/include/CGAL/make_periodic_3_mesh_3.h $
+// $Id: include/CGAL/make_periodic_3_mesh_3.h e13ef800cb7 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Stéphane Tayeb,

@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.1/Three/include/CGAL/Three/CGAL_Lab_plugin_helper.h $
-// $Id: include/CGAL/Three/CGAL_Lab_plugin_helper.h 50cfbde3b84 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.0.2/Three/include/CGAL/Three/CGAL_Lab_plugin_helper.h $
+// $Id: include/CGAL/Three/CGAL_Lab_plugin_helper.h e13ef800cb7 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //

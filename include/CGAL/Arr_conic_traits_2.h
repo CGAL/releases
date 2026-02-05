@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.1/Arrangement_on_surface_2/include/CGAL/Arr_conic_traits_2.h $
-// $Id: include/CGAL/Arr_conic_traits_2.h 50cfbde3b84 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.0.2/Arrangement_on_surface_2/include/CGAL/Arr_conic_traits_2.h $
+// $Id: include/CGAL/Arr_conic_traits_2.h e13ef800cb7 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -127,7 +127,11 @@ private:
 public:
   /*! Default constructor.
    */
-  Arr_conic_traits_2() {}
+  Arr_conic_traits_2()
+   : m_rat_kernel(std::make_shared<Rat_kernel>()),
+     m_alg_kernel(std::make_shared<Alg_kernel>()),
+     m_nt_traits(std::make_shared<Nt_traits>())
+  {}
 
   /*! Construct from resources.
    */

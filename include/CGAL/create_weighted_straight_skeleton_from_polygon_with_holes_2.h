@@ -3,8 +3,8 @@
 // This file is part of CGAL (www.cgal.org).
 //
 
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.1/Straight_skeleton_2/include/CGAL/create_weighted_straight_skeleton_from_polygon_with_holes_2.h $
-// $Id: include/CGAL/create_weighted_straight_skeleton_from_polygon_with_holes_2.h 50cfbde3b84 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.0.2/Straight_skeleton_2/include/CGAL/create_weighted_straight_skeleton_from_polygon_with_holes_2.h $
+// $Id: include/CGAL/create_weighted_straight_skeleton_from_polygon_with_holes_2.h e13ef800cb7 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Mael Rouxel-Labbé
@@ -26,12 +26,12 @@ namespace CGAL {
 
 template <typename Polygon,
           typename Weights,
-          typename K>
+          typename K = Exact_predicates_inexact_constructions_kernel>
 std::shared_ptr< Straight_skeleton_2<K> >
 inline
 create_interior_weighted_straight_skeleton_2(const Polygon& poly_with_holes,
                                              const Weights& weights,
-                                             const K& k,
+                                             const K& k = K(),
                                              std::enable_if_t<
                                                CGAL_SS_i::has_Hole_const_iterator<Polygon>::value>* = nullptr)
 {

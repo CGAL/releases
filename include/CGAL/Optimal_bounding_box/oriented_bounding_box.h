@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.1/Optimal_bounding_box/include/CGAL/Optimal_bounding_box/oriented_bounding_box.h $
-// $Id: include/CGAL/Optimal_bounding_box/oriented_bounding_box.h 50cfbde3b84 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.0.2/Optimal_bounding_box/include/CGAL/Optimal_bounding_box/oriented_bounding_box.h $
+// $Id: include/CGAL/Optimal_bounding_box/oriented_bounding_box.h e13ef800cb7 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -36,6 +36,7 @@
 #include <CGAL/Real_timer.h>
 #endif
 
+#include <boost/range/has_range_iterator.hpp>
 #include <boost/iterator/transform_iterator.hpp>
 #include <boost/range/value_type.hpp>
 

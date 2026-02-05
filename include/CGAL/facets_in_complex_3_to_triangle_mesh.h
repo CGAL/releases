@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.1/SMDS_3/include/CGAL/facets_in_complex_3_to_triangle_mesh.h $
-// $Id: include/CGAL/facets_in_complex_3_to_triangle_mesh.h 50cfbde3b84 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.0.2/SMDS_3/include/CGAL/facets_in_complex_3_to_triangle_mesh.h $
+// $Id: include/CGAL/facets_in_complex_3_to_triangle_mesh.h e13ef800cb7 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -106,7 +106,7 @@ void facets_in_complex_3_to_triangle_soup(const C3T3& c3t3,
     resize(f, 3);
 
     std::size_t i = 0;
-    for(typename Tr::Vertex_handle v : c3t3.triangulation().vertices(Facet(c, s)))
+    for(typename Tr::Vertex_handle v : c3t3.triangulation().vertices(fit))
     {
       CGAL_assertion(v != typename Tr::Vertex_handle());
       CGAL_assertion(!c3t3.triangulation().is_infinite(v));
@@ -128,12 +128,12 @@ void facets_in_complex_3_to_triangle_soup(const C3T3& c3t3,
 
     if(export_all_facets)
     {
-      if((cell_sdi > opp_sdi) == (s%2 == 1))
+      if(cell_sdi > opp_sdi)
         std::swap(f[0], f[1]);
     }
     else
     {
-      if(((cell_sdi == sd_index) == (s%2 == 1)) == normals_point_outside_of_the_subdomain)
+      if( (cell_sdi == sd_index) == normals_point_outside_of_the_subdomain)
         std::swap(f[0], f[1]);
     }
 

@@ -2,8 +2,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.1/Polynomial/include/CGAL/Polynomial/bezout_matrix.h $
-// $Id: include/CGAL/Polynomial/bezout_matrix.h 50cfbde3b84 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.0.2/Polynomial/include/CGAL/Polynomial/bezout_matrix.h $
+// $Id: include/CGAL/Polynomial/bezout_matrix.h e13ef800cb7 $
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 //

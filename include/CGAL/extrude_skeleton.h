@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.1/Straight_skeleton_extrusion_2/include/CGAL/extrude_skeleton.h $
-// $Id: include/CGAL/extrude_skeleton.h 50cfbde3b84 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.0.2/Straight_skeleton_extrusion_2/include/CGAL/extrude_skeleton.h $
+// $Id: include/CGAL/extrude_skeleton.h e13ef800cb7 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Mael Rouxel-Labbé
@@ -86,8 +86,8 @@ inline constexpr FT default_extrusion_height()
 }
 
 // @todo Maybe this postprocessing is not really necessary? Do users really care if the point
-// is not perfectly above the input contour edge (it generally cannot be anyway if the kernel is not exact except for some
-// specific cases)?
+// is not perfectly above the input contour edge (it generally cannot be anyway if the kernel
+// is not exact except for some specific cases)?
 #define CGAL_SLS_SNAP_TO_VERTICAL_SLABS
 #ifdef CGAL_SLS_SNAP_TO_VERTICAL_SLABS
 
@@ -205,17 +205,19 @@ public:
   }
 
   // can't modify the position yet because we need arrange_polygons() to still work properly
+  //
+  // @fixme on paper one could create a polygon thin-enough w.r.t. the max weight value
+  // such thatthere is a skeleton vertex that wants to be snapped to two different sides...
   void on_offset_point(const Point_2& op,
                        SS_Halfedge_const_handle hook) const
   {
-    CGAL_assertion(hook->is_bisector());
-
-#ifdef CGAL_SLS_SNAP_TO_VERTICAL_SLABS
-    // @fixme on paper one could create a polygon thin-enough w.r.t. the max weight value such that
-    // there is a skeleton vertex that wants to be snapped to two different sides...
-    CGAL_assertion(m_snapped_positions.count(op) == 0);
+    CGAL_precondition(hook->is_bisector());
 
     HDS_Halfedge_const_handle canonical_hook = (hook < hook->opposite()) ? hook : hook->opposite();
+    m_offset_points[canonical_hook] = op;
+
+#ifdef CGAL_SLS_SNAP_TO_VERTICAL_SLABS
+    CGAL_precondition(m_snapped_positions.count(op) == 0);
 
     SS_Halfedge_const_handle contour_h1 = hook->defining_contour_edge();
     CGAL_assertion(contour_h1->opposite()->is_border());
@@ -224,9 +226,6 @@ public:
 
     const bool is_h1_vertical = (contour_h1->weight() == m_vertical_weight);
     const bool is_h2_vertical = (contour_h2->weight() == m_vertical_weight);
-
-    // this can happen when the offset is passing through vertices
-    m_offset_points[canonical_hook] = op;
 
     // if both are vertical, it's the common vertex (which has to exist)
     if(is_h1_vertical && is_h2_vertical)
@@ -691,7 +690,7 @@ public:
 #ifdef CGAL_SLS_SNAP_TO_VERTICAL_SLABS
       Visitor visitor(*ss_ptr, offset_points, vertical_weight, snapped_positions);
 #else
-      Visitor visitor(*ss_ptr, vertical_weight, offset_points);
+      Visitor visitor(*ss_ptr, offset_points);
 #endif
       Offset_builder ob(*ss_ptr, Offset_builder_traits(), visitor);
       Offset_polygons raw_output;
@@ -813,7 +812,7 @@ public:
                                           CGAL_SS_i::vertices_begin(hole),
                                           CGAL_SS_i::vertices_end(hole),
                                           std::begin(no_holes), std::end(no_holes),
-                                          std::begin(speeds[hole_id]), std::end(speeds[hole_id]),
+                                          std::begin(speeds[1 + hole_id]), std::end(speeds[1 + hole_id]),
                                           std::begin(no_speeds), std::end(no_speeds),
                                           m_gt);
 

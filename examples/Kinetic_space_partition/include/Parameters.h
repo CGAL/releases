@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.1/Kinetic_space_partition/examples/Kinetic_space_partition/include/Parameters.h $
-// $Id: examples/Kinetic_space_partition/include/Parameters.h 50cfbde3b84 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.0.2/Kinetic_space_partition/examples/Kinetic_space_partition/include/Parameters.h $
+// $Id: examples/Kinetic_space_partition/include/Parameters.h e13ef800cb7 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //

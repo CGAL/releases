@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.1/Tetrahedral_remeshing/include/CGAL/Tetrahedral_remeshing/internal/peel_slivers.h $
-// $Id: include/CGAL/Tetrahedral_remeshing/internal/peel_slivers.h 50cfbde3b84 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.0.2/Tetrahedral_remeshing/include/CGAL/Tetrahedral_remeshing/internal/peel_slivers.h $
+// $Id: include/CGAL/Tetrahedral_remeshing/internal/peel_slivers.h e13ef800cb7 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -17,6 +17,8 @@
 
 #include <CGAL/Tetrahedral_remeshing/internal/tetrahedral_remeshing_helpers.h>
 #include <CGAL/Tetrahedral_remeshing/internal/property_maps.h>
+
+#include <optional>
 
 namespace CGAL
 {
@@ -70,16 +72,16 @@ std::size_t peel_slivers(C3T3& c3t3,
     Cell_handle c = c_i.first;
     const std::array<bool, 4>& f_on_surface = c_i.second;
 
-    boost::optional<Surface_patch_index> patch;
+    std::optional<Surface_patch_index> patch;
     for (int i = 0; i < 4; ++i)
     {
       if (f_on_surface[i])
       {
         Surface_patch_index spi = c3t3.surface_patch_index(c, i);
-        if (patch != boost::none && patch.get() != spi)
+        if (patch.has_value() && patch.value() != spi)
         {
           //there are 2 different patches
-          patch = boost::none;
+          patch.reset();
           break;
         }
         else
@@ -88,7 +90,7 @@ std::size_t peel_slivers(C3T3& c3t3,
         }
       }
     }
-    if (patch == boost::none)
+    if (!patch.has_value())
       continue;
 
     for (int i = 0; i < 4; ++i)
@@ -96,7 +98,7 @@ std::size_t peel_slivers(C3T3& c3t3,
       if (f_on_surface[i])
         c3t3.remove_from_complex(c, i);
       else
-        c3t3.add_to_complex(c, i, patch.get());
+        c3t3.add_to_complex(c, i, patch.value());
     }
 
     c3t3.remove_from_complex(c);

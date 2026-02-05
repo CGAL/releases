@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.1/Spatial_searching/include/CGAL/Kd_tree_rectangle.h $
-// $Id: include/CGAL/Kd_tree_rectangle.h 50cfbde3b84 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.0.2/Spatial_searching/include/CGAL/Kd_tree_rectangle.h $
+// $Id: include/CGAL/Kd_tree_rectangle.h e13ef800cb7 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -111,11 +111,7 @@ namespace CGAL {
 
     explicit
     Kd_tree_rectangle(const Kd_tree_rectangle& r)
-    : max_span_coord_(r.max_span_coord_)
-    {
-      lower_ = r.lower_;
-      upper_ = r.upper_;
-    }
+    : lower_(r.lower_), upper_(r.upper_), max_span_coord_(r.max_span_coord_) {}
 
     template <class Construct_cartesian_const_iterator_d,class PointPointerIter>
     void update_from_point_pointers(PointPointerIter begin,
@@ -288,12 +284,6 @@ namespace CGAL {
     {
       std::fill(coords_, coords_ + 2*dim, FT(0));
     }
-
-    Kd_tree_rectangle()
-      : coords_(0), dim(0), max_span_coord_(-1)
-    {
-}
-
 
     explicit
     Kd_tree_rectangle(const Kd_tree_rectangle& r)

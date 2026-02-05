@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.1/Surface_mesh_topology/include/CGAL/Surface_mesh_topology/internal/Shortest_noncontractible_cycle.h $
-// $Id: include/CGAL/Surface_mesh_topology/internal/Shortest_noncontractible_cycle.h 50cfbde3b84 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.0.2/Surface_mesh_topology/include/CGAL/Surface_mesh_topology/internal/Shortest_noncontractible_cycle.h $
+// $Id: include/CGAL/Surface_mesh_topology/internal/Shortest_noncontractible_cycle.h e13ef800cb7 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Thien Hoang <thienvhoang99@gmail.com>

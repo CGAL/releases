@@ -9,8 +9,8 @@
 // and a STREP (FET Open) Project under Contract No  IST-006413
 // (ACS -- Algorithms for Complex Shapes)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.1/Circular_kernel_3/include/CGAL/Circular_kernel_3/internal_function_compare_to_right_spherical_kernel.h $
-// $Id: include/CGAL/Circular_kernel_3/internal_function_compare_to_right_spherical_kernel.h 50cfbde3b84 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.0.2/Circular_kernel_3/include/CGAL/Circular_kernel_3/internal_function_compare_to_right_spherical_kernel.h $
+// $Id: include/CGAL/Circular_kernel_3/internal_function_compare_to_right_spherical_kernel.h e13ef800cb7 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s) : Sebastien Loriot

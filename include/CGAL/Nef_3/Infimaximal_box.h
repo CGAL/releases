@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.1/Nef_3/include/CGAL/Nef_3/Infimaximal_box.h $
-// $Id: include/CGAL/Nef_3/Infimaximal_box.h 50cfbde3b84 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.0.2/Nef_3/include/CGAL/Nef_3/Infimaximal_box.h $
+// $Id: include/CGAL/Nef_3/Infimaximal_box.h e13ef800cb7 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -402,9 +402,9 @@ class Infimaximal_box<Tag_true, Kernel> {
     typename SNC_structure::Vertex_const_iterator v;
     CGAL_forall_vertices(v, snc) {
       Point_3 p(v->point());
-      if(p.hx()[0] > eval) eval = p.hx()[0];
-      if(p.hy()[0] > eval) eval = p.hy()[0];
-      if(p.hz()[0] > eval) eval = p.hz()[0];
+      if(abs(p.hx()[0]) > eval) eval = abs(p.hx()[0]);
+      if(abs(p.hy()[0]) > eval) eval = abs(p.hy()[0]);
+      if(abs(p.hz()[0]) > eval) eval = abs(p.hz()[0]);
     }
     eval *= 4;
     if(eval == 0) return 1;

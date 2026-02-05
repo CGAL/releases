@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.1/Polygon_mesh_processing/include/CGAL/Polygon_mesh_processing/detect_features.h $
-// $Id: include/CGAL/Polygon_mesh_processing/detect_features.h 50cfbde3b84 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.0.2/Polygon_mesh_processing/include/CGAL/Polygon_mesh_processing/detect_features.h $
+// $Id: include/CGAL/Polygon_mesh_processing/detect_features.h e13ef800cb7 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -334,8 +334,17 @@ void detect_vertex_incident_patches(const PolygonMesh& pmesh,
   for(vertex_descriptor vit :vertices(pmesh))
   {
     // Look only at feature vertices
-    if(!get(edge_is_feature_map, edge(halfedge(vit, pmesh), pmesh)))
-      continue;
+    bool skip=true;
+    for(halfedge_descriptor he : halfedges_around_target(vit, pmesh))
+    {
+      if(get(edge_is_feature_map, edge(he, pmesh)))
+      {
+        skip=false;
+        break;
+      }
+    }
+
+    if (skip) continue;
 
     // Loop on incident facets of vit
     typename VertexIncidentPatchesMap::value_type& id_set = vertex_incident_patches_map[vit];

@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.1/Nef_3/include/CGAL/Nef_3/SNC_point_locator.h $
-// $Id: include/CGAL/Nef_3/SNC_point_locator.h 50cfbde3b84 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.0.2/Nef_3/include/CGAL/Nef_3/SNC_point_locator.h $
+// $Id: include/CGAL/Nef_3/SNC_point_locator.h e13ef800cb7 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -432,7 +432,7 @@ public:
         e = *ei;
         CGAL_NEF_TRACEN("test edge " << e->source()->point() << "->" << e->twin()->source()->point());
         if (SNC_intersection::does_contain_internally(e->source()->point(), e->twin()->source()->point(), p)) {
-          _CGAL_NEF_TRACEN("found on edge "<< ss);
+//          _CGAL_NEF_TRACEN("found on edge "<< ss);
           return make_object(e);
         }
         if((e->source() != v)  && (e->twin()->source() != v) &&
@@ -557,7 +557,7 @@ private:
           if(SNC_intersection::does_intersect_internally( s, *f, q) ) {
             q = normalized(q);
             call_back( e0, *f, q);
-            _CGAL_NEF_TRACEN("edge intersects facet on plane "<<f->plane()<<" on "<<q);
+//            _CGAL_NEF_TRACEN("edge intersects facet on plane "<<f->plane()<<" on "<<q);
           }
           visited[*f] = true;
         }

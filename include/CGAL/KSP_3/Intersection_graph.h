@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.1/Kinetic_space_partition/include/CGAL/KSP_3/Intersection_graph.h $
-// $Id: include/CGAL/KSP_3/Intersection_graph.h 50cfbde3b84 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.0.2/Kinetic_space_partition/include/CGAL/KSP_3/Intersection_graph.h $
+// $Id: include/CGAL/KSP_3/Intersection_graph.h e13ef800cb7 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -289,9 +289,8 @@ public:
     m_initial_intervals.resize(e.size());
 
     std::size_t idx = 0;
-    for (const auto& edge : e) {
+    for (const auto& edge : e)
       m_initial_intervals[idx++] = m_graph[edge].intervals;
-    }
 
     m_initial_part_of_partition.resize(m_ifaces.size());
     for (idx = 0; idx < m_ifaces.size(); idx++)
@@ -303,9 +302,8 @@ public:
     CGAL_assertion(e.size() == m_initial_intervals.size());
     std::size_t idx = 0;
 
-    for (auto edge : e) {
-      m_graph[edge].intervals = m_initial_intervals[idx];
-    }
+    for (auto edge : e)
+      m_graph[edge].intervals = m_initial_intervals[idx++];
 
     CGAL_assertion(m_ifaces.size() == m_initial_part_of_partition.size());
     for (idx = 0; idx < m_ifaces.size(); idx++)

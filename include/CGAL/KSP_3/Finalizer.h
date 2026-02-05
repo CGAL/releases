@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.1/Kinetic_space_partition/include/CGAL/KSP_3/Finalizer.h $
-// $Id: include/CGAL/KSP_3/Finalizer.h 50cfbde3b84 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.0.2/Kinetic_space_partition/include/CGAL/KSP_3/Finalizer.h $
+// $Id: include/CGAL/KSP_3/Finalizer.h e13ef800cb7 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -116,6 +116,13 @@ public:
     CGAL_assertion(m_data.check_edges());
 
     merge_facets_connected_components();
+
+/*
+    if (m_parameters.debug) {
+      for (std::size_t sp = 0; sp < m_data.number_of_support_planes(); sp++) {
+        dump_2d_surface_mesh(m_data, sp, m_data.prefix() + "after-merge-sp" + std::to_string(sp));
+      }
+    }*/
 
     create_volumes();
 
@@ -336,13 +343,10 @@ private:
     }
 
     // Propagate both queues if volumes on either side of the pface are not segmented.
-    for (std::size_t i = 0; i < 2; i++) {
-      if (volume_indices[i] != uninitialized) {
-        while (!queue[i].empty()) {
+    for (std::size_t i = 0; i < 2; i++)
+      if (volume_indices[i] != uninitialized)
+        while (!queue[i].empty())
           propagate_volume(queue[i], volume_indices[i], volumes, map_volumes);
-        }
-      }
-    }
   }
 
   void propagate_volume(std::queue<std::pair<PFace, Oriented_side> >& queue, std::size_t volume_index, std::vector<Volume_cell>& volumes, std::map<PFace, std::pair<int, int> >& map_volumes) {

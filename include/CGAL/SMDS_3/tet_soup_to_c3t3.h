@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.1/SMDS_3/include/CGAL/SMDS_3/tet_soup_to_c3t3.h $
-// $Id: include/CGAL/SMDS_3/tet_soup_to_c3t3.h 50cfbde3b84 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.0.2/SMDS_3/include/CGAL/SMDS_3/tet_soup_to_c3t3.h $
+// $Id: include/CGAL/SMDS_3/tet_soup_to_c3t3.h e13ef800cb7 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -611,9 +611,11 @@ bool build_triangulation_from_file(std::istream& is,
       continue;
     }
 
-    if(line == "Vertices")
+    if(line.find("Vertices") != std::string::npos)
     {
       is >> nv;
+      if(verbose)
+        std::cerr << "Reading "<< nv << " vertices" << std::endl;
       for(int i=0; i<nv; ++i)
       {
         typename Tr::Geom_traits::FT x,y,z;
@@ -627,11 +629,15 @@ bool build_triangulation_from_file(std::istream& is,
       }
     }
 
-    if(line == "Triangles")
+    if(line.find("Triangles") != std::string::npos)
     {
       bool has_negative_surface_patch_ids = false;
       typename Tr::Cell::Surface_patch_index max_surface_patch_id = 0;
       is >> nf;
+
+      if(verbose)
+        std::cerr << "Reading "<< nf << " triangles" << std::endl;
+
       for(int i=0; i<nf; ++i)
       {
         int n[3];
@@ -680,9 +686,13 @@ bool build_triangulation_from_file(std::istream& is,
       }
     }
 
-    if(line == "Tetrahedra")
+    if(line.find("Tetrahedra") != std::string::npos)
     {
       is >> ntet;
+
+      if(verbose)
+        std::cerr << "Reading "<< ntet << " tetrahedra" << std::endl;
+
       for(int i=0; i<ntet; ++i)
       {
         int n[4];

@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.1/Filtered_kernel/include/CGAL/Lazy.h $
-// $Id: include/CGAL/Lazy.h 50cfbde3b84 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.0.2/Filtered_kernel/include/CGAL/Lazy.h $
+// $Id: include/CGAL/Lazy.h e13ef800cb7 $
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -112,23 +112,19 @@ template<class T>inline std::enable_if_t<std::is_empty<T>::value, int> depth(T){
 
 namespace internal{
 
-  template <typename AT, typename ET, typename E2A>
-  struct Evaluate<Lazy<AT, ET, E2A>>
+template <typename ET>
+struct Evaluate<Lazy_exact_nt<ET>>
+{
+  template <typename AT, typename ET2, typename E2A>
+  void operator()(const Lazy<AT, ET2, E2A>& l)
   {
-      void operator()(const Lazy<AT, ET, E2A>& l)
-      {
-          exact(l);
-      }
+    exact(l);
+  }
+  void operator()(const Lazy_exact_nt<ET>& l)
+  {
+    exact(l);
+  }
 };
-
-  template <typename ET>
-  struct Evaluate<Lazy_exact_nt<ET>>
-  {
-      void operator()(const Lazy_exact_nt<ET>& l)
-      {
-          exact(l);
-      }
-  };
 } // internal namespace
 
 // For an iterator, exact/approx applies to the objects it points to

@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.1/Scale_space_reconstruction_3/include/CGAL/Scale_space_reconstruction_3/Alpha_shape_mesher.h $
-// $Id: include/CGAL/Scale_space_reconstruction_3/Alpha_shape_mesher.h 50cfbde3b84 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.0.2/Scale_space_reconstruction_3/include/CGAL/Scale_space_reconstruction_3/Alpha_shape_mesher.h $
+// $Id: include/CGAL/Scale_space_reconstruction_3/Alpha_shape_mesher.h e13ef800cb7 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s):      Thijs van Lankveld, Simon Giraudot
