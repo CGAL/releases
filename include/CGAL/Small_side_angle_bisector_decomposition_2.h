@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.3/Minkowski_sum_2/include/CGAL/Small_side_angle_bisector_decomposition_2.h $
-// $Id: include/CGAL/Small_side_angle_bisector_decomposition_2.h cefe3007d59 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.1/Minkowski_sum_2/include/CGAL/Small_side_angle_bisector_decomposition_2.h $
+// $Id: include/CGAL/Small_side_angle_bisector_decomposition_2.h b26b07a1242 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s) : Ron Wein   <wein_r@yahoo.com>
@@ -443,7 +443,7 @@ private:
       vec[k].is_reflex = (f_orientation(*prev, *curr, *next) == RIGHT_TURN);
 
       // Set the number of reflex vertices from the beginning of the vector
-      // until the k'th (including itself).
+      // until the k-th (including itself).
       if (vec[k].is_reflex) ++reflex_count;
 
       vec[k].reflex_count = reflex_count;

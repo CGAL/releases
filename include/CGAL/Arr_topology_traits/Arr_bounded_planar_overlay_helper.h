@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.3/Arrangement_on_surface_2/include/CGAL/Arr_topology_traits/Arr_bounded_planar_overlay_helper.h $
-// $Id: include/CGAL/Arr_topology_traits/Arr_bounded_planar_overlay_helper.h cefe3007d59 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.1/Arrangement_on_surface_2/include/CGAL/Arr_topology_traits/Arr_bounded_planar_overlay_helper.h $
+// $Id: include/CGAL/Arr_topology_traits/Arr_bounded_planar_overlay_helper.h b26b07a1242 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -75,7 +75,7 @@ protected:
   Face_handle_blue m_blue_ubf;          // Blue unbounded face.
 
 public:
-  /*! Constructor, given the input red and blue arrangements. */
+  /*! constructs, given the input red and blue arrangements. */
   Arr_bounded_planar_overlay_helper(const Ar2* red_arr, const Ab2* blue_arr) :
     m_red_top_traits (red_arr->topology_traits()),
     m_blue_top_traits (blue_arr->topology_traits())
@@ -98,10 +98,10 @@ public:
   void before_handle_event(Event* /* e */) {}
   //@}
 
-  /*! Obtain the current red top face. */
+  /*! obtains the current red top face. */
   Face_handle_red red_top_face() const { return m_red_ubf; }
 
-  /*! Obtain the current blue top face. */
+  /*! obtains the current blue top face. */
   Face_handle_blue blue_top_face() const { return m_blue_ubf; }
 };
 

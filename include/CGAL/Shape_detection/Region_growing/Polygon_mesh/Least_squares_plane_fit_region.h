@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.3/Shape_detection/include/CGAL/Shape_detection/Region_growing/Polygon_mesh/Least_squares_plane_fit_region.h $
-// $Id: include/CGAL/Shape_detection/Region_growing/Polygon_mesh/Least_squares_plane_fit_region.h cefe3007d59 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.1/Shape_detection/include/CGAL/Shape_detection/Region_growing/Polygon_mesh/Least_squares_plane_fit_region.h $
+// $Id: include/CGAL/Shape_detection/Region_growing/Polygon_mesh/Least_squares_plane_fit_region.h b26b07a1242 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -178,8 +178,8 @@ namespace Polygon_mesh {
       CGAL_precondition(vertices.size() >= 3);
 
       auto vertex = vertices.begin();
-      const Point_3& p1 = get(m_vertex_to_point_map, *vertex); ++vertex;
-      const Point_3& p2 = get(m_vertex_to_point_map, *vertex); ++vertex;
+      Point_3 p1 = get(m_vertex_to_point_map, *vertex); ++vertex;
+      Point_3 p2 = get(m_vertex_to_point_map, *vertex); ++vertex;
       Point_3 p3 = get(m_vertex_to_point_map, *vertex);
       while(collinear(p1, p2, p3))
       {

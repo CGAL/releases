@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.3/Arrangement_on_surface_2/include/CGAL/Arr_topology_traits/Arr_unb_planar_batched_pl_helper.h $
-// $Id: include/CGAL/Arr_topology_traits/Arr_unb_planar_batched_pl_helper.h cefe3007d59 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.1/Arrangement_on_surface_2/include/CGAL/Arr_topology_traits/Arr_unb_planar_batched_pl_helper.h $
+// $Id: include/CGAL/Arr_topology_traits/Arr_unb_planar_batched_pl_helper.h b26b07a1242 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -56,8 +56,7 @@ protected:
   Halfedge_const_handle m_top_fict;     // The current top fictitious halfedge.
 
 public:
-  /*!
-   * Constructor.
+  /*! constructs.
    * \param arr The arrangement.
    */
   Arr_unb_planar_batched_pl_helper(const Arrangement_2* arr) :
@@ -76,7 +75,7 @@ public:
   void after_handle_event(Event* event);
   //@}
 
-  /*! Get the current top face. */
+  /*! obtains the current top face. */
   Face_const_handle top_face() const { return (m_top_fict->face()); }
 };
 

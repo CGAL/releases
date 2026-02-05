@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.3/Mesh_3/include/CGAL/Mesh_3/min_dihedral_angle.h $
-// $Id: include/CGAL/Mesh_3/min_dihedral_angle.h cefe3007d59 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.1/Mesh_3/include/CGAL/Mesh_3/min_dihedral_angle.h $
+// $Id: include/CGAL/Mesh_3/min_dihedral_angle.h b26b07a1242 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -34,7 +34,7 @@ minimum_dihedral_angle(
      const typename K::Point_3& p1,
      const typename K::Point_3& p2,
      const typename K::Point_3& p3,
-     K k = K())
+     const K& k = K())
 {
   typedef typename K::FT FT;
 
@@ -84,7 +84,7 @@ minimum_dihedral_angle(
      const typename K::Point_3& p1,
      const typename K::Point_3& p2,
      const typename K::Point_3& p3,
-     K k = K())
+     const K& k = K())
 {
   typedef typename K::FT FT;
 
@@ -139,7 +139,7 @@ minimum_dihedral_angle(
 
 template <typename K>
 typename K::FT
-minimum_dihedral_angle(const typename K::Tetrahedron_3& t, K k = K() )
+minimum_dihedral_angle(const typename K::Tetrahedron_3& t , const K& k = K())
 {
   return minimum_dihedral_angle(t[0],t[1],t[2],t[3],k);
 }

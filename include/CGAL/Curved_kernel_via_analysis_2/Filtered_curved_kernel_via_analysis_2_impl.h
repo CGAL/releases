@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.3/Arrangement_on_surface_2/include/CGAL/Curved_kernel_via_analysis_2/Filtered_curved_kernel_via_analysis_2_impl.h $
-// $Id: include/CGAL/Curved_kernel_via_analysis_2/Filtered_curved_kernel_via_analysis_2_impl.h cefe3007d59 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.1/Arrangement_on_surface_2/include/CGAL/Curved_kernel_via_analysis_2/Filtered_curved_kernel_via_analysis_2_impl.h $
+// $Id: include/CGAL/Curved_kernel_via_analysis_2/Filtered_curved_kernel_via_analysis_2_impl.h b26b07a1242 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -716,7 +716,7 @@ public:
     //! type of an arc on generic curve
     typedef internal::Arc_2< Self > Arc_2;
 
-    //! type of weakly x-monotone arc for \c ArrangementTraits_2
+    //! type of weakly x-monotone arc for \c AosTraits_2
     typedef Arc_2 X_monotone_curve_2;
 
     //!@}

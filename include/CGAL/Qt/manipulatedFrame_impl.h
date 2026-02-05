@@ -6,8 +6,8 @@
  This file is part of a fork of the QGLViewer library version 2.7.0.
 
 *****************************************************************************/
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.3/GraphicsView/include/CGAL/Qt/manipulatedFrame_impl.h $
-// $Id: include/CGAL/Qt/manipulatedFrame_impl.h cefe3007d59 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.1/GraphicsView/include/CGAL/Qt/manipulatedFrame_impl.h $
+// $Id: include/CGAL/Qt/manipulatedFrame_impl.h b26b07a1242 $
 // SPDX-License-Identifier: GPL-3.0-only
 
 #ifdef CGAL_HEADER_ONLY
@@ -475,7 +475,7 @@ void ManipulatedFrame::wheelEvent(QWheelEvent *const event,
 ////////////////////////////////////////////////////////////////////////////////
 
 /*! Returns "pseudo-distance" from (x,y) to ball of radius size.
-\arg for a point inside the ball, it is proportional to the euclidean distance
+\arg for a point inside the ball, it is proportional to the Euclidean distance
 to the ball \arg for a point outside the ball, it is proportional to the inverse
 of this distance (tends to zero) on the ball, the function is continuous. */
 static qreal projectOnBall(qreal x, qreal y) {

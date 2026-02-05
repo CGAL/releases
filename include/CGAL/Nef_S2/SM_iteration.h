@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.3/Nef_S2/include/CGAL/Nef_S2/SM_iteration.h $
-// $Id: include/CGAL/Nef_S2/SM_iteration.h cefe3007d59 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.1/Nef_S2/include/CGAL/Nef_S2/SM_iteration.h $
+// $Id: include/CGAL/Nef_S2/SM_iteration.h b26b07a1242 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //

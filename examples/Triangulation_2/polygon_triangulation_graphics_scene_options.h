@@ -1,10 +1,10 @@
-// Copyright(c) 2022  GeometryFactory (France).
+// Copyright (c) 2022  GeometryFactory (France).
 // All rights reserved.
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.3/Triangulation_2/examples/Triangulation_2/polygon_triangulation_graphics_scene_options.h $
-// $Id: examples/Triangulation_2/polygon_triangulation_graphics_scene_options.h cefe3007d59 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.1/Triangulation_2/examples/Triangulation_2/polygon_triangulation_graphics_scene_options.h $
+// $Id: examples/Triangulation_2/polygon_triangulation_graphics_scene_options.h b26b07a1242 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Andreas Fabri

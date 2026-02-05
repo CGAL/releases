@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.3/Polygon_mesh_processing/include/CGAL/Polygon_mesh_processing/connected_components.h $
-// $Id: include/CGAL/Polygon_mesh_processing/connected_components.h cefe3007d59 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.1/Polygon_mesh_processing/include/CGAL/Polygon_mesh_processing/connected_components.h $
+// $Id: include/CGAL/Polygon_mesh_processing/connected_components.h b26b07a1242 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -27,7 +27,6 @@
 
 #include <CGAL/assertions.h>
 #include <CGAL/boost/graph/iterator.h>
-#include <CGAL/boost/graph/helpers.h>
 #include <CGAL/boost/graph/Face_filtered_graph.h>
 #include <CGAL/boost/graph/copy_face_graph.h>
 #include <CGAL/Container_helper.h>
@@ -38,7 +37,6 @@
 #include <CGAL/iterator.h>
 #include <CGAL/tuple.h>
 
-#include <CGAL/Named_function_parameters.h>
 #include <CGAL/boost/graph/named_params_helper.h>
 
 namespace CGAL {
@@ -851,9 +849,9 @@ void remove_connected_components(PolygonMesh& pmesh
 * then the behavior of this function is undefined.
 *
 * \tparam PolygonMesh a model of `FaceListGraph` and `MutableFaceGraph`
+* \tparam NamedParameters a sequence of \ref bgl_namedparameters "Named Parameters"
 * \tparam FaceRange a range of `boost::graph_traits<PolygonMesh>::%face_descriptor`
 *         indicating the connected components to be removed.
-* \tparam NamedParameters a sequence of \ref bgl_namedparameters "Named Parameters"
 *
 * \param components_to_remove a face range, including one face or more on each component to be removed
 * \param pmesh the polygon mesh

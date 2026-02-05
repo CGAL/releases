@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.3/Algebraic_kernel_for_circles/include/CGAL/Algebraic_kernel_for_circles/internal_functions_on_roots_and_polynomials_2_2.h $
-// $Id: include/CGAL/Algebraic_kernel_for_circles/internal_functions_on_roots_and_polynomials_2_2.h cefe3007d59 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.1/Algebraic_kernel_for_circles/include/CGAL/Algebraic_kernel_for_circles/internal_functions_on_roots_and_polynomials_2_2.h $
+// $Id: include/CGAL/Algebraic_kernel_for_circles/internal_functions_on_roots_and_polynomials_2_2.h b26b07a1242 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Monique Teillaud, Sylvain Pion

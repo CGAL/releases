@@ -7,8 +7,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.3/Homogeneous_kernel/include/CGAL/Homogeneous/DirectionH2.h $
-// $Id: include/CGAL/Homogeneous/DirectionH2.h cefe3007d59 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.1/Homogeneous_kernel/include/CGAL/Homogeneous/DirectionH2.h $
+// $Id: include/CGAL/Homogeneous/DirectionH2.h b26b07a1242 $
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -64,9 +64,8 @@ public:
      : base( w > RT(0) ? CGAL::make_array(x, y, w)
                        : CGAL::make_array<RT>(-x, -y, -w) ) {}
 
-    bool    operator==( const DirectionH2<R>& d) const;
-    bool    operator!=( const DirectionH2<R>& d) const;
-
+    typename R_::Boolean operator==( const DirectionH2<R>& d) const;
+    typename R_::Boolean operator!=( const DirectionH2<R>& d) const;
 
     Vector_2       to_vector() const;
 
@@ -81,7 +80,7 @@ public:
 
 template <class R >
 CGAL_KERNEL_INLINE
-bool
+typename R::Boolean
 DirectionH2<R>::operator==( const DirectionH2<R>& d) const
 {
   return (  ( x() * d.y() == y() * d.x() )
@@ -91,7 +90,7 @@ DirectionH2<R>::operator==( const DirectionH2<R>& d) const
 
 template <class R >
 inline
-bool
+typename R::Boolean
 DirectionH2<R>::operator!=( const DirectionH2<R>& d) const
 { return !(*this == d); }
 

@@ -138,12 +138,7 @@ public Q_SLOTS:
 private:
   void showFileBox(QString title, QString fileName) {
     QFile textFile(fileName);
-    bool b = textFile.open(QIODevice::ReadOnly);
-    if(!b){
-      QMessageBox::critical(this, tr("Error"),
-          tr("Could not open file %1.").arg(fileName));
-      return;
-    }
+    textFile.open(QIODevice::ReadOnly);
     QMessageBox mb(QMessageBox::NoIcon,
         title,
         QTextStream(&textFile).readAll(),

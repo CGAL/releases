@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.3/Nef_3/include/CGAL/Nef_3/SNC_SM_overlayer.h $
-// $Id: include/CGAL/Nef_3/SNC_SM_overlayer.h cefe3007d59 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.1/Nef_3/include/CGAL/Nef_3/SNC_SM_overlayer.h $
+// $Id: include/CGAL/Nef_3/SNC_SM_overlayer.h b26b07a1242 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //

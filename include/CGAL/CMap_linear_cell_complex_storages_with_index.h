@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.3/Linear_cell_complex/include/CGAL/CMap_linear_cell_complex_storages_with_index.h $
-// $Id: include/CGAL/CMap_linear_cell_complex_storages_with_index.h cefe3007d59 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.1/Linear_cell_complex/include/CGAL/CMap_linear_cell_complex_storages_with_index.h $
+// $Id: include/CGAL/CMap_linear_cell_complex_storages_with_index.h b26b07a1242 $
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Guillaume Damiand <guillaume.damiand@liris.cnrs.fr>
@@ -189,7 +189,7 @@ namespace CGAL {
     void init_storage()
     {
       // Allocate a dart for null_dart_descriptor
-      assert(mdarts.empty()); // the compact container is empty
+      CGAL_assertion(mdarts.empty()); // the compact container is empty
       Dart_index local_null_dart_descriptor = mdarts.emplace();
       if(local_null_dart_descriptor!=0)
       {

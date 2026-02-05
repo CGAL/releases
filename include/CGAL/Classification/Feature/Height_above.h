@@ -4,8 +4,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.3/Classification/include/CGAL/Classification/Feature/Height_above.h $
-// $Id: include/CGAL/Classification/Feature/Height_above.h cefe3007d59 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.1/Classification/include/CGAL/Classification/Feature/Height_above.h $
+// $Id: include/CGAL/Classification/Feature/Height_above.h b26b07a1242 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Florent Lafarge, Simon Giraudot

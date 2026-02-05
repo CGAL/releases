@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.3/Periodic_3_triangulation_3/include/CGAL/Periodic_3_regular_triangulation_3.h $
-// $Id: include/CGAL/Periodic_3_regular_triangulation_3.h cefe3007d59 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.1/Periodic_3_triangulation_3/include/CGAL/Periodic_3_regular_triangulation_3.h $
+// $Id: include/CGAL/Periodic_3_regular_triangulation_3.h b26b07a1242 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Monique Teillaud <Monique.Teillaud@inria.fr>
@@ -544,7 +544,7 @@ public:
     typedef CGAL::Periodic_3_regular_triangulation_remove_traits_3< Gt > P3removeT;
     typedef CGAL::Regular_triangulation_3< P3removeT > Euclidean_triangulation;
     typedef Vertex_remover< Euclidean_triangulation > Remover;
-    P3removeT remove_traits(domain());
+    P3removeT remove_traits(geom_traits());
     Euclidean_triangulation tmp(remove_traits);
     Remover remover(this, tmp);
     Conflict_tester ct(this);
@@ -576,7 +576,7 @@ public:
     typedef CGAL::Regular_triangulation_3< P3removeT > Euclidean_triangulation;
     typedef Vertex_remover< Euclidean_triangulation > Remover;
 
-    P3removeT remove_traits(domain());
+    P3removeT remove_traits(geom_traits());
     Euclidean_triangulation tmp(remove_traits);
     Remover remover(this, tmp);
     Cover_manager cover_manager(*this);
@@ -765,20 +765,13 @@ public:
   }
 
   // same as the base construct_periodic_point(), but for weighted points
-  Periodic_weighted_point construct_periodic_weighted_point(const Weighted_point& p,
-                                                            bool& had_to_use_exact) const
+  Periodic_weighted_point construct_periodic_weighted_point(const Weighted_point& p) const
   {
     const Bare_point& bp = geom_traits().construct_point_3_object()(p);
-    const Periodic_bare_point pbp = Tr_Base::construct_periodic_point(bp, had_to_use_exact);
+    const Periodic_bare_point pbp = Tr_Base::construct_periodic_point(bp);
     return std::make_pair(geom_traits().construct_weighted_point_3_object()(
                             pbp.first, p.weight()),
                           pbp.second);
-  }
-
-  Periodic_weighted_point construct_periodic_weighted_point(const Weighted_point& p) const
-  {
-    bool useless = false;
-    return construct_periodic_weighted_point(p, useless);
   }
 
 public:

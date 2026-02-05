@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.3/Surface_mesh_topology/include/CGAL/Surface_mesh_topology/internal/Minimal_quadrangulation.h $
-// $Id: include/CGAL/Surface_mesh_topology/internal/Minimal_quadrangulation.h cefe3007d59 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.1/Surface_mesh_topology/include/CGAL/Surface_mesh_topology/internal/Minimal_quadrangulation.h $
+// $Id: include/CGAL/Surface_mesh_topology/internal/Minimal_quadrangulation.h b26b07a1242 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Guillaume Damiand <guillaume.damiand@liris.cnrs.fr>
@@ -1280,7 +1280,7 @@ protected:
         else
         {// there is at least a hole around the vertex
          // we set the 0-th dart just after a hole
-         // then we add 1 to the next dart if we dont cross a hole
+         // then we add 1 to the next dart if we don't cross a hole
          // and we add deg(v)+1 if we cross a hole
           dh=it;
           while(!get_local_map().is_marked(dh, m_mark_perforated))

@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.3/Bounding_volumes/include/CGAL/Approximate_min_ellipsoid_d/Approximate_min_ellipsoid_d_impl.h $
-// $Id: include/CGAL/Approximate_min_ellipsoid_d/Approximate_min_ellipsoid_d_impl.h cefe3007d59 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.1/Bounding_volumes/include/CGAL/Approximate_min_ellipsoid_d/Approximate_min_ellipsoid_d_impl.h $
+// $Id: include/CGAL/Approximate_min_ellipsoid_d/Approximate_min_ellipsoid_d_impl.h b26b07a1242 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -47,7 +47,7 @@ namespace CGAL {
     //
     //    E* = { y | (y - c)^T M'/alpha (y - c) + mu <= 0 }.
     //
-    // Expanding the later and comparing with the original form we
+    // Expanding the latter and comparing with the original form we
     // obtain
     //
     //    c = - M'^{-1} m

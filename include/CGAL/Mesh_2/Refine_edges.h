@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.3/Mesh_2/include/CGAL/Mesh_2/Refine_edges.h $
-// $Id: include/CGAL/Mesh_2/Refine_edges.h cefe3007d59 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.1/Mesh_2/include/CGAL/Mesh_2/Refine_edges.h $
+// $Id: include/CGAL/Mesh_2/Refine_edges.h b26b07a1242 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -344,14 +344,8 @@ protected:
 
   void scan_triangulation_impl(Tag_true)
   {
-    // with constraint hierarchy
-
-    for(typename Tr::Subconstraint_iterator it = tr.subconstraints_begin();
-        it != tr.subconstraints_end(); ++it)
+    for(const auto& [v1, v2] : tr.subconstraints())
     {
-      const Vertex_handle& v1 = it->first.first;
-      const Vertex_handle& v2 = it->first.second;
-
       if(!is_locally_conform(tr, v1, v2) ){
         add_constrained_edge_to_be_conformed(v1, v2);
       }

@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.3/Filtered_kernel/include/CGAL/Filtered_kernel/internal/Static_filters/Side_of_oriented_circle_2.h $
-// $Id: include/CGAL/Filtered_kernel/internal/Static_filters/Side_of_oriented_circle_2.h cefe3007d59 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.1/Filtered_kernel/include/CGAL/Filtered_kernel/internal/Static_filters/Side_of_oriented_circle_2.h $
+// $Id: include/CGAL/Filtered_kernel/internal/Static_filters/Side_of_oriented_circle_2.h b26b07a1242 $
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -23,11 +23,11 @@ template < typename K_base >
 class Side_of_oriented_circle_2
   : public K_base::Side_of_oriented_circle_2
 {
+  typedef typename K_base::Oriented_side                Oriented_side;
   typedef typename K_base::Point_2                      Point_2;
   typedef typename K_base::Side_of_oriented_circle_2    Base;
 
 public:
-
   Oriented_side operator()(const Point_2 &p, const Point_2 &q,
                            const Point_2 &r, const Point_2 &t) const
   {

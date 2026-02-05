@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.3/Arrangement_on_surface_2/include/CGAL/Arr_topology_traits/Arr_spherical_insertion_helper.h $
-// $Id: include/CGAL/Arr_topology_traits/Arr_spherical_insertion_helper.h cefe3007d59 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.1/Arrangement_on_surface_2/include/CGAL/Arr_topology_traits/Arr_spherical_insertion_helper.h $
+// $Id: include/CGAL/Arr_topology_traits/Arr_spherical_insertion_helper.h b26b07a1242 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -78,10 +78,10 @@ protected:
   Halfedge_handle m_spherical_halfedge;
 
 public:
-  /*! Constructor */
+  /*! constructs */
   Arr_spherical_insertion_helper(Arrangement_2 *arr) : Base(arr) {}
 
-  /*! Destructor. */
+  /*! destructs. */
   virtual ~Arr_spherical_insertion_helper() {}
 
   /// \name Notification functions.
@@ -104,7 +104,7 @@ public:
   /*! A notification invoked when a new subcurve is created. */
   virtual void add_subcurve(Halfedge_handle he, Subcurve* sc);
 
-  /*! Get the current top face. */
+  /*! obtains the current top face. */
   virtual Face_handle top_face() const;
 
 private:
@@ -256,7 +256,7 @@ add_subcurve(Halfedge_handle he, Subcurve* /* sc */)
   }
 }
 
-/*! Get the current top face. */
+/*! obtains the current top face. */
 template <typename Tr, typename Arr, typename Evnt, typename Sbcv>
 typename Arr_spherical_insertion_helper<Tr, Arr, Evnt, Sbcv>::Face_handle
 Arr_spherical_insertion_helper<Tr, Arr, Evnt, Sbcv>::top_face() const

@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.3/Mesh_3/include/CGAL/refine_mesh_3.h $
-// $Id: include/CGAL/refine_mesh_3.h cefe3007d59 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.1/Mesh_3/include/CGAL/refine_mesh_3.h $
+// $Id: include/CGAL/refine_mesh_3.h b26b07a1242 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -193,7 +193,7 @@ private:
  *                           Two named parameters control this behavior:
  *                           <UL>
  *                             <LI> `parameters::no_lloyd()`
- *                             <LI> `parameters::lloyd_optimize_mesh_3()`
+ *                             <LI> `parameters::lloyd()`
  *                           </UL>}
  *     \cgalParamDefault{`parameters::no_lloyd()`}
  *   \cgalParamSectionEnd
@@ -355,7 +355,8 @@ void refine_mesh_3_impl(C3T3& c3t3,
                  , mesh_options.pointer_to_stop_atomic_boolean
 #endif
                  );
-  double refine_time = mesher.refine_mesh(mesh_options.dump_after_refine_surface_prefix);
+  double refine_time = mesher.refine_mesh(mesh_options.dump_after_refine_surface_prefix,
+                                          mesh_options.surface_only);
   c3t3.clear_manifold_info();
 
   dump_c3t3(c3t3, mesh_options.dump_after_refine_prefix);
@@ -387,7 +388,7 @@ void refine_mesh_3_impl(C3T3& c3t3,
   }
 
   // Perturbation
-  if ( perturb )
+  if ( perturb && !mesh_options.surface_only )
   {
     double perturb_time_limit = refine_time;
 
@@ -403,7 +404,7 @@ void refine_mesh_3_impl(C3T3& c3t3,
   }
 
   // Exudation
-  if ( exude )
+  if ( exude  && !mesh_options.surface_only )
   {
     double exude_time_limit = refine_time;
 

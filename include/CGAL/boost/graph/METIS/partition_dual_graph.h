@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.3/BGL/include/CGAL/boost/graph/METIS/partition_dual_graph.h $
-// $Id: include/CGAL/boost/graph/METIS/partition_dual_graph.h cefe3007d59 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.1/BGL/include/CGAL/boost/graph/METIS/partition_dual_graph.h $
+// $Id: include/CGAL/boost/graph/METIS/partition_dual_graph.h b26b07a1242 $
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Mael Rouxel-Labbé
@@ -61,7 +61,7 @@ void partition_dual_graph(const TriangleMesh& tm,
 
   // fill the adjacency info
   face_iterator fit, fe;
-  boost::tie(fit, fe) = faces(tm);
+  std::tie(fit, fe) = faces(tm);
   for(int i=0, j=0; fit!=fe; ++fit, ++i)
   {
     eptr[i] = j;

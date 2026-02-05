@@ -7,8 +7,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.3/STL_Extension/include/CGAL/Concatenate_iterator.h $
-// $Id: include/CGAL/Concatenate_iterator.h cefe3007d59 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.1/STL_Extension/include/CGAL/Concatenate_iterator.h $
+// $Id: include/CGAL/Concatenate_iterator.h b26b07a1242 $
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -54,8 +54,10 @@ public:
 
 public:
   Concatenate_iterator() : e1_(), i1_(), b2_(), i2_() {}
+
   Concatenate_iterator(It1 e1, It2 b2, It1 i1)
     : e1_(e1), i1_(i1), b2_(b2), i2_(b2) {}
+
   Concatenate_iterator(It1 e1, It2 b2, It2 i2, int)
     : e1_(e1), i1_(e1), b2_(b2), i2_(i2) {}
 
@@ -93,6 +95,32 @@ public:
     return tmp;
   }
 
+  Self operator+(std::size_t offset) const
+  {
+    // todo: make this a O(1) time operation
+    Self res(*this);
+    for(std::size_t i=0;i<offset;++i){
+      ++res;
+    }
+    return res;
+  }
+
+  Self& operator+=(std::size_t offset)
+  {
+    *this=this->operator+(offset);
+    return *this;
+  }
+
+  std::size_t operator-(Self other) const
+  {
+    // todo: make this a O(1) time operation
+    std::size_t res = 0;
+    while(other != *this){
+      ++res;
+      ++other;
+    }
+    return res;
+  }
 
   reference  operator*()  const
   {

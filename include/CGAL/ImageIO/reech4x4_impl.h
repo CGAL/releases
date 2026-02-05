@@ -3,8 +3,8 @@
 //
 // This file is part of the ImageIO Library, and as been adapted for CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.3/CGAL_ImageIO/include/CGAL/ImageIO/reech4x4_impl.h $
-// $Id: include/CGAL/ImageIO/reech4x4_impl.h cefe3007d59 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.1/CGAL_ImageIO/include/CGAL/ImageIO/reech4x4_impl.h $
+// $Id: include/CGAL/ImageIO/reech4x4_impl.h b26b07a1242 $
 // SPDX-License-Identifier: LGPL-3.0-or-later
 //
 //
@@ -13,7 +13,7 @@
 /*************************************************************************
  * reech4x4.c -
  *
- * $Id: include/CGAL/ImageIO/reech4x4_impl.h cefe3007d59 $
+ * $Id: include/CGAL/ImageIO/reech4x4_impl.h b26b07a1242 $
  *
  * Copyright©INRIA 1999
  *

@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.3/Segment_Delaunay_graph_2/include/CGAL/Segment_Delaunay_graph_2/Is_degenerate_edge_C2.h $
-// $Id: include/CGAL/Segment_Delaunay_graph_2/Is_degenerate_edge_C2.h cefe3007d59 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.1/Segment_Delaunay_graph_2/include/CGAL/Segment_Delaunay_graph_2/Is_degenerate_edge_C2.h $
+// $Id: include/CGAL/Segment_Delaunay_graph_2/Is_degenerate_edge_C2.h b26b07a1242 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -46,11 +46,8 @@ private:
   }
 
 public:
-  typedef Boolean       result_type;
-  typedef Site_2        argument_type;
-
-  Boolean   operator()(const Site_2& p, const Site_2& q,
-                       const Site_2& r, const Site_2& s) const
+  Boolean operator()(const Site_2& p, const Site_2& q,
+                     const Site_2& r, const Site_2& s) const
   {
     Voronoi_vertex_2 vpqr(p, q, r);
     if ( vpqr.incircle_no_easy(s) == POSITIVE ) { return false; }

@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.3/Number_types/include/CGAL/MP_Float.h $
-// $Id: include/CGAL/MP_Float.h cefe3007d59 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.1/Number_types/include/CGAL/MP_Float.h $
+// $Id: include/CGAL/MP_Float.h b26b07a1242 $
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -167,7 +167,7 @@ public:
     low = static_cast<limb>(l & mask); //extract low bits from l
     high= static_cast<limb>((l - low) >> sizeof_limb); //extract high bits from l
 
-    CGAL_postcondition ( l == low + ( static_cast<limb2>(high) << sizeof_limb ) );
+    CGAL_postcondition ( l == low + ( high * (limb2(1) << sizeof_limb) ) );
   }
 
   // Given a limb2, returns the higher limb.

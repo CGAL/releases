@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.3/Three/include/CGAL/Three/Scene_interface.h $
-// $Id: include/CGAL/Three/Scene_interface.h cefe3007d59 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.1/Three/include/CGAL/Three/Scene_interface.h $
+// $Id: include/CGAL/Three/Scene_interface.h b26b07a1242 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -102,7 +102,7 @@ public:
   //! \brief The number of items
   //!@returns the number of items in the scene.
   virtual int numberOfEntries() const = 0;
-  //!\brief The `id`th item.
+  //!\brief The `id`-th item.
   //! @returns the item with the specified index.
   virtual CGAL::Three::Scene_item* item(Item_id id) const = 0;
   //!\brief The id of `item`
@@ -131,7 +131,7 @@ public:
   virtual double len_diagonal() const = 0;
 
 public:
-  //! Updates the information about the `i`th item in the
+  //! Updates the information about the `i`-th item in the
   //! Geometric Objects list and redraws the scene.
   virtual void itemChanged(Item_id i) = 0;
   //! Updates the information about `item` in the

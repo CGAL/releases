@@ -2,8 +2,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.3/Surface_mesh_skeletonization/include/CGAL/Mean_curvature_flow_skeletonization.h $
-// $Id: include/CGAL/Mean_curvature_flow_skeletonization.h cefe3007d59 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.1/Surface_mesh_skeletonization/include/CGAL/Mean_curvature_flow_skeletonization.h $
+// $Id: include/CGAL/Mean_curvature_flow_skeletonization.h b26b07a1242 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Xiang Gao <gaox@ethz.ch>
@@ -344,7 +344,7 @@ double diagonal_length(const Bbox_3& bbox)
 double init_min_edge_length()
 {
   vertex_iterator vb, ve;
-  boost::tie(vb, ve) = vertices(m_tmesh);
+  std::tie(vb, ve) = vertices(m_tmesh);
   Vertex_to_point v_to_p(m_tmesh_point_pmap);
   Bbox_3 bbox = CGAL::bbox_3(boost::make_transform_iterator(vb, v_to_p),
                              boost::make_transform_iterator(ve, v_to_p));

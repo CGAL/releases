@@ -7,8 +7,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.3/Polygon/include/CGAL/General_polygon_with_holes_2.h $
-// $Id: include/CGAL/General_polygon_with_holes_2.h cefe3007d59 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.1/Polygon/include/CGAL/General_polygon_with_holes_2.h $
+// $Id: include/CGAL/General_polygon_with_holes_2.h b26b07a1242 $
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -148,8 +148,8 @@ protected:
 This operator exports a `General_polygon_with_holes_2` to the output stream `os`.
 
 An \ascii and a binary format exist. The format can be selected with
-the \cgal modifiers for streams, `set_ascii_mode()` and `set_binary_mode()`,
-respectively. The modifier `set_pretty_mode()` can be used to allow for (a
+the \cgal modifiers for streams, `CGAL::IO::set_ascii_mode()` and `CGAL::IO::set_binary_mode()`,
+respectively. The modifier `CGAL::IO::set_pretty_mode()` can be used to allow for (a
 few) structuring comments in the output. Otherwise, the output would
 be free of comments. The default for writing is \ascii without comments.
 

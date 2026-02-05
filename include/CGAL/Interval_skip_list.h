@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.3/Interval_skip_list/include/CGAL/Interval_skip_list.h $
-// $Id: include/CGAL/Interval_skip_list.h cefe3007d59 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.1/Interval_skip_list/include/CGAL/Interval_skip_list.h $
+// $Id: include/CGAL/Interval_skip_list.h b26b07a1242 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -1111,7 +1111,7 @@ template <class Interval>
   Interval_skip_list<Interval>::removeMarkers(IntervalSLnode<Interval>* left,
                                             const Interval& I)
   {
-    // Remove markers for interval I, which has left as it's left
+    // Remove markers for interval I, which has left as its left
     // endpoint,  following a staircase pattern.
 
     //    Interval_handle res=0, tmp=0; // af: assignment not possible with std::list

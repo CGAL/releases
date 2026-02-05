@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.3/Mesh_3/include/CGAL/Mesh_polyhedron_3.h $
-// $Id: include/CGAL/Mesh_polyhedron_3.h cefe3007d59 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.1/Mesh_3/include/CGAL/Mesh_polyhedron_3.h $
+// $Id: include/CGAL/Mesh_polyhedron_3.h b26b07a1242 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -41,10 +41,9 @@ private:
   typedef CGAL::HalfedgeDS_vertex_base<Refs, Tag, Point> Pdv_base;
 
   Set_of_indices indices;
-  std::size_t time_stamp_;
-
+  std::size_t time_stamp_ = std::size_t(-2);
 public:
-  int nb_of_feature_edges;
+  int nb_of_feature_edges = 0;
 
   bool is_corner() const {
     return nb_of_feature_edges > 2;
@@ -85,8 +84,8 @@ public:
     return indices;
   }
 
-  Mesh_polyhedron_vertex() : Pdv_base(), time_stamp_(-1), nb_of_feature_edges(0) {}
-  Mesh_polyhedron_vertex(const Point& p) : Pdv_base(p), time_stamp_(-1), nb_of_feature_edges(0) {}
+  Mesh_polyhedron_vertex() = default;
+  Mesh_polyhedron_vertex(const Point& p) : Pdv_base(p) {}
 };
 
 template <class Refs, class Tprev, class Tvertex, class Tface>
@@ -95,7 +94,7 @@ public CGAL::HalfedgeDS_halfedge_base<Refs,Tprev,Tvertex,Tface>
 {
 private:
   bool feature_edge;
-  std::size_t time_stamp_;
+  std::size_t time_stamp_ = std::size_t(-2);
 
 public:
 
@@ -143,7 +142,7 @@ public CGAL::HalfedgeDS_face_base<Refs,T_,Pln_>
 {
 private:
   Patch_id_ patch_id_;
-  std::size_t time_stamp_;
+  std::size_t time_stamp_ = std::size_t(-2);
 
 public:
 

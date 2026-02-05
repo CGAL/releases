@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.3/Segment_Delaunay_graph_2/include/CGAL/Segment_Delaunay_graph_2/Are_parallel_C2.h $
-// $Id: include/CGAL/Segment_Delaunay_graph_2/Are_parallel_C2.h cefe3007d59 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.1/Segment_Delaunay_graph_2/include/CGAL/Segment_Delaunay_graph_2/Are_parallel_C2.h $
+// $Id: include/CGAL/Segment_Delaunay_graph_2/Are_parallel_C2.h b26b07a1242 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -34,15 +34,13 @@ class Are_parallel_C2
 public:
   typedef typename K::Site_2       Site_2;
   typedef typename K::Boolean      Boolean;
-  typedef Boolean                  result_type;
-  typedef Site_2                   argument_type;
 
 private:
   typedef typename K::Segment_2    Segment_2;
   typedef typename K::FT           FT;
 
 private:
-  Boolean   predicate(const Site_2& p, const Site_2& q) const {
+  Boolean predicate(const Site_2& p, const Site_2& q) const {
     CGAL_precondition( p.is_segment() && q.is_segment() );
 
     Segment_2 s1 = p.segment();
@@ -64,7 +62,7 @@ private:
   }
 
 public:
-  result_type operator()(const Site_2& p, const Site_2& q) const
+  Boolean operator()(const Site_2& p, const Site_2& q) const
   {
     return predicate(p, q);
   }

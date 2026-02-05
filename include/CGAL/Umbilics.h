@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.3/Ridges_3/include/CGAL/Umbilics.h $
-// $Id: include/CGAL/Umbilics.h cefe3007d59 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.1/Ridges_3/include/CGAL/Umbilics.h $
+// $Id: include/CGAL/Umbilics.h b26b07a1242 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Marc Pouget and Frédéric Cazals
@@ -184,7 +184,7 @@ compute(OutputIterator umbilics_it, FT size)
 
   //MAIN loop on P vertices
   Vertex_const_iterator itb, ite;
-  boost::tie(itb,ite) = vertices(P);
+  std::tie(itb,ite) = vertices(P);
   for (;itb != ite; itb++) {
     vertex_descriptor vh = *itb;
     umbilicEstimatorVertex = cgal_abs(get(k1,vh)-get(k2,vh));

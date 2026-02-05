@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.3/Orthtree/include/CGAL/Orthtree/Split_predicates.h $
-// $Id: include/CGAL/Orthtree/Split_predicates.h cefe3007d59 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.1/Orthtree/include/CGAL/Orthtree/Split_predicates.h $
+// $Id: include/CGAL/Orthtree/Split_predicates.h b26b07a1242 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Jackson Campolattaro, Cédric Portaneri, Tong Zhao
@@ -85,7 +85,7 @@ public:
   \ingroup PkgOrthtreeSplitPredicates
   \brief A class used to choose when a node should be split depending on the depth and the number of contained elements.
 
-  This predicate makes a note split if it contains more than a
+  This predicate makes a node split if it contains more than a
   certain number of items and if its depth is lower than a certain
   limit.
 

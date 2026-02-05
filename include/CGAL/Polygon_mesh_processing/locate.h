@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.3/Polygon_mesh_processing/include/CGAL/Polygon_mesh_processing/locate.h $
-// $Id: include/CGAL/Polygon_mesh_processing/locate.h cefe3007d59 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.1/Polygon_mesh_processing/include/CGAL/Polygon_mesh_processing/locate.h $
+// $Id: include/CGAL/Polygon_mesh_processing/locate.h b26b07a1242 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Mael Rouxel-Labbé,
@@ -28,6 +28,7 @@
 #include <CGAL/boost/graph/named_params_helper.h>
 #include <CGAL/Random.h>
 #include <CGAL/use.h>
+#include <CGAL/squared_distance_3.h>
 
 #include <boost/graph/graph_traits.hpp>
 #include <variant>
@@ -1450,7 +1451,7 @@ void build_AABB_tree(const TriangleMesh& tm,
                        >::value>* = 0)
 {
   typename boost::graph_traits<TriangleMesh>::face_iterator ffirst, fbeyond;
-  boost::tie(ffirst, fbeyond) = faces(tm);
+  std::tie(ffirst, fbeyond) = faces(tm);
   outTree.rebuild(ffirst, fbeyond, tm, wrapped_vpm);
   outTree.build();
 }

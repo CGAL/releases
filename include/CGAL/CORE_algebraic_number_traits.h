@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.3/Arrangement_on_surface_2/include/CGAL/CORE_algebraic_number_traits.h $
-// $Id: include/CGAL/CORE_algebraic_number_traits.h cefe3007d59 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.1/Arrangement_on_surface_2/include/CGAL/CORE_algebraic_number_traits.h $
+// $Id: include/CGAL/CORE_algebraic_number_traits.h b26b07a1242 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -541,7 +541,7 @@ public:
 
     for (i = 1; i <= n_roots; i++)
     {
-      // Get the i'th real-valued root.
+      // Get the i-th real-valued root.
       *oi = rootOf(poly, i);
       ++oi;
     }
@@ -603,7 +603,7 @@ public:
 
     for (i = 0; i < root_intervals.size(); i++)
     {
-      // Get the i'th real-valued root.
+      // Get the i-th real-valued root.
       *oi = rootOf(poly, root_intervals[i]);
       ++oi;
     }

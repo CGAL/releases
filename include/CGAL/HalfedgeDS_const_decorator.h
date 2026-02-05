@@ -7,8 +7,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.3/HalfedgeDS/include/CGAL/HalfedgeDS_const_decorator.h $
-// $Id: include/CGAL/HalfedgeDS_const_decorator.h cefe3007d59 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.1/HalfedgeDS/include/CGAL/HalfedgeDS_const_decorator.h $
+// $Id: include/CGAL/HalfedgeDS_const_decorator.h b26b07a1242 $
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -133,8 +133,8 @@ normalized_border_is_valid( bool verb) const {
 
     Halfedge_const_iterator e = hds->halfedges_begin();
     size_type count = 0;
-    while( e != hds->halfedges_end() && ! e->is_border() && !
-           e->opposite()->is_border()) {
+    while( e != hds->halfedges_end() && ! e->is_border() &&
+           ! e->opposite()->is_border()) {
         ++e;
         ++e;
         ++count;

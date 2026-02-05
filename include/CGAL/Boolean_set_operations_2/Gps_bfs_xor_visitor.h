@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.3/Boolean_set_operations_2/include/CGAL/Boolean_set_operations_2/Gps_bfs_xor_visitor.h $
-// $Id: include/CGAL/Boolean_set_operations_2/Gps_bfs_xor_visitor.h cefe3007d59 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.1/Boolean_set_operations_2/include/CGAL/Boolean_set_operations_2/Gps_bfs_xor_visitor.h $
+// $Id: include/CGAL/Boolean_set_operations_2/Gps_bfs_xor_visitor.h b26b07a1242 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -52,7 +52,7 @@ public:
     return (ic % 2) == 1;
   }
 
-  //! after_scan post-processing after bfs scan.
+  //! after_scan postprocessing after bfs scan.
 /*! The function fixes some of the curves, to be in the same direction as the
     half-edges.
 

@@ -7,8 +7,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.3/Distance_3/include/CGAL/squared_distance_3.h $
-// $Id: include/CGAL/squared_distance_3.h cefe3007d59 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.1/Distance_3/include/CGAL/squared_distance_3.h $
+// $Id: include/CGAL/squared_distance_3.h b26b07a1242 $
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -20,9 +20,9 @@
 
 #include <CGAL/Distance_3/Point_3_Point_3.h>
 #include <CGAL/Distance_3/Point_3_Weighted_point_3.h>
+#include <CGAL/Distance_3/Point_3_Line_3.h>
 #include <CGAL/Distance_3/Point_3_Segment_3.h>
 #include <CGAL/Distance_3/Point_3_Ray_3.h>
-#include <CGAL/Distance_3/Point_3_Line_3.h>
 #include <CGAL/Distance_3/Point_3_Triangle_3.h>
 #include <CGAL/Distance_3/Point_3_Plane_3.h>
 #include <CGAL/Distance_3/Point_3_Tetrahedron_3.h>
@@ -44,5 +44,7 @@
 #include <CGAL/Distance_3/Triangle_3_Triangle_3.h>
 
 #include <CGAL/Distance_3/Plane_3_Plane_3.h>
+
+#include <CGAL/global_functions_distance_3.h>
 
 #endif // CGAL_DISTANCE_3_H

@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.3/Weights/include/CGAL/Weights/internal/utils.h $
-// $Id: include/CGAL/Weights/internal/utils.h cefe3007d59 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.1/Weights/include/CGAL/Weights/internal/utils.h $
+// $Id: include/CGAL/Weights/internal/utils.h b26b07a1242 $
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -44,7 +44,7 @@ private:
 public:
   FT operator()(const FT value) const
   {
-    return static_cast<FT>(CGAL::sqrt(CGAL::to_double(CGAL::abs(value))));
+    return CGAL::approximate_sqrt(CGAL::abs(value));
   }
 };
 

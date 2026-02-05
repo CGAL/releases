@@ -7,8 +7,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.3/Generator/include/CGAL/point_generators_3.h $
-// $Id: include/CGAL/point_generators_3.h cefe3007d59 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.1/Generator/include/CGAL/point_generators_3.h $
+// $Id: include/CGAL/point_generators_3.h b26b07a1242 $
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -38,7 +38,7 @@ public:
     typedef Random_points_in_sphere_3<P,Creator> This;
     Random_points_in_sphere_3( double r = 1, Random& rnd = CGAL::get_default_random())
         // g is an input iterator creating points of type `P' uniformly
-        // distributed in the open sphere with radius r, i.e. |`*g'| < r .
+        // distributed in the open sphere with radius r, i.e., |`*g'| < r .
         // Three random numbers are needed from `rnd' for each point
     : Random_generator_base<P>( r, rnd) { generate_point(); }
     This& operator++()    {

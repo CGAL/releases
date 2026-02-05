@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.3/Arrangement_on_surface_2/include/CGAL/Arr_point_location/Arr_lm_generator_base.h $
-// $Id: include/CGAL/Arr_point_location/Arr_lm_generator_base.h cefe3007d59 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.1/Arrangement_on_surface_2/include/CGAL/Arr_point_location/Arr_lm_generator_base.h $
+// $Id: include/CGAL/Arr_point_location/Arr_lm_generator_base.h b26b07a1242 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Idit Haran   <haranidi@post.tau.ac.il>
@@ -98,14 +98,14 @@ public:
   bool is_empty() const { return nn.is_empty(); }
 
 private:
-  /*! Copy constructor - not supported. */
+  /*! Copy constructor not supported. */
   Arr_landmarks_generator_base(const Self&);
 
-  /*! Assignment operator - not supported. */
+  /*! Assignment operator not supported. */
   Self& operator=(const Self& );
 
 public:
-  /*! Constructor from an arrangement.
+  /*! constructs from an arrangement.
    * \param arr (in) The arrangement.
    */
   Arr_landmarks_generator_base(const Base_aos& arr) :
@@ -120,7 +120,7 @@ public:
     // inherited class.
   }
 
-  /*! Create the landmarks set (choosing the landmarks) ,
+  /*! creates the landmarks set (choosing the landmarks) ,
    * and saving them in the nearest-neighbor search structure.
    */
   virtual void build_landmark_set() {
@@ -136,7 +136,7 @@ public:
     updated = true;
   }
 
-  /*! clear the set of landmarks.
+  /*! clears the set of landmarks.
    */
   virtual void clear_landmark_set() {
     nn.clear();
@@ -144,7 +144,7 @@ public:
     updated = false;
   }
 
-  /*! Obtain the nearest neighbor (landmark) to the given point.
+  /*! obtains the nearest neighbor (landmark) to the given point.
    * \param p The query point.
    * \param obj Output: The location of the nearest landmark point in the
    *                    arrangement (a vertex, halfedge, or face handle).
@@ -399,7 +399,7 @@ public:
   //@}
 
 protected:
-  /*! Create the list of landmarks with their location.
+  /*! creates the list of landmarks with their location.
    * This is a pure virtual function, and the class that inherites from
    * this generator must implement it.
    */

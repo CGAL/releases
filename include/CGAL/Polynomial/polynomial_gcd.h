@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.3/Polynomial/include/CGAL/Polynomial/polynomial_gcd.h $
-// $Id: include/CGAL/Polynomial/polynomial_gcd.h cefe3007d59 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.1/Polynomial/include/CGAL/Polynomial/polynomial_gcd.h $
+// $Id: include/CGAL/Polynomial/polynomial_gcd.h b26b07a1242 $
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -402,7 +402,7 @@ Polynomial<NT> gcdex_(
  *
  *  CGALially, computation is performed ``denominator-free'' if
  *  supported by the coefficient type via \c CGAL::Fraction_traits
- *  (using \c pseudo_gcdex() ), otherwise the euclidean remainder
+ *  (using \c pseudo_gcdex() ), otherwise the Euclidean remainder
  *  sequence is used.
  *
  *  \pre \c NT must be a \c Field.

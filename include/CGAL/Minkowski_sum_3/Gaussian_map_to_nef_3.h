@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.3/Minkowski_sum_3/include/CGAL/Minkowski_sum_3/Gaussian_map_to_nef_3.h $
-// $Id: include/CGAL/Minkowski_sum_3/Gaussian_map_to_nef_3.h cefe3007d59 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.1/Minkowski_sum_3/include/CGAL/Minkowski_sum_3/Gaussian_map_to_nef_3.h $
+// $Id: include/CGAL/Minkowski_sum_3/Gaussian_map_to_nef_3.h b26b07a1242 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //

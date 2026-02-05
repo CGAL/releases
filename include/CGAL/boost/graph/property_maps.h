@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.3/BGL/include/CGAL/boost/graph/property_maps.h $
-// $Id: include/CGAL/boost/graph/property_maps.h cefe3007d59 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.1/BGL/include/CGAL/boost/graph/property_maps.h $
+// $Id: include/CGAL/boost/graph/property_maps.h b26b07a1242 $
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Sebastien Loriot

@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.3/Set_movable_separability_2/include/CGAL/Set_movable_separability_2/internal/Utils.h $
-// $Id: include/CGAL/Set_movable_separability_2/internal/Utils.h cefe3007d59 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.1/Set_movable_separability_2/include/CGAL/Set_movable_separability_2/internal/Utils.h $
+// $Id: include/CGAL/Set_movable_separability_2/internal/Utils.h b26b07a1242 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s): Shahar    <shasha94@gmail.com>
@@ -41,7 +41,7 @@ get_segment_outer_circle(const typename Kernel::Segment_2 seg,
 }
 
 template <typename Kernel>
-bool is_any_edge_colinear(const CGAL::Polygon_2<Kernel>& pgn, Kernel& kernel)
+bool is_any_edge_collinear(const CGAL::Polygon_2<Kernel>& pgn, Kernel& kernel)
 {
   typedef typename Kernel::Point_2                      Point_2;
   typedef typename CGAL::Polygon_2<Kernel>              Polygon_2;

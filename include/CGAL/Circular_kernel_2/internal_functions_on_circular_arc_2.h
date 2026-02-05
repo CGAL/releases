@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.3/Circular_kernel_2/include/CGAL/Circular_kernel_2/internal_functions_on_circular_arc_2.h $
-// $Id: include/CGAL/Circular_kernel_2/internal_functions_on_circular_arc_2.h cefe3007d59 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.1/Circular_kernel_2/include/CGAL/Circular_kernel_2/internal_functions_on_circular_arc_2.h $
+// $Id: include/CGAL/Circular_kernel_2/internal_functions_on_circular_arc_2.h b26b07a1242 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Monique Teillaud, Sylvain Pion, Pedro Machado
@@ -1565,7 +1565,7 @@ advanced_make_xy_monotone( const typename CK::Circular_arc_2 &a,
       double ymax = (is_on_upper) ?
         to_interval
         ( CircularFunctors::y_extremal_point<CK>(a.supporting_circle(),false).y() ).second :
-        CGAL::max(left_bb.ymax(),right_bb.ymax());
+        (CGAL::max)(left_bb.ymax(),right_bb.ymax());
       */
       return Bbox_2(left_bb.xmin(),ymin,right_bb.xmax(),ymax);
     }

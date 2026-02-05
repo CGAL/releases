@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.3/GraphicsView/include/CGAL/Qt/GraphicsViewPolygonWithHolesInput.h $
-// $Id: include/CGAL/Qt/GraphicsViewPolygonWithHolesInput.h cefe3007d59 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.1/GraphicsView/include/CGAL/Qt/GraphicsViewPolygonWithHolesInput.h $
+// $Id: include/CGAL/Qt/GraphicsViewPolygonWithHolesInput.h b26b07a1242 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -59,6 +59,11 @@ public:
 public Q_SLOTS:
   void processInput(CGAL::Object o);
 
+  void setZValue(int z)
+  {
+    pi->setZValue(z);
+  }
+
 typedef CGAL::Polygon_2<K> Polygon;
 typedef CGAL::Polygon_with_holes_2<K> Polygon_with_holes;
 
@@ -85,10 +90,11 @@ private:
 
 template <typename K>
 GraphicsViewPolygonWithHolesInput<K>::GraphicsViewPolygonWithHolesInput(QObject *parent, QGraphicsScene* s)
-  : GraphicsViewInput(parent), scene_(s), polygon_input(false)
+  : GraphicsViewInput(parent), polygon_input(false), scene_(s)
 {
   pwhItem = new CGAL::Qt::PolygonWithHolesGraphicsItem<Polygon_with_holes>(&pwh);
   pwhItem->setBrush(::Qt::yellow);
+  pwhItem->setZValue(8);
   scene_->addItem(pwhItem);
   pwhItem->hide();
 
@@ -145,7 +151,7 @@ GraphicsViewPolygonWithHolesInput<K>::processInput(CGAL::Object o)
 
 template <typename K>
 void
-GraphicsViewPolygonWithHolesInput<K>::keyPressEvent ( QKeyEvent * event )
+GraphicsViewPolygonWithHolesInput<K>::keyPressEvent ( QKeyEvent * /* event */ )
 {
 }
 

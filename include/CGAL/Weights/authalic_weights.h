@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.3/Weights/include/CGAL/Weights/authalic_weights.h $
-// $Id: include/CGAL/Weights/authalic_weights.h cefe3007d59 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.1/Weights/include/CGAL/Weights/authalic_weights.h $
+// $Id: include/CGAL/Weights/authalic_weights.h b26b07a1242 $
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -59,7 +59,7 @@ FT weight(const FT cot_gamma, const FT cot_beta, const FT r2)
 
   This function computes the half of the authalic weight using the precomputed
   cotangent and squared distance values. The returned value is
-  \f$\frac{2\textbf{cot}}{\textbf{sq_d}}\f$.
+  \f$\frac{2\textbf{cot}}{\textbf{sq\_d}}\f$.
 
   \tparam FT a model of `FieldNumberType`
 

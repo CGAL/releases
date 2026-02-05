@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.3/Filtered_kernel/include/CGAL/Filtered_kernel/internal/Static_filters/Coplanar_orientation_3.h $
-// $Id: include/CGAL/Filtered_kernel/internal/Static_filters/Coplanar_orientation_3.h cefe3007d59 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.1/Filtered_kernel/include/CGAL/Filtered_kernel/internal/Static_filters/Coplanar_orientation_3.h $
+// $Id: include/CGAL/Filtered_kernel/internal/Static_filters/Coplanar_orientation_3.h b26b07a1242 $
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -40,12 +40,12 @@ template < typename Kernel >
 class Coplanar_orientation_3
   : public Kernel::Coplanar_orientation_3
 {
+  typedef typename Kernel::Orientation              Orientation;
   typedef typename Kernel::Point_3                  Point_3;
+
   typedef typename Kernel::Coplanar_orientation_3   Base;
 
 public:
-  typedef Orientation result_type;
-
   Orientation operator()(const Point_3 &p, const Point_3 &q, const Point_3 &r) const
   {
       return opti_coplanar_orientationC3(

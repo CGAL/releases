@@ -2,8 +2,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.3/Surface_mesh_skeletonization/include/CGAL/extract_mean_curvature_flow_skeleton.h $
-// $Id: include/CGAL/extract_mean_curvature_flow_skeleton.h cefe3007d59 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.1/Surface_mesh_skeletonization/include/CGAL/extract_mean_curvature_flow_skeleton.h $
+// $Id: include/CGAL/extract_mean_curvature_flow_skeleton.h b26b07a1242 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Sebastien Loriot
@@ -43,6 +43,7 @@ namespace CGAL{
 ///        and the set of input vertices that contracted to `vd` can be retrieved
 ///        using `skeleton[vd].point` and `skeleton[vd].vertices` respectively.
 ///
+/// @pre `tmesh` is a triangulated surface mesh without borders and has exactly one connected component.
 template <class TriangleMesh>
 void extract_mean_curvature_flow_skeleton(const TriangleMesh& tmesh,
                                           typename Mean_curvature_flow_skeletonization<TriangleMesh>::Skeleton& skeleton)

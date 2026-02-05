@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.3/Filtered_kernel/include/CGAL/Kernel_profiler.h $
-// $Id: include/CGAL/Kernel_profiler.h cefe3007d59 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.1/Filtered_kernel/include/CGAL/Kernel_profiler.h $
+// $Id: include/CGAL/Kernel_profiler.h b26b07a1242 $
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -25,8 +25,6 @@ template < typename P >
 struct Primitive_profiler
   : public P
 {
-    typedef typename P::result_type  result_type;
-
 // #define CGAL_KERNEL_PROFILER CGAL_PROFILER(CGAL_PRETTY_FUNCTION);
 #define CGAL_KERNEL_PROFILER \
         CGAL_PROFILER(typeid(static_cast<const P&>(*this)).name())
@@ -35,7 +33,7 @@ struct Primitive_profiler
       : P(p) {}
 
     template <class ... A>
-    result_type
+    decltype(auto)
     operator()(A&& ... a) const
     {
         CGAL_KERNEL_PROFILER;

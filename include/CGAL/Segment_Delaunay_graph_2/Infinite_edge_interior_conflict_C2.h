@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.3/Segment_Delaunay_graph_2/include/CGAL/Segment_Delaunay_graph_2/Infinite_edge_interior_conflict_C2.h $
-// $Id: include/CGAL/Segment_Delaunay_graph_2/Infinite_edge_interior_conflict_C2.h cefe3007d59 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.1/Segment_Delaunay_graph_2/include/CGAL/Segment_Delaunay_graph_2/Infinite_edge_interior_conflict_C2.h $
+// $Id: include/CGAL/Segment_Delaunay_graph_2/Infinite_edge_interior_conflict_C2.h b26b07a1242 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -37,16 +37,13 @@ public:
   typedef Are_same_points_C2<K>        Are_same_points_2;
   typedef Are_same_segments_C2<K>      Are_same_segments_2;
 
-  typedef Boolean                      result_type;
-  struct argument_type {};
-
 private:
   Are_same_points_2    same_points;
   Are_same_segments_2  same_segments;
 
 public:
-  Boolean   operator()(const Site_2& q, const Site_2& s, const Site_2& r,
-                       const Site_2& t, Sign sgn) const
+  Boolean operator()(const Site_2& q, const Site_2& s, const Site_2& r,
+                     const Site_2& t, Sign sgn) const
   {
     if ( t.is_segment() ) {
       return false;

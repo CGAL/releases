@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.3/Filtered_kernel/include/CGAL/Filtered_kernel/internal/Static_filters/Collinear_3.h $
-// $Id: include/CGAL/Filtered_kernel/internal/Static_filters/Collinear_3.h cefe3007d59 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.1/Filtered_kernel/include/CGAL/Filtered_kernel/internal/Static_filters/Collinear_3.h $
+// $Id: include/CGAL/Filtered_kernel/internal/Static_filters/Collinear_3.h b26b07a1242 $
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -24,16 +24,16 @@ template < typename K_base >
 class Collinear_3
   : public K_base::Collinear_3
 {
+  typedef typename K_base::Boolean          Boolean;
   typedef typename K_base::Point_3          Point_3;
   typedef typename K_base::Vector_3         Vector_3;
   typedef typename K_base::Sphere_3         Sphere_3;
   typedef typename K_base::Tetrahedron_3    Tetrahedron_3;
-  typedef typename K_base::Collinear_3    Base;
+
+  typedef typename K_base::Collinear_3      Base;
 
 public:
-
-  typedef typename Base::result_type  result_type;
-  result_type
+  Boolean
   operator()(const Point_3 &p, const Point_3 &q, const Point_3 &r) const
   {
     CGAL_BRANCH_PROFILER_3("semi-static failures/attempts/calls to   : Collinear_3", tmp);

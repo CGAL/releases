@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.3/Surface_mesh_topology/include/CGAL/draw_face_graph_with_paths.h $
-// $Id: include/CGAL/draw_face_graph_with_paths.h cefe3007d59 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.1/Surface_mesh_topology/include/CGAL/draw_face_graph_with_paths.h $
+// $Id: include/CGAL/draw_face_graph_with_paths.h b26b07a1242 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Guillaume Damiand <guillaume.damiand@liris.cnrs.fr>
@@ -386,8 +386,6 @@ void add_to_graphics_scene(const Mesh& mesh,
   add_to_graphics_scene(mesh, graphics_scene, paths, amark);
 }
 
-#ifdef CGAL_USE_BASIC_VIEWER
-
 template<typename Mesh, typename GSOptions>
 void draw(const Mesh& mesh,
           const std::vector<Surface_mesh_topology::Path_on_surface<Mesh> >& paths,
@@ -435,8 +433,6 @@ void draw(const Mesh& mesh,
   std::vector<Surface_mesh_topology::Path_on_surface<Mesh>> paths=l;
   draw(mesh, paths, title, amark);
 }
-
-#endif // CGAL_USE_BASIC_VIEWER
 
 } // End namespace CGAL
 

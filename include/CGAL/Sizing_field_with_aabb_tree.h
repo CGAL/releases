@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.3/Mesh_3/include/CGAL/Sizing_field_with_aabb_tree.h $
-// $Id: include/CGAL/Sizing_field_with_aabb_tree.h cefe3007d59 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.1/Mesh_3/include/CGAL/Sizing_field_with_aabb_tree.h $
+// $Id: include/CGAL/Sizing_field_with_aabb_tree.h b26b07a1242 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Laurent Rineau

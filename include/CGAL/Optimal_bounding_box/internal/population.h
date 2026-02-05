@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.3/Optimal_bounding_box/include/CGAL/Optimal_bounding_box/internal/population.h $
-// $Id: include/CGAL/Optimal_bounding_box/internal/population.h cefe3007d59 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.1/Optimal_bounding_box/include/CGAL/Optimal_bounding_box/internal/population.h $
+// $Id: include/CGAL/Optimal_bounding_box/internal/population.h b26b07a1242 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -121,7 +121,7 @@ public:
   Vertex& get_best_vertex()
   {
     std::size_t simplex_id = static_cast<std::size_t>(-1), vertex_id = static_cast<std::size_t>(-1);
-    //cast from double to float looses data, so cast with {} is not allowed
+    //cast from double to float loses data, so cast with {} is not allowed
     //cast from double to exact types also works
     FT best_fitness = FT((std::numeric_limits<double>::max)());
     for(std::size_t i=0, ps=m_simplices.size(); i<ps; ++i)

@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.3/Nef_S2/include/CGAL/Nef_S2/SM_checker.h $
-// $Id: include/CGAL/Nef_S2/SM_checker.h cefe3007d59 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.1/Nef_S2/include/CGAL/Nef_S2/SM_checker.h $
+// $Id: include/CGAL/Nef_S2/SM_checker.h b26b07a1242 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -79,12 +79,12 @@ bool is_forward(Halfedge_const_handle e) const
 
 void check_order_preserving_embedding(Vertex_const_handle v) const;
 /*{\Mop checks if the embedding of the targets of the edges in
-the adjacency list |A(v)| is counter-clockwise order-preserving with
+the adjacency list |A(v)| is counterclockwise order-preserving with
 respect to the order of the edges in |A(v)|.}*/
 
 void check_order_preserving_embedding() const;
 /*{\Mop checks if the embedding of all vertices of |P| is
-counter-clockwise order-preserving with respect to the adjacency
+counterclockwise order-preserving with respect to the adjacency
 list ordering of all vertices.}*/
 
 void check_forward_prefix_condition(Vertex_const_handle v) const;

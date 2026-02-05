@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.3/Surface_sweep_2/include/CGAL/Surface_sweep_2/Surface_sweep_2_impl.h $
-// $Id: include/CGAL/Surface_sweep_2/Surface_sweep_2_impl.h cefe3007d59 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.1/Surface_sweep_2/include/CGAL/Surface_sweep_2/Surface_sweep_2_impl.h $
+// $Id: include/CGAL/Surface_sweep_2/Surface_sweep_2_impl.h b26b07a1242 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s) : Baruch Zukerman <baruchzu@post.tau.ac.il>
@@ -480,7 +480,7 @@ void Surface_sweep_2<Vis>::_remove_curve_from_status_line(Subcurve* leftCurve,
   leftCurve->set_hint(this->m_statusLine.end());
 
   if (! remove_for_good) {
-    // the subcurve is not removed for good, so we dont need to intersect
+    // the subcurve is not removed for good, so we don't need to intersect
     // its neighbors after its removal.
     CGAL_SS_PRINT_ERASE(*sliter);
     this->m_statusLine.erase(sliter);

@@ -7,8 +7,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.3/Kernel_23/include/CGAL/Ray_3.h $
-// $Id: include/CGAL/Ray_3.h cefe3007d59 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.1/Kernel_23/include/CGAL/Ray_3.h $
+// $Id: include/CGAL/Ray_3.h b26b07a1242 $
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -28,6 +28,7 @@ namespace CGAL {
 template <class R_>
 class Ray_3 : public R_::Kernel_base::Ray_3
 {
+  typedef typename R_::Boolean               Boolean;
   typedef typename R_::FT                    FT;
   typedef typename R_::Point_3               Point_3;
   typedef typename R_::Direction_3           Direction_3;
@@ -96,8 +97,8 @@ public:
   Line_3      supporting_line() const;
   Ray_3       opposite() const;
 
-  bool        is_degenerate() const;
-  bool        collinear_has_on(const Point_3 &p) const;
+  Boolean is_degenerate() const;
+  Boolean collinear_has_on(const Point_3 &p) const;
 */
 
   decltype(auto)
@@ -124,7 +125,7 @@ public:
     return source();
   }
 
-  bool has_on(const Point_3 &p) const
+  Boolean has_on(const Point_3 &p) const
   {
     return R().has_on_3_object()(*this, p);
   }
@@ -156,7 +157,7 @@ public:
     return R().construct_line_3_object()(source(), second_point());
   }
 
-  bool is_degenerate() const
+  Boolean is_degenerate() const
   {
     return R().is_degenerate_3_object()(*this);
   }

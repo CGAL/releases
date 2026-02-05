@@ -7,8 +7,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.3/Kernel_23/include/CGAL/Iso_rectangle_2.h $
-// $Id: include/CGAL/Iso_rectangle_2.h cefe3007d59 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.1/Kernel_23/include/CGAL/Iso_rectangle_2.h $
+// $Id: include/CGAL/Iso_rectangle_2.h b26b07a1242 $
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -27,6 +27,8 @@ namespace CGAL {
 template <class R_>
 class Iso_rectangle_2 : public R_::Kernel_base::Iso_rectangle_2
 {
+  typedef typename R_::Boolean               Boolean;
+  typedef typename R_::Bounded_side          Bounded_side;
   typedef typename R_::RT                    RT;
   typedef typename R_::FT                    FT;
   typedef typename R_::Point_2               Point_2;
@@ -94,19 +96,6 @@ public:
     return R().construct_max_vertex_2_object()(*this);
   }
 
-  bool
-  operator==(const Iso_rectangle_2 &i) const
-  {
-    return R().equal_2_object()(*this, i);
-  }
-
-  bool
-  operator!=(const Iso_rectangle_2 &i) const
-  {
-    return ! (*this == i);
-  }
-
-
   decltype(auto)
   vertex(int i) const
   {
@@ -169,22 +158,19 @@ public:
     return R().compute_area_2_object()(*this);
   }
 
-
-  bool
+  Boolean
   has_on_boundary(const Point_2 &p) const
   {
     return R().has_on_boundary_2_object()(*this,p);
   }
 
-
-  bool
+  Boolean
   has_on_bounded_side(const Point_2 &p) const
   {
     return R().has_on_bounded_side_2_object()(*this,p);
   }
 
-
-  bool
+  Boolean
   has_on_unbounded_side(const Point_2 &p) const
   {
     return R().has_on_unbounded_side_2_object()(*this,p);
@@ -196,8 +182,7 @@ public:
     return R().bounded_side_2_object()(*this,p);
   }
 
-
-  bool
+  Boolean
   is_degenerate() const
   {
     return R().is_degenerate_2_object()(*this);

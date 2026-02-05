@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.3/Polyhedron/include/CGAL/draw_polyhedron.h $
-// $Id: include/CGAL/draw_polyhedron.h cefe3007d59 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.1/Polyhedron/include/CGAL/draw_polyhedron.h $
+// $Id: include/CGAL/draw_polyhedron.h b26b07a1242 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Guillaume Damiand <guillaume.damiand@liris.cnrs.fr>
@@ -18,7 +18,7 @@
 #include <CGAL/Graphics_scene_options.h>
 #include <CGAL/Polyhedron_3.h>
 #include <CGAL/draw_face_graph.h>
-#include <CGAL/Qt/Basic_viewer.h>
+#include <CGAL/Basic_viewer.h>
 
 namespace CGAL
 {
@@ -48,7 +48,6 @@ void add_to_graphics_scene(const CGAL_POLY_TYPE& apoly,
 { add_to_graphics_scene_for_fg(apoly, graphics_scene); }
 
 // Specialization of draw function: require Qt and the CGAL basic viewer.
-#ifdef CGAL_USE_BASIC_VIEWER
 
 template<class PolyhedronTraits_3,
          class PolyhedronItems_3,
@@ -77,7 +76,6 @@ void draw(const CGAL_POLY_TYPE& apoly,
   add_to_graphics_scene_for_fg(apoly, buffer, gs_options);
   draw_graphics_scene(buffer, title);
 }
-#endif // CGAL_USE_BASIC_VIEWER
 
 #undef CGAL_POLY_TYPE
 

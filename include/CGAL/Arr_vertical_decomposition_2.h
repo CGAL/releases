@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.3/Arrangement_on_surface_2/include/CGAL/Arr_vertical_decomposition_2.h $
-// $Id: include/CGAL/Arr_vertical_decomposition_2.h cefe3007d59 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.1/Arrangement_on_surface_2/include/CGAL/Arr_vertical_decomposition_2.h $
+// $Id: include/CGAL/Arr_vertical_decomposition_2.h b26b07a1242 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s): Ron Wein <wein@post.tau.ac.il>
@@ -117,7 +117,7 @@ decompose(const Arrangement_on_surface_2<GeometryTraits_2, TopologyTraits>& arr,
    *
    * If the type Vgt2 is the same as the type Gt2, use a
    * reference to Gt2 to avoid constructing a new one.  Otherwise,
-   * instantiate a local variable of the former and provide the later as a
+   * instantiate a local variable of the former and provide the latter as a
    * single parameter to the constructor.
    *
    * Use the form 'A a(*b);' and not ''A a = b;' to handle the case where A has

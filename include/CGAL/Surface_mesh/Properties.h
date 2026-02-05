@@ -4,8 +4,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.3/Surface_mesh/include/CGAL/Surface_mesh/Properties.h $
-// $Id: include/CGAL/Surface_mesh/Properties.h cefe3007d59 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.1/Surface_mesh/include/CGAL/Surface_mesh/Properties.h $
+// $Id: include/CGAL/Surface_mesh/Properties.h b26b07a1242 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 
@@ -188,14 +188,14 @@ public:
         return &data_[0];
     }
 
-    /// Access the i'th element. No range check is performed!
+    /// Access the i-th element. No range check is performed!
     reference operator[](std::size_t _idx)
     {
         CGAL_assertion( _idx < data_.size() );
         return data_[_idx];
     }
 
-    /// Const access to the i'th element. No range check is performed!
+    /// Const access to the i-th element. No range check is performed!
     const_reference operator[](std::size_t _idx) const
     {
         CGAL_assertion( _idx < data_.size());

@@ -2,8 +2,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.3/BGL/include/CGAL/IO/polygon_mesh_io.h $
-// $Id: include/CGAL/IO/polygon_mesh_io.h cefe3007d59 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.1/BGL/include/CGAL/IO/polygon_mesh_io.h $
+// $Id: include/CGAL/IO/polygon_mesh_io.h b26b07a1242 $
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Maxime Gimeno
@@ -17,6 +17,7 @@
 #include <CGAL/boost/graph/IO/INP.h>
 #include <CGAL/boost/graph/IO/OBJ.h>
 #include <CGAL/boost/graph/IO/OFF.h>
+#include <CGAL/boost/graph/IO/OM.h>
 #include <CGAL/boost/graph/IO/PLY.h>
 #include <CGAL/boost/graph/IO/STL.h>
 #include <CGAL/boost/graph/IO/VTK.h>
@@ -80,6 +81,7 @@ bool read_polygon_mesh(std::istream& is,
  * Supported file formats are the following:
  * - \ref IOStreamOFF (`.off`)
  * - \ref IOStreamOBJ (`.obj`)
+ * - \ref IOStreamOM (`.om`)
  * - \ref IOStreamSTL (`.stl`)
  * - \ref IOStreamPLY (`.ply`)
  * - \ref IOStreamGocad (`.ts`)
@@ -138,6 +140,10 @@ bool read_polygon_mesh(const std::string& fname,
     return read_OBJ(fname, g, np);
   else if(ext == "off")
     return read_OFF(fname, g, np);
+#ifdef CGAL_USE_OPENMESH
+  else if(ext == "om")
+    return read_OM(fname, g, np);
+#endif
   else if(ext == "ply")
     return read_PLY(fname, g, np);
   else if(ext == "stl")

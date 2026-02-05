@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.3/Segment_Delaunay_graph_2/include/CGAL/Segment_Delaunay_graph_2/Arrangement_type_non_intersecting_C2.h $
-// $Id: include/CGAL/Segment_Delaunay_graph_2/Arrangement_type_non_intersecting_C2.h cefe3007d59 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.1/Segment_Delaunay_graph_2/include/CGAL/Segment_Delaunay_graph_2/Arrangement_type_non_intersecting_C2.h $
+// $Id: include/CGAL/Segment_Delaunay_graph_2/Arrangement_type_non_intersecting_C2.h b26b07a1242 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -65,13 +65,13 @@ private:
   Are_same_points_2     same_points;
 
 public:
-  typedef typename Enum::Arrangement_type    result_type;
+  typedef typename Enum::Arrangement_type    Arrangement_type;
 
 private:
 
   //--------------------------------------------------------------------
 
-  result_type
+  Arrangement_type
   arrangement_type_ss(const Site_2& p, const Site_2& q) const
   {
     bool same_p1q1 = same_points(p.source_site(), q.source_site());
@@ -98,7 +98,7 @@ private:
 
   //--------------------------------------------------------------------
 
-  result_type
+  Arrangement_type
   arrangement_type_ps(const Site_2& p, const Site_2& q) const
   {
     if ( same_points(p, q.source_site()) ) {
@@ -112,7 +112,7 @@ private:
 
   //--------------------------------------------------------------------
 
-  result_type
+  Arrangement_type
   arrangement_type_pp(const Site_2& p, const Site_2& q) const
   {
     if ( same_points(p, q) ) {
@@ -128,7 +128,7 @@ public:
   typedef Site_2                   argument_type;
 
 
-  result_type
+  Arrangement_type
   operator()(const Site_2& p, const Site_2& q) const
   {
     CGAL_precondition( p.is_defined() && q.is_defined() );

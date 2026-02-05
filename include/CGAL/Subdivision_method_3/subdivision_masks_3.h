@@ -2,8 +2,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.3/Subdivision_method_3/include/CGAL/Subdivision_method_3/subdivision_masks_3.h $
-// $Id: include/CGAL/Subdivision_method_3/subdivision_masks_3.h cefe3007d59 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.1/Subdivision_method_3/include/CGAL/Subdivision_method_3/subdivision_masks_3.h $
+// $Id: include/CGAL/Subdivision_method_3/subdivision_masks_3.h b26b07a1242 $
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -117,8 +117,9 @@ public:
     pt = get(this->vpmap, vertex);
   }
 
-  void border_node(halfedge_descriptor edge, Point& ept, Point& /*vpt*/){
-   edge_node(edge, ept);
+  void border_node(halfedge_descriptor edge, Point& ept, Point& vtp){
+    edge_node(edge, ept);
+    vertex_node(target(edge, *(this->pmesh)), vtp);
   }
 };
 
@@ -372,7 +373,6 @@ public:
 
 /// @}
 };
-
 
 //==========================================================================
 /// The stencil of the Dual-Quadrilateral-Quadrisection

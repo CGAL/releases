@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.3/Surface_mesh_segmentation/include/CGAL/Surface_mesh_segmentation/internal/Filters.h $
-// $Id: include/CGAL/Surface_mesh_segmentation/internal/Filters.h cefe3007d59 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.1/Surface_mesh_segmentation/include/CGAL/Surface_mesh_segmentation/internal/Filters.h $
+// $Id: include/CGAL/Surface_mesh_segmentation/internal/Filters.h b26b07a1242 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Ilker O. Yaz
@@ -80,7 +80,7 @@ public:
     smoothed_values.reserve(num_faces(mesh));
 
     face_iterator facet_it, fend;
-    for(boost::tie(facet_it,fend) = faces(mesh);
+    for(std::tie(facet_it,fend) = faces(mesh);
         facet_it != fend; ++facet_it) {
       std::map<face_descriptor, std::size_t> neighbors;
       NeighborSelector()(mesh,*facet_it, window_size,
@@ -126,7 +126,7 @@ public:
     }
     // put smoothed values back again to values pmap.
     std::vector<double>::iterator smoothed_value_it = smoothed_values.begin();
-    for(boost::tie(facet_it,fend) = faces(mesh);
+    for(std::tie(facet_it,fend) = faces(mesh);
         facet_it != fend;
         ++facet_it, ++smoothed_value_it) {
       put(values, *facet_it, *smoothed_value_it);
@@ -162,7 +162,7 @@ public:
     std::vector<double> smoothed_values;
     smoothed_values.reserve(num_faces(mesh));
     face_iterator facet_it, fend;
-    for(boost::tie(facet_it,fend) = faces(mesh);
+    for(std::tie(facet_it,fend) = faces(mesh);
         facet_it != fend; ++facet_it) {
       std::map<face_descriptor, std::size_t> neighbors;
       NeighborSelector()(mesh, *facet_it, window_size,
@@ -188,7 +188,7 @@ public:
     }
     // put smoothed values back again to values pmap.
     std::vector<double>::iterator smoothed_value_it = smoothed_values.begin();
-    for(boost::tie(facet_it,fend) = faces(mesh);
+    for(std::tie(facet_it,fend) = faces(mesh);
         facet_it != fend; ++facet_it) {
       values[*facet_it] = *smoothed_value_it;
     }

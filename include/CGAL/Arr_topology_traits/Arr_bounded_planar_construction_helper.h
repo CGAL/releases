@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.3/Arrangement_on_surface_2/include/CGAL/Arr_topology_traits/Arr_bounded_planar_construction_helper.h $
-// $Id: include/CGAL/Arr_topology_traits/Arr_bounded_planar_construction_helper.h cefe3007d59 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.1/Arrangement_on_surface_2/include/CGAL/Arr_topology_traits/Arr_bounded_planar_construction_helper.h $
+// $Id: include/CGAL/Arr_topology_traits/Arr_bounded_planar_construction_helper.h b26b07a1242 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -85,12 +85,12 @@ protected:
   Indices_list m_emptylist;
 
 public:
-  /*! Constructor. */
+  /*! constructs. */
   Arr_bounded_planar_construction_helper(Arrangement_2* arr) :
     m_top_traits(arr->topology_traits())
   {}
 
-  /*! Destructor. */
+  /*! destructs. */
   virtual ~Arr_bounded_planar_construction_helper()
   {}
 
@@ -115,20 +115,20 @@ public:
 
   Indices_list& halfedge_indices_list() { return m_emptylist; }
 
-  /*! Collect a subcurve index that does not see any status-line from below. */
+  /*! collects a subcurve index that does not see any status-line from below. */
   void add_subcurve_in_top_face(unsigned int /* index */) { return; }
 
   /*! A notification invoked before the given event it deallocated. */
   void before_deallocate_event(Event* /* event */) { return; }
   //@}
 
-  /*! Set the map that maps each halfedge to the list of subcurve indices
+  /*! sets the map that maps each halfedge to the list of subcurve indices
    * that "see" the halfedge from below.
    */
   void set_halfedge_indices_map(Halfedge_indices_map& /* table */)
   { return; }
 
-  /*! Determine if we should swap the order of predecessor halfedges when
+  /*! determines if we should swap the order of predecessor halfedges when
    * calling insert_at_vertices_ex() .
    */
   bool swap_predecessors(Event* /* event */) const
@@ -138,7 +138,7 @@ public:
     return false;
   }
 
-  /*! Get the current top face. */
+  /*! obtains the current top face. */
   Face_handle top_face() const { return m_unb_face; }
 };
 

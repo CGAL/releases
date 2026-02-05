@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.3/Ridges_3/include/CGAL/PolyhedralSurf_neighbors.h $
-// $Id: include/CGAL/PolyhedralSurf_neighbors.h cefe3007d59 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.1/Ridges_3/include/CGAL/PolyhedralSurf_neighbors.h $
+// $Id: include/CGAL/PolyhedralSurf_neighbors.h b26b07a1242 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Marc Pouget and Frédéric Cazals
@@ -158,7 +158,7 @@ T_PolyhedralSurf_neighbors(const TriangleMesh& P)
 {
   //init the is_visited_map
   Vertex_const_iterator itb, ite;
-  boost::tie(itb,ite) = vertices(P);
+  std::tie(itb,ite) = vertices(P);
   for(;itb!=ite;itb++) is_visited_map[*itb] = false;
 }
 

@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.3/Mesh_2/include/CGAL/Mesh_2/Refine_edges_visitor.h $
-// $Id: include/CGAL/Mesh_2/Refine_edges_visitor.h cefe3007d59 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.1/Mesh_2/include/CGAL/Mesh_2/Refine_edges_visitor.h $
+// $Id: include/CGAL/Mesh_2/Refine_edges_visitor.h b26b07a1242 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -98,7 +98,7 @@ public:
     // set fh to the face at the right of [va,v]
 
     typename Tr::Face_circulator fc = tr.incident_faces(v, fh), fcbegin(fc);
-    // circulators are counter-clockwise, so we start at the right of
+    // circulators are counterclockwise, so we start at the right of
     // [va,v]
     do {
       if( !tr.is_infinite(fc) )

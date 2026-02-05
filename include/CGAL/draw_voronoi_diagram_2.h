@@ -1,10 +1,10 @@
-// Copyright(c) 2019  Foundation for Research and Technology-Hellas (Greece).
+// Copyright (c) 2019  Foundation for Research and Technology-Hellas (Greece).
 // All rights reserved.
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.3/Voronoi_diagram_2/include/CGAL/draw_voronoi_diagram_2.h $
-// $Id: include/CGAL/draw_voronoi_diagram_2.h cefe3007d59 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.1/Voronoi_diagram_2/include/CGAL/draw_voronoi_diagram_2.h $
+// $Id: include/CGAL/draw_voronoi_diagram_2.h b26b07a1242 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Jasmeet Singh <jasmeet.singh.mec11@iitbhu.ac.in>
@@ -14,7 +14,7 @@
 #define CGAL_DRAW_VORONOI_DIAGRAM_2_H
 
 #include <CGAL/license/Voronoi_diagram_2.h>
-#include <CGAL/Qt/Basic_viewer.h>
+#include <CGAL/Basic_viewer.h>
 #include <CGAL/Graphics_scene.h>
 #include <CGAL/Graphics_scene_options.h>
 #include <CGAL/Triangulation_utils_2.h>
@@ -371,8 +371,6 @@ void add_to_graphics_scene(const CGAL_VORONOI_TYPE& v2,
   add_to_graphics_scene(v2, graphics_scene, gs_options);
 }
 
-#ifdef CGAL_USE_BASIC_VIEWER
-
 // Specialization of draw function.
 template<class DG, class AT, class AP, class GSOptions>
 void draw(const CGAL_VORONOI_TYPE& av2,
@@ -381,6 +379,10 @@ void draw(const CGAL_VORONOI_TYPE& av2,
 {
   CGAL::Graphics_scene buffer;
   add_to_graphics_scene(av2, buffer, gs_options);
+
+  CGAL_USE(title);
+
+#if defined(CGAL_USE_BASIC_VIEWER)
 
   CGAL::Qt::QApplication_and_basic_viewer app(buffer, title);
   if(app)
@@ -435,6 +437,7 @@ void draw(const CGAL_VORONOI_TYPE& av2,
     // Then we run the app
     app.run();
   }
+#endif // CGAL_USE_BASIC_VIEWER
 }
 
 template<class DG, class AT, class AP>
@@ -448,8 +451,6 @@ void draw(const CGAL_VORONOI_TYPE& av2,
     gs_options;
   draw(av2, gs_options, title);
 }
-
-#endif // CGAL_USE_BASIC_VIEWER
 
 #undef CGAL_VORONOI_TYPE
 

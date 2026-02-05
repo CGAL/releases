@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.3/Surface_mesh_topology/include/CGAL/Surface_mesh_topology/internal/Path_on_surface_with_rle.h $
-// $Id: include/CGAL/Surface_mesh_topology/internal/Path_on_surface_with_rle.h cefe3007d59 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.1/Surface_mesh_topology/include/CGAL/Surface_mesh_topology/internal/Path_on_surface_with_rle.h $
+// $Id: include/CGAL/Surface_mesh_topology/internal/Path_on_surface_with_rle.h b26b07a1242 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Guillaume Damiand <guillaume.damiand@liris.cnrs.fr>

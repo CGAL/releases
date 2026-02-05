@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.3/TDS_3/include/CGAL/Triangulation_simplex_3.h $
-// $Id: include/CGAL/Triangulation_simplex_3.h cefe3007d59 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.1/TDS_3/include/CGAL/Triangulation_simplex_3.h $
+// $Id: include/CGAL/Triangulation_simplex_3.h b26b07a1242 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -293,6 +293,8 @@ struct Output_rep<Triangulation_simplex_3<TriangulationDataStructure_3>, Tag >
 
   Simplex simplex;
   Tag tag;
+
+  Output_rep(const Simplex& s, Tag t = {}) : simplex(s), tag(t) {}
 
   std::ostream& operator()(std::ostream& os) const {
     auto display_vert = [&](auto v) {

@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.3/Advancing_front_surface_reconstruction/include/CGAL/Advancing_front_surface_reconstruction.h $
-// $Id: include/CGAL/Advancing_front_surface_reconstruction.h cefe3007d59 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.1/Advancing_front_surface_reconstruction/include/CGAL/Advancing_front_surface_reconstruction.h $
+// $Id: include/CGAL/Advancing_front_surface_reconstruction.h b26b07a1242 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Frank Da, David Cohen-Steiner, Andreas Fabri
@@ -382,7 +382,7 @@ namespace CGAL {
     int _facet_number;
 
     //---------------------------------------------------------------------
-    // For post-processing
+    // For postprocessing
     mutable int _postprocessing_counter;
     int _size_before_postprocessing;
 
@@ -2432,7 +2432,7 @@ namespace CGAL {
 
       std::size_t itmp, L_v_size_mem;
       L_v_size_mem = L_v.size();
-      if ((vh_on_border_inserted != 0)&& // to post-process only the borders
+      if ((vh_on_border_inserted != 0)&& // to postprocess only the borders
           (L_v.size() < .1 * _size_before_postprocessing))
         {
           {

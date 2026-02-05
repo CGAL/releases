@@ -4,8 +4,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.3/SMDS_3/include/CGAL/Simplicial_mesh_cell_base_3.h $
-// $Id: include/CGAL/Simplicial_mesh_cell_base_3.h cefe3007d59 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.1/SMDS_3/include/CGAL/Simplicial_mesh_cell_base_3.h $
+// $Id: include/CGAL/Simplicial_mesh_cell_base_3.h b26b07a1242 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Laurent Rineau, Stephane Tayeb, Andreas Fabri, Jane Tournois
@@ -19,12 +19,12 @@
 #include <CGAL/array.h>
 #include <CGAL/assertions.h>
 #include <CGAL/basic.h>
-#include <CGAL/TDS_3/internal/Dummy_tds_3.h>
-#include <CGAL/tags.h>
 #include <CGAL/Has_timestamp.h>
-
-#include <CGAL/Triangulation_cell_base_3.h>
 #include <CGAL/SMDS_3/io_signature.h>
+#include <CGAL/tags.h>
+#include <CGAL/TDS_3/internal/Dummy_tds_3.h>
+#include <CGAL/Time_stamper.h>
+#include <CGAL/Triangulation_cell_base_3.h>
 
 #ifdef CGAL_LINKED_WITH_TBB
 # include <atomic>
@@ -96,9 +96,7 @@ public:
   };
 
 public:
-  Simplicial_mesh_cell_base_3()
-    : time_stamp_(std::size_t(-1))
-  {}
+  Simplicial_mesh_cell_base_3() = default;
 
   Simplicial_mesh_cell_base_3(const Simplicial_mesh_cell_base_3& rhs)
     : Cb(static_cast<const Cb&>(rhs)),
@@ -191,7 +189,7 @@ private:
   /// Stores surface_index for each facet of the cell
   std::array<Surface_patch_index, 4> surface_index_table_ = {};
 
-  std::size_t time_stamp_;
+  std::size_t time_stamp_ = Time_stamper<void>::invalid_time_stamp;
 
   // The index of the cell of the input complex that contains me
   Subdomain_index subdomain_index_ = {};

@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.3/SMDS_3/include/CGAL/IO/File_binary_mesh_3.h $
-// $Id: include/CGAL/IO/File_binary_mesh_3.h cefe3007d59 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.1/SMDS_3/include/CGAL/IO/File_binary_mesh_3.h $
+// $Id: include/CGAL/IO/File_binary_mesh_3.h b26b07a1242 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -46,14 +46,13 @@ save_binary_file(std::ostream& os,
                , bool binary = true)
 #endif
 {
-  typedef typename C3T3::Triangulation::Geom_traits::FT FT;
   if(binary) os << "binary ";
   os << "CGAL c3t3 " << CGAL::Get_io_signature<C3T3>()() << "\n";
   if(binary) {
     CGAL::IO::set_binary_mode(os);
   } else {
     CGAL::IO::set_ascii_mode(os);
-    os.precision(std::numeric_limits<FT>::digits10+2);
+    os.precision(std::numeric_limits<double>::max_digits10);
   }
   return !!(os << c3t3);
   // call operator!() twice, because operator bool() is C++11

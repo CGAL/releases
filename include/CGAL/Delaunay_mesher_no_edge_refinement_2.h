@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.3/Mesh_2/include/CGAL/Delaunay_mesher_no_edge_refinement_2.h $
-// $Id: include/CGAL/Delaunay_mesher_no_edge_refinement_2.h cefe3007d59 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.1/Mesh_2/include/CGAL/Delaunay_mesher_no_edge_refinement_2.h $
+// $Id: include/CGAL/Delaunay_mesher_no_edge_refinement_2.h b26b07a1242 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -63,7 +63,8 @@ private:
   Faces_level faces_level;
 
   Seeds seeds;
-  bool seeds_mark;
+  bool seeds_mark = false;
+  bool initialized = false;
 public:
   /** \name CONSTRUCTORS */
   Delaunay_mesher_no_edge_refinement_2(Tr& tr_, const Criteria& criteria_ = Criteria())
@@ -72,20 +73,18 @@ public:
       null_level(),
       null_visitor(),
       edges_level(tr, null_level),
-      faces_level(tr, criteria, edges_level),
-      initialized(false)
+      faces_level(tr, criteria, edges_level)
   {
   }
 
   Delaunay_mesher_no_edge_refinement_2(Tr& tr_, Edges_level& edges_level_,
-                    const Criteria& criteria_ = Criteria())
+                                       const Criteria& criteria_ = Criteria())
     : tr(tr_),
       criteria(criteria_),
       null_level(),
       null_visitor(),
       edges_level(edges_level_),
-      faces_level(tr, criteria, edges_level),
-      initialized(false)
+      faces_level(tr, criteria, edges_level)
   {
   }
 
@@ -101,12 +100,6 @@ public:
     return seeds.end();
   }
 
-private:
-  /** \name INITIALIZED */
-
-  bool initialized;
-
-public:
   /** \name MARKING FUNCTIONS */
 
   /** The value type of \a InputIterator should be `Point`, and represents

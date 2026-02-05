@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.3/Polygon_mesh_processing/include/CGAL/Polygon_mesh_processing/interpolated_corrected_curvatures.h $
-// $Id: include/CGAL/Polygon_mesh_processing/interpolated_corrected_curvatures.h cefe3007d59 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.1/Polygon_mesh_processing/include/CGAL/Polygon_mesh_processing/interpolated_corrected_curvatures.h $
+// $Id: include/CGAL/Polygon_mesh_processing/interpolated_corrected_curvatures.h b26b07a1242 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -622,7 +622,7 @@ void interpolated_corrected_curvatures_one_vertex(
   using parameters::get_parameter;
   using parameters::is_default_parameter;
 
-  Vertex_position_map vpm = choose_parameter(get_parameter(np, CGAL::vertex_point),
+  Vertex_position_map vpm = choose_parameter(get_parameter(np, internal_np::vertex_point),
     get_const_property_map(CGAL::vertex_point, pmesh));
 
   Vertex_normal_map vnm = choose_parameter(get_parameter(np, internal_np::vertex_normal_map),
@@ -773,7 +773,7 @@ private:
     using parameters::get_parameter;
     using parameters::is_default_parameter;
 
-    vpm = choose_parameter(get_parameter(np, CGAL::vertex_point),
+    vpm = choose_parameter(get_parameter(np, internal_np::vertex_point),
       get_const_property_map(CGAL::vertex_point, pmesh));
 
     vnm = choose_parameter(get_parameter(np, internal_np::vertex_normal_map),

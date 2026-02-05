@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.3/Segment_Delaunay_graph_2/include/CGAL/Segment_Delaunay_graph_2/in_place_edge_list.h $
-// $Id: include/CGAL/Segment_Delaunay_graph_2/in_place_edge_list.h cefe3007d59 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.1/Segment_Delaunay_graph_2/include/CGAL/Segment_Delaunay_graph_2/in_place_edge_list.h $
+// $Id: include/CGAL/Segment_Delaunay_graph_2/in_place_edge_list.h b26b07a1242 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //

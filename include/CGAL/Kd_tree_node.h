@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.3/Spatial_searching/include/CGAL/Kd_tree_node.h $
-// $Id: include/CGAL/Kd_tree_node.h cefe3007d59 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.1/Spatial_searching/include/CGAL/Kd_tree_node.h $
+// $Id: include/CGAL/Kd_tree_node.h b26b07a1242 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -22,7 +22,7 @@
 #include <CGAL/Compact_container.h>
 #include <CGAL/Has_member.h>
 #include <CGAL/Spatial_searching/internal/Search_helpers.h>
-#include <boost/cstdint.hpp>
+#include <cstdint>
 
 namespace CGAL {
 

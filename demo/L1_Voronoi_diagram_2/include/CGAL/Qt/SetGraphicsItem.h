@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.3/GraphicsView/demo/L1_Voronoi_diagram_2/include/CGAL/Qt/SetGraphicsItem.h $
-// $Id: demo/L1_Voronoi_diagram_2/include/CGAL/Qt/SetGraphicsItem.h cefe3007d59 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.1/GraphicsView/demo/L1_Voronoi_diagram_2/include/CGAL/Qt/SetGraphicsItem.h $
+// $Id: demo/L1_Voronoi_diagram_2/include/CGAL/Qt/SetGraphicsItem.h b26b07a1242 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Ophir Setter <ophirset@post.tau.ac.il>

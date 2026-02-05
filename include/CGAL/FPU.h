@@ -7,8 +7,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.3/Number_types/include/CGAL/FPU.h $
-// $Id: include/CGAL/FPU.h cefe3007d59 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.1/Number_types/include/CGAL/FPU.h $
+// $Id: include/CGAL/FPU.h b26b07a1242 $
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -618,6 +618,7 @@ inline double IA_sqrt_toward_zero(double d) {
 #ifdef CGAL_ALWAYS_ROUND_TO_NEAREST
   return (d > 0.0) ? nextafter(std::sqrt(d), 0.) : 0.0;
 #else
+  CGAL_assertion(FPU_get_cw()==CGAL_FE_UPWARD);
   FPU_set_cw(CGAL_FE_DOWNWARD);
   double i = (d > 0.0) ? CGAL_IA_FORCE_TO_DOUBLE(CGAL_BUG_SQRT(CGAL_IA_STOP_CPROP(d))) : 0.0;
   FPU_set_cw(CGAL_FE_UPWARD);

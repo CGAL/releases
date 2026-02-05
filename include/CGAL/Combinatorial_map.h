@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.3/Combinatorial_map/include/CGAL/Combinatorial_map.h $
-// $Id: include/CGAL/Combinatorial_map.h cefe3007d59 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.1/Combinatorial_map/include/CGAL/Combinatorial_map.h $
+// $Id: include/CGAL/Combinatorial_map.h b26b07a1242 $
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Guillaume Damiand <guillaume.damiand@liris.cnrs.fr>
@@ -969,7 +969,7 @@ namespace CGAL {
     { return mnb_used_marks; }
 
     /** Test if a given mark is reserved.
-     *  @return true iff the mark is reserved (ie in used).
+     *  @return true iff the mark is reserved (i.e. in used).
      */
     bool is_reserved(size_type amark) const
     {

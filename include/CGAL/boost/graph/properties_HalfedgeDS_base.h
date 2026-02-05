@@ -2,8 +2,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.3/HalfedgeDS/include/CGAL/boost/graph/properties_HalfedgeDS_base.h $
-// $Id: include/CGAL/boost/graph/properties_HalfedgeDS_base.h cefe3007d59 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.1/HalfedgeDS/include/CGAL/boost/graph/properties_HalfedgeDS_base.h $
+// $Id: include/CGAL/boost/graph/properties_HalfedgeDS_base.h b26b07a1242 $
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -20,7 +20,7 @@
 #include <CGAL/number_utils.h>
 #include <memory>
 #include <CGAL/boost/graph/internal/Has_member_id.h>
-#include <CGAL/Distance_3/Point_3_Point_3.h>
+#include <CGAL/squared_distance_3.h>
 #include <CGAL/Dynamic_property_map.h>
 
 namespace CGAL {
@@ -70,7 +70,7 @@ public:
   {
     unsigned int data = 0;
     typename boost::graph_traits<Polyhedron>::edge_iterator it, end;
-    for(boost::tie(it, end) = edges(p); it != end; ++it, ++data)
+    for(std::tie(it, end) = edges(p); it != end; ++it, ++data)
       (*map_)[*it] = data;
   }
 

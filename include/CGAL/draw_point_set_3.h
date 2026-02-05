@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.3/Point_set_3/include/CGAL/draw_point_set_3.h $
-// $Id: include/CGAL/draw_point_set_3.h cefe3007d59 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.1/Point_set_3/include/CGAL/draw_point_set_3.h $
+// $Id: include/CGAL/draw_point_set_3.h b26b07a1242 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -15,7 +15,7 @@
 #define CGAL_DRAW_POINT_SET_3_H
 
 #include <CGAL/license/Point_set_3.h>
-#include <CGAL/Qt/Basic_viewer.h>
+#include <CGAL/Basic_viewer.h>
 #include <CGAL/Graphics_scene.h>
 #include <CGAL/Graphics_scene_options.h>
 #include <CGAL/Point_set_3.h>
@@ -147,8 +147,6 @@ void add_to_graphics_scene(const Point_set_3<P, V>& apointset,
   add_to_graphics_scene(apointset, graphics_scene, gs_options);
 }
 
-#ifdef CGAL_USE_BASIC_VIEWER
-
 // Specialization of draw function.
   template <class P, class V, class GSOptions>
 void draw(const Point_set_3<P, V>& apointset,
@@ -168,8 +166,6 @@ void draw(const Point_set_3<P, V>& apointset,
   add_to_graphics_scene(apointset, buffer);
   draw_graphics_scene(buffer, title);
 }
-
-#endif // CGAL_USE_BASIC_VIEWER
 
 } // End namespace CGAL
 

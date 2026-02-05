@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.3/Polygon_repair/include/CGAL/Polygon_repair/Even_odd_rule.h $
-// $Id: include/CGAL/Polygon_repair/Even_odd_rule.h cefe3007d59 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.1/Polygon_repair/include/CGAL/Polygon_repair/Even_odd_rule.h $
+// $Id: include/CGAL/Polygon_repair/Even_odd_rule.h b26b07a1242 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Ken Arroyo Ohori
@@ -18,11 +18,15 @@ namespace CGAL {
 
 namespace Polygon_repair {
 
-/// \addtogroup PkgPolygonRepairRef
+/// \addtogroup PkgPolygonRepairRules
 /// @{
 
 /*!
   Tag class to select the even odd rule when calling `CGAL::Polygon_repair::repair()`.
+  The even-odd rule results in areas that are alternately assigned as polygon
+interiors and exterior/holes each time that an input edge is passed.
+It does not distinguish between edges that are part of outer boundaries
+from those of inner boundaries.
   */
   struct Even_odd_rule {};
 

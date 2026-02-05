@@ -7,8 +7,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.3/Distance_3/include/CGAL/Distance_3/Ray_3_Plane_3.h $
-// $Id: include/CGAL/Distance_3/Ray_3_Plane_3.h cefe3007d59 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.1/Distance_3/include/CGAL/Distance_3/Ray_3_Plane_3.h $
+// $Id: include/CGAL/Distance_3/Ray_3_Plane_3.h b26b07a1242 $
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -72,25 +72,27 @@ squared_distance(const typename K::Plane_3& plane,
   return squared_distance(ray, plane, k);
 }
 
+template <class K>
+typename K::Comparison_result
+compare_squared_distance(const typename K::Ray_3& ray,
+                         const typename K::Plane_3& plane,
+                         const K& k,
+                         const typename K::FT& d2)
+{
+  return ::CGAL::compare(squared_distance(ray, plane, k), d2);
+}
+
+template <class K>
+typename K::Comparison_result
+compare_squared_distance(const typename K::Plane_3& plane,
+                         const typename K::Ray_3& ray,
+                         const K& k,
+                         const typename K::FT& d2)
+{
+  return compare_squared_distance(ray, plane, k, d2);
+}
+
 } // namespace internal
-
-template <class K>
-inline
-typename K::FT
-squared_distance(const Ray_3<K>& ray,
-                 const Plane_3<K>& plane)
-{
-  return K().compute_squared_distance_3_object()(ray, plane);
-}
-
-template <class K>
-inline
-typename K::FT
-squared_distance(const Plane_3<K>& plane,
-                 const Ray_3<K>& ray)
-{
-  return K().compute_squared_distance_3_object()(plane, ray);
-}
 
 } // namespace CGAL
 

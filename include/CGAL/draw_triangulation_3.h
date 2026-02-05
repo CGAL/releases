@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.3/Triangulation_3/include/CGAL/draw_triangulation_3.h $
-// $Id: include/CGAL/draw_triangulation_3.h cefe3007d59 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.1/Triangulation_3/include/CGAL/draw_triangulation_3.h $
+// $Id: include/CGAL/draw_triangulation_3.h b26b07a1242 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Guillaume Damiand <guillaume.damiand@liris.cnrs.fr>
@@ -14,7 +14,7 @@
 #define CGAL_DRAW_T3_H
 
 #include <CGAL/license/Triangulation_3.h>
-#include <CGAL/Qt/Basic_viewer.h>
+#include <CGAL/Basic_viewer.h>
 #include <CGAL/Graphics_scene.h>
 #include <CGAL/Graphics_scene_options.h>
 #include <CGAL/Random.h>
@@ -154,8 +154,6 @@ void add_to_graphics_scene(const CGAL_T3_TYPE& at3,
   add_to_graphics_scene(at3, graphics_scene, gs_options);
 }
 
-#ifdef CGAL_USE_BASIC_VIEWER
-
 // Specialization of draw function.
 template<class Gt, class Tds, class Lock_data_structure, class GSOptions>
 void draw(const CGAL_T3_TYPE &at3, const GSOptions &gs_options,
@@ -173,8 +171,6 @@ void draw(const CGAL_T3_TYPE &at3, const char *title="T3 Basic Viewer")
   add_to_graphics_scene(at3, buffer);
   draw_graphics_scene(buffer, title);
 }
-
-#endif // CGAL_USE_BASIC_VIEWER
 
 #undef CGAL_T3_TYPE
 

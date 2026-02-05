@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.3/Point_set_processing_3/include/CGAL/mst_orient_normals.h $
-// $Id: include/CGAL/mst_orient_normals.h cefe3007d59 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.1/Point_set_processing_3/include/CGAL/mst_orient_normals.h $
+// $Id: include/CGAL/mst_orient_normals.h b26b07a1242 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s) : Laurent Saboret and Andreas Fabri
@@ -388,7 +388,7 @@ create_riemannian_graph(
                 // Add edge
                 typename boost::graph_traits<Riemannian_graph>::edge_descriptor e;
                 bool inserted;
-                boost::tie(e, inserted) = add_edge(vertex(it_index, riemannian_graph),
+                std::tie(e, inserted) = add_edge(vertex(it_index, riemannian_graph),
                                                    vertex(neighbor_index, riemannian_graph),
                                                    riemannian_graph);
                 CGAL_assertion(inserted);
@@ -410,7 +410,7 @@ create_riemannian_graph(
         {
           typename boost::graph_traits<Riemannian_graph>::edge_descriptor e;
           bool inserted;
-          boost::tie(e, inserted) = add_edge(vertex(it_index, riemannian_graph),
+          std::tie(e, inserted) = add_edge(vertex(it_index, riemannian_graph),
                                              vertex(source_point_index, riemannian_graph),
                                              riemannian_graph);
           CGAL_assertion(inserted);

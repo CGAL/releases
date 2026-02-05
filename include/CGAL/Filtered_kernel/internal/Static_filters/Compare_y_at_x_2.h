@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.3/Filtered_kernel/include/CGAL/Filtered_kernel/internal/Static_filters/Compare_y_at_x_2.h $
-// $Id: include/CGAL/Filtered_kernel/internal/Static_filters/Compare_y_at_x_2.h cefe3007d59 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.1/Filtered_kernel/include/CGAL/Filtered_kernel/internal/Static_filters/Compare_y_at_x_2.h $
+// $Id: include/CGAL/Filtered_kernel/internal/Static_filters/Compare_y_at_x_2.h b26b07a1242 $
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Andreas Meyer
@@ -22,13 +22,14 @@ template < typename K_base, typename Kernel >
 class Compare_y_at_x_2
   : public K_base::Compare_y_at_x_2
 {
-  typedef typename K_base::Point_2          Point_2;
-  typedef typename K_base::Segment_2        Segment_2;
-  typedef typename K_base::FT               FT;
-  typedef typename K_base::Compare_y_at_x_2 Base;
+  typedef typename K_base::Comparison_result  Comparison_result;
+  typedef typename K_base::Point_2            Point_2;
+  typedef typename K_base::Segment_2          Segment_2;
+  typedef typename K_base::FT                 FT;
+
+  typedef typename K_base::Compare_y_at_x_2   Base;
 
 public:
-
   using Base::operator();
 
   Comparison_result

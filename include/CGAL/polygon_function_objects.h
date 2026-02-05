@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.3/Partition_2/include/CGAL/polygon_function_objects.h $
-// $Id: include/CGAL/polygon_function_objects.h cefe3007d59 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.1/Partition_2/include/CGAL/polygon_function_objects.h $
+// $Id: include/CGAL/polygon_function_objects.h b26b07a1242 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //

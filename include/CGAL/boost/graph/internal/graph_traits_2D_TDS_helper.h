@@ -2,8 +2,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.3/TDS_2/include/CGAL/boost/graph/internal/graph_traits_2D_TDS_helper.h $
-// $Id: include/CGAL/boost/graph/internal/graph_traits_2D_TDS_helper.h cefe3007d59 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.1/TDS_2/include/CGAL/boost/graph/internal/graph_traits_2D_TDS_helper.h $
+// $Id: include/CGAL/boost/graph/internal/graph_traits_2D_TDS_helper.h b26b07a1242 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Mael Rouxel-Labbé

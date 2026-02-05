@@ -7,8 +7,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.3/Distance_3/include/CGAL/Distance_3/Line_3_Plane_3.h $
-// $Id: include/CGAL/Distance_3/Line_3_Plane_3.h cefe3007d59 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.1/Distance_3/include/CGAL/Distance_3/Line_3_Plane_3.h $
+// $Id: include/CGAL/Distance_3/Line_3_Plane_3.h b26b07a1242 $
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -61,25 +61,27 @@ squared_distance(const typename K::Plane_3& pl,
   return squared_distance(l, pl, k);
 }
 
+template <class K>
+inline typename K::Comparison_result
+compare_squared_distance(const typename K::Line_3& l,
+                         const typename K::Plane_3& pl,
+                         const K& k,
+                         const typename K::FT& d2)
+{
+  return ::CGAL::compare(squared_distance(l, pl, k), d2);
+}
+
+template <class K>
+inline typename K::Comparison_result
+compare_squared_distance(const typename K::Plane_3& pl,
+                         const typename K::Line_3& l,
+                         const K& k,
+                         const typename K::FT& d2)
+{
+  return compare_squared_distance(l, pl, k, d2);
+}
+
 } // namespace internal
-
-template <class K>
-inline
-typename K::FT
-squared_distance(const Line_3<K>& line,
-                 const Plane_3<K>& plane)
-{
-  return K().compute_squared_distance_3_object()(line, plane);
-}
-
-template <class K>
-inline
-typename K::FT
-squared_distance(const Plane_3<K>& plane,
-                 const Line_3<K>& line)
-{
-  return K().compute_squared_distance_3_object()(plane, line);
-}
 
 } // namespace CGAL
 

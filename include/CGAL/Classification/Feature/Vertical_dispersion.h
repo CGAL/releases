@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.3/Classification/include/CGAL/Classification/Feature/Vertical_dispersion.h $
-// $Id: include/CGAL/Classification/Feature/Vertical_dispersion.h cefe3007d59 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.1/Classification/include/CGAL/Classification/Feature/Vertical_dispersion.h $
+// $Id: include/CGAL/Classification/Feature/Vertical_dispersion.h b26b07a1242 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Simon Giraudot
@@ -127,7 +127,7 @@ public:
           continue;
 
         std::vector<float>::iterator min_it, max_it;
-        boost::tie(min_it, max_it)
+        std::tie(min_it, max_it)
           = boost::minmax_element (hori.begin(), hori.end());
 
         std::vector<bool> occupy (1 + (std::size_t)((*max_it - *min_it) / grid.resolution()), false);

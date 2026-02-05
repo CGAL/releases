@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.3/Arrangement_on_surface_2/include/CGAL/Arr_topology_traits/Arr_spherical_topology_traits_2_impl.h $
-// $Id: include/CGAL/Arr_topology_traits/Arr_spherical_topology_traits_2_impl.h cefe3007d59 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.1/Arrangement_on_surface_2/include/CGAL/Arr_topology_traits/Arr_spherical_topology_traits_2_impl.h $
+// $Id: include/CGAL/Arr_topology_traits/Arr_spherical_topology_traits_2_impl.h b26b07a1242 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s): Efi Fogel         <efif@post.tau.ac.il>
@@ -281,7 +281,7 @@ is_in_face(const Face* f, const Point_2& p, const Vertex* v) const
               // -----------
               // cv1 coincide with the identification curve. In this case we
               // consider the identification to be on the right. All (interior)
-              // points are smaller then the right boundary.
+              // points are smaller than the right boundary.
               rc1 = SMALLER;
               rc2 = cmp_x_pt_ce(p, cv2, ARR_MAX_END);
             }
@@ -294,7 +294,7 @@ is_in_face(const Face* f, const Point_2& p, const Vertex* v) const
               //       -----------
               // cv2 coincide with the identification curve. In this case we
               // consider the identification to be on the left. All (interior)
-              // points are larger then the left boundary.
+              // points are larger than the left boundary.
               rc1 = cmp_x_pt_ce(p, cv1, ARR_MAX_END);
               rc2 = LARGER;
             }

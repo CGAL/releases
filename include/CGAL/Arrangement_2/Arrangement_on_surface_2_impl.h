@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.3/Arrangement_on_surface_2/include/CGAL/Arrangement_2/Arrangement_on_surface_2_impl.h $
-// $Id: include/CGAL/Arrangement_2/Arrangement_on_surface_2_impl.h cefe3007d59 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.1/Arrangement_on_surface_2/include/CGAL/Arrangement_2/Arrangement_on_surface_2_impl.h $
+// $Id: include/CGAL/Arrangement_2/Arrangement_on_surface_2_impl.h b26b07a1242 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s): Ron Wein          <wein@post.tau.ac.il>
@@ -1551,7 +1551,7 @@ split_edge(Halfedge_handle e,
   //    o---------e-------->o
   if (_are_equal(source, cv1, ARR_MIN_END)) {
     const Point_2& p = m_geom_traits->construct_max_vertex_2_object()(cv1);
-    CGAL_postcondition_code
+    CGAL_precondition_code
       (const Point_2& q = m_geom_traits->construct_min_vertex_2_object()(cv2));
     CGAL_precondition(m_geom_traits->equal_2_object()(p, q));
     CGAL_precondition(_are_equal(he1->vertex(), cv2, ARR_MAX_END));
@@ -1562,7 +1562,7 @@ split_edge(Halfedge_handle e,
   //    o<--------e---------o
   if (_are_equal(source, cv1, ARR_MAX_END)) {
     const Point_2& p = m_geom_traits->construct_min_vertex_2_object()(cv1);
-    CGAL_postcondition_code
+    CGAL_precondition_code
       (const Point_2& q = m_geom_traits->construct_max_vertex_2_object()(cv2));
     CGAL_precondition(m_geom_traits->equal_2_object()(p, q));
     CGAL_precondition(_are_equal(he1->vertex(), cv2, ARR_MIN_END));
@@ -1573,7 +1573,7 @@ split_edge(Halfedge_handle e,
   //    o---------e-------->o
   if (_are_equal(source, cv2, ARR_MIN_END)) {
     const Point_2& p = m_geom_traits->construct_max_vertex_2_object()(cv2);
-    CGAL_postcondition_code
+    CGAL_precondition_code
       (const Point_2& q = m_geom_traits->construct_min_vertex_2_object()(cv1));
     CGAL_precondition(m_geom_traits->equal_2_object()(p, q));
     CGAL_precondition(_are_equal(he1->vertex(), cv1, ARR_MAX_END));
@@ -1584,7 +1584,7 @@ split_edge(Halfedge_handle e,
   //    o<--------e---------o
   CGAL_precondition(_are_equal(source, cv2, ARR_MAX_END));
   const Point_2& p = m_geom_traits->construct_min_vertex_2_object()(cv2);
-  CGAL_postcondition_code
+  CGAL_precondition_code
     (const Point_2& q = m_geom_traits->construct_max_vertex_2_object()(cv1));
   CGAL_precondition(m_geom_traits->equal_2_object()(p, q));
   CGAL_precondition(_are_equal(he1->vertex(), cv1, ARR_MIN_END));

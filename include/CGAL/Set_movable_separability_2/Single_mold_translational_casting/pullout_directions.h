@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.3/Set_movable_separability_2/include/CGAL/Set_movable_separability_2/Single_mold_translational_casting/pullout_directions.h $
-// $Id: include/CGAL/Set_movable_separability_2/Single_mold_translational_casting/pullout_directions.h cefe3007d59 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.1/Set_movable_separability_2/include/CGAL/Set_movable_separability_2/Single_mold_translational_casting/pullout_directions.h $
+// $Id: include/CGAL/Set_movable_separability_2/Single_mold_translational_casting/pullout_directions.h b26b07a1242 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s): Shahar    <shasha94@gmail.com>
@@ -73,7 +73,7 @@ pullout_directions
  CastingTraits_2& traits)
 {
   CGAL_precondition(pgn.is_simple());
-  CGAL_precondition(!internal::is_any_edge_colinear(pgn, traits));
+  CGAL_precondition(!internal::is_any_edge_collinear(pgn, traits));
   CGAL_precondition(pgn.edges_end()!=i);
 
   typedef CastingTraits_2 Casting_traits_2;

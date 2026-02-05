@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.3/Periodic_3_triangulation_3/include/CGAL/periodic_3_triangulation_3_io.h $
-// $Id: include/CGAL/periodic_3_triangulation_3_io.h cefe3007d59 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.1/Periodic_3_triangulation_3/include/CGAL/periodic_3_triangulation_3_io.h $
+// $Id: include/CGAL/periodic_3_triangulation_3_io.h b26b07a1242 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //

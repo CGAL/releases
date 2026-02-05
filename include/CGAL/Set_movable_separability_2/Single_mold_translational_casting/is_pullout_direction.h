@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.3/Set_movable_separability_2/include/CGAL/Set_movable_separability_2/Single_mold_translational_casting/is_pullout_direction.h $
-// $Id: include/CGAL/Set_movable_separability_2/Single_mold_translational_casting/is_pullout_direction.h cefe3007d59 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.1/Set_movable_separability_2/include/CGAL/Set_movable_separability_2/Single_mold_translational_casting/is_pullout_direction.h $
+// $Id: include/CGAL/Set_movable_separability_2/Single_mold_translational_casting/is_pullout_direction.h b26b07a1242 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s): Shahar    <shasha94@gmail.com>
@@ -55,7 +55,7 @@ bool is_pullout_direction
 {
   //NOT CHECKED AT ALL
   CGAL_precondition(pgn.is_simple());
-  CGAL_precondition(!internal::is_any_edge_colinear(pgn, traits));
+  CGAL_precondition(!internal::is_any_edge_collinear(pgn, traits));
 
   auto e_it = pgn.edges_begin();
   auto cc_in_between = traits.counterclockwise_in_between_2_object();
@@ -137,7 +137,7 @@ is_pullout_direction(const CGAL::Polygon_2<CastingTraits_2>& pgn,
   typedef typename Polygon_2::Edge_const_iterator       Edge_iter;
 
   CGAL_precondition(pgn.is_simple());
-  CGAL_precondition(!internal::is_any_edge_colinear(pgn, traits));
+  CGAL_precondition(!internal::is_any_edge_collinear(pgn, traits));
 
   Edge_iter e_it = pgn.edges_begin();
   auto segment_outer_circle =

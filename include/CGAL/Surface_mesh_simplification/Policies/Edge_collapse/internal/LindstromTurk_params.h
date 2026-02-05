@@ -2,8 +2,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.3/Surface_mesh_simplification/include/CGAL/Surface_mesh_simplification/Policies/Edge_collapse/internal/LindstromTurk_params.h $
-// $Id: include/CGAL/Surface_mesh_simplification/Policies/Edge_collapse/internal/LindstromTurk_params.h cefe3007d59 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.1/Surface_mesh_simplification/include/CGAL/Surface_mesh_simplification/Policies/Edge_collapse/internal/LindstromTurk_params.h $
+// $Id: include/CGAL/Surface_mesh_simplification/Policies/Edge_collapse/internal/LindstromTurk_params.h b26b07a1242 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Fernando Cacciola <fernando.cacciola@geometryfactory.com>

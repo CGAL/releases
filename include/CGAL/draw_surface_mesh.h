@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.3/Surface_mesh/include/CGAL/draw_surface_mesh.h $
-// $Id: include/CGAL/draw_surface_mesh.h cefe3007d59 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.1/Surface_mesh/include/CGAL/draw_surface_mesh.h $
+// $Id: include/CGAL/draw_surface_mesh.h b26b07a1242 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Guillaume Damiand <guillaume.damiand@liris.cnrs.fr>
@@ -93,7 +93,7 @@ void add_to_graphics_scene(const SM& sm,
 #include <CGAL/Graphics_scene_options.h>
 #include <CGAL/Surface_mesh.h>
 #include <CGAL/draw_face_graph.h>
-#include <CGAL/Qt/Basic_viewer.h>
+#include <CGAL/Basic_viewer.h>
 
 namespace CGAL {
 
@@ -164,8 +164,6 @@ void add_to_graphics_scene(const Surface_mesh<K>& amesh,
 { add_to_graphics_scene_for_fg(amesh, graphics_scene,
                                Graphics_scene_options_surface_mesh<K>(amesh)); }
 
-#ifdef CGAL_USE_BASIC_VIEWER
-
   // Specialization of draw function.
 template<class K>
 void draw(const Surface_mesh<K>& amesh,
@@ -185,8 +183,6 @@ void draw(const Surface_mesh<K>& amesh,
   add_to_graphics_scene(amesh, buffer, gs_options);
   draw_graphics_scene(buffer, title);
 }
-
-#endif // CGAL_USE_BASIC_VIEWER
 
 } // End namespace CGAL
 

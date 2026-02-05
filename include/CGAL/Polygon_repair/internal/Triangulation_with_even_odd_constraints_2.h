@@ -3,14 +3,14 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.3/Polygon_repair/include/CGAL/Polygon_repair/internal/Triangulation_with_even_odd_constraints_2.h $
-// $Id: include/CGAL/Polygon_repair/internal/Triangulation_with_even_odd_constraints_2.h cefe3007d59 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.1/Polygon_repair/include/CGAL/Polygon_repair/internal/Triangulation_with_even_odd_constraints_2.h $
+// $Id: include/CGAL/Polygon_repair/internal/Triangulation_with_even_odd_constraints_2.h b26b07a1242 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Ken Arroyo Ohori
 
-#ifndef CGAL_TRIANGULATION_WITH_EVEN_ODD_CONSTRAINTS_2_H
-#define CGAL_TRIANGULATION_WITH_EVEN_ODD_CONSTRAINTS_2_H
+#ifndef CGAL_POLYGON_REPAIR_TRIANGULATION_WITH_EVEN_ODD_CONSTRAINTS_2_H
+#define CGAL_POLYGON_REPAIR_TRIANGULATION_WITH_EVEN_ODD_CONSTRAINTS_2_H
 
 #include <CGAL/license/Polygon_repair.h>
 #include <CGAL/iterator.h>
@@ -124,4 +124,4 @@ public:
 } // namespace Polygon_repair
 } // namespace CGAL
 
-#endif // CGAL_TRIANGULATION_WITH_EVEN_ODD_CONSTRAINTS_2_H
+#endif // CGAL_POLYGON_REPAIR_TRIANGULATION_WITH_EVEN_ODD_CONSTRAINTS_2_H

@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.3/Orthtree/include/CGAL/Octree.h $
-// $Id: include/CGAL/Octree.h cefe3007d59 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.1/Orthtree/include/CGAL/Octree.h $
+// $Id: include/CGAL/Octree.h b26b07a1242 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Simon Giraudot
@@ -25,7 +25,7 @@ namespace CGAL {
   \brief Alias that specializes the `Orthtree` class to a 3D octree storing 3D points.
 
   \tparam GeomTraits a model of `Kernel`
-  \tparam PointRange a model of `Range` whose value type is the key type of `PointMap`
+  \tparam PointRange a model of `Range` whose value type is the key type of `PointMap` and whose iterator type is a model of `RandomAccessIterator`
   \tparam PointMap a model of `ReadablePropertyMap` whose value type is `GeomTraits::Point_3`
   \tparam cubic_nodes Boolean to enforce cubic nodes
  */

@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.3/Polygon_mesh_processing/include/CGAL/Polygon_mesh_processing/internal/Snapping/helper.h $
-// $Id: include/CGAL/Polygon_mesh_processing/internal/Snapping/helper.h cefe3007d59 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.1/Polygon_mesh_processing/include/CGAL/Polygon_mesh_processing/internal/Snapping/helper.h $
+// $Id: include/CGAL/Polygon_mesh_processing/internal/Snapping/helper.h b26b07a1242 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -67,7 +67,7 @@ void assign_tolerance_with_local_edge_length_bound(const HalfedgeRange& halfedge
   {
     const vertex_descriptor vd = target(hd, mesh);
     CGAL::Halfedge_around_target_iterator<PolygonMesh> hit, hend;
-    boost::tie(hit, hend) = CGAL::halfedges_around_target(vd, mesh);
+    std::tie(hit, hend) = CGAL::halfedges_around_target(vd, mesh);
     CGAL_assertion(hit != hend);
 
     FT sq_length = gt.compute_squared_distance_3_object()(get(vpm, source(*hit, mesh)),

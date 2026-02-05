@@ -7,8 +7,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.3/Kernel_23/include/CGAL/Line_2.h $
-// $Id: include/CGAL/Line_2.h cefe3007d59 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.1/Kernel_23/include/CGAL/Line_2.h $
+// $Id: include/CGAL/Line_2.h b26b07a1242 $
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -223,19 +223,6 @@ public:
   {
     return R().construct_point_2_object()(*this,i);
   }
-
-  typename R::Boolean
-  operator==(const Line_2 &l) const
-  {
-    return R().equal_2_object()(*this, l);
-  }
-
-  typename R::Boolean
-  operator!=(const Line_2 &l) const
-  {
-    return !(*this == l);
-  }
-
 };
 
 

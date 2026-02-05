@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.3/Polygon_mesh_processing/include/CGAL/Polygon_mesh_processing/internal/Corefinement/intersection_callbacks.h $
-// $Id: include/CGAL/Polygon_mesh_processing/internal/Corefinement/intersection_callbacks.h cefe3007d59 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.1/Polygon_mesh_processing/include/CGAL/Polygon_mesh_processing/internal/Corefinement/intersection_callbacks.h $
+// $Id: include/CGAL/Polygon_mesh_processing/internal/Corefinement/intersection_callbacks.h b26b07a1242 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -19,6 +19,7 @@
 #include <CGAL/property_map.h>
 #include <CGAL/enum.h>
 #include <CGAL/Polygon_mesh_processing/self_intersections.h>
+#include <CGAL/Polygon_mesh_processing/internal/Corefinement/Self_intersection_exception.h>
 
 #include <boost/graph/graph_traits.hpp>
 #include <memory>
@@ -27,14 +28,6 @@
 namespace CGAL {
 namespace Polygon_mesh_processing {
 namespace Corefinement {
-
-struct Self_intersection_exception :
-  public std::runtime_error
-{
-  Self_intersection_exception()
-    : std::runtime_error("Self-intersection detected in input mesh")
-  {}
-};
 
 template<class TriangleMesh, class EdgeToFaces>
 class Collect_face_bbox_per_edge_bbox {

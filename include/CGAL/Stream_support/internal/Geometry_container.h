@@ -6,8 +6,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.3/Stream_support/include/CGAL/Stream_support/internal/Geometry_container.h $
-// $Id: include/CGAL/Stream_support/internal/Geometry_container.h cefe3007d59 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.1/Stream_support/include/CGAL/Stream_support/internal/Geometry_container.h $
+// $Id: include/CGAL/Stream_support/internal/Geometry_container.h b26b07a1242 $
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Maxime Gimeno
@@ -46,20 +46,16 @@ struct Geometry_container{
   typedef typename Range::size_type size_type;
   typedef typename Range::value_type value_type;
   std::shared_ptr<Range>  range;
-  bool must_delete;
   //
   // Default constructor.
   // Creates a new internal Range.
   // De-allocate memory after usage.
-  Geometry_container():range(new Range()), must_delete(true)
-  {
-  }
+  Geometry_container() : range(std::make_shared<Range>()) {}
   /*
-   Copy constructor.
+   Store a pointer to the given range.
    Memory NOT de-allocated after usage.
   */
-  Geometry_container(Range& range)
-    :range(&range, Dummy_deleter()), must_delete(false){}
+  Geometry_container(Range& range) : range(&range, Dummy_deleter()) {}
 
   iterator begin()
   { return range->begin(); }

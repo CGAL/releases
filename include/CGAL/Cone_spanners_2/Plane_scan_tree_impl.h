@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.3/Cone_spanners_2/include/CGAL/Cone_spanners_2/Plane_scan_tree_impl.h $
-// $Id: include/CGAL/Cone_spanners_2/Plane_scan_tree_impl.h cefe3007d59 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.1/Cone_spanners_2/include/CGAL/Cone_spanners_2/Plane_scan_tree_impl.h $
+// $Id: include/CGAL/Cone_spanners_2/Plane_scan_tree_impl.h b26b07a1242 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //

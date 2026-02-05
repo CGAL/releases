@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.3/Algebraic_kernel_for_circles/include/CGAL/Root_for_circles_2_2.h $
-// $Id: include/CGAL/Root_for_circles_2_2.h cefe3007d59 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.1/Algebraic_kernel_for_circles/include/CGAL/Root_for_circles_2_2.h $
+// $Id: include/CGAL/Root_for_circles_2_2.h b26b07a1242 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Monique Teillaud, Sylvain Pion
@@ -46,7 +46,7 @@ class Root_for_circles_2_2 {
   Root_for_circles_2_2(const Root_of_2& r1, const Root_of_2& r2)
     : x_(r1), y_(r2)
   {
-    // When it is an interval this assertion dont compile
+    // When it is an interval this assertion doesn't compile
     //CGAL_assertion((r1.is_rational() || r2.is_rational()) ||
     //               (r1.gamma() == r2.gamma()));
   }

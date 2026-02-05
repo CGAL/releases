@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.3/Matrix_search/include/CGAL/Cartesian_matrix.h $
-// $Id: include/CGAL/Cartesian_matrix.h cefe3007d59 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.1/Matrix_search/include/CGAL/Cartesian_matrix.h $
+// $Id: include/CGAL/Cartesian_matrix.h b26b07a1242 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //

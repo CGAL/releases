@@ -40,8 +40,8 @@
  * WWW URL: https://cs.nyu.edu/exact/
  * Email: exact@cs.nyu.edu
  *
- * $URL: https://github.com/CGAL/cgal/blob/v6.0.3/CGAL_Core/include/CGAL/CORE/poly/Sturm.h $
- * $Id: include/CGAL/CORE/poly/Sturm.h cefe3007d59 $
+ * $URL: https://github.com/CGAL/cgal/blob/v6.1/CGAL_Core/include/CGAL/CORE/poly/Sturm.h $
+ * $Id: include/CGAL/CORE/poly/Sturm.h b26b07a1242 $
  * SPDX-License-Identifier: LGPL-3.0-or-later
  ***************************************************************************/
 
@@ -69,7 +69,7 @@ public:
                 //     the array seq is not used!
                 //     Hence, one must test these special cases
   Polynomial<NT> * seq;      // array of polynomials of length "len+1"
-  Polynomial<NT> g;//GCD of input polynomial P and it's derivative P'
+  Polynomial<NT> g;//GCD of input polynomial P and its derivative P'
   NT cont;//Content of the square-free part of input polynomial P
   //Thus P = g * cont * seq[0]
   static const int N_STOP_ITER = 10000;    // Stop IterE after this many iterations.

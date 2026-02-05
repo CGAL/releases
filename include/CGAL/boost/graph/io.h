@@ -2,8 +2,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.3/BGL/include/CGAL/boost/graph/io.h $
-// $Id: include/CGAL/boost/graph/io.h cefe3007d59 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.1/BGL/include/CGAL/boost/graph/io.h $
+// $Id: include/CGAL/boost/graph/io.h b26b07a1242 $
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Andreas Fabri
@@ -16,6 +16,7 @@
 #include <CGAL/boost/graph/IO/INP.h>
 #include <CGAL/boost/graph/IO/OBJ.h>
 #include <CGAL/boost/graph/IO/OFF.h>
+#include <CGAL/boost/graph/IO/OM.h>
 #include <CGAL/boost/graph/IO/PLY.h>
 #include <CGAL/boost/graph/IO/STL.h>
 #include <CGAL/boost/graph/IO/VTK.h>

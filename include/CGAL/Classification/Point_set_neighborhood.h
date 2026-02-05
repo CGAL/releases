@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.3/Classification/include/CGAL/Classification/Point_set_neighborhood.h $
-// $Id: include/CGAL/Classification/Point_set_neighborhood.h cefe3007d59 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.1/Classification/include/CGAL/Classification/Point_set_neighborhood.h $
+// $Id: include/CGAL/Classification/Point_set_neighborhood.h b26b07a1242 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Simon Giraudot
@@ -317,9 +317,8 @@ private:
       Point ref (std::floor(p.x() / voxel_size),
                  std::floor(p.y() / voxel_size),
                  std::floor(p.z() / voxel_size));
-      typename std::map<Point, std::vector<std::uint32_t> >::iterator it;
-      boost::tie (it, boost::tuples::ignore)
-        = grid.insert (std::make_pair (ref, std::vector<std::uint32_t>()));
+      typename std::map<Point, std::vector<std::uint32_t> >::iterator it
+        = grid.insert (std::make_pair (ref, std::vector<std::uint32_t>())).first;
       it->second.push_back (i);
     }
 

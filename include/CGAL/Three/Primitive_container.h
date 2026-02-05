@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.3/Three/include/CGAL/Three/Primitive_container.h $
-// $Id: include/CGAL/Three/Primitive_container.h cefe3007d59 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.1/Three/include/CGAL/Three/Primitive_container.h $
+// $Id: include/CGAL/Three/Primitive_container.h b26b07a1242 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Maxime Gimeno
@@ -178,7 +178,7 @@ public:
   //!
   void setVbos(std::vector<Vbo*>);
   //!
-  //! \brief setVbo sets the `vbo_id`th `Vbo` of this container to `vbo`.
+  //! \brief setVbo sets the `vbo_id`-th `Vbo` of this container to `vbo`.
   //! \param vbo_id
   //! \param vbo
   //!
@@ -199,7 +199,7 @@ public:
   //!
   Vao* getVao(Viewer_interface* viewer)const;
   //!
-  //! \brief getVbo returns the `id`th Vbo of this container.
+  //! \brief getVbo returns the `id`-th Vbo of this container.
   //!
   Vbo *getVbo(std::size_t id)const;
   //!

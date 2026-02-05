@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.3/Polyline_simplification_2/include/CGAL/Polyline_simplification_2/Hybrid_squared_distance_cost.h $
-// $Id: include/CGAL/Polyline_simplification_2/Hybrid_squared_distance_cost.h cefe3007d59 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.1/Polyline_simplification_2/include/CGAL/Polyline_simplification_2/Hybrid_squared_distance_cost.h $
+// $Id: include/CGAL/Polyline_simplification_2/Hybrid_squared_distance_cost.h b26b07a1242 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Andreas Fabri, Fernando Cacciola

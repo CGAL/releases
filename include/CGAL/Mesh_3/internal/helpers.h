@@ -4,8 +4,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.3/Mesh_3/include/CGAL/Mesh_3/internal/helpers.h $
-// $Id: include/CGAL/Mesh_3/internal/helpers.h cefe3007d59 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.1/Mesh_3/include/CGAL/Mesh_3/internal/helpers.h $
+// $Id: include/CGAL/Mesh_3/internal/helpers.h b26b07a1242 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -72,7 +72,7 @@ struct Angle_tester
     else
     {
       out_edge_iterator out_edge_it, out_edges_end;
-      boost::tie(out_edge_it, out_edges_end) = out_edges(v, g);
+      std::tie(out_edge_it, out_edges_end) = out_edges(v, g);
 
       vertex_descriptor v1 = target(*out_edge_it++, g);
       vertex_descriptor v2 = target(*out_edge_it++, g);

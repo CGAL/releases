@@ -1,10 +1,10 @@
-// Copyright(c) 2006 Fernando Luis Cacciola Carballal. All rights reserved.
+// Copyright (c) 2006 Fernando Luis Cacciola Carballal. All rights reserved.
 //
 // This file is part of CGAL(www.cgal.org).
 //
 
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.3/Straight_skeleton_2/include/CGAL/create_weighted_straight_skeleton_2.h $
-// $Id: include/CGAL/create_weighted_straight_skeleton_2.h cefe3007d59 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.1/Straight_skeleton_2/include/CGAL/create_weighted_straight_skeleton_2.h $
+// $Id: include/CGAL/create_weighted_straight_skeleton_2.h b26b07a1242 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Mael Rouxel-Labbé

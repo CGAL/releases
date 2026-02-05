@@ -2,8 +2,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.3/STL_Extension/include/CGAL/STL_Extension/internal/mesh_parameters_interface.h $
-// $Id: include/CGAL/STL_Extension/internal/mesh_parameters_interface.h cefe3007d59 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.1/STL_Extension/include/CGAL/STL_Extension/internal/mesh_parameters_interface.h $
+// $Id: include/CGAL/STL_Extension/internal/mesh_parameters_interface.h b26b07a1242 $
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -367,4 +367,17 @@ features(const MeshDomain& /*domain*/)
 
   typedef Named_function_parameters<::CGAL::parameters::internal::Features_options, ::CGAL::internal_np::features_option_param_t, CGAL_NP_BASE> Param;
   return CGAL_NP_BUILD(Param,Generator()());
+}
+
+// -----------------------------------
+// Surface only (replacing Surface_mesher)
+// -----------------------------------
+inline Named_function_parameters<::CGAL::parameters::internal::Mesh_3_options, ::CGAL::internal_np::mesh_param_t, CGAL_NP_BASE>
+surface_only()
+{
+  typedef Named_function_parameters<::CGAL::parameters::internal::Mesh_3_options, ::CGAL::internal_np::mesh_param_t, CGAL_NP_BASE> Param;
+  ::CGAL::parameters::internal::Mesh_3_options options;
+
+  options.surface_only = true;
+  return CGAL_NP_BUILD(Param, options);
 }

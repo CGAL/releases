@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.3/Segment_Delaunay_graph_2/include/CGAL/Segment_Delaunay_graph_2.h $
-// $Id: include/CGAL/Segment_Delaunay_graph_2.h cefe3007d59 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.1/Segment_Delaunay_graph_2/include/CGAL/Segment_Delaunay_graph_2.h $
+// $Id: include/CGAL/Segment_Delaunay_graph_2.h b26b07a1242 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -96,9 +96,7 @@ namespace Internal {
 
   template < class Node >
   struct Project_site_2 {
-    typedef Node                   argument_type;
     typedef typename Node::Site_2  Site;
-    typedef Site                   result_type;
 
     Site operator()(const Node& x) const {
       return x.site();
@@ -108,9 +106,7 @@ namespace Internal {
 
   template < class Node, class Site_t >
   struct Project_input_to_site_2 {
-    typedef Node                   argument_type;
     typedef Site_t                 Site;
-    typedef Site                   result_type;
 
     Site operator()(const Node& x) const {
       if ( boost::tuples::get<2>(x) /*x.third*/ ) { // it is a point

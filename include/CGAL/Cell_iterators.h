@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.3/Combinatorial_map/include/CGAL/Cell_iterators.h $
-// $Id: include/CGAL/Cell_iterators.h cefe3007d59 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.1/Combinatorial_map/include/CGAL/Cell_iterators.h $
+// $Id: include/CGAL/Cell_iterators.h b26b07a1242 $
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Guillaume Damiand <guillaume.damiand@liris.cnrs.fr>
@@ -86,7 +86,8 @@ namespace CGAL {
                               Tag_true>::value);
       CGAL_assertion(amap.is_whole_map_unmarked(mcell_mark_number));
 
-      mark_cell<Map,i,dim>(amap, adart, mcell_mark_number);
+      if(this->cont())
+      { mark_cell<Map,i,dim>(amap, adart, mcell_mark_number); }
     }
 
     /// Destructor.
@@ -126,7 +127,8 @@ namespace CGAL {
     {
       unmark_treated_darts();
       Ite::rewind();
-      mark_cell<Map,i,dim>(*this->mmap, (*this), mcell_mark_number);
+      if(this->cont())
+      { mark_cell<Map,i,dim>(*this->mmap, (*this), mcell_mark_number); }
     }
 
     /// Prefix ++ operator.
@@ -199,7 +201,8 @@ namespace CGAL {
       static_assert(std::is_same<typename Ite::Basic_iterator,
                               Tag_true>::value);
       CGAL_assertion(amap.is_whole_map_unmarked(mmark_number));
-      mark_cell<Map,i,dim>(amap, adart, mmark_number);
+      if(this->cont())
+      { mark_cell<Map,i,dim>(amap, adart, mmark_number); }
     }
 
     /// Destructor.
@@ -234,7 +237,8 @@ namespace CGAL {
     {
       unmark_treated_darts();
       Ite::rewind();
-      mark_cell<Map,i,dim>(*this->mmap, (*this), mmark_number);
+      if(this->cont())
+      { mark_cell<Map,i,dim>(*this->mmap, (*this), mmark_number); }
     }
 
     /// Postfix ++ operator.
@@ -253,7 +257,7 @@ namespace CGAL {
              this->mmap->is_marked((*this), mmark_number));
 
       if (this->cont())
-        mark_cell<Map,i,dim>(*this->mmap, (*this), mmark_number);
+      { mark_cell<Map,i,dim>(*this->mmap, (*this), mmark_number); }
       return *this;
     }
 
@@ -306,7 +310,8 @@ namespace CGAL {
       static_assert(std::is_same<typename Base::Basic_iterator,
                               Tag_true>::value);
       CGAL_assertion(amap.is_whole_map_unmarked(mmark_number));
-      mark_cell<Map,i,dim>(amap, (*this), mmark_number);
+      if(this->cont())
+      { mark_cell<Map,i,dim>(amap, (*this), mmark_number); }
     }
 
    /// Constructor with a dart in parameter (for end iterator).
@@ -314,8 +319,8 @@ namespace CGAL {
       Base(amap, adart),
       mmark_number(amap.get_new_mark())
     {
-      if (adart!=this->mmap->null_descriptor)
-        mark_cell<Map,i,dim>(amap, (*this), mmark_number);
+      if (this->cont())
+      { mark_cell<Map,i,dim>(amap, (*this), mmark_number); }
     }
 
     /// Destructor.
@@ -350,7 +355,8 @@ namespace CGAL {
     {
       unmark_treated_darts();
       Base::rewind();
-      mark_cell<Map,i,dim>(*this->mmap, (*this), mmark_number);
+      if(this->cont())
+      { mark_cell<Map,i,dim>(*this->mmap, (*this), mmark_number); }
     }
 
     /// Postfix ++ operator.
@@ -369,7 +375,7 @@ namespace CGAL {
              this->mmap->is_marked((*this), mmark_number));
 
       if (this->cont())
-        mark_cell<Map,i,dim>(*this->mmap, (*this), mmark_number);
+      { mark_cell<Map,i,dim>(*this->mmap, (*this), mmark_number); }
       return *this;
     }
 

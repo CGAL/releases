@@ -7,8 +7,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.3/Polygon/include/CGAL/draw_polygon_2.h $
-// $Id: include/CGAL/draw_polygon_2.h cefe3007d59 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.1/Polygon/include/CGAL/draw_polygon_2.h $
+// $Id: include/CGAL/draw_polygon_2.h b26b07a1242 $
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -18,7 +18,7 @@
 #ifndef CGAL_DRAW_POLYGON_2_H
 #define CGAL_DRAW_POLYGON_2_H
 
-#include <CGAL/Qt/Basic_viewer.h>
+#include <CGAL/Basic_viewer.h>
 #include <CGAL/Graphics_scene.h>
 #include <CGAL/Graphics_scene_options.h>
 #include <CGAL/Polygon_2.h>
@@ -174,8 +174,6 @@ void add_to_graphics_scene(const CGAL_P2_TYPE& ap2,
   draw_function_for_p2::compute_elements(ap2, graphics_scene, gso);
 }
 
-#ifdef CGAL_USE_BASIC_VIEWER
-
 // Specialization of draw function.
 template <class T, class C>
 void draw(const CGAL_P2_TYPE &ap2,
@@ -195,8 +193,6 @@ void draw(const CGAL_P2_TYPE &ap2,
   add_to_graphics_scene(ap2, buffer, gso);
   draw_graphics_scene(buffer, title);
 }
-
-#endif // CGAL_USE_BASIC_VIEWER
 
 #undef CGAL_P2_TYPE
 

@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.3/Poisson_surface_reconstruction_3/include/CGAL/IO/output_surface_facets_to_triangle_soup.h $
-// $Id: include/CGAL/IO/output_surface_facets_to_triangle_soup.h cefe3007d59 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.1/Poisson_surface_reconstruction_3/include/CGAL/IO/output_surface_facets_to_triangle_soup.h $
+// $Id: include/CGAL/IO/output_surface_facets_to_triangle_soup.h b26b07a1242 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s) : Pierre Alliez

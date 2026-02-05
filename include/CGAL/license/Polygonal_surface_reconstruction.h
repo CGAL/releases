@@ -3,23 +3,19 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.3/Installation/include/CGAL/license/Polygonal_surface_reconstruction.h $
-// $Id: include/CGAL/license/Polygonal_surface_reconstruction.h cefe3007d59 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.1/Installation/include/CGAL/license/Polygonal_surface_reconstruction.h $
+// $Id: include/CGAL/license/Polygonal_surface_reconstruction.h b26b07a1242 $
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s) : Andreas Fabri
 //
 // Warning: this file is generated, see include/CGAL/license/README.md
 
-
 #ifndef CGAL_LICENSE_POLYGONAL_SURFACE_RECONSTRUCTION_H
 #define CGAL_LICENSE_POLYGONAL_SURFACE_RECONSTRUCTION_H
 
 #include <CGAL/config.h>
 #include <CGAL/license.h>
-
-
-
 
 #ifdef CGAL_POLYGONAL_SURFACE_RECONSTRUCTION_COMMERCIAL_LICENSE
 
@@ -33,8 +29,8 @@
 
 #    ifdef CGAL_LICENSE_ERROR
 #      error "Your commercial license for CGAL does not cover this release \
-of the Polygonal Surface Reconstruction package. \
-You get this error, as you defined CGAL_LICENSE_ERROR."
+              of the Polygonal Surface Reconstruction package. \
+              You get this error, as you defined CGAL_LICENSE_ERROR."
 #    endif // CGAL_LICENSE_ERROR
 
 #  endif // CGAL_POLYGONAL_SURFACE_RECONSTRUCTION_COMMERCIAL_LICENSE < CGAL_RELEASE_DATE
@@ -49,10 +45,10 @@ You get this error, as you defined CGAL_LICENSE_ERROR."
 
 #  ifdef CGAL_LICENSE_ERROR
 #    error "The macro CGAL_POLYGONAL_SURFACE_RECONSTRUCTION_COMMERCIAL_LICENSE is not defined.\
- You use the CGAL Polygonal Surface Reconstruction package under the terms of \
-the GPLv3+. You get this error, as you defined CGAL_LICENSE_ERROR."
+            You use the CGAL Polygonal Surface Reconstruction package under the terms of \
+            the GPLv3+. You get this error, as you defined CGAL_LICENSE_ERROR."
 #  endif // CGAL_LICENSE_ERROR
 
 #endif // no CGAL_POLYGONAL_SURFACE_RECONSTRUCTION_COMMERCIAL_LICENSE
 
-#endif // CGAL_LICENSE_CHECK_POLYGONAL_SURFACE_RECONSTRUCTION_H
+#endif // CGAL_LICENSE_POLYGONAL_SURFACE_RECONSTRUCTION_H

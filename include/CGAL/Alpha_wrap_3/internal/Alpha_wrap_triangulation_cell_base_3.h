@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.3/Alpha_wrap_3/include/CGAL/Alpha_wrap_3/internal/Alpha_wrap_triangulation_cell_base_3.h $
-// $Id: include/CGAL/Alpha_wrap_3/internal/Alpha_wrap_triangulation_cell_base_3.h cefe3007d59 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.1/Alpha_wrap_3/include/CGAL/Alpha_wrap_3/internal/Alpha_wrap_triangulation_cell_base_3.h $
+// $Id: include/CGAL/Alpha_wrap_3/internal/Alpha_wrap_triangulation_cell_base_3.h b26b07a1242 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Mael Rouxel-Labbé
@@ -97,7 +97,7 @@ template <typename Cb>
 class Cell_base_with_timestamp
   : public Cb
 {
-  std::size_t time_stamp_;
+  std::size_t time_stamp_ = std::size_t(-2);
 
 public:
   using Has_timestamp = CGAL::Tag_true;
@@ -112,7 +112,7 @@ public:
 public:
   template <typename... Args>
   Cell_base_with_timestamp(const Args&... args)
-    : Cb(args...), time_stamp_(-1)
+    : Cb(args...)
   { }
 
   Cell_base_with_timestamp(const Cell_base_with_timestamp& other)

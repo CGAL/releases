@@ -4,8 +4,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.3/Mesh_3/include/CGAL/Mesh_cell_base_3.h $
-// $Id: include/CGAL/Mesh_cell_base_3.h cefe3007d59 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.1/Mesh_3/include/CGAL/Mesh_cell_base_3.h $
+// $Id: include/CGAL/Mesh_cell_base_3.h b26b07a1242 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -273,7 +273,7 @@ private:
 #ifdef CGAL_INTRUSIVE_LIST
   Cell_handle next_intrusive_, previous_intrusive_;
 #endif
-  std::size_t time_stamp_;
+  std::size_t time_stamp_ = std::size_t(-2);
 
 };  // end class Mesh_cell_base_3
 

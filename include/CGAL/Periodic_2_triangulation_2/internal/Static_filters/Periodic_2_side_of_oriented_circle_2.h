@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.3/Periodic_2_triangulation_2/include/CGAL/Periodic_2_triangulation_2/internal/Static_filters/Periodic_2_side_of_oriented_circle_2.h $
-// $Id: include/CGAL/Periodic_2_triangulation_2/internal/Static_filters/Periodic_2_side_of_oriented_circle_2.h cefe3007d59 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.1/Periodic_2_triangulation_2/include/CGAL/Periodic_2_triangulation_2/internal/Static_filters/Periodic_2_side_of_oriented_circle_2.h $
+// $Id: include/CGAL/Periodic_2_triangulation_2/internal/Static_filters/Periodic_2_side_of_oriented_circle_2.h b26b07a1242 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Sylvain Pion <Sylvain.Pion@sophia.inria.fr>
@@ -45,8 +45,6 @@ private:
   const Iso_rectangle_2 * _dom;
 
 public:
-  typedef typename Base::result_type  result_type;
-
   Periodic_2_side_of_oriented_circle_2(const Iso_rectangle_2 * dom,
                                        const Base& socb)
     : Base(socb), _dom(dom)

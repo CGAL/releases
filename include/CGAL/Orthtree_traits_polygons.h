@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.3/Orthtree/include/CGAL/Orthtree_traits_polygons.h $
-// $Id: include/CGAL/Orthtree_traits_polygons.h cefe3007d59 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.1/Orthtree/include/CGAL/Orthtree_traits_polygons.h $
+// $Id: include/CGAL/Orthtree_traits_polygons.h b26b07a1242 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Sven Oesau
@@ -94,7 +94,7 @@ struct Orthtree_traits_polygons : public Orthtree_traits_base<GeomTraits, 3>
 
   Point_d interpolate(FT a, FT b, FT l, const Point_d pa, const Point_d pb) const {
     FT f = CGAL::abs((a - l) / (a - b));
-    assert(f <= 1.0);
+    CGAL_assertion(f <= 1.0);
     return Point_d((1 - f) * pa.x() + f * pb.x(), (1 - f) * pa.y() + f * pb.y(), (1 - f) * pa.z() + f * pb.z());
   }
 

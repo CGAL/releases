@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.3/Number_types/include/CGAL/leda_bigfloat_interval.h $
-// $Id: include/CGAL/leda_bigfloat_interval.h cefe3007d59 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.1/Number_types/include/CGAL/leda_bigfloat_interval.h $
+// $Id: include/CGAL/leda_bigfloat_interval.h b26b07a1242 $
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -202,8 +202,8 @@ public:
             std::pair<double, double> lower_I(CGAL::to_interval(x.lower()));
             std::pair<double, double> upper_I(CGAL::to_interval(x.upper()));
             return std::pair< double, double >(
-                    CGAL::min(lower_I.first , upper_I.first ),
-                    CGAL::max(lower_I.second, upper_I.second));
+                    (CGAL::min)(lower_I.first , upper_I.first ),
+                    (CGAL::max)(lower_I.second, upper_I.second));
         }
     };
 };

@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.3/Boolean_set_operations_2/include/CGAL/IO/Gps_iostream.h $
-// $Id: include/CGAL/IO/Gps_iostream.h cefe3007d59 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.1/Boolean_set_operations_2/include/CGAL/IO/Gps_iostream.h $
+// $Id: include/CGAL/IO/Gps_iostream.h b26b07a1242 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //

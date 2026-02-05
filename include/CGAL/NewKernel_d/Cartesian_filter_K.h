@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.3/NewKernel_d/include/CGAL/NewKernel_d/Cartesian_filter_K.h $
-// $Id: include/CGAL/NewKernel_d/Cartesian_filter_K.h cefe3007d59 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.1/NewKernel_d/include/CGAL/NewKernel_d/Cartesian_filter_K.h $
+// $Id: include/CGAL/NewKernel_d/Cartesian_filter_K.h b26b07a1242 $
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Marc Glisse
@@ -63,6 +63,14 @@ struct Cartesian_filter_K : public Base_
     typedef typename Store_kernel<EK_>::reference_type EK_rt;
     EK_rt exact_kernel()const{return sek.kernel();}
 
+
+    // Added to be similar to CGAL::Filtered_kernel, for the Frechet Distance package
+    typedef AK Approximate_kernel;
+    typedef EK Exact_kernel;
+
+    enum { Has_filtered_predicates = true };
+    typedef Boolean_tag<Has_filtered_predicates> Has_filtered_predicates_tag;
+
     // MSVC is too dumb to perform the empty base optimization.
     typedef std::bool_constant<
       internal::Do_not_store_kernel<Kernel_base>::value &&
@@ -72,6 +80,8 @@ struct Cartesian_filter_K : public Base_
     //TODO: C2A/C2E could be able to convert *this into this->kernel() or this->kernel2().
     typedef KernelD_converter<Kernel_base,AK> C2A;
     typedef KernelD_converter<Kernel_base,EK> C2E;
+
+    typedef C2A C2F;
 
     // fix the types
     // TODO: only fix some types, based on some criterion?

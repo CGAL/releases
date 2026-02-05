@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.3/Heat_method_3/include/CGAL/Heat_method_3/Surface_mesh_geodesic_distances_3.h $
-// $Id: include/CGAL/Heat_method_3/Surface_mesh_geodesic_distances_3.h cefe3007d59 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.1/Heat_method_3/include/CGAL/Heat_method_3/Surface_mesh_geodesic_distances_3.h $
+// $Id: include/CGAL/Heat_method_3/Surface_mesh_geodesic_distances_3.h b26b07a1242 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -297,7 +297,7 @@ private:
     }
     CGAL::Vertex_around_face_iterator<TriangleMesh> vbegin, vend, vmiddle;
     for(face_descriptor f : faces(tm)) {
-      boost::tie(vbegin, vend) = vertices_around_face(halfedge(f,tm),tm);
+      std::tie(vbegin, vend) = vertices_around_face(halfedge(f,tm),tm);
       vertex_descriptor current = *(vbegin);
       vertex_descriptor neighbor_one = *(++vbegin);
       vertex_descriptor neighbor_two = *(++vbegin);
@@ -350,7 +350,7 @@ private:
     Matrix indexD(dimension,1);
     CGAL::Vertex_around_face_iterator<TriangleMesh> vbegin, vend, vmiddle;
     for(face_descriptor f : faces(tm)) {
-      boost::tie(vbegin, vend) = vertices_around_face(halfedge(f,tm),tm);
+      std::tie(vbegin, vend) = vertices_around_face(halfedge(f,tm),tm);
       vertex_descriptor current = *(vbegin);
       vertex_descriptor neighbor_one = *(++vbegin);
       vertex_descriptor neighbor_two = *(++vbegin);
@@ -514,7 +514,7 @@ private:
     CGAL::Vertex_around_face_iterator<TriangleMesh> vbegin, vend, vmiddle;
 
     for(face_descriptor f : faces(tm)) {
-      boost::tie(vbegin, vend) = vertices_around_face(halfedge(f,tm),tm);
+      std::tie(vbegin, vend) = vertices_around_face(halfedge(f,tm),tm);
       vertex_descriptor current = *(vbegin);
       vertex_descriptor neighbor_one = *(++vbegin);
       vertex_descriptor neighbor_two = *(++vbegin);

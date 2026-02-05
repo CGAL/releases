@@ -7,8 +7,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.3/Kernel_23/include/CGAL/Kernel/global_functions.h $
-// $Id: include/CGAL/Kernel/global_functions.h cefe3007d59 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.1/Kernel_23/include/CGAL/Kernel/global_functions.h $
+// $Id: include/CGAL/Kernel/global_functions.h b26b07a1242 $
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -28,7 +28,7 @@ namespace CGAL {
 
 template <class T1, class T2, class T3>
 inline
-Comparison_result
+typename Kernel_traits<T1>::Kernel::Comparison_result
 compare_distance(const T1 &o1,
                  const T2 &o2,
                  const T3 &o3)
@@ -39,7 +39,7 @@ compare_distance(const T1 &o1,
 
 template <class T1, class T2, class T3, class T4>
 inline
-Comparison_result
+typename Kernel_traits<T1>::Kernel::Comparison_result
 compare_distance(const T1 &o1,
                  const T2 &o2,
                  const T3 &o3,
@@ -51,7 +51,7 @@ compare_distance(const T1 &o1,
 
 template <typename O>
 inline
-bool
+typename Kernel_traits<O>::Kernel::Boolean
 parallel(const O &o1, const O &o2)
 {
   typedef typename Kernel_traits<O>::Kernel K;

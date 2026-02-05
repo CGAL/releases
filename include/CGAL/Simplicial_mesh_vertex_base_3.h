@@ -4,8 +4,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.3/SMDS_3/include/CGAL/Simplicial_mesh_vertex_base_3.h $
-// $Id: include/CGAL/Simplicial_mesh_vertex_base_3.h cefe3007d59 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.1/SMDS_3/include/CGAL/Simplicial_mesh_vertex_base_3.h $
+// $Id: include/CGAL/Simplicial_mesh_vertex_base_3.h b26b07a1242 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Stéphane Tayeb, Andreas Fabri, Jane Tournois
@@ -130,7 +130,6 @@ public:
     , index_()
     , dimension_(-1)
     , cache_validity(false)
-    , time_stamp_(std::size_t(-1))
   {}
 
   // Default copy constructor and assignment operator are ok
@@ -218,7 +217,7 @@ private:
   // that contains me. Negative values are a marker for special vertices.
   short dimension_;
   bool cache_validity;
-  std::size_t time_stamp_;
+  std::size_t time_stamp_ = std::size_t(-2);
 
 public:
   friend std::istream& operator>>(std::istream& is,

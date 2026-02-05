@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.3/Mesh_3/include/CGAL/Mesh_3/C3T3_helpers.h $
-// $Id: include/CGAL/Mesh_3/C3T3_helpers.h cefe3007d59 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.1/Mesh_3/include/CGAL/Mesh_3/C3T3_helpers.h $
+// $Id: include/CGAL/Mesh_3/C3T3_helpers.h b26b07a1242 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -3756,7 +3756,7 @@ fill_modified_vertices(InputIterator cells_begin,
                        OutputIterator out) const
 {
   Vertex_set already_inserted_vertices;
-  // Dont insert vertex in out
+  // Don't insert vertex in out
   already_inserted_vertices.insert(vertex);
 
   for ( InputIterator it = cells_begin ; it != cells_end ; ++it )

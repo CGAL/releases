@@ -3,23 +3,19 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.3/Installation/include/CGAL/license/Heat_method_3.h $
-// $Id: include/CGAL/license/Heat_method_3.h cefe3007d59 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.1/Installation/include/CGAL/license/Heat_method_3.h $
+// $Id: include/CGAL/license/Heat_method_3.h b26b07a1242 $
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s) : Andreas Fabri
 //
 // Warning: this file is generated, see include/CGAL/license/README.md
 
-
 #ifndef CGAL_LICENSE_HEAT_METHOD_3_H
 #define CGAL_LICENSE_HEAT_METHOD_3_H
 
 #include <CGAL/config.h>
 #include <CGAL/license.h>
-
-
-
 
 #ifdef CGAL_HEAT_METHOD_3_COMMERCIAL_LICENSE
 
@@ -33,8 +29,8 @@
 
 #    ifdef CGAL_LICENSE_ERROR
 #      error "Your commercial license for CGAL does not cover this release \
-of the 3D Heat Method package. \
-You get this error, as you defined CGAL_LICENSE_ERROR."
+              of the 3D Heat Method package. \
+              You get this error, as you defined CGAL_LICENSE_ERROR."
 #    endif // CGAL_LICENSE_ERROR
 
 #  endif // CGAL_HEAT_METHOD_3_COMMERCIAL_LICENSE < CGAL_RELEASE_DATE
@@ -49,10 +45,10 @@ You get this error, as you defined CGAL_LICENSE_ERROR."
 
 #  ifdef CGAL_LICENSE_ERROR
 #    error "The macro CGAL_HEAT_METHOD_3_COMMERCIAL_LICENSE is not defined.\
- You use the CGAL 3D Heat Method package under the terms of \
-the GPLv3+. You get this error, as you defined CGAL_LICENSE_ERROR."
+            You use the CGAL 3D Heat Method package under the terms of \
+            the GPLv3+. You get this error, as you defined CGAL_LICENSE_ERROR."
 #  endif // CGAL_LICENSE_ERROR
 
 #endif // no CGAL_HEAT_METHOD_3_COMMERCIAL_LICENSE
 
-#endif // CGAL_LICENSE_CHECK_HEAT_METHOD_3_H
+#endif // CGAL_LICENSE_HEAT_METHOD_3_H

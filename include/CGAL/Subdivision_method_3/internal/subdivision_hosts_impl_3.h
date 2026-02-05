@@ -2,8 +2,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.3/Subdivision_method_3/include/CGAL/Subdivision_method_3/internal/subdivision_hosts_impl_3.h $
-// $Id: include/CGAL/Subdivision_method_3/internal/subdivision_hosts_impl_3.h cefe3007d59 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.1/Subdivision_method_3/include/CGAL/Subdivision_method_3/internal/subdivision_hosts_impl_3.h $
+// $Id: include/CGAL/Subdivision_method_3/internal/subdivision_hosts_impl_3.h b26b07a1242 $
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -398,7 +398,7 @@ void DQQ_1step(Poly& p, VertexPointMap vpm, Mask mask) {
 template <class Poly, class VertexPointMap, class Mask>
 void Sqrt3_1step(Poly& p, VertexPointMap vpm, Mask mask,
                  const bool refine_border = false) {
-  // `refine_border` is a boolean that is meant to be true only every SECOND step
+  // `refine_border` is a Boolean that is meant to be true only every SECOND step
   // of the subdivision. In particular, this function makes uses of the fact
   // that there is at most a single border edge in a face, which is true if
   // the mesh is obtained from a sqrt3 subdivision before, but might otherwise

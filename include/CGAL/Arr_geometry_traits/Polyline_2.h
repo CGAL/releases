@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.3/Arrangement_on_surface_2/include/CGAL/Arr_geometry_traits/Polyline_2.h $
-// $Id: include/CGAL/Arr_geometry_traits/Polyline_2.h cefe3007d59 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.1/Arrangement_on_surface_2/include/CGAL/Arr_geometry_traits/Polyline_2.h $
+// $Id: include/CGAL/Arr_geometry_traits/Polyline_2.h b26b07a1242 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Efi Fogel <efif@post.tau.ac.il>
@@ -47,33 +47,33 @@ public:
   typedef typename Base::Subcurve_const_reverse_iterator
     Segment_const_reverse_iterator;
 
-  /*! Construct default. */
+  /*! constructs default. */
   Polyline_2() : Base() {}
 
-  /*! Construct from a subcurve. */
+  /*! constructs from a subcurve. */
   Polyline_2(const Subcurve_type_2& subcurve) : Base(subcurve) {}
 
-  /*! Construct from a range. */
+  /*! constructs from a range. */
   template <typename InputIterator>
   Polyline_2(InputIterator begin, InputIterator end) : Base(begin, end) {}
 
-  /*! Obtain an iterator for the polycurve subcurves. */
+  /*! obtains an iterator for the polycurve subcurves. */
   Segment_const_iterator begin_segments() const
   { return this->subcurves_begin(); }
 
-  /*! Obtain a past-the-end iterator for the polycurve subcurves. */
+  /*! obtains a past-the-end iterator for the polycurve subcurves. */
   Segment_const_iterator end_segments() const
   { return this->subcurves_end(); }
 
-  /*! Obtain a reverse iterator for the polycurve subcurves. */
+  /*! obtains a reverse iterator for the polycurve subcurves. */
   Segment_const_reverse_iterator rbegin_segments() const
   { return this->subcurves_rbegin(); }
 
-  /*! Obtain a reverse past-the-end iterator for the polycurve points. */
+  /*! obtains a reverse past-the-end iterator for the polycurve points. */
   Segment_const_reverse_iterator rend_segments() const
   { return this->subcurves_rend() ; }
 
-  /*! Obtain the number of subcurves that comprise the poyline.
+  /*! obtains the number of subcurves that comprise the poyline.
    * \return The number of subcurves.
    */
   Segments_size_type number_of_segments() const
@@ -96,13 +96,13 @@ public:
   typedef typename Base::Subcurve_const_reverse_iterator
     Segment_const_reverse_iterator;
 
-  /*! Construct default. */
+  /*! constructs default. */
   X_monotone_polyline_2() : Base() {}
 
-  /*! Construct from a subcurve. */
+  /*! constructs from a subcurve. */
   X_monotone_polyline_2(Subcurve_type_2 seg) : Base(seg) {}
 
-  /*! Construct from a range.
+  /*! constructs from a range.
    * Similar to the constructor of a general polycurve.
    * Like in the case of general polycurve, for the sake of backwards
    * compatibility we have to keep an implementation of construction
@@ -113,23 +113,23 @@ public:
     Base(begin, end)
   {}
 
-  /*! Obtain an iterator for the polycurve subcurves. */
+  /*! obtains an iterator for the polycurve subcurves. */
   Segment_const_iterator begin_segments() const
   { return this->subcurves_begin(); }
 
-  /*! Obtain a past-the-end iterator for the polycurve subcurves. */
+  /*! obtains a past-the-end iterator for the polycurve subcurves. */
   Segment_const_iterator end_segments() const
   { return this->subcurves_end(); }
 
-  /*! Obtain a reverse iterator for the polycurve subcurves. */
+  /*! obtains a reverse iterator for the polycurve subcurves. */
   Segment_const_reverse_iterator rbegin_segments() const
   { return this->subcurves_rbegin(); }
 
-  /*! Obtain a reverse past-the-end iterator for the polycurve points. */
+  /*! obtains a reverse past-the-end iterator for the polycurve points. */
   Segment_const_reverse_iterator rend_segments() const
   { return this->subcurves_rend() ; }
 
-  /*! Obtain the number of subcurves that comprise the poyline.
+  /*! obtains the number of subcurves that comprise the poyline.
    * \return The number of subcurves.
    */
   Segments_size_type number_of_segments() const

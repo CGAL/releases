@@ -2,8 +2,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.3/BGL/include/CGAL/boost/graph/Face_filtered_graph.h $
-// $Id: include/CGAL/boost/graph/Face_filtered_graph.h cefe3007d59 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.1/BGL/include/CGAL/boost/graph/Face_filtered_graph.h $
+// $Id: include/CGAL/boost/graph/Face_filtered_graph.h b26b07a1242 $
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -895,7 +895,7 @@ vertices(const Face_filtered_graph<Graph, FIMap, VIMap, HIMap> & w)
 
   typename Face_filtered_graph<Graph, FIMap, VIMap, HIMap> ::Is_simplex_valid predicate(&w);
   g_vertex_iterator b,e;
-  boost::tie(b,e) = vertices(w.graph());
+  std::tie(b,e) = vertices(w.graph());
   return make_range(vertex_iterator(predicate, b, e),
                     vertex_iterator(predicate, e, e));
 }
@@ -912,7 +912,7 @@ edges(const Face_filtered_graph<Graph, FIMap, VIMap, HIMap> & w)
 
   typename Face_filtered_graph<Graph, FIMap, VIMap, HIMap> ::Is_simplex_valid predicate(&w);
   g_edge_iterator b,e;
-  boost::tie(b,e) = edges(w.graph());
+  std::tie(b,e) = edges(w.graph());
   return make_range(edge_iterator(predicate, b, e),
                     edge_iterator(predicate, e, e));
 }
@@ -931,7 +931,7 @@ out_edges(typename boost::graph_traits<Face_filtered_graph<Graph, FIMap, VIMap, 
 
   typename Face_filtered_graph<Graph, FIMap, VIMap, HIMap> ::Is_simplex_valid predicate(&w);
   g_out_edge_iterator b,e;
-  boost::tie(b,e) = out_edges(v, w.graph());
+  std::tie(b,e) = out_edges(v, w.graph());
   return make_range(out_edge_iterator(predicate, b, e),
                     out_edge_iterator(predicate, e, e));
 }
@@ -950,7 +950,7 @@ in_edges(typename boost::graph_traits<Face_filtered_graph<Graph, FIMap, VIMap, H
 
   typename Face_filtered_graph<Graph, FIMap, VIMap, HIMap> ::Is_simplex_valid predicate(&w);
   g_in_edge_iterator b,e;
-  boost::tie(b,e) = in_edges(v, w.graph());
+  std::tie(b,e) = in_edges(v, w.graph());
   return make_range(in_edge_iterator(predicate, b, e),
                     in_edge_iterator(predicate, e, e));
 }

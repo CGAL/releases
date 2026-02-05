@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.3/Algebraic_kernel_d/include/CGAL/Algebraic_kernel_d/Curve_analysis_2.h $
-// $Id: include/CGAL/Algebraic_kernel_d/Curve_analysis_2.h cefe3007d59 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.1/Algebraic_kernel_d/include/CGAL/Algebraic_kernel_d/Curve_analysis_2.h $
+// $Id: include/CGAL/Algebraic_kernel_d/Curve_analysis_2.h b26b07a1242 $
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -520,7 +520,7 @@ private:
     void set_event_lines(InputIterator1 event_begin,
                          InputIterator1 event_end,
                          InputIterator2 intermediate_begin,
-                         InputIterator2 CGAL_precondition_code(intermediate_end)) const {
+                         InputIterator2 CGAL_assertion_code(intermediate_end)) const {
 
         if(! this->ptr()->event_coordinates) {
 

@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.3/Arrangement_on_surface_2/include/CGAL/Arr_topology_traits/Arr_spherical_batched_pl_helper.h $
-// $Id: include/CGAL/Arr_topology_traits/Arr_spherical_batched_pl_helper.h cefe3007d59 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.1/Arrangement_on_surface_2/include/CGAL/Arr_topology_traits/Arr_spherical_batched_pl_helper.h $
+// $Id: include/CGAL/Arr_topology_traits/Arr_spherical_batched_pl_helper.h b26b07a1242 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Baruch Zukerman <baruchzu@post.tau.ac.il>
@@ -57,7 +57,7 @@ protected:
   Face_const_handle m_spherical_face;
 
 public:
-  /*! Constructor.
+  /*! constructs.
    * \param arr The arrangement.
    */
   Arr_spherical_batched_pl_helper(const Arrangement_2* arr) :
@@ -124,7 +124,7 @@ public:
   }
   //@}
 
-  /*! Obtain the current top face. */
+  /*! obtains the current top face. */
   Face_const_handle top_face() const { return m_spherical_face; }
 };
 

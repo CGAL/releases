@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.3/Stream_support/include/CGAL/IO/VTK/VTK_writer.h $
-// $Id: include/CGAL/IO/VTK/VTK_writer.h cefe3007d59 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.1/Stream_support/include/CGAL/IO/VTK/VTK_writer.h $
+// $Id: include/CGAL/IO/VTK/VTK_writer.h b26b07a1242 $
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -25,6 +25,8 @@ template <class FT>
 void write_vector(std::ostream& os,
                   const std::vector<FT>& vect)
 {
+  if(vect.empty())
+    return;
   const char* buffer = reinterpret_cast<const char*>(&(vect[0]));
   std::size_t size = vect.size()*sizeof(FT);
 

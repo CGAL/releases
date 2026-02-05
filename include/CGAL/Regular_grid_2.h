@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.3/Stream_lines_2/include/CGAL/Regular_grid_2.h $
-// $Id: include/CGAL/Regular_grid_2.h cefe3007d59 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.1/Stream_lines_2/include/CGAL/Regular_grid_2.h $
+// $Id: include/CGAL/Regular_grid_2.h b26b07a1242 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -93,7 +93,7 @@ public:
 
 template <class StreamLinesTraits_2>
 inline
-typename StreamLinesTraits_2::Iso_rectangle_2
+typename Regular_grid_2<StreamLinesTraits_2>::Geom_traits::Iso_rectangle_2
 Regular_grid_2<StreamLinesTraits_2>::bbox() const
 {
   return typename Geom_traits::Iso_rectangle_2(0.0, 0.0,

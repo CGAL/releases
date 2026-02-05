@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.3/Triangulation_2/include/CGAL/Triangulation_2/insert_constraints.h $
-// $Id: include/CGAL/Triangulation_2/insert_constraints.h cefe3007d59 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.1/Triangulation_2/include/CGAL/Triangulation_2/insert_constraints.h $
+// $Id: include/CGAL/Triangulation_2/insert_constraints.h b26b07a1242 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //

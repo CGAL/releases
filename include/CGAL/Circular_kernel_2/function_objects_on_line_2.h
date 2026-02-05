@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.3/Circular_kernel_2/include/CGAL/Circular_kernel_2/function_objects_on_line_2.h $
-// $Id: include/CGAL/Circular_kernel_2/function_objects_on_line_2.h cefe3007d59 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.1/Circular_kernel_2/include/CGAL/Circular_kernel_2/function_objects_on_line_2.h $
+// $Id: include/CGAL/Circular_kernel_2/function_objects_on_line_2.h b26b07a1242 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Monique Teillaud, Sylvain Pion, Pedro Machado
@@ -30,26 +30,32 @@ namespace CGAL {
 namespace LinearFunctors {
 
   template < class CK >
-  class Construct_line_2 : public  CK::Linear_kernel::Construct_line_2
+  class Construct_line_2
+    // : public CK::Linear_kernel::Construct_line_2
   {
-          typedef typename CK::Line_arc_2            Line_arc_2;
+    typedef typename CK::Line_arc_2            Line_arc_2;
     typedef typename CK::Line_2                Line_2;
-    public:
 
-    typedef typename CK::Linear_kernel::Construct_line_2::result_type
-      result_type;
-    using CK::Linear_kernel::Construct_line_2::operator();
+    typedef typename CK::Linear_kernel::Construct_line_2 Linear_Construct_circle_2;
 
-    result_type operator() (const Line_arc_2 & a) const
+  public:
+    // using CK::Linear_kernel::Construct_line_2::operator();
+
+    template <class... Args>
+    decltype(auto)
+    operator()(const Args&... args) const
+    { return Linear_Construct_circle_2()(args...); }
+
+    decltype(auto) operator() (const Line_arc_2 & a) const
     {
       return (a.rep().supporting_line());
     }
 
-    result_type
+    Line_2
     operator() ( const typename CK::Polynomial_1_2 &eq )
-      {
-              return construct_line_2<CK>(eq);
-      }
+    {
+      return construct_line_2<CK>(eq);
+    }
   };
 
 } // namespace LinearFunctors

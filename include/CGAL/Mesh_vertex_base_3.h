@@ -4,8 +4,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.3/Mesh_3/include/CGAL/Mesh_vertex_base_3.h $
-// $Id: include/CGAL/Mesh_vertex_base_3.h cefe3007d59 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.1/Mesh_3/include/CGAL/Mesh_vertex_base_3.h $
+// $Id: include/CGAL/Mesh_vertex_base_3.h b26b07a1242 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Stéphane Tayeb, Andreas Fabri
@@ -250,7 +250,7 @@ private:
   Vertex_handle next_intrusive_;
   Vertex_handle previous_intrusive_;
 #endif
-  std::size_t time_stamp_;
+  std::size_t time_stamp_ = std::size_t(-2);
 public:
 
   friend std::istream& operator>>(std::istream &is, Mesh_vertex_3& v)

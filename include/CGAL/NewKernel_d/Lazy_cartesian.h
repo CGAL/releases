@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.3/NewKernel_d/include/CGAL/NewKernel_d/Lazy_cartesian.h $
-// $Id: include/CGAL/NewKernel_d/Lazy_cartesian.h cefe3007d59 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.1/NewKernel_d/include/CGAL/NewKernel_d/Lazy_cartesian.h $
+// $Id: include/CGAL/NewKernel_d/Lazy_cartesian.h b26b07a1242 $
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Marc Glisse
@@ -309,24 +309,15 @@ struct Lazy_cartesian :
     template<class T,class D> struct Functor<T,D,Construct_tag> {
             typedef Lazy_construction2<T,Kernel> type;
     };
-    template<class D> struct Functor<Point_dimension_tag,D,Misc_tag> {
-            typedef typename Get_functor<Approximate_kernel, Point_dimension_tag>::type FA;
+
+    template<class T,class D> struct Functor<T,D,Misc_tag> {
+            typedef typename Get_functor<Approximate_kernel, T>::type FA;
             struct type {
               FA fa;
               type(){}
               type(Kernel const&k):fa(k.approximate_kernel()){}
-              template<class P>
-              int operator()(P const&p)const{return fa(CGAL::approx(p));}
-            };
-    };
-    template<class D> struct Functor<Vector_dimension_tag,D,Misc_tag> {
-            typedef typename Get_functor<Approximate_kernel, Vector_dimension_tag>::type FA;
-            struct type {
-              FA fa;
-              type(){}
-              type(Kernel const&k):fa(k.approximate_kernel()){}
-              template<class V>
-              int operator()(V const&v)const{return fa(CGAL::approx(v));}
+              template<class...P>
+              decltype(auto) operator()(P&&...p)const{return fa(CGAL::approx(std::forward<P>(p))...);}
             };
     };
     template<class D> struct Functor<Linear_base_tag,D,Misc_tag> {

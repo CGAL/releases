@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.3/Surface_mesh_parameterization/include/CGAL/Surface_mesh_parameterization/internal/Containers_filler.h $
-// $Id: include/CGAL/Surface_mesh_parameterization/internal/Containers_filler.h cefe3007d59 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.1/Surface_mesh_parameterization/include/CGAL/Surface_mesh_parameterization/internal/Containers_filler.h $
+// $Id: include/CGAL/Surface_mesh_parameterization/internal/Containers_filler.h b26b07a1242 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Mael Rouxel-Labbé
@@ -86,7 +86,7 @@ struct Index_map_filler
     {
       typename Map::iterator it;
       bool new_element;
-      boost::tie(it,new_element) = map->insert(std::make_pair(vd,1));
+      std::tie(it,new_element) = map->insert(std::make_pair(vd,1));
       if(new_element) {
         it->second = index++;
       }

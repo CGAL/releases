@@ -7,8 +7,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.3/Cartesian_kernel/include/CGAL/Cartesian/Tetrahedron_3.h $
-// $Id: include/CGAL/Cartesian/Tetrahedron_3.h cefe3007d59 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.1/Cartesian_kernel/include/CGAL/Cartesian/Tetrahedron_3.h $
+// $Id: include/CGAL/Cartesian/Tetrahedron_3.h b26b07a1242 $
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -143,7 +143,7 @@ oriented_side(const typename TetrahedronC3<R>::Point_3 &p) const
 {
   typename R::Orientation o = orientation();
   if (o != ZERO)
-    return enum_cast<Oriented_side>(bounded_side(p)) * o;
+    return enum_cast<typename R::Oriented_side>(bounded_side(p)) * o;
 
   CGAL_kernel_assertion (!is_degenerate());
   return ON_ORIENTED_BOUNDARY;

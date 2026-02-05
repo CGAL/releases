@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.3/Intersections_3/include/CGAL/Intersections_3/internal/Line_3_Tetrahedron_3_intersection.h $
-// $Id: include/CGAL/Intersections_3/internal/Line_3_Tetrahedron_3_intersection.h cefe3007d59 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.1/Intersections_3/include/CGAL/Intersections_3/internal/Line_3_Tetrahedron_3_intersection.h $
+// $Id: include/CGAL/Intersections_3/internal/Line_3_Tetrahedron_3_intersection.h b26b07a1242 $
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -26,7 +26,6 @@ struct Tetrahedron_Line_intersection_3
   : public Tetrahedron_lines_intersection_3_base<K, typename K::Line_3, Tetrahedron_Line_intersection_3<K> >
 {
   typedef Tetrahedron_lines_intersection_3_base<K, typename K::Line_3, Tetrahedron_Line_intersection_3<K> > Base;
-  typedef typename Base::Result_type Result_type;
 
   Tetrahedron_Line_intersection_3(const typename K::Tetrahedron_3& tet,
                                   const typename K::Line_3& l)

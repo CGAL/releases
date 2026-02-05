@@ -4,8 +4,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.3/SMDS_3/include/CGAL/SMDS_3/io_signature.h $
-// $Id: include/CGAL/SMDS_3/io_signature.h cefe3007d59 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.1/SMDS_3/include/CGAL/SMDS_3/io_signature.h $
+// $Id: include/CGAL/SMDS_3/io_signature.h b26b07a1242 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Laurent RINEAU
@@ -28,6 +28,10 @@
 #include <CGAL/Regular_triangulation_cell_base_3.h>
 #include <CGAL/Regular_triangulation_cell_base_with_weighted_circumcenter_3.h>
 #include <CGAL/type_traits.h>
+
+#ifdef CGAL_SIMPLEX_BASE_WITH_TIME_STAMP_H
+#include <CGAL/Triangulation_simplex_base_with_time_stamp.h>
+#endif
 
 #ifdef CGAL_PERIODIC_3_MESH_3_CONFIG_H
 #include <CGAL/Periodic_3_triangulation_3.h>
@@ -360,10 +364,9 @@ Get_io_signature<Regular_triangulation_cell_base_with_weighted_circumcenter_3<Gt
 };
 #endif
 
-#ifdef CGAL_BASE_WITH_TIME_STAMP_H
+#ifdef CGAL_SIMPLEX_BASE_WITH_TIME_STAMP_H
 template <class Base>
-struct
-Get_io_signature<Base_with_time_stamp<Base> >
+struct Get_io_signature<Triangulation_simplex_base_with_time_stamp<Base>>
 {
   std::string operator()() {
     return Get_io_signature<Base>()();

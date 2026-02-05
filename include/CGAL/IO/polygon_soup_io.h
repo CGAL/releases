@@ -6,8 +6,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.3/Stream_support/include/CGAL/IO/polygon_soup_io.h $
-// $Id: include/CGAL/IO/polygon_soup_io.h cefe3007d59 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.1/Stream_support/include/CGAL/IO/polygon_soup_io.h $
+// $Id: include/CGAL/IO/polygon_soup_io.h b26b07a1242 $
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Mael Rouxel-Labbé
@@ -23,10 +23,8 @@
 #include <CGAL/IO/VTK.h>
 #include <CGAL/IO/GOCAD.h>
 
-#include <algorithm>
 #include <iostream>
 #include <string>
-#include <vector>
 
 namespace CGAL {
 

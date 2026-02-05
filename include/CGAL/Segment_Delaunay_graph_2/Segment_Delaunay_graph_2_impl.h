@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.3/Segment_Delaunay_graph_2/include/CGAL/Segment_Delaunay_graph_2/Segment_Delaunay_graph_2_impl.h $
-// $Id: include/CGAL/Segment_Delaunay_graph_2/Segment_Delaunay_graph_2_impl.h cefe3007d59 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.1/Segment_Delaunay_graph_2/include/CGAL/Segment_Delaunay_graph_2/Segment_Delaunay_graph_2_impl.h $
+// $Id: include/CGAL/Segment_Delaunay_graph_2/Segment_Delaunay_graph_2_impl.h b26b07a1242 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -2545,8 +2545,6 @@ Segment_Delaunay_graph_2<Gt,ST,D_S,LTag>::
 arrangement_type(const Site_2& p, const Site_2& q) const
 {
   typedef typename Geom_traits::Arrangement_type_2  AT2;
-  typedef typename AT2::result_type                 Arrangement_type;
-
   Arrangement_type res = geom_traits().arrangement_type_2_object()(p, q);
 
   // The values that have to be treated are the following:

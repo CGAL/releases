@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.3/Circular_kernel_3/include/CGAL/Spherical_kernel_intersections.h $
-// $Id: include/CGAL/Spherical_kernel_intersections.h cefe3007d59 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.1/Circular_kernel_3/include/CGAL/Spherical_kernel_intersections.h $
+// $Id: include/CGAL/Spherical_kernel_intersections.h b26b07a1242 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s) : Monique Teillaud, Sylvain Pion, Pedro Machado
@@ -46,7 +46,7 @@ intersection(const A <K> &c1, const B <K> &c2, OutputIterator res) \
 } \
 template <class K> \
 inline \
-bool \
+typename K::Boolean \
 do_intersect(const A <K> &c1, const B <K> &c2) \
 { \
   return typename K::Do_intersect_3()(c1, c2); \
@@ -61,7 +61,7 @@ intersection(const A <K> &c1, const B <K> &c2, const C <K> &c3, OutputIterator r
 } \
 template <class K> \
 inline \
-bool \
+typename K::Boolean \
 do_intersect(const A <K> &c1, const B <K> &c2, const C <K> &c3) \
 { \
   return typename K::Do_intersect_3()(c1, c2, c3); \

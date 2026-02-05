@@ -2,8 +2,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.3/STL_Extension/include/CGAL/Named_function_parameters.h $
-// $Id: include/CGAL/Named_function_parameters.h cefe3007d59 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.1/STL_Extension/include/CGAL/Named_function_parameters.h $
+// $Id: include/CGAL/Named_function_parameters.h b26b07a1242 $
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -510,13 +510,13 @@ struct Boost_parameter_compatibility_wrapper<Tag, true, false>
   }
 
 #define CGAL_add_named_parameter_with_compatibility(X, Y, Z)        \
-  const Boost_parameter_compatibility_wrapper<internal_np::X> Z;
+  inline const Boost_parameter_compatibility_wrapper<internal_np::X> Z;
 #define CGAL_add_named_parameter_with_compatibility_cref_only(X, Y, Z)        \
-  const Boost_parameter_compatibility_wrapper<internal_np::X, true, true> Z;
+  inline const Boost_parameter_compatibility_wrapper<internal_np::X, true, true> Z;
 #define CGAL_add_named_parameter_with_compatibility_ref_only(X, Y, Z)        \
-  const Boost_parameter_compatibility_wrapper<internal_np::X, true, false> Z;
+  inline const Boost_parameter_compatibility_wrapper<internal_np::X, true, false> Z;
 #define CGAL_add_extra_named_parameter_with_compatibility(X, Y, Z)        \
-  const Boost_parameter_compatibility_wrapper<internal_np::X> Z;
+  inline const Boost_parameter_compatibility_wrapper<internal_np::X> Z;
 #include <CGAL/STL_Extension/internal/parameters_interface.h>
 #undef CGAL_add_named_parameter
 #undef CGAL_add_extra_named_parameter_with_compatibility

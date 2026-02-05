@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.3/Weights/include/CGAL/Weights/tangent_weights.h $
-// $Id: include/CGAL/Weights/tangent_weights.h cefe3007d59 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.1/Weights/include/CGAL/Weights/tangent_weights.h $
+// $Id: include/CGAL/Weights/tangent_weights.h b26b07a1242 $
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -401,7 +401,7 @@ public:
       return FT(0);
 
     FT weight = FT(0);
-    if (is_border_edge(he, m_pmesh)) // ie, opp(he, pmesh) is a border halfedge
+    if (is_border_edge(he, m_pmesh)) // i.e., opp(he, pmesh) is a border halfedge
     {
       const halfedge_descriptor h1 = next(he, m_pmesh);
 

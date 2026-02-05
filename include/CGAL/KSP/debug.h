@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.3/Kinetic_space_partition/include/CGAL/KSP/debug.h $
-// $Id: include/CGAL/KSP/debug.h cefe3007d59 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.1/Kinetic_space_partition/include/CGAL/KSP/debug.h $
+// $Id: include/CGAL/KSP/debug.h b26b07a1242 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -546,7 +546,7 @@ public:
     const std::vector<Point_3>& vertices,
     const std::vector<std::size_t>& tris,
     const std::string file_name) const {
-    assert((tris.size() % 3) == 0);
+    CGAL_assertion((tris.size() % 3) == 0);
 
     std::stringstream stream;
     initialize(stream);
@@ -924,14 +924,6 @@ template<typename K>
 void dump_polygon(const std::vector<typename K::Point_3>& pts, const std::string& filename) {
   Saver<K> saver;
   std::vector<std::vector<typename K::Point_3> > pts2;
-  pts2.push_back(pts);
-
-  saver.export_polygon_soup_3(pts2, filename);
-}
-
-inline void dump_polygon(const std::vector<CGAL::Epick::Point_3>& pts, const std::string& filename) {
-  Saver<CGAL::Epick> saver;
-  std::vector<std::vector<CGAL::Epick::Point_3> > pts2;
   pts2.push_back(pts);
 
   saver.export_polygon_soup_3(pts2, filename);

@@ -4,8 +4,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.3/Surface_mesh/include/CGAL/Surface_mesh/Surface_mesh.h $
-// $Id: include/CGAL/Surface_mesh/Surface_mesh.h cefe3007d59 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.1/Surface_mesh/include/CGAL/Surface_mesh/Surface_mesh.h $
+// $Id: include/CGAL/Surface_mesh/Surface_mesh.h b26b07a1242 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 
@@ -598,7 +598,7 @@ public:
     /// \name Range Types
     ///
     /// Each range `R` in this section has a nested type `R::iterator`,
-    /// is convertible to `std::pair<R::iterator,R::iterator>`, so that one can use `boost::tie()`,
+    /// is convertible to `std::pair<R::iterator,R::iterator>`, so that one can use `std::tie()`,
     /// and can be used with `BOOST_FOREACH()`, as well as with the C++11 range based for-loop.
 
     ///@{
@@ -1828,7 +1828,7 @@ public:
         return opposite(prev(h));
     }
 
-    /// returns the i'th vertex of edge `e`, for `i=0` or `1`.
+    /// returns the i-th vertex of edge `e`, for `i=0` or `1`.
     Vertex_index vertex(Edge_index e, unsigned int i) const
     {
         CGAL_assertion(i<=1);
@@ -1857,7 +1857,7 @@ public:
         return Halfedge_index(e.halfedge());
     }
 
-    /// returns the i'th halfedge of edge `e`, for `i=0` or `1`.
+    /// returns the i-th halfedge of edge `e`, for `i=0` or `1`.
     Halfedge_index halfedge(Edge_index e, unsigned int i) const
     {
         CGAL_assertion(i<=1);
@@ -2680,8 +2680,12 @@ collect_garbage(Visitor &visitor)
     for (i=0; i<nH; ++i)
     {
         h = Halfedge_index(i);
-        set_target(h, vmap[target(h)]);
-        set_next(h, hmap[next(h)]);
+        if(target(h) != null_vertex()){
+          set_target(h, vmap[target(h)]);
+        }
+        if(next(h) != null_halfedge()){
+          set_next(h, hmap[next(h)]);
+        }
         if (!is_border(h))
             set_face(h, fmap[face(h)]);
     }
@@ -2691,7 +2695,8 @@ collect_garbage(Visitor &visitor)
     for (i=0; i<nF; ++i)
     {
         f = Face_index(i);
-        set_halfedge(f, hmap[halfedge(f)]);
+        if( halfedge(f) != null_halfedge())
+          set_halfedge(f, hmap[halfedge(f)]);
     }
 
     //apply visitor before invalidating the maps

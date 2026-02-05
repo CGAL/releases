@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.3/Number_types/include/CGAL/Sqrt_extension/Sqrt_extension_type.h $
-// $Id: include/CGAL/Sqrt_extension/Sqrt_extension_type.h cefe3007d59 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.1/Number_types/include/CGAL/Sqrt_extension/Sqrt_extension_type.h $
+// $Id: include/CGAL/Sqrt_extension/Sqrt_extension_type.h b26b07a1242 $
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -134,6 +134,31 @@ public:
 
     Sqrt_extension(const NT& i)
         : a0_(NT(i)), a1_(NT(0)), root_(ROOT(0)), is_extended_(false) {}
+
+    Sqrt_extension(const Sqrt_extension<NT, ROOT_, ACDE_TAG, std::integral_constant<bool, !FP_TAG::value>>& other)
+        : a0_(other.a0()), a1_(other.a1()), root_(other.root()), is_extended_(other.is_extended())
+    {}
+
+    Sqrt_extension&
+    operator=(const Sqrt_extension<NT, ROOT_, ACDE_TAG, std::integral_constant<bool,!FP_TAG::value>>& other)
+    {
+      *this = Sqrt_extension(other);
+      return *this;
+    }
+
+    Sqrt_extension&
+    operator=(const NT& i)
+    {
+      *this = Sqrt_extension(i);
+      return *this;
+    }
+
+    Sqrt_extension&
+    operator=(CGAL_int(NT) i)
+    {
+      *this = Sqrt_extension(i);
+      return *this;
+    }
 
     //non-documented: used for Make_sqrt
     Sqrt_extension(const ROOT& root,bool)

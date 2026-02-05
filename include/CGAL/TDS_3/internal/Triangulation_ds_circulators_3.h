@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.3/TDS_3/include/CGAL/TDS_3/internal/Triangulation_ds_circulators_3.h $
-// $Id: include/CGAL/TDS_3/internal/Triangulation_ds_circulators_3.h cefe3007d59 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.1/TDS_3/include/CGAL/TDS_3/internal/Triangulation_ds_circulators_3.h $
+// $Id: include/CGAL/TDS_3/internal/Triangulation_ds_circulators_3.h b26b07a1242 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Monique Teillaud <Monique.Teillaud@sophia.inria.fr>
@@ -184,8 +184,6 @@ operator!=(typename Tds_::Cell_handle ch, Triangulation_ds_cell_circulator_3<Tds
 
 template < class Tds_ >
 class Triangulation_ds_facet_circulator_3
-  : public Bidirectional_circulator_base<typename Tds_::Facet,
-                                         std::ptrdiff_t, std::size_t>
 {
   // circulates on facets around a given edge
 
@@ -199,6 +197,14 @@ class Triangulation_ds_facet_circulator_3
   typedef Triangulation_ds_facet_circulator_3<Tds> Facet_circulator;
 
 public:
+  struct Proxy_Facet;
+  typedef Bidirectional_circulator_tag iterator_category;
+  typedef Facet                        value_type;
+  typedef std::ptrdiff_t               difference_type;
+  typedef Proxy_Facet                  pointer;
+  typedef Facet                        reference;
+  typedef std::size_t                  size_type;
+
 
   Triangulation_ds_facet_circulator_3()
     : _s(), _t(), pos()

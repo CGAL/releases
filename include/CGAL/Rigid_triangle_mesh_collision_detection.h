@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.3/Polygon_mesh_processing/include/CGAL/Rigid_triangle_mesh_collision_detection.h $
-// $Id: include/CGAL/Rigid_triangle_mesh_collision_detection.h cefe3007d59 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.1/Polygon_mesh_processing/include/CGAL/Rigid_triangle_mesh_collision_detection.h $
+// $Id: include/CGAL/Rigid_triangle_mesh_collision_detection.h b26b07a1242 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -52,8 +52,8 @@ namespace CGAL {
  *                `Kernel_traits`.
  * @tparam AABBTree an `AABB_tree` that can containing faces of `TriangleMesh`. %Default is using `AABB_traits` with
  *                       `AABB_face_graph_triangle_primitive` as primitive type.
- * @tparam Has_rotation tag indicating whether the transformations applied to meshes may contain rotations (\link Tag_true `Tag_true`\endlink)
- *                      or if only translations and scalings are applied (\link Tag_false `Tag_false`\endlink). Some optimizations are
+ * @tparam Has_rotation tag indicating whether the transformations applied to meshes may contain rotations (`Tag_true`)
+ *                      or if only translations and scalings are applied (`Tag_false`). Some optimizations are
  *                      switch on in case there are no rotations.
  */
 template <class TriangleMesh,

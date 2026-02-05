@@ -7,8 +7,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.3/Cartesian_kernel/include/CGAL/Cartesian/basic_constructions_3.h $
-// $Id: include/CGAL/Cartesian/basic_constructions_3.h cefe3007d59 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.1/Cartesian_kernel/include/CGAL/Cartesian/basic_constructions_3.h $
+// $Id: include/CGAL/Cartesian/basic_constructions_3.h b26b07a1242 $
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -17,7 +17,6 @@
 #ifndef CGAL_CARTESIAN_BASIC_CONSTRUCTIONS_3_H
 #define CGAL_CARTESIAN_BASIC_CONSTRUCTIONS_3_H
 
-#include <CGAL/Cartesian/point_constructions_3.h>
 #include <CGAL/Cartesian/plane_constructions_3.h>
 #include <CGAL/Cartesian/ft_constructions_3.h>
 

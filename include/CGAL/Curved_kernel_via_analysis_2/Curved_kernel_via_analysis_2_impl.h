@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.3/Arrangement_on_surface_2/include/CGAL/Curved_kernel_via_analysis_2/Curved_kernel_via_analysis_2_impl.h $
-// $Id: include/CGAL/Curved_kernel_via_analysis_2/Curved_kernel_via_analysis_2_impl.h cefe3007d59 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.1/Arrangement_on_surface_2/include/CGAL/Curved_kernel_via_analysis_2/Curved_kernel_via_analysis_2_impl.h $
+// $Id: include/CGAL/Curved_kernel_via_analysis_2/Curved_kernel_via_analysis_2_impl.h b26b07a1242 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -64,7 +64,7 @@ public:
             BaseCKvA::Curved_kernel_via_analysis_2> Functor_base;
     };
 
-    //!\name Embedded types to fulfill \c ArrangementTraits_2 concept
+    //!\name Embedded types to fulfill \c AosTraits_2 concept
 
     //! type of curve that can be analyzed
     typedef typename Curve_kernel_2::Curve_analysis_2 Curve_2;
@@ -245,14 +245,14 @@ public:
     };
 
 public:
-    //!\name Embedded types to fulfill \c ArrangementTraits_2 concept
+    //!\name Embedded types to fulfill \c AosTraits_2 concept
     //!@{
 
     typedef internal::Point_2< Self > Point_2;
 
     typedef internal::Arc_2< Self > Arc_2;
 
-    //! type of weakly x-monotone arc for \c ArrangementTraits_2
+    //! type of weakly x-monotone arc for \c AosTraits_2
     typedef Arc_2 X_monotone_curve_2;
 
     //!@}

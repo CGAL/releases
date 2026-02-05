@@ -9,8 +9,8 @@
 //          Andrew Lumsdaine
 //=======================================================================
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.3/STL_Extension/include/CGAL/STL_Extension/internal/boost/relaxed_heap.hpp $
-// $Id: include/CGAL/STL_Extension/internal/boost/relaxed_heap.hpp cefe3007d59 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.1/STL_Extension/include/CGAL/STL_Extension/internal/boost/relaxed_heap.hpp $
+// $Id: include/CGAL/STL_Extension/internal/boost/relaxed_heap.hpp b26b07a1242 $
 // SPDX-License-Identifier: BSL-1.0
 //
 // NOTE: this file has been taken from boost 1.77 to use

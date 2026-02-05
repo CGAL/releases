@@ -2,8 +2,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.3/Point_set_3/include/CGAL/Point_set_3/IO/PLY.h $
-// $Id: include/CGAL/Point_set_3/IO/PLY.h cefe3007d59 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.1/Point_set_3/include/CGAL/Point_set_3/IO/PLY.h $
+// $Id: include/CGAL/Point_set_3/IO/PLY.h b26b07a1242 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Simon Giraudot
@@ -57,7 +57,7 @@ private:
     PLY_property_to_point_set_property(Point_set& ps, const std::string& name)
       : m_name(name)
     {
-      boost::tie(m_map, boost::tuples::ignore) = ps.add_property_map(name, Type());
+      m_map = ps.add_property_map(name, Type()).first;
       m_pmap = ps.push_property_map(m_map);
     }
 

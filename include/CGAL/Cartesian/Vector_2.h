@@ -7,8 +7,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.3/Cartesian_kernel/include/CGAL/Cartesian/Vector_2.h $
-// $Id: include/CGAL/Cartesian/Vector_2.h cefe3007d59 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.1/Cartesian_kernel/include/CGAL/Cartesian/Vector_2.h $
+// $Id: include/CGAL/Cartesian/Vector_2.h b26b07a1242 $
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -107,7 +107,7 @@ public:
 
 template < class R >
 CGAL_KERNEL_INLINE
-bool
+typename R::Boolean
 operator==(const VectorC2<R> &v, const VectorC2<R> &w)
 {
   return w.x() == v.x() && w.y() == v.y();
@@ -115,7 +115,7 @@ operator==(const VectorC2<R> &v, const VectorC2<R> &w)
 
 template < class R >
 inline
-bool
+typename R::Boolean
 operator!=(const VectorC2<R> &v, const VectorC2<R> &w)
 {
   return !(v == w);
@@ -123,7 +123,7 @@ operator!=(const VectorC2<R> &v, const VectorC2<R> &w)
 
 template < class R >
 inline
-bool
+typename R::Boolean
 operator==(const VectorC2<R> &v, const Null_vector &)
 {
   return CGAL_NTS is_zero(v.x()) && CGAL_NTS is_zero(v.y());
@@ -131,7 +131,7 @@ operator==(const VectorC2<R> &v, const Null_vector &)
 
 template < class R >
 inline
-bool
+typename R::Boolean
 operator==(const Null_vector &n, const VectorC2<R> &v)
 {
   return v == n;
@@ -139,7 +139,7 @@ operator==(const Null_vector &n, const VectorC2<R> &v)
 
 template < class R >
 inline
-bool
+typename R::Boolean
 operator!=(const VectorC2<R> &v, const Null_vector &n)
 {
   return !(v == n);
@@ -147,7 +147,7 @@ operator!=(const VectorC2<R> &v, const Null_vector &n)
 
 template < class R >
 inline
-bool
+typename R::Boolean
 operator!=(const Null_vector &n, const VectorC2<R> &v)
 {
   return !(v == n);

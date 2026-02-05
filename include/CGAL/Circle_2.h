@@ -7,8 +7,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.3/Kernel_23/include/CGAL/Circle_2.h $
-// $Id: include/CGAL/Circle_2.h cefe3007d59 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.1/Kernel_23/include/CGAL/Circle_2.h $
+// $Id: include/CGAL/Circle_2.h b26b07a1242 $
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -102,7 +102,8 @@ public:
     return R().compute_squared_radius_2_object()(*this);
   }
 
-  Orientation orientation() const
+  typename R::Orientation
+  orientation() const
   {
     // This make_certain(), the uncertain orientation of circles, the orientation
     // of circles, are all yucky.
@@ -175,18 +176,6 @@ public:
   bbox() const
   {
     return R().construct_bbox_2_object()(*this);
-  }
-
-  typename R::Boolean
-  operator==(const Circle_2 &c) const
-  {
-    return R().equal_2_object()(*this, c);
-  }
-
-  typename R::Boolean
-  operator!=(const Circle_2 &c) const
-  {
-    return !(*this == c);
   }
 
   Circle_2 transform(const Aff_transformation_2 &t) const

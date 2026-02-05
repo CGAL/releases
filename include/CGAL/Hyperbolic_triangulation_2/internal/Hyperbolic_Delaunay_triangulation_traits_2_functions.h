@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.3/Hyperbolic_triangulation_2/include/CGAL/Hyperbolic_triangulation_2/internal/Hyperbolic_Delaunay_triangulation_traits_2_functions.h $
-// $Id: include/CGAL/Hyperbolic_triangulation_2/internal/Hyperbolic_Delaunay_triangulation_traits_2_functions.h cefe3007d59 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.1/Hyperbolic_triangulation_2/include/CGAL/Hyperbolic_triangulation_2/internal/Hyperbolic_Delaunay_triangulation_traits_2_functions.h $
+// $Id: include/CGAL/Hyperbolic_triangulation_2/internal/Hyperbolic_Delaunay_triangulation_traits_2_functions.h b26b07a1242 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Mikhail Bogdanov
@@ -225,13 +225,11 @@ class Side_of_oriented_hyperbolic_segment_2
   typedef typename Traits::Construct_weighted_circumcenter_2  Construct_weighted_circumcenter_2;
 
 public:
-  typedef Oriented_side                                       result_type;
-
   Side_of_oriented_hyperbolic_segment_2(const Traits& gt = Traits()) : _gt(gt) {}
 
-  result_type operator()(const Hyperbolic_point_2& p,
-                         const Hyperbolic_point_2& q,
-                         const Hyperbolic_point_2& query) const
+  Oriented_side operator()(const Hyperbolic_point_2& p,
+                           const Hyperbolic_point_2& q,
+                           const Hyperbolic_point_2& query) const
   {
     // Check first if the points are collinear with the origin
     Circle_2 poincare(Hyperbolic_point_2(FT(0),FT(0)), FT(1));

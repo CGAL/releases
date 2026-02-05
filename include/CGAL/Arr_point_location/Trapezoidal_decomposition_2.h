@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.3/Arrangement_on_surface_2/include/CGAL/Arr_point_location/Trapezoidal_decomposition_2.h $
-// $Id: include/CGAL/Arr_point_location/Trapezoidal_decomposition_2.h cefe3007d59 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.1/Arrangement_on_surface_2/include/CGAL/Arr_point_location/Trapezoidal_decomposition_2.h $
+// $Id: include/CGAL/Arr_point_location/Trapezoidal_decomposition_2.h b26b07a1242 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s): Oren Nechushtan <theoren@math.tau.ac.il>
@@ -1992,10 +1992,10 @@ public:
     determines according to pre defined conditions whether the
     current Trapezoidal_decomposition_2<Traits> needs update
     Postconditions:
-    The output is true iff the depth of the Trapezoidal Tree is more then
+    The output is true iff the depth of the Trapezoidal Tree is more than
     DepthThreshold times log of the X_curve count or the Trapezoidal Tree's
     size
-    is more then SizeThreshold times the log of the last count.
+    is more than SizeThreshold times the log of the last count.
   */
   bool set_with_guarantees(bool u)
   {

@@ -1,10 +1,10 @@
-// Copyright(c) 2018  INRIA Sophia-Antipolis (France).
+// Copyright (c) 2018  INRIA Sophia-Antipolis (France).
 // All rights reserved.
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.3/Straight_skeleton_2/include/CGAL/draw_straight_skeleton_2.h $
-// $Id: include/CGAL/draw_straight_skeleton_2.h cefe3007d59 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.1/Straight_skeleton_2/include/CGAL/draw_straight_skeleton_2.h $
+// $Id: include/CGAL/draw_straight_skeleton_2.h b26b07a1242 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Guillaume Damiand <guillaume.damiand@liris.cnrs.fr>
@@ -14,7 +14,7 @@
 #define CGAL_DRAW_SS2_H
 
 #include <CGAL/license/Straight_skeleton_2.h>
-#include <CGAL/Qt/Basic_viewer.h>
+#include <CGAL/Basic_viewer.h>
 #include <CGAL/Graphics_scene.h>
 #include <CGAL/Graphics_scene_options.h>
 #include <CGAL/Straight_skeleton_2.h>
@@ -180,8 +180,6 @@ void add_to_graphics_scene(const CGAL_SS_TYPE& ass2,
 }
 
 // Specialization of draw function.
-#ifdef CGAL_USE_BASIC_VIEWER
-
 template <class K, class GSOptions>
 void draw(const CGAL_SS_TYPE &ass2, const GSOptions &gs_options,
           const char *title="Straight Skeleton Basic Viewer")
@@ -199,8 +197,6 @@ void draw(const CGAL_SS_TYPE &ass2,
   add_to_graphics_scene(ass2, buffer);
   draw_graphics_scene(buffer, title);
 }
-
-#endif // CGAL_USE_BASIC_VIEWER
 
 #undef CGAL_SS_TYPE
 

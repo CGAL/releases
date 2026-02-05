@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.3/Arrangement_on_surface_2/include/CGAL/Surface_sweep_2/Arr_insertion_traits_2.h $
-// $Id: include/CGAL/Surface_sweep_2/Arr_insertion_traits_2.h cefe3007d59 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.1/Arrangement_on_surface_2/include/CGAL/Surface_sweep_2/Arr_insertion_traits_2.h $
+// $Id: include/CGAL/Surface_sweep_2/Arr_insertion_traits_2.h b26b07a1242 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -70,7 +70,7 @@ public:
   typedef Tag_false                                   Has_merge_category;
 
 public:
-  /*! Constructor with a traits class. */
+  /*! constructs from a traits class. */
   Arr_insertion_traits_2(const Gt2& tr) : Base(tr) {}
 
   /*! A functor that compares compares the y-coordinates of two x-monotone
@@ -81,7 +81,7 @@ public:
     //! The base operators.
     Base_intersect_2 m_base_intersect;
 
-    /*! Constructor.
+    /*! constructs.
      * The constructor is declared private to allow only the functor
      * obtaining function, which is a member of the nesting class,
      * constructing it.
@@ -143,7 +143,7 @@ public:
     }
   };
 
-  /*! Obtain a Intersect_2 function object */
+  /*! obtains a Intersect_2 function object */
   Intersect_2 intersect_2_object () const
   { return (Intersect_2(this->m_base_traits->intersect_2_object())); }
 
@@ -153,7 +153,7 @@ public:
     //! The base operator.
     Base_split_2 m_base_split;
 
-    /*! Constructor.
+    /*! constructs.
      * The constructor is declared private to allow only the functor
      * obtaining function, which is a member of the nesting class,
      * constructing it.
@@ -173,7 +173,7 @@ public:
     }
   };
 
-  /*! Obtain a Split_2 function object */
+  /*! obtains a Split_2 function object */
   Split_2 split_2_object() const
   { return (Split_2(this->m_base_traits->split_2_object())); }
 };

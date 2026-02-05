@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.3/Filtered_kernel/include/CGAL/Filtered_kernel/internal/Static_filters/Compare_squared_radius_3.h $
-// $Id: include/CGAL/Filtered_kernel/internal/Static_filters/Compare_squared_radius_3.h cefe3007d59 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.1/Filtered_kernel/include/CGAL/Filtered_kernel/internal/Static_filters/Compare_squared_radius_3.h $
+// $Id: include/CGAL/Filtered_kernel/internal/Static_filters/Compare_squared_radius_3.h b26b07a1242 $
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Sebastien Loriot
@@ -24,15 +24,16 @@ namespace CGAL { namespace internal { namespace Static_filters_predicates {
   class Compare_squared_radius_3
     : public K_base::Compare_squared_radius_3
   {
-    typedef typename K_base::Point_3 Point_3;
-    typedef typename K_base::FT FT;
-    typedef typename K_base::Compare_squared_radius_3 Base;
-  public:
-    typedef typename Base::result_type result_type;
+    typedef typename K_base::Comparison_result        Comparison_result;
+    typedef typename K_base::Point_3                  Point_3;
+    typedef typename K_base::FT                       FT;
 
+    typedef typename K_base::Compare_squared_radius_3 Base;
+
+  public:
     using Base::operator();
 
-    result_type operator() (
+    Comparison_result operator() (
         const Point_3& p,
         const Point_3& q,
         const Point_3& r,
@@ -185,7 +186,7 @@ namespace CGAL { namespace internal { namespace Static_filters_predicates {
         return Base::operator()(p,q,r,s,w);
     }
 
-    result_type operator() (
+    Comparison_result operator() (
         const Point_3& p,
         const Point_3& q,
         const Point_3& s,
@@ -312,14 +313,14 @@ namespace CGAL { namespace internal { namespace Static_filters_predicates {
                 }
             }
         }
-        return static_cast<result_type>(int_tmp_result);
+        return static_cast<Comparison_result>(int_tmp_result);
       }
       else
         return Base::operator()(p,q,s,w);
     }
 
 
-    result_type operator() (
+    Comparison_result operator() (
         const Point_3& p,
         const Point_3& q,
         const FT& w

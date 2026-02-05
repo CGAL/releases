@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.3/Mesh_3/include/CGAL/Mesh_3/Facet_on_same_surface_criterion.h $
-// $Id: include/CGAL/Mesh_3/Facet_on_same_surface_criterion.h cefe3007d59 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.1/Mesh_3/include/CGAL/Mesh_3/Facet_on_same_surface_criterion.h $
+// $Id: include/CGAL/Mesh_3/Facet_on_same_surface_criterion.h b26b07a1242 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //

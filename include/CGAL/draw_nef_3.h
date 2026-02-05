@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.3/Nef_3/include/CGAL/draw_nef_3.h $
-// $Id: include/CGAL/draw_nef_3.h cefe3007d59 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.1/Nef_3/include/CGAL/draw_nef_3.h $
+// $Id: include/CGAL/draw_nef_3.h b26b07a1242 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -15,7 +15,7 @@
 #define DRAW_NEF_3_H
 
 #include <CGAL/license/Nef_3.h>
-#include <CGAL/Qt/Basic_viewer.h>
+#include <CGAL/Basic_viewer.h>
 #include <CGAL/Graphics_scene.h>
 #include <CGAL/Graphics_scene_options.h>
 #include <CGAL/Nef_polyhedron_3.h>
@@ -278,8 +278,6 @@ void add_to_graphics_scene(const CGAL_NEF3_TYPE &anef,
   add_to_graphics_scene(anef, graphics_scene, gs_options);
 }
 
-#ifdef CGAL_USE_BASIC_VIEWER
-
 // Specialization of draw function
 template <typename Kernel_, typename Items_, typename Mark_,
           class GSOptions>
@@ -300,8 +298,6 @@ void draw(const CGAL_NEF3_TYPE &anef,
   add_to_graphics_scene(anef, buffer);
   draw_graphics_scene(buffer, title);
 }
-
-#endif // CGAL_USE_BASIC_VIEWER
 
 #undef CGAL_NEF3_TYPE
 

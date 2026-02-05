@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.3/Polyline_simplification_2/demo/Polyline_simplification_2/include/CGAL/Qt/Polyline_simplification_2_graphics_item.h $
-// $Id: demo/Polyline_simplification_2/include/CGAL/Qt/Polyline_simplification_2_graphics_item.h cefe3007d59 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.1/Polyline_simplification_2/demo/Polyline_simplification_2/include/CGAL/Qt/Polyline_simplification_2_graphics_item.h $
+// $Id: demo/Polyline_simplification_2/include/CGAL/Qt/Polyline_simplification_2_graphics_item.h b26b07a1242 $
 //
 //
 // Author(s)     : Andreas Fabri <Andreas.Fabri@geometryfactory.com>

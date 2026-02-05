@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.3/Number_types/include/CGAL/test_FPU_rounding_mode_impl.h $
-// $Id: include/CGAL/test_FPU_rounding_mode_impl.h cefe3007d59 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.1/Number_types/include/CGAL/test_FPU_rounding_mode_impl.h $
+// $Id: include/CGAL/test_FPU_rounding_mode_impl.h b26b07a1242 $
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -51,11 +51,13 @@ get_static_check_fpu_rounding_mode_is_restored()
   return check_fpu_rounding_mode_is_restored;
 }
 
+#ifndef CGAL_DISABLE_ROUNDING_MATH_CHECK
 namespace {
   CGAL_UNUSED const Check_FPU_rounding_mode_is_restored &
     check_fpu_rounding_mode_is_restored
     = get_static_check_fpu_rounding_mode_is_restored();
 }
+#endif
 
 #else
 

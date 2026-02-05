@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.3/Optimal_transportation_reconstruction_2/include/CGAL/Optimal_transportation_reconstruction_2.h $
-// $Id: include/CGAL/Optimal_transportation_reconstruction_2.h cefe3007d59 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.1/Optimal_transportation_reconstruction_2/include/CGAL/Optimal_transportation_reconstruction_2.h $
+// $Id: include/CGAL/Optimal_transportation_reconstruction_2.h b26b07a1242 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Fernando de Goes, Pierre Alliez, Ivo Vigan, Clément Jamin
@@ -234,7 +234,7 @@ public:
   /*!
           If `sample_size == 0`, the simplification is performed using an exhaustive priority queue.
           If `sample_size` is strictly positive the simplification is performed using a
-          multiple choice approach, ie, a best-choice selection in a random sample of
+          multiple choice approach, i.e., a best-choice selection in a random sample of
           edge collapse operators, of size `sample_size`. A typical value for the sample
           size is 15, but this value must be enlarged when targeting a very coarse simplification.
           \param sample_size If `sample_size != 0`, the size of the random sample replaces the priority queue.

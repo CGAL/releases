@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.3/Surface_mesh_parameterization/include/CGAL/Surface_mesh_parameterization/ARAP_parameterizer_3.h $
-// $Id: include/CGAL/Surface_mesh_parameterization/ARAP_parameterizer_3.h cefe3007d59 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.1/Surface_mesh_parameterization/include/CGAL/Surface_mesh_parameterization/ARAP_parameterizer_3.h $
+// $Id: include/CGAL/Surface_mesh_parameterization/ARAP_parameterizer_3.h b26b07a1242 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Mael Rouxel-Labbé
@@ -128,7 +128,7 @@ namespace Surface_mesh_parameterization {
 /// When \f$\lambda\f$ is non-null, the border does not need to be parameterized and
 /// a random vertex is pinned.
 ///
-/// If flips are present in the initial parameterization, a post-processing step
+/// If flips are present in the initial parameterization, a postprocessing step
 /// is applied using `CGAL::Surface_mesh_parameterization::MVC_post_processor_3<TriangleMesh_, SolverTraits_>`
 /// to attempt to obtain a valid final embedding.
 ///

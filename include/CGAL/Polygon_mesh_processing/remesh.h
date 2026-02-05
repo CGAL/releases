@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.3/Polygon_mesh_processing/include/CGAL/Polygon_mesh_processing/remesh.h $
-// $Id: include/CGAL/Polygon_mesh_processing/remesh.h cefe3007d59 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.1/Polygon_mesh_processing/include/CGAL/Polygon_mesh_processing/remesh.h $
+// $Id: include/CGAL/Polygon_mesh_processing/remesh.h b26b07a1242 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -210,10 +210,7 @@ template<typename PolygonMesh
        , typename FaceRange
        , typename SizingFunction
        , typename NamedParameters = parameters::Default_named_parameters
-#ifndef DOXYGEN_RUNNING
-       , typename = typename std::enable_if_t<!std::is_convertible_v<SizingFunction, double>>
-#endif
-       >
+       , typename = typename std::enable_if_t<!std::is_convertible_v<SizingFunction, double>>>
 void isotropic_remeshing(const FaceRange& faces
                        , SizingFunction& sizing
                        , PolygonMesh& pmesh
@@ -359,10 +356,7 @@ template<typename PolygonMesh
        , typename FaceRange
        , typename SizingValue
        , typename NamedParameters = parameters::Default_named_parameters
-#ifndef DOXYGEN_RUNNING
-       , typename = typename std::enable_if_t<std::is_convertible_v<SizingValue, double>>
-#endif
-       >
+       , typename = typename std::enable_if_t<std::is_convertible_v<SizingValue, double>>>
 void isotropic_remeshing(const FaceRange& faces
                        , const SizingValue target_edge_length
                        , PolygonMesh& pmesh
@@ -449,10 +443,7 @@ template<typename PolygonMesh
        , typename EdgeRange
        , typename SizingFunction
        , typename NamedParameters = parameters::Default_named_parameters
-#ifndef DOXYGEN_RUNNING
-       , typename = typename std::enable_if_t<!std::is_convertible_v<SizingFunction, double>>
-#endif
-       >
+       , typename = typename std::enable_if_t<!std::is_convertible_v<SizingFunction, double>>>
 void split_long_edges(const EdgeRange& edges
                     , SizingFunction& sizing
                     , PolygonMesh& pmesh
@@ -509,10 +500,7 @@ template<typename PolygonMesh
        , typename EdgeRange
        , typename SizingValue
        , typename NamedParameters = parameters::Default_named_parameters
-#ifndef DOXYGEN_RUNNING
-       , typename = typename std::enable_if_t<std::is_convertible_v<SizingValue, double>>
-#endif
-       >
+       , typename = typename std::enable_if_t<std::is_convertible_v<SizingValue, double>>>
 void split_long_edges(const EdgeRange& edges
                     , const SizingValue max_length
                     , PolygonMesh& pmesh

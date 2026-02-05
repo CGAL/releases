@@ -7,8 +7,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.3/Kernel_23/include/CGAL/Vector_2.h $
-// $Id: include/CGAL/Vector_2.h cefe3007d59 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.1/Kernel_23/include/CGAL/Vector_2.h $
+// $Id: include/CGAL/Vector_2.h b26b07a1242 $
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -254,42 +254,7 @@ public:
   {
     return t.transform(*this);
   }
-
 };
-
-
-template < class R >
-inline
-bool
-operator==(const Vector_2<R> &v, const Null_vector &n)
-{
-  return R().equal_2_object()(v, n);
-}
-
-template < class R >
-inline
-bool
-operator==(const Null_vector &n, const Vector_2<R> &v)
-{
-  return v == n;
-}
-
-template < class R >
-inline
-bool
-operator!=(const Vector_2<R> &v, const Null_vector &n)
-{
-  return !(v == n);
-}
-
-template < class R >
-inline
-bool
-operator!=(const Null_vector &n, const Vector_2<R> &v)
-{
-  return !(v == n);
-}
-
 
 template <class R >
 std::ostream&

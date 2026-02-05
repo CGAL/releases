@@ -2,14 +2,13 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.3/BGL/include/CGAL/boost/graph/graph_traits_OpenMesh.h $
-// $Id: include/CGAL/boost/graph/graph_traits_OpenMesh.h cefe3007d59 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.1/BGL/include/CGAL/boost/graph/graph_traits_OpenMesh.h $
+// $Id: include/CGAL/boost/graph/graph_traits_OpenMesh.h b26b07a1242 $
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
 // Author(s)     : Andreas Fabri, Philipp Moeller
 
-// include this to avoid a VC15 warning
 #include <CGAL/Named_function_parameters.h>
 
 #include <boost/graph/graph_traits.hpp>
@@ -21,7 +20,6 @@
 #include <CGAL/boost/graph/iterator.h>
 #include <CGAL/Iterator_range.h>
 #include <CGAL/boost/graph/helpers.h>
-#include <CGAL/boost/graph/io.h>
 #include <CGAL/assertions.h>
 #include <CGAL/hash_openmesh.h>
 

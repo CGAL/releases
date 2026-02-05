@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.3/Arrangement_on_surface_2/include/CGAL/Curved_kernel_via_analysis_2/Arc_2.h $
-// $Id: include/CGAL/Curved_kernel_via_analysis_2/Arc_2.h cefe3007d59 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.1/Arrangement_on_surface_2/include/CGAL/Curved_kernel_via_analysis_2/Arc_2.h $
+// $Id: include/CGAL/Curved_kernel_via_analysis_2/Arc_2.h b26b07a1242 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Eric Berberich <eric@mpi-inf.mpg.de>
@@ -571,7 +571,7 @@ public:
                           compare_xy_2_object()(p, q, true) != CGAL::EQUAL);
         // check coprimality condition for supporting curves
         _check_pt_arcno_and_coprimality(p, -1, c);
-        _check_pt_arcno_and_coprimality(p, -1, c);
+        _check_pt_arcno_and_coprimality(q, -1, c);
         _fix_curve_ends_order();
     }
 

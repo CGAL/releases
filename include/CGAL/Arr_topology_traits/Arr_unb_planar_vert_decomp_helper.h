@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.3/Arrangement_on_surface_2/include/CGAL/Arr_topology_traits/Arr_unb_planar_vert_decomp_helper.h $
-// $Id: include/CGAL/Arr_topology_traits/Arr_unb_planar_vert_decomp_helper.h cefe3007d59 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.1/Arrangement_on_surface_2/include/CGAL/Arr_topology_traits/Arr_unb_planar_vert_decomp_helper.h $
+// $Id: include/CGAL/Arr_topology_traits/Arr_unb_planar_vert_decomp_helper.h b26b07a1242 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s): Ron Wein   <wein@post.tau.ac.il>
@@ -60,7 +60,7 @@ protected:
                                         // halfedge.
 
 public:
-  /*! Constructor.
+  /*! constructs.
    * \param arr The arrangement.
    */
   Arr_unb_planar_vert_decomp_helper(const Arrangement_2* arr) :
@@ -79,10 +79,10 @@ public:
   void after_handle_event(Event* event);
   //@}
 
-  /*! Get the current top object. */
+  /*! obtains the current top object. */
   Vert_type top_object() const { return Vert_type(m_top_fict); }
 
-  /*! Get the current bottom object. */
+  /*! obtains the current bottom object. */
   Vert_type bottom_object() const { return Vert_type(m_bottom_fict); }
 };
 

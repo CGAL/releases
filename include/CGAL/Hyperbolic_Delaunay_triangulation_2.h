@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.3/Hyperbolic_triangulation_2/include/CGAL/Hyperbolic_Delaunay_triangulation_2.h $
-// $Id: include/CGAL/Hyperbolic_Delaunay_triangulation_2.h cefe3007d59 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.1/Hyperbolic_triangulation_2/include/CGAL/Hyperbolic_Delaunay_triangulation_2.h $
+// $Id: include/CGAL/Hyperbolic_Delaunay_triangulation_2.h b26b07a1242 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Mikhail Bogdanov
@@ -740,6 +740,32 @@ public:
   Hyperbolic_segment segment(const Edge& e) const { return hyperbolic_segment(e); }
   Hyperbolic_segment segment(const Edge_circulator& e) const { return hyperbolic_segment(e); }
 
+  const Point& point(const Vertex_handle vh) const
+  {
+    CGAL_precondition(!is_infinite(vh));
+    return vh->point();
+  }
+
+  const Point& point(const Face_handle fh, const int i) const
+  {
+    CGAL_precondition(!is_infinite(fh->vertex(i)));
+    CGAL_precondition(0 <= i && i <= 2);
+    return fh->vertex(i)->point();
+  }
+
+  Point& point(const Vertex_handle vh)
+  {
+    CGAL_precondition(!is_infinite(vh));
+    return vh->point();
+  }
+
+  Point& point(const Face_handle fh, const int i)
+  {
+    CGAL_precondition(!is_infinite(fh->vertex(i)));
+    CGAL_precondition(0 <= i && i <= 2);
+    return fh->vertex(i)->point();
+  }
+
   size_type number_of_vertices() const { return Base::number_of_vertices(); }
   Vertex_circulator adjacent_vertices(Vertex_handle v) const { return Vertex_circulator(v, *this); }
 
@@ -825,32 +851,6 @@ public:
   }
 
 public:
-  const Point& point(const Vertex_handle vh) const
-  {
-    CGAL_precondition(!is_infinite(vh));
-    return vh->point();
-  }
-
-  const Point& point(const Face_handle fh, const int i) const
-  {
-    CGAL_precondition(!is_infinite(fh->vertex(i)));
-    CGAL_precondition(0 <= i && i <= 2);
-    return fh->vertex(i)->point();
-  }
-
-  Point& point(const Vertex_handle vh)
-  {
-    CGAL_precondition(!is_infinite(vh));
-    return vh->point();
-  }
-
-  Point& point(const Face_handle fh, const int i)
-  {
-    CGAL_precondition(!is_infinite(fh->vertex(i)));
-    CGAL_precondition(0 <= i && i <= 2);
-    return fh->vertex(i)->point();
-  }
-
   bool is_valid()
   {
     if (!Base::is_valid())

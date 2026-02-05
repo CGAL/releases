@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.3/Apollonius_graph_2/include/CGAL/Apollonius_graph_2/Bounded_side_of_ccw_circle_C2.h $
-// $Id: include/CGAL/Apollonius_graph_2/Bounded_side_of_ccw_circle_C2.h cefe3007d59 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.1/Apollonius_graph_2/include/CGAL/Apollonius_graph_2/Bounded_side_of_ccw_circle_C2.h $
+// $Id: include/CGAL/Apollonius_graph_2/Bounded_side_of_ccw_circle_C2.h b26b07a1242 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -77,7 +77,7 @@ private:
 
 public:
   typedef Voronoi_radius_2<K>       Voronoi_radius;
-  typedef typename K::Bounded_side  Bounded_dide;
+  typedef typename K::Bounded_side  Bounded_side;
 
 public:
   template<class Tag>

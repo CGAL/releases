@@ -2,8 +2,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.3/HalfedgeDS/include/CGAL/boost/graph/graph_traits_HalfedgeDS.h $
-// $Id: include/CGAL/boost/graph/graph_traits_HalfedgeDS.h cefe3007d59 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.1/HalfedgeDS/include/CGAL/boost/graph/graph_traits_HalfedgeDS.h $
+// $Id: include/CGAL/boost/graph/graph_traits_HalfedgeDS.h b26b07a1242 $
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -111,6 +111,11 @@ struct HDS_edge {
                       i.halfedge():i.halfedge()->opposite());
   }
 
+  friend std::ostream& operator<<(std::ostream& os, const HDS_edge& e)
+  {
+    os << e.halfedge_;
+    return os;
+  }
 private:
   Halfedge_handle halfedge_;
 };

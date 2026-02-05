@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.3/Algebraic_kernel_d/include/CGAL/Algebraic_kernel_d/Status_line_CPA_1.h $
-// $Id: include/CGAL/Algebraic_kernel_d/Status_line_CPA_1.h cefe3007d59 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.1/Algebraic_kernel_d/include/CGAL/Algebraic_kernel_d/Status_line_CPA_1.h $
+// $Id: include/CGAL/Algebraic_kernel_d/Status_line_CPA_1.h b26b07a1242 $
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -331,7 +331,7 @@ public:
                              const typename Curve_pair_analysis_2
                                  ::Curve_analysis_2& c1,
                              const typename Curve_pair_analysis_2
-                                 ::Curve_analysis_2& CGAL_precondition_code(c2)) const
+                                 ::Curve_analysis_2& CGAL_assertion_code(c2)) const
     {
 
         CGAL_precondition(0 <= j && j < number_of_events());

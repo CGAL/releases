@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.3/Triangulation/include/CGAL/Triangulation/internal/Triangulation_ds_iterators.h $
-// $Id: include/CGAL/Triangulation/internal/Triangulation_ds_iterators.h cefe3007d59 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.1/Triangulation/include/CGAL/Triangulation/internal/Triangulation_ds_iterators.h $
+// $Id: include/CGAL/Triangulation/internal/Triangulation_ds_iterators.h b26b07a1242 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)    : Samuel Hornus (Well... `copy, paste and hack' of Monique Teillaud's work)

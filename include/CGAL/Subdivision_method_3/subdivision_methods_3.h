@@ -2,8 +2,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.3/Subdivision_method_3/include/CGAL/Subdivision_method_3/subdivision_methods_3.h $
-// $Id: include/CGAL/Subdivision_method_3/subdivision_methods_3.h cefe3007d59 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.1/Subdivision_method_3/include/CGAL/Subdivision_method_3/subdivision_methods_3.h $
+// $Id: include/CGAL/Subdivision_method_3/subdivision_methods_3.h b26b07a1242 $
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -78,8 +78,6 @@ Catmull-Clark subdivision.
 */
 /// @{
 
-namespace parameters = CGAL::parameters;
-
 // -----------------------------------------------------------------------------
 
 #ifndef DOXYGEN_RUNNING
@@ -120,6 +118,13 @@ void CatmullClark_subdivision(PolygonMesh& pmesh, int step) {
  *     \cgalParamType{unsigned int}
  *     \cgalParamDefault{`1`}
  *   \cgalParamNEnd
+ *   \cgalParamNBegin{do_not_modify_geometry}
+ *     \cgalParamDescription{if set to `true`, the geometry of the mesh will not be modified}
+ *     \cgalParamType{Boolean}
+ *     \cgalParamDefault{`false`}
+ *     \cgalParamExtra{If `pmesh` is in fact a triangle mesh, this named parameter is also available
+ *                     in Loop subdivision and will create better shaped elements.}
+ *   \cgalParamNEnd
  * \cgalNamedParamsEnd
  *
  **/
@@ -133,10 +138,17 @@ void CatmullClark_subdivision(PolygonMesh& pmesh, const NamedParameters& np = pa
                          get_property_map(CGAL::vertex_point, pmesh));
 
   unsigned int step = choose_parameter(get_parameter(np, internal_np::number_of_iterations), 1);
-  CatmullClark_mask_3<PolygonMesh,Vpm> mask(&pmesh, vpm);
+  bool do_not_modify_geometry = choose_parameter(get_parameter(np, internal_np::do_not_modify_geometry), false);
 
-  for(unsigned int i = 0; i < step; i++)
-    internal::PQQ_1step(pmesh, vpm, mask);
+  if (do_not_modify_geometry) {
+    Linear_mask_3<PolygonMesh, Vpm> mask(&pmesh, vpm);
+    for (unsigned int i = 0; i < step; i++)
+      internal::PQQ_1step(pmesh, vpm, mask);
+  } else {
+    CatmullClark_mask_3<PolygonMesh, Vpm> mask(&pmesh, vpm);
+    for (unsigned int i = 0; i < step; i++)
+      internal::PQQ_1step(pmesh, vpm, mask);
+  }
 }
 // -----------------------------------------------------------------------------
 
@@ -178,6 +190,13 @@ void Loop_subdivision(PolygonMesh& pmesh, int step) {
  *     \cgalParamType{unsigned int}
  *     \cgalParamDefault{`1`}
  *   \cgalParamNEnd
+ *   \cgalParamNBegin{do_not_modify_geometry}
+ *     \cgalParamDescription{if set to `true`, the geometry of the mesh will not be modified}
+ *     \cgalParamType{Boolean}
+ *     \cgalParamDefault{`false`}
+ *     \cgalParamExtra{This named parameter is also available in Catmull-Clark subdivision
+ *                     for non-triangle meshes.}
+ *   \cgalParamNEnd
  * \cgalNamedParamsEnd
  *
  * \pre `pmesh` must be a triangle mesh.
@@ -192,11 +211,19 @@ void Loop_subdivision(PolygonMesh& pmesh, const NamedParameters& np = parameters
                          get_property_map(CGAL::vertex_point, pmesh));
 
   unsigned int step = choose_parameter(get_parameter(np, internal_np::number_of_iterations), 1);
-  Loop_mask_3<PolygonMesh,Vpm> mask(&pmesh, vpm);
+  bool do_not_modify_geometry = choose_parameter(get_parameter(np, internal_np::do_not_modify_geometry), false);
 
-  for(unsigned int i = 0; i < step; i++)
-    internal::PTQ_1step(pmesh, vpm, mask);
+  if (do_not_modify_geometry) {
+    Linear_mask_3<PolygonMesh, Vpm> mask(&pmesh, vpm);
+    for (unsigned int i = 0; i < step; i++)
+      internal::PTQ_1step(pmesh, vpm, mask);
+  } else {
+    Loop_mask_3<PolygonMesh, Vpm> mask(&pmesh, vpm);
+    for (unsigned int i = 0; i < step; i++)
+      internal::PTQ_1step(pmesh, vpm, mask);
+  }
 }
+
 // -----------------------------------------------------------------------------
 
 #ifndef DOXYGEN_RUNNING

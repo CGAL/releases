@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.3/Mesh_3/include/CGAL/Mesh_domain_with_polyline_features_3.h $
-// $Id: include/CGAL/Mesh_domain_with_polyline_features_3.h cefe3007d59 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.1/Mesh_3/include/CGAL/Mesh_domain_with_polyline_features_3.h $
+// $Id: include/CGAL/Mesh_domain_with_polyline_features_3.h b26b07a1242 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -961,9 +961,9 @@ get_curves(OutputIterator out) const
       q_index = p_index;
     }
 
-    *out++ = std::make_tuple(eit->first,
-                                     std::make_pair(p,p_index),
-                                     std::make_pair(q,q_index));
+    *out++ = {eit->first,
+              std::make_pair(p,p_index),
+              std::make_pair(q,q_index)};
   }
 
   return out;

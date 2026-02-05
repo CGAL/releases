@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.3/Visibility_2/include/CGAL/Rotational_sweep_visibility_2.h $
-// $Id: include/CGAL/Rotational_sweep_visibility_2.h cefe3007d59 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.1/Visibility_2/include/CGAL/Rotational_sweep_visibility_2.h $
+// $Id: include/CGAL/Rotational_sweep_visibility_2.h b26b07a1242 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -806,7 +806,7 @@ private:
   }
 
   //for face query: traverse the face to get all edges
-  //and sort vertices in counter-clockwise order.
+  //and sort vertices in counterclockwise order.
   void input_face (Face_const_handle fh) const
   {
     Ccb_halfedge_const_circulator curr = fh->outer_ccb();
@@ -840,7 +840,7 @@ private:
     }
   }
   //for vertex or edge query: traverse the face to get all edges
-  //and sort vertices in counter-clockwise order.
+  //and sort vertices in counterclockwise order.
   void input_face (Face_const_handle fh,
                    EHs& good_edges,
                    Arrangement_2& bbox) const

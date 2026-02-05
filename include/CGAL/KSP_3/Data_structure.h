@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.3/Kinetic_space_partition/include/CGAL/KSP_3/Data_structure.h $
-// $Id: include/CGAL/KSP_3/Data_structure.h cefe3007d59 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.1/Kinetic_space_partition/include/CGAL/KSP_3/Data_structure.h $
+// $Id: include/CGAL/KSP_3/Data_structure.h b26b07a1242 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -159,7 +159,6 @@ public:
     }
   };
 
-  // ToDo:: check all kind of iterators/circulators
   using PEdge_around_pvertex_iterator = boost::transform_iterator<Halfedge_to_pedge, CGAL::Halfedge_around_target_iterator<Mesh> >;
   using PEdges_around_pvertex = CGAL::Iterator_range<PEdge_around_pvertex_iterator>;
 
@@ -1390,16 +1389,19 @@ public:
     return support_plane(support_plane_idx).to_2d(segment_3);
   }
 
-/*
-  IkSegment_2 to_2d(const std::size_t support_plane_idx, const IkSegment_3& segment_3) const {
+  template <class IK = Intersection_kernel>
+  auto to_2d(const std::size_t support_plane_idx, const IkSegment_3& segment_3) const
+      -> std::enable_if_t<!std::is_same_v<Kernel, IK>, IkSegment_2> {
     return support_plane(support_plane_idx).to_2d(segment_3);
-  }*/
+  }
 
   Point_2 to_2d(const std::size_t support_plane_idx, const Point_3& point_3) const {
     return support_plane(support_plane_idx).to_2d(point_3);
   }
 
-  IkPoint_2 to_2d(const std::size_t support_plane_idx, const IkPoint_3& point_3) const {
+  template <class IK = Intersection_kernel>
+  auto to_2d(const std::size_t support_plane_idx, const IkPoint_3& point_3) const
+      -> std::enable_if_t<!std::is_same_v<Kernel, IK>, IkPoint_2> {
     return support_plane(support_plane_idx).to_2d(point_3);
   }
 

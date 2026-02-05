@@ -7,8 +7,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.3/Cartesian_kernel/include/CGAL/Cartesian/Circle_2.h $
-// $Id: include/CGAL/Cartesian/Circle_2.h cefe3007d59 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.1/Cartesian_kernel/include/CGAL/Cartesian/Circle_2.h $
+// $Id: include/CGAL/Cartesian/Circle_2.h b26b07a1242 $
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -25,6 +25,7 @@ namespace CGAL {
 template <class R_ >
 class CircleC2
 {
+  typedef typename R_::Boolean              Boolean;
   typedef typename R_::FT                   FT;
   typedef typename R_::RT                   RT;
   typedef typename R_::Circle_2             Circle_2;
@@ -49,8 +50,8 @@ public:
     base = Rep(center, squared_radius, orient);
   }
 
-  bool           operator==(const CircleC2 &s) const;
-  bool           operator!=(const CircleC2 &s) const;
+  Boolean operator==(const CircleC2& s) const;
+  Boolean operator!=(const CircleC2& s) const;
 
   const Point_2 & center() const
   {
@@ -68,6 +69,25 @@ public:
   }
 
 };
+
+template < class R >
+typename R::Boolean
+CircleC2<R>::operator==(const CircleC2<R> &t) const
+{
+  if (CGAL::identical(base, t.base))
+    return true;
+
+  return center() == t.center() &&
+         squared_radius() == t.squared_radius() &&
+         orientation() == t.orientation();
+}
+
+template < class R >
+typename R::Boolean
+CircleC2<R>::operator!=(const CircleC2<R> &t) const
+{
+  return !(*this == t);
+}
 
 } //namespace CGAL
 

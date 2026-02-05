@@ -4,8 +4,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.3/Mesh_3/include/CGAL/Polyhedral_complex_mesh_domain_3.h $
-// $Id: include/CGAL/Polyhedral_complex_mesh_domain_3.h cefe3007d59 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.1/Mesh_3/include/CGAL/Polyhedral_complex_mesh_domain_3.h $
+// $Id: include/CGAL/Polyhedral_complex_mesh_domain_3.h b26b07a1242 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -281,6 +281,11 @@ public:
     if (!borders_detected_)
       self->detect_borders(self->stored_polyhedra, true);
     return this->BaseBase::construct_initial_points_object();
+  }
+
+  void set_borders_detected()
+  {
+    borders_detected_=true;
   }
 
   void detect_features(FT angle_in_degree,

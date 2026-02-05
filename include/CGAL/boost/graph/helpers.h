@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.3/BGL/include/CGAL/boost/graph/helpers.h $
-// $Id: include/CGAL/boost/graph/helpers.h cefe3007d59 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.1/BGL/include/CGAL/boost/graph/helpers.h $
+// $Id: include/CGAL/boost/graph/helpers.h b26b07a1242 $
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s) : Andreas Fabri
@@ -65,7 +65,7 @@ is_border(typename boost::graph_traits<FaceGraph>::vertex_descriptor vd,
           const FaceGraph& g)
 {
   CGAL::Halfedge_around_target_iterator<FaceGraph> havib, havie;
-  for(boost::tie(havib, havie) = halfedges_around_target(halfedge(vd, g), g); havib != havie; ++havib) {
+  for(std::tie(havib, havie) = halfedges_around_target(halfedge(vd, g), g); havib != havie; ++havib) {
     if(is_border(*havib,g)) {
       typename boost::graph_traits<FaceGraph>::halfedge_descriptor h = *havib;
       return h;

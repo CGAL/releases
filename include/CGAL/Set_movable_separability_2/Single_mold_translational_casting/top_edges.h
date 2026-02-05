@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.3/Set_movable_separability_2/include/CGAL/Set_movable_separability_2/Single_mold_translational_casting/top_edges.h $
-// $Id: include/CGAL/Set_movable_separability_2/Single_mold_translational_casting/top_edges.h cefe3007d59 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.1/Set_movable_separability_2/include/CGAL/Set_movable_separability_2/Single_mold_translational_casting/top_edges.h $
+// $Id: include/CGAL/Set_movable_separability_2/Single_mold_translational_casting/top_edges.h b26b07a1242 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s): Shahar    <shasha94@gmail.com>
@@ -75,7 +75,7 @@ OutputIterator top_edges(const CGAL::Polygon_2<CastingTraits_2>& polygon,
   typedef CastingTraits_2                               Traits;
 
   CGAL_precondition(polygon.is_simple());
-  CGAL_precondition(!internal::is_any_edge_colinear(polygon, traits));
+  CGAL_precondition(!internal::is_any_edge_collinear(polygon, traits));
 
   auto e_it = polygon.edges_begin();
   auto segment_outer_circle =

@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.3/Filtered_kernel/include/CGAL/Filtered_kernel/internal/Static_filters/Equal_3.h $
-// $Id: include/CGAL/Filtered_kernel/internal/Static_filters/Equal_3.h cefe3007d59 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.1/Filtered_kernel/include/CGAL/Filtered_kernel/internal/Static_filters/Equal_3.h $
+// $Id: include/CGAL/Filtered_kernel/internal/Static_filters/Equal_3.h b26b07a1242 $
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -31,17 +31,16 @@ template < typename K_base >
 class Equal_3
   : public K_base::Equal_3
 {
+  typedef typename K_base::Boolean   Boolean;
   typedef typename K_base::Point_3   Point_3;
   typedef typename K_base::Vector_3  Vector_3;
+
   typedef typename K_base::Equal_3   Base;
 
 public:
-
-  typedef typename Base::result_type  result_type;
-
   using Base::operator();
 
-  result_type operator()(const Point_3 &p, const Point_3& q) const
+  Boolean operator()(const Point_3& p, const Point_3& q) const
   {
     CGAL_BRANCH_PROFILER(std::string("semi-static attempts/calls to   : ") +
                          std::string(CGAL_PRETTY_FUNCTION), tmp);
@@ -62,7 +61,7 @@ public:
   }
 
 
-  result_type operator()(const Vector_3 &p, const Vector_3& q) const
+  Boolean operator()(const Vector_3& p, const Vector_3& q) const
   {
     CGAL_BRANCH_PROFILER(std::string("semi-static attempts/calls to   : ") +
                          std::string(CGAL_PRETTY_FUNCTION), tmp);
@@ -83,7 +82,7 @@ public:
   }
 
 
-  result_type operator()(const Vector_3 &p, const Null_vector &q) const
+  Boolean operator()(const Vector_3& p, const Null_vector& q) const
   {
     CGAL_BRANCH_PROFILER(std::string("semi-static attempts/calls to   : ") +
                          std::string(CGAL_PRETTY_FUNCTION), tmp);

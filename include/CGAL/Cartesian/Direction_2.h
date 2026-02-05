@@ -7,8 +7,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.3/Cartesian_kernel/include/CGAL/Cartesian/Direction_2.h $
-// $Id: include/CGAL/Cartesian/Direction_2.h cefe3007d59 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.1/Cartesian_kernel/include/CGAL/Cartesian/Direction_2.h $
+// $Id: include/CGAL/Cartesian/Direction_2.h b26b07a1242 $
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -26,6 +26,8 @@ template < class R_ >
 class DirectionC2
 {
   typedef DirectionC2<R_>                   Self;
+
+  typedef typename R_::Boolean              Boolean;
   typedef typename R_::FT                   FT;
   typedef FT                                RT;
   typedef typename R_::Point_2              Point_2;
@@ -49,8 +51,8 @@ public:
   DirectionC2(const FT &x, const FT &y)
     : base{x, y} {}
 
-  bool operator==(const DirectionC2 &d) const;
-  bool operator!=(const DirectionC2 &d) const;
+  Boolean operator==(const DirectionC2 &d) const;
+  Boolean operator!=(const DirectionC2 &d) const;
 
   Vector_2 to_vector() const;
 
@@ -66,7 +68,7 @@ public:
 
 template < class R >
 inline
-bool
+typename R::Boolean
 DirectionC2<R>::operator==(const DirectionC2<R> &d) const
 {
   if (CGAL::identical(base, d.base))
@@ -76,7 +78,7 @@ DirectionC2<R>::operator==(const DirectionC2<R> &d) const
 
 template < class R >
 inline
-bool
+typename R::Boolean
 DirectionC2<R>::operator!=(const DirectionC2<R> &d) const
 {
   return !( *this == d );

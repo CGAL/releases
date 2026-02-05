@@ -1,7 +1,7 @@
 // Copyright (c) 2007-2015  GeometryFactory (France).  All rights reserved.
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.3/BGL/include/CGAL/boost/graph/named_params_helper.h $
-// $Id: include/CGAL/boost/graph/named_params_helper.h cefe3007d59 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.1/BGL/include/CGAL/boost/graph/named_params_helper.h $
+// $Id: include/CGAL/boost/graph/named_params_helper.h b26b07a1242 $
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Andreas Fabri, Fernando Cacciola, Jane Tournois
@@ -19,6 +19,7 @@
 #include <CGAL/Default.h>
 #include <CGAL/Named_function_parameters.h>
 #include <CGAL/property_map.h>
+#include <CGAL/Dimension.h>
 
 #include <boost/mpl/has_xxx.hpp>
 
@@ -226,6 +227,32 @@ struct GetGeomTraits
                                           NamedParametersVPM>::type type;
 };
 
+namespace internal {
+// Similar helper for polygon soups
+template <typename PointRange, typename PolygonRange>
+struct Polygon_types
+{
+  typedef typename boost::range_value<PointRange>::type                             Point_3;
+  typedef typename boost::range_value<PolygonRange>::type                           Polygon_3;
+
+  typedef typename boost::range_iterator<Polygon_3>::type                           V_ID_iterator;
+  typedef typename std::iterator_traits<V_ID_iterator>::value_type                  V_ID;
+  typedef typename std::vector<Polygon_3>::size_type                                P_ID;
+};
+}
+
+template <typename PointRange, typename PolygonRange, typename NamedParameters>
+struct GetPolygonGeomTraits
+{
+  typedef typename internal_np::Lookup_named_param_def <
+                     internal_np::geom_traits_t,
+                     NamedParameters,
+                     typename CGAL::Kernel_traits<
+                       typename internal::Polygon_types<
+                         PointRange, PolygonRange>::Point_3 >::type
+                   > ::type                                                         type;
+};
+
 // Define the following structs:
 //
 // GetInitializedVertexIndexMap
@@ -356,6 +383,22 @@ struct GetPolygonSoupGeomTraits
                    > ::type                                                         type;
 };
 
+namespace internal {
+template <class Point, int d = CGAL::Ambient_dimension<Point>::value>
+struct Vector_matching_point {
+  typedef typename Kernel_traits<Point>::Kernel::Vector_d type;
+};
+
+template <class Point>
+struct Vector_matching_point<Point, 2> {
+  typedef typename Kernel_traits<Point>::Kernel::Vector_2 type;
+};
+
+template <class Point>
+struct Vector_matching_point<Point, 3> {
+  typedef typename Kernel_traits<Point>::Kernel::Vector_3 type;
+};
+}
 
 template <class PointRange, class NamedParameters, class PointMap = Default, class NormalMap = Default>
 struct Point_set_processing_3_np_helper
@@ -380,7 +423,7 @@ struct Point_set_processing_3_np_helper
 
   typedef typename Geom_traits::FT FT; // public
 
-  typedef Constant_property_map<Value_type, typename Geom_traits::Vector_3> DummyNormalMap;
+  typedef Constant_property_map<Value_type, typename internal::Vector_matching_point<Point>::type> DummyNormalMap;
   typedef typename Default::Get<NormalMap, DummyNormalMap>::type DefaultNMap;
 
   typedef typename internal_np::Lookup_named_param_def<

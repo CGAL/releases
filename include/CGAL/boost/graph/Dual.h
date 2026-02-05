@@ -2,8 +2,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.3/BGL/include/CGAL/boost/graph/Dual.h $
-// $Id: include/CGAL/boost/graph/Dual.h cefe3007d59 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.1/BGL/include/CGAL/boost/graph/Dual.h $
+// $Id: include/CGAL/boost/graph/Dual.h b26b07a1242 $
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -306,7 +306,7 @@ edge(typename boost::graph_traits<Dual<P> >::vertex_descriptor u,
      const Dual<P>& dual)
 {
   typename boost::graph_traits<Dual<P> >::out_edge_iterator e, e_end;
-  for(boost::tie(e, e_end) = out_edges(u, dual); e != e_end; ++e) {
+  for(std::tie(e, e_end) = out_edges(u, dual); e != e_end; ++e) {
     if(target(*e, dual) == v)
       return std::make_pair(*e, true);
   }
@@ -391,7 +391,7 @@ halfedge(typename boost::graph_traits<Dual<P> >::vertex_descriptor u,
          const Dual<P>& dual)
 {
   typename boost::graph_traits<Dual<P> >::out_edge_iterator e, e_end;
-  for(boost::tie(e, e_end) = out_edges(u, dual); e != e_end; ++e) {
+  for(std::tie(e, e_end) = out_edges(u, dual); e != e_end; ++e) {
     if(target(*e, dual) == v)
       return std::make_pair(halfedge(*e, dual), true);
   }

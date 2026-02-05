@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.3/Arrangement_on_surface_2/include/CGAL/Arr_topology_traits/Arr_spherical_overlay_helper.h $
-// $Id: include/CGAL/Arr_topology_traits/Arr_spherical_overlay_helper.h cefe3007d59 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.1/Arrangement_on_surface_2/include/CGAL/Arr_topology_traits/Arr_spherical_overlay_helper.h $
+// $Id: include/CGAL/Arr_topology_traits/Arr_spherical_overlay_helper.h b26b07a1242 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -83,7 +83,7 @@ protected:
   Face_handle_blue m_blue_nf;
 
 public:
-  /*! Constructor, given the input red and blue arrangements. */
+  /*! constructs, given the input red and blue arrangements. */
   Arr_spherical_overlay_helper(const Ar2* red_arr, const Ab2* blue_arr) :
     m_red_top_traits(red_arr->topology_traits()),
     m_blue_top_traits(blue_arr->topology_traits())
@@ -270,21 +270,21 @@ public:
   }
   //@}
 
-  /*! Get the current red top face. */
+  /*! obtains the current red top face. */
   Face_handle_red red_top_face() const { return m_red_nf; }
 
-  /*! Get the current blue top face. */
+  /*! obtains the current blue top face. */
   Face_handle_blue blue_top_face() const { return m_blue_nf; }
 
-  /*! Obtain the red topology traits. */
+  /*! obtains the red topology traits. */
   const Topology_traits_red* red_topology_traits() const
   { return m_red_top_traits; }
 
-  /*! Obtain the blue topology traits. */
+  /*! obtains the blue topology traits. */
   const Topology_traits_blue* blue_topology_traits() const
   { return m_blue_top_traits; }
 };
 
-} //namespace CGAL
+} // namespace CGAL
 
 #endif

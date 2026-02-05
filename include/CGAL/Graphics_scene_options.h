@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.3/Basic_viewer/include/CGAL/Graphics_scene_options.h $
-// $Id: include/CGAL/Graphics_scene_options.h cefe3007d59 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.1/Basic_viewer/include/CGAL/Graphics_scene_options.h $
+// $Id: include/CGAL/Graphics_scene_options.h b26b07a1242 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s):   Guillaume Damiand <guillaume.damiand@liris.cnrs.fr>

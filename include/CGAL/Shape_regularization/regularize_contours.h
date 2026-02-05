@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.3/Shape_regularization/include/CGAL/Shape_regularization/regularize_contours.h $
-// $Id: include/CGAL/Shape_regularization/regularize_contours.h cefe3007d59 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.1/Shape_regularization/include/CGAL/Shape_regularization/regularize_contours.h $
+// $Id: include/CGAL/Shape_regularization/regularize_contours.h b26b07a1242 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //

@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.3/Circular_kernel_2/include/CGAL/Circular_kernel_2/Circular_arc_2.h $
-// $Id: include/CGAL/Circular_kernel_2/Circular_arc_2.h cefe3007d59 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.1/Circular_kernel_2/include/CGAL/Circular_kernel_2/Circular_arc_2.h $
+// $Id: include/CGAL/Circular_kernel_2/Circular_arc_2.h b26b07a1242 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Monique Teillaud, Sylvain Pion, Pedro Machado
@@ -656,7 +656,7 @@ public:
       return CGAL::CircularFunctors::circular_arc_bbox<CK>(*this);
     }
 
-    // Dont use this function, it is only for internal use
+    // Don't use this function, it is only for internal use
     void _setx_info(unsigned short int v_is_x_monotone,
                   unsigned short int v_two_end_points_on_upper_part,
                   unsigned short int v_is_complementary_x_monotone) const {

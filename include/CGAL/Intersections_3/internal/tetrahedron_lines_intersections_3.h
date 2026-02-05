@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.3/Intersections_3/include/CGAL/Intersections_3/internal/tetrahedron_lines_intersections_3.h $
-// $Id: include/CGAL/Intersections_3/internal/tetrahedron_lines_intersections_3.h cefe3007d59 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.1/Intersections_3/include/CGAL/Intersections_3/internal/tetrahedron_lines_intersections_3.h $
+// $Id: include/CGAL/Intersections_3/internal/tetrahedron_lines_intersections_3.h b26b07a1242 $
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -19,6 +19,7 @@
 #include <CGAL/kernel_basic.h>
 #include <CGAL/Tetrahedron_3.h>
 #include <CGAL/Triangle_3.h>
+#include <CGAL/squared_distance_3.h>
 
 #include <utility>
 #include <vector>

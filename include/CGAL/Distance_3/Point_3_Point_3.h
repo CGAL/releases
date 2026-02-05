@@ -7,8 +7,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.3/Distance_3/include/CGAL/Distance_3/Point_3_Point_3.h $
-// $Id: include/CGAL/Distance_3/Point_3_Point_3.h cefe3007d59 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.1/Distance_3/include/CGAL/Distance_3/Point_3_Point_3.h $
+// $Id: include/CGAL/Distance_3/Point_3_Point_3.h b26b07a1242 $
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -17,6 +17,7 @@
 #ifndef CGAL_DISTANCE_3_POINT_3_POINT_3_H
 #define CGAL_DISTANCE_3_POINT_3_POINT_3_H
 
+#include <CGAL/number_utils.h>
 #include <CGAL/Point_3.h>
 
 namespace CGAL {
@@ -32,16 +33,18 @@ squared_distance(const typename K::Point_3& pt1,
   return k.compute_squared_distance_3_object()(pt1, pt2);
 }
 
-} // namespace internal
-
 template <class K>
 inline
-typename K::FT
-squared_distance(const Point_3<K>& pt1,
-                 const Point_3<K>& pt2)
+typename K::Comparison_result
+compare_squared_distance(const typename K::Point_3& pt1,
+                         const typename K::Point_3& pt2,
+                         const K& k,
+                         const typename K::FT& d2)
 {
-  return internal::squared_distance(pt1, pt2, K());
+  return ::CGAL::compare(k.compute_squared_distance_3_object()(pt1, pt2), d2);
 }
+
+} // namespace internal
 
 } // namespace CGAL
 

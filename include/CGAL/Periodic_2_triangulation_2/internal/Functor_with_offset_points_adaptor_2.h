@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.3/Periodic_2_triangulation_2/include/CGAL/Periodic_2_triangulation_2/internal/Functor_with_offset_points_adaptor_2.h $
-// $Id: include/CGAL/Periodic_2_triangulation_2/internal/Functor_with_offset_points_adaptor_2.h cefe3007d59 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.1/Periodic_2_triangulation_2/include/CGAL/Periodic_2_triangulation_2/internal/Functor_with_offset_points_adaptor_2.h $
+// $Id: include/CGAL/Periodic_2_triangulation_2/internal/Functor_with_offset_points_adaptor_2.h b26b07a1242 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Mael Rouxel-Labbé
@@ -29,7 +29,6 @@ class Functor_with_offset_points_adaptor_2
   typedef typename Kernel::Construct_point_2    Construct_point_2;
 
 public:
-  typedef typename Functor::result_type         result_type;
 
   Functor_with_offset_points_adaptor_2(const Functor& functor,
                                        const Construct_point_2& cp)
@@ -39,24 +38,24 @@ public:
   // gives access to function calls without offset
   using Functor::operator();
 
-  result_type operator()(const Point& p0, const Point& p1,
-                         const Offset& o0, const Offset& o1) const {
+  decltype(auto) operator()(const Point& p0, const Point& p1,
+                            const Offset& o0, const Offset& o1) const {
     return operator()(cp(p0,o0), cp(p1,o1));
   }
-  result_type operator()(const Point& p0, const Point& p1, const Point& p2,
-                         const Offset& o0, const Offset& o1, const Offset& o2) const {
+  decltype(auto) operator()(const Point& p0, const Point& p1, const Point& p2,
+                            const Offset& o0, const Offset& o1, const Offset& o2) const {
     return operator()(cp(p0,o0), cp(p1,o1), cp(p2,o2));
   }
-  result_type operator()(const Point& p0, const Point& p1,
-                         const Point& p2, const Point& p3,
-                         const Offset& o0, const Offset& o1,
-                         const Offset& o2, const Offset& o3) const {
+  decltype(auto) operator()(const Point& p0, const Point& p1,
+                            const Point& p2, const Point& p3,
+                            const Offset& o0, const Offset& o1,
+                            const Offset& o2, const Offset& o3) const {
     return operator()(cp(p0,o0), cp(p1,o1), cp(p2,o2), cp(p3,o3));
   }
-  result_type operator()(const Point& p0, const Point& p1,
-                         const Point& p2, const Point& p3, const Point& p4,
-                         const Offset& o0, const Offset& o1, const Offset& o2,
-                         const Offset& o3, const Offset& o4) const {
+  decltype(auto) operator()(const Point& p0, const Point& p1,
+                            const Point& p2, const Point& p3, const Point& p4,
+                            const Offset& o0, const Offset& o1, const Offset& o2,
+                            const Offset& o3, const Offset& o4) const {
     return operator()(cp(p0,o0), cp(p1,o1), cp(p2,o2), cp(p3,o3), cp(p4,o4));
   }
 

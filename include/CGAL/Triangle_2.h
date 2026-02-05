@@ -7,8 +7,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.3/Kernel_23/include/CGAL/Triangle_2.h $
-// $Id: include/CGAL/Triangle_2.h cefe3007d59 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.1/Kernel_23/include/CGAL/Triangle_2.h $
+// $Id: include/CGAL/Triangle_2.h b26b07a1242 $
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -87,18 +87,6 @@ public:
   oriented_side(const Point_2 &p) const
   {
     return R().oriented_side_2_object()(*this,p);
-  }
-
-  typename R::Boolean
-  operator==(const Triangle_2 &t) const
-  {
-    return R().equal_2_object()(*this,t);
-  }
-
-  typename R::Boolean
-  operator!=(const Triangle_2 &t) const
-  {
-    return !(*this == t);
   }
 
   decltype(auto)

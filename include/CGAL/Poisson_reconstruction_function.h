@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.3/Poisson_surface_reconstruction_3/include/CGAL/Poisson_reconstruction_function.h $
-// $Id: include/CGAL/Poisson_reconstruction_function.h cefe3007d59 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.1/Poisson_surface_reconstruction_3/include/CGAL/Poisson_reconstruction_function.h $
+// $Id: include/CGAL/Poisson_reconstruction_function.h b26b07a1242 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Laurent Saboret, Pierre Alliez
@@ -460,7 +460,7 @@ public:
       // Add a pass of Delaunay refinement.
       //
       // In that pass, the sizing field, of the refinement process of the
-      // triangulation, is based on the result of a poisson function with a
+      // triangulation, is based on the result of a Poisson function with a
       // sample of the input points. The ratio is 'approximation_ratio'.
       //
       // For optimization reasons, the cell criteria of the refinement
@@ -598,24 +598,24 @@ public:
   }
 #endif
 
-  boost::tuple<FT, Cell_handle, bool> special_func(const Point& p) const
+  std::tuple<FT, Cell_handle, bool> special_func(const Point& p) const
   {
     Cell_handle& hint = get_hint();
     hint = m_tr->locate(p, hint);
 
     if(m_tr->is_infinite(hint)) {
       int i = hint->index(m_tr->infinite_vertex());
-      return boost::make_tuple(hint->vertex((i+1)&3)->f(),
-                               hint, true);
+      return std::make_tuple(hint->vertex((i+1)&3)->f(),
+                             hint, true);
     }
 
     FT a,b,c,d;
     barycentric_coordinates(p,hint,a,b,c,d);
-    return boost::make_tuple(a * hint->vertex(0)->f() +
-                             b * hint->vertex(1)->f() +
-                             c * hint->vertex(2)->f() +
-                             d * hint->vertex(3)->f(),
-                             hint, false);
+    return std::make_tuple(a * hint->vertex(0)->f() +
+                           b * hint->vertex(1)->f() +
+                           c * hint->vertex(2)->f() +
+                           d * hint->vertex(3)->f(),
+                           hint, false);
   }
   /// \endcond
 

@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.3/Box_intersection_d/include/CGAL/Box_intersection_d/Box_d.h $
-// $Id: include/CGAL/Box_intersection_d/Box_d.h cefe3007d59 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.1/Box_intersection_d/include/CGAL/Box_intersection_d/Box_d.h $
+// $Id: include/CGAL/Box_intersection_d/Box_d.h b26b07a1242 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //

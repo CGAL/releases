@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.3/Polygon_mesh_processing/include/CGAL/Polygon_mesh_processing/compute_normal.h $
-// $Id: include/CGAL/Polygon_mesh_processing/compute_normal.h cefe3007d59 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.1/Polygon_mesh_processing/include/CGAL/Polygon_mesh_processing/compute_normal.h $
+// $Id: include/CGAL/Polygon_mesh_processing/compute_normal.h b26b07a1242 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -203,7 +203,7 @@ compute_face_normal(typename boost::graph_traits<PolygonMesh>::face_descriptor f
 * @tparam PolygonMesh a model of `FaceGraph`
 * @tparam Face_normal_map a model of `WritablePropertyMap` with
     `boost::graph_traits<PolygonMesh>::%face_descriptor` as key type and
-    a model of `Kernel::Vector_3` as value type.
+    `Kernel::Vector_3` as value type.
 *
 * @param pmesh the polygon mesh
 * @param face_normals the property map in which the normals are written
@@ -627,7 +627,6 @@ compute_vertex_normal_as_sum_of_weighted_normals(typename boost::graph_traits<Po
 *       computed at all vertices of the graph.
 *
 * @tparam PolygonMesh a model of `FaceGraph`
-* @tparam NamedParameters a sequence of \ref bgl_namedparameters "Named Parameters"
 *
 * @param v the vertex whose normal is computed
 * @param pmesh the polygon mesh containing `v`
@@ -755,7 +754,6 @@ compute_vertex_normal(typename boost::graph_traits<PolygonMesh>::vertex_descript
 * @tparam VertexNormalMap a model of `WritablePropertyMap` with
 *                         `boost::graph_traits<PolygonMesh>::%vertex_descriptor` as key type and
 *                         the return type of `compute_vertex_normal()` as value type.
-* @tparam NamedParameters a sequence of \ref bgl_namedparameters "Named Parameters"
 *
 * @param pmesh the polygon mesh
 * @param vertex_normals the property map in which the normals are written
@@ -848,10 +846,10 @@ void compute_vertex_normals(const PolygonMesh& pmesh,
 * @tparam PolygonMesh a model of `FaceListGraph`
 * @tparam VertexNormalMap a model of `WritablePropertyMap` with
 *    `boost::graph_traits<PolygonMesh>::%vertex_descriptor` as key type and
-*    a model of `Kernel::Vector_3` as value type.
+*    `Kernel::Vector_3` as value type.
 * @tparam FaceNormalMap a model of `ReadWritePropertyMap` with
 *    `boost::graph_traits<PolygonMesh>::%face_descriptor` as key type and
-*    a model of `Kernel::Vector_3` as value type.
+*    `Kernel::Vector_3` as value type.
 *
 * @param pmesh the polygon mesh
 * @param vertex_normals the property map in which the vertex normals are written

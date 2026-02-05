@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.3/Algebraic_kernel_d/include/CGAL/Algebraic_kernel_d/Bitstream_descartes_E08_tree.h $
-// $Id: include/CGAL/Algebraic_kernel_d/Bitstream_descartes_E08_tree.h cefe3007d59 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.1/Algebraic_kernel_d/include/CGAL/Algebraic_kernel_d/Bitstream_descartes_E08_tree.h $
+// $Id: include/CGAL/Algebraic_kernel_d/Bitstream_descartes_E08_tree.h b26b07a1242 $
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 //

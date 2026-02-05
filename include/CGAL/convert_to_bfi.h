@@ -4,8 +4,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.3/Interval_support/include/CGAL/convert_to_bfi.h $
-// $Id: include/CGAL/convert_to_bfi.h cefe3007d59 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.1/Interval_support/include/CGAL/convert_to_bfi.h $
+// $Id: include/CGAL/convert_to_bfi.h b26b07a1242 $
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Michael Hemmer   <hemmer@mpi-inf.mpg.de>

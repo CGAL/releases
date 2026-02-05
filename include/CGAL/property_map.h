@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.3/Property_map/include/CGAL/property_map.h $
-// $Id: include/CGAL/property_map.h cefe3007d59 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.1/Property_map/include/CGAL/property_map.h $
+// $Id: include/CGAL/property_map.h b26b07a1242 $
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Andreas Fabri and Laurent Saboret
@@ -622,7 +622,8 @@ struct Constant_property_map
   typedef const value_type&                             reference;
   typedef boost::read_write_property_map_tag            category;
 
-  Constant_property_map(const value_type& default_value = value_type()) : default_value (default_value) { }
+  Constant_property_map() : default_value{} { }
+  Constant_property_map(const value_type& default_value) : default_value (default_value) { }
 
   /// Free function that returns `pm.default_value`.
   inline friend
@@ -725,7 +726,7 @@ make_cartesian_converter_property_map(Vpm vpm)
 
 /// \ingroup PkgPropertyMapRef
 /// A property map with `std::size_t` as key-type that can be used
-/// to access the i'th element in a container with random access.
+/// to access the i-th element in a container with random access.
 /// \cgalModels{LvaluePropertyMap constness being than of `Container`.}
 template<typename Container>
 class Random_access_property_map

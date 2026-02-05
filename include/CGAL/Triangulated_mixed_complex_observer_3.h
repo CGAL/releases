@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.3/Skin_surface_3/include/CGAL/Triangulated_mixed_complex_observer_3.h $
-// $Id: include/CGAL/Triangulated_mixed_complex_observer_3.h cefe3007d59 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.1/Skin_surface_3/include/CGAL/Triangulated_mixed_complex_observer_3.h $
+// $Id: include/CGAL/Triangulated_mixed_complex_observer_3.h b26b07a1242 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -175,7 +175,7 @@ public:
                      const int orient)
   {
     if (s == 1) {
-      // Dont multiply by (1-s) as this will zero the equation
+      // Don't multiply by (1-s) as this will zero the equation
       Q[1] = Q[3] = Q[4] = 0;
       Q[0] = Q[2] = Q[5] = orient;
 

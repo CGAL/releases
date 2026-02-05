@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.3/Filtered_kernel/include/CGAL/Filtered_kernel/Cartesian_coordinate_iterator_2.h $
-// $Id: include/CGAL/Filtered_kernel/Cartesian_coordinate_iterator_2.h cefe3007d59 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.1/Filtered_kernel/include/CGAL/Filtered_kernel/Cartesian_coordinate_iterator_2.h $
+// $Id: include/CGAL/Filtered_kernel/Cartesian_coordinate_iterator_2.h b26b07a1242 $
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -127,7 +127,8 @@ public:
 
   bool
   operator==(const Self& x) const {
-    return (var == x.var) && (index == x.index);
+    CGAL_kernel_assertion(var == x.var);
+    return index == x.index;
   }
 
   bool

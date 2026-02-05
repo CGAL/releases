@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.3/Optimal_transportation_reconstruction_2/include/CGAL/OTR_2/Reconstruction_face_base_2.h $
-// $Id: include/CGAL/OTR_2/Reconstruction_face_base_2.h cefe3007d59 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.1/Optimal_transportation_reconstruction_2/include/CGAL/OTR_2/Reconstruction_face_base_2.h $
+// $Id: include/CGAL/OTR_2/Reconstruction_face_base_2.h b26b07a1242 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Fernando de Goes, Pierre Alliez, Ivo Vigan, Clément Jamin
@@ -17,8 +17,6 @@
 
 #include <CGAL/OTR_2/Cost.h>
 #include <CGAL/Triangulation_face_base_2.h>
-#include <CGAL/Has_timestamp.h>
-#include <CGAL/Time_stamper.h>
 
 #include <vector>
 
@@ -63,8 +61,6 @@ private:
   int   m_plan[3];
 
   FT m_relevance[3];
-
-  std::size_t time_stamp_ = std::size_t(-2);
 
 public:
   Reconstruction_face_base_2()
@@ -194,18 +190,6 @@ public:
     for (int i = 0; i < 3; ++i)
       clean_samples(i);
   }
-
-  /// For the determinism of Compact_container iterators
-  ///@{
-  typedef Tag_true Has_timestamp;
-
-  std::size_t time_stamp() const {
-    return time_stamp_;
-  }
-  void set_time_stamp(const std::size_t& ts) {
-    time_stamp_ = ts;
-  }
-  ///@}
 };
 
 //---------------STRUCT LESS FACE_HANDLE---------------------

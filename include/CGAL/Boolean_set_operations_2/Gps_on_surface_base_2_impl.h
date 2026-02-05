@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.3/Boolean_set_operations_2/include/CGAL/Boolean_set_operations_2/Gps_on_surface_base_2_impl.h $
-// $Id: include/CGAL/Boolean_set_operations_2/Gps_on_surface_base_2_impl.h cefe3007d59 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.1/Boolean_set_operations_2/include/CGAL/Boolean_set_operations_2/Gps_on_surface_base_2_impl.h $
+// $Id: include/CGAL/Boolean_set_operations_2/Gps_on_surface_base_2_impl.h b26b07a1242 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -540,7 +540,7 @@ template <class Traits_, class TopTraits_, class ValidationPolicy>
 }
 
 //insert non-sipmle poloygons with holes (non incident edges may have
-// common vertex,  but they dont intersect at their interior
+// common vertex,  but they don't intersect at their interior
 template <class Traits_, class TopTraits_, class ValidationPolicy>
   void Gps_on_surface_base_2<Traits_, TopTraits_, ValidationPolicy>::
   _insert(const Polygon_with_holes_2 & pgn, Arrangement_on_surface_2 & arr)

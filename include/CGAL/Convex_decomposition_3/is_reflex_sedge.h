@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.3/Convex_decomposition_3/include/CGAL/Convex_decomposition_3/is_reflex_sedge.h $
-// $Id: include/CGAL/Convex_decomposition_3/is_reflex_sedge.h cefe3007d59 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.1/Convex_decomposition_3/include/CGAL/Convex_decomposition_3/is_reflex_sedge.h $
+// $Id: include/CGAL/Convex_decomposition_3/is_reflex_sedge.h b26b07a1242 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //

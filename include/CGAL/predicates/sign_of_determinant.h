@@ -7,8 +7,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.3/Kernel_23/include/CGAL/predicates/sign_of_determinant.h $
-// $Id: include/CGAL/predicates/sign_of_determinant.h cefe3007d59 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.1/Kernel_23/include/CGAL/predicates/sign_of_determinant.h $
+// $Id: include/CGAL/predicates/sign_of_determinant.h b26b07a1242 $
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -30,6 +30,7 @@ typename Sgn<RT>::result_type
 sign_of_determinant( const RT& a00,  const RT& a01,
                         const RT& a10,  const RT& a11)
 {
+  typedef typename Sgn<RT>::result_type Sign;
   return enum_cast<Sign>(CGAL_NTS compare( a00*a11, a10*a01));
 }
 

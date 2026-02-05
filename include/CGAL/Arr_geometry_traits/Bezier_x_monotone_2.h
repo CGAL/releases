@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.3/Arrangement_on_surface_2/include/CGAL/Arr_geometry_traits/Bezier_x_monotone_2.h $
-// $Id: include/CGAL/Arr_geometry_traits/Bezier_x_monotone_2.h cefe3007d59 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.1/Arrangement_on_surface_2/include/CGAL/Arr_geometry_traits/Bezier_x_monotone_2.h $
+// $Id: include/CGAL/Arr_geometry_traits/Bezier_x_monotone_2.h b26b07a1242 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s): Ron Wein     <wein@post.tau.ac.il>
@@ -130,7 +130,7 @@ private:
     Rational t_min;
     Rational t_max;
 
-    /*! Get the rational bounding box of the subcurve. */
+    /*! obtains the rational bounding box of the subcurve. */
     void bbox(Rational& x_min, Rational& y_min,
               Rational& x_max, Rational& y_max) const
     {
@@ -464,7 +464,7 @@ private:
                                     const Point_2& p,
                                     Bezier_cache& cache) const;
 
-  /*! Get the range of t-value over which the subcurve is defined.
+  /*! obtains the range of t-value over which the subcurve is defined.
    * \param cache Caches the vertical tangency points and intersection points.
    * \return A pair comprised of the t-value for the source point and the
    *         t-value for the target point.
@@ -2585,6 +2585,6 @@ _exact_vertical_position(const Point_2& p,
   return EQUAL;
 }
 
-} //namespace CGAL
+} // namespace CGAL
 
 #endif

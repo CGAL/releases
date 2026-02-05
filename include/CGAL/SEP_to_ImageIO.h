@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.3/CGAL_ImageIO/include/CGAL/SEP_to_ImageIO.h $
-// $Id: include/CGAL/SEP_to_ImageIO.h cefe3007d59 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.1/CGAL_ImageIO/include/CGAL/SEP_to_ImageIO.h $
+// $Id: include/CGAL/SEP_to_ImageIO.h b26b07a1242 $
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Laurent Rineau
@@ -20,13 +20,7 @@
 #include <algorithm>
 #include <string>
 
-#include <boost/filesystem/path.hpp>
-#include <boost/filesystem/operations.hpp>
-
-#ifndef BOOST_FILESYSTEM_VERSION
-// That macro was not defined in previous releases of Boost.
-#  define BOOST_FILESYSTEM_VERSION 2
-#endif
+#include <filesystem>
 
 #include <CGAL/IO/binary_file_io.h>
 
@@ -60,15 +54,9 @@ public:
     }
     display_information(fileName, std::cout);
 
-    boost::filesystem::path headerFile(fileName);
-    boost::filesystem::path dataFile(string_field("in"));
-#if BOOST_FILESYSTEM_VERSION == 2
-    dataFile = boost::filesystem::complete(dataFile,
-                                           boost::filesystem::complete(headerFile.parent_path()));
-#else
-    dataFile = boost::filesystem::absolute(dataFile,
-                                           boost::filesystem::absolute(headerFile.parent_path()));
-#endif
+    std::filesystem::path headerFile(fileName);
+    std::filesystem::path dataFile = std::filesystem::absolute(fileName).parent_path()  / std::filesystem::path(string_field("in"));
+
     if(!load_data(dataFile.string())) {
       return;
       err_msg = "Invalid data file \"";

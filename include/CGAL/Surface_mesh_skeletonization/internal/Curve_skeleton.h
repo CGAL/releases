@@ -2,8 +2,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.3/Surface_mesh_skeletonization/include/CGAL/Surface_mesh_skeletonization/internal/Curve_skeleton.h $
-// $Id: include/CGAL/Surface_mesh_skeletonization/internal/Curve_skeleton.h cefe3007d59 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.1/Surface_mesh_skeletonization/include/CGAL/Surface_mesh_skeletonization/internal/Curve_skeleton.h $
+// $Id: include/CGAL/Surface_mesh_skeletonization/internal/Curve_skeleton.h b26b07a1242 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Xiang Gao <gaox@ethz.ch>
@@ -177,7 +177,7 @@ public:
 
         bool exist;
         edge_desc edge;
-        boost::tie(edge, exist) = boost::edge(p1_vd, p2_vd, curve);
+        std::tie(edge, exist) = boost::edge(p1_vd, p2_vd, curve);
         if (!exist)
         {
           boost::add_edge(p1_vd, p2_vd, curve);
@@ -353,7 +353,7 @@ private:
             // look for ei from p2's incident edges
             bool found;
             int ind;
-            boost::tie(found, ind) = find_edge(vertex_to_edge[p2], ei);
+            std::tie(found, ind) = find_edge(vertex_to_edge[p2], ei);
             if (!found)
             {
               continue;

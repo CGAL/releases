@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.3/AABB_tree/include/CGAL/AABB_tree.h $
-// $Id: include/CGAL/AABB_tree.h cefe3007d59 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.1/AABB_tree/include/CGAL/AABB_tree.h $
+// $Id: include/CGAL/AABB_tree.h b26b07a1242 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -199,9 +199,7 @@ namespace CGAL {
     }
 
     /// returns the axis-aligned bounding box of the whole tree.
-    /// \pre `!empty()`
     const Bounding_box bbox() const {
-      CGAL_precondition(!empty());
       if(size() > 1)
         return root_node()->bbox();
       else

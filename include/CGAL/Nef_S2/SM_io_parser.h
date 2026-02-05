@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.3/Nef_S2/include/CGAL/Nef_S2/SM_io_parser.h $
-// $Id: include/CGAL/Nef_S2/SM_io_parser.h cefe3007d59 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.1/Nef_S2/include/CGAL/Nef_S2/SM_io_parser.h $
+// $Id: include/CGAL/Nef_S2/SM_io_parser.h b26b07a1242 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -241,9 +241,8 @@ bool SM_io_parser<Decorator_>::read_edge(SHalfedge_handle e)
        !(in >> m) || !check_sep(",") ||
        !(in >> k) || !check_sep("}") )
     return false;
-  if (!
-     (eo >= 0 && eo < en && epr >= 0 && epr < en && ene >= 0 && ene < en &&
-      v >= 0 && v < vn && f >= 0 && f < fn ))
+  if (! (eo >= 0 && eo < en && epr >= 0 && epr < en && ene >= 0 && ene < en &&
+         v >= 0 && v < vn && f >= 0 && f < fn ))
   {
     std::cerr<<"wrong index in read_edge"<<std::endl;
     in.setstate(std::ios_base::badbit);

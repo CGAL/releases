@@ -7,8 +7,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.3/Cartesian_kernel/include/CGAL/Cartesian/predicates_on_points_2.h $
-// $Id: include/CGAL/Cartesian/predicates_on_points_2.h cefe3007d59 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.1/Cartesian_kernel/include/CGAL/Cartesian/predicates_on_points_2.h $
+// $Id: include/CGAL/Cartesian/predicates_on_points_2.h b26b07a1242 $
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -24,7 +24,7 @@ namespace CGAL {
 
 template < class K >
 inline
-bool
+typename K::Boolean
 equal_xy(const PointC2<K> &p, const PointC2<K> &q)
 {
   return CGAL_AND( p.x() == q.x() , p.y() == q.y() );
@@ -34,7 +34,7 @@ equal_xy(const PointC2<K> &p, const PointC2<K> &q)
 // Unused, undocumented, un-functorized.
 template < class K >
 inline
-Comparison_result
+typename K::Comparison_result
 compare_deltax_deltay(const PointC2<K>& p,
                       const PointC2<K>& q,
                       const PointC2<K>& r,
@@ -46,7 +46,7 @@ compare_deltax_deltay(const PointC2<K>& p,
 
 template < class K >
 inline
-Comparison_result
+typename K::Comparison_result
 compare_lexicographically_yx(const PointC2<K> &p,
                              const PointC2<K> &q)
 {

@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.3/Surface_mesh_parameterization/include/CGAL/Surface_mesh_parameterization/Square_border_parameterizer_3.h $
-// $Id: include/CGAL/Surface_mesh_parameterization/Square_border_parameterizer_3.h cefe3007d59 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.1/Surface_mesh_parameterization/include/CGAL/Surface_mesh_parameterization/Square_border_parameterizer_3.h $
+// $Id: include/CGAL/Surface_mesh_parameterization/Square_border_parameterizer_3.h b26b07a1242 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Laurent Saboret, Pierre Alliez, Bruno Levy
@@ -132,7 +132,7 @@ private:
     double min = DBL_MAX; // distance for 'best'
 
     std::size_t id = 0, min_id = (std::numeric_limits<std::size_t>::max)();
-    for(boost::tie(b,e) = halfedges_around_face(bhd, mesh); b!=e; ++b, ++id) {
+    for(std::tie(b,e) = halfedges_around_face(bhd, mesh); b!=e; ++b, ++id) {
       double d = CGAL::abs(offset[id] - value);
       if(d < min) {
         best = b;
@@ -160,7 +160,7 @@ private:
     double total_len = compute_border_length(mesh, bhd);
 
     halfedge_around_face_iterator b, e;
-    boost::tie(b,e) =  halfedges_around_face(bhd, mesh);
+    std::tie(b,e) =  halfedges_around_face(bhd, mesh);
     for(halfedge_around_face_iterator it = b; it!= e; ++it) {
       vertex_descriptor vs = source(*it, mesh);
       vertex_descriptor vt = target(*it, mesh);

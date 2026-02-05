@@ -7,8 +7,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.3/Kernel_23/include/CGAL/Tetrahedron_3.h $
-// $Id: include/CGAL/Tetrahedron_3.h cefe3007d59 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.1/Kernel_23/include/CGAL/Tetrahedron_3.h $
+// $Id: include/CGAL/Tetrahedron_3.h b26b07a1242 $
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -29,7 +29,11 @@ namespace CGAL {
 template <class R_>
 class Tetrahedron_3 : public R_::Kernel_base::Tetrahedron_3
 {
-  typedef typename R_::Point_3             Point_3;
+  typedef typename R_::Boolean               Boolean;
+  typedef typename R_::Bounded_side          Bounded_side;
+  typedef typename R_::Orientation           Orientation;
+  typedef typename R_::Oriented_side         Oriented_side;
+  typedef typename R_::Point_3               Point_3;
   typedef typename R_::Aff_transformation_3  Aff_transformation_3;
 
   typedef Tetrahedron_3                      Self;
@@ -86,8 +90,7 @@ public:
     return vertex(i);
   }
 
-  bool
-  is_degenerate() const
+  Boolean is_degenerate() const
   {
     return R().is_degenerate_3_object()(*this);
   }
@@ -107,27 +110,27 @@ public:
     return R().oriented_side_3_object()(*this, p);
   }
 
-  bool has_on_positive_side(const Point_3 &p) const
+  Boolean has_on_positive_side(const Point_3 &p) const
   {
     return R().has_on_positive_side_3_object()(*this, p);
   }
 
-  bool has_on_negative_side(const Point_3 &p) const
+  Boolean has_on_negative_side(const Point_3 &p) const
   {
     return R().has_on_negative_side_3_object()(*this, p);
   }
 
-  bool has_on_boundary(const Point_3 &p) const
+  Boolean has_on_boundary(const Point_3 &p) const
   {
     return R().has_on_boundary_3_object()(*this, p);
   }
 
-  bool has_on_bounded_side(const Point_3 &p) const
+  Boolean has_on_bounded_side(const Point_3 &p) const
   {
     return R().has_on_bounded_side_3_object()(*this, p);
   }
 
-  bool has_on_unbounded_side(const Point_3 &p) const
+  Boolean has_on_unbounded_side(const Point_3 &p) const
   {
     return R().has_on_unbounded_side_3_object()(*this, p);
   }

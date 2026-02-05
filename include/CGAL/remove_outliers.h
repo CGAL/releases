@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.3/Point_set_processing_3/include/CGAL/remove_outliers.h $
-// $Id: include/CGAL/remove_outliers.h cefe3007d59 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.1/Point_set_processing_3/include/CGAL/remove_outliers.h $
+// $Id: include/CGAL/remove_outliers.h b26b07a1242 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s) : Laurent Saboret and Nader Salman and Pierre Alliez

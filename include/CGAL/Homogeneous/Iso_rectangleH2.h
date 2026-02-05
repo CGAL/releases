@@ -7,8 +7,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.3/Homogeneous_kernel/include/CGAL/Homogeneous/Iso_rectangleH2.h $
-// $Id: include/CGAL/Homogeneous/Iso_rectangleH2.h cefe3007d59 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.1/Homogeneous_kernel/include/CGAL/Homogeneous/Iso_rectangleH2.h $
+// $Id: include/CGAL/Homogeneous/Iso_rectangleH2.h b26b07a1242 $
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -52,7 +52,7 @@ public:
   const Point_2 & min BOOST_PREVENT_MACRO_SUBSTITUTION () const;
   const Point_2 & max BOOST_PREVENT_MACRO_SUBSTITUTION () const;
 
-  Bounded_side bounded_side(const Point_2& p) const;
+  typename R_::Bounded_side bounded_side(const Point_2& p) const;
 };
 
 
@@ -71,7 +71,7 @@ Iso_rectangleH2<R>::max BOOST_PREVENT_MACRO_SUBSTITUTION () const
 
 template < class R >
 CGAL_KERNEL_INLINE
-Bounded_side
+typename R::Bounded_side
 Iso_rectangleH2<R>::
 bounded_side(const typename Iso_rectangleH2<R>::Point_2& p) const
 {

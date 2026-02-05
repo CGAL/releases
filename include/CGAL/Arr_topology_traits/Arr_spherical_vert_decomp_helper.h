@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.3/Arrangement_on_surface_2/include/CGAL/Arr_topology_traits/Arr_spherical_vert_decomp_helper.h $
-// $Id: include/CGAL/Arr_topology_traits/Arr_spherical_vert_decomp_helper.h cefe3007d59 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.1/Arrangement_on_surface_2/include/CGAL/Arr_topology_traits/Arr_spherical_vert_decomp_helper.h $
+// $Id: include/CGAL/Arr_topology_traits/Arr_spherical_vert_decomp_helper.h b26b07a1242 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s): Ron Wein <wein@post.tau.ac.il>
@@ -64,7 +64,7 @@ protected:
   Face_const_handle m_south_face;             // Current south face.
 
 public:
-  /*! Constructor.
+  /*! constructs.
    * \param arr The arrangement.
    */
   Arr_spherical_vert_decomp_helper(const Arrangement_2* arr) :
@@ -84,14 +84,14 @@ public:
   void after_handle_event(Event * event);
   //@}
 
-  /*! Get the current top object. */
+  /*! obtains the current top object. */
   Vert_type top_object () const
   {
     return (m_valid_north_pole) ?
       Vert_type(m_north_pole) : Vert_type(m_north_face);
   }
 
-  /*! Get the current bottom object. */
+  /*! obtains the current bottom object. */
   Vert_type bottom_object () const
   {
     return (m_valid_south_pole) ?

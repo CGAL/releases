@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.3/NewKernel_d/include/CGAL/NewKernel_d/Types/Weighted_point.h $
-// $Id: include/CGAL/NewKernel_d/Types/Weighted_point.h cefe3007d59 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.1/NewKernel_d/include/CGAL/NewKernel_d/Types/Weighted_point.h $
+// $Id: include/CGAL/NewKernel_d/Types/Weighted_point.h b26b07a1242 $
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Marc Glisse
@@ -272,7 +272,7 @@ template<class R_> struct Power_side_of_bounded_power_circumsphere : private Sto
           typename Get_functor<R_, Power_distance_tag>::type pd(this->kernel());
 
           // ON_UNBOUNDED_SIDE = -1
-          return enum_cast<Bounded_side>(-CGAL::sign(pd(pc(f, e), p0)));
+          return enum_cast<result_type>(-CGAL::sign(pd(pc(f, e), p0)));
         }
 };
 

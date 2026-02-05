@@ -4,8 +4,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.3/Mesh_3/include/CGAL/Mesh_3/Protect_edges_sizing_field.h $
-// $Id: include/CGAL/Mesh_3/Protect_edges_sizing_field.h cefe3007d59 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.1/Mesh_3/include/CGAL/Mesh_3/Protect_edges_sizing_field.h $
+// $Id: include/CGAL/Mesh_3/Protect_edges_sizing_field.h b26b07a1242 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -1006,29 +1006,30 @@ Protect_edges_sizing_field<C3T3, MD, Sf, Df>::
 insert_balls_on_edges()
 {
   // Get features
-  typedef std::tuple<Curve_index,
-                             std::pair<Bare_point,Index>,
-                             std::pair<Bare_point,Index> >    Feature_tuple;
-  typedef std::vector<Feature_tuple>                          Input_features;
-
-  Input_features input_features;
+  struct Feature_tuple
+  {
+    Curve_index curve_index_;
+    std::pair<Bare_point, Index> point_s_;
+    std::pair<Bare_point, Index> point_t_;
+  };
+  std::vector<Feature_tuple> input_features;
   domain_.get_curves(std::back_inserter(input_features));
 
   // Iterate on edges
   for (const Feature_tuple& ft : input_features)
   {
     if(forced_stop()) break;
-    const Curve_index& curve_index = std::get<0>(ft);
+    const Curve_index& curve_index = ft.curve_index_;
     if ( ! is_treated(curve_index) )
     {
 #if CGAL_MESH_3_PROTECTION_DEBUG & 1
       std::cerr << "\n** treat curve #" << curve_index << std::endl;
 #endif
-      const Bare_point& p = std::get<1>(ft).first;
-      const Bare_point& q = std::get<2>(ft).first;
+      const Bare_point& p = ft.point_s_.first;
+      const Bare_point& q = ft.point_t_.first;
 
-      const Index& p_index = std::get<1>(ft).second;
-      const Index& q_index = std::get<2>(ft).second;
+      const Index& p_index = ft.point_s_.second;
+      const Index& q_index = ft.point_t_.second;
 
       Vertex_handle vp,vq;
       if ( ! domain_.is_loop(curve_index) )
@@ -1049,7 +1050,7 @@ insert_balls_on_edges()
           // if 'p' is not a corner, find out a second point 'q' on the
           // curve, "far" from 'p', and limit the radius of the ball of 'p'
           // with the third of the distance from 'p' to 'q'.
-          FT p_size = query_size(p, 1, curve_index);
+          FT p_size = query_size(p, 1, p_index);
 
           FT curve_length = domain_.curve_length(curve_index);
 
@@ -1062,7 +1063,7 @@ insert_balls_on_edges()
           vp = smart_insert_point(p,
                                   CGAL::square(p_size),
                                   1 /*dim*/,
-                                  curve_index,
+                                  p_index,
                                   Vertex_handle(),
                                   CGAL::Emptyset_iterator()).first;
         }
@@ -1105,7 +1106,6 @@ get_vertex_corner_from_point(const Bare_point& p, const Index&) const
   c3t3_.triangulation().is_vertex(cwp(p), v);
 
   CGAL_assertion( q_found );
-  CGAL_assertion(v->in_dimension() == 0);
   return v;
 }
 
@@ -1234,7 +1234,7 @@ insert_balls(const Vertex_handle& vp,
                 << n << "\n  between points ("
                 << vp_wp << ") and (" << vq_wp
                 << ") (arc length: "
-                << curve_segment_length(vp_wp, vq_wp,
+                << curve_segment_length(vp, vq,
                                         curve_index, d_sign)
                 << ")\n";
 #endif
@@ -2189,9 +2189,6 @@ repopulate_edges_around_corner(const Vertex_handle& v, ErasedVeOutIt out)
   {
     const Vertex_handle& next = vit->first;
     const Curve_index& curve_index = vit->second;
-
-    CGAL_assertion_code(const Curve_index cid = c3t3_.curve_index(v, next));
-    CGAL_assertion(cid == curve_index);
 
     // if `v` is incident to a cycle, it might be that the full cycle,
     // including the edge `[next, v]`, has already been processed by

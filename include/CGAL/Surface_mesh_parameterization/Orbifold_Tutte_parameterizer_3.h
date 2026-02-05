@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.3/Surface_mesh_parameterization/include/CGAL/Surface_mesh_parameterization/Orbifold_Tutte_parameterizer_3.h $
-// $Id: include/CGAL/Surface_mesh_parameterization/Orbifold_Tutte_parameterizer_3.h cefe3007d59 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.1/Surface_mesh_parameterization/include/CGAL/Surface_mesh_parameterization/Orbifold_Tutte_parameterizer_3.h $
+// $Id: include/CGAL/Surface_mesh_parameterization/Orbifold_Tutte_parameterizer_3.h b26b07a1242 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Mael Rouxel-Labbé
@@ -121,7 +121,7 @@ Error_code read_cones(const TriangleMesh& tm, std::ifstream& in, VertexIndexMap 
 
   // Since the cones are unique, we only need to loop all the vertices once
   TM_vertex_iterator vit, end;
-  boost::tie(vit, end) = vertices(tm);
+  std::tie(vit, end) = vertices(tm);
   for(; vit!=end; ++vit) {
     for(std::size_t i=0; i<cones.size(); ++i) {
       TM_vertex_descriptor vd = *vit;
@@ -154,7 +154,7 @@ Error_code read_cones(const TriangleMesh& tm, std::ifstream& in, ConeOutputItera
   int counter = 0;
 
   TM_vertex_iterator vit, end;
-  boost::tie(vit, end) = vertices(tm);
+  std::tie(vit, end) = vertices(tm);
   for(; vit!=end; ++vit)
   {
     TM_vertex_descriptor vd = *vit;

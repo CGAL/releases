@@ -7,8 +7,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.3/Cartesian_kernel/include/CGAL/Cartesian/Plane_3.h $
-// $Id: include/CGAL/Cartesian/Plane_3.h cefe3007d59 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.1/Cartesian_kernel/include/CGAL/Cartesian/Plane_3.h $
+// $Id: include/CGAL/Cartesian/Plane_3.h b26b07a1242 $
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -169,7 +169,9 @@ inline
 typename PlaneC3<R>::Point_3
 PlaneC3<R>::point() const
 {
-  return point_on_plane(*this);
+  FT x, y, z;
+  point_on_planeC3(a(), b(), c(), d(), x, y, z);
+  return R().construct_point_3_object()(x, y, z);
 }
 
 template < class R >
@@ -178,7 +180,13 @@ typename PlaneC3<R>::Point_3
 PlaneC3<R>::
 projection(const typename PlaneC3<R>::Point_3 &p) const
 {
-  return projection_plane(p, *this);
+  FT x, y, z;
+  projection_planeC3(a(), b(), c(), d(),
+                     R().compute_x_3_object()(p),
+                     R().compute_y_3_object()(p),
+                     R().compute_z_3_object()(p),
+                     x, y, z);
+  return R().construct_point_3_object()(x, y, z);
 }
 
 template < class R >

@@ -7,8 +7,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.3/STL_Extension/include/CGAL/In_place_list.h $
-// $Id: include/CGAL/In_place_list.h cefe3007d59 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.1/STL_Extension/include/CGAL/In_place_list.h $
+// $Id: include/CGAL/In_place_list.h b26b07a1242 $
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -111,6 +111,11 @@ namespace internal {
       --*this;
       return tmp;
     }
+
+    friend std::ostream& operator<<(std::ostream& os, const Self& i)
+    {
+      return os << i.operator->();
+    }
   };
 }
 
@@ -171,6 +176,11 @@ namespace internal {
     {
       return In_place_list_iterator<T,Alloc>(const_cast<T*>(node));
     }
+
+    friend std::ostream& operator<<(std::ostream& os, const Self& i)
+    {
+      return os << i.operator->();
+    }
   };
 
 
@@ -188,6 +198,7 @@ template <class T, class Alloc>
     const T* ptr = i.operator->();
     return reinterpret_cast<std::size_t>(ptr)/ sizeof(T);
   }
+
 
 }
 

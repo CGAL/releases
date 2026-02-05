@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.3/Segment_Delaunay_graph_2/include/CGAL/Segment_Delaunay_graph_2/Oriented_side_C2.h $
-// $Id: include/CGAL/Segment_Delaunay_graph_2/Oriented_side_C2.h cefe3007d59 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.1/Segment_Delaunay_graph_2/include/CGAL/Segment_Delaunay_graph_2/Oriented_side_C2.h $
+// $Id: include/CGAL/Segment_Delaunay_graph_2/Oriented_side_C2.h b26b07a1242 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -52,8 +52,6 @@ private:
 
 public:
   typedef typename Base::Oriented_side        Oriented_side;
-  typedef Oriented_side                       result_type;
-  typedef Site_2                              argument_type;
 
   // computes the oriented side of the Voronoi vertex of s1, s2, inf
   // wrt the line that passes through the point p and its direction

@@ -1,10 +1,10 @@
-// Copyright(c) 2022 GeometryFactory (France).
+// Copyright (c) 2022 GeometryFactory (France).
 // All rights reserved.
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.3/Triangulation_2/include/CGAL/draw_constrained_triangulation_2.h $
-// $Id: include/CGAL/draw_constrained_triangulation_2.h cefe3007d59 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.1/Triangulation_2/include/CGAL/draw_constrained_triangulation_2.h $
+// $Id: include/CGAL/draw_constrained_triangulation_2.h b26b07a1242 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Andreas Fabri
@@ -81,8 +81,6 @@ void add_to_graphics_scene(const CGAL_T2_TYPE& at2,
   draw_function_for_t2::compute_elements(at2, graphics_scene, gso);
 }
 
-#ifdef CGAL_USE_BASIC_VIEWER
-
 template<class Gt, class Tds, class Itag, class InDomainPmap>
 void draw(const CGAL_T2_TYPE& at2, InDomainPmap ipm,
           const char *title="Constrained Triangulation_2 Basic Viewer")
@@ -100,8 +98,6 @@ void draw(const CGAL_T2_TYPE& at2,
   add_to_graphics_scene(at2, buffer);
   draw_graphics_scene(buffer, title);
 }
-
-#endif // CGAL_USE_BASIC_VIEWER
 
 #undef CGAL_T2_TYPE
 

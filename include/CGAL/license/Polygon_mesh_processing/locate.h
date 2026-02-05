@@ -1,10 +1,10 @@
-// Copyright (c) 2019  GeometryFactory SARL (France).
+// Copyright (c) 2016  GeometryFactory SARL (France).
 // All rights reserved.
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.3/Installation/include/CGAL/license/Polygon_mesh_processing/locate.h $
-// $Id: include/CGAL/license/Polygon_mesh_processing/locate.h cefe3007d59 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.1/Installation/include/CGAL/license/Polygon_mesh_processing/locate.h $
+// $Id: include/CGAL/license/Polygon_mesh_processing/locate.h b26b07a1242 $
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s) : Andreas Fabri
@@ -38,9 +38,9 @@
 #else // no CGAL_POLYGON_MESH_PROCESSING_LOCATE_COMMERCIAL_LICENSE
 
 #  if defined(CGAL_LICENSE_WARNING)
-      CGAL_pragma_warning("\nThe macro CGAL_POLYGON_MESH_PROCESSING_LOCATE_COMMERCIAL_LICENSE is not defined."
-                           "\nYou use the CGAL Polygon Mesh Processing - Locate package under "
-                           "the terms of the GPLv3+.")
+     CGAL_pragma_warning("\nThe macro CGAL_POLYGON_MESH_PROCESSING_LOCATE_COMMERCIAL_LICENSE is not defined."
+                          "\nYou use the CGAL Polygon Mesh Processing - Locate package under "
+                          "the terms of the GPLv3+.")
 #  endif // CGAL_LICENSE_WARNING
 
 #  ifdef CGAL_LICENSE_ERROR
@@ -51,4 +51,4 @@
 
 #endif // no CGAL_POLYGON_MESH_PROCESSING_LOCATE_COMMERCIAL_LICENSE
 
-#endif // CGAL_LICENSE_CHECK_POLYGON_MESH_PROCESSING_LOCATE_H
+#endif // CGAL_LICENSE_POLYGON_MESH_PROCESSING_LOCATE_H

@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.3/Triangulation_2/include/CGAL/Constrained_triangulation_2.h $
-// $Id: include/CGAL/Constrained_triangulation_2.h cefe3007d59 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.1/Triangulation_2/include/CGAL/Constrained_triangulation_2.h $
+// $Id: include/CGAL/Constrained_triangulation_2.h b26b07a1242 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -30,9 +30,8 @@
 #include <CGAL/intersections.h>
 #include <CGAL/squared_distance_2.h>
 #include <CGAL/tags.h>
-#include <CGAL/Simple_cartesian.h>
-#include <CGAL/Exact_rational.h>
 #include <CGAL/Kernel_23/internal/Has_boolean_tags.h>
+#include <CGAL/NT_converter.h>
 
 #include <boost/mpl/has_xxx.hpp>
 #include <boost/iterator/filter_iterator.hpp>
@@ -52,7 +51,7 @@ struct CGAL_DEPRECATED No_intersection_tag :
 
 namespace internal {
 
-#ifdef CGAL_CDT_2_DEBUG_INTERSECTIONS
+#if defined(CGAL_CDT_2_DEBUG_INTERSECTIONS) || defined(CGAL_DEBUG_POLYLINE_CONSTRAINT_HIERARCHY_2)
   struct Indentation_level {
     int n;
     Indentation_level() : n(0) {}
@@ -69,7 +68,7 @@ namespace internal {
     };
     Exit_guard open_new_scope() { return Exit_guard(*this); }
   } cdt_2_indent_level;
-#endif // CGAL_CDT_2_DEBUG_INTERSECTIONS
+#endif // CGAL_CDT_2_DEBUG_INTERSECTIONS || CGAL_DEBUG_POLYLINE_CONSTRAINT_HIERARCHY_2
 
 template <typename K>
 struct Itag {
@@ -739,7 +738,7 @@ insert(const Point& a, Locate_type lt, Face_handle loc, int li)
       int i;
       if(this->is_edge(vp.first, vp.second, fh,i)){
         fh->set_constraint(i,true);
-        boost::tie(fh,i) = mirror_edge(Edge(fh,i));
+        std::tie(fh,i) = mirror_edge(Edge(fh,i));
         fh->set_constraint(i,true);
       }
     }
@@ -816,7 +815,7 @@ insert_constraint(Vertex_handle  vaa, Vertex_handle vbb)
   internal::Indentation_level::Exit_guard exit_guard = CGAL::internal::cdt_2_indent_level.open_new_scope();
 #endif // CGAL_CDT_2_DEBUG_INTERSECTIONS
   while(! stack.empty()){
-    boost::tie(vaa,vbb) = stack.top();
+    std::tie(vaa,vbb) = stack.top();
     stack.pop();
     CGAL_precondition( vaa != vbb);
 #ifdef CGAL_CDT_2_DEBUG_INTERSECTIONS
