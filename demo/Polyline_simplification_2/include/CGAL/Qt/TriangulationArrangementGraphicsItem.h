@@ -11,8 +11,8 @@
 // This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0/Polyline_simplification_2/demo/Polyline_simplification_2/include/CGAL/Qt/TriangulationArrangementGraphicsItem.h $
-// $Id: demo/Polyline_simplification_2/include/CGAL/Qt/TriangulationArrangementGraphicsItem.h 50219fc33bc $
+// $URL: https://github.com/CGAL/cgal/blob/v6.0.1/Polyline_simplification_2/demo/Polyline_simplification_2/include/CGAL/Qt/TriangulationArrangementGraphicsItem.h $
+// $Id: demo/Polyline_simplification_2/include/CGAL/Qt/TriangulationArrangementGraphicsItem.h 50cfbde3b84 $
 //
 //
 // Author(s)     : Andreas Fabri <Andreas.Fabri@geometryfactory.com>

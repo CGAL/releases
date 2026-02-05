@@ -7,8 +7,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0/Number_types/include/CGAL/CORE_Expr.h $
-// $Id: include/CGAL/CORE_Expr.h 50219fc33bc $
+// $URL: https://github.com/CGAL/cgal/blob/v6.0.1/Number_types/include/CGAL/CORE_Expr.h $
+// $Id: include/CGAL/CORE_Expr.h 50cfbde3b84 $
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 //

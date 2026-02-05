@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0/Number_types/include/CGAL/Sqrt_extension/Fraction_traits.h $
-// $Id: include/CGAL/Sqrt_extension/Fraction_traits.h 50219fc33bc $
+// $URL: https://github.com/CGAL/cgal/blob/v6.0.1/Number_types/include/CGAL/Sqrt_extension/Fraction_traits.h $
+// $Id: include/CGAL/Sqrt_extension/Fraction_traits.h 50cfbde3b84 $
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -37,7 +37,7 @@ namespace Intern{
 
 /*! \ingroup CGAL_Sqrt_extension
     \ingroup CGAL_Fraction_traits_spec
-    \brief Specialisation of CGAL::Fraction_traits for CGAL::Sqrt_extension.
+    \brief Specialization of CGAL::Fraction_traits for CGAL::Sqrt_extension.
  *
  *  Extensions provide suitable specializations of \c CGAL::Fraction_traits.
  *  They are decomposable iff their coefficient type is.

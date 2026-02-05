@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0/Three/include/CGAL/Three/Scene_item_rendering_helper.h $
-// $Id: include/CGAL/Three/Scene_item_rendering_helper.h 50219fc33bc $
+// $URL: https://github.com/CGAL/cgal/blob/v6.0.1/Three/include/CGAL/Three/Scene_item_rendering_helper.h $
+// $Id: include/CGAL/Three/Scene_item_rendering_helper.h 50cfbde3b84 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Maxime Gimeno
@@ -110,7 +110,7 @@ public:
   //! \brief setTriangleContainer sets the `id`th `Triangle_container` to `tc`.
   //!
   //! If `id` is bigger than the current size of the container vector, this vector is
-  //! resized accordingly. This means that for optimisation reasons, containers should be created
+  //! resized accordingly. This means that for optimization reasons, containers should be created
   //! decreasingly.
   //!
   void setTriangleContainer(std::size_t id,
@@ -120,7 +120,7 @@ public:
   //! \brief setEdgeContainer sets the `id`th `Edge_container` to `tc`.
   //!
   //! If `id` is bigger than the current size of the container vector, this vector is
-  //! resized accordingly. This means that for optimisation reasons, containers should be created
+  //! resized accordingly. This means that for optimization reasons, containers should be created
   //! decreasingly.
   //!
   void setEdgeContainer(std::size_t id,
@@ -130,7 +130,7 @@ public:
   //! \brief setPointContainer sets the `id`th `Point_container` to `tc`.
   //!
   //! If `id` is bigger than the current size of the container vector, this vector is
-  //! resized accordingly. This means that for optimisation reasons, containers should be created
+  //! resized accordingly. This means that for optimization reasons, containers should be created
   //! decreasingly.
   //!
   void setPointContainer(std::size_t id,

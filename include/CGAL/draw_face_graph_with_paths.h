@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0/Surface_mesh_topology/include/CGAL/draw_face_graph_with_paths.h $
-// $Id: include/CGAL/draw_face_graph_with_paths.h 50219fc33bc $
+// $URL: https://github.com/CGAL/cgal/blob/v6.0.1/Surface_mesh_topology/include/CGAL/draw_face_graph_with_paths.h $
+// $Id: include/CGAL/draw_face_graph_with_paths.h 50cfbde3b84 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Guillaume Damiand <guillaume.damiand@liris.cnrs.fr>
@@ -67,7 +67,7 @@ namespace draw_function_for_lcc
 //   template <class LCC, class Local_kernel, int dim = LCC::ambient_dimension>
 // struct LCC_geom_utils;
 
-// Specialisation for face graph; otherwise use the LCC_geom_utils of LCC.
+// Specialization for face graph; otherwise use the LCC_geom_utils of LCC.
 template<class Mesh, class Local_kernel>
 struct LCC_geom_utils<CGAL::Face_graph_wrapper<Mesh>, Local_kernel, 3>
 {

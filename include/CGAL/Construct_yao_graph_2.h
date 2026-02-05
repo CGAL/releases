@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0/Cone_spanners_2/include/CGAL/Construct_yao_graph_2.h $
-// $Id: include/CGAL/Construct_yao_graph_2.h 50219fc33bc $
+// $URL: https://github.com/CGAL/cgal/blob/v6.0.1/Cone_spanners_2/include/CGAL/Construct_yao_graph_2.h $
+// $Id: include/CGAL/Construct_yao_graph_2.h 50cfbde3b84 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -185,7 +185,7 @@ protected:
         std::vector<typename Graph_::vertex_descriptor> S(vit, ve);
         std::sort(S.begin (), S.end (), orderD1);
 
-        // Step 2: Initialise an empty set to store vertices sorted by orderD2
+        // Step 2: initialize an empty set to store vertices sorted by orderD2
         Point_set pst(orderD2);
 
         // Step 3: visit S in orderD1

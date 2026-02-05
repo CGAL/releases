@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0/Three/include/CGAL/Three/Scene_item.h $
-// $Id: include/CGAL/Three/Scene_item.h 50219fc33bc $
+// $URL: https://github.com/CGAL/cgal/blob/v6.0.1/Three/include/CGAL/Three/Scene_item.h $
+// $Id: include/CGAL/Three/Scene_item.h 50cfbde3b84 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -375,7 +375,7 @@ public Q_SLOTS:
 
   //!Emits an aboutToBeDestroyed() signal.
   //!Override this function to delete what needs to be deleted on destruction.
-  //!This might be needed as items are not always deleted right away by Qt and this behaviour may cause simply a
+  //!This might be needed as items are not always deleted right away by Qt and this behavior may cause simply a
   //!memory leak, for example when multiple items are created at the same time.
   virtual void itemAboutToBeDestroyed(Scene_item*);
   //!Returns the alpha value for the item.
@@ -443,6 +443,8 @@ protected:
   RenderingMode rendering_mode;
   //!The default context menu.
   QMenu* defaultContextMenu;
+  //!Specifies if the context menu should be rebuild on the next call.
+  bool context_menu_outdated = false;
   /*! Contains the previous RenderingMode.
    * This is used to determine if invalidateOpenGLBuffers should be called or not
    * in certain cases.

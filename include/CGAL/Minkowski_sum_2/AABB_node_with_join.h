@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0/Minkowski_sum_2/include/CGAL/Minkowski_sum_2/AABB_node_with_join.h $
-// $Id: include/CGAL/Minkowski_sum_2/AABB_node_with_join.h 50219fc33bc $
+// $URL: https://github.com/CGAL/cgal/blob/v6.0.1/Minkowski_sum_2/include/CGAL/Minkowski_sum_2/AABB_node_with_join.h $
+// $Id: include/CGAL/Minkowski_sum_2/AABB_node_with_join.h 50cfbde3b84 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -65,7 +65,7 @@ public:
   /**
    * @brief General traversal query
    * @param query the query
-   * @param traits the traversal traits that define the traversal behaviour
+   * @param traits the traversal traits that define the traversal behavior
    * @param nb_primitives the number of primitive
    *
    * General traversal query. The traits class allows using it for the various
@@ -79,7 +79,7 @@ public:
 
   /**
    * @param other_node root node of a tree which we want to traverse in parallel
-   * @param traits the traversal traits that define the traversal behaviour
+   * @param traits the traversal traits that define the traversal behavior
    * @param nb_primitives the number of primitives in this tree
    * @param nb_primitives_other the number of primitives in the other tree
    * @param first_stationary if true, the other_node is the translatable tree's root

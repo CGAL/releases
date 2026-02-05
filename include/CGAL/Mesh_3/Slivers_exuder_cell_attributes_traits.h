@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0/Mesh_3/include/CGAL/Mesh_3/Slivers_exuder_cell_attributes_traits.h $
-// $Id: include/CGAL/Mesh_3/Slivers_exuder_cell_attributes_traits.h 50219fc33bc $
+// $URL: https://github.com/CGAL/cgal/blob/v6.0.1/Mesh_3/include/CGAL/Mesh_3/Slivers_exuder_cell_attributes_traits.h $
+// $Id: include/CGAL/Mesh_3/Slivers_exuder_cell_attributes_traits.h 50cfbde3b84 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -59,7 +59,7 @@ struct Slivers_ex_att_t_aux<Cell, true>
   {
     return c->slivers_exuder_restore_attributes(attr);
   }
-}; // end partial specialisation Slivers_ex_att_t_aux<Cell, true>
+}; // end partial specialization Slivers_ex_att_t_aux<Cell, true>
 
 template <class Cell>
 struct Slivers_exuder_cell_attributes_traits

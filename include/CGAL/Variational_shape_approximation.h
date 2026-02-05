@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0/Surface_mesh_approximation/include/CGAL/Variational_shape_approximation.h $
-// $Id: include/CGAL/Variational_shape_approximation.h 50219fc33bc $
+// $URL: https://github.com/CGAL/cgal/blob/v6.0.1/Surface_mesh_approximation/include/CGAL/Variational_shape_approximation.h $
+// $Id: include/CGAL/Variational_shape_approximation.h 50cfbde3b84 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -1528,6 +1528,7 @@ private:
 
   /*!
    * @brief finds and approximates the chord connecting the anchors.
+   * @param boundary_subdivision_ratio the chord subdivision ratio threshold to the chord length or average edge length for boundary edges
    * @param subdivision_ratio boundary chord approximation recursive split criterion
    * @param relative_to_chord set `true` if the subdivision_ratio is relative to the chord length (relative sense),
    * otherwise it's relative to the average edge length (absolute sense).
@@ -1853,6 +1854,7 @@ private:
    * @param chord_begin begin iterator of the chord
    * @param chord_end end iterator of the chord
    * @param subdivision_ratio the chord recursive split error threshold
+   * @param boundary_subdivision_ratio the chord subdivision ratio threshold to the chord length or average edge length for boundary edges
    * @param relative_to_chord set `true` if the `subdivision_ratio` is relative to the chord length (relative sense),
    * otherwise it is relative to the average edge length (absolute sense).
    * @param with_dihedral_angle if set to `true` add dihedral angle weight to the distance.

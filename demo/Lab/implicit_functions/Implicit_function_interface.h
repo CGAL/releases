@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0/Lab/demo/Lab/implicit_functions/Implicit_function_interface.h $
-// $Id: demo/Lab/implicit_functions/Implicit_function_interface.h 50219fc33bc $
+// $URL: https://github.com/CGAL/cgal/blob/v6.0.1/Lab/demo/Lab/implicit_functions/Implicit_function_interface.h $
+// $Id: demo/Lab/implicit_functions/Implicit_function_interface.h 50cfbde3b84 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //

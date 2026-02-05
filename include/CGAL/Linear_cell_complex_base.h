@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0/Linear_cell_complex/include/CGAL/Linear_cell_complex_base.h $
-// $Id: include/CGAL/Linear_cell_complex_base.h 50219fc33bc $
+// $URL: https://github.com/CGAL/cgal/blob/v6.0.1/Linear_cell_complex/include/CGAL/Linear_cell_complex_base.h $
+// $Id: include/CGAL/Linear_cell_complex_base.h 50cfbde3b84 $
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Guillaume Damiand <guillaume.damiand@liris.cnrs.fr>
@@ -836,7 +836,7 @@ namespace CGAL {
 
     /** Set the status of the management of the attributes of the Map
      */
-    void set_update_attributes(bool newval)
+    void set_automatic_attributes_management(bool newval)
     {
       if (this->automatic_attributes_management == false && newval == true)
       {
@@ -847,6 +847,10 @@ namespace CGAL {
 
       this->automatic_attributes_management = newval;
     }
+
+    void set_automatic_attributes_management_without_correction(bool newval)
+    { this->automatic_attributes_management = newval; }
+
   };
 
 } // namespace CGAL

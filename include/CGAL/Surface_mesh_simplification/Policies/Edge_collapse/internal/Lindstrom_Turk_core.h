@@ -2,8 +2,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0/Surface_mesh_simplification/include/CGAL/Surface_mesh_simplification/Policies/Edge_collapse/internal/Lindstrom_Turk_core.h $
-// $Id: include/CGAL/Surface_mesh_simplification/Policies/Edge_collapse/internal/Lindstrom_Turk_core.h 50219fc33bc $
+// $URL: https://github.com/CGAL/cgal/blob/v6.0.1/Surface_mesh_simplification/include/CGAL/Surface_mesh_simplification/Policies/Edge_collapse/internal/Lindstrom_Turk_core.h $
+// $Id: include/CGAL/Surface_mesh_simplification/Policies/Edge_collapse/internal/Lindstrom_Turk_core.h 50cfbde3b84 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Fernando Cacciola <fernando_cacciola@ciudad.com.ar>
@@ -190,7 +190,7 @@ private :
     const FT ax=a.x(), ay=a.y(), az=a.z();
     const FT bx=b.x(), by=b.y(), bz=b.z();
 
-    auto minor = [](double ai, double bi, double aj, double bj)
+    auto compute_minor = [](double ai, double bi, double aj, double bj)
     {
       // The main idea is that we expect ai and bi (and aj and bj) to have roughly the same magnitude
       // since this function is used to compute the cross product of two vectors that are defined
@@ -201,9 +201,9 @@ private :
     };
 
     // ay*
-    FT x = minor(ay, by, az, bz);
-    FT y = minor(az, bz, ax, bx);
-    FT z = minor(ax, bx, ay, by);
+    FT x = compute_minor(ay, by, az, bz);
+    FT y = compute_minor(az, bz, ax, bx);
+    FT z = compute_minor(ax, bx, ay, by);
 
     return Vector(x, y, z);
   }

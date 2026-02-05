@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0/AABB_tree/include/CGAL/AABB_tree.h $
-// $Id: include/CGAL/AABB_tree.h 50219fc33bc $
+// $URL: https://github.com/CGAL/cgal/blob/v6.0.1/AABB_tree/include/CGAL/AABB_tree.h $
+// $Id: include/CGAL/AABB_tree.h 50cfbde3b84 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -551,7 +551,7 @@ public:
         traits.intersection(query, singleton_data());
         break;
       default: // if(size() >= 2)
-        root_node()->template traversal_with_priority_and_group_traversal(m_primitives, query, traits, m_primitives.size(), 0, group_traversal_bound);
+        root_node()->traversal_with_priority_and_group_traversal(m_primitives, query, traits, m_primitives.size(), 0, group_traversal_bound);
       }
     }
 

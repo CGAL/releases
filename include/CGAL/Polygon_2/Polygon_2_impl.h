@@ -7,8 +7,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0/Polygon/include/CGAL/Polygon_2/Polygon_2_impl.h $
-// $Id: include/CGAL/Polygon_2/Polygon_2_impl.h 50219fc33bc $
+// $URL: https://github.com/CGAL/cgal/blob/v6.0.1/Polygon/include/CGAL/Polygon_2/Polygon_2_impl.h $
+// $Id: include/CGAL/Polygon_2/Polygon_2_impl.h 50cfbde3b84 $
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 //

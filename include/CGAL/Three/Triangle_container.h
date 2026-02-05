@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0/Three/include/CGAL/Three/Triangle_container.h $
-// $Id: include/CGAL/Three/Triangle_container.h 50219fc33bc $
+// $URL: https://github.com/CGAL/cgal/blob/v6.0.1/Three/include/CGAL/Three/Triangle_container.h $
+// $Id: include/CGAL/Three/Triangle_container.h 50cfbde3b84 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Maxime Gimeno
@@ -49,7 +49,7 @@ struct DEMO_FRAMEWORK_EXPORT Triangle_container :public Primitive_container
     VColors,            //!< Designates the buffer that contains the colors of the smooth vertices.
     FColors,            //!< Designates the buffer that contains the colors of the flat vertices.
     Texture_map,        //!< Designates the buffer that contains the UV map for the texture.
-    Distances,
+    Distances,          //!< Designates the buffer that contains the distance values for vertices or facets
     Subdomain_indices,  //!< Designates the buffer that contains the subdomains of both cells defining a c3t3 facet.
     NbOfVbos            //!< Designates the size of the VBOs vector for `Triangle_container`s
   };

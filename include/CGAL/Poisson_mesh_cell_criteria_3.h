@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0/Poisson_surface_reconstruction_3/include/CGAL/Poisson_mesh_cell_criteria_3.h $
-// $Id: include/CGAL/Poisson_mesh_cell_criteria_3.h 50219fc33bc $
+// $URL: https://github.com/CGAL/cgal/blob/v6.0.1/Poisson_surface_reconstruction_3/include/CGAL/Poisson_mesh_cell_criteria_3.h $
+// $Id: include/CGAL/Poisson_mesh_cell_criteria_3.h 50cfbde3b84 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -67,7 +67,7 @@ public:
     double sq_size() const { return second; }
     double aspect() const { return first; }
 
-    // q1<q2 means q1 is prioritised over q2
+    // q1<q2 means q1 is prioritized over q2
     // ( q1 == *this, q2 == q )
     bool operator<(const Cell_quality& q) const
     {

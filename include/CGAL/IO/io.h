@@ -8,8 +8,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0/Stream_support/include/CGAL/IO/io.h $
-// $Id: include/CGAL/IO/io.h 50219fc33bc $
+// $URL: https://github.com/CGAL/cgal/blob/v6.0.1/Stream_support/include/CGAL/IO/io.h $
+// $Id: include/CGAL/IO/io.h 50cfbde3b84 $
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -152,7 +152,7 @@ typedef IO_rep_is_not_specialized_aux<void> IO_rep_is_not_specialized;
 
 The purpose of `Output_rep` is to provide a way to control output formatting that works independently of the object's stream output operator.
 
-If you dont specialize `Output_rep` for `T`, `T`'s stream output operator is called from within `Output_rep`, by default. If you want another behaviour for your type `T`, you have to provide a specialization for that type. Furthermore, you can provide specializations with a second template parameter (a formatting tag). The second template parameter defaults to `Null_tag` and means *default behaviour*.
+If you dont specialize `Output_rep` for `T`, `T`'s stream output operator is called from within `Output_rep`, by default. If you want another behavior for your type `T`, you have to provide a specialization for that type. Furthermore, you can provide specializations with a second template parameter (a formatting tag). The second template parameter defaults to `Null_tag` and means *default behavior*.
 
 Specializations of `Output_rep` should provide the following features:
 

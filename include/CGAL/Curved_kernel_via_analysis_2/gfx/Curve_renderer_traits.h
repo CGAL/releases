@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0/Arrangement_on_surface_2/include/CGAL/Curved_kernel_via_analysis_2/gfx/Curve_renderer_traits.h $
-// $Id: include/CGAL/Curved_kernel_via_analysis_2/gfx/Curve_renderer_traits.h 50219fc33bc $
+// $URL: https://github.com/CGAL/cgal/blob/v6.0.1/Arrangement_on_surface_2/include/CGAL/Curved_kernel_via_analysis_2/gfx/Curve_renderer_traits.h $
+// $Id: include/CGAL/Curved_kernel_via_analysis_2/gfx/Curve_renderer_traits.h 50cfbde3b84 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Pavel Emeliyanenko <asm@mpi-sb.mpg.de>
@@ -24,7 +24,7 @@
  * \brief
  * defines class Curve_renderer_traits.
  *
- * provides specialisations of Curve_renderer_traits for different number
+ * provides specializations of Curve_renderer_traits for different number
  * types compatible with the curve renderer
 */
 

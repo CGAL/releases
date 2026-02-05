@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0/Triangulation/include/CGAL/Triangulation_ds_vertex.h $
-// $Id: include/CGAL/Triangulation_ds_vertex.h 50219fc33bc $
+// $URL: https://github.com/CGAL/cgal/blob/v6.0.1/Triangulation/include/CGAL/Triangulation_ds_vertex.h $
+// $Id: include/CGAL/Triangulation_ds_vertex.h 50cfbde3b84 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)    : Samuel Hornus
@@ -75,7 +75,7 @@ public:
             return false;
         }
         bool found(false);
-        // These two typename below are OK because TDS fulfils the
+        // These two typename below are OK because TDS fulfills the
         // TriangulationDataStructure concept.
         typename TDS::Full_cell::Vertex_handle_iterator vit(full_cell()->vertices_begin());
         typedef typename TDS::Vertex_handle Vertex_handle;

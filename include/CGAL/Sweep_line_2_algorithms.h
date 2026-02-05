@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0/Surface_sweep_2/include/CGAL/Sweep_line_2_algorithms.h $
-// $Id: include/CGAL/Sweep_line_2_algorithms.h 50219fc33bc $
+// $URL: https://github.com/CGAL/cgal/blob/v6.0.1/Surface_sweep_2/include/CGAL/Sweep_line_2_algorithms.h $
+// $Id: include/CGAL/Sweep_line_2_algorithms.h 50cfbde3b84 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s): Efi Fogel <efifogel@gmail.com>

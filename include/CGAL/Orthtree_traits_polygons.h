@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0/Orthtree/include/CGAL/Orthtree_traits_polygons.h $
-// $Id: include/CGAL/Orthtree_traits_polygons.h 50219fc33bc $
+// $URL: https://github.com/CGAL/cgal/blob/v6.0.1/Orthtree/include/CGAL/Orthtree_traits_polygons.h $
+// $Id: include/CGAL/Orthtree_traits_polygons.h 50cfbde3b84 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Sven Oesau

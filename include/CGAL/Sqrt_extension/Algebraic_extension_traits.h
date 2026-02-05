@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0/Number_types/include/CGAL/Sqrt_extension/Algebraic_extension_traits.h $
-// $Id: include/CGAL/Sqrt_extension/Algebraic_extension_traits.h 50219fc33bc $
+// $URL: https://github.com/CGAL/cgal/blob/v6.0.1/Number_types/include/CGAL/Sqrt_extension/Algebraic_extension_traits.h $
+// $Id: include/CGAL/Sqrt_extension/Algebraic_extension_traits.h 50cfbde3b84 $
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -22,7 +22,7 @@ template <class COEFF, class ROOT, class ACDE_TAG,class FP_TAG>
 class Algebraic_extension_traits<CGAL::Sqrt_extension<COEFF,ROOT,ACDE_TAG,FP_TAG> > {
 /* needed to 'add up' sqrt_extensions in iterator range such that all roots
    are collected in order to keep operation time minimal all scalar coeffs
-   are set to 1 by standardise.
+   are set to 1 by default.
    TODO .. find a better name, if you want to.
 */
     template <class Type_>

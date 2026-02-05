@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0/Periodic_3_triangulation_3/include/CGAL/Periodic_3_triangulation_3/internal/Periodic_3_triangulation_dummy_36.h $
-// $Id: include/CGAL/Periodic_3_triangulation_3/internal/Periodic_3_triangulation_dummy_36.h 50219fc33bc $
+// $URL: https://github.com/CGAL/cgal/blob/v6.0.1/Periodic_3_triangulation_3/include/CGAL/Periodic_3_triangulation_3/internal/Periodic_3_triangulation_dummy_36.h $
+// $Id: include/CGAL/Periodic_3_triangulation_3/internal/Periodic_3_triangulation_dummy_36.h 50cfbde3b84 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -682,11 +682,11 @@ static const int O[216][4] = {
   Vertex_handle vertices[36];
   Cell_handle cells[216];
 
-  // Initialise vertices:
+  // initialize vertices:
   for (int i=0; i<4; i++) {
     for (int j=0; j<3; j++) {
       for (int k=0; k<3; k++) {
-        // Initialise virtual vertices out of the domain for debugging
+        // initialize virtual vertices out of the domain for debugging
         vertices[9*i+3*j+k] = _tds.create_vertex();
         Point p(k*(1.0/3.0) + i*(1.0/6.0),
                 j*(1.0/3.0) + i*(1.0/6.0), i*(1.0/4.0) );

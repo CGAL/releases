@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0/Generalized_map/include/CGAL/GMap_dart_iterators.h $
-// $Id: include/CGAL/GMap_dart_iterators.h 50219fc33bc $
+// $URL: https://github.com/CGAL/cgal/blob/v6.0.1/Generalized_map/include/CGAL/GMap_dart_iterators.h $
+// $Id: include/CGAL/GMap_dart_iterators.h 50cfbde3b84 $
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Guillaume Damiand <guillaume.damiand@liris.cnrs.fr>
@@ -249,7 +249,7 @@ namespace CGAL {
   class GMap_dart_iterator_basic_of_two_alpha;
   /* Class CMap_dart_iterator_basic_of_two_alpha<Ai,1>: to iterate
    * on the darts of the orbit <Ai,Ai+1>: Ai<Ai+1<=dimension.
-   * specialisation because here Aio(Ai+1) is not an involution.
+   * specialization because here Aio(Ai+1) is not an involution.
    * Basic classes do not guaranty correct marks (i.e. do not unmark darts in
    * the destructor, possible problem with the rewind). If you are not sure,
    * use CMap_dart_iterator_basic_of_two_alpha.

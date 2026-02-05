@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0/Arrangement_on_surface_2/include/CGAL/Arr_rat_arc/Rational_arc_d_1.h $
-// $Id: include/CGAL/Arr_rat_arc/Rational_arc_d_1.h 50219fc33bc $
+// $URL: https://github.com/CGAL/cgal/blob/v6.0.1/Arrangement_on_surface_2/include/CGAL/Arr_rat_arc/Rational_arc_d_1.h $
+// $Id: include/CGAL/Arr_rat_arc/Rational_arc_d_1.h 50cfbde3b84 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Oren Salzman <orenzalz@post.tau.ac.il >
@@ -450,7 +450,7 @@ public:
     _info = (_info | IS_DIRECTED_RIGHT);
 
 
-    // Analyze the behaviour of the rational function at x = -oo (the source).
+    // Analyze the behavior of the rational function at x = -oo (the source).
     Algebraic_real_1          y0;
     const Arr_parameter_space inf_s = _analyze_at_minus_infinity(P, Q, y0);
 
@@ -460,7 +460,7 @@ public:
       _info = (_info | SRC_AT_Y_PLUS_INFTY);
     else // if (inf_s == ARR_INTERIOR)
       _ps = Algebraic_point_2();   //the point is a dummy
-    //Analyze the behaviour of the rational function at x = +oo (the target).
+    //Analyze the behavior of the rational function at x = +oo (the target).
     const Arr_parameter_space inf_t = _analyze_at_plus_infinity(P, Q, y0);
 
     if (inf_t == ARR_BOTTOM_BOUNDARY)
@@ -949,7 +949,7 @@ public:
 
   Self split_at_pole(const Algebraic_real_1& x0)
   {
-    // Analyze the behaviour of the function near the given pole.
+    // Analyze the behavior of the function near the given pole.
     const std::pair<CGAL::Sign, CGAL::Sign>  signs = _analyze_near_pole(x0);
     const CGAL::Sign    sign_left = signs.first;
     const CGAL::Sign    sign_right = signs.second;

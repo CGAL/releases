@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0/Surface_mesh_topology/include/CGAL/Surface_mesh_topology/internal/Functors_for_face_graph_wrapper.h $
-// $Id: include/CGAL/Surface_mesh_topology/internal/Functors_for_face_graph_wrapper.h 50219fc33bc $
+// $URL: https://github.com/CGAL/cgal/blob/v6.0.1/Surface_mesh_topology/include/CGAL/Surface_mesh_topology/internal/Functors_for_face_graph_wrapper.h $
+// $Id: include/CGAL/Surface_mesh_topology/internal/Functors_for_face_graph_wrapper.h 50cfbde3b84 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Guillaume Damiand <guillaume.damiand@liris.cnrs.fr>

@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0/Visibility_2/include/CGAL/Visibility_2/visibility_utils.h $
-// $Id: include/CGAL/Visibility_2/visibility_utils.h 50219fc33bc $
+// $URL: https://github.com/CGAL/cgal/blob/v6.0.1/Visibility_2/include/CGAL/Visibility_2/visibility_utils.h $
+// $Id: include/CGAL/Visibility_2/visibility_utils.h 50cfbde3b84 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //

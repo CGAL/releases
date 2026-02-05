@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0/Periodic_2_triangulation_2/include/CGAL/Periodic_2_triangulation_2.h $
-// $Id: include/CGAL/Periodic_2_triangulation_2.h 50219fc33bc $
+// $URL: https://github.com/CGAL/cgal/blob/v6.0.1/Periodic_2_triangulation_2/include/CGAL/Periodic_2_triangulation_2.h $
+// $Id: include/CGAL/Periodic_2_triangulation_2.h 50cfbde3b84 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Nico Kruithof <Nico@nghk.nl>
@@ -469,7 +469,7 @@ public:
   {
     return construct_segment(ps[0].first, ps[1].first, ps[0].second, ps[1].second);
   }
-  /// Converts the Periodic_triangle pt to a Triagle in \f$R^2\f$.
+  /// Converts the Periodic_triangle pt to a Triangle in \f$R^2\f$.
   Triangle triangle(const Periodic_triangle &pt) const
   {
     Triangle triang = construct_triangle(pt[0].first, pt[1].first, pt[2].first,
@@ -2211,7 +2211,7 @@ Gt, Tds >::insert_first(const Point& p)
   /// Virtual faces, two per periodic domain
   Face_handle faces[3][3][2];
 
-  // Initialise vertices:
+  // initialize vertices:
   vir_vertices[0][0] = _tds.create_vertex();
   vir_vertices[0][0]->set_point(p);
   _virtual_vertices_reverse[vir_vertices[0][0]] = std::vector<Vertex_handle>();
@@ -2221,7 +2221,7 @@ Gt, Tds >::insert_first(const Point& p)
         {
           if ((i != 0) || (j != 0))
             {
-              // Initialise virtual vertices out of the domain for debugging
+              // initialize virtual vertices out of the domain for debugging
               vir_vertices[i][j] = _tds.create_vertex();
               vir_vertices[i][j]->set_point(p); //+Offset(i,j));
               _virtual_vertices[vir_vertices[i][j]] = Virtual_vertex(

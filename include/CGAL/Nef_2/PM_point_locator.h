@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0/Nef_2/include/CGAL/Nef_2/PM_point_locator.h $
-// $Id: include/CGAL/Nef_2/PM_point_locator.h 50219fc33bc $
+// $URL: https://github.com/CGAL/cgal/blob/v6.0.1/Nef_2/include/CGAL/Nef_2/PM_point_locator.h $
+// $Id: include/CGAL/Nef_2/PM_point_locator.h 50cfbde3b84 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -536,7 +536,7 @@ protected:
   The efficiency of this point location module is mostly based on
   heuristics. Therefore worst case bounds are not very expressive. The
   query operations take up to linear time for subsequent query
-  operations though they are better in practise. They trigger a one-time
+  operations though they are better in practice. They trigger a one-time
   initialization which needs worst case $O(n^2)$ time though runtime
   tests often show subquadratic results. The necessary space for the
   query structure is subsumed in the storage space $O(n)$ of the input

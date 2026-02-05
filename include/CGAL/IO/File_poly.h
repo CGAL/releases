@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0/Mesh_2/include/CGAL/IO/File_poly.h $
-// $Id: include/CGAL/IO/File_poly.h 50219fc33bc $
+// $URL: https://github.com/CGAL/cgal/blob/v6.0.1/Mesh_2/include/CGAL/IO/File_poly.h $
+// $Id: include/CGAL/IO/File_poly.h 50cfbde3b84 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //

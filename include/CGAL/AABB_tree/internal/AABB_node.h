@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0/AABB_tree/include/CGAL/AABB_tree/internal/AABB_node.h $
-// $Id: include/CGAL/AABB_tree/internal/AABB_node.h 50219fc33bc $
+// $URL: https://github.com/CGAL/cgal/blob/v6.0.1/AABB_tree/include/CGAL/AABB_tree/internal/AABB_node.h $
+// $Id: include/CGAL/AABB_tree/internal/AABB_node.h 50cfbde3b84 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -56,7 +56,7 @@ public:
   /**
    * @brief General traversal query
    * @param query the query
-   * @param traits the traversal traits that define the traversal behaviour
+   * @param traits the traversal traits that define the traversal behavior
    * @param nb_primitives the number of primitive
    *
    * General traversal query. The traits class allows using it for the various

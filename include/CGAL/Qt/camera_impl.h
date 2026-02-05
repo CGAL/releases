@@ -6,8 +6,8 @@
  This file is part of a fork of the QGLViewer library version 2.7.0.
 
 *****************************************************************************/
-// $URL: https://github.com/CGAL/cgal/blob/v6.0/GraphicsView/include/CGAL/Qt/camera_impl.h $
-// $Id: include/CGAL/Qt/camera_impl.h 50219fc33bc $
+// $URL: https://github.com/CGAL/cgal/blob/v6.0.1/GraphicsView/include/CGAL/Qt/camera_impl.h $
+// $Id: include/CGAL/Qt/camera_impl.h 50cfbde3b84 $
 // SPDX-License-Identifier: GPL-3.0-only
 
 #ifdef CGAL_HEADER_ONLY
@@ -1225,7 +1225,7 @@ Vec Camera::pivotPoint() const { return frame()->pivotPoint(); }
 /*! Sets the Camera's position() and orientation() from an OpenGL ModelView
 matrix.
 
-This enables a Camera initialisation from an other OpenGL application. \p
+This enables a Camera initialization from an other OpenGL application. \p
 modelView is a 16 GLdouble vector representing a valid OpenGL ModelView matrix,
 such as one can get using: \code GLdouble mvm[16];
 glGetDoublev(GL_MODELVIEW_MATRIX, mvm);

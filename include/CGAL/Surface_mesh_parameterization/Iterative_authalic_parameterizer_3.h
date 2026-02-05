@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0/Surface_mesh_parameterization/include/CGAL/Surface_mesh_parameterization/Iterative_authalic_parameterizer_3.h $
-// $Id: include/CGAL/Surface_mesh_parameterization/Iterative_authalic_parameterizer_3.h 50219fc33bc $
+// $URL: https://github.com/CGAL/cgal/blob/v6.0.1/Surface_mesh_parameterization/include/CGAL/Surface_mesh_parameterization/Iterative_authalic_parameterizer_3.h $
+// $Id: include/CGAL/Surface_mesh_parameterization/Iterative_authalic_parameterizer_3.h 50cfbde3b84 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Mael Rouxel-Labbé
@@ -218,7 +218,7 @@ public:
 
     for(face_descriptor f : face_range)
     {
-      // get area in parameterised mesh
+      // get area in parameterized mesh
       const halfedge_descriptor h = halfedge(f, tmesh);
       const NT a_2D = abs(CGAL::area(get(uvmap, source(h, tmesh)),
                                      get(uvmap, target(h, tmesh)),
@@ -531,7 +531,7 @@ private:
         theta_sum += theta;
       }
 
-      // Normalise the angle
+      // Normalize the angle
       double factor = 2. / theta_sum;
       factor *= CGAL_PI;
       for(int n=0; n<neighborsCounter; ++n)

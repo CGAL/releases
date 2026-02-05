@@ -7,8 +7,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0/HalfedgeDS/include/CGAL/HalfedgeDS_vector.h $
-// $Id: include/CGAL/HalfedgeDS_vector.h 50219fc33bc $
+// $URL: https://github.com/CGAL/cgal/blob/v6.0.1/HalfedgeDS/include/CGAL/HalfedgeDS_vector.h $
+// $Id: include/CGAL/HalfedgeDS_vector.h 50cfbde3b84 $
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -604,7 +604,7 @@ public:
 
             // This guard is needed here because, rr==ll==begin, might be true
             // at this point, causing the decrement to result in undefined
-            // behaviour.
+            // behavior.
             // [Fernando Cacciola]
             if ( ll < rr )
             {

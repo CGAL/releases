@@ -4,8 +4,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0/Periodic_3_mesh_3/include/CGAL/Periodic_3_mesh_3/config.h $
-// $Id: include/CGAL/Periodic_3_mesh_3/config.h 50219fc33bc $
+// $URL: https://github.com/CGAL/cgal/blob/v6.0.1/Periodic_3_mesh_3/include/CGAL/Periodic_3_mesh_3/config.h $
+// $Id: include/CGAL/Periodic_3_mesh_3/config.h 50cfbde3b84 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Aymeric Pellé
@@ -35,7 +35,7 @@
 // memory boolean in the vertex base
 #define CGAL_PERIODIC_TRIANGULATION_USE_VISITED_VERTEX_BOOLEAN
 
-// Avoid optimisations of Mesh_3
+// Avoid optimizations of Mesh_3
 #define CGAL_NO_STRUCTURAL_FILTERING
 #ifdef CGAL_MESH_3_SIZING_FIELD_INEXACT_LOCATE
   #undef CGAL_MESH_3_SIZING_FIELD_INEXACT_LOCATE

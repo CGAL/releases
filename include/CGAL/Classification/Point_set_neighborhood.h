@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0/Classification/include/CGAL/Classification/Point_set_neighborhood.h $
-// $Id: include/CGAL/Classification/Point_set_neighborhood.h 50219fc33bc $
+// $URL: https://github.com/CGAL/cgal/blob/v6.0.1/Classification/include/CGAL/Classification/Point_set_neighborhood.h $
+// $Id: include/CGAL/Classification/Point_set_neighborhood.h 50cfbde3b84 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Simon Giraudot

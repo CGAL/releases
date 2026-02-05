@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0/Surface_mesh_shortest_path/include/CGAL/Surface_mesh_shortest_path/Surface_mesh_shortest_path.h $
-// $Id: include/CGAL/Surface_mesh_shortest_path/Surface_mesh_shortest_path.h 50219fc33bc $
+// $URL: https://github.com/CGAL/cgal/blob/v6.0.1/Surface_mesh_shortest_path/include/CGAL/Surface_mesh_shortest_path/Surface_mesh_shortest_path.h $
+// $Id: include/CGAL/Surface_mesh_shortest_path/Surface_mesh_shortest_path.h 50cfbde3b84 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Stephen Kiazyk
@@ -2134,7 +2134,7 @@ private:
 
           std::cout << "event type: " << event->m_type << " "
                     << " time: " << event->m_distanceEstimate << " ";
-          std::cout << "cancelled? " << event->m_cancelled << " " ;
+          std::cout << "canceled? " << event->m_cancelled << " " ;
 
           if (!event->m_cancelled)
           {
@@ -2200,7 +2200,7 @@ private:
       }
       else if (m_debugOutput)
       {
-        std::cout << "Found cancelled event for node: " << event->m_parent << std::endl;
+        std::cout << "Found canceled event for node: " << event->m_parent << std::endl;
       }
 
       delete event;
@@ -2416,7 +2416,7 @@ public:
   \details No change to the internal shortest paths data structure occurs
   until either `Surface_mesh_shortest_path::build_sequence_tree()` or
   the first shortest path query is done.
-  Behaviour is undefined if the source point `it` was already removed.
+  Behavior is undefined if the source point `it` was already removed.
 
   \param it iterator to the source point to be removed
   */

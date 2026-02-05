@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0/Polygon_mesh_processing/include/CGAL/Polygon_mesh_processing/repair_degeneracies.h $
-// $Id: include/CGAL/Polygon_mesh_processing/repair_degeneracies.h 50219fc33bc $
+// $URL: https://github.com/CGAL/cgal/blob/v6.0.1/Polygon_mesh_processing/include/CGAL/Polygon_mesh_processing/repair_degeneracies.h $
+// $Id: include/CGAL/Polygon_mesh_processing/repair_degeneracies.h 50cfbde3b84 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Sebastien Loriot,
@@ -582,7 +582,7 @@ struct Filter_wrapper_for_cap_needle_removal<TriangleMesh, VPM, Traits, Identity
 ///   \cgalParamNBegin{filter}
 ///     \cgalParamDescription{A function object providing `bool operator()(geom_traits::Point_3,geom_traits::Point_3,geom_traits::Point_3)`.}
 ///     \cgalParamType{The function object is queried each time a new triangle is about to be created by a flip or a collapse operation.
-///                    If `false` is returned, the operation is cancelled.}
+///                    If `false` is returned, the operation is canceled.}
 ///     \cgalParamDefault{a functor always returning `true`.}
 ///   \cgalParamNEnd
 /// \cgalNamedParamsEnd

@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0/Profiling_tools/include/CGAL/Memory_sizer.h $
-// $Id: include/CGAL/Memory_sizer.h 50219fc33bc $
+// $URL: https://github.com/CGAL/cgal/blob/v6.0.1/Profiling_tools/include/CGAL/Memory_sizer.h $
+// $Id: include/CGAL/Memory_sizer.h 50cfbde3b84 $
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Sylvain Pion, Andreas Fabri
@@ -15,7 +15,7 @@
 #include <CGAL/config.h>
 #include <CGAL/assertions.h>
 
-// This has only been implemented for MacOSX/Darwin, Linux and VC++ for now.
+// This has only been implemented for macOS/Darwin, Linux and VC++ for now.
 #if !defined _MSC_VER && !defined __linux__ && !defined __APPLE__
 
 #include <iostream>

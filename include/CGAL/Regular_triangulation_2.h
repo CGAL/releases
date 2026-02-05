@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0/Triangulation_2/include/CGAL/Regular_triangulation_2.h $
-// $Id: include/CGAL/Regular_triangulation_2.h 50219fc33bc $
+// $URL: https://github.com/CGAL/cgal/blob/v6.0.1/Triangulation_2/include/CGAL/Regular_triangulation_2.h $
+// $Id: include/CGAL/Regular_triangulation_2.h 50cfbde3b84 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Frederic Fichel, Mariette Yvinec, Julia Floetotto
@@ -1491,7 +1491,7 @@ regularize(Vertex_handle v)
 
   if(dimension() < 1) return;
 
-  //initialise faces_around
+  //initialize faces_around
   if(dimension() == 1) {
     faces_around.push_back(v->face());
     faces_around.push_back(v->face()->neighbor(1- v->face()->index(v)));

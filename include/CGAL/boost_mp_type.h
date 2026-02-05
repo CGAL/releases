@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0/Number_types/include/CGAL/boost_mp_type.h $
-// $Id: include/CGAL/boost_mp_type.h 50219fc33bc $
+// $URL: https://github.com/CGAL/cgal/blob/v6.0.1/Number_types/include/CGAL/boost_mp_type.h $
+// $Id: include/CGAL/boost_mp_type.h 50cfbde3b84 $
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Marc Glisse
@@ -301,7 +301,7 @@ namespace Boost_MP_internal {
     const int64_t msb_num = static_cast<int64_t>(boost::multiprecision::msb(xnum));
     const int64_t msb_den = static_cast<int64_t>(boost::multiprecision::msb(xden));
 
-#if 0 // Optimisation for the case of input that are double
+#if 0 // Optimization for the case of input that are double
     // An alternative strategy would be to convert numerator and denominator to
     // intervals, then divide. However, this would require setting the rounding
     // mode (and dividing intervals is not completely free). An important

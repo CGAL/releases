@@ -7,8 +7,8 @@
 //
 // This file is part of CGAL (www.cgal.org);
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0/Stream_support/include/CGAL/IO/OI/Inventor_ostream.h $
-// $Id: include/CGAL/IO/OI/Inventor_ostream.h 50219fc33bc $
+// $URL: https://github.com/CGAL/cgal/blob/v6.0.1/Stream_support/include/CGAL/IO/OI/Inventor_ostream.h $
+// $Id: include/CGAL/IO/OI/Inventor_ostream.h 50cfbde3b84 $
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Andreas Fabri
@@ -59,9 +59,9 @@ public:
 
   std::ostream& os() const
   {
-    // The behaviour if m_os == nullptr could be changed to return
+    // The behavior if m_os == nullptr could be changed to return
     // cerr or a file handle to /dev/null. The latter one would
-    // mimic the behaviour that one can still use a stream with
+    // mimic the behavior that one can still use a stream with
     // an invalid stream, but without producing any output.
     CGAL_assertion( m_os != nullptr );
     return *m_os;

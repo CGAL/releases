@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0/Voronoi_diagram_2/include/CGAL/Voronoi_diagram_2/Delaunay_triangulation_on_sphere_degeneracy_testers.h $
-// $Id: include/CGAL/Voronoi_diagram_2/Delaunay_triangulation_on_sphere_degeneracy_testers.h 50219fc33bc $
+// $URL: https://github.com/CGAL/cgal/blob/v6.0.1/Voronoi_diagram_2/include/CGAL/Voronoi_diagram_2/Delaunay_triangulation_on_sphere_degeneracy_testers.h $
+// $Id: include/CGAL/Voronoi_diagram_2/Delaunay_triangulation_on_sphere_degeneracy_testers.h 50cfbde3b84 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //

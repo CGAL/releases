@@ -4,8 +4,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0/Poisson_surface_reconstruction_3/include/CGAL/Poisson_implicit_surface_3.h $
-// $Id: include/CGAL/Poisson_implicit_surface_3.h 50219fc33bc $
+// $URL: https://github.com/CGAL/cgal/blob/v6.0.1/Poisson_surface_reconstruction_3/include/CGAL/Poisson_implicit_surface_3.h $
+// $Id: include/CGAL/Poisson_implicit_surface_3.h 50cfbde3b84 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Laurent RINEAU
@@ -56,7 +56,7 @@ namespace CGAL {
         gt.compute_squared_radius_3_object()(bounding_sphere);
     }
 
-    FT operator()(Point p) const
+    FT operator()(const Point& p) const
     {
       return func(p);
     }
@@ -120,7 +120,7 @@ namespace CGAL {
   public:
     Poisson_implicit_function_wrapper(Poisson_implicit_function f) : function(f) {}
 
-    FT operator()(Point p) const
+    FT operator()(const Point& p) const
     {
       return function(p.x(), p.y(), p.z());
     }

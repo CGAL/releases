@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0/Generalized_map/include/CGAL/Generalized_map_operations.h $
-// $Id: include/CGAL/Generalized_map_operations.h 50219fc33bc $
+// $URL: https://github.com/CGAL/cgal/blob/v6.0.1/Generalized_map/include/CGAL/Generalized_map_operations.h $
+// $Id: include/CGAL/Generalized_map_operations.h 50cfbde3b84 $
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Guillaume Damiand <guillaume.damiand@liris.cnrs.fr>
@@ -35,7 +35,7 @@ namespace CGAL
   {
     static bool run(const GMap& amap, typename GMap::Dart_const_descriptor adart)
     {
-      // TODO? Optimisation for dim-2, and to not test all the darts of the cell?
+      // TODO? Optimization for dim-2, and to not test all the darts of the cell?
       bool res = true;
       for ( CGAL::GMap_dart_const_iterator_of_cell<GMap,i> it(amap, adart);
             res && it.cont(); ++it )
@@ -258,7 +258,7 @@ namespace CGAL
   {
     static bool run(const GMap& amap, typename GMap::Dart_const_descriptor adart)
     {
-      // TODO ? Optimisation possible to not test all the darts of the cell ?
+      // TODO ? Optimization possible to not test all the darts of the cell ?
       bool res = true;
       for ( CGAL::GMap_dart_const_iterator_of_cell<GMap,i> it(amap, adart);
             res && it.cont(); ++it )

@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0/Bounding_volumes/include/CGAL/min_quadrilateral_2.h $
-// $Id: include/CGAL/min_quadrilateral_2.h 50219fc33bc $
+// $URL: https://github.com/CGAL/cgal/blob/v6.0.1/Bounding_volumes/include/CGAL/min_quadrilateral_2.h $
+// $Id: include/CGAL/min_quadrilateral_2.h 50cfbde3b84 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -376,7 +376,7 @@ min_rectangle_2(
 
   // quadruple of points defining the current rectangle
   ForwardIterator curr[4];
-  // initialised to the points defining the bounding box
+  // initialized to the points defining the bounding box
   convex_bounding_box_2(f, l, curr, t);
 
   // curr[i] can be advanced (cyclically) until it reaches limit[i]
@@ -482,7 +482,7 @@ min_parallelogram_2(ForwardIterator f,
 
   // quadruple of points defining the bounding box
   ForwardIterator curr[4];
-  // initialised to the points defining the bounding box
+  // initialized to the points defining the bounding box
   convex_bounding_box_2(first, l, curr, t);
 
 
@@ -659,7 +659,7 @@ min_strip_2(ForwardIterator f,
 
   // quadruple of points defining the bounding box
   ForwardIterator curr[4];
-  // initialised to the points defining the bounding box
+  // initialized to the points defining the bounding box
   convex_bounding_box_2(first, l, curr, t);
 
   ForwardIterator low = curr[0];

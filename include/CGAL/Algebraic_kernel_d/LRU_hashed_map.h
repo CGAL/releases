@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0/Algebraic_kernel_d/include/CGAL/Algebraic_kernel_d/LRU_hashed_map.h $
-// $Id: include/CGAL/Algebraic_kernel_d/LRU_hashed_map.h 50219fc33bc $
+// $URL: https://github.com/CGAL/cgal/blob/v6.0.1/Algebraic_kernel_d/include/CGAL/Algebraic_kernel_d/LRU_hashed_map.h $
+// $Id: include/CGAL/Algebraic_kernel_d/LRU_hashed_map.h 50cfbde3b84 $
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -140,7 +140,7 @@ public:
     virtual ~LRU_hashed_map()
     {  }
 
-    /*! \brief implements cache-like behaviour of the map
+    /*! \brief implements cache-like behavior of the map
     *
     *  If the object is not in the map, it is constructed using \c Creator
     *  and added to the map
@@ -312,7 +312,7 @@ public:
     ~LRU_hashed_map_with_kernel()
     {  }
 
-    /*! \brief implements cache-like behaviour of the map
+    /*! \brief implements cache-like behavior of the map
     *
     *  If the object is not in the map, it is constructed using \c Creator
     *  and added to the map

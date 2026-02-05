@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0/Point_set_3/include/CGAL/Point_set_3.h $
-// $Id: include/CGAL/Point_set_3.h 50219fc33bc $
+// $URL: https://github.com/CGAL/cgal/blob/v6.0.1/Point_set_3/include/CGAL/Point_set_3.h $
+// $Id: include/CGAL/Point_set_3.h 50cfbde3b84 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -161,7 +161,7 @@ public:
 
 #ifdef DOXYGEN_RUNNING
   typedef unspecified_type iterator; ///< Iterator type of the point set with value type `Index` is model of `RandomAccessIterator`
-  typedef unspecified_type const_iterator; ///< Constant iterator type of the point set with value type `Index` is model of `RandomA.ccessIterator`
+  typedef unspecified_type const_iterator; ///< Constant iterator type of the point set with value type `Index` is model of `RandomAccessIterator`
 #else
   typedef typename Index_map::iterator iterator; ///< Iterator type of the point set
   typedef typename Index_map::const_iterator const_iterator; ///< Constant iterator type of the point set
@@ -245,8 +245,8 @@ public:
     m_base = ps.m_base;
     m_indices = this->property_map<Index> ("index").value();
     m_points = this->property_map<Point> ("point").value();
-    m_normals = this->property_map<Vector> ("normal").value();
     m_nb_removed = ps.m_nb_removed;
+    copy_properties(ps);
     return *this;
   }
 
@@ -257,7 +257,7 @@ public:
     m_base = ps.m_base;
     m_indices = this->property_map<Index> ("index").value();
     m_points = this->property_map<Point> ("point").value();
-    m_normals = this->property_map<Vector> ("normal").value();
+    copy_properties(ps);
     m_nb_removed = ps.m_nb_removed;
   }
   /// \endcond

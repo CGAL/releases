@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0/Algebraic_kernel_d/include/CGAL/Algebraic_kernel_d/Curve_analysis_2.h $
-// $Id: include/CGAL/Algebraic_kernel_d/Curve_analysis_2.h 50219fc33bc $
+// $URL: https://github.com/CGAL/cgal/blob/v6.0.1/Algebraic_kernel_d/include/CGAL/Algebraic_kernel_d/Curve_analysis_2.h $
+// $Id: include/CGAL/Algebraic_kernel_d/Curve_analysis_2.h 50cfbde3b84 $
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -469,7 +469,7 @@ public:
      * (\c SHEAR_ONLY_AT_IRRATIONAL_STRATEGY)
      * is to \c shear the curve
      * if a degenerate situation is detected during the analysis,
-     * except at rational x-coordinates where the curve can be analysed
+     * except at rational x-coordinates where the curve can be analyzed
      * more directly. The analysis
      * is then performed in  the sheared system, and finally translated back
      * into the original system.

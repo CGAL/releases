@@ -4,8 +4,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0/Periodic_3_mesh_3/include/CGAL/Periodic_3_mesh_3/Protect_edges_sizing_field.h $
-// $Id: include/CGAL/Periodic_3_mesh_3/Protect_edges_sizing_field.h 50219fc33bc $
+// $URL: https://github.com/CGAL/cgal/blob/v6.0.1/Periodic_3_mesh_3/include/CGAL/Periodic_3_mesh_3/Protect_edges_sizing_field.h $
+// $Id: include/CGAL/Periodic_3_mesh_3/Protect_edges_sizing_field.h 50cfbde3b84 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Stephane Tayeb, Laurent Rineau, Mael Rouxel-Labbé
@@ -1190,7 +1190,7 @@ Protect_edges_sizing_field<C3T3, MD, Sf>::
 try_to_move_dummy_vertex(const Vertex_handle dummy_vertex,
                          const Weighted_point& new_position)
 {
-  // Insert first to maximise likeliness of success
+  // Insert first to maximize likeliness of success
   Vertex_handle new_dummy = insert_dummy_point(new_position);
 
   if(!try_to_remove_dummy_vertex(dummy_vertex))

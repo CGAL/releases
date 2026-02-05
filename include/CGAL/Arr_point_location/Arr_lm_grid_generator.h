@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0/Arrangement_on_surface_2/include/CGAL/Arr_point_location/Arr_lm_grid_generator.h $
-// $Id: include/CGAL/Arr_point_location/Arr_lm_grid_generator.h 50219fc33bc $
+// $URL: https://github.com/CGAL/cgal/blob/v6.0.1/Arrangement_on_surface_2/include/CGAL/Arr_point_location/Arr_lm_grid_generator.h $
+// $Id: include/CGAL/Arr_point_location/Arr_lm_grid_generator.h 50cfbde3b84 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Idit Haran   <haranidi@post.tau.ac.il>

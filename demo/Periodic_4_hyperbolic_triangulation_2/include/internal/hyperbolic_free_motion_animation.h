@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0/Periodic_4_hyperbolic_triangulation_2/demo/Periodic_4_hyperbolic_triangulation_2/include/internal/hyperbolic_free_motion_animation.h $
-// $Id: demo/Periodic_4_hyperbolic_triangulation_2/include/internal/hyperbolic_free_motion_animation.h 50219fc33bc $
+// $URL: https://github.com/CGAL/cgal/blob/v6.0.1/Periodic_4_hyperbolic_triangulation_2/demo/Periodic_4_hyperbolic_triangulation_2/include/internal/hyperbolic_free_motion_animation.h $
+// $Id: demo/Periodic_4_hyperbolic_triangulation_2/include/internal/hyperbolic_free_motion_animation.h 50cfbde3b84 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Iordan Iordanov <iordan.iordanov@loria.fr>

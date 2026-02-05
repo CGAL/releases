@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0/Bounding_volumes/include/CGAL/Min_sphere_of_spheres_d/Min_sphere_of_spheres_d_pair.h $
-// $Id: include/CGAL/Min_sphere_of_spheres_d/Min_sphere_of_spheres_d_pair.h 50219fc33bc $
+// $URL: https://github.com/CGAL/cgal/blob/v6.0.1/Bounding_volumes/include/CGAL/Min_sphere_of_spheres_d/Min_sphere_of_spheres_d_pair.h $
+// $Id: include/CGAL/Min_sphere_of_spheres_d/Min_sphere_of_spheres_d_pair.h 50cfbde3b84 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -33,7 +33,7 @@ namespace CGAL_MINIBALL_NAMESPACE {
     // they are convertible to double.
     // This is indeed the least invasive fix dropint the function that were
     // defined here and cause linkage bug.
-    // You can still have a behaviour of instantiating only if a type
+    // You can still have a behavior of instantiating only if a type
     // is convertibale to double (by using type_traits together with _if)
     // but until "the whole design should be overhauled at some point"
     // this is fine.

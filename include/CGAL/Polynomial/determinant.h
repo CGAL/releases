@@ -2,8 +2,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0/Polynomial/include/CGAL/Polynomial/determinant.h $
-// $Id: include/CGAL/Polynomial/determinant.h 50219fc33bc $
+// $URL: https://github.com/CGAL/cgal/blob/v6.0.1/Polynomial/include/CGAL/Polynomial/determinant.h $
+// $Id: include/CGAL/Polynomial/determinant.h 50cfbde3b84 $
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -134,7 +134,7 @@ namespace internal {
     /*! \ingroup CGAL_determinant
      *  \brief Will determine and execute a suitable determinant routine and
      *  return the determinant of \a A.
-     *  (specialisation for CGAL::Matrix_d)
+     *  (specialization for CGAL::Matrix_d)
      */
     template <class NT > inline
     NT determinant(const internal::Simple_matrix<NT>& A)
@@ -214,7 +214,7 @@ namespace internal {
     /*! \ingroup CGAL_determinant
      *  \brief Computes the determinant of \a A according to the method proposed
      *  by Berkowitz.
-     *  (specialisation for CGAL::Matrix_d)
+     *  (specialization for CGAL::Matrix_d)
      *
      *  Note that this routine is completely free of divisions!
      */

@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0/Combinatorial_map/include/CGAL/Dart.h $
-// $Id: include/CGAL/Dart.h 50219fc33bc $
+// $URL: https://github.com/CGAL/cgal/blob/v6.0.1/Combinatorial_map/include/CGAL/Dart.h $
+// $Id: include/CGAL/Dart.h 50cfbde3b84 $
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Guillaume Damiand <guillaume.damiand@liris.cnrs.fr>
@@ -156,7 +156,7 @@ namespace CGAL {
     }
 
   protected:
-    /** Default constructor: no real initialisation,
+    /** Default constructor: no real initialization,
      *  because this is done in the combinatorial map class.
      */
     Dart_without_info()
@@ -300,7 +300,7 @@ namespace CGAL {
     { return Base::operator==(other) && minfo==other.minfo; }
 
   protected:
-    /** Default constructor: no real initialisation,
+    /** Default constructor: no real initialization,
      *  because this is done in the combinatorial or generalized map class.
      */
     Dart()=default; //  default => zero-initializing built-in types

@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0/Arithmetic_kernel/include/CGAL/BOOST_MP_arithmetic_kernel.h $
-// $Id: include/CGAL/BOOST_MP_arithmetic_kernel.h 50219fc33bc $
+// $URL: https://github.com/CGAL/cgal/blob/v6.0.1/Arithmetic_kernel/include/CGAL/BOOST_MP_arithmetic_kernel.h $
+// $Id: include/CGAL/BOOST_MP_arithmetic_kernel.h 50cfbde3b84 $
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author: Marc Glisse <marc.glisse@inria.fr>

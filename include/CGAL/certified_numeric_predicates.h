@@ -2,8 +2,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0/Straight_skeleton_2/include/CGAL/certified_numeric_predicates.h $
-// $Id: include/CGAL/certified_numeric_predicates.h 50219fc33bc $
+// $URL: https://github.com/CGAL/cgal/blob/v6.0.1/Straight_skeleton_2/include/CGAL/certified_numeric_predicates.h $
+// $Id: include/CGAL/certified_numeric_predicates.h 50cfbde3b84 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Fernando Cacciola <fernando_cacciola@ciudad.com.ar>

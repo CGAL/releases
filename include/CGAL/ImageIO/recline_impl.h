@@ -3,8 +3,8 @@
 //
 // This file is part of the ImageIO Library, and as been adapted for CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0/CGAL_ImageIO/include/CGAL/ImageIO/recline_impl.h $
-// $Id: include/CGAL/ImageIO/recline_impl.h 50219fc33bc $
+// $URL: https://github.com/CGAL/cgal/blob/v6.0.1/CGAL_ImageIO/include/CGAL/ImageIO/recline_impl.h $
+// $Id: include/CGAL/ImageIO/recline_impl.h 50cfbde3b84 $
 // SPDX-License-Identifier: LGPL-3.0-or-later
 //
 //
@@ -13,7 +13,7 @@
 /*************************************************************************
  * recline.c - tools for recursive filtering of 1D lines
  *
- * $Id: include/CGAL/ImageIO/recline_impl.h 50219fc33bc $
+ * $Id: include/CGAL/ImageIO/recline_impl.h 50cfbde3b84 $
  *
  * Copyright©INRIA 1999
  *
@@ -283,7 +283,7 @@ RFcoefficientType * InitRecursiveCoefficients( double x,
     b0 /= x;
     b1 /= x;
 
-    /*--- normalisation ---*/
+    /*--- normalization ---*/
     switch ( derivative ) {
     default :
       CGAL_FALLTHROUGH;

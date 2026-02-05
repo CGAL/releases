@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0/Arrangement_on_surface_2/include/CGAL/Arr_polycurve_traits_2.h $
-// $Id: include/CGAL/Arr_polycurve_traits_2.h 50219fc33bc $
+// $URL: https://github.com/CGAL/cgal/blob/v6.0.1/Arrangement_on_surface_2/include/CGAL/Arr_polycurve_traits_2.h $
+// $Id: include/CGAL/Arr_polycurve_traits_2.h 50cfbde3b84 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s): Efi Fogel <efif@post.tau.ac.il>
@@ -591,8 +591,7 @@ public:
       Comparison_result dir = cmp_seg_endpts(xcv[0]);
 
       // Locate the subcurve on the polycurve xcv that contains p.
-      std::size_t i = m_poly_traits.locate(xcv, p);
-
+      auto i = m_poly_traits.locate_impl(xcv, p, All_sides_oblivious_category());
       CGAL_precondition(i != Polycurve_traits_2::INVALID_INDEX);
 
       // Clear the output curves.

@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0/Orthtree/include/CGAL/Orthtree.h $
-// $Id: include/CGAL/Orthtree.h 50219fc33bc $
+// $URL: https://github.com/CGAL/cgal/blob/v6.0.1/Orthtree/include/CGAL/Orthtree.h $
+// $Id: include/CGAL/Orthtree.h 50cfbde3b84 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Jackson Campolattaro, Simon Giraudot, Cédric Portaneri, Tong Zhao
@@ -1410,7 +1410,7 @@ public:
   }
 
   void dump_box_to_polylines(const Bbox_2& box, std::ostream& os) const {
-    // dump in 3D for visualisation
+    // dump in 3D for visualization
     os << "5 "
        << box.xmin() << " " << box.ymin() << " 0 "
        << box.xmin() << " " << box.ymax() << " 0 "

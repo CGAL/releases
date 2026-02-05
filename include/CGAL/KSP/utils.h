@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0/Kinetic_space_partition/include/CGAL/KSP/utils.h $
-// $Id: include/CGAL/KSP/utils.h 50219fc33bc $
+// $URL: https://github.com/CGAL/cgal/blob/v6.0.1/Kinetic_space_partition/include/CGAL/KSP/utils.h $
+// $Id: include/CGAL/KSP/utils.h 50cfbde3b84 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -41,7 +41,6 @@
 #include <CGAL/linear_least_squares_fitting_2.h>
 #include <CGAL/linear_least_squares_fitting_3.h>
 #include <CGAL/Exact_predicates_inexact_constructions_kernel.h>
-#include <CGAL/Polygon_2_algorithms.h>
 
 // Boost includes.
 #include <boost/iterator/function_output_iterator.hpp>

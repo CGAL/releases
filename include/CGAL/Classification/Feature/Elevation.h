@@ -4,8 +4,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0/Classification/include/CGAL/Classification/Feature/Elevation.h $
-// $Id: include/CGAL/Classification/Feature/Elevation.h 50219fc33bc $
+// $URL: https://github.com/CGAL/cgal/blob/v6.0.1/Classification/include/CGAL/Classification/Feature/Elevation.h $
+// $Id: include/CGAL/Classification/Feature/Elevation.h 50cfbde3b84 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Florent Lafarge, Simon Giraudot
@@ -130,7 +130,7 @@ public:
           std::nth_element (z.begin(), z.begin() + (z.size() / 10), z.end());
           dtm_x(i,j) = z[z.size() / 10];
         }
-    dem.free();
+    (dem.free)();
 
     if (grid.width() * grid.height() > input.size())
       values.resize (input.size(), compressed_float(0));
@@ -162,7 +162,7 @@ public:
               values[*it] = v;
           }
         }
-    dtm_x.free();
+    (dtm_x.free)();
 
   }
 

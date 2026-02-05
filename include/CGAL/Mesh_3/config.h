@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0/Mesh_3/include/CGAL/Mesh_3/config.h $
-// $Id: include/CGAL/Mesh_3/config.h 50219fc33bc $
+// $URL: https://github.com/CGAL/cgal/blob/v6.0.1/Mesh_3/include/CGAL/Mesh_3/config.h $
+// $Id: include/CGAL/Mesh_3/config.h 50cfbde3b84 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Laurent Rineau
@@ -18,7 +18,7 @@
 
 //#define CGAL_MESH_3_VERBOSE 1
 
-// Use optimisations of Mesh_3
+// Use optimizations of Mesh_3
 #  define CGAL_CONSTRUCT_INTRUSIVE_LIST_RANGE_CONSTRUCTOR 1
 #  define CGAL_MESH_3_NEW_GET_FACETS 1
 #  define CGAL_MESH_3_GET_FACETS_USING_INTRUSIVE_LIST 1

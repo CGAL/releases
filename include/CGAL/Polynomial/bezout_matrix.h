@@ -2,8 +2,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0/Polynomial/include/CGAL/Polynomial/bezout_matrix.h $
-// $Id: include/CGAL/Polynomial/bezout_matrix.h 50219fc33bc $
+// $URL: https://github.com/CGAL/cgal/blob/v6.0.1/Polynomial/include/CGAL/Polynomial/bezout_matrix.h $
+// $Id: include/CGAL/Polynomial/bezout_matrix.h 50cfbde3b84 $
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -172,7 +172,7 @@ symmetric_bezout_matrix
 
     Matrix B(d);
 
-    // 1st step: Initialisation
+    // 1st step: initialization
     for(i=0;i<d;i++) {
       for(j=i;j<d;j++) {
         sum1 = ((j+sub)+1>m) ? NT(0) : -coeff(f,i+sub)*coeff(g,(j+sub)+1);

@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0/Mesh_2/include/CGAL/Delaunay_mesh_size_criteria_2.h $
-// $Id: include/CGAL/Delaunay_mesh_size_criteria_2.h 50219fc33bc $
+// $URL: https://github.com/CGAL/cgal/blob/v6.0.1/Mesh_2/include/CGAL/Delaunay_mesh_size_criteria_2.h $
+// $Id: include/CGAL/Delaunay_mesh_size_criteria_2.h 50cfbde3b84 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -58,7 +58,7 @@ public:
     const double& size() const { return second; }
     const double& sine() const { return first; }
 
-    // q1<q2 means q1 is prioritised over q2
+    // q1<q2 means q1 is prioritized over q2
     // ( q1 == *this, q2 == q )
     bool operator<(const Quality& q) const
     {

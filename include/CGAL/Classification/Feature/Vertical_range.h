@@ -4,8 +4,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0/Classification/include/CGAL/Classification/Feature/Vertical_range.h $
-// $Id: include/CGAL/Classification/Feature/Vertical_range.h 50219fc33bc $
+// $URL: https://github.com/CGAL/cgal/blob/v6.0.1/Classification/include/CGAL/Classification/Feature/Vertical_range.h $
+// $Id: include/CGAL/Classification/Feature/Vertical_range.h 50cfbde3b84 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Florent Lafarge, Simon Giraudot
@@ -102,7 +102,7 @@ public:
         std::size_t J = grid.y(i);
         values[i] = dtm(I,J);
       }
-      dtm.free();
+      (dtm.free)();
     }
 
   }

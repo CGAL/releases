@@ -4,8 +4,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0/Surface_mesh/include/CGAL/Surface_mesh/Surface_mesh.h $
-// $Id: include/CGAL/Surface_mesh/Surface_mesh.h 50219fc33bc $
+// $URL: https://github.com/CGAL/cgal/blob/v6.0.1/Surface_mesh/include/CGAL/Surface_mesh/Surface_mesh.h $
+// $Id: include/CGAL/Surface_mesh/Surface_mesh.h 50cfbde3b84 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 
@@ -870,7 +870,7 @@ public:
 #endif
 
   /// @cond CGAL_DOCUMENT_INTERNALS
-  // typedefs which make it easier to write the partial specialisation of boost::graph_traits
+  // typedefs which make it easier to write the partial specialization of boost::graph_traits
 
   typedef Vertex_index   vertex_index;
   typedef P                   vertex_property_type;

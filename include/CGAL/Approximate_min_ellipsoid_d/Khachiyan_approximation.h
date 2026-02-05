@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0/Bounding_volumes/include/CGAL/Approximate_min_ellipsoid_d/Khachiyan_approximation.h $
-// $Id: include/CGAL/Approximate_min_ellipsoid_d/Khachiyan_approximation.h 50219fc33bc $
+// $URL: https://github.com/CGAL/cgal/blob/v6.0.1/Bounding_volumes/include/CGAL/Approximate_min_ellipsoid_d/Khachiyan_approximation.h $
+// $Id: include/CGAL/Approximate_min_ellipsoid_d/Khachiyan_approximation.h 50cfbde3b84 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -71,7 +71,7 @@ namespace CGAL {
     std::vector<const Point *> P;   // input points
     int n;                          // number of input points, i.e., P.size()
 
-    // This class comes in two flavours:
+    // This class comes in two flavors:
     //
     //  (i) When Embed is false, the input points are taken to be
     //    ordinary points in R^{d_P}, where d_P is the dimension of the

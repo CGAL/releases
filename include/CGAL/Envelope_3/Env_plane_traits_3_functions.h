@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0/Envelope_3/include/CGAL/Envelope_3/Env_plane_traits_3_functions.h $
-// $Id: include/CGAL/Envelope_3/Env_plane_traits_3_functions.h 50219fc33bc $
+// $URL: https://github.com/CGAL/cgal/blob/v6.0.1/Envelope_3/include/CGAL/Envelope_3/Env_plane_traits_3_functions.h $
+// $Id: include/CGAL/Envelope_3/Env_plane_traits_3_functions.h 50cfbde3b84 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Baruch Zukerman     <baruchzu@post.tau.ac.il>

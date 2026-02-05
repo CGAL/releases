@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0/Polygon_mesh_processing/include/CGAL/Polygon_mesh_processing/distance.h $
-// $Id: include/CGAL/Polygon_mesh_processing/distance.h 50219fc33bc $
+// $URL: https://github.com/CGAL/cgal/blob/v6.0.1/Polygon_mesh_processing/include/CGAL/Polygon_mesh_processing/distance.h $
+// $Id: include/CGAL/Polygon_mesh_processing/distance.h 50cfbde3b84 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -1485,7 +1485,7 @@ bounded_error_squared_Hausdorff_distance_impl(const TriangleMesh1& tm1,
   TM1_hd_traits traversal_traits_tm1(tm2_tree, tm1, tm2, vpm1, vpm2,
                                      infinity_value, sq_initial_bound, sq_distance_bound);
 
-  // Find candidate triangles in TM1, which might realise the Hausdorff bound.
+  // Find candidate triangles in TM1, which might realize the Hausdorff bound.
   // We build a sorted structure while collecting the candidates.
   const Point_3 stub(0, 0, 0); // dummy point given as query since it is not needed
 

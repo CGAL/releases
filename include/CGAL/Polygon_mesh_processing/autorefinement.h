@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0/Polygon_mesh_processing/include/CGAL/Polygon_mesh_processing/autorefinement.h $
-// $Id: include/CGAL/Polygon_mesh_processing/autorefinement.h 50219fc33bc $
+// $URL: https://github.com/CGAL/cgal/blob/v6.0.1/Polygon_mesh_processing/include/CGAL/Polygon_mesh_processing/autorefinement.h $
+// $Id: include/CGAL/Polygon_mesh_processing/autorefinement.h 50cfbde3b84 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -1496,7 +1496,7 @@ void autorefine_triangle_soup(PointRange& soup_points,
   std::string mode = "parallel";
 #endif
 
-// It might be possible to optimise the hardcoded value below
+// It might be possible to optimize the hardcoded value below
 // but the less triangles the faster will anyway be the operation.
 // So it's probably not critical.
 #ifdef CGAL_LINKED_WITH_TBB

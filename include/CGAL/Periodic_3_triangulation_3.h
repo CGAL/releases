@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0/Periodic_3_triangulation_3/include/CGAL/Periodic_3_triangulation_3.h $
-// $Id: include/CGAL/Periodic_3_triangulation_3.h 50219fc33bc $
+// $URL: https://github.com/CGAL/cgal/blob/v6.0.1/Periodic_3_triangulation_3/include/CGAL/Periodic_3_triangulation_3.h $
+// $Id: include/CGAL/Periodic_3_triangulation_3.h 50cfbde3b84 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Monique Teillaud <Monique.Teillaud@sophia.inria.fr>
@@ -2784,7 +2784,7 @@ Periodic_3_triangulation_3<GT,TDS>::create_initial_triangulation(const Point& p)
   /// Virtual cells, 6 per periodic instance
   Cell_handle cells[3][3][3][6];
 
-  // Initialise vertices:
+  // initialize vertices:
   vir_vertices[0][0][0] = _tds.create_vertex();
   vir_vertices[0][0][0]->set_point(p);
   virtual_vertices_reverse[vir_vertices[0][0][0]] = std::vector<Vertex_handle>();
@@ -2792,7 +2792,7 @@ Periodic_3_triangulation_3<GT,TDS>::create_initial_triangulation(const Point& p)
     for(int j=0; j<_cover[1]; j++) {
       for(int k=0; k<_cover[2]; k++) {
         if((i!=0)||(j!=0)||(k!=0)) {
-          // Initialise virtual vertices out of the domain for debugging
+          // initialize virtual vertices out of the domain for debugging
           vir_vertices[i][j][k] =
             _tds.create_vertex();
           vir_vertices[i][j][k]->set_point(p); //+Offset(i,j,k));

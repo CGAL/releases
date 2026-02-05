@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0/Polygon_mesh_processing/include/CGAL/Polygon_mesh_processing/internal/Side_of_triangle_mesh/Ray_3_Triangle_3_traversal_traits.h $
-// $Id: include/CGAL/Polygon_mesh_processing/internal/Side_of_triangle_mesh/Ray_3_Triangle_3_traversal_traits.h 50219fc33bc $
+// $URL: https://github.com/CGAL/cgal/blob/v6.0.1/Polygon_mesh_processing/include/CGAL/Polygon_mesh_processing/internal/Side_of_triangle_mesh/Ray_3_Triangle_3_traversal_traits.h $
+// $Id: include/CGAL/Polygon_mesh_processing/internal/Side_of_triangle_mesh/Ray_3_Triangle_3_traversal_traits.h 50cfbde3b84 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -150,7 +150,7 @@ public:
       //check if the ray source is above or below the triangle and compare it
       //with the direction of the ray
       //TODO and if yes return
-      //this is just an optimisation, the current code is valid
+      //this is just an optimization, the current code is valid
 
       this->m_status.first=boost::logic::indeterminate;
       this->m_stop=true;

@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0/Bounding_volumes/include/CGAL/rectangular_3_center_2.h $
-// $Id: include/CGAL/rectangular_3_center_2.h 50219fc33bc $
+// $URL: https://github.com/CGAL/cgal/blob/v6.0.1/Bounding_volumes/include/CGAL/rectangular_3_center_2.h $
+// $Id: include/CGAL/rectangular_3_center_2.h 50cfbde3b84 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -135,7 +135,7 @@ rectangular_3_center_2_type1(
   rad = sdist(v(r, 2), v(r, 0));
   // init to prevent default constructor requirement
   Point bestpoint = *f;
-  // (initialisation avoids warning)
+  // (initialization avoids warning)
   unsigned int bestrun = 0;
 
   // two cases: top-left & bottom-right or top-right & bottom-left

@@ -40,8 +40,8 @@
  * WWW URL: https://cs.nyu.edu/exact/
  * Email: exact@cs.nyu.edu
  *
- * $URL: https://github.com/CGAL/cgal/blob/v6.0/CGAL_Core/include/CGAL/CORE/poly/Sturm.h $
- * $Id: include/CGAL/CORE/poly/Sturm.h 50219fc33bc $
+ * $URL: https://github.com/CGAL/cgal/blob/v6.0.1/CGAL_Core/include/CGAL/CORE/poly/Sturm.h $
+ * $Id: include/CGAL/CORE/poly/Sturm.h 50cfbde3b84 $
  * SPDX-License-Identifier: LGPL-3.0-or-later
  ***************************************************************************/
 

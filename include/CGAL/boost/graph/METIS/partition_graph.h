@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0/BGL/include/CGAL/boost/graph/METIS/partition_graph.h $
-// $Id: include/CGAL/boost/graph/METIS/partition_graph.h 50219fc33bc $
+// $URL: https://github.com/CGAL/cgal/blob/v6.0.1/BGL/include/CGAL/boost/graph/METIS/partition_graph.h $
+// $Id: include/CGAL/boost/graph/METIS/partition_graph.h 50cfbde3b84 $
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Mael Rouxel-Labbé
@@ -151,8 +151,8 @@ void partition_graph(const TriangleMesh& tm,
   delete[] eptr;
   delete[] eind;
 
-  std::free(npart);
-  std::free(epart);
+  (std::free)(npart);
+  (std::free)(epart);
 }
 
 template<typename TriangleMesh, typename NamedParameters>

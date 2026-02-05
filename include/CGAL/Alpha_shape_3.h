@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0/Alpha_shapes_3/include/CGAL/Alpha_shape_3.h $
-// $Id: include/CGAL/Alpha_shape_3.h 50219fc33bc $
+// $URL: https://github.com/CGAL/cgal/blob/v6.0.1/Alpha_shapes_3/include/CGAL/Alpha_shape_3.h $
+// $Id: include/CGAL/Alpha_shape_3.h 50cfbde3b84 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Tran Kai Frank DA <Frank.Da@sophia.inria.fr>
@@ -1638,7 +1638,7 @@ compute_edge_status( const Cell_handle& c,
   last=ccirc;
   while (is_infinite(ccirc) ) ++ccirc; //skip infinite incident cells
   alpha = (*ccirc).get_alpha();
-  as.set_alpha_mid(alpha); // initialise as.alpha_mid to alpha value of an incident cell
+  as.set_alpha_mid(alpha); // initialize as.alpha_mid to alpha value of an incident cell
   as.set_alpha_max(alpha); // same for as.alpha_max
   while (++ccirc != last)
   {

@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0/Mesh_3/include/CGAL/Labeled_mesh_domain_3.h $
-// $Id: include/CGAL/Labeled_mesh_domain_3.h 50219fc33bc $
+// $URL: https://github.com/CGAL/cgal/blob/v6.0.1/Mesh_3/include/CGAL/Labeled_mesh_domain_3.h $
+// $Id: include/CGAL/Labeled_mesh_domain_3.h 50cfbde3b84 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -1097,7 +1097,7 @@ public:
     Surface_patch operator()(const Point_3& a, const Point_3& b) const
     {
       // If f(a) != f(b), then [a,b] intersects some surface. Here we consider
-      // [a,b] intersects surface_patch labelled <f(a),f(b)> (or <f(b),f(a)>).
+      // [a,b] intersects surface_patch labeled <f(a),f(b)> (or <f(b),f(a)>).
       // It may be false, further rafinement will improve precision
       const Subdomain_index value_a = r_domain_.function_(a);
       const Subdomain_index value_b = r_domain_.function_(b);

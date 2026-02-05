@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0/Mesh_3/include/CGAL/Mesh_3/polyhedral_to_labeled_function_wrapper.h $
-// $Id: include/CGAL/Mesh_3/polyhedral_to_labeled_function_wrapper.h 50219fc33bc $
+// $URL: https://github.com/CGAL/cgal/blob/v6.0.1/Mesh_3/include/CGAL/Mesh_3/polyhedral_to_labeled_function_wrapper.h $
+// $Id: include/CGAL/Mesh_3/polyhedral_to_labeled_function_wrapper.h 50cfbde3b84 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //

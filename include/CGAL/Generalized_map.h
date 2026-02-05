@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0/Generalized_map/include/CGAL/Generalized_map.h $
-// $Id: include/CGAL/Generalized_map.h 50219fc33bc $
+// $URL: https://github.com/CGAL/cgal/blob/v6.0.1/Generalized_map/include/CGAL/Generalized_map.h $
+// $Id: include/CGAL/Generalized_map.h 50cfbde3b84 $
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Guillaume Damiand <guillaume.damiand@liris.cnrs.fr>
@@ -568,7 +568,7 @@ namespace CGAL {
     }
 
     /** Create a new dart and add it to the map.
-     * The marks of the darts are initialised with mmask_marks, i.e. the dart
+     * The marks of the darts are initialized with mmask_marks, i.e. the dart
      * is unmarked for all the marks.
      * @return a Dart_descriptor on the new dart.
      */
@@ -2946,6 +2946,9 @@ namespace CGAL {
       this->automatic_attributes_management = newval;
     }
 
+    void set_automatic_attributes_management_without_correction(bool newval)
+    { this->automatic_attributes_management = newval; }
+
     /** Create an half-edge.
      * @return a dart of the new half-edge.
      */
@@ -3352,7 +3355,7 @@ namespace CGAL {
         }
         if (ah != null_descriptor)
         {
-          // We initialise the 0-atttrib to ah
+          // We initialize the 0-atttrib to ah
           CGAL::internal::Set_i_attribute_of_dart_functor<Self, 0>::
             run(*this, d1, ah);
           mark(*it, amark);
@@ -3471,7 +3474,7 @@ namespace CGAL {
           <CGAL::internal::GMap_group_attribute_functor_of_dart<Self>, 0>::
           run(*this,d1,d2);
 
-        // We initialise the 0-atttrib to ah
+        // We initialize the 0-atttrib to ah
         CGAL::internal::Set_i_attribute_of_dart_functor<Self, 0>::
           run(*this, d2, ah);
       }
