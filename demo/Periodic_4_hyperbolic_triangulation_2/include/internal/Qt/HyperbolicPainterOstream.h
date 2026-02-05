@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.2/Periodic_4_hyperbolic_triangulation_2/demo/Periodic_4_hyperbolic_triangulation_2/include/internal/Qt/HyperbolicPainterOstream.h $
-// $Id: demo/Periodic_4_hyperbolic_triangulation_2/include/internal/Qt/HyperbolicPainterOstream.h e13ef800cb7 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.0.3/Periodic_4_hyperbolic_triangulation_2/demo/Periodic_4_hyperbolic_triangulation_2/include/internal/Qt/HyperbolicPainterOstream.h $
+// $Id: demo/Periodic_4_hyperbolic_triangulation_2/include/internal/Qt/HyperbolicPainterOstream.h cefe3007d59 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Mikhail Bogdanov

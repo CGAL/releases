@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.2/Polygon_mesh_processing/include/CGAL/Polygon_mesh_processing/internal/Hole_filling/Triangulate_hole_polyline.h $
-// $Id: include/CGAL/Polygon_mesh_processing/internal/Hole_filling/Triangulate_hole_polyline.h e13ef800cb7 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.0.3/Polygon_mesh_processing/include/CGAL/Polygon_mesh_processing/internal/Hole_filling/Triangulate_hole_polyline.h $
+// $Id: include/CGAL/Polygon_mesh_processing/internal/Hole_filling/Triangulate_hole_polyline.h cefe3007d59 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -1445,6 +1445,12 @@ triangulate_hole_polyline_with_cdt(const PointRange& points,
   cdt.insert(points_and_ids.begin(), points_and_ids.end());
   for (typename CDT::Vertex_handle v : cdt.finite_vertex_handles()) {
     vertices[v->info()] = v;
+  }
+
+  if (vertices.size()!=cdt.number_of_vertices())
+  {
+    visitor.end_planar_phase(false);
+    return false;
   }
 
   try

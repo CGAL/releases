@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.2/Minkowski_sum_3/include/CGAL/Minkowski_sum_3/bipartite_nary_union_sorted_combined.h $
-// $Id: include/CGAL/Minkowski_sum_3/bipartite_nary_union_sorted_combined.h e13ef800cb7 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.0.3/Minkowski_sum_3/include/CGAL/Minkowski_sum_3/bipartite_nary_union_sorted_combined.h $
+// $Id: include/CGAL/Minkowski_sum_3/bipartite_nary_union_sorted_combined.h cefe3007d59 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //

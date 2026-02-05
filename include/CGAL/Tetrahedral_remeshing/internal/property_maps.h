@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.2/Tetrahedral_remeshing/include/CGAL/Tetrahedral_remeshing/internal/property_maps.h $
-// $Id: include/CGAL/Tetrahedral_remeshing/internal/property_maps.h e13ef800cb7 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.0.3/Tetrahedral_remeshing/include/CGAL/Tetrahedral_remeshing/internal/property_maps.h $
+// $Id: include/CGAL/Tetrahedral_remeshing/internal/property_maps.h cefe3007d59 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //

@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.2/Bounding_volumes/include/CGAL/minimum_enclosing_quadrilateral_2.h $
-// $Id: include/CGAL/minimum_enclosing_quadrilateral_2.h e13ef800cb7 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.0.3/Bounding_volumes/include/CGAL/minimum_enclosing_quadrilateral_2.h $
+// $Id: include/CGAL/minimum_enclosing_quadrilateral_2.h cefe3007d59 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //

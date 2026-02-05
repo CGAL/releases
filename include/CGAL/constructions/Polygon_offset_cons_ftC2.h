@@ -2,8 +2,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.2/Straight_skeleton_2/include/CGAL/constructions/Polygon_offset_cons_ftC2.h $
-// $Id: include/CGAL/constructions/Polygon_offset_cons_ftC2.h e13ef800cb7 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.0.3/Straight_skeleton_2/include/CGAL/constructions/Polygon_offset_cons_ftC2.h $
+// $Id: include/CGAL/constructions/Polygon_offset_cons_ftC2.h cefe3007d59 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Fernando Cacciola <fernando_cacciola@ciudad.com.ar>

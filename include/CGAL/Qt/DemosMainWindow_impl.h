@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.2/GraphicsView/include/CGAL/Qt/DemosMainWindow_impl.h $
-// $Id: include/CGAL/Qt/DemosMainWindow_impl.h e13ef800cb7 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.0.3/GraphicsView/include/CGAL/Qt/DemosMainWindow_impl.h $
+// $Id: include/CGAL/Qt/DemosMainWindow_impl.h cefe3007d59 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -221,7 +221,10 @@ void
 DemosMainWindow::popupAboutBox(QString title, QString html_resource_name)
 {
   QFile about_CGAL(html_resource_name);
-  about_CGAL.open(QIODevice::ReadOnly);
+  if (!about_CGAL.open(QIODevice::ReadOnly)) {
+    QMessageBox::warning(this, tr("Error"), tr("Could not open resource file: %1").arg(html_resource_name));
+    return;
+  }
   QString about_CGAL_txt = QTextStream(&about_CGAL).readAll();
 #ifdef CGAL_VERSION_STR
   QString cgal_version(CGAL_VERSION_STR);

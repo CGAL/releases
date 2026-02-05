@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.2/Ridges_3/include/CGAL/Vertex2Data_Property_Map_with_std_map.h $
-// $Id: include/CGAL/Vertex2Data_Property_Map_with_std_map.h e13ef800cb7 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.0.3/Ridges_3/include/CGAL/Vertex2Data_Property_Map_with_std_map.h $
+// $Id: include/CGAL/Vertex2Data_Property_Map_with_std_map.h cefe3007d59 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Marc Pouget and Frédéric Cazals

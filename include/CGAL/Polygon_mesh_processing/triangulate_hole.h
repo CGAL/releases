@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.2/Polygon_mesh_processing/include/CGAL/Polygon_mesh_processing/triangulate_hole.h $
-// $Id: include/CGAL/Polygon_mesh_processing/triangulate_hole.h e13ef800cb7 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.0.3/Polygon_mesh_processing/include/CGAL/Polygon_mesh_processing/triangulate_hole.h $
+// $Id: include/CGAL/Polygon_mesh_processing/triangulate_hole.h cefe3007d59 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Ilker O. Yaz
@@ -652,7 +652,9 @@ namespace Polygon_mesh_processing {
 
   @pre `third_points.size() == points.size()`
 
-  @tparam PointRange range of points, model of `Range`.
+  @tparam PointRange1 range of points, model of `Range`.
+    Its iterator type is `InputIterator`.
+  @tparam PointRange2 range of points, model of `Range`.
     Its iterator type is `InputIterator`.
   @tparam OutputIterator model of `OutputIterator`, to collect patch faces.
      A specialization for `CGAL::value_type_traits<OutputIterator>` must be available,

@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.2/Surface_mesh_topology/include/CGAL/Surface_mesh_topology/internal/Generic_map_selector.h $
-// $Id: include/CGAL/Surface_mesh_topology/internal/Generic_map_selector.h e13ef800cb7 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.0.3/Surface_mesh_topology/include/CGAL/Surface_mesh_topology/internal/Generic_map_selector.h $
+// $Id: include/CGAL/Surface_mesh_topology/internal/Generic_map_selector.h cefe3007d59 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Thien Hoang <thienvhoang99@gmail.com>

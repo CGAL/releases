@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.2/Snap_rounding_2/include/CGAL/Snap_rounding_kd_2.h $
-// $Id: include/CGAL/Snap_rounding_kd_2.h e13ef800cb7 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.0.3/Snap_rounding_2/include/CGAL/Snap_rounding_kd_2.h $
+// $Id: include/CGAL/Snap_rounding_kd_2.h cefe3007d59 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //

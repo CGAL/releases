@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.2/Shape_detection/include/CGAL/Shape_detection/Region_growing/Point_set/Least_squares_sphere_fit_region.h $
-// $Id: include/CGAL/Shape_detection/Region_growing/Point_set/Least_squares_sphere_fit_region.h e13ef800cb7 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.0.3/Shape_detection/include/CGAL/Shape_detection/Region_growing/Point_set/Least_squares_sphere_fit_region.h $
+// $Id: include/CGAL/Shape_detection/Region_growing/Point_set/Least_squares_sphere_fit_region.h cefe3007d59 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //

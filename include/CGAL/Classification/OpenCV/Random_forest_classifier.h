@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.2/Classification/include/CGAL/Classification/OpenCV/Random_forest_classifier.h $
-// $Id: include/CGAL/Classification/OpenCV/Random_forest_classifier.h e13ef800cb7 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.0.3/Classification/include/CGAL/Classification/OpenCV/Random_forest_classifier.h $
+// $Id: include/CGAL/Classification/OpenCV/Random_forest_classifier.h cefe3007d59 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Simon Giraudot

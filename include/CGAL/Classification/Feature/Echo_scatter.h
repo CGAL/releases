@@ -4,8 +4,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.2/Classification/include/CGAL/Classification/Feature/Echo_scatter.h $
-// $Id: include/CGAL/Classification/Feature/Echo_scatter.h e13ef800cb7 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.0.3/Classification/include/CGAL/Classification/Feature/Echo_scatter.h $
+// $Id: include/CGAL/Classification/Feature/Echo_scatter.h cefe3007d59 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Simon Giraudot, Florent Lafarge

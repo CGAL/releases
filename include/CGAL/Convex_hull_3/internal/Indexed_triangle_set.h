@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.2/Convex_hull_3/include/CGAL/Convex_hull_3/internal/Indexed_triangle_set.h $
-// $Id: include/CGAL/Convex_hull_3/internal/Indexed_triangle_set.h e13ef800cb7 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.0.3/Convex_hull_3/include/CGAL/Convex_hull_3/internal/Indexed_triangle_set.h $
+// $Id: include/CGAL/Convex_hull_3/internal/Indexed_triangle_set.h cefe3007d59 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -62,9 +62,9 @@ void copy_ch2_to_face_graph(const std::list<P>& CH_2,
 
   for(std::size_t i = 1; i < CH_2.size()-1; ++i){
       CGAL::internal::resize(its.faces[i-1], 3);
-      its.faces[i-1][0] = static_cast<Index>(i);
-      its.faces[i-1][1] = static_cast<Index>(i + 1);
-      its.faces[i-1][2] = static_cast<Index>(i + 2);
+      its.faces[i-1][0] = static_cast<Index>(i - 1);
+      its.faces[i-1][1] = static_cast<Index>(i);
+      its.faces[i-1][2] = static_cast<Index>(i + 1);
   }
 
 }

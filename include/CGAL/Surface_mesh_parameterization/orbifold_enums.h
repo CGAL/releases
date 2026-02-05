@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.2/Surface_mesh_parameterization/include/CGAL/Surface_mesh_parameterization/orbifold_enums.h $
-// $Id: include/CGAL/Surface_mesh_parameterization/orbifold_enums.h e13ef800cb7 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.0.3/Surface_mesh_parameterization/include/CGAL/Surface_mesh_parameterization/orbifold_enums.h $
+// $Id: include/CGAL/Surface_mesh_parameterization/orbifold_enums.h cefe3007d59 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Mael Rouxel-Labbé
@@ -60,7 +60,7 @@ enum Orbifold_type
 /// \brief Convert the orbifold type to a literal message.
 /// \param orb_type the integer value in the enum
 /// \return the string describing the orbifold type.
-const char* get_orbifold_type(int orb_type)
+inline const char* get_orbifold_type(int orb_type)
 {
   // Messages corresponding to the different orbifold types.
   static const char* type[Parallelogram+1] = {

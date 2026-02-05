@@ -4,8 +4,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.2/Surface_mesher/include/CGAL/IO/facets_in_complex_2_to_triangle_mesh.h $
-// $Id: include/CGAL/IO/facets_in_complex_2_to_triangle_mesh.h e13ef800cb7 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.0.3/Surface_mesher/include/CGAL/IO/facets_in_complex_2_to_triangle_mesh.h $
+// $Id: include/CGAL/IO/facets_in_complex_2_to_triangle_mesh.h cefe3007d59 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s) : Maxime Gimeno, Pierre Alliez

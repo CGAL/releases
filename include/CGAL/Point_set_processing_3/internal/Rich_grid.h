@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.2/Point_set_processing_3/include/CGAL/Point_set_processing_3/internal/Rich_grid.h $
-// $Id: include/CGAL/Point_set_processing_3/internal/Rich_grid.h e13ef800cb7 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.0.3/Point_set_processing_3/include/CGAL/Point_set_processing_3/internal/Rich_grid.h $
+// $Id: include/CGAL/Point_set_processing_3/internal/Rich_grid.h cefe3007d59 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s) : Shihao Wu, Clement Jamin, Pierre Alliez

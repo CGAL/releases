@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.2/Nef_3/include/CGAL/Nef_3/Mark_bounded_volumes.h $
-// $Id: include/CGAL/Nef_3/Mark_bounded_volumes.h e13ef800cb7 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.0.3/Nef_3/include/CGAL/Nef_3/Mark_bounded_volumes.h $
+// $Id: include/CGAL/Nef_3/Mark_bounded_volumes.h cefe3007d59 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //

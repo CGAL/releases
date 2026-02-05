@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.2/Stream_lines_2/include/CGAL/Triangular_field_2.h $
-// $Id: include/CGAL/Triangular_field_2.h e13ef800cb7 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.0.3/Stream_lines_2/include/CGAL/Triangular_field_2.h $
+// $Id: include/CGAL/Triangular_field_2.h cefe3007d59 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -134,7 +134,7 @@ protected:
 
 template <class StreamLinesTraits_2>
 inline
-typename Triangular_field_2<StreamLinesTraits_2>::Geom_traits::Iso_rectangle_2
+typename StreamLinesTraits_2::Iso_rectangle_2
 Triangular_field_2<StreamLinesTraits_2>::bbox() const
 {
   return typename Geom_traits::Iso_rectangle_2(minx, miny, maxx,

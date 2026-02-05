@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.2/SMDS_3/include/CGAL/IO/File_avizo.h $
-// $Id: include/CGAL/IO/File_avizo.h e13ef800cb7 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.0.3/SMDS_3/include/CGAL/IO/File_avizo.h $
+// $Id: include/CGAL/IO/File_avizo.h cefe3007d59 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -90,7 +90,7 @@ namespace internal {
     return false;
   }
 
-  bool line_starts_with(const std::string& line, const char* cstr)
+  inline bool line_starts_with(const std::string& line, const char* cstr)
   {
     const std::size_t fnws = line.find_first_not_of(" \t");
     if (fnws != std::string::npos)
@@ -277,6 +277,7 @@ namespace internal {
     }
   }
 
+  inline
   void read_tetrahedra(std::istream& input,
                        std::vector<std::array<int, 4> >& tetrahedra,
                        const int& nb_tets,
@@ -349,6 +350,7 @@ namespace internal {
     std::string at_label;
   };
 
+  inline
   void go_to_at_label(std::istream& input,
                       std::string& line,
                       const char* at_label)// "@1"
@@ -363,6 +365,7 @@ namespace internal {
     }
   }
 
+  inline
   bool is_avizo_tetra_format(std::istream& in, const char* binary_or_ascii)
   {
     std::string format(binary_or_ascii);

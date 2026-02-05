@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.2/Convex_hull_3/include/CGAL/Convex_hull_face_base_2.h $
-// $Id: include/CGAL/Convex_hull_face_base_2.h e13ef800cb7 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.0.3/Convex_hull_3/include/CGAL/Convex_hull_face_base_2.h $
+// $Id: include/CGAL/Convex_hull_face_base_2.h cefe3007d59 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -56,7 +56,7 @@ public:
                           Vertex_handle v2,
                           Face_handle   n0,
                           Face_handle   n1,
-                          Face_handle   n2 )
+                          Face_handle   n2)
     : Fb(v0, v1, v2, n0, n1, n2), _info(0) {}
 
   const int& info() const { return _info; }

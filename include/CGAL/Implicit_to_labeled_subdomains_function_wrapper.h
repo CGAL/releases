@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.2/Periodic_3_mesh_3/include/CGAL/Implicit_to_labeled_subdomains_function_wrapper.h $
-// $Id: include/CGAL/Implicit_to_labeled_subdomains_function_wrapper.h e13ef800cb7 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.0.3/Periodic_3_mesh_3/include/CGAL/Implicit_to_labeled_subdomains_function_wrapper.h $
+// $Id: include/CGAL/Implicit_to_labeled_subdomains_function_wrapper.h cefe3007d59 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Mikhail Bogdanov

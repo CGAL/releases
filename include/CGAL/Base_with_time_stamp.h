@@ -1,8 +1,8 @@
 // Copyright (c) 2023  GeometryFactory Sarl (France).
 // All rights reserved.
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.2/STL_Extension/include/CGAL/Base_with_time_stamp.h $
-// $Id: include/CGAL/Base_with_time_stamp.h e13ef800cb7 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.0.3/STL_Extension/include/CGAL/Base_with_time_stamp.h $
+// $Id: include/CGAL/Base_with_time_stamp.h cefe3007d59 $
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Laurent Rineau

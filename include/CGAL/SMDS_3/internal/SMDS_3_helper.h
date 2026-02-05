@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.2/SMDS_3/include/CGAL/SMDS_3/internal/SMDS_3_helper.h $
-// $Id: include/CGAL/SMDS_3/internal/SMDS_3_helper.h e13ef800cb7 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.0.3/SMDS_3/include/CGAL/SMDS_3/internal/SMDS_3_helper.h $
+// $Id: include/CGAL/SMDS_3/internal/SMDS_3_helper.h cefe3007d59 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //

@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.2/Principal_component_analysis/include/CGAL/linear_least_squares_fitting_tetrahedra_3.h $
-// $Id: include/CGAL/linear_least_squares_fitting_tetrahedra_3.h e13ef800cb7 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.0.3/Principal_component_analysis/include/CGAL/linear_least_squares_fitting_tetrahedra_3.h $
+// $Id: include/CGAL/linear_least_squares_fitting_tetrahedra_3.h cefe3007d59 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s) : Pierre Alliez and Sylvain Pion and Ankit Gupta

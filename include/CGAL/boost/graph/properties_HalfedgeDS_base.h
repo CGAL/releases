@@ -2,8 +2,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.2/HalfedgeDS/include/CGAL/boost/graph/properties_HalfedgeDS_base.h $
-// $Id: include/CGAL/boost/graph/properties_HalfedgeDS_base.h e13ef800cb7 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.0.3/HalfedgeDS/include/CGAL/boost/graph/properties_HalfedgeDS_base.h $
+// $Id: include/CGAL/boost/graph/properties_HalfedgeDS_base.h cefe3007d59 $
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 //

@@ -7,8 +7,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.2/Bounding_volumes/include/CGAL/Min_sphere_annulus_d_traits_d.h $
-// $Id: include/CGAL/Min_sphere_annulus_d_traits_d.h e13ef800cb7 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.0.3/Bounding_volumes/include/CGAL/Min_sphere_annulus_d_traits_d.h $
+// $Id: include/CGAL/Min_sphere_annulus_d_traits_d.h cefe3007d59 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //

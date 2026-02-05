@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.2/Point_set_processing_3/include/CGAL/random_simplify_point_set.h $
-// $Id: include/CGAL/random_simplify_point_set.h e13ef800cb7 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.0.3/Point_set_processing_3/include/CGAL/random_simplify_point_set.h $
+// $Id: include/CGAL/random_simplify_point_set.h cefe3007d59 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s) : Laurent Saboret

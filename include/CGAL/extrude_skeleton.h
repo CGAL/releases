@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.2/Straight_skeleton_extrusion_2/include/CGAL/extrude_skeleton.h $
-// $Id: include/CGAL/extrude_skeleton.h e13ef800cb7 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.0.3/Straight_skeleton_extrusion_2/include/CGAL/extrude_skeleton.h $
+// $Id: include/CGAL/extrude_skeleton.h cefe3007d59 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Mael Rouxel-Labbé

@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.2/Arrangement_on_surface_2/include/CGAL/Surface_sweep_2/Arr_construction_subcurve.h $
-// $Id: include/CGAL/Surface_sweep_2/Arr_construction_subcurve.h e13ef800cb7 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.0.3/Arrangement_on_surface_2/include/CGAL/Surface_sweep_2/Arr_construction_subcurve.h $
+// $Id: include/CGAL/Surface_sweep_2/Arr_construction_subcurve.h cefe3007d59 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Tali Zvi <talizvi@post.tau.ac.il>

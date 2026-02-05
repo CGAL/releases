@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.2/Set_movable_separability_2/include/CGAL/Set_movable_separability_2/Single_mold_translational_casting/is_pullout_direction.h $
-// $Id: include/CGAL/Set_movable_separability_2/Single_mold_translational_casting/is_pullout_direction.h e13ef800cb7 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.0.3/Set_movable_separability_2/include/CGAL/Set_movable_separability_2/Single_mold_translational_casting/is_pullout_direction.h $
+// $Id: include/CGAL/Set_movable_separability_2/Single_mold_translational_casting/is_pullout_direction.h cefe3007d59 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s): Shahar    <shasha94@gmail.com>

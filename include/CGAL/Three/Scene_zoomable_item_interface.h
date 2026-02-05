@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.2/Three/include/CGAL/Three/Scene_zoomable_item_interface.h $
-// $Id: include/CGAL/Three/Scene_zoomable_item_interface.h e13ef800cb7 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.0.3/Three/include/CGAL/Three/Scene_zoomable_item_interface.h $
+// $Id: include/CGAL/Three/Scene_zoomable_item_interface.h cefe3007d59 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Maxime GIMENO

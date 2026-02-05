@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.2/AABB_tree/include/CGAL/AABB_traits_2.h $
-// $Id: include/CGAL/AABB_traits_2.h e13ef800cb7 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.0.3/AABB_tree/include/CGAL/AABB_traits_2.h $
+// $Id: include/CGAL/AABB_traits_2.h cefe3007d59 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -484,19 +484,19 @@ public:
 
 private:
   /**
-   * @brief Computes bounding box of one primitive
+   * @brief Computes the bounding box of a primitive
    * @param pr the primitive
    * @return the bounding box of the primitive \c pr
    */
   template <typename PM>
-  Bounding_box compute_bbox(const Primitive& pr, const PM&)const
+  Bounding_box compute_bbox(const Primitive& pr, const PM&) const
   {
     return get(bbm, pr.id());
   }
 
-  Bounding_box compute_bbox(const Primitive& pr, const Default&)const
+  Bounding_box compute_bbox(const Primitive& pr, const Default&) const
   {
-    return GeomTraits().construct_bbox_2_object()(internal::Primitive_helper<AT>::get_datum(pr, *this));
+    return internal::Primitive_helper<AT>::get_datum(pr,*this).bbox();
   }
 
   /// Comparison functions

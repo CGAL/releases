@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.2/Matrix_search/include/CGAL/Sorted_matrix_search_traits_adaptor.h $
-// $Id: include/CGAL/Sorted_matrix_search_traits_adaptor.h e13ef800cb7 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.0.3/Matrix_search/include/CGAL/Sorted_matrix_search_traits_adaptor.h $
+// $Id: include/CGAL/Sorted_matrix_search_traits_adaptor.h cefe3007d59 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //

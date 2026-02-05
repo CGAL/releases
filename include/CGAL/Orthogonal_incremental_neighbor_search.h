@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.2/Spatial_searching/include/CGAL/Orthogonal_incremental_neighbor_search.h $
-// $Id: include/CGAL/Orthogonal_incremental_neighbor_search.h e13ef800cb7 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.0.3/Spatial_searching/include/CGAL/Orthogonal_incremental_neighbor_search.h $
+// $Id: include/CGAL/Orthogonal_incremental_neighbor_search.h cefe3007d59 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //

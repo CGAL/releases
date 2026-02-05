@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.2/TDS_2/include/CGAL/TDS_2/internal/Edge_hash_function.h $
-// $Id: include/CGAL/TDS_2/internal/Edge_hash_function.h e13ef800cb7 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.0.3/TDS_2/include/CGAL/TDS_2/internal/Edge_hash_function.h $
+// $Id: include/CGAL/TDS_2/internal/Edge_hash_function.h cefe3007d59 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //

@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.2/Advancing_front_surface_reconstruction/include/CGAL/Advancing_front_surface_reconstruction/internal/Surface_face_base_2.h $
-// $Id: include/CGAL/Advancing_front_surface_reconstruction/internal/Surface_face_base_2.h e13ef800cb7 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.0.3/Advancing_front_surface_reconstruction/include/CGAL/Advancing_front_surface_reconstruction/internal/Surface_face_base_2.h $
+// $Id: include/CGAL/Advancing_front_surface_reconstruction/internal/Surface_face_base_2.h cefe3007d59 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Frank Da, David Cohen-Steiner, Andreas Fabri

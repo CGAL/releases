@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.2/NewKernel_d/include/CGAL/NewKernel_d/Cartesian_LA_functors.h $
-// $Id: include/CGAL/NewKernel_d/Cartesian_LA_functors.h e13ef800cb7 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.0.3/NewKernel_d/include/CGAL/NewKernel_d/Cartesian_LA_functors.h $
+// $Id: include/CGAL/NewKernel_d/Cartesian_LA_functors.h cefe3007d59 $
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Marc Glisse

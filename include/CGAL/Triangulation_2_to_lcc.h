@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.2/Triangulation_2/include/CGAL/Triangulation_2_to_lcc.h $
-// $Id: include/CGAL/Triangulation_2_to_lcc.h e13ef800cb7 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.0.3/Triangulation_2/include/CGAL/Triangulation_2_to_lcc.h $
+// $Id: include/CGAL/Triangulation_2_to_lcc.h cefe3007d59 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Guillaume Damiand <guillaume.damiand@liris.cnrs.fr>

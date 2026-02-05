@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.2/GraphicsView/demo/L1_Voronoi_diagram_2/include/CGAL/L1_voronoi_traits_2.h $
-// $Id: demo/L1_Voronoi_diagram_2/include/CGAL/L1_voronoi_traits_2.h e13ef800cb7 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.0.3/GraphicsView/demo/L1_Voronoi_diagram_2/include/CGAL/L1_voronoi_traits_2.h $
+// $Id: demo/L1_Voronoi_diagram_2/include/CGAL/L1_voronoi_traits_2.h cefe3007d59 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Ophir Setter

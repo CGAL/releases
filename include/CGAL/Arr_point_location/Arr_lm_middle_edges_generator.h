@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.2/Arrangement_on_surface_2/include/CGAL/Arr_point_location/Arr_lm_middle_edges_generator.h $
-// $Id: include/CGAL/Arr_point_location/Arr_lm_middle_edges_generator.h e13ef800cb7 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.0.3/Arrangement_on_surface_2/include/CGAL/Arr_point_location/Arr_lm_middle_edges_generator.h $
+// $Id: include/CGAL/Arr_point_location/Arr_lm_middle_edges_generator.h cefe3007d59 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //

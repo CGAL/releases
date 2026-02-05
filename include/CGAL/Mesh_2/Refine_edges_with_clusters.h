@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.2/Mesh_2/include/CGAL/Mesh_2/Refine_edges_with_clusters.h $
-// $Id: include/CGAL/Mesh_2/Refine_edges_with_clusters.h e13ef800cb7 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.0.3/Mesh_2/include/CGAL/Mesh_2/Refine_edges_with_clusters.h $
+// $Id: include/CGAL/Mesh_2/Refine_edges_with_clusters.h cefe3007d59 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //

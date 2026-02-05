@@ -1,8 +1,8 @@
 // Copyright (c) 2012  GeometryFactory Sarl (France)
 // All rights reserved.
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.2/STL_Extension/include/CGAL/is_streamable.h $
-// $Id: include/CGAL/is_streamable.h e13ef800cb7 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.0.3/STL_Extension/include/CGAL/is_streamable.h $
+// $Id: include/CGAL/is_streamable.h cefe3007d59 $
 // SPDX-License-Identifier: BSL-1.0
 //
 // Author(s)     : Laurent Rineau, Philipp Moeller

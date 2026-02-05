@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.0.2/Nef_2/include/CGAL/Nef_2/Object_index.h $
-// $Id: include/CGAL/Nef_2/Object_index.h e13ef800cb7 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.0.3/Nef_2/include/CGAL/Nef_2/Object_index.h $
+// $Id: include/CGAL/Nef_2/Object_index.h cefe3007d59 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
