@@ -1,7 +1,7 @@
 // Copyright (c) 2007-2015  GeometryFactory (France).  All rights reserved.
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.1/BGL/include/CGAL/boost/graph/named_params_helper.h $
-// $Id: include/CGAL/boost/graph/named_params_helper.h b26b07a1242 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.1.1/BGL/include/CGAL/boost/graph/named_params_helper.h $
+// $Id: include/CGAL/boost/graph/named_params_helper.h 08b27d3db14 $
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Andreas Fabri, Fernando Cacciola, Jane Tournois

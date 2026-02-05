@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.1/SMDS_3/include/CGAL/IO/File_maya.h $
-// $Id: include/CGAL/IO/File_maya.h b26b07a1242 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.1.1/SMDS_3/include/CGAL/IO/File_maya.h $
+// $Id: include/CGAL/IO/File_maya.h 08b27d3db14 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Clement Jamin
@@ -150,10 +150,10 @@ output_to_maya(std::ostream& os,
   {
     facets_sstr <<  "  setAttr -s " << number_of_triangles
       << " \".fc[0:" << number_of_triangles-1 << "]\"  -type \"polyFaces\" \n";
-    int c = 0;
+
     for( Facet_iterator fit = c3t3.facets_in_complex_begin();
          fit != c3t3.facets_in_complex_end();
-         ++fit, ++c)
+         ++fit)
     {
       int indices[3];
       //Weighted_point points[3];
@@ -207,10 +207,10 @@ output_to_maya(std::ostream& os,
   {
     facets_sstr <<  "  setAttr -s " << 4*c3t3.number_of_cells_in_complex()
       << " \".fc[0:" << 4*c3t3.number_of_cells_in_complex()-1 << "]\"  -type \"polyFaces\" \n";
-    int c = 0;
+
     for( Cell_iterator cit = c3t3.cells_in_complex_begin();
          cit != c3t3.cells_in_complex_end();
-         ++cit, ++c)
+         ++cit)
     {
       for (int facet_i = 0 ; facet_i < 4 ; ++facet_i)
       {

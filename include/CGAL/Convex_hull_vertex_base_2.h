@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.1/Convex_hull_3/include/CGAL/Convex_hull_vertex_base_2.h $
-// $Id: include/CGAL/Convex_hull_vertex_base_2.h b26b07a1242 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.1.1/Convex_hull_3/include/CGAL/Convex_hull_vertex_base_2.h $
+// $Id: include/CGAL/Convex_hull_vertex_base_2.h 08b27d3db14 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -19,6 +19,8 @@
 
 #include <CGAL/Triangulation_ds_vertex_base_2.h>
 #include <CGAL/IO/io.h>
+#include <CGAL/Has_timestamp.h>
+#include <CGAL/Time_stamper.h>
 
 #include <iostream>
 
@@ -38,6 +40,7 @@ public:
 private:
   int _info = 0;
   Point _p;
+  std::size_t time_stamp_ = std::size_t(-2);
 
 public:
   template < typename TDS2 >
@@ -65,6 +68,18 @@ public:
 
   const int& info() const { return _info; }
   int&       info()       { return _info; }
+
+  /// For the determinism of Compact_container iterators
+  ///@{
+  typedef Tag_true Has_timestamp;
+
+  std::size_t time_stamp() const {
+    return time_stamp_;
+  }
+  void set_time_stamp(const std::size_t& ts) {
+    time_stamp_ = ts;
+  }
+  ///@}
 };
 
 template <typename GT, typename Vb>

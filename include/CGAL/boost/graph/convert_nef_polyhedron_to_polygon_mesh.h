@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.1/Nef_3/include/CGAL/boost/graph/convert_nef_polyhedron_to_polygon_mesh.h $
-// $Id: include/CGAL/boost/graph/convert_nef_polyhedron_to_polygon_mesh.h b26b07a1242 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.1.1/Nef_3/include/CGAL/boost/graph/convert_nef_polyhedron_to_polygon_mesh.h $
+// $Id: include/CGAL/boost/graph/convert_nef_polyhedron_to_polygon_mesh.h 08b27d3db14 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //

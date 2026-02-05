@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.1/Frechet_distance/include/CGAL/Frechet_distance/internal/Curve.h $
-// $Id: include/CGAL/Frechet_distance/internal/Curve.h b26b07a1242 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.1.1/Frechet_distance/include/CGAL/Frechet_distance/internal/Curve.h $
+// $Id: include/CGAL/Frechet_distance/internal/Curve.h 08b27d3db14 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : André Nusser <anusser@mpi-inf.mpg.de>
@@ -31,7 +31,7 @@ namespace Frechet_distance {
 namespace internal {
 
 //TODO: move that in Kernel_23/Kernel_d?
-double length_of_diagonal(const Bbox_2& bb)
+inline double length_of_diagonal(const Bbox_2& bb)
 {
     using I = Interval_nt<true>;
     I d = square(I(bb.xmax()) - I(bb.xmin()));
@@ -39,7 +39,7 @@ double length_of_diagonal(const Bbox_2& bb)
     return sqrt(d).sup();
 }
 
-double length_of_diagonal(const Bbox_3& bb)
+inline double length_of_diagonal(const Bbox_3& bb)
 {
     using I = Interval_nt<true>;
     I d = square(I(bb.xmax()) - I(bb.xmin()));

@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.1/Installation/include/CGAL/use.h $
-// $Id: include/CGAL/use.h b26b07a1242 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.1.1/Installation/include/CGAL/use.h $
+// $Id: include/CGAL/use.h 08b27d3db14 $
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Sylvain Pion
@@ -14,15 +14,15 @@
 
 namespace CGAL { namespace internal {
 
-template < typename T > inline
-void use(const T&) {}
+template <typename ...T> inline
+void use(T&&...) {}
 
 template<typename> void use_type() {}
 
 } }
 
 /// CGAL_USE() is a macro which aims at removing "variable is unused" warnings.
-#define CGAL_USE(x) ::CGAL::internal::use(x)
+#define CGAL_USE(...) ::CGAL::internal::use(__VA_ARGS__)
 
 /// CGAL_USE_TYPE() is a macro which aims at removing "typedef locally
 /// defined but not used" warnings.

@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.1/Algebraic_kernel_d/include/CGAL/Algebraic_kernel_d/enums.h $
-// $Id: include/CGAL/Algebraic_kernel_d/enums.h b26b07a1242 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.1.1/Algebraic_kernel_d/include/CGAL/Algebraic_kernel_d/enums.h $
+// $Id: include/CGAL/Algebraic_kernel_d/enums.h 08b27d3db14 $
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 //

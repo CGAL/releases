@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.1/Interval_skip_list/include/CGAL/Interval_skip_list.h $
-// $Id: include/CGAL/Interval_skip_list.h b26b07a1242 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.1.1/Interval_skip_list/include/CGAL/Interval_skip_list.h $
+// $Id: include/CGAL/Interval_skip_list.h 08b27d3db14 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -177,7 +177,7 @@ class Interval_for_container : public Interval_
 
 
     // remove markers for Interval I starting at left, the left endpoint
-    // of I, and and stopping at the right endpoint of I.
+    // of I, and stopping at the right endpoint of I.
     Interval_handle removeMarkers(IntervalSLnode<Interval>* left,
                                   const Interval& I);
 

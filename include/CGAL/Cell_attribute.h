@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.1/Combinatorial_map/include/CGAL/Cell_attribute.h $
-// $Id: include/CGAL/Cell_attribute.h b26b07a1242 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.1.1/Combinatorial_map/include/CGAL/Cell_attribute.h $
+// $Id: include/CGAL/Cell_attribute.h 08b27d3db14 $
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Guillaume Damiand <guillaume.damiand@liris.cnrs.fr>

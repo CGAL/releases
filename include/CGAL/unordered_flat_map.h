@@ -2,8 +2,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.1/STL_Extension/include/CGAL/unordered_flat_map.h $
-// $Id: include/CGAL/unordered_flat_map.h b26b07a1242 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.1.1/STL_Extension/include/CGAL/unordered_flat_map.h $
+// $Id: include/CGAL/unordered_flat_map.h 08b27d3db14 $
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Laurent Rineau
@@ -37,6 +37,24 @@
 #include <memory> // for std::allocator
 
 namespace CGAL {
+
+  namespace internal_is_hashable {
+    using boost::hash_value;
+
+    template <typename T, typename = void>
+    struct Has_hash_value : std::false_type {};
+
+    template <typename T>
+    using hash_value_type = decltype(hash_value(std::declval<T>()));
+    template <typename T>
+    struct Has_hash_value<T, std::void_t<hash_value_type<T>>>
+        : std::is_convertible<hash_value_type<T>, std::size_t>
+    {};
+  }
+
+  template <typename T>
+  inline constexpr bool is_hashable_v =
+      internal_is_hashable::Has_hash_value<T>::value && std::is_default_constructible_v<std::hash<T>>;
 
 template <
   typename Key,

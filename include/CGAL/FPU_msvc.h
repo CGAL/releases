@@ -5,8 +5,8 @@
 // Licensees holding a valid commercial license may use this file in
 // accordance with the commercial license agreement provided with the software.
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.1/Number_types/include/CGAL/FPU_msvc.h $
-// $Id: include/CGAL/FPU_msvc.h b26b07a1242 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.1.1/Number_types/include/CGAL/FPU_msvc.h $
+// $Id: include/CGAL/FPU_msvc.h 08b27d3db14 $
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 //

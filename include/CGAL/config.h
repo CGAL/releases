@@ -7,8 +7,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.1/Installation/include/CGAL/config.h $
-// $Id: include/CGAL/config.h b26b07a1242 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.1.1/Installation/include/CGAL/config.h $
+// $Id: include/CGAL/config.h 08b27d3db14 $
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -461,10 +461,6 @@ namespace CGAL {
   using cpp11::copy_n;
 } // end of the temporary compatibility with CGAL-4.14
 #endif // CGAL_NO_DEPRECATED_CODE
-
-#if __has_include(<version>)
-#  include <version>
-#endif
 
 namespace CGAL {
 

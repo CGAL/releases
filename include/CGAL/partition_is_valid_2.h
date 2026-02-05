@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.1/Partition_2/include/CGAL/partition_is_valid_2.h $
-// $Id: include/CGAL/partition_is_valid_2.h b26b07a1242 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.1.1/Partition_2/include/CGAL/partition_is_valid_2.h $
+// $Id: include/CGAL/partition_is_valid_2.h 08b27d3db14 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -153,9 +153,14 @@ partition_is_valid_2 (InputIterator point_first, InputIterator point_last,
    P_Vertex_map  output_vertex_set(poly_first, poly_last, traits);
 
    if (output_vertex_set.polygons_overlap()) return false;
-
+#ifdef CGAL_PARTITION_CHECK_DEBUG
    int poly_num = 0;
-   for (; poly_first != poly_last; poly_first++, poly_num++)
+   #endif
+   for (; poly_first != poly_last; poly_first++
+#ifdef CGAL_PARTITION_CHECK_DEBUG
+      , poly_num++
+#endif
+   )
    {
       vtx_begin = (*poly_first).vertices_begin();
       vtx_end = (*poly_first).vertices_end();

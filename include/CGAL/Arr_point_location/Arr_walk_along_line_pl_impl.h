@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.1/Arrangement_on_surface_2/include/CGAL/Arr_point_location/Arr_walk_along_line_pl_impl.h $
-// $Id: include/CGAL/Arr_point_location/Arr_walk_along_line_pl_impl.h b26b07a1242 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.1.1/Arrangement_on_surface_2/include/CGAL/Arr_point_location/Arr_walk_along_line_pl_impl.h $
+// $Id: include/CGAL/Arr_point_location/Arr_walk_along_line_pl_impl.h 08b27d3db14 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //

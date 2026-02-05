@@ -2,8 +2,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.1/Subdivision_method_3/include/CGAL/Subdivision_method_3/internal/Euler_extensions.h $
-// $Id: include/CGAL/Subdivision_method_3/internal/Euler_extensions.h b26b07a1242 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.1.1/Subdivision_method_3/include/CGAL/Subdivision_method_3/internal/Euler_extensions.h $
+// $Id: include/CGAL/Subdivision_method_3/internal/Euler_extensions.h 08b27d3db14 $
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 //

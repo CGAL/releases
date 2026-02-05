@@ -2,14 +2,19 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.1/Number_types/include/CGAL/NT_wrapper.h $
-// $Id: include/CGAL/NT_wrapper.h b26b07a1242 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.1.1/Number_types/include/CGAL/NT_wrapper.h $
+// $Id: include/CGAL/NT_wrapper.h 08b27d3db14 $
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Laurent Rineau
 
 #ifndef CGAL_NT_WRAPPER_H
 #define CGAL_NT_WRAPPER_H
+
+
+#include <CGAL/config.h>
+
+#if __cpp_lib_source_location
 
 #include <CGAL/Exact_predicates_inexact_constructions_kernel.h>
 #include <CGAL/Exact_predicates_exact_constructions_kernel.h>
@@ -183,5 +188,7 @@ struct Wrapped_epeck
 {};
 
 } // namespace CGAL
+
+#endif // __cpp_lib_source_location
 
 #endif // CGAL_NT_WRAPPER_H

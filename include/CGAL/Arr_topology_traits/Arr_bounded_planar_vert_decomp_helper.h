@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.1/Arrangement_on_surface_2/include/CGAL/Arr_topology_traits/Arr_bounded_planar_vert_decomp_helper.h $
-// $Id: include/CGAL/Arr_topology_traits/Arr_bounded_planar_vert_decomp_helper.h b26b07a1242 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.1.1/Arrangement_on_surface_2/include/CGAL/Arr_topology_traits/Arr_bounded_planar_vert_decomp_helper.h $
+// $Id: include/CGAL/Arr_topology_traits/Arr_bounded_planar_vert_decomp_helper.h 08b27d3db14 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s): Ron Wein <wein@post.tau.ac.il>

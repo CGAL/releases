@@ -2,8 +2,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.1/Scale_space_reconstruction_3/include/CGAL/Scale_space_reconstruction_3/internal/Auto_count.h $
-// $Id: include/CGAL/Scale_space_reconstruction_3/internal/Auto_count.h b26b07a1242 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.1.1/Scale_space_reconstruction_3/include/CGAL/Scale_space_reconstruction_3/internal/Auto_count.h $
+// $Id: include/CGAL/Scale_space_reconstruction_3/internal/Auto_count.h 08b27d3db14 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s):      Thijs van Lankveld

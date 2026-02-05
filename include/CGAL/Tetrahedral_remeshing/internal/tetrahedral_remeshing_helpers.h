@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.1/Tetrahedral_remeshing/include/CGAL/Tetrahedral_remeshing/internal/tetrahedral_remeshing_helpers.h $
-// $Id: include/CGAL/Tetrahedral_remeshing/internal/tetrahedral_remeshing_helpers.h b26b07a1242 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.1.1/Tetrahedral_remeshing/include/CGAL/Tetrahedral_remeshing/internal/tetrahedral_remeshing_helpers.h $
+// $Id: include/CGAL/Tetrahedral_remeshing/internal/tetrahedral_remeshing_helpers.h 08b27d3db14 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -272,7 +272,7 @@ struct Dihedral_angle_cosine
   }
 };
 
-Dihedral_angle_cosine cosine_of_90_degrees()
+inline Dihedral_angle_cosine cosine_of_90_degrees()
 {
   return Dihedral_angle_cosine(CGAL::ZERO, 0., 1.);
 }

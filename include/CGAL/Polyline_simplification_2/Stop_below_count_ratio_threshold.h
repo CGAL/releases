@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.1/Polyline_simplification_2/include/CGAL/Polyline_simplification_2/Stop_below_count_ratio_threshold.h $
-// $Id: include/CGAL/Polyline_simplification_2/Stop_below_count_ratio_threshold.h b26b07a1242 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.1.1/Polyline_simplification_2/include/CGAL/Polyline_simplification_2/Stop_below_count_ratio_threshold.h $
+// $Id: include/CGAL/Polyline_simplification_2/Stop_below_count_ratio_threshold.h 08b27d3db14 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Andreas Fabri, Fernando Cacciola

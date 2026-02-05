@@ -4,8 +4,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.1/Surface_mesher/include/CGAL/AABB_polyhedral_oracle.h $
-// $Id: include/CGAL/AABB_polyhedral_oracle.h b26b07a1242 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.1.1/Surface_mesher/include/CGAL/AABB_polyhedral_oracle.h $
+// $Id: include/CGAL/AABB_polyhedral_oracle.h 08b27d3db14 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //

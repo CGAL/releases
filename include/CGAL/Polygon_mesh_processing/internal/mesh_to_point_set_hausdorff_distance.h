@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.1/Polygon_mesh_processing/include/CGAL/Polygon_mesh_processing/internal/mesh_to_point_set_hausdorff_distance.h $
-// $Id: include/CGAL/Polygon_mesh_processing/internal/mesh_to_point_set_hausdorff_distance.h b26b07a1242 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.1.1/Polygon_mesh_processing/include/CGAL/Polygon_mesh_processing/internal/mesh_to_point_set_hausdorff_distance.h $
+// $Id: include/CGAL/Polygon_mesh_processing/internal/mesh_to_point_set_hausdorff_distance.h 08b27d3db14 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //

@@ -7,8 +7,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.1/Number_types/include/CGAL/FPU.h $
-// $Id: include/CGAL/FPU.h b26b07a1242 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.1.1/Number_types/include/CGAL/FPU.h $
+// $Id: include/CGAL/FPU.h 08b27d3db14 $
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -476,6 +476,9 @@ typedef int FPU_CW_t;
 #define CGAL_FE_DOWNWARD     FE_DOWNWARD
 #endif
 
+#define CGAL_FE_ROUNDING_MASK ((CGAL_FE_TONEAREST | CGAL_FE_TOWARDZERO | CGAL_FE_UPWARD | CGAL_FE_DOWNWARD) \
+  & ~(CGAL_FE_TONEAREST & CGAL_FE_TOWARDZERO & CGAL_FE_UPWARD & CGAL_FE_DOWNWARD)) // mask for rounding bits
+
 // User interface:
 
 inline
@@ -484,7 +487,8 @@ FPU_get_cw (void)
 {
 #ifdef CGAL_ALWAYS_ROUND_TO_NEAREST
     CGAL_assertion_code(FPU_CW_t cw; CGAL_IA_GETFPCW(cw);)
-    CGAL_assertion(cw == CGAL_FE_TONEAREST);
+    CGAL_assertion_code(FPU_CW_t mask = CGAL_FE_ROUNDING_MASK;)
+    CGAL_assertion((cw & mask) == (CGAL_FE_TONEAREST & mask));
     return CGAL_FE_TONEAREST;
 #else
     FPU_CW_t cw;

@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.1/Frechet_distance/include/CGAL/Frechet_distance/internal/Frechet_light.h $
-// $Id: include/CGAL/Frechet_distance/internal/Frechet_light.h b26b07a1242 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.1.1/Frechet_distance/include/CGAL/Frechet_distance/internal/Frechet_light.h $
+// $Id: include/CGAL/Frechet_distance/internal/Frechet_light.h 08b27d3db14 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : André Nusser <anusser@mpi-inf.mpg.de>
@@ -514,6 +514,7 @@ inline void FrechetLight<C>::continueQSimpleSearch(QSimpleInterval& qsimple,
         // TODO: uncritical for correctness or speed but unelegant coding style: stripping down information added by getInterval
         CInterval temp_interval = FrechetLight::getInterval<IndexType>(
             fixed_curve, fixed, curve, cur);
+
         Interval interval = Interval(temp_interval.begin.getPoint() == cur
                                          ? temp_interval.begin.getFraction()
                                          : 1,

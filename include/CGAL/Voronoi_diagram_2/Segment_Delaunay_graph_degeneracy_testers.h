@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.1/Voronoi_diagram_2/include/CGAL/Voronoi_diagram_2/Segment_Delaunay_graph_degeneracy_testers.h $
-// $Id: include/CGAL/Voronoi_diagram_2/Segment_Delaunay_graph_degeneracy_testers.h b26b07a1242 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.1.1/Voronoi_diagram_2/include/CGAL/Voronoi_diagram_2/Segment_Delaunay_graph_degeneracy_testers.h $
+// $Id: include/CGAL/Voronoi_diagram_2/Segment_Delaunay_graph_degeneracy_testers.h 08b27d3db14 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -14,7 +14,6 @@
 #define CGAL_VORONOI_DIAGRAM_2_SEGMENT_DELAUNAY_GRAPH_DEGENERACY_TESTERS_H 1
 
 #include <CGAL/license/Voronoi_diagram_2.h>
-
 
 #include <CGAL/Voronoi_diagram_2/basic.h>
 #include <CGAL/Voronoi_diagram_2/Adaptation_traits_base_2.h>
@@ -188,7 +187,6 @@ class Segment_Delaunay_graph_face_tester_2
     Edge_circulator ec = ec_start;
     size_type deg = 0;       // vertex degree
     size_type n_degen = 0;   // number of degenerate/non-infinite edges
-    size_type n_inf = 0;     // number of infinite edges
     // number of non-degenerate/non-infinite edges
     size_type n_non_degen = 0;
 
@@ -196,8 +194,7 @@ class Segment_Delaunay_graph_face_tester_2
     Edge_tester e_tester;
     do {
       if ( e_tester(dual, ec) ) { ++n_degen; }
-      else if ( dual.is_infinite(ec) ) { ++n_inf; }
-      else {
+      else if ( !dual.is_infinite(ec) ) {
         if ( !dual.is_infinite(ec) ) {
           if ( n_non_degen < 2 ) {
             e[n_non_degen] = *ec;

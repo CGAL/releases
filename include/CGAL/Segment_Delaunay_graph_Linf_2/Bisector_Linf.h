@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.1/Segment_Delaunay_graph_Linf_2/include/CGAL/Segment_Delaunay_graph_Linf_2/Bisector_Linf.h $
-// $Id: include/CGAL/Segment_Delaunay_graph_Linf_2/Bisector_Linf.h b26b07a1242 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.1.1/Segment_Delaunay_graph_Linf_2/include/CGAL/Segment_Delaunay_graph_Linf_2/Bisector_Linf.h $
+// $Id: include/CGAL/Segment_Delaunay_graph_Linf_2/Bisector_Linf.h 08b27d3db14 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //

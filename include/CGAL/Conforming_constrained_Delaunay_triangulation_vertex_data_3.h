@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.1/Constrained_triangulation_3/include/CGAL/Conforming_constrained_Delaunay_triangulation_vertex_data_3.h $
-// $Id: include/CGAL/Conforming_constrained_Delaunay_triangulation_vertex_data_3.h b26b07a1242 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.1.1/Constrained_triangulation_3/include/CGAL/Conforming_constrained_Delaunay_triangulation_vertex_data_3.h $
+// $Id: include/CGAL/Conforming_constrained_Delaunay_triangulation_vertex_data_3.h 08b27d3db14 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Laurent Rineau
@@ -16,6 +16,7 @@
 
 #include <CGAL/assertions.h>
 #include <CGAL/Constrained_triangulation_3/internal/config.h>
+#include <CGAL/Constrained_triangulation_3_types.h>
 
 #include <bitset>
 
@@ -34,7 +35,7 @@ namespace CGAL {
 struct Conforming_constrained_Delaunay_triangulation_vertex_data_3 {};
 #else // DOXYGEN_RUNNING
 
-enum class CDT_3_vertex_type { FREE, CORNER, STEINER_ON_EDGE, STEINER_IN_FACE };
+enum class CDT_3_vertex_type { FREE, CORNER, INPUT_VERTEX = CORNER, STEINER_ON_EDGE, STEINER_IN_FACE };
 
 enum class CDT_3_vertex_marker {
   CLEAR = 0,
@@ -91,6 +92,8 @@ public:
   }
 
   int number_of_incident_constraints() const {
+    if(vertex_type() == CDT_3_vertex_type::STEINER_IN_FACE)
+      return 0;
     CGAL_assertion(u.on_edge.nb_of_incident_constraints >= 0);
     return u.on_edge.nb_of_incident_constraints;
   }

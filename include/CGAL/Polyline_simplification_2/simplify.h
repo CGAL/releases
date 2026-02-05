@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.1/Polyline_simplification_2/include/CGAL/Polyline_simplification_2/simplify.h $
-// $Id: include/CGAL/Polyline_simplification_2/simplify.h b26b07a1242 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.1.1/Polyline_simplification_2/include/CGAL/Polyline_simplification_2/simplify.h $
+// $Id: include/CGAL/Polyline_simplification_2/simplify.h 08b27d3db14 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Andreas Fabri
@@ -229,14 +229,15 @@ public:
     return n;
   }
 
-  void
+  int
   initialize_costs()
   {
     int n=0;
     Constraint_iterator cit = pct.constraints_begin(), e = pct.constraints_end();
     for(; cit!=e; ++cit){
-      n+= initialize_costs(*cit);
+      n+=initialize_costs(*cit);
     }
+    return n;
   }
 
   bool

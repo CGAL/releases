@@ -2,8 +2,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.1/Surface_mesh_simplification/include/CGAL/Surface_mesh_simplification/Edge_collapse_visitor_base.h $
-// $Id: include/CGAL/Surface_mesh_simplification/Edge_collapse_visitor_base.h b26b07a1242 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.1.1/Surface_mesh_simplification/include/CGAL/Surface_mesh_simplification/Edge_collapse_visitor_base.h $
+// $Id: include/CGAL/Surface_mesh_simplification/Edge_collapse_visitor_base.h 08b27d3db14 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Fernando Cacciola <fernando.cacciola@geometryfactory.com>

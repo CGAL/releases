@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.1/Optimal_transportation_reconstruction_2/include/CGAL/OTR_2/Reconstruction_vertex_base_2.h $
-// $Id: include/CGAL/OTR_2/Reconstruction_vertex_base_2.h b26b07a1242 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.1.1/Optimal_transportation_reconstruction_2/include/CGAL/OTR_2/Reconstruction_vertex_base_2.h $
+// $Id: include/CGAL/OTR_2/Reconstruction_vertex_base_2.h 08b27d3db14 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Fernando de Goes, Pierre Alliez, Ivo Vigan, Clément Jamin
@@ -16,6 +16,8 @@
 
 
 #include <CGAL/Triangulation_vertex_base_2.h>
+#include <CGAL/Has_timestamp.h>
+#include <CGAL/Time_stamper.h>
 #include <CGAL/OTR_2/Sample.h>
 
 namespace CGAL {
@@ -53,6 +55,7 @@ private:
   int       m_sample;
   Point     m_relocated;
   FT        m_relevance;
+  std::size_t time_stamp_ = std::size_t(-2);
 
 
 public:
@@ -110,6 +113,18 @@ public:
   Point& relocated() { return m_relocated; }
 
   bool  has_sample_assigned() const { return sample() != -1; }
+
+  /// For the determinism of Compact_container iterators
+  ///@{
+  typedef Tag_true Has_timestamp;
+
+  std::size_t time_stamp() const {
+    return time_stamp_;
+  }
+  void set_time_stamp(const std::size_t& ts) {
+    time_stamp_ = ts;
+  }
+  ///@}
 };
 //---------------STRUCT LESS VERTEX_HANDLE---------------------
 template <class T>

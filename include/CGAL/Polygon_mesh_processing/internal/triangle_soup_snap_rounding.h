@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.1/Polygon_mesh_processing/include/CGAL/Polygon_mesh_processing/internal/triangle_soup_snap_rounding.h $
-// $Id: include/CGAL/Polygon_mesh_processing/internal/triangle_soup_snap_rounding.h b26b07a1242 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.1.1/Polygon_mesh_processing/include/CGAL/Polygon_mesh_processing/internal/triangle_soup_snap_rounding.h $
+// $Id: include/CGAL/Polygon_mesh_processing/internal/triangle_soup_snap_rounding.h 08b27d3db14 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Léo Valque
@@ -78,7 +78,7 @@ public:
   typedef typename Range::iterator iterator;
 
   Indexes_range() = default;
-  Indexes_range(const std::initializer_list<std::size_t>  &l): Range(l), m_id(0), modified(true){}
+//  Indexes_range(const std::initializer_list<std::size_t>  &l): Range(l), m_id(0), modified(true){}
   Indexes_range(Range &p): Range(p), modified(true){}
   Indexes_range(Range &&p): Range(std::move(p)), modified(true){}
   Indexes_range(Range &p, std::size_t id): Range(p), m_id(id),modified(false){}

@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.1/Bounding_volumes/include/CGAL/Approximate_min_ellipsoid_d/Khachiyan_approximation_impl.h $
-// $Id: include/CGAL/Approximate_min_ellipsoid_d/Khachiyan_approximation_impl.h b26b07a1242 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.1.1/Bounding_volumes/include/CGAL/Approximate_min_ellipsoid_d/Khachiyan_approximation_impl.h $
+// $Id: include/CGAL/Approximate_min_ellipsoid_d/Khachiyan_approximation_impl.h 08b27d3db14 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //

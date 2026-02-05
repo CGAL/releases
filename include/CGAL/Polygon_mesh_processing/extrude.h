@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.1/Polygon_mesh_processing/include/CGAL/Polygon_mesh_processing/extrude.h $
-// $Id: include/CGAL/Polygon_mesh_processing/extrude.h b26b07a1242 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.1.1/Polygon_mesh_processing/include/CGAL/Polygon_mesh_processing/extrude.h $
+// $Id: include/CGAL/Polygon_mesh_processing/extrude.h 08b27d3db14 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -113,15 +113,14 @@ struct Identity_functor
  *
  * @tparam InputMesh a model of `FaceListGraph`
  * @tparam OutputMesh a model of `FaceListGraph` and `MutableFaceGraph`
- * @tparam NamedParameters1 a sequence of \ref bgl_namedparameters "Named Parameters" for `InputMesh`
- * @tparam NamedParameters2 a sequence of \ref bgl_namedparameters "Named Parameters" for `OutputMesh`
  * @tparam BottomFunctor a functor providing
  * \code {.cpp}
  * void operator()(boost::graph_traits<InputMesh>::vertex_descriptor input_v,boost::graph_traits<OutputMesh>::vertex_descriptor output_v)
  * \endcode
  *  where `output_v` is the copy of `input_v` from `input` into the bottom part of `output`.
- *
  * @tparam TopFunctor a functor providing a similar `operator()` as `BottomFunctor`.
+ * @tparam NamedParameters1 a sequence of \ref bgl_namedparameters "Named Parameters" for `InputMesh`
+ * @tparam NamedParameters2 a sequence of \ref bgl_namedparameters "Named Parameters" for `OutputMesh`
  *
  * @param input an open surface mesh to extrude.
  * @param output a surface mesh that will contain the result of the extrusion.

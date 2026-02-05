@@ -3,8 +3,8 @@
 //
 // This file is part of the ImageIO Library, and as been adapted for CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.1/CGAL_ImageIO/include/CGAL/ImageIO/analyze.h $
-// $Id: include/CGAL/ImageIO/analyze.h b26b07a1242 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.1.1/CGAL_ImageIO/include/CGAL/ImageIO/analyze.h $
+// $Id: include/CGAL/ImageIO/analyze.h 08b27d3db14 $
 // SPDX-License-Identifier: LGPL-3.0-or-later
 //
 //

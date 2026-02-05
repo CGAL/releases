@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.1/Apollonius_graph_2/include/CGAL/Apollonius_graph_2/Compare_weight_2.h $
-// $Id: include/CGAL/Apollonius_graph_2/Compare_weight_2.h b26b07a1242 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.1.1/Apollonius_graph_2/include/CGAL/Apollonius_graph_2/Compare_weight_2.h $
+// $Id: include/CGAL/Apollonius_graph_2/Compare_weight_2.h 08b27d3db14 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //

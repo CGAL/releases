@@ -8,8 +8,8 @@
 // https://www.boost.org/LICENSE_1_0.txt)
 //=======================================================================
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.1/STL_Extension/include/CGAL/STL_Extension/internal/boost/array_binary_tree.hpp $
-// $Id: include/CGAL/STL_Extension/internal/boost/array_binary_tree.hpp b26b07a1242 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.1.1/STL_Extension/include/CGAL/STL_Extension/internal/boost/array_binary_tree.hpp $
+// $Id: include/CGAL/STL_Extension/internal/boost/array_binary_tree.hpp 08b27d3db14 $
 // SPDX-License-Identifier: BSL-1.0
 //
 // NOTE: this file have been taken from boost 1.46.1 for using

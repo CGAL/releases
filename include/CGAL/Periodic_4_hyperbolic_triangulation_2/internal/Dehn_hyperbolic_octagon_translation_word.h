@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.1/Periodic_4_hyperbolic_triangulation_2/include/CGAL/Periodic_4_hyperbolic_triangulation_2/internal/Dehn_hyperbolic_octagon_translation_word.h $
-// $Id: include/CGAL/Periodic_4_hyperbolic_triangulation_2/internal/Dehn_hyperbolic_octagon_translation_word.h b26b07a1242 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.1.1/Periodic_4_hyperbolic_triangulation_2/include/CGAL/Periodic_4_hyperbolic_triangulation_2/internal/Dehn_hyperbolic_octagon_translation_word.h $
+// $Id: include/CGAL/Periodic_4_hyperbolic_triangulation_2/internal/Dehn_hyperbolic_octagon_translation_word.h 08b27d3db14 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Iordan Iordanov
@@ -89,7 +89,6 @@ private:
   {
     Word_idx_type start = 0;
     Word_idx_type mstart = 0;
-    Word_idx_type end = 1;
     Word_idx_type max = 1;
     Word_idx_type len = 1;
     std::vector<Word_idx_type> tmp, mvec;
@@ -98,7 +97,6 @@ private:
     {
       if(is_next_relation_index(w[i], w[i-1]))
       {
-        end++;
         len++;
         tmp.push_back(w[i]);
         if(len > max) {
@@ -112,7 +110,6 @@ private:
         tmp.clear();
         tmp.push_back(w[i]);
         start = i;
-        end = i;
         len = 0;
       }
     }

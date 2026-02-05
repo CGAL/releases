@@ -3,11 +3,16 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.1/Constrained_triangulation_3/include/CGAL/IO/write_MEDIT.h $
-// $Id: include/CGAL/IO/write_MEDIT.h b26b07a1242 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.1.1/Constrained_triangulation_3/include/CGAL/IO/write_MEDIT.h $
+// $Id: include/CGAL/IO/write_MEDIT.h 08b27d3db14 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Jane Tournois
+
+#ifndef CGAL_CONSTRAINED_DELAUNAY_TRIANGULATION_3_IO_WRITE_MEDIT_H
+#define CGAL_CONSTRAINED_DELAUNAY_TRIANGULATION_3_IO_WRITE_MEDIT_H
+
+#include <CGAL/license/Constrained_triangulation_3.h>
 
 #include "CGAL/unordered_flat_map.h"
 #include <CGAL/Conforming_constrained_Delaunay_triangulation_3.h>
@@ -107,3 +112,5 @@ void write_MEDIT(std::ostream& os,
 
 }// end namespace IO
 }// end namespace CGAL
+
+#endif // CGAL_CONSTRAINED_DELAUNAY_TRIANGULATION_3_IO_WRITE_MEDIT_H

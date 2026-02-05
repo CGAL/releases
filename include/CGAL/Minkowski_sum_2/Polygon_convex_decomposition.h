@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.1/Minkowski_sum_2/include/CGAL/Minkowski_sum_2/Polygon_convex_decomposition.h $
-// $Id: include/CGAL/Minkowski_sum_2/Polygon_convex_decomposition.h b26b07a1242 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.1.1/Minkowski_sum_2/include/CGAL/Minkowski_sum_2/Polygon_convex_decomposition.h $
+// $Id: include/CGAL/Minkowski_sum_2/Polygon_convex_decomposition.h 08b27d3db14 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Ron Wein           <wein_r@yahoo.com>

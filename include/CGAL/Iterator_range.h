@@ -2,8 +2,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.1/STL_Extension/include/CGAL/Iterator_range.h $
-// $Id: include/CGAL/Iterator_range.h b26b07a1242 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.1.1/STL_Extension/include/CGAL/Iterator_range.h $
+// $Id: include/CGAL/Iterator_range.h 08b27d3db14 $
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 //

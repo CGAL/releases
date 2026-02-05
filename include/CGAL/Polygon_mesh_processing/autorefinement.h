@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.1/Polygon_mesh_processing/include/CGAL/Polygon_mesh_processing/autorefinement.h $
-// $Id: include/CGAL/Polygon_mesh_processing/autorefinement.h b26b07a1242 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.1.1/Polygon_mesh_processing/include/CGAL/Polygon_mesh_processing/autorefinement.h $
+// $Id: include/CGAL/Polygon_mesh_processing/autorefinement.h 08b27d3db14 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -1578,9 +1578,9 @@ bool autorefine_triangle_soup(PointRange& soup_points,
             for (size_t ti = r.begin(); ti != r.end(); ++ti)
             {
               soup_triangles_out[offset + ti] =
-                { triangle_buffer[ti][0]->second,
+                { { triangle_buffer[ti][0]->second,
                   triangle_buffer[ti][1]->second,
-                  triangle_buffer[ti][2]->second };
+                  triangle_buffer[ti][2]->second } };
                 visitor.new_subdivision(soup_triangles_out[offset + ti], soup_triangles[tri_inter_ids_inverse[new_triangles[ti].second]]);
             }
           }
@@ -1609,9 +1609,9 @@ bool autorefine_triangle_soup(PointRange& soup_points,
     soup_triangles_out.reserve(offset + new_triangles.size());
     for (const std::pair<std::array<EK::Point_3,3>, std::size_t>& t_and_id : new_triangles)
     {
-      soup_triangles_out.push_back({ get_point_id(t_and_id.first[0]),
+      soup_triangles_out.push_back({{ get_point_id(t_and_id.first[0]),
                                      get_point_id(t_and_id.first[1]),
-                                     get_point_id(t_and_id.first[2]) });
+                                     get_point_id(t_and_id.first[2]) }});
       if constexpr(std::is_same_v<Visitor, Wrap_snap_visitor>)
         visitor.new_subdivision(soup_triangles_out[soup_triangles_out.size()-1], soup_triangles[tri_inter_ids_inverse[t_and_id.second]]);
       else

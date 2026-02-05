@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.1/Triangulation_3/include/CGAL/Regular_triangulation_vertex_base_3.h $
-// $Id: include/CGAL/Regular_triangulation_vertex_base_3.h b26b07a1242 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.1.1/Triangulation_3/include/CGAL/Regular_triangulation_vertex_base_3.h $
+// $Id: include/CGAL/Regular_triangulation_vertex_base_3.h 08b27d3db14 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Monique Teillaud <Monique.Teillaud@sophia.inria.fr>

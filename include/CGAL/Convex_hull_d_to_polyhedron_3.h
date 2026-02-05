@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.1/Convex_hull_d/include/CGAL/Convex_hull_d_to_polyhedron_3.h $
-// $Id: include/CGAL/Convex_hull_d_to_polyhedron_3.h b26b07a1242 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.1.1/Convex_hull_d/include/CGAL/Convex_hull_d_to_polyhedron_3.h $
+// $Id: include/CGAL/Convex_hull_d_to_polyhedron_3.h 08b27d3db14 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //

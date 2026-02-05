@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.1/Isosurfacing_3/include/CGAL/Isosurfacing_3/Finite_difference_gradient_3.h $
-// $Id: include/CGAL/Isosurfacing_3/Finite_difference_gradient_3.h b26b07a1242 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.1.1/Isosurfacing_3/include/CGAL/Isosurfacing_3/Finite_difference_gradient_3.h $
+// $Id: include/CGAL/Isosurfacing_3/Finite_difference_gradient_3.h 08b27d3db14 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Julian Stahl

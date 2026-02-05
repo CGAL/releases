@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org)
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.1/Linear_cell_complex/include/CGAL/boost/graph/graph_traits_Linear_cell_complex_for_combinatorial_map.h $
-// $Id: include/CGAL/boost/graph/graph_traits_Linear_cell_complex_for_combinatorial_map.h b26b07a1242 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.1.1/Linear_cell_complex/include/CGAL/boost/graph/graph_traits_Linear_cell_complex_for_combinatorial_map.h $
+// $Id: include/CGAL/boost/graph/graph_traits_Linear_cell_complex_for_combinatorial_map.h 08b27d3db14 $
 // SPDX-License-Identifier: LGPL-3.0-or-later OR LicenseRef-Commercial
 //
 // Author(s)     : Guillaume Damiand <guillaume.damiand@liris.cnrs.fr>

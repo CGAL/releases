@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.1/Mesh_3/include/CGAL/Mesh_3/Sliver_perturber.h $
-// $Id: include/CGAL/Mesh_3/Sliver_perturber.h b26b07a1242 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.1.1/Mesh_3/include/CGAL/Mesh_3/Sliver_perturber.h $
+// $Id: include/CGAL/Mesh_3/Sliver_perturber.h 08b27d3db14 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
@@ -1285,8 +1285,6 @@ perturb_vertex( PVertex pv
 
   CGAL_assertion(pv.is_perturbable());
 
-  int num_new_vertices_to_treat = 0;
-
   Cell_vector slivers;
   slivers.reserve(8);
   if (!helper_.try_lock_and_get_incident_slivers(
@@ -1349,8 +1347,7 @@ perturb_vertex( PVertex pv
         pv.increment_try_nb();
 
         // update modified vertices
-        num_new_vertices_to_treat +=
-          update_priority_queue(modified_vertices, sliver_bound, visitor, bad_vertices);
+        update_priority_queue(modified_vertices, sliver_bound, visitor, bad_vertices);
       }
       else
       {
@@ -1372,7 +1369,6 @@ perturb_vertex( PVertex pv
       if (pv.is_perturbable())
       {
         enqueue_task(pv, sliver_bound, visitor, bad_vertices);
-        ++num_new_vertices_to_treat;
       }
     }
     else

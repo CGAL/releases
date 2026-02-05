@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.1/Nef_2/include/CGAL/generic_sweep.h $
-// $Id: include/CGAL/generic_sweep.h b26b07a1242 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.1.1/Nef_2/include/CGAL/generic_sweep.h $
+// $Id: include/CGAL/generic_sweep.h 08b27d3db14 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //

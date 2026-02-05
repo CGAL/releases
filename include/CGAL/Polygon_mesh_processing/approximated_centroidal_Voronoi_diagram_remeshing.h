@@ -3,8 +3,8 @@
 //
 // This file is part of CGAL (www.cgal.org).
 //
-// $URL: https://github.com/CGAL/cgal/blob/v6.1/Polygon_mesh_processing/include/CGAL/Polygon_mesh_processing/approximated_centroidal_Voronoi_diagram_remeshing.h $
-// $Id: include/CGAL/Polygon_mesh_processing/approximated_centroidal_Voronoi_diagram_remeshing.h b26b07a1242 $
+// $URL: https://github.com/CGAL/cgal/blob/v6.1.1/Polygon_mesh_processing/include/CGAL/Polygon_mesh_processing/approximated_centroidal_Voronoi_diagram_remeshing.h $
+// $Id: include/CGAL/Polygon_mesh_processing/approximated_centroidal_Voronoi_diagram_remeshing.h 08b27d3db14 $
 // SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
 //
 //
